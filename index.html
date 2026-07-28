@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <!-- PRIMARY SEO META TAGS -->
+    <title>
+      Kids Paint - 100% Free Online Drawing Tool for School Students
+    </title>
+    <meta
+      name="description"
+      content="Kids Paint is a 100% free worldwide online paint tool designed for school students. Let kids learn drawing, computer skills, and unleash creativity online for free."
+    />
+    <meta
+      name="keywords"
+      content="online paint, free kids paint, worldwide online drawing tool, school student drawing app, 100% free education tool, online free drawing for kids, computer drawing pad for children"
+    />
+    <meta name="author" content="Kids Paint" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- OPEN GRAPH / FACEBOOK SEO META TAGS -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Kids Paint - Free Online Drawing Tool for School Students"
+    />
+    <meta
+      property="og:description"
+      content="100% Free Worldwide Online Paint Tool for all school students. No installation, start drawing instantly!"
+    />
+    <meta
+      property="og:image"
+      content="https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
+    />
+    <meta property="og:url" content="https://www.kidspaint.com" />
+
+    <!-- TAILWIND & LUCIDE ICONS -->
+    <script src="/js/tailwindcss_3_4.js"></script>
+    <script src="/js/lucide.min.js"></script>
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: #f8fafc;
+        color: #1e293b;
+        margin: 0;
+        overflow-x: hidden;
+      }
+      /* Floating Tech Background Animation */
+      @keyframes floatSlow {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(3deg);
+        }
+      }
+      .floating-element {
+        animation: floatSlow 5s ease-in-out infinite;
+      }
+      .scratch-nav {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      }
+    </style>
+  </head>
+  <body class="antialiased select-none flex flex-col min-h-screen">
+    <!-- 1. INDIA FREE EDUCATION ANIMATED SPLASH SCREEN (3 SECONDS) -->
+    <div
+      id="splash-screen"
+      class="fixed inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 z-[99999999] flex flex-col items-center justify-center text-white transition-all duration-700 ease-in-out opacity-100"
+    >
+      <div class="flex flex-col items-center max-w-md px-6 text-center gap-6">
+        <!-- Computer Learning Icon Animation -->
+        <div
+          class="relative w-28 h-28 bg-indigo-500/20 backdrop-blur-md border border-indigo-400/30 rounded-3xl flex items-center justify-center shadow-2xl animate-bounce"
+        >
+          <i data-lucide="laptop" class="w-14 h-14 text-cyan-400"></i>
+          <div
+            class="absolute -top-2 -right-2 w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center animate-ping"
+          >
+            <i data-lucide="bot" class="w-4 h-4 text-white"></i>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <h1
+            class="text-4xl font-black tracking-wider uppercase bg-gradient-to-r from-cyan-400 to-pink-400 bg-clip-text text-transparent"
+          >
+            KIDS PAINT
+          </h1>
+          <p
+            class="text-xs font-bold tracking-widest text-indigo-200 uppercase"
+          >
+            Computer Learning & Art Lab 🤖💻
+          </p>
+        </div>
+
+        <!-- Made In India Badge -->
+        <div
+          class="flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-5 py-2 rounded-full border border-white/10 text-xs font-bold tracking-wider"
+        >
+          <span class="text-[#FF9933]">Made</span>
+          <span class="text-white">In</span>
+          <span class="text-[#128807]">India 🇮🇳</span>
+        </div>
+
+        <p
+          class="text-[11px] font-black text-yellow-300 bg-white/10 px-4 py-2 rounded-xl uppercase tracking-widest border border-yellow-300/20 animate-pulse"
+        >
+          🎓 100% Free Computer Drawing Pad for All Students
+        </p>
+      </div>
+    </div>
+
+    <!-- 2. SCRATCH STYLE HEADER (Strictly No Menus) -->
+    <header
+      class="scratch-nav bg-white sticky top-0 z-50 px-6 py-3 flex items-center justify-between border-b border-slate-100"
+    >
+      <div class="flex items-center gap-8">
+        <div class="flex items-center gap-2.5">
+          <div
+            class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-md"
+          >
+            <i data-lucide="palette" class="w-6 h-6 text-white"></i>
+          </div>
+          <span
+            class="text-lg font-black tracking-wider text-indigo-600 uppercase"
+            >Kids Paint</span
+          >
+        </div>
+      </div>
+
+      <div>
+        <button
+          onclick="redirectToPaintApp()"
+          class="px-5 py-2.5 bg-indigo-600 text-white font-black text-xs rounded-xl shadow-md hover:bg-indigo-700 transition-all active:scale-95 flex items-center gap-2"
+        >
+          <i
+            data-lucide="sparkles"
+            class="w-4 h-4 text-amber-300 fill-current"
+          ></i>
+          Start Creating
+        </button>
+      </div>
+    </header>
+
+    <!-- 3. SCRATCH STYLE HERO SECTION (With Computer Learning Image Background) -->
+    <main class="flex-grow flex flex-col">
+      <section
+        class="relative bg-slate-900 text-white py-24 px-6 overflow-hidden flex items-center justify-center min-h-[550px]"
+      >
+        <!-- Unsplash Background Image (Kids Learning Computer & AI/Robotics Theme) -->
+        <div
+          class="absolute inset-0 z-0 bg-cover bg-center opacity-30 mix-blend-overlay"
+          style="
+            background-image: url(&quot;https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop&quot;);
+          "
+        ></div>
+
+        <!-- Floating Overlay Tech Icons -->
+        <div class="absolute top-10 left-10 opacity-20 floating-element">
+          <i data-lucide="monitor" class="w-16 h-16 text-cyan-400"></i>
+        </div>
+        <div
+          class="absolute bottom-10 right-16 opacity-20 floating-element"
+          style="animation-delay: 1.5s"
+        >
+          <i data-lucide="bot" class="w-20 h-20 text-pink-400"></i>
+        </div>
+
+        <div
+          class="max-w-4xl mx-auto text-center flex flex-col items-center gap-6 z-10"
+        >
+          <h2
+            class="text-4xl md:text-6xl font-black tracking-tight leading-tight uppercase"
+          >
+            Learn Computer Drawing & Art <br />
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-300 to-pink-400"
+              >The Fun Scratch Way!</span
+            >
+            🚀
+          </h2>
+
+          <p class="text-slate-300 text-sm md:text-base font-medium max-w-xl">
+            A 100% free digital studio where school children learn fundamental
+            computer skills alongside advanced painting tools and vector
+            creative shapes.
+          </p>
+
+          <!-- Main Call to Action Button -->
+          <button
+            onclick="redirectToPaintApp()"
+            class="group relative px-10 py-5 bg-gradient-to-r from-cyan-500 via-indigo-600 to-pink-500 text-white font-black text-lg rounded-2xl shadow-2xl shadow-indigo-500/30 transition-all hover:scale-105 active:scale-95 flex items-center gap-3 tracking-wider mt-4"
+          >
+            <span>LAUNCH PAINT STUDIO 🎨</span>
+            <i
+              data-lucide="arrow-right"
+              class="w-5 h-5 transition-transform group-hover:translate-x-1"
+            ></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- Scratch Style Feature Cards Section -->
+      <section
+        class="max-w-6xl mx-auto py-16 px-6 grid grid-cols-1 md:grid-cols-3 gap-8 w-full"
+      >
+        <!-- Card 1 -->
+        <div
+          class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all flex flex-col gap-4 group"
+        >
+          <div
+            class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors"
+          >
+            <i data-lucide="palette" class="w-7 h-7"></i>
+          </div>
+          <h3 class="text-xl font-black text-slate-800 uppercase">
+            Advanced Paint Studio
+          </h3>
+          <p class="text-slate-500 text-sm leading-relaxed">
+            Professional photoshop-style brushes, custom shapes, vector fills,
+            and multi-layer editing designed for school art projects.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div
+          class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all flex flex-col gap-4 group"
+        >
+          <div
+            class="w-14 h-14 bg-cyan-50 rounded-2xl flex items-center justify-center text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white transition-colors"
+          >
+            <i data-lucide="monitor" class="w-7 h-7"></i>
+          </div>
+          <h3 class="text-xl font-black text-slate-800 uppercase">
+            Computer Literacy
+          </h3>
+          <p class="text-slate-500 text-sm leading-relaxed">
+            Empowering children with mouse control tracking, keyboard controls,
+            pixel rendering, and fundamental digital design education.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div
+          class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all flex flex-col gap-4 group"
+        >
+          <div
+            class="w-14 h-14 bg-pink-50 rounded-2xl flex items-center justify-center text-pink-600 group-hover:bg-pink-600 group-hover:text-white transition-colors"
+          >
+            <i data-lucide="heart" class="w-7 h-7"></i>
+          </div>
+          <h3 class="text-xl font-black text-slate-800 uppercase">
+            100% Free Education
+          </h3>
+          <p class="text-slate-500 text-sm leading-relaxed">
+            Proudly Made In India for every child. No subscription fees, no
+            software installations required—runs directly in your browser.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- 4. SCRATCH STYLE FOOTER (SEO Friendly Structured Content) -->
+    <footer
+      class="bg-slate-900 text-slate-400 py-12 px-6 border-t border-slate-800"
+    >
+      <div class="max-w-6xl mx-auto flex flex-col gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center gap-2">
+              <div
+                class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold"
+              >
+                <i data-lucide="palette" class="w-5 h-5"></i>
+              </div>
+              <span class="text-white font-black tracking-wider uppercase"
+                >Kids Paint</span
+              >
+            </div>
+            <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
+              Kids Paint is a premier worldwide online paint pad created to
+              deliver a premium, barrier-free digital canvas tool for students
+              learning art and basic computer operations globally.
+            </p>
+          </div>
+
+          <!-- SEO Optimized Copywriting Sentences -->
+          <div
+            class="text-xs text-slate-400 space-y-3 border-l-0 md:border-l border-slate-800 pl-0 md:pl-8"
+          >
+            <h4 class="font-bold uppercase text-slate-200 tracking-wider">
+              Universal Free Tech & Creative Learning Pad
+            </h4>
+            <p class="leading-relaxed">
+              Our open platform provides
+              <strong>100% free education</strong> access to help elementary and
+              secondary school children build vital computer skills. Kids Paint
+              serves as an interactive online drawing tool designed for
+              classroom art programs, digital layout design, and elementary
+              robotics visualization.
+            </p>
+            <p class="leading-relaxed text-slate-500">
+              By utilizing responsive digital drawing canvases, customizable
+              vector blocks, and soft paintbrush rendering pipelines, students
+              learn critical desktop workflows like precision navigation, color
+              mixing dynamics, and structural geometry without any ad
+              disturbances or local installation barriers.
+            </p>
+          </div>
+        </div>
+
+        <div class="h-[1px] bg-slate-800 w-full"></div>
+
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-semibold text-slate-500"
+        >
+          <div>&copy; 2026 Kids Paint Pad. All Rights Reserved Worldwide.</div>
+          <div class="text-center md:text-right">
+            Proudly <span class="text-[#FF9933]">Made</span> In
+            <span class="text-[#128807]">India 🇮🇳</span> for Free Universal
+            Computer Education.
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      window.onload = () => {
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // ⏱️ 3 सेकंड बाद स्प्लैश स्क्रीन हटाएँ
+        setTimeout(() => {
+          const splash = document.getElementById("splash-screen");
+          if (splash) {
+            splash.classList.add("opacity-0", "pointer-events-none");
+            setTimeout(() => splash.remove(), 700);
+          }
+        }, 3000);
+      };
+
+      // 🚀 paint.html पेज पर रीडायरेक्ट करने का फंक्शन
+      function redirectToPaintApp() {
+        window.location.href = "paint.html";
+      }
+    </script>
+  </body>
+</html>

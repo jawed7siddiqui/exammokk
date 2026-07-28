@@ -1,0 +1,1856 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <!-- PRIMARY SEO META TAGS -->
+    <title>
+      Kids Paint - 100% Free Online Drawing Tool for School Students
+    </title>
+    <meta
+      name="description"
+      content="Kids Paint is a 100% free worldwide online paint tool designed for Indian school students (CBSE, UP Board, Bihar Board, & all state boards). Let kids learn drawing and unleash creativity online for free."
+    />
+    <meta
+      name="keywords"
+      content="online paint, free kids paint, worldwide online drawing tool, kids paint india, school student drawing app, cbse school drawing, up board drawing practice, bihar board school art, 100% free education tool, online free drawing for kids"
+    />
+    <meta name="author" content="Kids Paint" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- OPEN GRAPH / FACEBOOK SEO META TAGS -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Kids Paint - Free Online Drawing Tool for School Students"
+    />
+    <meta
+      property="og:description"
+      content="100% Free Worldwide Online Paint Tool for CBSE, UP Board, Bihar Board and all school students. No installation, start drawing instantly!"
+    />
+    <meta property="og:image" content="/images/seo-banner.png" />
+    <meta property="og:url" content="https://www.kidspaint.com" />
+
+    <!-- TWITTER SEO META TAGS -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Kids Paint - Free Online Drawing for Indian Students"
+    />
+    <meta
+      name="twitter:description"
+      content="Worldwide free education drawing pad for school students. Perfect for CBSE, UP Board, and Bihar Board art practice."
+    />
+    <meta name="twitter:image" content="/images/seo-banner.png" />
+
+    <script src="/js/tailwindcss_3_4.js"></script>
+    <script src="/js/lucide.min.js"></script>
+    <script src="/js/fabric.min.js"></script>
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: #f1f5f9;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      #editor-container {
+        display: block;
+        flex-grow: 1;
+        overflow: auto;
+        padding: 60px;
+        background: #cbd5e1;
+        position: relative;
+        min-height: 0;
+      }
+      .canvas-holder {
+        display: table;
+        margin: auto;
+      }
+      .canvas-container {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+        border-radius: 16px;
+        background: white;
+        transform-origin: center center;
+      }
+      .gridlines-active .canvas-container::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-size: 20px 20px;
+        background-image:
+          linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+        z-index: 10;
+        border-radius: 16px;
+      }
+      .tool-section-label {
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: #64748b;
+        text-align: center;
+        margin-top: 4px;
+        letter-spacing: 0.05em;
+      }
+      .tool-btn-lg {
+        @apply p-2 rounded-xl border border-slate-200 bg-white hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-all active:scale-90 flex items-center justify-center text-slate-700 shadow-sm w-[38px] h-[38px] shrink-0;
+      }
+      .tool-btn-lg.active {
+        @apply bg-indigo-600 text-white shadow-md border-indigo-600 hover:bg-indigo-700 hover:text-white;
+      }
+      .color-box.active {
+        outline: 3px solid #4f46e5;
+        outline-offset: 2px;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      #custom-context-menu {
+        position: absolute;
+        z-index: 9999;
+        display: none;
+        background: white;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 6px;
+        min-width: 140px;
+      }
+      #custom-context-menu button {
+        width: 100%;
+        padding: 8px 12px;
+        text-align: left;
+        font-size: 12px;
+        font-weight: 600;
+        color: #334155;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 8px;
+      }
+      #custom-context-menu button:hover {
+        background: #f1f5f9;
+        color: #4f46e5;
+      }
+    </style>
+  </head>
+  <body class="antialiased select-none">
+    <!-- EXPORT PROGRESS OVERLAY -->
+    <div
+      id="download-progress-overlay"
+      class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999999] hidden flex-col items-center justify-center gap-4 text-white"
+    >
+      <div
+        class="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"
+      ></div>
+      <p class="font-black tracking-wide text-sm animate-pulse">
+        Downloading, please wait...
+      </p>
+    </div>
+
+    <!-- CONTEXT MENU -->
+    <div id="custom-context-menu">
+      <button
+        onclick="
+          cutSelected();
+          closeContextMenu();
+        "
+      >
+        <i data-lucide="scissors" class="w-4 h-4"></i> Cut
+      </button>
+      <button
+        onclick="
+          copySelected();
+          closeContextMenu();
+        "
+      >
+        <i data-lucide="copy" class="w-4 h-4"></i> Copy
+      </button>
+      <button
+        id="context-paste-btn"
+        onclick="
+          pasteSelected();
+          closeContextMenu();
+        "
+      >
+        <i data-lucide="clipboard" class="w-4 h-4"></i> Paste
+      </button>
+      <div class="h-[1px] bg-slate-100 my-1"></div>
+      <button
+        onclick="
+          deleteSelected();
+          closeContextMenu();
+        "
+        class="text-red-500 hover:bg-red-50"
+      >
+        <i data-lucide="trash-2" class="w-4 h-4"></i> Delete
+      </button>
+    </div>
+
+    <!-- HEADER TOOLBAR -->
+    <header
+      class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-[60] flex flex-col p-2 gap-1.5"
+    >
+      <!-- Top Action Ribbon -->
+      <div
+        class="flex items-center justify-between px-2 pb-1 border-b border-slate-100"
+      >
+        <div class="flex items-center gap-4">
+          <a href="/"
+            ><span
+              class="text-xs font-black text-indigo-600 tracking-wider flex items-center gap-1.5"
+            >
+              <i
+                data-lucide="sparkles"
+                class="w-4 h-4 fill-current text-amber-400"
+              ></i>
+              KIDS PAINT
+            </span>
+          </a>
+          <button
+            onclick="triggerNewCanvasModal()"
+            class="px-3 py-1 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg text-[11px] font-black flex items-center gap-1 shadow-sm transition-all active:scale-95"
+          >
+            <i data-lucide="file-plus-2" class="w-3.5 h-3.5"></i> New File
+          </button>
+        </div>
+
+        <!-- History Stack Controls -->
+        <div
+          class="flex items-center gap-1 bg-slate-50 px-2 py-1 rounded-xl border border-slate-100 shadow-inner"
+        >
+          <button
+            onclick="undo()"
+            class="p-1 text-slate-600 hover:bg-white hover:shadow-sm rounded-md transition-all"
+            title="Undo (Ctrl+Z)"
+          >
+            <i data-lucide="undo-2" class="w-4 h-4"></i>
+          </button>
+          <button
+            onclick="redo()"
+            class="p-1 text-slate-600 hover:bg-white hover:shadow-sm rounded-md transition-all"
+            title="Redo (Ctrl+Y)"
+          >
+            <i data-lucide="redo-2" class="w-4 h-4"></i>
+          </button>
+          <div class="w-[1px] h-4 bg-slate-300 mx-1"></div>
+          <button
+            onclick="downloadPaint()"
+            class="bg-indigo-600 text-white px-4 py-1.5 rounded-lg text-[11px] font-black flex items-center gap-1 shadow hover:bg-indigo-700 transition-all active:scale-95"
+          >
+            <i data-lucide="download" class="w-3.5 h-3.5"></i> Export PNG
+          </button>
+        </div>
+      </div>
+
+      <!-- Horizontal Ribbon Grid Area -->
+      <div
+        class="flex items-stretch justify-center gap-4 px-2 overflow-x-auto no-scrollbar pb-1 w-full"
+      >
+        <!-- Section 1: Clipboard -->
+        <div
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+        >
+          <div
+            class="flex items-center justify-center gap-1 w-[168px] h-[80px]"
+          >
+            <button
+              onclick="cutSelected()"
+              class="tool-btn-lg bg-slate-50"
+              title="Cut (Ctrl+X)"
+            >
+              <i data-lucide="scissors" class="w-4 h-4"></i>
+            </button>
+            <button
+              onclick="copySelected()"
+              class="tool-btn-lg bg-slate-50"
+              title="Copy (Ctrl+C)"
+            >
+              <i data-lucide="copy" class="w-4 h-4"></i>
+            </button>
+            <button
+              onclick="deleteSelected()"
+              class="tool-btn-lg text-red-500 hover:bg-red-50 border-red-100"
+              title="Delete"
+            >
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+            <button
+              onclick="pasteSelected()"
+              class="tool-btn-lg bg-emerald-50 text-emerald-600 border-emerald-200"
+              title="Paste (Ctrl+V)"
+            >
+              <i data-lucide="clipboard" class="w-4.5 h-4.5"></i>
+            </button>
+          </div>
+          <div class="tool-section-label">Clipboard</div>
+        </div>
+
+        <!-- Section 2: Selection -->
+        <div
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+        >
+          <div class="flex items-center justify-center w-[40px] h-[80px]">
+            <button
+              id="tool-select"
+              onclick="setMode('select')"
+              class="tool-btn-lg active h-[38px] w-[38px]"
+              title="Select (Esc)"
+            >
+              <i data-lucide="mouse-pointer" class="w-[18px] h-[18px]"></i>
+            </button>
+          </div>
+          <div class="tool-section-label">Select</div>
+        </div>
+
+        <!-- Section 3: Image Tools -->
+        <div
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+        >
+          <div class="flex flex-wrap gap-1 w-[84px] h-[80px] content-start">
+            <button
+              onclick="rotateImage(90)"
+              class="tool-btn-lg"
+              title="Rotate 90° Right"
+            >
+              <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+            </button>
+            <button
+              onclick="rotateImage(-90)"
+              class="tool-btn-lg"
+              title="Rotate 90° Left"
+            >
+              <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+            </button>
+            <button
+              onclick="flipImage('X')"
+              class="tool-btn-lg"
+              title="Flip Horizontal"
+            >
+              <i data-lucide="flip-horizontal" class="w-4 h-4"></i>
+            </button>
+            <button
+              onclick="flipImage('Y')"
+              class="tool-btn-lg"
+              title="Flip Vertical"
+            >
+              <i data-lucide="flip-vertical" class="w-4 h-4"></i>
+            </button>
+            <button
+              onclick="triggerResizeModal()"
+              class="tool-btn-lg"
+              title="Resize Dimensions"
+            >
+              <i data-lucide="maximize-2" class="w-4 h-4"></i>
+            </button>
+
+            <!-- Cleaned: Only Image Plus Icon shown inside a w-[38px] h-[38px] standard box -->
+            <div class="relative w-[38px] h-[38px]">
+              <button
+                class="tool-btn-lg bg-indigo-50 border-indigo-200 text-indigo-600 hover:bg-indigo-100 flex items-center justify-center w-full h-full"
+                title="Upload Image"
+              >
+                <i data-lucide="image-plus" class="w-4 h-4"></i>
+              </button>
+              <!-- यहाँ 'ss' को हटाकर परफेक्ट 'class' और कर्सर पॉइंटर सेट कर दिया गया है -->
+              <input
+                type="file"
+                id="image-loader"
+                accept="image/*"
+                onchange="uploadLocalImage(event)"
+                class="absolute inset-0 opacity-0 cursor-pointer"
+              />
+            </div>
+          </div>
+          <div class="tool-section-label">Image</div>
+        </div>
+
+        <!-- Section 4: Tools -->
+        <div
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+        >
+          <div class="flex flex-wrap gap-1 w-[82px] h-[80px] content-start">
+            <button
+              id="tool-pen"
+              onclick="startDrawing('pen')"
+              class="tool-btn-lg"
+              title="Pencil"
+            >
+              <i data-lucide="pencil" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="tool-bucket"
+              onclick="setMode('bucket')"
+              class="tool-btn-lg"
+              title="Paint Bucket"
+            >
+              <i data-lucide="paint-bucket" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="tool-text"
+              onclick="setMode('text')"
+              class="tool-btn-lg"
+              title="Add Text"
+            >
+              <i data-lucide="type" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="tool-eraser"
+              onclick="startDrawing('eraser')"
+              class="tool-btn-lg"
+              title="Eraser"
+            >
+              <i data-lucide="eraser" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <div class="tool-section-label">Tools</div>
+        </div>
+
+        <!-- Section 5: Brushes -->
+        <div
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+        >
+          <div class="flex flex-wrap gap-1 w-[124px] h-[80px] content-start">
+            <button
+              id="tool-brush"
+              onclick="startDrawing('brush')"
+              class="tool-btn-lg"
+              title="Standard Brush"
+            >
+              <i data-lucide="brush" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="tool-calli1"
+              onclick="startDrawing('calli1')"
+              class="tool-btn-lg"
+              title="Calligraphy 1"
+            >
+              <i data-lucide="pen-tool" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="tool-calli2"
+              onclick="startDrawing('calli2')"
+              class="tool-btn-lg"
+              title="Calligraphy 2"
+            >
+              <i data-lucide="feather" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="tool-spray"
+              onclick="startDrawing('spray')"
+              class="tool-btn-lg"
+              title="Airbrush"
+            >
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="tool-crayon"
+              onclick="startDrawing('crayon')"
+              class="tool-btn-lg"
+              title="Crayon"
+            >
+              <i data-lucide="framer" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="tool-marker"
+              onclick="startDrawing('marker')"
+              class="tool-btn-lg"
+              title="Marker Brush"
+            >
+              <i data-lucide="paint-brush" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <div class="tool-section-label">Brushes</div>
+        </div>
+
+        <!-- Section 6: Shapes -->
+        <div
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+        >
+          <div class="flex flex-wrap gap-1 w-[160px] h-[80px] content-start">
+            <button
+              id="shape-line"
+              onclick="setShapeMode('line')"
+              class="tool-btn-lg"
+              title="Line"
+            >
+              <i data-lucide="minus" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="shape-curve"
+              onclick="setShapeMode('curve')"
+              class="tool-btn-lg"
+              title="Curve Line"
+            >
+              <i data-lucide="spline" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="shape-rect"
+              onclick="setShapeMode('rect')"
+              class="tool-btn-lg"
+              title="Rectangle"
+            >
+              <i data-lucide="square" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="shape-roundrect"
+              onclick="setShapeMode('roundrect')"
+              class="tool-btn-lg"
+              title="Rounded Rectangle"
+            >
+              <i data-lucide="square-dashed-bottom-code" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="shape-circle"
+              onclick="setShapeMode('circle')"
+              class="tool-btn-lg"
+              title="Circle"
+            >
+              <i data-lucide="circle" class="w-4 h-4"></i>
+            </button>
+            <button
+              id="shape-triangle"
+              onclick="setShapeMode('triangle')"
+              class="tool-btn-lg"
+              title="Triangle"
+            >
+              <i data-lucide="triangle" class="w-4 h-4"></i>
+            </button>
+
+            <div>
+              <button
+                id="shapes-toggle-btn"
+                onclick="toggleMoreShapesMenu(event)"
+                class="tool-btn-lg bg-indigo-50 text-indigo-600 border-indigo-200 font-bold"
+                title="More Shapes"
+              >
+                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+              </button>
+              <div
+                id="more-shapes-dropdown"
+                class="fixed hidden bg-white border border-slate-200 shadow-2xl rounded-xl p-2 gap-1.5 grid grid-cols-3 z-[9999999] w-[140px]"
+              >
+                <button
+                  onclick="
+                    setShapeMode('diamond');
+                    hideShapesMenu();
+                  "
+                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
+                  title="Diamond"
+                >
+                  <i data-lucide="gem" class="w-4 h-4"></i>
+                </button>
+                <button
+                  onclick="
+                    setShapeMode('pentagon');
+                    hideShapesMenu();
+                  "
+                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
+                  title="Pentagon"
+                >
+                  <i data-lucide="pentagon" class="w-4 h-4"></i>
+                </button>
+                <button
+                  onclick="
+                    setShapeMode('star');
+                    hideShapesMenu();
+                  "
+                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
+                  title="Star"
+                >
+                  <i data-lucide="star" class="w-4 h-4"></i>
+                </button>
+                <button
+                  onclick="
+                    setShapeMode('arrow');
+                    hideShapesMenu();
+                  "
+                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
+                  title="Arrow"
+                >
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+                <button
+                  onclick="
+                    setShapeMode('heart');
+                    hideShapesMenu();
+                  "
+                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
+                  title="Heart"
+                >
+                  <i data-lucide="heart" class="w-4 h-4"></i>
+                </button>
+                <button
+                  onclick="
+                    setShapeMode('lightning');
+                    hideShapesMenu();
+                  "
+                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
+                  title="Lightning"
+                >
+                  <i data-lucide="zap" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="tool-section-label">Shapes</div>
+        </div>
+
+        <!-- Section 7: Formatting -->
+        <div
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+        >
+          <div class="flex flex-col justify-between w-[160px] h-[80px]">
+            <div class="w-full">
+              <select
+                id="brush-size-select"
+                onchange="updateBrushSize(this.value)"
+                class="w-full text-xs font-black p-1.5 border border-slate-200 rounded-xl bg-slate-50 outline-none text-indigo-600"
+              >
+                <option value="2">2 px</option>
+                <option value="4">4 px</option>
+                <option value="6" selected>6 px</option>
+                <option value="8">8 px</option>
+                <option value="10">10 px</option>
+                <option value="12">12 px</option>
+                <option value="16">16 px</option>
+                <option value="20">20 px</option>
+                <option value="28">28 px</option>
+                <option value="36">36 px</option>
+                <option value="40">40 px</option>
+                <option value="48">48 px</option>
+                <option value="60">60 px</option>
+                <option value="72">72 px</option>
+                <option value="84">84 px</option>
+                <option value="96">96 px</option>
+                <option value="110">110 px</option>
+                <option value="120">120 px</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-1 w-full">
+              <select
+                id="shape-outline-style"
+                onchange="applyLineStyleChange(this.value)"
+                class="text-[10px] font-bold p-1 border rounded-xl bg-slate-50 outline-none"
+              >
+                <option value="solid">─────</option>
+                <option value="dashed">-- -- --</option>
+                <option value="dotted">.......</option>
+                <option value="dashdot">-.-.-.-</option>
+              </select>
+              <select
+                id="shape-fill-style"
+                onchange="applyFillStyleChange(this.value)"
+                class="text-[10px] font-bold p-1 border rounded-xl bg-slate-50 outline-none"
+              >
+                <option value="transparent">Outline</option>
+                <option value="solid">Fill</option>
+              </select>
+            </div>
+          </div>
+          <div class="tool-section-label">Formatting</div>
+        </div>
+
+        <!-- Section 8: Colors Palette -->
+        <div class="flex flex-col justify-between shrink-0 w-[240px]">
+          <div class="flex items-center gap-2 h-[80px] content-start">
+            <div class="flex gap-1 shrink-0 bg-slate-50 p-1 rounded-xl border">
+              <div
+                onclick="setActiveColorTarget('color1')"
+                id="box-color1"
+                class="color-box w-6 h-6 rounded-md bg-black cursor-pointer shadow active"
+              ></div>
+              <div
+                onclick="setActiveColorTarget('color2')"
+                id="box-color2"
+                class="color-box w-6 h-6 rounded-md bg-white cursor-pointer shadow border border-slate-200"
+              ></div>
+            </div>
+
+            <div
+              id="palette-colors"
+              class="grid grid-cols-6 gap-1 w-[132px] shrink-0"
+            ></div>
+
+            <div
+              class="relative w-6 h-6 rounded-md border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-sm cursor-pointer shrink-0"
+              title="Custom Picker"
+            >
+              <i
+                data-lucide="pipette"
+                class="w-3 text-slate-400 pointer-events-none"
+              ></i>
+              <input
+                type="color"
+                id="custom-color-picker"
+                oninput="selectColor(this.value)"
+                class="absolute inset-0 opacity-0 cursor-pointer"
+                value="#000000"
+              />
+            </div>
+          </div>
+          <div class="tool-section-label text-left pl-1">Colors</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- WORKSPACE CANVAS CORE CONTAINER -->
+    <main id="editor-container">
+      <div class="canvas-holder" id="canvas-wrapper">
+        <canvas id="paintCanvas"></canvas>
+      </div>
+    </main>
+
+    <!-- VIEW STATUS BAR -->
+    <footer
+      class="bg-white border-t border-slate-200 px-4 py-2 flex items-center justify-between text-xs font-semibold text-slate-500 shadow-sm z-50 shrink-0"
+    >
+      <div class="flex items-center gap-4">
+        <span id="canvas-resolution-status" class="flex items-center gap-1"
+          ><i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> 1152 × 648
+          px</span
+        >
+        <span class="w-[1px] h-3 bg-slate-300"></span>
+        <label class="flex items-center gap-1 cursor-pointer"
+          ><input
+            type="checkbox"
+            id="view-gridlines"
+            onchange="toggleGridlines(this.checked)"
+            class="rounded text-indigo-600 focus:ring-0 w-3.5 h-3.5"
+          />
+          Gridlines Grid</label
+        >
+      </div>
+
+      <!-- Zoom Engine Layout -->
+      <div
+        class="flex items-center gap-2 bg-slate-50 px-3 py-0.5 rounded-full border shadow-inner"
+      >
+        <button
+          onclick="changeZoom(-0.1)"
+          class="p-1 hover:text-indigo-600 transition-transform"
+        >
+          <i data-lucide="zoom-out" class="w-3.5 h-3.5"></i>
+        </button>
+        <input
+          type="range"
+          id="zoom-slider"
+          min="10"
+          max="200"
+          value="100"
+          oninput="handleZoomSlider(this.value)"
+          class="w-24 h-1 bg-slate-200 appearance-none rounded-lg accent-indigo-600"
+        />
+        <span
+          id="zoom-text"
+          class="text-xs font-black text-slate-700 w-10 text-center"
+          >100%</span
+        >
+        <button
+          onclick="changeZoom(0.1)"
+          class="p-1 hover:text-indigo-600 transition-transform"
+        >
+          <i data-lucide="zoom-in" class="w-3.5 h-3.5"></i>
+        </button>
+        <button
+          onclick="resetZoomToFit()"
+          class="px-2 py-0.5 bg-white border rounded-md text-[10px] uppercase font-black text-slate-600"
+        >
+          Fit
+        </button>
+        <button
+          onclick="applyZoomLevelDirect(1.0)"
+          class="px-2 py-0.5 bg-white border rounded-md text-[10px] uppercase font-black text-slate-600"
+        >
+          100%
+        </button>
+      </div>
+    </footer>
+
+    <!-- MODAL NEW CANVAS -->
+    <div
+      id="new-canvas-modal"
+      class="fixed inset-0 bg-slate-900/40 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm"
+    >
+      <div class="bg-white rounded-2xl p-5 w-full max-w-sm shadow-2xl">
+        <h3
+          class="text-xs font-black text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-1.5"
+        >
+          <i data-lucide="sliders" class="w-4 h-4 text-indigo-500"></i> New File
+          Setup Size
+        </h3>
+        <div class="space-y-3">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[9px] font-bold text-slate-400 uppercase"
+                >Width (px)</label
+              >
+              <input
+                type="number"
+                id="canvas-width-input"
+                value="1152"
+                class="w-full mt-1 p-2 border rounded-xl font-bold text-indigo-600 outline-none"
+              />
+            </div>
+            <div>
+              <label class="text-[9px] font-bold text-slate-400 uppercase"
+                >Height (px)</label
+              >
+              <input
+                type="number"
+                id="canvas-height-input"
+                value="648"
+                class="w-full mt-1 p-2 border rounded-xl font-bold text-indigo-600 outline-none"
+              />
+            </div>
+          </div>
+          <div class="flex gap-2 pt-2">
+            <button
+              onclick="closeNewCanvasModal()"
+              class="w-1/2 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl text-xs uppercase"
+            >
+              Cancel
+            </button>
+            <button
+              onclick="createNewCanvasFromModal()"
+              class="w-1/2 py-2.5 bg-indigo-600 text-white font-black rounded-xl text-xs uppercase shadow-md shadow-indigo-100"
+            >
+              Create File
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL RESIZE -->
+    <div
+      id="image-resize-modal"
+      class="fixed inset-0 bg-slate-900/40 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm"
+    >
+      <div class="bg-white rounded-2xl p-5 w-full max-w-xs shadow-2xl">
+        <h3
+          class="text-xs font-black text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-1.5"
+        >
+          <i data-lucide="maximize-2" class="w-4 h-4 text-indigo-500"></i>
+          Resize Scales Factor
+        </h3>
+        <div class="space-y-3">
+          <div>
+            <label class="text-[9px] font-bold text-slate-400 uppercase"
+              >Scale Width (%)</label
+            >
+            <input
+              type="number"
+              id="resize-factor-w"
+              value="120"
+              class="w-full mt-1 p-2 border rounded-xl font-bold text-indigo-600 outline-none"
+            />
+          </div>
+          <div>
+            <label class="text-[9px] font-bold text-slate-400 uppercase"
+              >Scale Height (%)</label
+            >
+            <input
+              type="number"
+              id="resize-factor-h"
+              value="120"
+              class="w-full mt-1 p-2 border rounded-xl font-bold text-indigo-600 outline-none"
+            />
+          </div>
+          <div class="flex gap-2 pt-1">
+            <button
+              onclick="closeResizeModal()"
+              class="w-1/2 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl text-xs"
+            >
+              Cancel
+            </button>
+            <button
+              onclick="applyImageResize()"
+              class="w-1/2 py-2 bg-indigo-600 text-white font-black rounded-xl text-xs shadow"
+            >
+              Resize
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let canvas;
+      let color1 = "#000000";
+      let color2 = "#ffffff";
+      let activeColorTarget = "color1";
+      let canvasHistory = [];
+      let historyStep = -1;
+      let isStateChanging = false;
+      let activeMode = "select";
+      let zoomLevel = 1.0;
+      let clipboardObject = null;
+
+      let PAGE_WIDTH = 1152;
+      let PAGE_HEIGHT = 648;
+
+      let sizesState = {
+        text: 36,
+        shape: 6,
+        brush: 16,
+      };
+
+      let activeDrawType = "pen";
+
+      const paintPalette = [
+        "#000000",
+        "#ffffff",
+        "#7f7f7f",
+        "#c3c3c3",
+        "#4f46e5",
+        "#a855f7",
+        "#ed1c24",
+        "#ff7f27",
+        "#fff200",
+        "#22b14c",
+        "#00a2e8",
+        "#3f48cc",
+      ];
+
+      const disabledRotationProps = {
+        transparentCorners: false,
+        cornerColor: "#ffffff",
+        cornerStrokeColor: "#005afa",
+        cornerSize: 8,
+        cornerStyle: "rect",
+        borderColor: "#005afa",
+        borderScaleFactor: 1.2,
+        borderDashArray: [4, 3],
+        padding: 2,
+        hasRotatingPoint: false,
+        lockRotation: true,
+      };
+
+      fabric.Object.prototype.set(disabledRotationProps);
+      fabric.Group.prototype.set(disabledRotationProps);
+      fabric.ActiveSelection.prototype.set(disabledRotationProps);
+
+      delete fabric.Object.prototype.controls.mtr;
+      delete fabric.Group.prototype.controls.mtr;
+      delete fabric.ActiveSelection.prototype.controls.mtr;
+
+      window.onload = () => {
+        const paletteContainer = document.getElementById("palette-colors");
+        paletteContainer.innerHTML = paintPalette
+          .map(
+            (color) => `
+          <div onclick="selectColor('${color}')" class="w-5 h-5 rounded border border-slate-300 shadow-sm cursor-pointer hover:scale-110 transition-transform shrink-0" style="background: ${color}"></div>
+        `,
+          )
+          .join("");
+
+        setupCanvas(PAGE_WIDTH, PAGE_HEIGHT, "#ffffff");
+        setupKeyboardShortcuts();
+        setupRightClickContextMenu();
+        lucide.createIcons();
+
+        document.addEventListener("click", () => {
+          hideShapesMenu();
+        });
+      };
+
+      function toggleMoreShapesMenu(e) {
+        e.stopPropagation();
+        const btn = document.getElementById("shapes-toggle-btn");
+        const drop = document.getElementById("more-shapes-dropdown");
+
+        const rect = btn.getBoundingClientRect();
+        drop.style.left = `${rect.left}px`;
+        drop.style.top = `${rect.bottom + window.scrollY}px`;
+
+        drop.classList.toggle("hidden");
+      }
+
+      function hideShapesMenu() {
+        document.getElementById("more-shapes-dropdown").classList.add("hidden");
+      }
+
+      function setupCanvas(w, h, bgColor) {
+        if (canvas) canvas.dispose();
+        PAGE_WIDTH = w;
+        PAGE_HEIGHT = h;
+        zoomLevel = 1.0;
+
+        document.getElementById("canvas-resolution-status").innerHTML =
+          `<i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> ${w} × ${h} px`;
+        const wrapper = document.getElementById("canvas-wrapper");
+        wrapper.style.width = w + "px";
+        wrapper.style.height = h + "px";
+
+        canvas = new fabric.Canvas("paintCanvas", {
+          width: w,
+          height: h,
+          backgroundColor: bgColor === "transparent" ? null : bgColor,
+          isDrawingMode: false,
+          selection: true,
+          preserveObjectStacking: true,
+        });
+
+        canvas.on("object:added", (e) => {
+          disableObjectRotation(e.target);
+          if (!isStateChanging) saveCanvasHistory();
+        });
+        canvas.on("object:modified", () => {
+          if (!isStateChanging) saveCanvasHistory();
+        });
+        canvas.on("object:removed", () => {
+          if (!isStateChanging) saveCanvasHistory();
+        });
+        canvas.on("mouse:down", handleCanvasMouseDownClick);
+
+        canvas.on("selection:created", syncSizeDropdownFromSelection);
+        canvas.on("selection:updated", syncSizeDropdownFromSelection);
+
+        canvas.on("text:changed", (e) => {
+          let obj = e.target;
+          if (obj && obj.type === "textbox") {
+            autoFitTextboxWidth(obj);
+          }
+        });
+
+        saveCanvasHistory();
+        setTimeout(resetZoomToFit, 100);
+        updateCursor();
+      }
+
+      function syncSizeDropdownFromSelection(e) {
+        const obj = canvas.getActiveObject();
+        if (!obj) return;
+
+        const dropdown = document.getElementById("brush-size-select");
+        let activeSizeVal = 6;
+
+        if (obj.type === "textbox") {
+          activeSizeVal = obj.fontSize;
+          sizesState.text = activeSizeVal;
+        } else if (obj.role === "line") {
+          activeSizeVal = obj.strokeWidth;
+          sizesState.shape = activeSizeVal;
+        } else if (obj.type === "path") {
+          activeSizeVal = obj.strokeWidth;
+          sizesState.brush = activeSizeVal;
+        } else if (obj.strokeWidth) {
+          activeSizeVal = obj.strokeWidth * 2;
+          sizesState.shape = activeSizeVal;
+        }
+
+        if (dropdown) {
+          dropdown.value = activeSizeVal;
+        }
+      }
+
+      function autoFitTextboxWidth(obj) {
+        if (!obj) return;
+        let measuredWidth = obj.dynamicMinWidth;
+        if (measuredWidth > obj.width) {
+          obj.set("width", measuredWidth + 10);
+          canvas.renderAll();
+        }
+      }
+
+      function disableObjectRotation(obj) {
+        if (!obj) return;
+        obj.hasRotatingPoint = false;
+        obj.lockRotation = true;
+        if (obj.controls) delete obj.controls.mtr;
+      }
+
+      function uploadLocalImage(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (f) {
+          fabric.Image.fromURL(f.target.result, (img) => {
+            let maxScale = Math.min(
+              (PAGE_WIDTH * 0.6) / img.width,
+              (PAGE_HEIGHT * 0.6) / img.height,
+            );
+            if (maxScale > 1) maxScale = 1;
+
+            img.set({
+              left: PAGE_WIDTH / 2,
+              top: PAGE_HEIGHT / 2,
+              originX: "center",
+              originY: "center",
+              scaleX: maxScale,
+              scaleY: maxScale,
+            });
+            disableObjectRotation(img);
+            canvas.add(img);
+            setMode("select");
+            canvas.setActiveObject(img).renderAll();
+            saveCanvasHistory();
+          });
+        };
+        reader.readAsDataURL(file);
+        e.target.value = "";
+      }
+
+      function setupRightClickContextMenu() {
+        const container = document.getElementById("editor-container");
+        container.addEventListener("contextmenu", (e) => {
+          e.preventDefault();
+          const contextMenu = document.getElementById("custom-context-menu");
+          const bounds = container.getBoundingClientRect();
+          const x = e.clientX - bounds.left + container.scrollLeft;
+          const y = e.clientY - bounds.top + container.scrollTop;
+
+          contextMenu.style.left = `${x}px`;
+          contextMenu.style.top = `${y}px`;
+          contextMenu.style.display = "block";
+          document.getElementById("context-paste-btn").style.opacity =
+            clipboardObject ? "1" : "0.5";
+        });
+        document.addEventListener("click", () => {
+          closeContextMenu();
+        });
+      }
+
+      function closeContextMenu() {
+        document.getElementById("custom-context-menu").style.display = "none";
+      }
+
+      function setupKeyboardShortcuts() {
+        window.addEventListener("keydown", (e) => {
+          const activeObj = canvas ? canvas.getActiveObject() : null;
+
+          if (e.key === "Escape") {
+            e.preventDefault();
+            setMode("select");
+            if (activeObj && activeObj.isEditing) activeObj.exitEditing();
+            return;
+          }
+
+          if (e.ctrlKey && e.key.toLowerCase() === "n") {
+            e.preventDefault();
+            triggerNewCanvasModal();
+            return;
+          }
+
+          if (e.ctrlKey && e.key.toLowerCase() === "p") {
+            e.preventDefault();
+            downloadPaint();
+            return;
+          }
+
+          if (!activeObj || activeObj.isEditing) return;
+
+          const movementOffset = e.shiftKey ? 20 : 2;
+          let moved = false;
+
+          if (e.key === "ArrowUp") {
+            activeObj.top -= movementOffset;
+            moved = true;
+          }
+          if (e.key === "ArrowDown") {
+            activeObj.top += movementOffset;
+            moved = true;
+          }
+          if (e.key === "ArrowLeft") {
+            activeObj.left -= movementOffset;
+            moved = true;
+          }
+          if (e.key === "ArrowRight") {
+            activeObj.left += movementOffset;
+            moved = true;
+          }
+
+          if (moved) {
+            e.preventDefault();
+            activeObj.setCoords();
+            canvas.renderAll();
+            saveCanvasHistory();
+            return;
+          }
+
+          if (e.ctrlKey && e.key.toLowerCase() === "c") {
+            e.preventDefault();
+            copySelected();
+          }
+          if (e.ctrlKey && e.key.toLowerCase() === "v") {
+            e.preventDefault();
+            pasteSelected();
+          }
+          if (e.ctrlKey && e.key.toLowerCase() === "x") {
+            e.preventDefault();
+            cutSelected();
+          }
+          if (e.ctrlKey && e.key.toLowerCase() === "z") {
+            e.preventDefault();
+            undo();
+          }
+          if (e.ctrlKey && e.key.toLowerCase() === "y") {
+            e.preventDefault();
+            redo();
+          }
+          if (e.key === "Delete" || e.key === "Backspace") {
+            e.preventDefault();
+            deleteSelected();
+          }
+        });
+      }
+
+      function setActiveColorTarget(target) {
+        activeColorTarget = target;
+        document
+          .querySelectorAll(".color-box")
+          .forEach((el) => el.classList.remove("active"));
+        document.getElementById(`box-color-${target}`).classList.add("active");
+      }
+
+      function selectColor(hex) {
+        if (activeColorTarget === "color1") {
+          color1 = hex;
+          document.getElementById("box-color1").style.background = hex;
+        } else {
+          color2 = hex;
+          document.getElementById("box-color2").style.background = hex;
+        }
+
+        if (canvas && canvas.isDrawingMode && canvas.freeDrawingBrush) {
+          canvas.freeDrawingBrush.color = color1;
+        }
+
+        const activeObj = canvas.getActiveObject();
+        if (activeObj) {
+          if (activeObj.type === "activeSelection") {
+            activeObj.forEachObject((obj) => mutateObjectColor(obj, hex));
+          } else {
+            mutateObjectColor(activeObj, hex);
+          }
+          canvas.renderAll();
+          saveCanvasHistory();
+        }
+      }
+
+      function triggerNewCanvasModal() {
+        document
+          .getElementById("new-canvas-modal")
+          .classList.replace("hidden", "flex");
+      }
+      function closeNewCanvasModal() {
+        document
+          .getElementById("new-canvas-modal")
+          .classList.replace("flex", "hidden");
+      }
+
+      function mutateObjectColor(obj, hex) {
+        const fillStyle = document.getElementById("shape-fill-style").value;
+        if (obj.type === "textbox") {
+          obj.set("fill", color1);
+        } else {
+          if (fillStyle === "solid") obj.set("fill", color2);
+          obj.set("stroke", color1);
+        }
+      }
+
+      function updateBrushSize(v) {
+        const parsedSize = parseInt(v, 10);
+        const activeObj = canvas ? canvas.getActiveObject() : null;
+
+        if (activeObj) {
+          if (activeObj.type === "activeSelection") {
+            activeObj.forEachObject((obj) =>
+              modifyObjThicknessDirect(obj, parsedSize),
+            );
+          } else {
+            modifyObjThicknessDirect(activeObj, parsedSize);
+          }
+          canvas.renderAll();
+          saveCanvasHistory();
+          return;
+        }
+
+        if (activeMode === "text") {
+          sizesState.text = parsedSize;
+        } else if (
+          [
+            "pen",
+            "brush",
+            "calli1",
+            "calli2",
+            "spray",
+            "crayon",
+            "marker",
+          ].includes(activeMode)
+        ) {
+          sizesState.brush = parsedSize;
+          if (canvas.freeDrawingBrush)
+            canvas.freeDrawingBrush.width = parsedSize;
+        } else if (
+          activeMode !== "select" &&
+          activeMode !== "bucket" &&
+          activeMode !== "picker"
+        ) {
+          sizesState.shape = parsedSize;
+        }
+      }
+
+      // Close popover shapes menu completely helper bounds mapping
+      function closeResizeModal() {
+        document.getElementById("image-resize-modal").classList.add("hidden");
+        document.getElementById("image-resize-modal").classList.remove("flex");
+      }
+
+      function modifyObjThicknessDirect(obj, sizeValue) {
+        if (obj.type === "textbox") {
+          obj.set("fontSize", sizeValue);
+          sizesState.text = sizeValue;
+          autoFitTextboxWidth(obj);
+        } else if (obj.role === "line") {
+          obj.set("strokeWidth", sizeValue);
+          sizesState.shape = sizeValue;
+        } else if (obj.type === "path") {
+          obj.set("strokeWidth", sizeValue);
+          sizesState.brush = sizeValue;
+        } else {
+          obj.set("strokeWidth", sizeValue / 2);
+          sizesState.shape = sizeValue;
+        }
+        obj.setCoords();
+      }
+
+      function applyLineStyleChange(style) {
+        const activeObj = canvas.getActiveObject();
+        let dashArray = null;
+
+        if (style === "dashed") dashArray = [8, 4];
+        else if (style === "dotted") dashArray = [2, 3];
+        else if (style === "dashdot") dashArray = [8, 3, 2, 3];
+
+        if (activeObj) {
+          if (activeObj.type === "activeSelection") {
+            activeObj.forEachObject((obj) => {
+              if (obj.type !== "textbox") obj.set("strokeDashArray", dashArray);
+            });
+          } else {
+            if (activeObj.type !== "textbox")
+              activeObj.set("strokeDashArray", dashArray);
+          }
+          canvas.renderAll();
+          saveCanvasHistory();
+        }
+      }
+
+      function applyFillStyleChange(style) {
+        const activeObj = canvas.getActiveObject();
+        if (activeObj) {
+          if (activeObj.type === "activeSelection") {
+            activeObj.forEachObject((obj) => {
+              if (obj.type !== "textbox")
+                obj.set("fill", style === "solid" ? color2 : "transparent");
+            });
+          } else {
+            if (activeObj.type !== "textbox")
+              activeObj.set("fill", style === "solid" ? color2 : "transparent");
+          }
+          canvas.renderAll();
+          saveCanvasHistory();
+        }
+      }
+
+      function setMode(mode) {
+        activeMode = mode;
+        document
+          .querySelectorAll(".tool-btn-lg, #more-shapes-dropdown button")
+          .forEach((btn) => btn.classList.remove("active"));
+        canvas.isDrawingMode = false;
+
+        const btn =
+          document.getElementById(`tool-${mode}`) ||
+          document.getElementById(`shape-${mode}`);
+        if (btn) btn.classList.add("active");
+
+        canvas.selection = mode === "select";
+        canvas
+          .getObjects()
+          .forEach((obj) => (obj.selectable = mode === "select"));
+
+        const dropdown = document.getElementById("brush-size-select");
+        if (dropdown) {
+          if (mode === "text") dropdown.value = sizesState.text;
+          else if (
+            [
+              "pen",
+              "brush",
+              "calli1",
+              "calli2",
+              "spray",
+              "crayon",
+              "marker",
+            ].includes(mode)
+          )
+            dropdown.value = sizesState.brush;
+          else if (mode !== "select" && mode !== "bucket" && mode !== "picker")
+            dropdown.value = sizesState.shape;
+        }
+
+        updateCursor();
+        canvas.requestRenderAll();
+      }
+
+      function updateCursor() {
+        if (!canvas) return;
+        let cursor = "default";
+        if (activeMode === "select") cursor = "default";
+        else if (
+          [
+            "pen",
+            "brush",
+            "calli1",
+            "calli2",
+            "spray",
+            "crayon",
+            "marker",
+            "eraser",
+          ].includes(activeMode)
+        )
+          cursor = "crosshair";
+        else if (activeMode === "bucket") cursor = "cell";
+        else if (activeMode === "text") cursor = "text";
+        else if (activeMode === "zoom") cursor = "zoom-in";
+        else cursor = "nwse-resize";
+
+        canvas.defaultCursor = cursor;
+        canvas.moveCursor = cursor;
+        canvas.hoverCursor = cursor;
+      }
+
+      function startDrawing(type) {
+        setMode(type);
+        activeDrawType = type;
+        canvas.isDrawingMode = true;
+
+        let brush;
+
+        if (type === "pen") {
+          brush = new fabric.PencilBrush(canvas);
+          brush.decimate = 0;
+          brush.strokeLineCap = "square";
+          brush.strokeLineJoin = "miter";
+          sizesState.brush = 2;
+        } else if (type === "brush") {
+          brush = new fabric.PencilBrush(canvas);
+          brush.decimate = 0.5;
+          brush.strokeLineCap = "round";
+          brush.strokeLineJoin = "round";
+          sizesState.brush = 16;
+        } else if (type === "spray") {
+          brush = new fabric.SprayBrush(canvas);
+          brush.density = 45;
+          brush.dotWidth = 3.5;
+        } else if (type === "marker") {
+          brush = new fabric.PencilBrush(canvas);
+          brush.color = color1 + "44";
+          brush.strokeLineCap = "round";
+        } else if (type === "crayon") {
+          brush = new fabric.PencilBrush(canvas);
+          brush.strokeDashArray = [3, 4];
+          brush.strokeLineCap = "round";
+        } else if (type === "calli1") {
+          brush = new fabric.PencilBrush(canvas);
+          brush.strokeLineCap = "square";
+          brush.width = sizesState.brush * 2.2;
+        } else if (type === "calli2") {
+          brush = new fabric.PencilBrush(canvas);
+          brush.strokeLineCap = "round";
+          brush.width = sizesState.brush * 1.6;
+        } else if (type === "eraser") {
+          brush = new fabric.PencilBrush(canvas);
+          brush.color = "#ffffff";
+        }
+
+        if (type !== "eraser") {
+          brush.color = type === "marker" ? color1 + "44" : color1;
+        }
+        if (type !== "calli1" && type !== "calli2") {
+          brush.width = parseInt(sizesState.brush, 10);
+        }
+
+        const dropdown = document.getElementById("brush-size-select");
+        if (dropdown) dropdown.value = sizesState.brush;
+
+        canvas.freeDrawingBrush = brush;
+      }
+
+      function setShapeMode(type) {
+        setMode(type);
+      }
+
+      function handleCanvasMouseDownClick(options) {
+        const pointer = canvas.getPointer(options.e);
+
+        if (activeMode === "zoom") {
+          changeZoom(options.e.shiftKey ? -0.2 : 0.2);
+          return;
+        }
+        if (activeMode === "picker") {
+          setMode("select");
+          return;
+        }
+
+        if (activeMode === "bucket") {
+          const target = options.target;
+          if (target) target.set("fill", color1);
+          else canvas.setBackgroundColor(color1, canvas.renderAll.bind(canvas));
+          canvas.renderAll();
+          saveCanvasHistory();
+        } else if (activeMode === "text") {
+          const txt = new fabric.Textbox("Type Here...", {
+            left: pointer.x,
+            top: pointer.y,
+            fontFamily: "Montserrat",
+            fontSize: sizesState.text,
+            fill: color1,
+            originX: "center",
+            originY: "center",
+          });
+          disableObjectRotation(txt);
+          canvas.add(txt).setActiveObject(txt);
+          setMode("select");
+
+          txt.on("scaling", function () {
+            autoFitTextboxWidth(this);
+          });
+
+          txt.enterEditing();
+          txt.selectAll();
+        } else if (
+          ![
+            "select",
+            "pen",
+            "brush",
+            "calli1",
+            "calli2",
+            "spray",
+            "crayon",
+            "marker",
+            "eraser",
+          ].includes(activeMode)
+        ) {
+          executeShapeDrop(activeMode, pointer);
+        }
+      }
+
+      function executeShapeDrop(shapeType, pointer) {
+        const thickness = 6;
+        const fillStyle = document.getElementById("shape-fill-style").value;
+        const outlineStyle = document.getElementById(
+          "shape-outline-style",
+        ).value;
+
+        let dashArray = null;
+        if (outlineStyle === "dashed") dashArray = [8, 4];
+        else if (outlineStyle === "dotted") dashArray = [2, 3];
+        else if (outlineStyle === "dashdot") dashArray = [8, 3, 2, 3];
+
+        const config = {
+          left: pointer.x,
+          top: pointer.y,
+          originX: "center",
+          originY: "center",
+          fill: fillStyle === "solid" ? color2 : "transparent",
+          stroke: color1,
+          strokeWidth: thickness,
+          strokeDashArray: dashArray,
+        };
+
+        let shapeObj;
+        if (shapeType === "rect")
+          shapeObj = new fabric.Rect({ ...config, width: 140, height: 90 });
+        else if (shapeType === "roundrect")
+          shapeObj = new fabric.Rect({
+            ...config,
+            width: 140,
+            height: 90,
+            rx: 15,
+            ry: 15,
+          });
+        else if (shapeType === "circle")
+          shapeObj = new fabric.Circle({ ...config, radius: 55 });
+        else if (shapeType === "triangle")
+          shapeObj = new fabric.Triangle({
+            ...config,
+            width: 120,
+            height: 110,
+          });
+        else if (shapeType === "diamond")
+          shapeObj = new fabric.Rect({
+            ...config,
+            width: 100,
+            height: 100,
+            angle: 45,
+          });
+        else if (shapeType === "line")
+          shapeObj = new fabric.Line(
+            [pointer.x - 70, pointer.y, pointer.x + 70, pointer.y],
+            { ...config, strokeWidth: thickness, role: "line" },
+          );
+        else if (shapeType === "pentagon")
+          shapeObj = new fabric.Path(
+            "M 25,0 L 50,18 L 40,48 L 10,48 L 0,18 Z",
+            { ...config, scaleX: 2.5, scaleY: 2.5 },
+          );
+        else if (shapeType === "lightning")
+          shapeObj = new fabric.Path(
+            "M 10,0 L 0,20 L 10,20 L 5,40 L 20,15 L 10,15 Z",
+            { ...config, scaleX: 2.8, scaleY: 2.8 },
+          );
+        else if (shapeType === "star")
+          shapeObj = new fabric.Path(
+            "M 12,0 L 15,9 L 24,9 L 17,14 L 20,23 L 12,17 L 4,23 L 7,14 L 0,9 L 9,9 Z",
+            { ...config, scaleX: 5.0, scaleY: 5.0 },
+          );
+        else if (shapeType === "arrow")
+          shapeObj = new fabric.Path(
+            "M 0,6 L 12,6 L 12,0 L 24,9 L 12,18 L 12,12 L 0,12 Z",
+            { ...config, scaleX: 5.0, scaleY: 5.0 },
+          );
+        else if (shapeType === "heart")
+          shapeObj = new fabric.Path(
+            "M 12,5 C 8,0 0,2 0,10 C 0,17 12,24 12,24 C 12,24 24,17 24,10 C 24,2 16,0 12,5 Z",
+            { ...config, scaleX: 5.0, scaleY: 5.0 },
+          );
+        else if (shapeType === "curve")
+          shapeObj = new fabric.Path("M 0,0 Q 50,-50 100,0", {
+            ...config,
+            scaleX: 1.8,
+            scaleY: 1.8,
+          });
+
+        if (shapeObj) {
+          disableObjectRotation(shapeObj);
+          canvas.add(shapeObj);
+          setMode("select");
+          canvas.setActiveObject(shapeObj).renderAll();
+        }
+      }
+
+      function cutSelected() {
+        const activeObj = canvas.getActiveObject();
+        if (!activeObj) return;
+        activeObj.clone((cloned) => {
+          clipboardObject = cloned;
+          canvas.remove(activeObj);
+          canvas.discardActiveObject().renderAll();
+          saveCanvasHistory();
+        });
+      }
+
+      function copySelected() {
+        const activeObj = canvas.getActiveObject();
+        if (!activeObj) return;
+        activeObj.clone((cloned) => {
+          clipboardObject = cloned;
+        });
+      }
+
+      function pasteSelected() {
+        if (!clipboardObject) return;
+        clipboardObject.clone((cloned) => {
+          canvas.discardActiveObject();
+          cloned.set({
+            left: cloned.left + 25,
+            top: cloned.top + 25,
+            evented: true,
+          });
+          disableObjectRotation(cloned);
+          if (cloned.type === "activeSelection") {
+            cloned.canvas = canvas;
+            cloned.forEachObject((obj) => {
+              disableObjectRotation(obj);
+              canvas.add(obj);
+            });
+          } else {
+            canvas.add(cloned);
+          }
+          clipboardObject.top += 25;
+          clipboardObject.left += 25;
+          setMode("select");
+          canvas.setActiveObject(cloned).renderAll();
+          saveCanvasHistory();
+        });
+      }
+
+      function deleteSelected() {
+        const activeObjects = canvas.getActiveObjects();
+        if (activeObjects && activeObjects.length > 0) {
+          canvas.discardActiveObject();
+          activeObjects.forEach((obj) => {
+            canvas.remove(obj);
+          });
+          canvas.renderAll();
+          saveCanvasHistory();
+        }
+      }
+
+      function rotateImage(deg) {
+        const obj = canvas.getActiveObject();
+        if (obj) {
+          obj.set("angle", ((obj.angle || 0) + deg) % 360).setCoords();
+          canvas.renderAll();
+          saveCanvasHistory();
+        }
+      }
+
+      function flipImage(dir) {
+        const obj = canvas.getActiveObject();
+        if (obj) {
+          if (dir === "X") obj.set("flipX", !obj.flipX);
+          else obj.set("flipY", !obj.flipY);
+          canvas.renderAll();
+          saveCanvasHistory();
+        }
+      }
+
+      function triggerResizeModal() {
+        document
+          .getElementById("image-resize-modal")
+          .classList.replace("hidden", "flex");
+      }
+
+      function applyImageResize() {
+        const obj = canvas.getActiveObject();
+        const factorW =
+          parseFloat(document.getElementById("resize-factor-w").value) / 100;
+        const factorH =
+          parseFloat(document.getElementById("resize-factor-h").value) / 100;
+        if (obj) {
+          obj
+            .set({
+              scaleX: (obj.scaleX || 1) * factorW,
+              scaleY: (obj.scaleY || 1) * factorH,
+            })
+            .setCoords();
+          canvas.renderAll();
+          saveCanvasHistory();
+        }
+        closeResizeModal();
+      }
+
+      function toggleGridlines(active) {
+        document
+          .getElementById("editor-container")
+          .classList.toggle("gridlines-active", active);
+      }
+      function changeZoom(val) {
+        zoomLevel = Math.min(Math.max(0.1, zoomLevel + val), 2.0);
+        applyZoomLevel();
+      }
+      function handleZoomSlider(v) {
+        zoomLevel = parseFloat(v) / 100;
+        applyZoomLevel();
+      }
+      function applyZoomLevelDirect(v) {
+        zoomLevel = v;
+        applyZoomLevel();
+      }
+
+      function applyZoomLevel() {
+        canvas.setZoom(zoomLevel);
+        canvas.setWidth(PAGE_WIDTH * zoomLevel);
+        canvas.setHeight(PAGE_HEIGHT * zoomLevel);
+        const pct = Math.round(zoomLevel * 100);
+        document.getElementById("zoom-text").innerText = pct + "%";
+        document.getElementById("zoom-slider").value = pct;
+      }
+
+      function resetZoomToFit() {
+        const container = document.getElementById("editor-container");
+        const scaleX = (container.clientWidth - 120) / PAGE_WIDTH;
+        const scaleY = (container.clientHeight - 120) / PAGE_HEIGHT;
+        zoomLevel = Math.min(scaleX, scaleY, 1.0);
+        applyZoomLevel();
+      }
+
+      function createNewCanvasFromModal() {
+        const w =
+          parseInt(document.getElementById("canvas-width-input").value) || 1152;
+        const h =
+          parseInt(document.getElementById("canvas-height-input").value) || 648;
+        setupCanvas(w, h, "#ffffff");
+        closeNewCanvasModal();
+        setMode("select");
+        lucide.createIcons();
+      }
+
+      function saveCanvasHistory() {
+        if (isStateChanging) return;
+        const snap = JSON.stringify(canvas.toJSON());
+        if (historyStep < canvasHistory.length - 1)
+          canvasHistory = canvasHistory.slice(0, historyStep + 1);
+        canvasHistory.push(snap);
+        historyStep++;
+      }
+
+      function undo() {
+        if (historyStep > 0) {
+          isStateChanging = true;
+          historyStep--;
+          canvas.loadFromJSON(canvasHistory[historyStep], () => {
+            canvas.getObjects().forEach(disableObjectRotation);
+            canvas.renderAll();
+            isStateChanging = false;
+          });
+        }
+      }
+
+      function redo() {
+        if (historyStep < canvasHistory.length - 1) {
+          isStateChanging = true;
+          historyStep++;
+          canvas.loadFromJSON(canvasHistory[historyStep], () => {
+            canvas.getObjects().forEach(disableObjectRotation);
+            canvas.renderAll();
+            isStateChanging = false;
+          });
+        }
+      }
+
+      function downloadPaint() {
+        canvas.discardActiveObject().renderAll();
+        const curZoom = canvas.getZoom();
+        const overlay = document.getElementById("download-progress-overlay");
+        overlay.classList.replace("hidden", "flex");
+
+        setTimeout(() => {
+          canvas.setZoom(1.0);
+          canvas.setWidth(PAGE_WIDTH);
+          canvas.setHeight(PAGE_HEIGHT);
+
+          const link = document.createElement("a");
+          link.href = canvas.toDataURL({ format: "png", quality: 1.0 });
+          link.download = `Kids-Paint-${Date.now()}.png`;
+          link.click();
+
+          canvas.setZoom(curZoom);
+          canvas.setWidth(PAGE_WIDTH * curZoom);
+          canvas.setHeight(PAGE_HEIGHT * curZoom);
+          overlay.classList.replace("flex", "hidden");
+        }, 2000);
+      }
+
+      window.addEventListener("resize", resetZoomToFit);
+    </script>
+  </body>
+</html>

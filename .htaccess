@@ -1,0 +1,5 @@
+RewriteEngine On
+
+RewriteRule ^templates/(.*)$ index.html [L,QSA]
+
+RewriteRule ^editor/([^/]+)/?$ editor.html?data=$1 [L,QSA]
