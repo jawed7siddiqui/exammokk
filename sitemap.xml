@@ -3,7 +3,7 @@
     
     <!-- 1. होम / लैंडिंग पेज (index.html को हटाकर रूट यूआरएल कर दिया गया है) -->
     <url>
-        <loc>https://www.kidspaint.com/</loc>
+        <loc>https://kidspaint.jawedsiddiqui.cloud/</loc>
         <lastmod>2026-07-28</lastmod>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
@@ -11,7 +11,7 @@
     
     <!-- 2. मुख्य डिजिटल पेंट एडिटर स्टूडियो -->
     <url>
-        <loc>https://www.kidspaint.com/paint.html</loc>
+        <loc>https://kidspaint.jawedsiddiqui.cloud/paint.html</loc>
         <lastmod>2026-07-28</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
