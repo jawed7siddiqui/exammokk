@@ -143,10 +143,15 @@
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         border-color: #4f46e5;
       }
+
+      /* SMOOTH ACTIVE BORDER FOR ACTIVE COLOR TARGET */
       .color-box.active {
-        outline: 3px solid #4f46e5;
-        outline-offset: 2px;
+        outline: none;
+        box-shadow:
+          0 0 0 2px #fff,
+          0 0 0 4px #4f46e5;
       }
+
       .no-scrollbar::-webkit-scrollbar {
         display: none;
       }
@@ -279,20 +284,24 @@
             <i data-lucide="redo-2" class="w-3.5 h-3.5"></i>
           </button>
           <div class="w-[1px] h-3 bg-slate-300 mx-0.5"></div>
+
+          <!-- FIXED MOBILE FRIENDLY EXPORT ENGINE BUTTON -->
           <button
             onclick="downloadPaint()"
-            class="bg-indigo-600 text-white px-2 py-1 rounded-lg text-[10px] font-black flex items-center gap-1 shadow hover:bg-indigo-700 transition-all active:scale-95"
+            class="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-black flex items-center justify-center gap-1 shadow hover:bg-indigo-700 transition-all active:scale-95 shrink-0 h-[28px]"
+            title="Export PNG"
           >
-            <i data-lucide="download" class="w-3 h-3"></i> <span>Export</span>
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">Export</span>
           </button>
         </div>
       </div>
 
-      <!-- Main Toolbar Container: Auto wrapping items for mobile first page load layout -->
+      <!-- Main Toolbar Container -->
       <div
         class="flex items-stretch justify-start md:justify-center gap-3 px-1 overflow-x-auto no-scrollbar pb-1 w-full"
       >
-        <!-- SECTION 1: TOOLS (Selection Re-added & Placed First) -->
+        <!-- SECTION 1: TOOLS -->
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
@@ -346,12 +355,12 @@
           <div class="tool-section-label">Tools</div>
         </div>
 
-        <!-- SECTION 2: BRUSHES -->
+        <!-- SECTION 2: BRUSHES (UPDATED TO PATTERN AND SPRAY) -->
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
           <div
-            class="flex items-center gap-1 max-w-[140px] md:max-w-[124px] flex-wrap min-h-[42px] md:min-h-[80px] content-center"
+            class="flex items-center gap-1 max-w-[185px] md:max-w-[124px] flex-wrap min-h-[42px] md:min-h-[80px] content-center"
           >
             <button
               id="tool-brush"
@@ -378,28 +387,20 @@
               <i data-lucide="feather" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
+              id="tool-pattern"
+              onclick="startDrawing('pattern')"
+              class="tool-btn-lg"
+              title="Pattern Brush"
+            >
+              <i data-lucide="layout-grid" class="w-5 h-5 md:w-4 md:h-4"></i>
+            </button>
+            <button
               id="tool-spray"
               onclick="startDrawing('spray')"
               class="tool-btn-lg"
-              title="Airbrush"
+              title="Spray Brush"
             >
               <i data-lucide="sparkles" class="w-5 h-5 md:w-4 md:h-4"></i>
-            </button>
-            <button
-              id="tool-crayon"
-              onclick="startDrawing('crayon')"
-              class="tool-btn-lg"
-              title="Crayon"
-            >
-              <i data-lucide="framer" class="w-5 h-5 md:w-4 md:h-4"></i>
-            </button>
-            <button
-              id="tool-marker"
-              onclick="startDrawing('marker')"
-              class="tool-btn-lg"
-              title="Marker Brush"
-            >
-              <i data-lucide="paint-brush" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
           </div>
           <div class="tool-section-label">Brushes</div>
@@ -409,41 +410,48 @@
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
-          <div class="flex items-center gap-1 min-h-[42px] md:min-h-[80px]">
-            <div
-              class="flex gap-0.5 bg-slate-50 p-0.5 rounded-xl border shrink-0"
-            >
+          <!-- SECTION 3: COLORS PALETTE -->
+          <div
+            class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
+          >
+            <div class="flex items-center gap-1 min-h-[42px] md:min-h-[80px]">
+              <!-- यहाँ बॉर्डर को ब्लैक से बदलकर सिल्वर (border-slate-200) कर दिया गया है -->
               <div
-                onclick="setActiveColorTarget('color1')"
-                id="box-color1"
-                class="color-box w-6 h-6 rounded bg-black cursor-pointer shadow active"
+                class="flex gap-1.5 bg-slate-50 p-0.5 rounded-xl border border-slate-200 shrink-0"
+              >
+                <div
+                  onclick="setActiveColorTarget('color1')"
+                  id="box-color1"
+                  class="color-box w-6 h-6 rounded bg-black cursor-pointer shadow active"
+                ></div>
+                <div
+                  onclick="setActiveColorTarget('color2')"
+                  id="box-color2"
+                  class="color-box w-6 h-6 rounded bg-white cursor-pointer shadow border border-slate-200"
+                ></div>
+              </div>
+              <div
+                id="palette-colors"
+                class="grid grid-cols-6 gap-0.5 w-[140px] md:w-[132px] shrink-0"
               ></div>
               <div
-                onclick="setActiveColorTarget('color2')"
-                id="box-color2"
-                class="color-box w-6 h-6 rounded bg-white cursor-pointer shadow border border-slate-200"
-              ></div>
+                class="relative w-6 h-6 rounded border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-sm cursor-pointer shrink-0"
+                title="Custom Picker"
+              >
+                <i
+                  data-lucide="pipette"
+                  class="w-3 text-slate-400 pointer-events-none"
+                ></i>
+                <input
+                  type="color"
+                  id="custom-color-picker"
+                  oninput="selectColor(this.value)"
+                  class="absolute inset-0 opacity-0 cursor-pointer"
+                  value="#000000"
+                />
+              </div>
             </div>
-            <div
-              id="palette-colors"
-              class="grid grid-cols-6 gap-0.5 w-[140px] md:w-[132px] shrink-0"
-            ></div>
-            <div
-              class="relative w-6 h-6 rounded border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-sm cursor-pointer shrink-0"
-              title="Custom Picker"
-            >
-              <i
-                data-lucide="pipette"
-                class="w-3 text-slate-400 pointer-events-none"
-              ></i>
-              <input
-                type="color"
-                id="custom-color-picker"
-                oninput="selectColor(this.value)"
-                class="absolute inset-0 opacity-0 cursor-pointer"
-                value="#000000"
-              />
-            </div>
+            <div class="tool-section-label pl-1 text-left">Colors</div>
           </div>
           <div class="tool-section-label pl-1 text-left">Colors</div>
         </div>
@@ -695,7 +703,7 @@
       </div>
     </main>
 
-    <!-- VIEW STATUS BAR (Fully visible and responsive on Mobile) -->
+    <!-- VIEW STATUS BAR -->
     <footer
       class="bg-white border-t border-slate-200 px-3 py-1.5 flex flex-row items-center justify-between gap-2 text-[11px] font-semibold text-slate-500 shadow-sm z-50 shrink-0"
     >
@@ -715,7 +723,6 @@
         </label>
       </div>
 
-      <!-- Compact Zoom Engine Layout for All Devices -->
       <div
         class="flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full border shadow-inner"
       >
@@ -940,6 +947,7 @@
         drop.classList.toggle("hidden");
       }
 
+      // Dropdowns mapping handler
       function hideShapesMenu() {
         document.getElementById("more-shapes-dropdown").classList.add("hidden");
       }
@@ -1011,7 +1019,6 @@
         if (dropdown) dropdown.value = activeSizeVal;
       }
 
-      // Context logic helpers
       function autoFitTextboxWidth(obj) {
         if (!obj) return;
         let measuredWidth = obj.dynamicMinWidth;
@@ -1221,15 +1228,9 @@
 
         if (activeMode === "text") sizesState.text = parsedSize;
         else if (
-          [
-            "pen",
-            "brush",
-            "calli1",
-            "calli2",
-            "spray",
-            "crayon",
-            "marker",
-          ].includes(activeMode)
+          ["pen", "brush", "calli1", "calli2", "pattern", "spray"].includes(
+            activeMode,
+          )
         ) {
           sizesState.brush = parsedSize;
           if (canvas.freeDrawingBrush)
@@ -1247,6 +1248,7 @@
         document.getElementById("image-resize-modal").classList.remove("flex");
       }
 
+      // Canvas properties mutations direct engine
       function modifyObjThicknessDirect(obj, sizeValue) {
         if (obj.type === "textbox") {
           obj.set("fontSize", sizeValue);
@@ -1317,15 +1319,9 @@
         if (dropdown) {
           if (mode === "text") dropdown.value = sizesState.text;
           else if (
-            [
-              "pen",
-              "brush",
-              "calli1",
-              "calli2",
-              "spray",
-              "crayon",
-              "marker",
-            ].includes(mode)
+            ["pen", "brush", "calli1", "calli2", "pattern", "spray"].includes(
+              mode,
+            )
           )
             dropdown.value = sizesState.brush;
           else if (mode !== "select" && mode !== "bucket" && mode !== "picker")
@@ -1345,9 +1341,8 @@
             "brush",
             "calli1",
             "calli2",
+            "pattern",
             "spray",
-            "crayon",
-            "marker",
             "eraser",
           ].includes(activeMode)
         )
@@ -1359,6 +1354,7 @@
         canvas.hoverCursor = cursor;
       }
 
+      /* UPDATED DRAWING ENGINE FOR PATTERN AND SPRAY BRUSHES */
       function startDrawing(type) {
         setMode(type);
         activeDrawType = type;
@@ -1374,14 +1370,13 @@
           sizesState.brush = 16;
         } else if (type === "spray") {
           brush = new fabric.SprayBrush(canvas);
-          brush.density = 45;
-          brush.dotWidth = 3.5;
-        } else if (type === "marker") {
+          brush.density = 35;
+          brush.dotWidth = 2.5;
+        } else if (type === "pattern") {
+          // Created a native checkered/dotted geometric structural stroke feel using dash layers
           brush = new fabric.PencilBrush(canvas);
-          brush.color = color1 + "44";
-        } else if (type === "crayon") {
-          brush = new fabric.PencilBrush(canvas);
-          brush.strokeDashArray = [3, 4];
+          brush.strokeDashArray = [4, 6];
+          brush.strokeLineCap = "round";
         } else if (type === "calli1") {
           brush = new fabric.PencilBrush(canvas);
           brush.strokeLineCap = "square";
@@ -1395,8 +1390,7 @@
           brush.color = "#ffffff";
         }
 
-        if (type !== "eraser")
-          brush.color = type === "marker" ? color1 + "44" : color1;
+        if (type !== "eraser") brush.color = color1;
         if (type !== "calli1" && type !== "calli2")
           brush.width = parseInt(sizesState.brush, 10);
 
@@ -1442,9 +1436,8 @@
             "brush",
             "calli1",
             "calli2",
+            "pattern",
             "spray",
-            "crayon",
-            "marker",
             "eraser",
           ].includes(activeMode)
         ) {
