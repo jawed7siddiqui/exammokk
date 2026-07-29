@@ -67,14 +67,14 @@
         display: block;
         flex-grow: 1;
         overflow: auto;
-        padding: 15px;
+        padding: 10px;
         background: #cbd5e1;
         position: relative;
         min-height: 0;
       }
       @media (min-width: 768px) {
         #editor-container {
-          padding: 60px;
+          padding: 40px;
         }
       }
       .canvas-holder {
@@ -108,7 +108,6 @@
         margin-top: 2px;
         letter-spacing: 0.05em;
       }
-      /* BIGGER & TOUCH FRIENDLY BUTTONS */
       .tool-btn-lg {
         padding: 0.5rem;
         border-radius: 0.75rem;
@@ -120,8 +119,8 @@
         justify-content: center;
         color: #334155;
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        width: 44px;
-        height: 44px;
+        width: 42px;
+        height: 42px;
         flex-shrink: 0;
       }
       @media (min-width: 768px) {
@@ -242,65 +241,75 @@
       <div
         class="flex items-center justify-between px-2 pb-1 border-b border-slate-100"
       >
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
           <!-- LOGO AND TEXT ALWAYS VISIBLE -->
-          <a href="/" class="flex items-center gap-1.5 no-underline">
+          <a href="/" class="flex items-center gap-1 no-underline">
             <i
               data-lucide="sparkles"
-              class="w-5 h-5 fill-current text-amber-400"
+              class="w-4 h-4 fill-current text-amber-400"
             ></i>
-            <span class="text-sm font-black text-indigo-600 tracking-wider"
+            <span class="text-xs font-black text-indigo-600 tracking-wider"
               >KIDS PAINT</span
             >
           </a>
           <button
             onclick="triggerNewCanvasModal()"
-            class="px-2.5 py-1 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg text-[10px] md:text-[11px] font-black flex items-center gap-1 shadow-sm transition-all active:scale-95"
+            class="px-2 py-0.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg text-[10px] font-black flex items-center gap-1 shadow-sm transition-all active:scale-95"
           >
-            <i data-lucide="file-plus-2" class="w-3.5 h-3.5"></i> New
+            <i data-lucide="file-plus-2" class="w-3 h-3"></i> New
           </button>
         </div>
 
         <!-- History Stack Controls -->
         <div
-          class="flex items-center gap-1 bg-slate-50 px-2 py-1 rounded-xl border border-slate-100 shadow-inner"
+          class="flex items-center gap-1 bg-slate-50 px-1.5 py-0.5 rounded-xl border border-slate-100 shadow-inner"
         >
           <button
             onclick="undo()"
             class="p-1 text-slate-600 hover:bg-white hover:shadow-sm rounded-md transition-all"
             title="Undo (Ctrl+Z)"
           >
-            <i data-lucide="undo-2" class="w-4 h-4"></i>
+            <i data-lucide="undo-2" class="w-3.5 h-3.5"></i>
           </button>
           <button
             onclick="redo()"
             class="p-1 text-slate-600 hover:bg-white hover:shadow-sm rounded-md transition-all"
             title="Redo (Ctrl+Y)"
           >
-            <i data-lucide="redo-2" class="w-4 h-4"></i>
+            <i data-lucide="redo-2" class="w-3.5 h-3.5"></i>
           </button>
-          <div class="w-[1px] h-4 bg-slate-300 mx-0.5"></div>
+          <div class="w-[1px] h-3 bg-slate-300 mx-0.5"></div>
           <button
             onclick="downloadPaint()"
-            class="bg-indigo-600 text-white px-2.5 md:px-4 py-1.5 rounded-lg text-[10px] md:text-[11px] font-black flex items-center gap-1 shadow hover:bg-indigo-700 transition-all active:scale-95"
+            class="bg-indigo-600 text-white px-2 py-1 rounded-lg text-[10px] font-black flex items-center gap-1 shadow hover:bg-indigo-700 transition-all active:scale-95"
           >
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>Export</span>
+            <i data-lucide="download" class="w-3 h-3"></i> <span>Export</span>
           </button>
         </div>
       </div>
 
-      <!-- Main Toolbar Container: Re-ordered for Mobile Prioritization -->
+      <!-- Main Toolbar Container: Auto wrapping items for mobile first page load layout -->
       <div
-        class="flex items-stretch justify-start md:justify-center gap-4 px-1 overflow-x-auto no-scrollbar pb-1 w-full snap-x snap-mandatory"
+        class="flex items-stretch justify-start md:justify-center gap-3 px-1 overflow-x-auto no-scrollbar pb-1 w-full"
       >
-        <!-- SECTION 1: TOOLS (Priority 1) -->
+        <!-- SECTION 1: TOOLS (Selection Re-added & Placed First) -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-start"
+          class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
           <div
-            class="flex items-center gap-1 max-w-[100px] md:max-w-[82px] flex-wrap min-h-[44px] md:min-h-[80px] content-center"
+            class="flex items-center gap-1 max-w-[140px] md:max-w-[125px] flex-wrap min-h-[42px] md:min-h-[80px] content-center"
           >
+            <button
+              id="tool-select"
+              onclick="setMode('select')"
+              class="tool-btn-lg active"
+              title="Select (Esc)"
+            >
+              <i
+                data-lucide="mouse-pointer"
+                class="w-5 h-5 md:w-[18px] md:h-[18px]"
+              ></i>
+            </button>
             <button
               id="tool-pen"
               onclick="startDrawing('pen')"
@@ -337,12 +346,12 @@
           <div class="tool-section-label">Tools</div>
         </div>
 
-        <!-- SECTION 2: BRUSHES (Priority 2) -->
+        <!-- SECTION 2: BRUSHES -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-start"
+          class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
           <div
-            class="flex items-center gap-1 max-w-[150px] md:max-w-[124px] flex-wrap min-h-[44px] md:min-h-[80px] content-center"
+            class="flex items-center gap-1 max-w-[140px] md:max-w-[124px] flex-wrap min-h-[42px] md:min-h-[80px] content-center"
           >
             <button
               id="tool-brush"
@@ -396,36 +405,36 @@
           <div class="tool-section-label">Brushes</div>
         </div>
 
-        <!-- SECTION 3: COLORS PALETTE (Priority 3) -->
+        <!-- SECTION 3: COLORS PALETTE -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-start"
+          class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
-          <div class="flex items-center gap-1.5 min-h-[44px] md:min-h-[80px]">
+          <div class="flex items-center gap-1 min-h-[42px] md:min-h-[80px]">
             <div
-              class="flex gap-0.5 bg-slate-50 p-1 rounded-xl border shrink-0"
+              class="flex gap-0.5 bg-slate-50 p-0.5 rounded-xl border shrink-0"
             >
               <div
                 onclick="setActiveColorTarget('color1')"
                 id="box-color1"
-                class="color-box w-7 h-7 md:w-6 md:h-6 rounded-md bg-black cursor-pointer shadow active"
+                class="color-box w-6 h-6 rounded bg-black cursor-pointer shadow active"
               ></div>
               <div
                 onclick="setActiveColorTarget('color2')"
                 id="box-color2"
-                class="color-box w-7 h-7 md:w-6 md:h-6 rounded-md bg-white cursor-pointer shadow border border-slate-200"
+                class="color-box w-6 h-6 rounded bg-white cursor-pointer shadow border border-slate-200"
               ></div>
             </div>
             <div
               id="palette-colors"
-              class="grid grid-cols-6 gap-1 w-[150px] md:w-[132px] shrink-0"
+              class="grid grid-cols-6 gap-0.5 w-[140px] md:w-[132px] shrink-0"
             ></div>
             <div
-              class="relative w-7 h-7 md:w-6 md:h-6 rounded-md border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-sm cursor-pointer shrink-0"
+              class="relative w-6 h-6 rounded border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-sm cursor-pointer shrink-0"
               title="Custom Picker"
             >
               <i
                 data-lucide="pipette"
-                class="w-3.5 text-slate-400 pointer-events-none"
+                class="w-3 text-slate-400 pointer-events-none"
               ></i>
               <input
                 type="color"
@@ -441,16 +450,15 @@
 
         <!-- SECTION 4: SHAPES -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-start"
+          class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
           <div
-            class="flex items-center gap-1 max-w-[160px] flex-wrap min-h-[44px] md:min-h-[80px] content-center"
+            class="flex items-center gap-1 max-w-[140px] flex-wrap min-h-[42px] md:min-h-[80px] content-center"
           >
             <button
               id="shape-line"
               onclick="setShapeMode('line')"
               class="tool-btn-lg"
-              title="Line"
             >
               <i data-lucide="minus" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
@@ -458,7 +466,6 @@
               id="shape-curve"
               onclick="setShapeMode('curve')"
               class="tool-btn-lg"
-              title="Curve Line"
             >
               <i data-lucide="spline" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
@@ -466,7 +473,6 @@
               id="shape-rect"
               onclick="setShapeMode('rect')"
               class="tool-btn-lg"
-              title="Rectangle"
             >
               <i data-lucide="square" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
@@ -474,7 +480,6 @@
               id="shape-roundrect"
               onclick="setShapeMode('roundrect')"
               class="tool-btn-lg"
-              title="Rounded Rectangle"
             >
               <i
                 data-lucide="square-dashed-bottom-code"
@@ -485,7 +490,6 @@
               id="shape-circle"
               onclick="setShapeMode('circle')"
               class="tool-btn-lg"
-              title="Circle"
             >
               <i data-lucide="circle" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
@@ -493,7 +497,6 @@
               id="shape-triangle"
               onclick="setShapeMode('triangle')"
               class="tool-btn-lg"
-              title="Triangle"
             >
               <i data-lucide="triangle" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
@@ -502,7 +505,6 @@
                 id="shapes-toggle-btn"
                 onclick="toggleMoreShapesMenu(event)"
                 class="tool-btn-lg bg-indigo-50 text-indigo-600 border-indigo-200 font-bold"
-                title="More Shapes"
               >
                 <i data-lucide="chevron-down" class="w-5 h-5 md:w-4 md:h-4"></i>
               </button>
@@ -516,7 +518,6 @@
                     hideShapesMenu();
                   "
                   class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
-                  title="Diamond"
                 >
                   <i data-lucide="gem" class="w-4 h-4"></i>
                 </button>
@@ -526,7 +527,6 @@
                     hideShapesMenu();
                   "
                   class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
-                  title="Pentagon"
                 >
                   <i data-lucide="pentagon" class="w-4 h-4"></i>
                 </button>
@@ -536,7 +536,6 @@
                     hideShapesMenu();
                   "
                   class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
-                  title="Star"
                 >
                   <i data-lucide="star" class="w-4 h-4"></i>
                 </button>
@@ -546,7 +545,6 @@
                     hideShapesMenu();
                   "
                   class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
-                  title="Arrow"
                 >
                   <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </button>
@@ -556,7 +554,6 @@
                     hideShapesMenu();
                   "
                   class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
-                  title="Heart"
                 >
                   <i data-lucide="heart" class="w-4 h-4"></i>
                 </button>
@@ -566,7 +563,6 @@
                     hideShapesMenu();
                   "
                   class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
-                  title="Lightning"
                 >
                   <i data-lucide="zap" class="w-4 h-4"></i>
                 </button>
@@ -578,15 +574,15 @@
 
         <!-- SECTION 5: FORMATTING -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-start"
+          class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
           <div
-            class="flex flex-col justify-center gap-1.5 w-[140px] md:w-[160px] min-h-[44px] md:min-h-[80px]"
+            class="flex flex-col justify-center gap-1 w-[130px] md:w-[160px] min-h-[42px] md:min-h-[80px]"
           >
             <select
               id="brush-size-select"
               onchange="updateBrushSize(this.value)"
-              class="w-full text-[11px] font-black p-1 border border-slate-200 rounded-xl bg-slate-50 outline-none text-indigo-600"
+              class="w-full text-[11px] font-black p-0.5 border border-slate-200 rounded-xl bg-slate-50 outline-none text-indigo-600"
             >
               <option value="2">2 px</option>
               <option value="4">4 px</option>
@@ -598,16 +594,12 @@
               <option value="20">20 px</option>
               <option value="28">28 px</option>
               <option value="36">36 px</option>
-              <option value="40">40 px</option>
-              <option value="48">48 px</option>
-              <option value="60">60 px</option>
-              <option value="72">72 px</option>
             </select>
-            <div class="grid grid-cols-2 gap-1 w-full">
+            <div class="grid grid-cols-2 gap-0.5 w-full">
               <select
                 id="shape-outline-style"
                 onchange="applyLineStyleChange(this.value)"
-                class="text-[9px] font-bold p-1 border rounded-xl bg-slate-50 outline-none"
+                class="text-[9px] font-bold p-0.5 border rounded-xl bg-slate-50 outline-none"
               >
                 <option value="solid">─────</option>
                 <option value="dashed">-- --</option>
@@ -616,7 +608,7 @@
               <select
                 id="shape-fill-style"
                 onchange="applyFillStyleChange(this.value)"
-                class="text-[9px] font-bold p-1 border rounded-xl bg-slate-50 outline-none"
+                class="text-[9px] font-bold p-0.5 border rounded-xl bg-slate-50 outline-none"
               >
                 <option value="transparent">Outline</option>
                 <option value="solid">Fill</option>
@@ -628,9 +620,9 @@
 
         <!-- SECTION 6: CLIPBOARD -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-start"
+          class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
-          <div class="flex items-center gap-1 min-h-[44px] md:min-h-[80px]">
+          <div class="flex items-center gap-1 min-h-[42px] md:min-h-[80px]">
             <button onclick="cutSelected()" class="tool-btn-lg bg-slate-50">
               <i data-lucide="scissors" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
@@ -654,9 +646,9 @@
         </div>
 
         <!-- SECTION 7: IMAGE TOOLS -->
-        <div class="flex flex-col justify-between pr-2 shrink-0 snap-start">
+        <div class="flex flex-col justify-between pr-1 shrink-0">
           <div
-            class="flex items-center gap-1 max-w-[150px] md:max-w-[84px] flex-wrap min-h-[44px] md:min-h-[80px] content-center"
+            class="flex items-center gap-1 max-w-[140px] md:max-w-[84px] flex-wrap min-h-[42px] md:min-h-[80px] content-center"
           >
             <button onclick="rotateImage(90)" class="tool-btn-lg">
               <i data-lucide="rotate-cw" class="w-5 h-5 md:w-4 md:h-4"></i>
@@ -676,7 +668,7 @@
             <button onclick="triggerResizeModal()" class="tool-btn-lg">
               <i data-lucide="maximize-2" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
-            <div class="relative w-[44px] h-[44px] md:w-[38px] md:h-[38px]">
+            <div class="relative w-[42px] h-[42px] md:w-[38px] md:h-[38px]">
               <button
                 class="tool-btn-lg bg-indigo-50 border-indigo-200 text-indigo-600 flex items-center justify-center w-full h-full"
               >
@@ -703,31 +695,32 @@
       </div>
     </main>
 
-    <!-- VIEW STATUS BAR -->
+    <!-- VIEW STATUS BAR (Fully visible and responsive on Mobile) -->
     <footer
-      class="bg-white border-t border-slate-200 px-3 py-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-semibold text-slate-500 shadow-sm z-50 shrink-0"
+      class="bg-white border-t border-slate-200 px-3 py-1.5 flex flex-row items-center justify-between gap-2 text-[11px] font-semibold text-slate-500 shadow-sm z-50 shrink-0"
     >
-      <div class="flex items-center justify-between w-full sm:w-auto gap-4">
-        <span id="canvas-resolution-status" class="flex items-center gap-1"
-          ><i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> 1152 × 648
-          px</span
+      <div class="flex items-center gap-2">
+        <span id="canvas-resolution-status" class="flex items-center gap-0.5"
+          ><i data-lucide="maximize-2" class="w-3 h-3"></i> 1152×648</span
         >
-        <label class="flex items-center gap-1 cursor-pointer">
+        <span class="w-[1px] h-3 bg-slate-300"></span>
+        <label class="flex items-center gap-0.5 cursor-pointer">
           <input
             type="checkbox"
             id="view-gridlines"
             onchange="toggleGridlines(this.checked)"
-            class="rounded text-indigo-600 focus:ring-0 w-3.5 h-3.5"
+            class="rounded text-indigo-600 focus:ring-0 w-3 h-3"
           />
-          Gridlines
+          Grid
         </label>
       </div>
 
+      <!-- Compact Zoom Engine Layout for All Devices -->
       <div
-        class="flex items-center justify-center gap-2 bg-slate-50 px-3 py-1 rounded-full border shadow-inner w-full sm:w-auto"
+        class="flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full border shadow-inner"
       >
-        <button onclick="changeZoom(-0.1)" class="p-1 hover:text-indigo-600">
-          <i data-lucide="zoom-out" class="w-3.5 h-3.5"></i>
+        <button onclick="changeZoom(-0.1)" class="p-0.5 hover:text-indigo-600">
+          <i data-lucide="zoom-out" class="w-3 h-3"></i>
         </button>
         <input
           type="range"
@@ -736,27 +729,21 @@
           max="200"
           value="100"
           oninput="handleZoomSlider(this.value)"
-          class="w-20 md:w-24 h-1 bg-slate-200 appearance-none rounded-lg accent-indigo-600"
+          class="w-14 sm:w-20 h-1 bg-slate-200 appearance-none rounded-lg accent-indigo-600"
         />
         <span
           id="zoom-text"
-          class="text-xs font-black text-slate-700 w-10 text-center"
+          class="text-[10px] font-black text-slate-700 w-8 text-center"
           >100%</span
         >
-        <button onclick="changeZoom(0.1)" class="p-1 hover:text-indigo-600">
-          <i data-lucide="zoom-in" class="w-3.5 h-3.5"></i>
+        <button onclick="changeZoom(0.1)" class="p-0.5 hover:text-indigo-600">
+          <i data-lucide="zoom-in" class="w-3 h-3"></i>
         </button>
         <button
           onclick="resetZoomToFit()"
-          class="px-1.5 py-0.5 bg-white border rounded-md text-[9px] font-black text-slate-600"
+          class="px-1 bg-white border rounded text-[9px] font-black text-slate-600"
         >
           Fit
-        </button>
-        <button
-          onclick="applyZoomLevelDirect(1.0)"
-          class="px-1.5 py-0.5 bg-white border rounded-md text-[9px] font-black text-slate-600"
-        >
-          100%
         </button>
       </div>
     </footer>
@@ -929,7 +916,7 @@
         paletteContainer.innerHTML = paintPalette
           .map(
             (color) =>
-              `<div onclick="selectColor('${color}')" class="w-6 h-6 rounded border border-slate-300 shadow-sm cursor-pointer hover:scale-110 transition-transform shrink-0" style="background: ${color}"></div>`,
+              `<div onclick="selectColor('${color}')" class="w-5 h-5 rounded border border-slate-300 shadow-sm cursor-pointer hover:scale-110 transition-transform shrink-0" style="background: ${color}"></div>`,
           )
           .join("");
 
@@ -964,7 +951,7 @@
         zoomLevel = 1.0;
 
         document.getElementById("canvas-resolution-status").innerHTML =
-          `<i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> ${w} × ${h} px`;
+          `<i data-lucide="maximize-2" class="w-3 h-3"></i> ${w}×${h}`;
         const wrapper = document.getElementById("canvas-wrapper");
         wrapper.style.width = w + "px";
         wrapper.style.height = h + "px";
@@ -1024,6 +1011,7 @@
         if (dropdown) dropdown.value = activeSizeVal;
       }
 
+      // Context logic helpers
       function autoFitTextboxWidth(obj) {
         if (!obj) return;
         let measuredWidth = obj.dynamicMinWidth;
@@ -1675,8 +1663,8 @@
 
       function resetZoomToFit() {
         const container = document.getElementById("editor-container");
-        const scaleX = (container.clientWidth - 40) / PAGE_WIDTH;
-        const scaleY = (container.clientHeight - 40) / PAGE_HEIGHT;
+        const scaleX = (container.clientWidth - 20) / PAGE_WIDTH;
+        const scaleY = (container.clientHeight - 20) / PAGE_HEIGHT;
         zoomLevel = Math.min(scaleX, scaleY, 1.0);
         applyZoomLevel();
       }
