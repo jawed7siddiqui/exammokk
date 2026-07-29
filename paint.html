@@ -50,7 +50,7 @@
     />
     <meta name="twitter:image" content="/images/seo-banner.png" />
 
-    <script src="/js/tailwindcss_3_4.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="/js/lucide.min.js"></script>
     <script src="/js/fabric.min.js"></script>
     <link rel="stylesheet" href="/fonts/fonts.css" />
@@ -67,10 +67,15 @@
         display: block;
         flex-grow: 1;
         overflow: auto;
-        padding: 60px;
+        padding: 20px;
         background: #cbd5e1;
         position: relative;
         min-height: 0;
+      }
+      @media (min-width: 768px) {
+        #editor-container {
+          padding: 60px;
+        }
       }
       .canvas-holder {
         display: table;
@@ -95,7 +100,7 @@
         border-radius: 16px;
       }
       .tool-section-label {
-        font-size: 10px;
+        font-size: 9px;
         font-weight: 800;
         text-transform: uppercase;
         color: #64748b;
@@ -103,11 +108,45 @@
         margin-top: 4px;
         letter-spacing: 0.05em;
       }
+      /* BIGGER & TOUCH FRIENDLY BUTTONS FOR MOBILE */
       .tool-btn-lg {
-        @apply p-2 rounded-xl border border-slate-200 bg-white hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-all active:scale-90 flex items-center justify-center text-slate-700 shadow-sm w-[38px] h-[38px] shrink-0;
+        padding: 0.5rem;
+        border-radius: 0.75rem;
+        border: 1px solid #e2e8f0;
+        background-color: #ffffff;
+        transition: all 0.2s;
+        display: flex;
+        items-center: center;
+        justify-content: center;
+        color: #334155;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        width: 46px;
+        height: 46px;
+        flex-shrink: 0;
+      }
+      @media (min-width: 768px) {
+        .tool-btn-lg {
+          width: 38px;
+          height: 38px;
+        }
+      }
+      .tool-btn-lg:hover {
+        background-color: #f5f3ff;
+        color: #4f46e5;
+        border-color: #ddd6fe;
+      }
+      .tool-btn-lg:active {
+        transform: scale(0.9);
       }
       .tool-btn-lg.active {
-        @apply bg-indigo-600 text-white shadow-md border-indigo-600 hover:bg-indigo-700 hover:text-white;
+        background-color: #4f46e5;
+        color: #ffffff;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border-color: #4f46e5;
+      }
+      .tool-btn-lg.active:hover {
+        background-color: #4338ca;
+        color: #ffffff;
       }
       .color-box.active {
         outline: 3px solid #4f46e5;
@@ -211,23 +250,23 @@
       <div
         class="flex items-center justify-between px-2 pb-1 border-b border-slate-100"
       >
-        <div class="flex items-center gap-4">
-          <a href="/"
-            ><span
-              class="text-xs font-black text-indigo-600 tracking-wider flex items-center gap-1.5"
+        <div class="flex items-center gap-2 md:gap-4">
+          <a href="/">
+            <span
+              class="text-xs font-black text-indigo-600 tracking-wider flex items-center gap-1"
             >
               <i
                 data-lucide="sparkles"
                 class="w-4 h-4 fill-current text-amber-400"
               ></i>
-              KIDS PAINT
+              <span class="hidden xs:inline">KIDS PAINT</span>
             </span>
           </a>
           <button
             onclick="triggerNewCanvasModal()"
-            class="px-3 py-1 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg text-[11px] font-black flex items-center gap-1 shadow-sm transition-all active:scale-95"
+            class="px-2.5 py-1 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg text-[10px] md:text-[11px] font-black flex items-center gap-1 shadow-sm transition-all active:scale-95"
           >
-            <i data-lucide="file-plus-2" class="w-3.5 h-3.5"></i> New File
+            <i data-lucide="file-plus-2" class="w-3.5 h-3.5"></i> New
           </button>
         </div>
 
@@ -249,54 +288,54 @@
           >
             <i data-lucide="redo-2" class="w-4 h-4"></i>
           </button>
-          <div class="w-[1px] h-4 bg-slate-300 mx-1"></div>
+          <div class="w-[1px] h-4 bg-slate-300 mx-0.5"></div>
           <button
             onclick="downloadPaint()"
-            class="bg-indigo-600 text-white px-4 py-1.5 rounded-lg text-[11px] font-black flex items-center gap-1 shadow hover:bg-indigo-700 transition-all active:scale-95"
+            class="bg-indigo-600 text-white px-2.5 md:px-4 py-1.5 rounded-lg text-[10px] md:text-[11px] font-black flex items-center gap-1 shadow hover:bg-indigo-700 transition-all active:scale-95"
           >
-            <i data-lucide="download" class="w-3.5 h-3.5"></i> Export PNG
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Export PNG</span
+            ><span class="sm:hidden">Export</span>
           </button>
         </div>
       </div>
 
-      <!-- Horizontal Ribbon Grid Area -->
+      <!-- Horizontal Ribbon Grid Area - Completely Responsive Flexbox -->
       <div
-        class="flex items-stretch justify-center gap-4 px-2 overflow-x-auto no-scrollbar pb-1 w-full"
+        class="flex items-stretch justify-start md:justify-center gap-3 px-1 overflow-x-auto no-scrollbar pb-1 w-full snap-x snap-mandatory"
       >
         <!-- Section 1: Clipboard -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-center"
         >
-          <div
-            class="flex items-center justify-center gap-1 w-[168px] h-[80px]"
-          >
+          <div class="flex items-center gap-1 min-h-[48px] md:min-h-[80px]">
             <button
               onclick="cutSelected()"
               class="tool-btn-lg bg-slate-50"
               title="Cut (Ctrl+X)"
             >
-              <i data-lucide="scissors" class="w-4 h-4"></i>
+              <i data-lucide="scissors" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               onclick="copySelected()"
               class="tool-btn-lg bg-slate-50"
               title="Copy (Ctrl+C)"
             >
-              <i data-lucide="copy" class="w-4 h-4"></i>
+              <i data-lucide="copy" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               onclick="deleteSelected()"
               class="tool-btn-lg text-red-500 hover:bg-red-50 border-red-100"
               title="Delete"
             >
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
+              <i data-lucide="trash-2" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               onclick="pasteSelected()"
               class="tool-btn-lg bg-emerald-50 text-emerald-600 border-emerald-200"
               title="Paste (Ctrl+V)"
             >
-              <i data-lucide="clipboard" class="w-4.5 h-4.5"></i>
+              <i data-lucide="clipboard" class="w-5 h-5 md:w-4.5 md:h-4.5"></i>
             </button>
           </div>
           <div class="tool-section-label">Clipboard</div>
@@ -304,16 +343,19 @@
 
         <!-- Section 2: Selection -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-center"
         >
-          <div class="flex items-center justify-center w-[40px] h-[80px]">
+          <div class="flex items-center min-h-[48px] md:min-h-[80px]">
             <button
               id="tool-select"
               onclick="setMode('select')"
-              class="tool-btn-lg active h-[38px] w-[38px]"
+              class="tool-btn-lg active"
               title="Select (Esc)"
             >
-              <i data-lucide="mouse-pointer" class="w-[18px] h-[18px]"></i>
+              <i
+                data-lucide="mouse-pointer"
+                class="w-5 h-5 md:w-[18px] md:h-[18px]"
+              ></i>
             </button>
           </div>
           <div class="tool-section-label">Select</div>
@@ -321,54 +363,56 @@
 
         <!-- Section 3: Image Tools -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-center"
         >
-          <div class="flex flex-wrap gap-1 w-[84px] h-[80px] content-start">
+          <div
+            class="flex items-center gap-1 max-w-[150px] md:max-w-[84px] flex-wrap min-h-[48px] md:min-h-[80px] content-center"
+          >
             <button
               onclick="rotateImage(90)"
               class="tool-btn-lg"
               title="Rotate 90° Right"
             >
-              <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+              <i data-lucide="rotate-cw" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               onclick="rotateImage(-90)"
               class="tool-btn-lg"
               title="Rotate 90° Left"
             >
-              <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+              <i data-lucide="rotate-ccw" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               onclick="flipImage('X')"
               class="tool-btn-lg"
               title="Flip Horizontal"
             >
-              <i data-lucide="flip-horizontal" class="w-4 h-4"></i>
+              <i
+                data-lucide="flip-horizontal"
+                class="w-5 h-5 md:w-4 md:h-4"
+              ></i>
             </button>
             <button
               onclick="flipImage('Y')"
               class="tool-btn-lg"
               title="Flip Vertical"
             >
-              <i data-lucide="flip-vertical" class="w-4 h-4"></i>
+              <i data-lucide="flip-vertical" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               onclick="triggerResizeModal()"
               class="tool-btn-lg"
               title="Resize Dimensions"
             >
-              <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              <i data-lucide="maximize-2" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
-
-            <!-- Cleaned: Only Image Plus Icon shown inside a w-[38px] h-[38px] standard box -->
-            <div class="relative w-[38px] h-[38px]">
+            <div class="relative w-[46px] h-[46px] md:w-[38px] md:h-[38px]">
               <button
                 class="tool-btn-lg bg-indigo-50 border-indigo-200 text-indigo-600 hover:bg-indigo-100 flex items-center justify-center w-full h-full"
                 title="Upload Image"
               >
-                <i data-lucide="image-plus" class="w-4 h-4"></i>
+                <i data-lucide="image-plus" class="w-5 h-5 md:w-4 md:h-4"></i>
               </button>
-              <!-- यहाँ 'ss' को हटाकर परफेक्ट 'class' और कर्सर पॉइंटर सेट कर दिया गया है -->
               <input
                 type="file"
                 id="image-loader"
@@ -383,16 +427,18 @@
 
         <!-- Section 4: Tools -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-center"
         >
-          <div class="flex flex-wrap gap-1 w-[82px] h-[80px] content-start">
+          <div
+            class="flex items-center gap-1 max-w-[100px] md:max-w-[82px] flex-wrap min-h-[48px] md:min-h-[80px] content-center"
+          >
             <button
               id="tool-pen"
               onclick="startDrawing('pen')"
               class="tool-btn-lg"
               title="Pencil"
             >
-              <i data-lucide="pencil" class="w-4 h-4"></i>
+              <i data-lucide="pencil" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               id="tool-bucket"
@@ -400,7 +446,7 @@
               class="tool-btn-lg"
               title="Paint Bucket"
             >
-              <i data-lucide="paint-bucket" class="w-4 h-4"></i>
+              <i data-lucide="paint-bucket" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               id="tool-text"
@@ -408,7 +454,7 @@
               class="tool-btn-lg"
               title="Add Text"
             >
-              <i data-lucide="type" class="w-4 h-4"></i>
+              <i data-lucide="type" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               id="tool-eraser"
@@ -416,7 +462,7 @@
               class="tool-btn-lg"
               title="Eraser"
             >
-              <i data-lucide="eraser" class="w-4 h-4"></i>
+              <i data-lucide="eraser" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
           </div>
           <div class="tool-section-label">Tools</div>
@@ -424,16 +470,18 @@
 
         <!-- Section 5: Brushes -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-center"
         >
-          <div class="flex flex-wrap gap-1 w-[124px] h-[80px] content-start">
+          <div
+            class="flex items-center gap-1 max-w-[150px] md:max-w-[124px] flex-wrap min-h-[48px] md:min-h-[80px] content-center"
+          >
             <button
               id="tool-brush"
               onclick="startDrawing('brush')"
               class="tool-btn-lg"
               title="Standard Brush"
             >
-              <i data-lucide="brush" class="w-4 h-4"></i>
+              <i data-lucide="brush" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               id="tool-calli1"
@@ -441,7 +489,7 @@
               class="tool-btn-lg"
               title="Calligraphy 1"
             >
-              <i data-lucide="pen-tool" class="w-4 h-4"></i>
+              <i data-lucide="pen-tool" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               id="tool-calli2"
@@ -449,7 +497,7 @@
               class="tool-btn-lg"
               title="Calligraphy 2"
             >
-              <i data-lucide="feather" class="w-4 h-4"></i>
+              <i data-lucide="feather" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               id="tool-spray"
@@ -457,7 +505,7 @@
               class="tool-btn-lg"
               title="Airbrush"
             >
-              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              <i data-lucide="sparkles" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               id="tool-crayon"
@@ -465,7 +513,7 @@
               class="tool-btn-lg"
               title="Crayon"
             >
-              <i data-lucide="framer" class="w-4 h-4"></i>
+              <i data-lucide="framer" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               id="tool-marker"
@@ -473,7 +521,7 @@
               class="tool-btn-lg"
               title="Marker Brush"
             >
-              <i data-lucide="paint-brush" class="w-4 h-4"></i>
+              <i data-lucide="paint-brush" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
           </div>
           <div class="tool-section-label">Brushes</div>
@@ -481,16 +529,18 @@
 
         <!-- Section 6: Shapes -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-center"
         >
-          <div class="flex flex-wrap gap-1 w-[160px] h-[80px] content-start">
+          <div
+            class="flex items-center gap-1 max-w-[160px] flex-wrap min-h-[48px] md:min-h-[80px] content-center"
+          >
             <button
               id="shape-line"
               onclick="setShapeMode('line')"
               class="tool-btn-lg"
               title="Line"
             >
-              <i data-lucide="minus" class="w-4 h-4"></i>
+              <i data-lucide="minus" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               id="shape-curve"
@@ -498,7 +548,7 @@
               class="tool-btn-lg"
               title="Curve Line"
             >
-              <i data-lucide="spline" class="w-4 h-4"></i>
+              <i data-lucide="spline" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               id="shape-rect"
@@ -506,7 +556,7 @@
               class="tool-btn-lg"
               title="Rectangle"
             >
-              <i data-lucide="square" class="w-4 h-4"></i>
+              <i data-lucide="square" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               id="shape-roundrect"
@@ -514,7 +564,10 @@
               class="tool-btn-lg"
               title="Rounded Rectangle"
             >
-              <i data-lucide="square-dashed-bottom-code" class="w-4 h-4"></i>
+              <i
+                data-lucide="square-dashed-bottom-code"
+                class="w-5 h-5 md:w-4 md:h-4"
+              ></i>
             </button>
             <button
               id="shape-circle"
@@ -522,7 +575,7 @@
               class="tool-btn-lg"
               title="Circle"
             >
-              <i data-lucide="circle" class="w-4 h-4"></i>
+              <i data-lucide="circle" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
             <button
               id="shape-triangle"
@@ -530,17 +583,17 @@
               class="tool-btn-lg"
               title="Triangle"
             >
-              <i data-lucide="triangle" class="w-4 h-4"></i>
+              <i data-lucide="triangle" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
 
             <div>
               <button
                 id="shapes-toggle-btn"
                 onclick="toggleMoreShapesMenu(event)"
-                class="tool-btn-lg bg-indigo-50 text-indigo-600 border-indigo-200 font-bold"
+                class="tool-btn-lg bg-indigo-50 text-indigo-600 border-indigo-200 font-bold animate-pulse"
                 title="More Shapes"
               >
-                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                <i data-lucide="chevron-down" class="w-5 h-5 md:w-4 md:h-4"></i>
               </button>
               <div
                 id="more-shapes-dropdown"
@@ -614,14 +667,16 @@
 
         <!-- Section 7: Formatting -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0"
+          class="flex flex-col justify-between border-r border-slate-200 pr-3 shrink-0 snap-center"
         >
-          <div class="flex flex-col justify-between w-[160px] h-[80px]">
+          <div
+            class="flex flex-col justify-center gap-1.5 w-[140px] md:w-[160px] min-h-[48px] md:min-h-[80px]"
+          >
             <div class="w-full">
               <select
                 id="brush-size-select"
                 onchange="updateBrushSize(this.value)"
-                class="w-full text-xs font-black p-1.5 border border-slate-200 rounded-xl bg-slate-50 outline-none text-indigo-600"
+                class="w-full text-[11px] md:text-xs font-black p-1 md:p-1.5 border border-slate-200 rounded-xl bg-slate-50 outline-none text-indigo-600"
               >
                 <option value="2">2 px</option>
                 <option value="4">4 px</option>
@@ -647,7 +702,7 @@
               <select
                 id="shape-outline-style"
                 onchange="applyLineStyleChange(this.value)"
-                class="text-[10px] font-bold p-1 border rounded-xl bg-slate-50 outline-none"
+                class="text-[9px] md:text-[10px] font-bold p-1 border rounded-xl bg-slate-50 outline-none"
               >
                 <option value="solid">─────</option>
                 <option value="dashed">-- -- --</option>
@@ -657,7 +712,7 @@
               <select
                 id="shape-fill-style"
                 onchange="applyFillStyleChange(this.value)"
-                class="text-[10px] font-bold p-1 border rounded-xl bg-slate-50 outline-none"
+                class="text-[9px] md:text-[10px] font-bold p-1 border rounded-xl bg-slate-50 outline-none"
               >
                 <option value="transparent">Outline</option>
                 <option value="solid">Fill</option>
@@ -668,33 +723,35 @@
         </div>
 
         <!-- Section 8: Colors Palette -->
-        <div class="flex flex-col justify-between shrink-0 w-[240px]">
-          <div class="flex items-center gap-2 h-[80px] content-start">
-            <div class="flex gap-1 shrink-0 bg-slate-50 p-1 rounded-xl border">
+        <div class="flex flex-col justify-between shrink-0 snap-center">
+          <div class="flex items-center gap-1.5 min-h-[48px] md:min-h-[80px]">
+            <div
+              class="flex gap-0.5 bg-slate-50 p-1 rounded-xl border shrink-0"
+            >
               <div
                 onclick="setActiveColorTarget('color1')"
                 id="box-color1"
-                class="color-box w-6 h-6 rounded-md bg-black cursor-pointer shadow active"
+                class="color-box w-7 h-7 md:w-6 md:h-6 rounded-md bg-black cursor-pointer shadow active"
               ></div>
               <div
                 onclick="setActiveColorTarget('color2')"
                 id="box-color2"
-                class="color-box w-6 h-6 rounded-md bg-white cursor-pointer shadow border border-slate-200"
+                class="color-box w-7 h-7 md:w-6 md:h-6 rounded-md bg-white cursor-pointer shadow border border-slate-200"
               ></div>
             </div>
 
             <div
               id="palette-colors"
-              class="grid grid-cols-6 gap-1 w-[132px] shrink-0"
+              class="grid grid-cols-6 gap-1 w-[150px] md:w-[132px] shrink-0"
             ></div>
 
             <div
-              class="relative w-6 h-6 rounded-md border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-sm cursor-pointer shrink-0"
+              class="relative w-7 h-7 md:w-6 md:h-6 rounded-md border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-sm cursor-pointer shrink-0"
               title="Custom Picker"
             >
               <i
                 data-lucide="pipette"
-                class="w-3 text-slate-400 pointer-events-none"
+                class="w-3.5 text-slate-400 pointer-events-none"
               ></i>
               <input
                 type="color"
@@ -719,28 +776,27 @@
 
     <!-- VIEW STATUS BAR -->
     <footer
-      class="bg-white border-t border-slate-200 px-4 py-2 flex items-center justify-between text-xs font-semibold text-slate-500 shadow-sm z-50 shrink-0"
+      class="bg-white border-t border-slate-200 px-3 py-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-semibold text-slate-500 shadow-sm z-50 shrink-0"
     >
-      <div class="flex items-center gap-4">
-        <span id="canvas-resolution-status" class="flex items-center gap-1"
-          ><i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> 1152 × 648
-          px</span
-        >
-        <span class="w-[1px] h-3 bg-slate-300"></span>
-        <label class="flex items-center gap-1 cursor-pointer"
-          ><input
+      <div class="flex items-center justify-between w-full sm:w-auto gap-4">
+        <span id="canvas-resolution-status" class="flex items-center gap-1">
+          <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> 1152 × 648 px
+        </span>
+        <span class="hidden sm:inline w-[1px] h-3 bg-slate-300"></span>
+        <label class="flex items-center gap-1 cursor-pointer">
+          <input
             type="checkbox"
             id="view-gridlines"
             onchange="toggleGridlines(this.checked)"
             class="rounded text-indigo-600 focus:ring-0 w-3.5 h-3.5"
           />
-          Gridlines Grid</label
-        >
+          Gridlines
+        </label>
       </div>
 
       <!-- Zoom Engine Layout -->
       <div
-        class="flex items-center gap-2 bg-slate-50 px-3 py-0.5 rounded-full border shadow-inner"
+        class="flex items-center justify-center gap-2 bg-slate-50 px-3 py-1 rounded-full border shadow-inner w-full sm:w-auto overflow-x-auto"
       >
         <button
           onclick="changeZoom(-0.1)"
@@ -755,7 +811,7 @@
           max="200"
           value="100"
           oninput="handleZoomSlider(this.value)"
-          class="w-24 h-1 bg-slate-200 appearance-none rounded-lg accent-indigo-600"
+          class="w-20 md:w-24 h-1 bg-slate-200 appearance-none rounded-lg accent-indigo-600"
         />
         <span
           id="zoom-text"
@@ -770,13 +826,13 @@
         </button>
         <button
           onclick="resetZoomToFit()"
-          class="px-2 py-0.5 bg-white border rounded-md text-[10px] uppercase font-black text-slate-600"
+          class="px-1.5 py-0.5 bg-white border rounded-md text-[9px] font-black text-slate-600"
         >
           Fit
         </button>
         <button
           onclick="applyZoomLevelDirect(1.0)"
-          class="px-2 py-0.5 bg-white border rounded-md text-[10px] uppercase font-black text-slate-600"
+          class="px-1.5 py-0.5 bg-white border rounded-md text-[9px] font-black text-slate-600"
         >
           100%
         </button>
@@ -956,7 +1012,7 @@
         paletteContainer.innerHTML = paintPalette
           .map(
             (color) => `
-          <div onclick="selectColor('${color}')" class="w-5 h-5 rounded border border-slate-300 shadow-sm cursor-pointer hover:scale-110 transition-transform shrink-0" style="background: ${color}"></div>
+          <div onclick="selectColor('${color}')" class="w-6 h-6 rounded border border-slate-300 shadow-sm cursor-pointer hover:scale-110 transition-transform shrink-0" style="background: ${color}"></div>
         `,
           )
           .join("");
@@ -1221,6 +1277,7 @@
         document.getElementById(`box-color-${target}`).classList.add("active");
       }
 
+      /* FIXED OPACITY ISSUE ON TAILWIND PICKER CLICK */
       function selectColor(hex) {
         if (activeColorTarget === "color1") {
           color1 = hex;
@@ -1309,7 +1366,6 @@
         }
       }
 
-      // Close popover shapes menu completely helper bounds mapping
       function closeResizeModal() {
         document.getElementById("image-resize-modal").classList.add("hidden");
         document.getElementById("image-resize-modal").classList.remove("flex");
@@ -1780,8 +1836,8 @@
 
       function resetZoomToFit() {
         const container = document.getElementById("editor-container");
-        const scaleX = (container.clientWidth - 120) / PAGE_WIDTH;
-        const scaleY = (container.clientHeight - 120) / PAGE_HEIGHT;
+        const scaleX = (container.clientWidth - 40) / PAGE_WIDTH;
+        const scaleY = (container.clientHeight - 40) / PAGE_HEIGHT;
         zoomLevel = Math.min(scaleX, scaleY, 1.0);
         applyZoomLevel();
       }
