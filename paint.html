@@ -706,8 +706,9 @@
     </main>
 
     <!-- VIEW STATUS BAR -->
+    <!-- VIEW STATUS BAR (Android Chrome Bottom Bar Fix) -->
     <footer
-      class="bg-white border-t border-slate-200 px-3 py-1.5 flex flex-row items-center justify-between gap-2 text-[11px] font-semibold text-slate-500 shadow-sm z-50 shrink-0"
+      class="bg-white border-t border-slate-200 px-3 py-2 flex flex-row items-center justify-between gap-2 text-[11px] font-semibold text-slate-500 shadow-sm z-50 shrink-0 pb-[safe-area-inset-bottom]"
     >
       <div class="flex items-center gap-2">
         <span id="canvas-resolution-status" class="flex items-center gap-0.5"
@@ -725,10 +726,14 @@
         </label>
       </div>
 
+      <!-- Compact Zoom & Fit Controls for Android Chrome -->
       <div
         class="flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full border shadow-inner"
       >
-        <button onclick="changeZoom(-0.1)" class="p-0.5 hover:text-indigo-600">
+        <button
+          onclick="changeZoom(-0.1)"
+          class="p-0.5 hover:text-indigo-600 active:scale-90"
+        >
           <i data-lucide="zoom-out" class="w-3 h-3"></i>
         </button>
         <input
@@ -738,19 +743,22 @@
           max="200"
           value="100"
           oninput="handleZoomSlider(this.value)"
-          class="w-14 sm:w-20 h-1 bg-slate-200 appearance-none rounded-lg accent-indigo-600"
+          class="w-16 sm:w-20 h-1 bg-slate-200 appearance-none rounded-lg accent-indigo-600"
         />
         <span
           id="zoom-text"
           class="text-[10px] font-black text-slate-700 w-8 text-center"
           >100%</span
         >
-        <button onclick="changeZoom(0.1)" class="p-0.5 hover:text-indigo-600">
+        <button
+          onclick="changeZoom(0.1)"
+          class="p-0.5 hover:text-indigo-600 active:scale-90"
+        >
           <i data-lucide="zoom-in" class="w-3 h-3"></i>
         </button>
         <button
           onclick="resetZoomToFit()"
-          class="px-1 bg-white border rounded text-[9px] font-black text-slate-600"
+          class="px-1 bg-white border rounded text-[9px] font-black text-slate-600 active:scale-95"
         >
           Fit
         </button>
