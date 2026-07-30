@@ -78,8 +78,8 @@
       }
       .canvas-holder {
         display: block;
-        margin: auto !important;
-        flex-shrink: 0;
+        margin: auto !important; /* Forces layout to stay strictly centered */
+        flex-shrink: 0 !important;
       }
       .canvas-container {
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
@@ -902,19 +902,15 @@
           )
           .join("");
 
-        if (localStorage.getItem("kidspaint_width")) {
-          PAGE_WIDTH = parseInt(localStorage.getItem("kidspaint_width"), 10);
-        }
-        if (localStorage.getItem("kidspaint_height")) {
-          PAGE_HEIGHT = parseInt(localStorage.getItem("kidspaint_height"), 10);
-        }
-
-        setupCanvas(PAGE_WIDTH, PAGE_HEIGHT, "#ffffff");
-        setupKeyboardShortcuts();
-        setupRightClickContextMenu();
-        if (typeof lucide !== "undefined") {
-          lucide.createIcons();
-        }
+        // DEBOUNCED ENGINE FOR MOBILE VIEW INITIALIZATION
+        setTimeout(() => {
+          setupCanvas(PAGE_WIDTH, PAGE_HEIGHT, "#ffffff");
+          setupKeyboardShortcuts();
+          setupRightClickContextMenu();
+          if (typeof lucide !== "undefined") {
+            lucide.createIcons();
+          }
+        }, 300);
 
         document.addEventListener("click", () => {
           hideShapesMenu();
@@ -956,12 +952,6 @@
           preserveObjectStacking: true,
         });
 
-        // FIXED: FREE-HAND BRUSH AND PENCIL PATH SAVING SYNC
-        canvas.on("path:created", (e) => {
-          disableObjectRotation(e.path);
-          saveCanvasHistory();
-        });
-
         canvas.on("object:added", (e) => {
           disableObjectRotation(e.target);
           if (!isStateChanging) saveCanvasHistory();
@@ -980,26 +970,8 @@
           if (obj && obj.type === "textbox") autoFitTextboxWidth(obj);
         });
 
-        // LOAD STATE FROM LOCALSTORAGE DIRECTLY ON CANVAS GENERATION
-        const savedJSON = localStorage.getItem("kidspaint_canvas_data");
-        if (savedJSON && savedJSON !== "{}") {
-          isStateChanging = true;
-          canvas.loadFromJSON(savedJSON, () => {
-            canvas.getObjects().forEach(disableObjectRotation);
-            setTimeout(() => {
-              resetZoomToFit();
-              canvas.renderAll();
-              canvas.calcOffset();
-            }, 50);
-            isStateChanging = false;
-            canvasHistory = [JSON.stringify(canvas.toJSON())];
-            historyStep = 0;
-          });
-        } else {
-          saveCanvasHistory();
-          setTimeout(resetZoomToFit, 100);
-        }
-
+        saveCanvasHistory();
+        setTimeout(resetZoomToFit, 100);
         updateCursor();
       }
 
@@ -1648,11 +1620,6 @@
           parseInt(document.getElementById("canvas-width-input").value) || 1152;
         const h =
           parseInt(document.getElementById("canvas-height-input").value) || 648;
-
-        localStorage.removeItem("kidspaint_canvas_data");
-        localStorage.setItem("kidspaint_width", w);
-        localStorage.setItem("kidspaint_height", h);
-
         setupCanvas(w, h, "#ffffff");
         closeNewCanvasModal();
         setMode("select");
@@ -1666,10 +1633,6 @@
           canvasHistory = canvasHistory.slice(0, historyStep + 1);
         canvasHistory.push(snap);
         historyStep++;
-
-        localStorage.setItem("kidspaint_canvas_data", snap);
-        localStorage.setItem("kidspaint_width", PAGE_WIDTH);
-        localStorage.setItem("kidspaint_height", PAGE_HEIGHT);
       }
 
       function undo() {
@@ -1680,10 +1643,6 @@
             canvas.getObjects().forEach(disableObjectRotation);
             canvas.renderAll();
             isStateChanging = false;
-            localStorage.setItem(
-              "kidspaint_canvas_data",
-              JSON.stringify(canvas.toJSON()),
-            );
           });
         }
       }
@@ -1695,10 +1654,6 @@
             canvas.getObjects().forEach(disableObjectRotation);
             canvas.renderAll();
             isStateChanging = false;
-            localStorage.setItem(
-              "kidspaint_canvas_data",
-              JSON.stringify(canvas.toJSON()),
-            );
           });
         }
       }
