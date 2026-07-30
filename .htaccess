@@ -2,4 +2,5 @@ RewriteEngine On
 
 
 RewriteRule ^about-us/(.*)$ about-us.html [L,QSA]
+RewriteRule ^contact-us/(.*)$ contact-us.html [L,QSA]
 
