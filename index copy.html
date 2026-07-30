@@ -154,17 +154,6 @@
         }
       }
 
-      /* NEW: Custom playful bounce animation for the badge */
-      @keyframes bounceSlow {
-        0%,
-        100% {
-          transform: translateY(0) rotate(-1.5deg);
-        }
-        50% {
-          transform: translateY(-12px) rotate(1.5deg);
-        }
-      }
-
       .floating-element {
         animation: floatSlow 7s ease-in-out infinite;
       }
@@ -177,10 +166,6 @@
 
       .morph-blob {
         animation: morphingBg 10s ease-in-out infinite;
-      }
-
-      .animate-badge-bounce {
-        animation: bounceSlow 3s ease-in-out infinite;
       }
 
       /* Hard Retro Kids Style Shadow */
@@ -329,9 +314,8 @@
         <div
           class="max-w-4xl mx-auto text-center flex flex-col items-center gap-6 z-10 animate__animated animate__fadeIn"
         >
-          <!-- UPDATED BADGE WITH JUMPING EFFECT -->
           <span
-            class="px-4 py-1.5 bg-yellow-400 text-indigo-950 font-bold text-xs rounded-full uppercase tracking-widest shadow-md border-2 border-white animate-badge-bounce inline-block"
+            class="px-4 py-1.5 bg-yellow-400 text-indigo-950 font-bold text-xs rounded-full uppercase tracking-widest shadow-md border-2 border-white rotate-[-1.5deg]"
           >
             🎉 Worldwide Educational Open-Access
           </span>
