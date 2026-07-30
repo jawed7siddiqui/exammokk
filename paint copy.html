@@ -151,14 +151,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <link rel="stylesheet" href="/fonts/fonts.css" />
 
-    <!-- COOL GOOGLE FONTS FOR KIDS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&family=Spicy+Rice&family=Montserrat:wght@400;700;900&display=swap"
-      rel="stylesheet"
-    />
-
     <style>
       html,
       body {
@@ -298,11 +290,6 @@
         align-items: center;
         gap: 8px;
         border-radius: 8px;
-      }
-      /* Floating Kid Styles for Dynamic Text Settings */
-      .font-option {
-        padding: 4px 8px;
-        border-radius: 6px;
       }
     </style>
   </head>
@@ -474,91 +461,6 @@
             </button>
           </div>
           <div class="tool-section-label">Tools</div>
-        </div>
-
-        <!-- NEW SECTION: DYNAMIC TEXT STYLING (Visible when Text is Selected) -->
-        <div
-          id="text-styling-section"
-          class="hidden flex-col justify-between border-r border-amber-300 bg-amber-50/50 px-2 rounded-xl transition-all duration-300 shrink-0"
-        >
-          <div class="flex items-center gap-1 min-h-[42px] md:min-h-[80px]">
-            <!-- Font Family Selector -->
-            <select
-              id="text-font-family"
-              onchange="applyTextFont(this.value)"
-              class="text-[11px] font-bold p-1 border border-amber-200 rounded-xl bg-white outline-none text-slate-700 min-w-[110px]"
-            >
-              <option value="Fredoka" style="font-family: &quot;Fredoka&quot;">
-                ✨ Fredoka (Cool)
-              </option>
-              <option
-                value="Quicksand"
-                style="font-family: &quot;Quicksand&quot;"
-              >
-                🎈 Quicksand
-              </option>
-              <option value="Bangers" style="font-family: &quot;Bangers&quot;">
-                💥 Bangers (Comic)
-              </option>
-              <option
-                value="Spicy Rice"
-                style="font-family: &quot;Spicy Rice&quot;"
-              >
-                🌶️ Spicy Rice
-              </option>
-              <option
-                value="Comic Sans MS"
-                style="font-family: &quot;Comic Sans MS&quot;"
-              >
-                Comic Sans
-              </option>
-              <option value="Arial" style="font-family: &quot;Arial&quot;">
-                Arial
-              </option>
-              <option
-                value="Times New Roman"
-                style="font-family: &quot;Times New Roman&quot;"
-              >
-                Times New Roman
-              </option>
-              <option value="Impact" style="font-family: &quot;Impact&quot;">
-                Impact
-              </option>
-            </select>
-
-            <!-- Text Actions -->
-            <button
-              id="btn-bold"
-              onclick="toggleTextStyle('bold')"
-              class="w-8 h-8 font-black border border-slate-200 rounded-lg bg-white flex items-center justify-center hover:bg-indigo-50 text-xs shadow-sm"
-            >
-              B
-            </button>
-            <button
-              id="btn-italic"
-              onclick="toggleTextStyle('italic')"
-              class="w-8 h-8 italic font-serif border border-slate-200 rounded-lg bg-white flex items-center justify-center hover:bg-indigo-50 text-xs shadow-sm"
-            >
-              I
-            </button>
-            <button
-              id="btn-underline"
-              onclick="toggleTextStyle('underline')"
-              class="w-8 h-8 underline border border-slate-200 rounded-lg bg-white flex items-center justify-center hover:bg-indigo-50 text-xs shadow-sm"
-            >
-              U
-            </button>
-            <button
-              id="btn-strike"
-              onclick="toggleTextStyle('strike')"
-              class="w-8 h-8 line-through border border-slate-200 rounded-lg bg-white flex items-center justify-center hover:bg-indigo-50 text-xs shadow-sm"
-            >
-              S
-            </button>
-          </div>
-          <div class="tool-section-label text-amber-600 font-bold">
-            Text Styles
-          </div>
         </div>
 
         <!-- SECTION 2: BRUSHES -->
@@ -795,11 +697,6 @@
               <option value="20">20 px</option>
               <option value="28">28 px</option>
               <option value="36">36 px</option>
-              <option value="48">48 px</option>
-              <option value="64">64 px</option>
-              <option value="72">72 px</option>
-              <option value="96">96 px</option>
-              <option value="128">128 px</option>
             </select>
             <div class="grid grid-cols-2 gap-0.5 w-full">
               <select
@@ -1194,12 +1091,8 @@
           if (!isStateChanging) saveCanvasHistory();
         });
         canvas.on("mouse:down", handleCanvasMouseDownClick);
-
-        // DYNAMICALLY TOGGLE TEXT FORMATTING TOOLS BAR
-        canvas.on("selection:created", handleSelectionChange);
-        canvas.on("selection:updated", handleSelectionChange);
-        canvas.on("selection:cleared", handleSelectionCleared);
-
+        canvas.on("selection:created", syncSizeDropdownFromSelection);
+        canvas.on("selection:updated", syncSizeDropdownFromSelection);
         canvas.on("text:changed", (e) => {
           let obj = e.target;
           if (obj && obj.type === "textbox") autoFitTextboxWidth(obj);
@@ -1226,85 +1119,6 @@
         }
 
         updateCursor();
-      }
-
-      // SHOW TEXT TOOLS WHEN TEXT OBJECT SELECTED
-      function handleSelectionChange(e) {
-        syncSizeDropdownFromSelection(e);
-        const activeObj = canvas.getActiveObject();
-        const textSection = document.getElementById("text-styling-section");
-
-        if (activeObj && activeObj.type === "textbox") {
-          textSection.classList.remove("hidden");
-          textSection.classList.add("flex");
-
-          // Sync existing styling properties with toolbar state
-          document.getElementById("text-font-family").value =
-            activeObj.fontFamily || "Fredoka";
-
-          document.getElementById("btn-bold").style.backgroundColor =
-            activeObj.fontWeight === "bold" ? "#ddd6fe" : "#ffffff";
-          document.getElementById("btn-italic").style.backgroundColor =
-            activeObj.fontStyle === "italic" ? "#ddd6fe" : "#ffffff";
-          document.getElementById("btn-underline").style.backgroundColor =
-            activeObj.underline ? "#ddd6fe" : "#ffffff";
-          document.getElementById("btn-strike").style.backgroundColor =
-            activeObj.linethrough ? "#ddd6fe" : "#ffffff";
-        } else {
-          handleSelectionCleared();
-        }
-      }
-
-      function handleSelectionCleared() {
-        const textSection = document.getElementById("text-styling-section");
-        textSection.classList.remove("flex");
-        textSection.classList.add("hidden");
-      }
-
-      // APPLY SELECTED KIDS FONT FAMILY
-      function applyTextFont(fontName) {
-        const activeObj = canvas.getActiveObject();
-        if (activeObj && activeObj.type === "textbox") {
-          activeObj.set("fontFamily", fontName);
-          autoFitTextboxWidth(activeObj);
-          canvas.renderAll();
-          saveCanvasHistory();
-        }
-      }
-
-      // TOGGLE TEXT SUB-STYLES (B, I, U, STRIKE)
-      function toggleTextStyle(styleType) {
-        const activeObj = canvas.getActiveObject();
-        if (!activeObj || activeObj.type !== "textbox") return;
-
-        if (styleType === "bold") {
-          const current = activeObj.get("fontWeight");
-          activeObj.set("fontWeight", current === "bold" ? "normal" : "bold");
-          document.getElementById("btn-bold").style.backgroundColor =
-            activeObj.fontWeight === "bold" ? "#ddd6fe" : "#ffffff";
-        } else if (styleType === "italic") {
-          const current = activeObj.get("fontStyle");
-          activeObj.set(
-            "fontStyle",
-            current === "italic" ? "normal" : "italic",
-          );
-          document.getElementById("btn-italic").style.backgroundColor =
-            activeObj.fontStyle === "italic" ? "#ddd6fe" : "#ffffff";
-        } else if (styleType === "underline") {
-          const current = activeObj.get("underline");
-          activeObj.set("underline", !current);
-          document.getElementById("btn-underline").style.backgroundColor =
-            activeObj.underline ? "#ddd6fe" : "#ffffff";
-        } else if (styleType === "strike") {
-          const current = activeObj.get("linethrough");
-          activeObj.set("linethrough", !current);
-          document.getElementById("btn-strike").style.backgroundColor =
-            activeObj.linethrough ? "#ddd6fe" : "#ffffff";
-        }
-
-        autoFitTextboxWidth(activeObj);
-        canvas.renderAll();
-        saveCanvasHistory();
       }
 
       function syncSizeDropdownFromSelection(e) {
@@ -1481,7 +1295,6 @@
         });
       }
 
-      // COLOR CHANGE MUTATION (Handles Live Text/Stroke Colors)
       function selectColor(hex) {
         color1 = hex;
         document.getElementById("box-color1").style.background = hex;
@@ -1723,7 +1536,7 @@
           const txt = new fabric.Textbox("Type Here...", {
             left: pointer.x,
             top: pointer.y,
-            fontFamily: "Fredoka",
+            fontFamily: "Montserrat",
             fontSize: sizesState.text,
             fill: color1,
             originX: "center",
