@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    
-    <!-- 1. होम / लैंडिंग पेज (index.html को हटाकर रूट यूआरएल कर दिया गया है) -->
+
+    <!-- Home -->
     <url>
         <loc>https://kidspaint.cloud/</loc>
-        <lastmod>2026-07-28</lastmod>
-        <changefreq>monthly</changefreq>
+        <lastmod>2026-07-30</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
-    
-    <!-- 2. मुख्य डिजिटल पेंट एडिटर स्टूडियो -->
+
+    <!-- Paint Editor -->
     <url>
         <loc>https://kidspaint.cloud/paint.html</loc>
-        <lastmod>2026-07-28</lastmod>
-        <changefreq>monthly</changefreq>
+        <lastmod>2026-07-30</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
+    </url>
+
+    <!-- About -->
+    <url>
+        <loc>https://kidspaint.cloud/about-us</loc>
+        <lastmod>2026-07-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Contact -->
+    <url>
+        <loc>https://kidspaint.cloud/contact-us</loc>
+        <lastmod>2026-07-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
     </url>
 
 </urlset>
