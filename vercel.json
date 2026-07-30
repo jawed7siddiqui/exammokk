@@ -4,6 +4,10 @@
     {
       "source": "/editor/(.*)",
       "destination": "/editor.html"
+    },
+    {
+      "source": "/proposal",
+      "destination": "/proposal.html"
     }
   ]
 }
