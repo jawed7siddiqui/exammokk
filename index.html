@@ -92,9 +92,13 @@
       }
     </script>
 
-    <!-- TAILWIND & LUCIDE ICONS -->
+    <!-- TAILWIND, ANIMATE.CSS & LUCIDE ICONS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -110,22 +114,24 @@
         margin: 0;
         overflow-x: hidden;
       }
+
+      /* --- Dynamic Custom Animations --- */
       @keyframes floatSlow {
         0%,
         100% {
           transform: translateY(0px) rotate(0deg);
         }
         50% {
-          transform: translateY(-15px) rotate(5deg);
+          transform: translateY(-20px) rotate(6deg);
         }
       }
       @keyframes floatFast {
         0%,
         100% {
-          transform: translateY(0px) scale(1);
+          transform: translateY(0px) scale(1) rotate(0deg);
         }
         50% {
-          transform: translateY(-8px) scale(1.04);
+          transform: translateY(-12px) scale(1.06) rotate(-4deg);
         }
       }
       @keyframes pulseSlow {
@@ -135,56 +141,96 @@
           transform: scale(1);
         }
         50% {
-          opacity: 0.3;
-          transform: scale(1.1);
+          opacity: 0.35;
+          transform: scale(1.15);
         }
       }
+      @keyframes morphingBg {
+        0%,
+        100% {
+          border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+        50% {
+          border-radius: 30% 60% 70% 30% / 50% 60% 30% 70%;
+        }
+      }
+      @keyframes marqueeMobile {
+        0% {
+          transform: translateX(0%);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
       .floating-element {
-        animation: floatSlow 6s ease-in-out infinite;
+        animation: floatSlow 7s ease-in-out infinite;
       }
       .floating-fast {
-        animation: floatFast 4s ease-in-out infinite;
+        animation: floatFast 4.5s ease-in-out infinite;
       }
       .pulse-bg {
-        animation: pulseSlow 8s ease-in-out infinite;
+        animation: pulseSlow 9s ease-in-out infinite;
       }
+
+      .morph-blob {
+        animation: morphingBg 10s ease-in-out infinite;
+      }
+
+      /* 3D Retro Kid Style Hard Shadows */
       .kids-shadow {
-        box-shadow: 0 6px 0px #e2e8f0;
+        box-shadow: 0 8px 0px #e2e8f0;
       }
       .kids-shadow-btn {
-        box-shadow: 0 6px 0px #3730a3;
+        box-shadow: 0 8px 0px #312e81;
       }
-      .kids-shadow-btn:absolute,
       .kids-shadow-btn:active {
-        transform: translateY(4px);
-        box-shadow: 0 2px 0px #3730a3;
+        transform: translateY(6px);
+        box-shadow: 0 2px 0px #312e81;
       }
       .kids-shadow-btn-yellow {
-        box-shadow: 0 5px 0px #92400e;
+        box-shadow: 0 6px 0px #78350f;
       }
       .kids-shadow-btn-yellow:active {
         transform: translateY(4px);
-        box-shadow: 0 1px 0px transparent;
+        box-shadow: 0 2px 0px #78350f;
+      }
+
+      /* Premium Card Hover Mechanics */
+      .card-pop {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
       .card-pop:hover {
-        transform: translateY(-6px);
-        transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.06);
+      }
+
+      /* Infinite Mobile Header Text Ticker */
+      .marquee-container {
+        display: flex;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .marquee-content {
+        display: inline-block;
+        animation: marqueeMobile 15s linear infinite;
       }
     </style>
   </head>
   <body
     class="antialiased select-none flex flex-col min-h-screen pb-24 md:pb-0"
   >
-    <!-- 1. SCRATCH STYLE HEADER (Sticky-Top Desktop UI) -->
+    <!-- 1. PRO SCRATCH HEADER WITH INTERACTIVE ELEMENTS -->
     <header
-      class="bg-white sticky top-0 z-50 px-4 py-3 md:px-6 md:py-4 flex items-center justify-between border-b-4 border-yellow-400 shadow-sm"
+      class="bg-white sticky top-0 z-50 px-4 py-3.5 md:px-8 md:py-4 flex items-center justify-between border-b-4 border-yellow-400 shadow-md"
     >
       <div class="flex items-center gap-8">
         <div
-          class="flex items-center gap-2 cursor-pointer transform active:scale-95 transition-transform"
+          onclick="location.reload()"
+          class="flex items-center gap-2.5 cursor-pointer transform active:scale-95 transition-transform group"
         >
           <div
-            class="w-10 h-10 md:w-12 md:h-12 bg-amber-400 rounded-xl md:rounded-2xl flex items-center justify-center shadow-md border-2 border-white rotate-[-3deg]"
+            class="w-10 h-10 md:w-12 md:h-12 bg-amber-400 rounded-xl md:rounded-2xl flex items-center justify-center shadow-md border-2 border-white rotate-[-3deg] group-hover:rotate-[12deg] transition-transform duration-300"
           >
             <i
               data-lucide="palette"
@@ -194,7 +240,7 @@
           <span
             class="text-xl md:text-2xl font-black tracking-wide text-indigo-600 uppercase flex items-center"
           >
-            Kids&nbsp;<span class="text-pink-500">P</span
+            Kids&nbsp;<span class="text-pink-500 animate-pulse">P</span
             ><span class="text-amber-500">a</span
             ><span class="text-emerald-500">i</span
             ><span class="text-cyan-500">n</span
@@ -203,11 +249,11 @@
         </div>
       </div>
 
-      <!-- Desktop Launch Button (Hidden on Mobile Screens) -->
+      <!-- Desktop Launch Button (Hidden on Mobile) -->
       <div class="hidden md:block">
         <button
           onclick="redirectToPaintApp()"
-          class="kids-shadow-btn-yellow px-5 py-2.5 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 transition-all flex items-center gap-2 cursor-pointer"
+          class="kids-shadow-btn-yellow px-6 py-3 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all flex items-center gap-2 cursor-pointer"
         >
           <i
             data-lucide="sparkles"
@@ -218,131 +264,140 @@
       </div>
     </header>
 
-    <!-- STICKY MOBILE LAUNCH BAR (Only Visible on Mobile at Bottom) -->
+    <!-- PRO STICKY MOBILE LAUNCH FOOTER WITH GLOW EFFECT -->
     <div
-      class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md px-4 py-3 border-t-4 border-pink-500 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] flex items-center justify-center md:hidden"
+      class="fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg px-4 py-3.5 border-t-4 border-pink-500 shadow-[0_-10px_30px_rgba(236,72,153,0.15)] flex items-center justify-center md:hidden animate__animated animate__fadeInUp"
     >
       <button
         onclick="redirectToPaintApp()"
-        class="w-full kids-shadow-btn py-4 bg-indigo-600 text-white font-black text-lg rounded-2xl border-2 border-white transition-all flex items-center justify-center gap-3 active:scale-95 cursor-pointer animate-pulse"
+        class="w-full kids-shadow-btn py-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-black text-lg rounded-2xl border-2 border-white transition-all flex items-center justify-center gap-3 active:scale-95 cursor-pointer shadow-[0_0_20px_rgba(79,70,229,0.4)]"
       >
         <span>LAUNCH EDITOR 🎨</span>
         <i
-          data-lucide="sparkles"
-          class="w-5 h-5 text-amber-300 fill-current"
+          data-lucide="zap"
+          class="w-5 h-5 text-yellow-300 fill-current animate-bounce"
         ></i>
       </button>
     </div>
 
-    <!-- 2. MAIN HERO BANNER SECTION WITH ANIMATED SHAPES -->
+    <!-- 2. HERO BANNER WITH IMMERSIVE MORPHING LAYERS -->
     <main class="flex-grow flex flex-col">
       <section
-        class="relative bg-gradient-to-b from-indigo-600 via-indigo-700 to-violet-800 text-white py-16 md:py-24 px-4 md:px-6 overflow-hidden flex items-center justify-center min-h-[480px] md:min-h-[600px] border-b-8 border-emerald-400"
+        class="relative bg-gradient-to-b from-indigo-700 via-indigo-800 to-violet-900 text-white py-20 md:py-32 px-4 md:px-8 overflow-hidden flex items-center justify-center min-h-[500px] md:min-h-[650px] border-b-8 border-emerald-400"
       >
-        <!-- Unsplash Background Overlay -->
+        <!-- Unsplash Canvas Image Layer -->
         <div
-          class="absolute inset-0 z-0 bg-cover bg-center opacity-10 mix-blend-overlay"
+          class="absolute inset-0 z-0 bg-cover bg-center opacity-10 mix-blend-overlay scale-105"
           style="
             background-image: url(&quot;https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop&quot;);
           "
         ></div>
 
-        <!-- Floating Background Circles -->
+        <!-- Morphing Glowing Vector Blobs -->
         <div
-          class="absolute -top-20 -left-20 w-48 h-48 md:w-64 md:h-64 bg-pink-500 rounded-full opacity-20 pulse-bg"
+          class="absolute top-[-10%] left-[-10%] w-72 h-72 md:w-96 md:h-96 bg-pink-500/20 morph-blob pulse-bg"
         ></div>
         <div
-          class="absolute -bottom-20 -right-20 w-56 h-56 md:w-80 md:h-80 bg-cyan-400 rounded-full opacity-15 pulse-bg"
-          style="animation-delay: 2s"
+          class="absolute bottom-[-10%] right-[-10%] w-80 h-80 md:w-112 md:h-112 bg-cyan-400/20 morph-blob pulse-bg"
+          style="animation-delay: 3s"
         ></div>
 
-        <!-- Responsive Floating Art Icons -->
+        <!-- High-Quality Floating Graphics Tools -->
         <div
-          class="absolute top-6 left-6 opacity-40 md:opacity-80 floating-element text-amber-300"
+          class="absolute top-8 left-6 md:top-16 md:left-20 opacity-30 md:opacity-80 floating-element text-amber-300"
         >
-          <i data-lucide="brush" class="w-10 h-10 md:w-16 md:h-16"></i>
+          <i
+            data-lucide="brush"
+            class="w-10 h-10 md:w-20 md:h-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.2)]"
+          ></i>
         </div>
         <div
-          class="absolute bottom-10 left-8 opacity-40 md:opacity-70 floating-fast text-cyan-300"
-          style="animation-delay: 1s"
+          class="absolute bottom-12 left-10 md:bottom-20 md:left-24 opacity-30 md:opacity-70 floating-fast text-cyan-300"
+          style="animation-delay: 1.5s"
         >
-          <i data-lucide="shapes" class="w-10 h-10 md:w-14 md:h-14"></i>
+          <i
+            data-lucide="shapes"
+            class="w-10 h-10 md:w-16 md:h-16 drop-shadow-[0_8px_16px_rgba(0,0,0,0.2)]"
+          ></i>
         </div>
         <div
-          class="absolute top-10 right-8 opacity-40 md:opacity-80 floating-element text-pink-400"
-          style="animation-delay: 2.5s"
+          class="absolute top-12 right-8 md:top-20 md:right-28 opacity-30 md:opacity-80 floating-element text-pink-400"
+          style="animation-delay: 3.5s"
         >
-          <i data-lucide="smile" class="w-10 h-10 md:w-16 md:h-16"></i>
+          <i
+            data-lucide="smile"
+            class="w-12 h-12 md:w-20 md:h-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.2)]"
+          ></i>
         </div>
 
         <div
-          class="max-w-4xl mx-auto text-center flex flex-col items-center gap-5 z-10"
+          class="max-w-4xl mx-auto text-center flex flex-col items-center gap-6 z-10 animate__animated animate__fadeIn"
         >
           <span
-            class="px-3 py-1 bg-yellow-400 text-indigo-900 font-bold text-xs rounded-full uppercase tracking-wider shadow-md border-2 border-white rotate-[-1deg]"
+            class="px-4 py-1.5 bg-yellow-400 text-indigo-950 font-bold text-xs rounded-full uppercase tracking-widest shadow-md border-2 border-white rotate-[-1.5deg] animate__animated animate__jackInTheBox"
           >
-            🎈 100% Free & Super Fun!
+            🎉 Worldwide Educational Open-Access
           </span>
 
           <h1
-            class="text-3xl md:text-7xl font-black tracking-tight leading-tight uppercase drop-shadow-sm px-2"
+            class="text-4xl md:text-7xl font-black tracking-tight leading-tight uppercase px-2 drop-shadow-xl"
           >
             Magical Online Paint & <br />
             <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-amber-300 to-pink-400"
+              class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-amber-300 to-pink-400 filter drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]"
             >
               Cloud Paint Editor
             </span>
-            🎨
+            🚀
           </h1>
 
           <p
-            class="text-indigo-100 text-xs md:text-lg font-medium max-w-xl leading-relaxed px-4"
+            class="text-indigo-100 text-sm md:text-xl font-medium max-w-xl leading-relaxed px-4 opacity-90"
           >
-            A super safe and colorful virtual art studio where school students
-            can draw, paint shapes, practice mouse control, and spark pure
-            creativity instantly!
+            A secure browser-based cloud workspace where students explore
+            advanced vector structures, mouse tracking coordinates, and digital
+            artwork seamlessly.
           </p>
 
-          <!-- Desktop Hero Main Button (Hidden on Mobile Viewport to prioritize Sticky Bottom) -->
+          <!-- Desktop Hero CTA Button -->
           <button
             onclick="redirectToPaintApp()"
-            class="hidden md:flex kids-shadow-btn group relative px-10 py-5 bg-gradient-to-r from-pink-500 via-amber-500 to-emerald-500 text-white font-black text-xl rounded-2xl border-4 border-white transition-all hover:scale-105 items-center gap-3 tracking-wider mt-4 cursor-pointer"
+            class="hidden md:flex kids-shadow-btn group relative px-12 py-6 bg-gradient-to-r from-pink-500 via-amber-500 to-emerald-500 text-white font-black text-2xl rounded-2xl border-4 border-white transition-all hover:scale-105 items-center gap-3 tracking-wider mt-6 cursor-pointer"
           >
-            <span>START DRAWING NOW! 🚀</span>
+            <span>START DRAWING NOW! 🎨</span>
             <i
-              data-lucide="arrow-right"
-              class="w-6 h-6 transition-transform group-hover:translate-x-2"
+              data-lucide="chevron-right"
+              class="w-7 h-7 transition-transform group-hover:translate-x-2"
             ></i>
           </button>
         </div>
       </section>
 
-      <!-- 3. LEARNING MODULES -->
-      <section class="bg-amber-50/60 py-12 md:py-20 px-4 md:px-6">
-        <div class="max-w-6xl mx-auto text-center space-y-3 mb-10">
+      <!-- 3. LEARNING MODULES WITH SCROLL-READY MICRO-ANIMATIONS -->
+      <section class="bg-amber-50/50 py-16 md:py-24 px-4 md:px-8">
+        <div class="max-w-6xl mx-auto text-center space-y-4 mb-14">
           <h2
-            class="text-2xl md:text-4xl font-black text-indigo-900 uppercase tracking-tight"
+            class="text-3xl md:text-4xl font-black text-indigo-950 uppercase tracking-tight"
           >
-            ⭐ Fun & Easy Modules ⭐
+            ⚡ Specialized Training Modules ⚡
           </h2>
           <p
-            class="text-xs md:text-base text-slate-600 max-w-lg mx-auto font-medium"
+            class="text-sm md:text-base text-slate-600 max-w-lg mx-auto font-medium"
           >
-            Discover how schools around the world use our friendly canvas to
-            teach basic computer operations and beautiful digital art.
+            Empowering students globally to transition effortlessly from
+            physical art to computing workflows.
           </p>
         </div>
 
         <div
-          class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 w-full"
+          class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 w-full"
         >
-          <!-- Module 1 -->
+          <!-- Card 1 -->
           <div
-            class="bg-white p-5 md:p-8 rounded-2xl md:rounded-3xl border-3 border-cyan-400 kids-shadow card-pop flex items-start gap-4"
+            class="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl border-3 border-cyan-400 kids-shadow card-pop flex items-start gap-4"
           >
             <div
-              class="p-3 bg-cyan-100 rounded-xl text-cyan-600 shrink-0 border border-cyan-200"
+              class="p-3.5 bg-cyan-50 rounded-xl text-cyan-600 shrink-0 border border-cyan-200 group-hover:rotate-12 transition-transform"
             >
               <i
                 data-lucide="mouse-pointer-click"
@@ -351,113 +406,113 @@
             </div>
             <div class="space-y-1">
               <h3
-                class="font-bold text-indigo-900 uppercase text-sm md:text-lg"
+                class="font-extrabold text-indigo-950 uppercase text-base md:text-lg"
               >
-                Mouse Navigation & Control
+                Mouse Tracking Coordination
               </h3>
-              <p class="text-xs text-slate-500 leading-relaxed">
-                Perfect for early learners to master drag-and-drop mechanics,
-                multi-node scaling, and brush tracking layouts completely
-                lag-free.
+              <p class="text-xs md:text-sm text-slate-500 leading-relaxed">
+                Helps younger learners develop drag mechanics, canvas node
+                scaling, and multi-axis alignment routines in absolute
+                real-time.
               </p>
             </div>
           </div>
-          <!-- Module 2 -->
+          <!-- Card 2 -->
           <div
-            class="bg-white p-5 md:p-8 rounded-2xl md:rounded-3xl border-3 border-pink-400 kids-shadow card-pop flex items-start gap-4"
+            class="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl border-3 border-pink-400 kids-shadow card-pop flex items-start gap-4"
           >
             <div
-              class="p-3 bg-pink-100 rounded-xl text-pink-600 shrink-0 border border-pink-200"
+              class="p-3.5 bg-pink-50 rounded-xl text-pink-600 shrink-0 border border-pink-200"
             >
               <i data-lucide="layers" class="w-6 h-6 md:w-8 md:h-8"></i>
             </div>
             <div class="space-y-1">
               <h3
-                class="font-bold text-indigo-900 uppercase text-sm md:text-lg"
+                class="font-extrabold text-indigo-950 uppercase text-base md:text-lg"
               >
-                Geometric Shape Structuring
+                Vector Canvas Structuring
               </h3>
-              <p class="text-xs text-slate-500 leading-relaxed">
-                Students can build beautiful designs using standard geometric
-                shapes like rectangles, circles, custom vectors, and multi-point
-                star grids.
+              <p class="text-xs md:text-sm text-slate-500 leading-relaxed">
+                Students construct geometry layouts via dynamic blocks, circles,
+                lines, and custom color-palette configurations directly inside
+                the browser.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 4. FEATURE CARDS SECTION -->
+      <!-- 4. CORE ENGINE VALUE FEATURES -->
       <section
-        class="max-w-6xl mx-auto py-10 md:py-20 px-4 md:px-6 grid grid-cols-1 md:grid-cols-3 gap-6 w-full"
+        class="max-w-6xl mx-auto py-12 md:py-24 px-4 md:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 w-full"
       >
-        <!-- Card 1 -->
+        <!-- Feature 1 -->
         <div
-          class="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl border-3 border-indigo-400 kids-shadow card-pop flex flex-col gap-3 text-center items-center"
+          class="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl border-3 border-indigo-400 kids-shadow card-pop flex flex-col gap-4 text-center items-center"
         >
           <div
-            class="w-12 h-12 md:w-16 md:h-16 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 border border-indigo-200"
+            class="w-14 h-14 md:w-16 md:h-16 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 border border-indigo-200"
           >
             <i data-lucide="palette" class="w-6 h-6 md:w-8 md:h-8"></i>
           </div>
-          <h3 class="text-base md:text-xl font-bold text-indigo-900 uppercase">
+          <h3 class="text-lg md:text-xl font-bold text-indigo-950 uppercase">
             Advanced Paint Studio
           </h3>
           <p class="text-slate-500 text-xs md:text-sm leading-relaxed">
-            Fun brushes, custom shapes, magical color palettes, and easy
-            multi-layer tools designed perfectly for creative school art
-            projects.
+            Equipped with digital fluid brushes, precision stamp shapes, custom
+            color-fill layers, and optimized canvas layouts for classroom
+            deployment.
           </p>
         </div>
 
-        <!-- Card 2 -->
+        <!-- Feature 2 -->
         <div
-          class="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl border-3 border-emerald-400 kids-shadow card-pop flex flex-col gap-3 text-center items-center"
+          class="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl border-3 border-emerald-400 kids-shadow card-pop flex flex-col gap-4 text-center items-center"
         >
           <div
-            class="w-12 h-12 md:w-16 md:h-16 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 border border-emerald-200"
+            class="w-14 h-14 md:w-16 md:h-16 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 border border-emerald-200"
           >
             <i data-lucide="monitor" class="w-6 h-6 md:w-8 md:h-8"></i>
           </div>
-          <h3 class="text-base md:text-xl font-bold text-indigo-900 uppercase">
-            Computer Literacy
+          <h3 class="text-lg md:text-xl font-bold text-indigo-950 uppercase">
+            Computer Operations
           </h3>
           <p class="text-slate-500 text-xs md:text-sm leading-relaxed">
-            Empower kids with click-and-drag mouse operations, canvas shortcuts,
-            pixels layout understanding, and basic digital drawing expertise.
+            Introduces UI concepts, window layouts, export mechanics, and
+            foundational computer operations via a lightweight browser suite.
           </p>
         </div>
 
-        <!-- Card 3 -->
+        <!-- Feature 3 -->
         <div
-          class="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl border-3 border-amber-400 kids-shadow card-pop flex flex-col gap-3 text-center items-center"
+          class="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl border-3 border-amber-400 kids-shadow card-pop flex flex-col gap-4 text-center items-center"
         >
           <div
-            class="w-12 h-12 md:w-16 md:h-16 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600 border border-amber-200"
+            class="w-14 h-14 md:w-16 md:h-16 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600 border border-amber-200"
           >
             <i data-lucide="heart" class="w-6 h-6 md:w-8 md:h-8"></i>
           </div>
-          <h3 class="text-base md:text-xl font-bold text-indigo-900 uppercase">
+          <h3 class="text-lg md:text-xl font-bold text-indigo-950 uppercase">
             100% Free Education
           </h3>
           <p class="text-slate-500 text-xs md:text-sm leading-relaxed">
-            Proudly Made In India for children worldwide. No heavy signups, no
-            hidden payments, and no software installations required.
+            Proudly Made In India to advance digital equality globally. Zero
+            registration required, zero advertising payloads, zero cost.
           </p>
         </div>
       </section>
     </main>
 
-    <!-- 5. SCRATCH STYLE FOOTER -->
+    <!-- 5. OPTIMIZED SEO COMPLIANT FOOTER -->
     <footer
-      class="bg-slate-950 text-slate-400 py-12 px-4 md:px-6 border-t-8 border-pink-500"
+      class="bg-slate-950 text-slate-400 py-16 px-4 md:px-8 border-t-8 border-pink-500 relative"
     >
-      <div class="max-w-6xl mx-auto flex flex-col gap-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          <div class="flex flex-col gap-3">
+      <div class="max-w-6xl mx-auto flex flex-col gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+          <div class="flex flex-col gap-4">
             <div class="flex items-center gap-2">
               <div
-                class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold border-2 border-slate-700"
+                class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold border-2 border-slate-700 shadow-sm"
               >
                 <i data-lucide="palette" class="w-4 h-4 text-yellow-300"></i>
               </div>
@@ -466,35 +521,36 @@
                 >Kids Paint</span
               >
             </div>
-            <p class="text-[11px] text-slate-400 max-w-sm leading-relaxed">
-              Kids Paint is a premier worldwide **online paint** tool and
-              **cloud paint editor** built to deliver a premium, barrier-free
-              digital canvas workspace for children learning art.
+            <p
+              class="text-[11px] md:text-xs text-slate-400 max-w-sm leading-relaxed"
+            >
+              Kids Paint delivers a high-speed, secure **online paint** tool and
+              interactive **cloud paint editor** built to provide students an
+              immersive ecosystem for graphic literacy.
             </p>
           </div>
 
-          <!-- SEO Targeted Keywords & Regions -->
+          <!-- SEO Core Region Mapping -->
           <div
-            class="text-[11px] text-slate-400 space-y-2 border-l-0 md:border-l border-slate-800 pl-0 md:pl-8"
+            class="text-[11px] md:text-xs text-slate-400 space-y-3 border-l-0 md:border-l border-slate-800 pl-0 md:pl-8"
           >
             <h4
-              class="font-bold uppercase text-slate-200 tracking-wider text-xs"
+              class="font-bold uppercase text-slate-200 tracking-wider text-xs flex items-center gap-1"
             >
-              🌍 Universal Free Tech & Creative Learning Regions
+              <span>🌐</span> Target Global Art Education Infrastructure Regions
             </h4>
             <p class="leading-relaxed">
-              Our educational web application offers a fully optimized **online
-              paint** experience to support **100% free education** programs.
-              The native browser **cloud paint editor** serves as an interactive
-              environment tailored extensively for students in **Delhi, New
-              Delhi NCR, Ghaziabad, Noida, Greater Noida, and Gurgaon**.
+              Our application structures an integrated **online paint**
+              experience to serve institutional **100% free education**
+              frameworks. The cloud suite provides active sandbox access
+              tailored across national zones including **Delhi, New Delhi NCR,
+              Ghaziabad, Noida, Greater Noida, and Gurgaon**.
             </p>
             <p class="leading-relaxed text-slate-500">
-              Expanding our open-access workspace globally, kids can deploy our
-              web software across international educational sectors including
-              **Dubai (UAE), Saudi Arabia, Qatar**, and remote learning labs
-              throughout the **United Kingdom (UK) and United States (US)**
-              without any ad-tech interruptions.
+              Expanding deployment nodes internationally, modules scale across
+              standard setups throughout **Dubai (UAE), Saudi Arabia, Qatar**,
+              alongside remote academic sectors across the **United Kingdom (UK)
+              and United States (US)** without system dependencies.
             </p>
           </div>
         </div>
@@ -502,13 +558,13 @@
         <div class="h-[1px] bg-slate-800 w-full"></div>
 
         <div
-          class="flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-semibold text-slate-500 text-center md:text-left"
+          class="flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-semibold text-slate-500 text-center"
         >
           <div>
             &copy; 2026 Farha AI Kids Education. All Rights Reserved Worldwide.
           </div>
           <div
-            class="bg-slate-900/60 px-3 py-1.5 rounded-xl border border-slate-800"
+            class="bg-slate-900/40 px-3.5 py-2 rounded-xl border border-slate-800/80"
           >
             Proudly <span class="text-[#FF9933]">Made</span> In
             <span class="text-white">India</span>
@@ -521,11 +577,11 @@
 
     <script>
       window.onload = () => {
-        // Initialize Lucide Icons instantly
+        // Initialize Lucide Vector Graphics Icons immediately
         lucide.createIcons();
       };
 
-      // Redirect function to paint.html
+      // Unified Navigation Routine
       function redirectToPaintApp() {
         window.location.href = "paint.html";
       }
