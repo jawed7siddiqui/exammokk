@@ -17,7 +17,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
 
     <title>
@@ -41,46 +41,51 @@
     <link rel="stylesheet" href="/fonts/fonts.css" />
 
     <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        height: 100dvh;
+        overflow: hidden;
+      }
       body {
         font-family: "Montserrat", sans-serif;
         background: #f1f5f9;
-        height: 100vh;
-        height: 100dvh;
         display: flex;
         flex-direction: column;
-        overflow: hidden;
         position: relative;
       }
       header {
         position: relative;
         z-index: 60;
+        width: 100%;
+        background: #ffffff;
       }
       #editor-container {
+        position: relative;
+        width: 100%;
+        flex-grow: 1;
+        overflow: auto;
+        background: #cbd5e1;
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-grow: 1;
-        flex-shrink: 1;
-        overflow: auto;
-        padding: 10px;
-        background: #cbd5e1;
-        position: relative;
+        padding: 12px;
         min-height: 0;
-      }
-      @media (min-width: 768px) {
-        #editor-container {
-          padding: 20px;
-        }
+        -webkit-overflow-scrolling: touch;
       }
       .canvas-holder {
         display: block;
-        margin: auto;
-        flex-shrink: 0;
+        margin: auto !important; /* Forces layout to stay strictly centered */
+        flex-shrink: 0 !important;
       }
       .canvas-container {
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
         border-radius: 16px;
         background: white;
+        margin: 0 auto !important;
         transform-origin: center center;
       }
       .gridlines-active .canvas-container::before {
@@ -897,14 +902,15 @@
           )
           .join("");
 
-        setupCanvas(PAGE_WIDTH, PAGE_HEIGHT, "#ffffff");
-        setupKeyboardShortcuts();
-        setupRightClickContextMenu();
-
-        // Ensure lucide renders icons perfectly on load
-        if (typeof lucide !== "undefined") {
-          lucide.createIcons();
-        }
+        // DEBOUNCED ENGINE FOR MOBILE VIEW INITIALIZATION
+        setTimeout(() => {
+          setupCanvas(PAGE_WIDTH, PAGE_HEIGHT, "#ffffff");
+          setupKeyboardShortcuts();
+          setupRightClickContextMenu();
+          if (typeof lucide !== "undefined") {
+            lucide.createIcons();
+          }
+        }, 300);
 
         document.addEventListener("click", () => {
           hideShapesMenu();
@@ -1162,6 +1168,10 @@
           .classList.replace("flex", "hidden");
       }
 
+      document.addEventListener("contextmenu", (event) =>
+        event.preventDefault(),
+      );
+
       function mutateObjectColor(obj, hex) {
         if (obj.type === "textbox") obj.set("fill", color1);
         else {
@@ -1282,7 +1292,7 @@
           )
             dropdown.value = sizesState.brush;
           else if (mode !== "select" && mode !== "bucket" && mode !== "picker")
-            dropdown.value = 2; // Always enforce dropdown UI view to 2px for shapes
+            dropdown.value = 2;
         }
         updateCursor();
         canvas.requestRenderAll();
@@ -1390,9 +1400,7 @@
       }
 
       function executeShapeDrop(shapeType, pointer) {
-        // ALWAYS enforce default 2px thickness regardless of current size slider selection
         const thickness = 2;
-
         const fillStyle = document.getElementById("shape-fill-style").value;
         const outlineStyle = document.getElementById(
           "shape-outline-style",
@@ -1437,9 +1445,7 @@
           );
         } else if (shapeType === "curve") {
           shapeObj = new fabric.Path("M 0 50 Q 50 0 100 50", { ...config });
-        }
-        // PERFECT VALID VECTOR PATHS FOR DROPDOWN SHAPES (PREVENTS BROKEN SHAPES)
-        else if (shapeType === "diamond") {
+        } else if (shapeType === "diamond") {
           shapeObj = new fabric.Path("M 50 0 L 100 50 L 50 100 L 0 50 Z", {
             ...config,
             width: 100,
@@ -1597,9 +1603,14 @@
 
       function resetZoomToFit() {
         const container = document.getElementById("editor-container");
-        if (!container) return;
-        const scaleX = (container.clientWidth - 20) / PAGE_WIDTH;
-        const scaleY = (container.clientHeight - 20) / PAGE_HEIGHT;
+        if (
+          !container ||
+          container.clientWidth === 0 ||
+          container.clientHeight === 0
+        )
+          return;
+        const scaleX = (container.clientWidth - 24) / PAGE_WIDTH;
+        const scaleY = (container.clientHeight - 24) / PAGE_HEIGHT;
         zoomLevel = Math.min(scaleX, scaleY, 1.0);
         applyZoomLevel();
       }
@@ -1666,6 +1677,9 @@
         }, 2000);
       }
       window.addEventListener("resize", resetZoomToFit);
+      window.addEventListener("orientationchange", () => {
+        setTimeout(resetZoomToFit, 200);
+      });
     </script>
   </body>
 </html>
