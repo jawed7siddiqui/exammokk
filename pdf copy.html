@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-0FF5N45N46"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-0FF5N45N46");
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>
+      KidsPaint Cloud - Master Valley Public School Institutional Proposal
+    </title>
+
+    <!-- Core Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap");
+      body {
+        font-family: "Montserrat", sans-serif;
+      }
+      /* Strict PDF Page Split Structure for Flawless Instant Downloads */
+      .pdf-page {
+        width: 850px !important;
+        max-width: 850px !important;
+        min-height: 1100px !important;
+        height: 1100px !important;
+        padding: 45px !important;
+        box-sizing: border-box !important;
+        background: white !important;
+        position: relative !important;
+        margin: 0 auto 30px auto !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+      @media print {
+        .no-print-btn {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-indigo-50/30 text-slate-800 antialiased p-0 sm:p-6">
+    <!-- FLOATING ACTION BUTTON -->
+    <div class="fixed bottom-6 right-6 z-[99999] no-print-btn">
+      <button
+        onclick="generateMultiPagePDF()"
+        class="bg-gradient-to-r from-purple-600 via-pink-500 to-rose-500 text-white font-black px-6 py-4 rounded-2xl shadow-2xl transition-all active:scale-95 flex items-center gap-2.5 text-xs uppercase tracking-wider cursor-pointer border border-purple-400"
+      >
+        <i data-lucide="download-cloud" class="w-5 h-5 animate-bounce"></i>
+        Download 2-Page Proposal PDF
+      </button>
+    </div>
+
+    <!-- DOCUMENT WRAPPER -->
+    <div id="document-root" class="max-w-[860px] mx-auto">
+      <!-- ========================================== -->
+      <!-- PAGE 1: VISION, CURRICULUM MATRIX & SKILLS -->
+      <!-- ========================================== -->
+      <div
+        class="pdf-page rounded-3xl border-2 border-purple-100 flex flex-col justify-between"
+      >
+        <div>
+          <!-- HERO BRANDING HEADER -->
+          <div
+            class="bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 p-6 rounded-2xl text-white text-center relative overflow-hidden mb-5"
+          >
+            <span
+              class="bg-white/20 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-white/10"
+            >
+              Computer Education & Cognitive Development Program (Classes
+              I–VIII)
+            </span>
+            <h1 class="text-4xl font-black tracking-tight uppercase mt-2">
+              KidsPaint Cloud
+            </h1>
+            <p
+              class="text-xs font-bold text-amber-300 tracking-wider uppercase mt-1"
+            >
+              Custom Workspace Exclusively Built For: Master Valley Public
+              School
+            </p>
+            <p
+              class="text-[11px] font-semibold text-purple-100 max-w-2xl mx-auto mt-2 leading-relaxed"
+            >
+              Designed in alignment with the vision of NEP 2020 to actively
+              boost students'
+              <strong
+                >IQ, Creative Learning Ability, Spatial Intelligence,</strong
+              >
+              and Computational Thinking through art-integrated technology.
+            </p>
+          </div>
+
+          <!-- VISION & PLATFORM DESCRIPTION -->
+          <div
+            class="mb-5 bg-slate-50 p-4 rounded-xl border border-slate-200/60"
+          >
+            <h3
+              class="text-xs font-black text-indigo-950 uppercase tracking-wider mb-1 flex items-center gap-2"
+            >
+              <i data-lucide="eye" class="w-4 h-4 text-indigo-600"></i> Program
+              Vision & Cognitive Core
+            </h3>
+            <p class="text-[11px] text-slate-600 font-semibold leading-relaxed">
+              KidsPaint Cloud is an interactive Computer Education platform
+              meticulously mapped to sharpen a student's cognitive processing.
+              By merging traditional mouse controls with geometric variables, it
+              naturally elevates a child's mental bandwidth, logical deduction,
+              and spatial design thinking through digital, hands-on activities.
+            </p>
+          </div>
+
+          <!-- CLASS-WISE LEARNING OUTCOMES MATRIX TABLE -->
+          <div class="mb-5">
+            <h3
+              class="text-xs font-black text-slate-900 uppercase tracking-wider mb-2.5 flex items-center gap-2"
+            >
+              <i data-lucide="table" class="w-4 h-4 text-purple-600"></i>
+              Curriculum Matrix & Outcomes
+            </h3>
+            <div
+              class="border border-slate-200 rounded-xl overflow-hidden shadow-sm"
+            >
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr
+                    class="bg-slate-900 text-white text-[10px] font-black uppercase tracking-wider"
+                  >
+                    <th class="p-2 border-b border-slate-800 w-16 text-center">
+                      Class
+                    </th>
+                    <th class="p-2 border-b border-slate-800">
+                      Students Will Learn & Master
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="text-[10px] font-bold text-slate-600 divide-y divide-slate-100"
+                >
+                  <tr class="bg-indigo-50/20">
+                    <td class="p-2 text-center text-indigo-700 font-black">
+                      Class 1
+                    </td>
+                    <td class="p-2">
+                      Mouse handling, Click, Double Click, Drag & Drop, Color
+                      Fill, Pencil, Eraser, Basic Shapes, Save Drawing
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 text-center text-purple-700 font-black">
+                      Class 2
+                    </td>
+                    <td class="p-2">
+                      Brush Tools, Text Tool, Shapes, Coloring, Pattern Drawing,
+                      Festivals Drawing, Nature Drawing
+                    </td>
+                  </tr>
+                  <tr class="bg-indigo-50/20">
+                    <td class="p-2 text-center text-pink-700 font-black">
+                      Class 3
+                    </td>
+                    <td class="p-2">
+                      Advanced Shapes, Line Tools, Symmetry, Poster Making,
+                      Greeting Card Design, Computer Basics
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 text-center text-emerald-700 font-black">
+                      Class 4
+                    </td>
+                    <td class="p-2">
+                      Geometry Drawing, Scale & Resize, Copy/Paste, Layers
+                      Basics, Maps, Charts
+                    </td>
+                  </tr>
+                  <tr class="bg-indigo-50/20">
+                    <td class="p-2 text-center text-amber-700 font-black">
+                      Class 5
+                    </td>
+                    <td class="p-2">
+                      Scientific Diagrams, Flowcharts, Digital Poster,
+                      Environmental Projects, Keyboard Shortcuts
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 text-center text-blue-700 font-black">
+                      Class 6
+                    </td>
+                    <td class="p-2">
+                      Digital Illustration, Design Principles, Color Theory,
+                      Logo Design, Infographics
+                    </td>
+                  </tr>
+                  <tr class="bg-indigo-50/20">
+                    <td class="p-2 text-center text-rose-700 font-black">
+                      Class 7
+                    </td>
+                    <td class="p-2">
+                      STEM Drawing, Science Models, Geography Maps, Pixel Art,
+                      Creative Design Projects
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 text-center text-teal-700 font-black">
+                      Class 8
+                    </td>
+                    <td class="p-2">
+                      Advanced Digital Art, UI Design Basics, AI-assisted
+                      Drawing, Presentation Graphics, Portfolio Creation
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- CORE SKILLS DEVELOPED GRID -->
+          <div>
+            <h3
+              class="text-xs font-black text-slate-900 uppercase tracking-wider mb-2 flex items-center gap-2"
+            >
+              <i data-lucide="star" class="w-4 h-4 text-amber-500"></i> Core
+              Cognitive Skills Developed
+            </h3>
+            <div
+              class="grid grid-cols-3 gap-2 text-[10px] font-bold text-slate-700"
+            >
+              <div
+                class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                Computer Fundamentals
+              </div>
+              <div
+                class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                Mouse & Keyboard Skills
+              </div>
+              <div
+                class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                Digital Creativity
+              </div>
+              <div
+                class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                Fine Motor Skills
+              </div>
+              <div
+                class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                Hand-Eye Coordination
+              </div>
+              <div
+                class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                Problem Solving
+              </div>
+              <div
+                class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                Logical Thinking
+              </div>
+              <div
+                class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                Computational Thinking
+              </div>
+              <div
+                class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                Design Thinking
+              </div>
+              <div
+                class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                Art Integration
+              </div>
+              <div
+                class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                Digital Citizenship
+              </div>
+              <div
+                class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                Creativity & Innovation
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE 1 FOOTER -->
+        <div
+          class="border-t border-slate-100 pt-3 flex justify-between items-center text-[9px] text-slate-400 font-bold uppercase tracking-wider"
+        >
+          <span>KidsPaint Cloud — Institutional Proposals</span>
+          <span>Page 1 of 2</span>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- PAGE 2: PREMIUM WHITELIST FEATURES & PROCESS -->
+      <!-- ========================================== -->
+      <div
+        class="pdf-page rounded-3xl border-2 border-purple-100 flex flex-col justify-between"
+      >
+        <div>
+          <!-- PAGE HEADER -->
+          <div class="border-b-2 border-purple-500/20 pb-3 mb-5">
+            <h2
+              class="text-xl font-black text-slate-900 uppercase tracking-tight"
+            >
+              Premium Institutional Control & Whitelisting
+            </h2>
+            <p class="text-xs font-bold text-indigo-600 uppercase mt-0.5">
+              Subdomain Isolation, Performance Monitoring, and Branding Engine
+            </p>
+          </div>
+
+          <!-- AD-FREE ENVIRONMENT & WORKSPACE ACCESS -->
+          <div class="grid grid-cols-1 gap-3.5 mb-6">
+            <!-- Monitoring Dashboard -->
+            <div
+              class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-indigo-100 p-4 rounded-xl flex items-start gap-3 shadow-sm"
+            >
+              <div
+                class="p-2 bg-indigo-600 text-white rounded-lg shadow-md mt-0.5"
+              >
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h4
+                  class="text-xs font-black text-indigo-950 uppercase tracking-wide"
+                >
+                  Live Canvas Monitoring Console
+                </h4>
+                <p
+                  class="text-[11px] text-slate-600 font-semibold mt-0.5 leading-relaxed"
+                >
+                  The Principal and authorized computer faculty gain an admin
+                  management dashboard to monitor, review, and evaluate saved
+                  artworks of all students across various classes
+                  simultaneously.
+                </p>
+              </div>
+            </div>
+
+            <!-- Competition System -->
+            <div
+              class="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 p-4 rounded-xl flex items-start gap-3 shadow-sm"
+            >
+              <div
+                class="p-2 bg-purple-600 text-white rounded-lg shadow-md mt-0.5"
+              >
+                <i data-lucide="trophy" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h4
+                  class="text-xs font-black text-purple-950 uppercase tracking-wide"
+                >
+                  In-App Drawing Competitions
+                </h4>
+                <p
+                  class="text-[11px] text-slate-600 font-semibold mt-0.5 leading-relaxed"
+                >
+                  Seamlessly host intra-school creative print and drawing
+                  competitions. Instructors can enforce runtime topics, review
+                  art submissions systematically, and announce rank parameters.
+                </p>
+              </div>
+            </div>
+
+            <!-- Digital Branding Certificates -->
+            <div
+              class="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 p-4 rounded-xl flex items-start gap-3 shadow-sm"
+            >
+              <div
+                class="p-2 bg-amber-500 text-slate-900 rounded-lg shadow-md mt-0.5"
+              >
+                <i data-lucide="award" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h4
+                  class="text-xs font-black text-amber-950 uppercase tracking-wide"
+                >
+                  Rank-Wise Automated Certificates & Social Marketing
+                </h4>
+                <p
+                  class="text-[11px] text-slate-600 font-semibold mt-0.5 leading-relaxed"
+                >
+                  Automatically generate custom, high-resolution **Digital
+                  Certificates** locked with the Master Valley Public School
+                  logo for absolute winners and rank holders (Rank 1, 2, 3).
+                  These tokens can be cleanly shared on social channels to
+                  market the institution's premier technology focus.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP BY STEP APPLICATION DEPLOYMENT PROCESS -->
+          <div class="space-y-4 border-t border-slate-100 pt-4">
+            <h3
+              class="font-black text-slate-800 uppercase text-xs tracking-wider"
+            >
+              4 Simple Steps to Activate Your Whitelisted Custom Workspace
+            </h3>
+
+            <div
+              class="relative border-l-2 border-purple-100 pl-6 ml-3 space-y-4 text-slate-600"
+            >
+              <!-- Step 1 -->
+              <div class="relative">
+                <div
+                  class="absolute -left-[31px] top-0 bg-indigo-600 text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-md"
+                >
+                  1
+                </div>
+                <h4
+                  class="text-xs font-black text-indigo-950 uppercase tracking-wide"
+                >
+                  Private Subdomain Provisioning
+                </h4>
+                <p
+                  class="text-[11px] text-slate-600 font-semibold mt-0.5 leading-relaxed"
+                >
+                  We initialize a dedicated, isolated host space mapping node
+                  for your institution:
+                  <strong class="text-indigo-600 font-bold"
+                    >mastervalley.kidspaint.cloud</strong
+                  >.
+                </p>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="relative">
+                <div
+                  class="absolute -left-[31px] top-0 bg-purple-600 text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-md"
+                >
+                  2
+                </div>
+                <h4
+                  class="text-xs font-black text-purple-950 uppercase tracking-wide"
+                >
+                  Logo Integration & White-Labeling
+                </h4>
+                <p
+                  class="text-[11px] text-slate-600 font-semibold mt-0.5 leading-relaxed"
+                >
+                  The software header completely embeds the official school logo
+                  on top, locking an exclusive, branded workspace environment
+                  for all students.
+                </p>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="relative">
+                <div
+                  class="absolute -left-[31px] top-0 bg-pink-600 text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-md"
+                >
+                  3
+                </div>
+                <h4
+                  class="text-xs font-black text-pink-950 uppercase tracking-wide"
+                >
+                  ISP Lab Whitelisting
+                </h4>
+                <p
+                  class="text-[11px] text-slate-600 font-semibold mt-0.5 leading-relaxed"
+                >
+                  The domain is securely optimized on the school's local
+                  laboratory router network firewall to ensure rapid,
+                  latency-free asset caching across multiple computers
+                  simultaneously.
+                </p>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="relative">
+                <div
+                  class="absolute -left-[31px] top-0 bg-amber-500 text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-md"
+                >
+                  4
+                </div>
+                <h4
+                  class="text-xs font-black text-amber-950 uppercase tracking-wide"
+                >
+                  1-Month Free Trial & Always-Free Layer
+                </h4>
+                <p
+                  class="text-[11px] text-slate-600 font-semibold mt-0.5 leading-relaxed"
+                >
+                  The standard drawing engine remains
+                  <strong class="text-indigo-600">Always Free</strong> for open
+                  practice. Your premium custom workspace goes live under a
+                  **1-Month Free Demo Trial**. Premium workspace billing at
+                  <strong class="text-emerald-600">₹5 / student / month</strong>
+                  activates only post explicit confirmation.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE 2 FOOTER -->
+        <div
+          class="border-t border-slate-100 pt-4 flex flex-col sm:flex-row items-center justify-between text-[10px] text-slate-400 font-bold uppercase tracking-wider gap-2"
+        >
+          <span class="flex items-center gap-1"
+            ><i data-lucide="award" class="w-3.5 h-3.5 text-indigo-500"></i>
+            Powered by kidspaint.cloud</span
+          >
+          <span>Page 2 of 2</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HIGH PERFORMANCE MULTI PAGE PDF EXPORT ENGINE -->
+    <script>
+      if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+      }
+
+      function generateMultiPagePDF() {
+        const { jsPDF } = window.jspdf;
+        const pages = document.querySelectorAll(".pdf-page");
+        const floatingBtn = document.querySelector(".no-print-btn");
+
+        if (pages.length === 0) return;
+
+        // Hide floating downloader safely during snapshot capture
+        if (floatingBtn)
+          floatingBtn.style.setProperty("display", "none", "important");
+
+        // Fixed A4 Standard Dimension Coordinates Mapping
+        const targetW = 850;
+        const targetH = 1100;
+
+        const pdfReport = new jsPDF({
+          orientation: "p",
+          unit: "px",
+          format: [targetW, targetH],
+        });
+
+        const capturePromises = [];
+
+        // Render both discrete pages sequentially to stop splits/cuts
+        pages.forEach((pageElement, index) => {
+          const renderOptions = {
+            scale: 2, // Retains premium vector crisp layout definitions
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: "#ffffff",
+            logging: false,
+            width: targetW,
+            height: targetH,
+          };
+
+          const promise = html2canvas(pageElement, renderOptions).then(
+            (canvas) => {
+              const imgData = canvas.toDataURL("image/jpeg", 1.0);
+
+              if (index > 0) {
+                pdfReport.addPage([targetW, targetH]);
+              }
+
+              pdfReport.addImage(
+                imgData,
+                "JPEG",
+                0,
+                0,
+                targetW,
+                targetH,
+                "",
+                "FAST",
+              );
+            },
+          );
+
+          capturePromises.push(promise);
+        });
+
+        // Clean file download call trigger
+        Promise.all(capturePromises)
+          .then(() => {
+            pdfReport.save("Master-Valley-School-KidsPaint-Proposal.pdf");
+            if (floatingBtn) floatingBtn.style.setProperty("display", "block");
+          })
+          .catch((err) => {
+            console.error("Multi-Page PDF execution crash:", err);
+            if (floatingBtn) floatingBtn.style.setProperty("display", "block");
+          });
+      }
+    </script>
+  </body>
+</html>
