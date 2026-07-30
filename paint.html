@@ -12,7 +12,6 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-0FF5N45N46");
     </script>
     <meta charset="UTF-8" />
@@ -21,82 +20,62 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
 
-    <!-- PRIMARY SEO META TAGS -->
     <title>
       Kids Paint - 100% Free Online Drawing Tool for School Students
     </title>
     <meta
       name="description"
-      content="Kids Paint is a 100% free worldwide online paint tool designed for Indian school students (CBSE, UP Board, Bihar Board, & all state boards). Let kids learn drawing and unleash creativity online for free."
+      content="Kids Paint is a 100% free worldwide online paint tool designed for Indian school students. Let kids learn drawing and unleash creativity online for free."
     />
     <meta
       name="keywords"
-      content="online paint, free kids paint, worldwide online drawing tool, kids paint india, school student drawing app, cbse school drawing, up board drawing practice, bihar board school art, 100% free education tool, online free drawing for kids"
+      content="online paint, free kids paint, worldwide online drawing tool, kids paint india, school student drawing app"
     />
     <meta name="author" content="Kids Paint" />
     <meta name="robots" content="index, follow" />
 
-    <!-- OPEN GRAPH / FACEBOOK SEO META TAGS -->
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Kids Paint - Free Online Drawing Tool for School Students"
-    />
-    <meta
-      property="og:description"
-      content="100% Free Worldwide Online Paint Tool for CBSE, UP Board, Bihar Board and all school students. No installation, start drawing instantly!"
-    />
-    <meta property="og:image" content="/images/seo-banner.png" />
-    <meta property="og:url" content="https://kidspaint.jawedsiddiqui.cloud" />
-    <link
-      rel="canonical"
-      href="https://kidspaint.jawedsiddiqui.cloud/paint.html"
-    />
-    <!-- TWITTER SEO META TAGS -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Kids Paint - Free Online Drawing for Indian Students"
-    />
-    <meta
-      name="twitter:description"
-      content="Worldwide free education drawing pad for school students. Perfect for CBSE, UP Board, and Bihar Board art practice."
-    />
-    <meta name="twitter:image" content="/images/seo-banner.png" />
-
+    <!-- CDN SCRIPTS LOADED PROPERLY -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="/js/lucide.min.js"></script>
-    <script src="/js/fabric.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <link rel="stylesheet" href="/fonts/fonts.css" />
+
     <style>
       body {
         font-family: "Montserrat", sans-serif;
         background: #f1f5f9;
-        height: 100vh; /* Fallback */
-        height: 100dvh; /* Android/iOS dynamic bar fix */
+        height: 100vh;
+        height: 100dvh;
         display: flex;
         flex-direction: column;
         overflow: hidden;
         position: relative;
       }
+      header {
+        position: relative;
+        z-index: 60;
+      }
       #editor-container {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         flex-grow: 1;
-        flex-shrink: 1; /* Chrome को मजबूर करेगा कि वो एडिटर को सिकोड़े, न कि फ़ुटर को छुपाए */
+        flex-shrink: 1;
         overflow: auto;
         padding: 10px;
         background: #cbd5e1;
         position: relative;
-        min-height: 0; /* Chrome flexbox bug fix */
+        min-height: 0;
       }
       @media (min-width: 768px) {
         #editor-container {
-          padding: 40px;
+          padding: 20px;
         }
       }
       .canvas-holder {
-        display: table;
+        display: block;
         margin: auto;
+        flex-shrink: 0;
       }
       .canvas-container {
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
@@ -160,15 +139,12 @@
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         border-color: #4f46e5;
       }
-
-      /* SMOOTH ACTIVE BORDER FOR ACTIVE COLOR TARGET */
       .color-box.active {
         outline: none;
         box-shadow:
           0 0 0 2px #fff,
           0 0 0 4px #4f46e5;
       }
-
       .no-scrollbar::-webkit-scrollbar {
         display: none;
       }
@@ -176,7 +152,6 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
-
       #custom-context-menu {
         position: absolute;
         z-index: 9999;
@@ -257,14 +232,12 @@
 
     <!-- HEADER TOOLBAR -->
     <header
-      class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-[60] flex flex-col p-2 gap-1.5"
+      class="bg-white border-b border-slate-200 shadow-sm flex flex-col p-2 gap-1.5 shrink-0"
     >
-      <!-- Top Action Ribbon -->
       <div
         class="flex items-center justify-between px-2 pb-1 border-b border-slate-100"
       >
         <div class="flex items-center gap-2">
-          <!-- LOGO AND TEXT ALWAYS VISIBLE -->
           <a href="/" class="flex items-center gap-1 no-underline">
             <i
               data-lucide="sparkles"
@@ -282,7 +255,6 @@
           </button>
         </div>
 
-        <!-- History Stack Controls -->
         <div
           class="flex items-center gap-1 bg-slate-50 px-1.5 py-0.5 rounded-xl border border-slate-100 shadow-inner"
         >
@@ -301,34 +273,16 @@
             <i data-lucide="redo-2" class="w-3.5 h-3.5"></i>
           </button>
           <div class="w-[1px] h-3 bg-slate-300 mx-0.5"></div>
-
-          <!-- FIXED MOBILE FRIENDLY EXPORT ENGINE BUTTON -->
           <button
             onclick="downloadPaint()"
             class="bg-indigo-600 text-white w-8 h-8 rounded-lg shadow hover:bg-indigo-700 transition-all active:scale-90 flex items-center justify-center shrink-0"
             title="Export PNG"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="text-white"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
+            <i data-lucide="download" class="w-4 h-4 text-white"></i>
           </button>
         </div>
       </div>
 
-      <!-- Main Toolbar Container -->
       <div
         class="flex items-stretch justify-start md:justify-center gap-3 px-1 overflow-x-auto no-scrollbar pb-1 w-full"
       >
@@ -386,7 +340,7 @@
           <div class="tool-section-label">Tools</div>
         </div>
 
-        <!-- SECTION 2: BRUSHES (UPDATED TO PATTERN AND SPRAY) -->
+        <!-- SECTION 2: BRUSHES -->
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
@@ -441,48 +395,35 @@
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
-          <!-- SECTION 3: COLORS PALETTE -->
-          <div
-            class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
-          >
-            <div class="flex items-center gap-1 min-h-[42px] md:min-h-[80px]">
-              <!-- यहाँ बॉर्डर को ब्लैक से बदलकर सिल्वर (border-slate-200) कर दिया गया है -->
+          <div class="flex items-center gap-1 min-h-[42px] md:min-h-[80px]">
+            <div
+              class="flex gap-1.5 bg-slate-50 p-0.5 rounded-xl border border-slate-200 shrink-0"
+            >
               <div
-                class="flex gap-1.5 bg-slate-50 p-0.5 rounded-xl border border-slate-200 shrink-0"
-              >
-                <div
-                  onclick="setActiveColorTarget('color1')"
-                  id="box-color1"
-                  class="color-box w-6 h-6 rounded bg-black cursor-pointer shadow active"
-                ></div>
-                <div
-                  onclick="setActiveColorTarget('color2')"
-                  id="box-color2"
-                  class="color-box w-6 h-6 rounded bg-white cursor-pointer shadow border border-slate-200"
-                ></div>
-              </div>
-              <div
-                id="palette-colors"
-                class="grid grid-cols-6 gap-0.5 w-[140px] md:w-[132px] shrink-0"
+                id="box-color1"
+                class="color-box w-6 h-6 rounded bg-black cursor-pointer shadow active"
               ></div>
-              <div
-                class="relative w-6 h-6 rounded border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-sm cursor-pointer shrink-0"
-                title="Custom Picker"
-              >
-                <i
-                  data-lucide="pipette"
-                  class="w-3 text-slate-400 pointer-events-none"
-                ></i>
-                <input
-                  type="color"
-                  id="custom-color-picker"
-                  oninput="selectColor(this.value)"
-                  class="absolute inset-0 opacity-0 cursor-pointer"
-                  value="#000000"
-                />
-              </div>
             </div>
-            <div class="tool-section-label pl-1 text-left">Colors</div>
+            <div
+              id="palette-colors"
+              class="grid grid-cols-6 gap-0.5 w-[140px] md:w-[132px] shrink-0"
+            ></div>
+            <div
+              class="relative w-6 h-6 rounded border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-sm cursor-pointer shrink-0"
+              title="Custom Picker"
+            >
+              <i
+                data-lucide="pipette"
+                class="w-3 text-slate-400 pointer-events-none"
+              ></i>
+              <input
+                type="color"
+                id="custom-color-picker"
+                oninput="selectColor(this.value)"
+                class="absolute inset-0 opacity-0 cursor-pointer"
+                value="#000000"
+              />
+            </div>
           </div>
           <div class="tool-section-label pl-1 text-left">Colors</div>
         </div>
@@ -539,7 +480,7 @@
             >
               <i data-lucide="triangle" class="w-5 h-5 md:w-4 md:h-4"></i>
             </button>
-            <div>
+            <div class="relative">
               <button
                 id="shapes-toggle-btn"
                 onclick="toggleMoreShapesMenu(event)"
@@ -735,8 +676,6 @@
     </main>
 
     <!-- VIEW STATUS BAR -->
-    <!-- VIEW STATUS BAR (Android Chrome Bottom Bar Fix) -->
-    <!-- VIEW STATUS BAR -->
     <footer
       class="bg-white border-t border-slate-200 px-3 py-2 flex flex-row items-center justify-between gap-2 text-[11px] font-semibold text-slate-500 shadow-sm sticky bottom-0 z-[999] w-full shrink-0"
     >
@@ -899,8 +838,6 @@
     <script>
       let canvas;
       let color1 = "#000000";
-      let color2 = "#ffffff";
-      let activeColorTarget = "color1";
       let canvasHistory = [];
       let historyStep = -1;
       let isStateChanging = false;
@@ -911,7 +848,7 @@
       let PAGE_WIDTH = 1152;
       let PAGE_HEIGHT = 648;
 
-      let sizesState = { text: 36, shape: 6, brush: 16 };
+      let sizesState = { text: 36, shape: 2, brush: 16 };
       let activeDrawType = "pen";
 
       const paintPalette = [
@@ -963,7 +900,11 @@
         setupCanvas(PAGE_WIDTH, PAGE_HEIGHT, "#ffffff");
         setupKeyboardShortcuts();
         setupRightClickContextMenu();
-        lucide.createIcons();
+
+        // Ensure lucide renders icons perfectly on load
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
 
         document.addEventListener("click", () => {
           hideShapesMenu();
@@ -980,7 +921,6 @@
         drop.classList.toggle("hidden");
       }
 
-      // Dropdowns mapping handler
       function hideShapesMenu() {
         document.getElementById("more-shapes-dropdown").classList.add("hidden");
       }
@@ -1195,22 +1135,9 @@
         });
       }
 
-      function setActiveColorTarget(target) {
-        activeColorTarget = target;
-        document
-          .querySelectorAll(".color-box")
-          .forEach((el) => el.classList.remove("active"));
-        document.getElementById(`box-color-${target}`).classList.add("active");
-      }
-
       function selectColor(hex) {
-        if (activeColorTarget === "color1") {
-          color1 = hex;
-          document.getElementById("box-color1").style.background = hex;
-        } else {
-          color2 = hex;
-          document.getElementById("box-color2").style.background = hex;
-        }
+        color1 = hex;
+        document.getElementById("box-color1").style.background = hex;
 
         if (canvas && canvas.isDrawingMode && canvas.freeDrawingBrush)
           canvas.freeDrawingBrush.color = color1;
@@ -1236,10 +1163,8 @@
       }
 
       function mutateObjectColor(obj, hex) {
-        const fillStyle = document.getElementById("shape-fill-style").value;
         if (obj.type === "textbox") obj.set("fill", color1);
         else {
-          if (fillStyle === "solid") obj.set("fill", color2);
           obj.set("stroke", color1);
         }
       }
@@ -1281,7 +1206,6 @@
         document.getElementById("image-resize-modal").classList.remove("flex");
       }
 
-      // Canvas properties mutations direct engine
       function modifyObjThicknessDirect(obj, sizeValue) {
         if (obj.type === "textbox") {
           obj.set("fontSize", sizeValue);
@@ -1323,10 +1247,10 @@
           if (activeObj.type === "activeSelection")
             activeObj.forEachObject((obj) => {
               if (obj.type !== "textbox")
-                obj.set("fill", style === "solid" ? color2 : "transparent");
+                obj.set("fill", style === "solid" ? color1 : "transparent");
             });
           else if (activeObj.type !== "textbox")
-            activeObj.set("fill", style === "solid" ? color2 : "transparent");
+            activeObj.set("fill", style === "solid" ? color1 : "transparent");
           canvas.renderAll();
           saveCanvasHistory();
         }
@@ -1358,7 +1282,7 @@
           )
             dropdown.value = sizesState.brush;
           else if (mode !== "select" && mode !== "bucket" && mode !== "picker")
-            dropdown.value = sizesState.shape;
+            dropdown.value = 2; // Always enforce dropdown UI view to 2px for shapes
         }
         updateCursor();
         canvas.requestRenderAll();
@@ -1387,7 +1311,6 @@
         canvas.hoverCursor = cursor;
       }
 
-      /* UPDATED DRAWING ENGINE FOR PATTERN AND SPRAY BRUSHES */
       function startDrawing(type) {
         setMode(type);
         activeDrawType = type;
@@ -1406,7 +1329,6 @@
           brush.density = 35;
           brush.dotWidth = 2.5;
         } else if (type === "pattern") {
-          // Created a native checkered/dotted geometric structural stroke feel using dash layers
           brush = new fabric.PencilBrush(canvas);
           brush.strokeDashArray = [4, 6];
           brush.strokeLineCap = "round";
@@ -1434,6 +1356,8 @@
 
       function setShapeMode(type) {
         setMode(type);
+        const centerPointer = { x: PAGE_WIDTH / 2, y: PAGE_HEIGHT / 2 };
+        executeShapeDrop(type, centerPointer);
       }
 
       function handleCanvasMouseDownClick(options) {
@@ -1462,24 +1386,13 @@
           });
           txt.enterEditing();
           txt.selectAll();
-        } else if (
-          ![
-            "select",
-            "pen",
-            "brush",
-            "calli1",
-            "calli2",
-            "pattern",
-            "spray",
-            "eraser",
-          ].includes(activeMode)
-        ) {
-          executeShapeDrop(activeMode, pointer);
         }
       }
 
       function executeShapeDrop(shapeType, pointer) {
-        const thickness = 6;
+        // ALWAYS enforce default 2px thickness regardless of current size slider selection
+        const thickness = 2;
+
         const fillStyle = document.getElementById("shape-fill-style").value;
         const outlineStyle = document.getElementById(
           "shape-outline-style",
@@ -1492,15 +1405,16 @@
           top: pointer.y,
           originX: "center",
           originY: "center",
-          fill: fillStyle === "solid" ? color2 : "transparent",
+          fill: fillStyle === "solid" ? color1 : "transparent",
           stroke: color1,
           strokeWidth: thickness,
           strokeDashArray: dashArray,
         };
+
         let shapeObj;
-        if (shapeType === "rect")
+        if (shapeType === "rect") {
           shapeObj = new fabric.Rect({ ...config, width: 140, height: 90 });
-        else if (shapeType === "roundrect")
+        } else if (shapeType === "roundrect") {
           shapeObj = new fabric.Rect({
             ...config,
             width: 140,
@@ -1508,57 +1422,55 @@
             rx: 15,
             ry: 15,
           });
-        else if (shapeType === "circle")
+        } else if (shapeType === "circle") {
           shapeObj = new fabric.Circle({ ...config, radius: 55 });
-        else if (shapeType === "triangle")
+        } else if (shapeType === "triangle") {
           shapeObj = new fabric.Triangle({
             ...config,
             width: 120,
             height: 110,
           });
-        else if (shapeType === "diamond")
-          shapeObj = new fabric.Rect({
+        } else if (shapeType === "line") {
+          shapeObj = new fabric.Line(
+            [pointer.x - 70, pointer.y, pointer.x + 70, pointer.y],
+            { ...config, role: "line" },
+          );
+        } else if (shapeType === "curve") {
+          shapeObj = new fabric.Path("M 0 50 Q 50 0 100 50", { ...config });
+        }
+        // PERFECT VALID VECTOR PATHS FOR DROPDOWN SHAPES (PREVENTS BROKEN SHAPES)
+        else if (shapeType === "diamond") {
+          shapeObj = new fabric.Path("M 50 0 L 100 50 L 50 100 L 0 50 Z", {
             ...config,
             width: 100,
             height: 100,
-            angle: 45,
           });
-        else if (shapeType === "line")
-          shapeObj = new fabric.Line(
-            [pointer.x - 70, pointer.y, pointer.x + 70, pointer.y],
-            { ...config, strokeWidth: thickness, role: "line" },
-          );
-        else if (shapeType === "pentagon")
+        } else if (shapeType === "pentagon") {
           shapeObj = new fabric.Path(
-            "M 25,0 L 50,18 L 40,48 L 10,48 L 0,18 Z",
-            { ...config, scaleX: 2.5, scaleY: 2.5 },
+            "M 50 0 L 100 38 L 81 100 L 19 100 L 0 38 Z",
+            { ...config, width: 100, height: 100 },
           );
-        else if (shapeType === "lightning")
+        } else if (shapeType === "star") {
           shapeObj = new fabric.Path(
-            "M 10,0 L 0,20 L 10,20 L 5,40 L 20,15 L 10,15 Z",
-            { ...config, scaleX: 2.8, scaleY: 2.8 },
+            "M 50 0 L 64 36 L 100 36 L 71 57 L 81 95 L 50 72 L 19 95 L 29 57 L 0 36 L 36 36 Z",
+            { ...config, width: 100, height: 100 },
           );
-        else if (shapeType === "star")
+        } else if (shapeType === "arrow") {
           shapeObj = new fabric.Path(
-            "M 12,0 L 15,9 L 24,9 L 17,14 L 20,23 L 12,17 L 4,23 L 7,14 L 0,9 L 9,9 Z",
-            { ...config, scaleX: 5.0, scaleY: 5.0 },
+            "M 0 35 L 60 35 L 60 0 L 100 50 L 60 100 L 60 65 L 0 65 Z",
+            { ...config, width: 120, height: 80 },
           );
-        else if (shapeType === "arrow")
+        } else if (shapeType === "heart") {
           shapeObj = new fabric.Path(
-            "M 0,6 L 12,6 L 12,0 L 24,9 L 12,18 L 12,12 L 0,12 Z",
-            { ...config, scaleX: 5.0, scaleY: 5.0 },
+            "M 50 20 C 50 20 38 0 19 0 C 8 0 0 9 0 21 C 0 39 25 57 50 80 C 75 57 100 39 100 21 C 100 9 92 0 81 0 C 62 0 50 20 50 20 Z",
+            { ...config, width: 90, height: 90 },
           );
-        else if (shapeType === "heart")
+        } else if (shapeType === "lightning") {
           shapeObj = new fabric.Path(
-            "M 12,5 C 8,0 0,2 0,10 C 0,17 12,24 12,24 C 12,24 24,17 24,10 C 24,2 16,0 12,5 Z",
-            { ...config, scaleX: 5.0, scaleY: 5.0 },
+            "M 40 0 L 0 55 L 35 55 L 15 100 L 70 35 L 35 35 Z",
+            { ...config, width: 70, height: 100 },
           );
-        else if (shapeType === "curve")
-          shapeObj = new fabric.Path("M 0,0 Q 50,-50 100,0", {
-            ...config,
-            scaleX: 1.8,
-            scaleY: 1.8,
-          });
+        }
 
         if (shapeObj) {
           disableObjectRotation(shapeObj);
@@ -1673,10 +1585,6 @@
         zoomLevel = parseFloat(v) / 100;
         applyZoomLevel();
       }
-      function applyZoomLevelDirect(v) {
-        zoomLevel = v;
-        applyZoomLevel();
-      }
 
       function applyZoomLevel() {
         canvas.setZoom(zoomLevel);
@@ -1689,6 +1597,7 @@
 
       function resetZoomToFit() {
         const container = document.getElementById("editor-container");
+        if (!container) return;
         const scaleX = (container.clientWidth - 20) / PAGE_WIDTH;
         const scaleY = (container.clientHeight - 20) / PAGE_HEIGHT;
         zoomLevel = Math.min(scaleX, scaleY, 1.0);
@@ -1703,7 +1612,7 @@
         setupCanvas(w, h, "#ffffff");
         closeNewCanvasModal();
         setMode("select");
-        lucide.createIcons();
+        if (typeof lucide !== "undefined") lucide.createIcons();
       }
 
       function saveCanvasHistory() {
