@@ -1,6 +1,7 @@
 RewriteEngine On
 
+# 1. Map /about-us to about-us.html
+RewriteRule ^about-us/?$ about-us.html [L,QSA]
 
-RewriteRule ^about-us/(.*)$ about-us.html [L,QSA]
-RewriteRule ^contact-us/(.*)$ contact-us.html [L,QSA]
-
+# 2. Map /contact-us to contact-us.html
+RewriteRule ^contact-us/?$ contact-us.html [L,QSA]
