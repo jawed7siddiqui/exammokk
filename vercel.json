@@ -8,6 +8,10 @@
     {
       "source": "/proposal",
       "destination": "/proposal.html"
+    },
+    {
+      "source": "/about-us",
+      "destination": "/about-us.html"
     }
   ]
 }
