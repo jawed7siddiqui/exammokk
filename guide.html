@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kids Paint Magic Guide - Interactive Documentation</title>
+
+    <!-- CURATED KID-FRIENDLY GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- TAILWIND CSS & LUCIDE ICONS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      body {
+        font-family: "Quicksand", sans-serif;
+        background-color: #f8fafc;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+      }
+      .kids-title {
+        font-family: "Bangers", cursive;
+        letter-spacing: 0.05em;
+      }
+      .kids-card-title {
+        font-family: "Fredoka", sans-serif;
+      }
+      /* Custom active state for sidebar items */
+      .sidebar-item.active {
+        background-color: #eeebff;
+        color: #4f46e5;
+        border-color: #4f46e5;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body class="text-slate-700 antialiased flex flex-col">
+    <!-- TOP HEADER NAVBAR -->
+    <header
+      class="bg-white border-b-4 border-dashed border-indigo-100 py-4 px-6 shrink-0 flex items-center justify-between"
+    >
+      <div class="flex items-center gap-2">
+        <i
+          data-lucide="sparkles"
+          class="w-5 h-5 fill-current text-amber-400"
+        ></i>
+        <h1 class="text-2xl kids-title text-indigo-600 tracking-wide uppercase">
+          Kids<span class="text-pink-500">P</span
+          ><span class="text-amber-500">a</span
+          ><span class="text-emerald-500">i</span
+          ><span class="text-cyan-500">n</span
+          ><span class="text-violet-500">t</span> Magic Hub
+        </h1>
+      </div>
+      <p class="text-xs font-bold text-slate-400 hidden sm:block">
+        Interactive Student & Teacher Training Manual
+      </p>
+    </header>
+
+    <!-- MAIN TWO-COLUMN SPLIT WORKSPACE -->
+    <main class="flex flex-1 min-h-0 w-full overflow-hidden">
+      <!-- LEFT SIDEBAR: ALL TOOLS & FEATURES LIST -->
+      <aside
+        class="w-80 border-r border-slate-200 bg-white flex flex-col shrink-0 overflow-hidden"
+      >
+        <!-- Live Search Box Inside Sidebar -->
+        <div class="p-4 border-b border-slate-100 shrink-0">
+          <div class="relative">
+            <i
+              data-lucide="search"
+              class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+            ></i>
+            <input
+              type="text"
+              id="sidebar-search"
+              placeholder="Search tools & features..."
+              class="w-full pl-9 pr-3 py-2 border-2 border-slate-200 rounded-xl outline-none focus:border-indigo-500 text-xs font-semibold transition-all"
+              oninput="searchSidebarFeatures()"
+            />
+          </div>
+        </div>
+
+        <!-- Scrollable Sidebar Item List -->
+        <div
+          id="sidebar-list"
+          class="flex-1 overflow-y-auto p-2 space-y-1 no-scrollbar"
+        >
+          <!-- Category: Drawing Tools -->
+          <div
+            class="text-[10px] font-black uppercase text-slate-400 tracking-wider px-3 pt-3 pb-1 section-header"
+          >
+            🖌️ Brushes & Draw
+          </div>
+          <button
+            onclick="showFeatureDetails('brush')"
+            id="item-brush"
+            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
+            data-keywords="pencil brush standard pen calligraphy spray eraser size thickness"
+          >
+            <i data-lucide="brush" class="w-4 h-4"></i> Precision Brushes &
+            Eraser
+          </button>
+
+          <!-- Category: Formatting & Styles -->
+          <div
+            class="text-[10px] font-black uppercase text-slate-400 tracking-wider px-3 pt-3 pb-1 section-header"
+          >
+            🔤 Typography & Fills
+          </div>
+          <button
+            onclick="showFeatureDetails('font')"
+            id="item-font"
+            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
+            data-keywords="fonts family fredoka bangers quicksand spicy rice bold italic underline strike text styling textbox"
+          >
+            <i data-lucide="type" class="w-4 h-4"></i> Dynamic Kids Fonts
+          </button>
+          <button
+            onclick="showFeatureDetails('size')"
+            id="item-size"
+            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
+            data-keywords="sizing hub dropdown font size line width brush weight 128px thickness weight"
+          >
+            <i data-lucide="sliders" class="w-4 h-4"></i> Unified Sizing Hub
+            (128px)
+          </button>
+          <button
+            onclick="showFeatureDetails('color')"
+            id="item-color"
+            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
+            data-keywords="color palette picker custom pipette hex paint bucket fill background swatch"
+          >
+            <i data-lucide="paint-bucket" class="w-4 h-4"></i> Color Swatches &
+            Bucket
+          </button>
+
+          <!-- Category: Geometry -->
+          <div
+            class="text-[10px] font-black uppercase text-slate-400 tracking-wider px-3 pt-3 pb-1 section-header"
+          >
+            ⭐ Vector Geometry
+          </div>
+          <button
+            onclick="showFeatureDetails('shapes')"
+            id="item-shapes"
+            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
+            data-keywords="shapes geometric line curve circle rect roundrect triangle diamond pentagon star arrow heart lightning outline border fill"
+          >
+            <i data-lucide="shapes" class="w-4 h-4"></i> Geometry & Extended
+            Shapes
+          </button>
+
+          <!-- Category: Layer Operations -->
+          <div
+            class="text-[10px] font-black uppercase text-slate-400 tracking-wider px-3 pt-3 pb-1 section-header"
+          >
+            🛠️ Workspace Actions
+          </div>
+          <button
+            onclick="showFeatureDetails('clipboard')"
+            id="item-clipboard"
+            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
+            data-keywords="clipboard cut copy paste delete trash right click context menu layers select mode"
+          >
+            <i data-lucide="clipboard" class="w-4 h-4"></i> Clipboard & Context
+            Menu
+          </button>
+          <button
+            onclick="showFeatureDetails('image-tools')"
+            id="item-image-tools"
+            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
+            data-keywords="rotate cw ccw flip x y image loader resize scale dimensions local import"
+          >
+            <i data-lucide="image" class="w-4 h-4"></i> Image Transformations &
+            Imports
+          </button>
+
+          <!-- Category: Platform Engine -->
+          <div
+            class="text-[10px] font-black uppercase text-slate-400 tracking-wider px-3 pt-3 pb-1 section-header"
+          >
+            💾 Engine Utilities
+          </div>
+          <button
+            onclick="showFeatureDetails('export')"
+            id="item-export"
+            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
+            data-keywords="export png download file save capture compile high resolution"
+          >
+            <i data-lucide="download" class="w-4 h-4"></i> High-Res PNG Export
+          </button>
+          <button
+            onclick="showFeatureDetails('autosave')"
+            id="item-autosave"
+            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
+            data-keywords="auto save persistence localstorage crash shield json layer data protection data loss"
+          >
+            <i data-lucide="shield-check" class="w-4 h-4"></i> Auto-Save Shield
+            System
+          </button>
+          <button
+            onclick="showFeatureDetails('shortcuts')"
+            id="item-shortcuts"
+            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
+            data-keywords="keyboard shortcuts quick hotkeys undo redo ctrl z ctrl y escape select nudge arrow keys"
+          >
+            <i data-lucide="keyboard" class="w-4 h-4"></i> Production Hotkeys &
+            Zoom
+          </button>
+        </div>
+      </aside>
+
+      <!-- RIGHT PANEL: DYNAMIC DETAILS & HOW TO USE PANEL -->
+      <section
+        class="flex-1 bg-slate-50 overflow-y-auto p-6 md:p-8 no-scrollbar"
+      >
+        <div
+          id="details-box"
+          class="max-w-3xl mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-md border border-slate-200 transition-all duration-300"
+        >
+          <!-- Default Welcome Graphic State -->
+          <div class="text-center py-20 text-slate-400">
+            <i
+              data-lucide="sparkles"
+              class="w-16 h-16 mx-auto mb-4 text-indigo-300 animate-pulse"
+            ></i>
+            <h2 class="text-xl font-bold text-slate-700 kids-card-title mb-2">
+              Welcome to the Interactive Art Lab Manual!
+            </h2>
+            <p class="text-sm max-w-sm mx-auto">
+              Click any specific tool option from the left sidebar list to
+              instantly open its technical specifications and 'How to Use'
+              guide.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- MEMORY STRUCTURE ARRAYS (DATA BASE FOR DYNAMIC PANEL GENERATION) -->
+    <script>
+      const documentationContentHub = {
+        brush: {
+          title: "Precision Brushes & Professional Eraser",
+          badge: "Brushes Engine",
+          color: "border-indigo-500",
+          icon: "brush",
+          desc: "Allows students to trace vector lines and draw paths fluidly across the layer stack. Hand-drawn components automatic clean up standard Fabric.js rotation controllers by default to strictly avoid accidental skewing or uneven distortions.",
+          steps: [
+            {
+              t: "Pencil Tool",
+              d: "Renders solid line arrays using clean, structural square vector terminal caps.",
+            },
+            {
+              t: "Standard Brush",
+              d: "Draws smooth organic paths utilizing perfectly circular terminal stroke edges.",
+            },
+            {
+              t: "Spray Paint Brush",
+              d: "Distributes dots randomly across drag vectors based on precise tracking parameters (Density: 35, Dot Width: 2.5).",
+            },
+            {
+              t: "Calligraphy Brushes",
+              d: "Creates elegant thin-to-thick cursive strokes using 2.2x and 1.6x multiplier angles.",
+            },
+            {
+              t: "Integrated Eraser",
+              d: "Maps the primary background layers locally with targeted pixel weights to cleanly wipe out custom line segments.",
+            },
+          ],
+        },
+        font: {
+          title: "Dynamic Kids Text & Formatting Suite",
+          badge: "Typography Suite",
+          color: "border-pink-500",
+          icon: "type",
+          desc: "A highly intelligent, context-responsive rich text workspace area. To save valuable user monitor real estate, this operational zone automatically becomes visible *only* when a textbox element node is actively selected.",
+          steps: [
+            {
+              t: "Google Fonts Integration",
+              d: "Features fun kids display options: Fredoka (Rounded Cute), Quicksand, Bangers (Comic Hero Style), and Spicy Rice, alongside classics like Arial and Comic Sans.",
+            },
+            {
+              t: "Typography Properties",
+              d: "Instantly adjust styling flags: Bold (B), Italic (I), Underline (U), and Line-Through (S) directly on target selections.",
+            },
+            {
+              t: "Auto-Fit Width Engine",
+              d: "Monitors real-time character input. If text values risk sudden unwanted word-wrapping, it expands the bounding width natively by +10px steps.",
+            },
+          ],
+        },
+        size: {
+          title: "Unified Sizing Hub (Up to 128px)",
+          badge: "Scale Control",
+          color: "border-cyan-500",
+          icon: "sliders",
+          desc: "A singular, responsive thickness controller dropdown menu item that streamlines multi-tool property operations.",
+          steps: [
+            {
+              t: "Smart Sizing Grid",
+              d: "Provides standard dimensions ranging through 2px, 4px, 6px, up to an expanded **128px** boundary for title blocks or bold paths.",
+            },
+            {
+              t: "Contextual Synchronization",
+              d: "Selecting any object on the canvas triggers an auto-sync routine. The dropdown immediately auto-selects and matches the exact value of the chosen vector element.",
+            },
+          ],
+        },
+        color: {
+          title: "Color Swatches Matrix & Paint Bucket fill",
+          badge: "Color Engine",
+          color: "border-emerald-500",
+          icon: "paint-bucket",
+          desc: "Manages asset fills, custom paths, strokes, and background configurations instantly.",
+          steps: [
+            {
+              t: "Preset Color Swatches",
+              d: "A bright array of 12 distinct kid-friendly preset colors, including primary tones, pure white, grayscale, and deep black.",
+            },
+            {
+              t: "Pipette Eyedropper API",
+              d: "Allows students to explore up to 16.7 million unique hex colors by loading native custom browser color pickers.",
+            },
+            {
+              t: "Paint Bucket Mode",
+              d: "Fills target custom vector boundaries in one click, or updates the global background canvas sheet color seamlessly if clicked on an empty area.",
+            },
+          ],
+        },
+        shapes: {
+          title: "Geometric Vector Shapes Catalog",
+          badge: "Vector Asset System",
+          color: "border-amber-500",
+          icon: "shapes",
+          desc: "Instantly builds crisp vector shapes on the canvas grid layer stack.",
+          steps: [
+            {
+              t: "Quick Drop Layouts",
+              d: "One-click deployment for standard geometric models: Straight Lines, Curves, Rectangles, Rounded Rectangles, Circles, and Equilateral Triangles.",
+            },
+            {
+              t: "Extended Asset Vault",
+              d: "Click the dropdown arrow to unlock premium vector shapes: Diamonds, Pentagons, Comic Stars, Direction Arrows, Hearts, and Lightning Bolts.",
+            },
+            {
+              t: "Outline Stroke Engine",
+              d: "Toggle vector styling parameters easily: choose solid or transparent fills, paired with Solid (──), Dashed (-- --), or Dotted (....) borders.",
+            },
+          ],
+        },
+        clipboard: {
+          title: "Layer Clipboard & Context Menu Controls",
+          badge: "Layer Management",
+          color: "border-violet-500",
+          icon: "clipboard",
+          desc: "Complete manipulation toolkit to control layer alignment hierarchies and perform clean duplication tasks.",
+          steps: [
+            {
+              t: "Action Utilities",
+              d: "Includes dedicated, easily clickable buttons to instantly **Cut, Copy, Paste, or Delete** targeted elements.",
+            },
+            {
+              t: "Right-Click Context Menu",
+              d: "An intuitive custom popup panel that maps workspace click coordinates to deliver professional desktop functions right at your cursor position.",
+            },
+            {
+              t: "Smart Paste Spacing Offset",
+              d: "Every consecutive paste action automatically shifts the duplicate element down and right by **+25px** to prevent layers from stacking invisibly.",
+            },
+          ],
+        },
+        "image-tools": {
+          title: "Image Transformations & Imports",
+          badge: "Graphic Adjuster",
+          color: "border-orange-500",
+          icon: "image",
+          desc: "Allows students to import external visual graphic elements or modify current structural assets safely.",
+          steps: [
+            {
+              t: "Local Asset Upload",
+              d: "Supports standard drag-and-drop file inputs or input loader streams to place external images (`.png`, `.jpg`) right onto the center stage.",
+            },
+            {
+              t: "Axis Inversion (Mirroring)",
+              d: "Instantly mirrors selected assets along the Horizontal (X) or Vertical (Y) planes.",
+            },
+            {
+              t: "Proportional Scale Modals",
+              d: "Lets users input precise width/height percentage factors (e.g., 120%) to safely rescale dense raster graphics without losing proportion.",
+            },
+          ],
+        },
+        export: {
+          title: "High-Resolution PNG Export Utility",
+          badge: "Export Engine",
+          color: "border-teal-500",
+          icon: "download",
+          desc: "High-fidelity asynchronous script pipeline engineered to download clean local image assets seamlessly.",
+          steps: [
+            {
+              t: "Auto-Clean Pass",
+              d: "The engine instantly deselects active bounding frames and masks highlight boxes before compiling the drawing, ensuring a perfect export.",
+            },
+            {
+              t: "Temporal Zoom Correction",
+              d: "Temporarily recalibrates canvas zoom to exactly **1.0 (100%)** behind the scenes to lock the original high-resolution pixel dimensions during render export cycles.",
+            },
+            {
+              t: "Asynchronous Overlay",
+              d: "Displays a clean, animated progress shield overlay for 2 seconds to manage background system export pipelines safely.",
+            },
+          ],
+        },
+        autosave: {
+          title: "Auto-Save System & State Protection Shield",
+          badge: "Data Shield",
+          color: "border-red-500",
+          icon: "shield-check",
+          desc: "A completely background, fail-safe background engine designed to secure artwork files from data loss.",
+          steps: [
+            {
+              t: "JSON Serialization",
+              d: "Converts complex canvas elements, vectors, paths, and positions into string-based JSON snapshot arrays automatically.",
+            },
+            {
+              t: "Local Storage Vault",
+              d: "Saves current workspace assets, window target scale bounds, and active history step numbers straight into browser memory.",
+            },
+            {
+              t: "Crash Restoration Loop",
+              d: "Detects unexpected page reloads or tab closures, re-mapping data records onto canvas layers instantly so students never lose progress.",
+            },
+          ],
+        },
+        shortcuts: {
+          title: "Production Hotkeys & Workspace View Utilities",
+          badge: "Speed Utilities",
+          color: "border-slate-700",
+          icon: "keyboard",
+          desc: "Advanced workflow combinations designed to simplify canvas navigation for power users.",
+          steps: [
+            {
+              t: "Classic Commands Matrix",
+              d: "Full support for standard hotkeys: `Ctrl+Z` (Undo), `Ctrl+Y` (Redo), `Ctrl+C` (Copy), `Ctrl+V` (Paste), `Ctrl+X` (Cut), and `Delete/Backspace` to clear items.",
+            },
+            {
+              t: "Fine Nudging Matrix",
+              d: "Pressing the standard Arrow Keys shifts targeted objects by a micro-step of exactly **2px**. Holding down `Shift + Arrow Keys` triggers a larger **20px** shift.",
+            },
+            {
+              t: "Responsive Zooming Suite",
+              d: "Use the custom footer toolbar slider to zoom seamlessly from 10% to 200%. Click the **Fit Button** to auto-center layouts and optimize viewing angles instantly.",
+            },
+          ],
+        },
+      };
+
+      // FUNCTION TO DYNAMICALLY GENERATE DETAILED HOW-TO GUIDE PANELS
+      function showFeatureDetails(featureKey) {
+        const data = documentationContentHub[featureKey];
+        if (!data) return;
+
+        // Sync Active Class Selection in Sidebar Buttons
+        document
+          .querySelectorAll(".sidebar-item")
+          .forEach((el) => el.classList.remove("active"));
+        document.getElementById(`item-${featureKey}`).classList.add("active");
+
+        const detailsBox = document.getElementById("details-box");
+
+        // Generate Step-by-Step HTML Elements dynamically
+        let stepsHTML = "";
+        data.steps.forEach((step, index) => {
+          stepsHTML += `
+            <div class="flex items-start gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-inner">
+              <div class="w-6 h-6 shrink-0 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
+                ${index + 1}
+              </div>
+              <div class="space-y-0.5">
+                <h4 class="font-bold text-slate-800 text-sm kids-card-title">${step.t}</h4>
+                <p class="text-slate-600 text-xs leading-relaxed">${step.d}</p>
+              </div>
+            </div>
+          `;
+        });
+
+        // Inject Rendered Templates into Content Shell Pane
+        detailsBox.innerHTML = `
+          <div class="space-y-6 border-l-8 ${data.color} pl-2 transition-all duration-300">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="inline-flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-full text-slate-600 font-bold text-[10px] uppercase tracking-wider">
+                <i data-lucide="${data.icon}" class="w-3.5 h-3.5 text-indigo-500"></i> ${data.badge}
+              </div>
+              <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Manual Layer</span>
+            </div>
+            
+            <h2 class="text-2xl md:text-3xl font-black text-slate-800 kids-card-title">${data.title}</h2>
+            <p class="text-slate-600 text-sm leading-relaxed font-medium">${data.desc}</p>
+            
+            <div class="h-[1px] bg-slate-200 my-4"></div>
+            
+            <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">🛠️ Operational Breakdown & Features List</h3>
+            <div class="space-y-3">
+              ${stepsHTML}
+            </div>
+          </div>
+        `;
+
+        // Force update Lucide vector icons inside newly rendered document panel
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+      }
+
+      // NATIVE SIDEBAR SEARCH/FILTER SCRIPT
+      function searchSidebarFeatures() {
+        const query = document
+          .getElementById("sidebar-search")
+          .value.toLowerCase()
+          .trim();
+        const items = document.querySelectorAll(".sidebar-item");
+        const headers = document.querySelectorAll(".section-header");
+
+        items.forEach((item) => {
+          const keywords = item.getAttribute("data-keywords").toLowerCase();
+          const textContent = item.textContent.toLowerCase();
+
+          if (
+            query === "" ||
+            keywords.includes(query) ||
+            textContent.includes(query)
+          ) {
+            item.style.display = "flex";
+          } else {
+            item.style.display = "none";
+          }
+        });
+
+        // Hide section grouping headers if empty during active filtering queries
+        headers.forEach((header) => {
+          let nextEl = header.nextElementSibling;
+          let hasVisibleChild = false;
+
+          while (nextEl && !nextEl.classList.contains("section-header")) {
+            if (nextEl.style.display !== "none") {
+              hasVisibleChild = true;
+              break;
+            }
+            nextEl = nextEl.nextElementSibling;
+          }
+          header.style.display =
+            hasVisibleChild || query === "" ? "block" : "none";
+        });
+      }
+
+      // Auto-load the first key module on system initialization
+      window.onload = () => {
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+        showFeatureDetails("brush");
+      };
+    </script>
+  </body>
+</html>

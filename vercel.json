@@ -16,6 +16,10 @@
     {
       "source": "/contact-us",
       "destination": "/contact-us.html"
+    },
+    {
+      "source": "/guide",
+      "destination": "/guide.html"
     }
   ]
 }
