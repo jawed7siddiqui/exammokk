@@ -1174,10 +1174,25 @@
           )
           .join("");
 
-        if (localStorage.getItem("kidspaint_width"))
-          PAGE_WIDTH = parseInt(localStorage.getItem("kidspaint_width"), 10);
-        if (localStorage.getItem("kidspaint_height"))
-          PAGE_HEIGHT = parseInt(localStorage.getItem("kidspaint_height"), 10);
+        // 📱 window.onload पर लाइव स्क्रीन साइज डिटेक्शन और कैनवास री-स्ट्रक्चरिंग
+        if (window.innerWidth < 768) {
+          // 📱 मोबाइल के लिए परफेक्ट वर्टिकल फ्रेम (100% फिट)
+          PAGE_WIDTH = 648;
+          PAGE_HEIGHT = 800;
+        } else if (window.innerWidth >= 768 && window.innerWidth <= 1024) {
+          // 📑 टैबलेट के लिए परफेक्ट फिट आनुपातिक साइज
+          PAGE_WIDTH = 800;
+          PAGE_HEIGHT = 600;
+        } else {
+          // 💻 डेस्कटॉप के लिए ओरिजिनल वाइडस्क्रीन साइज
+          if (localStorage.getItem("kidspaint_width"))
+            PAGE_WIDTH = parseInt(localStorage.getItem("kidspaint_width"), 10);
+          if (localStorage.getItem("kidspaint_height"))
+            PAGE_HEIGHT = parseInt(
+              localStorage.getItem("kidspaint_height"),
+              10,
+            );
+        }
 
         setupCanvas(PAGE_WIDTH, PAGE_HEIGHT, "#ffffff");
         setupKeyboardShortcuts();

@@ -1,16 +1,17 @@
 /**
- * Kids Paint - Dynamic Educational Templates Component Engine
- * Structurally designed for future expansion with easy filtering and multiple categories.
- * Fixed: Re-arranged layer execution stack order so brush and pencil paths are always rendered perfectly on top of vector layers.
+ * Kids Paint - Unified Educational Templates Database Engine
+ * Smart Filter Edition: Mobile view features massive visibility for Coloring & Math Matrix.
  */
 
-// 1. GLOBAL TEMPLATE DATABASE & CATEGORIES
+// 1. UNIFIED TEMPLATES DATABASE WITH DEVICE FILTER TAGS
 const TEMPLATES_DATABASE = [
+  // ==================== 💻 DESKTOP / WEB TEMPLATES ====================
   {
     id: "tracing_abc",
     title:
       "Letters Tracing: Trace over the alphabet template below with your Brush!",
     category: "tracing",
+    deviceType: "web",
     themeColor: "#4f46e5",
     icon: "A B C",
     label: "Letters Tracing",
@@ -42,13 +43,13 @@ const TEMPLATES_DATABASE = [
     title:
       "Coloring Book: Pick colors from palette and fill segments inside the Cat template!",
     category: "coloring",
+    deviceType: "web",
     themeColor: "#ec4899",
     icon: "🐱🎨",
     label: "Coloring Pad",
     defaultTool: "bucket",
     initGrid: false,
     objects: [
-      // Airtight paths perfectly configured as background slots
       {
         type: "path",
         path: "M 250 360 C 250 220, 450 220, 450 360 C 450 450, 250 450, 250 360 Z",
@@ -129,6 +130,7 @@ const TEMPLATES_DATABASE = [
     title:
       "Dot to Dot: Draw paths chronologically from 1 to 10 with Pencil to form a Star!",
     category: "puzzles",
+    deviceType: "web",
     themeColor: "#10b981",
     icon: "1•2•3",
     label: "Connect Dots",
@@ -166,7 +168,6 @@ const TEMPLATES_DATABASE = [
           fill: "#334155",
           role: "background_art",
         });
-
         applyStrictLayerLocks(dot);
         applyStrictLayerLocks(text);
         canvas.add(dot, text);
@@ -180,6 +181,7 @@ const TEMPLATES_DATABASE = [
     title:
       "Maze Runner: Navigate your Pencil carefully from Cat to Fish without colliding with walls!",
     category: "puzzles",
+    deviceType: "web",
     themeColor: "#f59e0b",
     icon: "🌀🐱",
     label: "Maze Runner",
@@ -272,6 +274,7 @@ const TEMPLATES_DATABASE = [
     title:
       "Math Matrix: Count fruit elements on the left column and match with digit on the right column!",
     category: "math",
+    deviceType: "web",
     themeColor: "#06b6d4",
     icon: "🍉🔢",
     label: "Math Matrix",
@@ -339,6 +342,7 @@ const TEMPLATES_DATABASE = [
     title:
       "Symmetry Mirror: Analyze the pattern grid on the left and copy mirror vector on the right!",
     category: "drawing",
+    deviceType: "web",
     themeColor: "#6366f1",
     icon: "🦋📐",
     label: "Symmetry Mirror",
@@ -363,7 +367,6 @@ const TEMPLATES_DATABASE = [
           role: "background_art",
         },
       );
-
       applyStrictLayerLocks(axisLine);
       applyStrictLayerLocks(leftWing);
       canvas.add(axisLine, leftWing);
@@ -371,9 +374,481 @@ const TEMPLATES_DATABASE = [
       canvas.sendToBack(leftWing);
     },
   },
+
+  // ==================== 📱 EXCLUSIVE MOBILE TEMPLATES (HIGH-VISIBILITY & 2 CATEGORIES ONLY) ====================
+  // --- COLORING PAD DOCK (Cat, Dog, River, Home) ---
+  {
+    id: "color_cat_mobile",
+    title: "🐱 Coloring Pad: Pick colors and fill the Big Cat!",
+    category: "coloring",
+    deviceType: "mobile",
+    themeColor: "#ec4899",
+    icon: "🐱",
+    label: "Big Cat",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "path",
+        path: "M 150 420 C 150 250, 450 250, 450 420 C 450 540, 150 540, 150 420 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      }, // Large Face
+      {
+        type: "path",
+        path: "M 170 300 L 130 180 L 240 260 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      }, // Left Ear
+      {
+        type: "path",
+        path: "M 430 300 L 470 180 L 360 260 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      }, // Right Ear
+      {
+        type: "circle",
+        props: {
+          left: 240,
+          top: 370,
+          radius: 24,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      }, // Eye L
+      {
+        type: "circle",
+        props: {
+          left: 360,
+          top: 370,
+          radius: 24,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      }, // Eye R
+      {
+        type: "triangle",
+        props: {
+          left: 300,
+          top: 430,
+          width: 36,
+          height: 24,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      }, // Nose
+    ],
+  },
+  {
+    id: "color_dog_mobile",
+    title: "🐶 Coloring Pad: Fill colors inside the Happy Puppy!",
+    category: "coloring",
+    deviceType: "mobile",
+    themeColor: "#a855f7",
+    icon: "🐶",
+    label: "Happy Puppy",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "path",
+        path: "M 200 450 C 200 300, 448 300, 448 450 C 448 560, 200 560, 200 450 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      }, // Face
+      {
+        type: "path",
+        path: "M 190 350 C 130 320, 140 500, 200 460 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      }, // Long Ear L
+      {
+        type: "path",
+        path: "M 458 350 C 518 320, 508 500, 448 460 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      }, // Long Ear R
+      {
+        type: "circle",
+        props: {
+          left: 275,
+          top: 400,
+          radius: 20,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          role: "color_segment",
+        },
+      }, // Eye L
+      {
+        type: "circle",
+        props: {
+          left: 373,
+          top: 400,
+          radius: 20,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          role: "color_segment",
+        },
+      }, // Eye R
+      {
+        type: "circle",
+        props: {
+          left: 324,
+          top: 460,
+          radius: 14,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          role: "color_segment",
+        },
+      }, // Center Nose
+    ],
+  },
+  {
+    id: "color_river_mobile",
+    title: "🏞️ Coloring Pad: Fill colors in the Large River and Sun scene!",
+    category: "coloring",
+    deviceType: "mobile",
+    themeColor: "#0ea5e9",
+    icon: "🏞️",
+    label: "Nature River",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "rect",
+        props: {
+          left: 74,
+          top: 200,
+          width: 500,
+          height: 450,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      }, // Sky backdrop block
+      {
+        type: "path",
+        path: "M 74 480 C 200 400, 400 600, 574 480 L 574 650 L 74 650 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      }, // Flowing River slot
+      {
+        type: "circle",
+        props: {
+          left: 324,
+          top: 320,
+          radius: 65,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      }, // Big Morning Sun
+    ],
+  },
+  {
+    id: "color_home_mobile",
+    title: "🏡 Coloring Pad: Give colorful paints to the Big Playhouse!",
+    category: "coloring",
+    deviceType: "mobile",
+    themeColor: "#10b981",
+    icon: "🏡",
+    label: "Big House",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "rect",
+        props: {
+          left: 174,
+          top: 380,
+          width: 300,
+          height: 240,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      }, // Main Room Base
+      {
+        type: "triangle",
+        props: {
+          left: 324,
+          top: 240,
+          width: 360,
+          height: 140,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          role: "color_segment",
+        },
+      }, // Large Airtight Roof
+      {
+        type: "rect",
+        props: {
+          left: 294,
+          top: 500,
+          width: 60,
+          height: 120,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          role: "color_segment",
+        },
+      }, // Main Entry Door
+    ],
+  },
+
+  // --- MATH MATRIX BOOSTER (4 High-Visibility Large Levels) ---
+  {
+    id: "math_lvl1_mobile",
+    title: "🔢 Math Lvl 1: Count Fruits & match with the Digit!",
+    category: "math",
+    deviceType: "mobile",
+    themeColor: "#06b6d4",
+    icon: "🍎",
+    label: "Math Level 1",
+    defaultTool: "pen",
+    initGrid: false,
+    objects: [
+      {
+        type: "text",
+        text: "🍎 🍎 🍎",
+        props: { left: 80, top: 220, fontSize: 44, role: "background_art" },
+      },
+      {
+        type: "text",
+        text: "🍉 🍉",
+        props: { left: 80, top: 420, fontSize: 44, role: "background_art" },
+      },
+      {
+        type: "text",
+        text: "3",
+        props: {
+          left: 540,
+          top: 215,
+          fontSize: 52,
+          fontFamily: "Bangers",
+          fill: "#4f46e5",
+          fontWeight: "bold",
+          role: "background_art",
+        },
+      },
+      {
+        type: "text",
+        text: "2",
+        props: {
+          left: 540,
+          top: 415,
+          fontSize: 52,
+          fontFamily: "Bangers",
+          fill: "#4f46e5",
+          fontWeight: "bold",
+          role: "background_art",
+        },
+      },
+    ],
+  },
+  {
+    id: "math_lvl2_mobile",
+    title: "🔢 Math Lvl 2: Match correct counts on Left & Right columns!",
+    category: "math",
+    deviceType: "mobile",
+    themeColor: "#0891b2",
+    icon: "🍦",
+    label: "Math Level 2",
+    defaultTool: "pen",
+    initGrid: false,
+    objects: [
+      {
+        type: "text",
+        text: "🍦 🍦 🍦 🍦",
+        props: { left: 80, top: 220, fontSize: 40, role: "background_art" },
+      },
+      {
+        type: "text",
+        text: "🍌",
+        props: { left: 80, top: 420, fontSize: 44, role: "background_art" },
+      },
+      {
+        type: "text",
+        text: "1",
+        props: {
+          left: 540,
+          top: 215,
+          fontSize: 52,
+          fontFamily: "Bangers",
+          fill: "#ec4899",
+          fontWeight: "bold",
+          role: "background_art",
+        },
+      },
+      {
+        type: "text",
+        text: "4",
+        props: {
+          left: 540,
+          top: 415,
+          fontSize: 52,
+          fontFamily: "Bangers",
+          fill: "#ec4899",
+          fontWeight: "bold",
+          role: "background_art",
+        },
+      },
+    ],
+  },
+  {
+    id: "math_lvl3_mobile",
+    title: "🔢 Math Lvl 3: Count Shapes and connect to the Answer!",
+    category: "math",
+    deviceType: "mobile",
+    themeColor: "#0e7490",
+    icon: "⭐",
+    label: "Math Level 3",
+    defaultTool: "pen",
+    initGrid: false,
+    objects: [
+      {
+        type: "text",
+        text: "⭐ ⭐ ⭐ ⭐ ⭐",
+        props: { left: 60, top: 220, fontSize: 38, role: "background_art" },
+      },
+      {
+        type: "text",
+        text: "🎈 🎈 🎈",
+        props: { left: 60, top: 420, fontSize: 40, role: "background_art" },
+      },
+      {
+        type: "text",
+        text: "3",
+        props: {
+          left: 540,
+          top: 215,
+          fontSize: 52,
+          fontFamily: "Bangers",
+          fill: "#10b981",
+          fontWeight: "bold",
+          role: "background_art",
+        },
+      },
+      {
+        type: "text",
+        text: "5",
+        props: {
+          left: 540,
+          top: 415,
+          fontSize: 52,
+          fontFamily: "Bangers",
+          fill: "#10b981",
+          fontWeight: "bold",
+          role: "background_art",
+        },
+      },
+    ],
+  },
+  {
+    id: "math_lvl4_mobile",
+    title: "🔢 Math Lvl 4: Advanced visual counting matrix!",
+    category: "math",
+    deviceType: "mobile",
+    themeColor: "#155e75",
+    icon: "🍇",
+    label: "Math Level 4",
+    defaultTool: "pen",
+    initGrid: false,
+    objects: [
+      {
+        type: "text",
+        text: "🍇 🍇",
+        props: { left: 80, top: 220, fontSize: 44, role: "background_art" },
+      },
+      {
+        type: "text",
+        text: "🐱 🐱 🐱 🐱",
+        props: { left: 80, top: 420, fontSize: 40, role: "background_art" },
+      },
+      {
+        type: "text",
+        text: "4",
+        props: {
+          left: 540,
+          top: 215,
+          fontSize: 52,
+          fontFamily: "Bangers",
+          fill: "#f59e0b",
+          fontWeight: "bold",
+          role: "background_art",
+        },
+      },
+      {
+        type: "text",
+        text: "2",
+        props: {
+          left: 540,
+          top: 415,
+          fontSize: 52,
+          fontFamily: "Bangers",
+          fill: "#f59e0b",
+          fontWeight: "bold",
+          role: "background_art",
+        },
+      },
+    ],
+  },
 ];
 
-// HELPER: Controls locking mechanism while keeping events receptive to rendering engine
+// 2. HELPER UNIFIED INFRASTRUCTURES
 function applyStrictLayerLocks(obj) {
   if (!obj) return;
   obj.set({
@@ -397,12 +872,13 @@ function clearCanvasForTemplate() {
 }
 
 function drawHeaderInstructionBlock(message, hexColor) {
+  const isMobile = window.innerWidth < 768;
   const info = new fabric.Textbox(message, {
     left: PAGE_WIDTH / 2,
-    top: 35,
-    width: PAGE_WIDTH - 60,
+    top: isMobile ? 25 : 35,
+    width: PAGE_WIDTH - 40,
     originX: "center",
-    fontSize: 24,
+    fontSize: isMobile ? 28 : 24,
     fontFamily: "Fredoka",
     fontWeight: "900",
     fill: hexColor,
@@ -413,7 +889,7 @@ function drawHeaderInstructionBlock(message, hexColor) {
   canvas.add(info);
 }
 
-// UNIVERSAL LOADER: Automatically handles Layer Stacking for Draw Tools
+// 3. CORE UNIVERSAL DYNAMIC LOADER ENGINE
 function loadTemplateById(templateId) {
   const template = TEMPLATES_DATABASE.find((t) => t.id === templateId);
   if (!template) return;
@@ -426,24 +902,21 @@ function loadTemplateById(templateId) {
       let fabricObj;
       const targetProps = { ...obj.props };
 
-      if (obj.type === "text") {
+      if (obj.type === "text")
         fabricObj = new fabric.Text(obj.text, targetProps);
-      } else if (obj.type === "rect") {
-        fabricObj = new fabric.Rect(targetProps);
-      } else if (obj.type === "circle") {
+      else if (obj.type === "rect") fabricObj = new fabric.Rect(targetProps);
+      else if (obj.type === "circle")
         fabricObj = new fabric.Circle(targetProps);
-      } else if (obj.type === "triangle") {
+      else if (obj.type === "triangle")
         fabricObj = new fabric.Triangle(targetProps);
-      } else if (obj.type === "path") {
+      else if (obj.type === "path")
         fabricObj = new fabric.Path(obj.path, targetProps);
-      } else if (obj.type === "line") {
+      else if (obj.type === "line")
         fabricObj = new fabric.Line(obj.coords, targetProps);
-      }
 
       if (fabricObj) {
         applyStrictLayerLocks(fabricObj);
         canvas.add(fabricObj);
-        // CRITICAL FIX: Sends vector art shapes behind brush strokes natively
         canvas.sendToBack(fabricObj);
       }
     });
@@ -462,14 +935,13 @@ function loadTemplateById(templateId) {
       obj.role === "color_segment"
     ) {
       applyStrictLayerLocks(obj);
-      canvas.sendToBack(obj); // Keep underlying structures at layer base
+      canvas.sendToBack(obj);
     } else {
       if (typeof disableObjectRotation === "function")
         disableObjectRotation(obj);
     }
   });
 
-  // Make sure header instructional text stays safe at topmost layer area
   const headerBanner = canvas
     .getObjects()
     .find((o) => o.text && o.text.indexOf(":") !== -1);
@@ -477,6 +949,7 @@ function loadTemplateById(templateId) {
 
   canvas.renderAll();
   if (typeof saveCanvasHistory === "function") saveCanvasHistory();
+  if (typeof resetZoomToFit === "function") resetZoomToFit();
 
   const gridCheckbox = document.getElementById("view-gridlines");
   if (gridCheckbox) {
@@ -490,23 +963,30 @@ function loadTemplateById(templateId) {
   else if (template.defaultTool === "pen") startDrawing("pen");
 }
 
-// FILTERING SYSTEM
+// 4. DYNAMIC FILTER SYSTEM: AUTOMATIC SCREEN RESOLUTION SNIFFER
 function filterTemplatesByCategory(categoryName = "all") {
   const sidebarContainer = document.getElementById("templates-sidebar");
   if (!sidebarContainer) return;
 
   let htmlContent = `<div class="tool-section-label text-indigo-600 font-black mb-1 md:block hidden text-center w-full">Templates</div>`;
 
-  const filtered =
-    categoryName === "all"
-      ? TEMPLATES_DATABASE
-      : TEMPLATES_DATABASE.filter((t) => t.category === categoryName);
+  // रीयलटाइम स्क्रीन विड्थ के आधार पर डिवाइस प्रकार 'mobile' या 'web' डिटेक्ट करें
+  const currentDevice = window.innerWidth < 768 ? "mobile" : "web";
 
-  filtered.forEach((t) => {
+  const deviceFiltered = TEMPLATES_DATABASE.filter(
+    (t) => t.deviceType === currentDevice,
+  );
+
+  const finalFiltered =
+    categoryName === "all"
+      ? deviceFiltered
+      : deviceFiltered.filter((t) => t.category === categoryName);
+
+  finalFiltered.forEach((t) => {
     htmlContent += `
       <div class="template-card" onclick="loadTemplateById('${t.id}')">
-        <div class="text-lg font-black text-indigo-500">${t.icon}</div>
-        <div class="text-[8px] font-bold text-slate-500 uppercase mt-0.5">${t.label}</div>
+        <div class="text-xl font-black text-indigo-500">${t.icon}</div>
+        <div class="text-[9px] font-black text-slate-500 uppercase mt-1">${t.label}</div>
       </div>
     `;
   });
@@ -514,22 +994,35 @@ function filterTemplatesByCategory(categoryName = "all") {
   sidebarContainer.innerHTML = htmlContent;
 }
 
-// COMPATIBILITY REWRAPPERS
+// 5. WINDOW INITIALIZATION INITIAL CORE WRAPPERS
 function loadTracingTemplate() {
-  loadTemplateById("tracing_abc");
+  const dev = window.innerWidth < 768 ? "color_cat_mobile" : "tracing_abc";
+  loadTemplateById(dev);
 }
 function loadColoringTemplate() {
-  loadTemplateById("coloring_cat");
+  const dev = window.innerWidth < 768 ? "color_cat_mobile" : "coloring_cat";
+  loadTemplateById(dev);
 }
 function loadDotsTemplate() {
-  loadTemplateById("puzzle_dots");
+  const dev = window.innerWidth < 768 ? "math_lvl1_mobile" : "puzzle_dots";
+  loadTemplateById(dev);
 }
 function loadMazeTemplate() {
-  loadTemplateById("puzzle_maze");
+  const dev = window.innerWidth < 768 ? "math_lvl1_mobile" : "puzzle_maze";
+  loadTemplateById(dev);
 }
 function loadSymmetryTemplate() {
-  loadTemplateById("symmetry_mirror");
+  const dev = window.innerWidth < 768 ? "color_cat_mobile" : "symmetry_mirror";
+  loadTemplateById(dev);
 }
 function loadMathTemplate() {
-  loadTemplateById("math_matrix");
+  const dev = window.innerWidth < 768 ? "math_lvl1_mobile" : "math_matrix";
+  loadTemplateById(dev);
 }
+
+// DOM लोड होने के तुरंत बाद रीयलटाइम फ़िल्टर रन करें ताकि साइडबार ब्लैंक न रहे
+setTimeout(() => {
+  if (typeof filterTemplatesByCategory === "function") {
+    filterTemplatesByCategory("all");
+  }
+}, 300);
