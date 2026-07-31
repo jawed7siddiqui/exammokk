@@ -2,9 +2,10 @@
 <html lang="en">
   <head>
     <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
     <script
       async
-      src="https://www.googletagmanager.com/gtag/js?id=G-0FF5N45N46"
+      src="https://www.googletagmanager.com/gtag/js?id=G-C1MVKY4RWF"
     ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -12,7 +13,8 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-      gtag("config", "G-0FF5N45N46");
+
+      gtag("config", "G-C1MVKY4RWF");
     </script>
 
     <meta charset="UTF-8" />
@@ -1095,6 +1097,146 @@
       </div>
     </div>
 
+    <!-- 🎉 KIDS WELCOME REGISTRATION MODAL -->
+    <!-- 🎉 KIDS WELCOME REGISTRATION MODAL (CLEAN & COMBINED FIELD) -->
+    <div
+      id="kids-auth-modal"
+      class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[999999] hidden items-center justify-center p-4 transition-all duration-300"
+    >
+      <div
+        class="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl border-4 border-indigo-400 transform scale-95 transition-transform relative overflow-hidden"
+      >
+        <!-- Decorative Kids Shapes -->
+        <div
+          class="absolute -top-6 -right-6 w-16 h-16 bg-pink-400 rounded-full opacity-20 pointer-events-none"
+        ></div>
+        <div
+          class="absolute -bottom-6 -left-6 w-20 h-20 bg-amber-400 rounded-full opacity-20 pointer-events-none"
+        ></div>
+
+        <!-- SIMPLE HEADER -->
+        <div class="text-center mb-6">
+          <h2
+            class="text-2xl font-black text-indigo-600 tracking-wide uppercase"
+          >
+            🎨 Welcome to KidsPaint!
+          </h2>
+        </div>
+
+        <!-- Error/Success Alert Area -->
+        <div
+          id="modal-alert-box"
+          class="hidden text-[11px] font-bold p-2.5 rounded-xl text-center mb-3"
+        ></div>
+
+        <form
+          id="kids-registration-form"
+          onsubmit="handleKidsRegistration(event)"
+          class="space-y-4"
+        >
+          <!-- Full Name Input -->
+          <div>
+            <label
+              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+              >👤 Your Full Name</label
+            >
+            <input
+              type="text"
+              id="reg-fullname"
+              required
+              placeholder="Type your name here..."
+              class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-indigo-600 outline-none focus:border-indigo-400 bg-slate-50 transition-all text-sm"
+            />
+          </div>
+
+          <!-- Combined Email or Phone Input -->
+          <div>
+            <label
+              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+              >✉️📱 Email or Phone Number</label
+            >
+            <input
+              type="text"
+              id="reg-identifier"
+              required
+              placeholder="name@example.com or 9876543210"
+              class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-indigo-600 outline-none focus:border-indigo-400 bg-slate-50 transition-all text-sm"
+            />
+          </div>
+
+          <!-- Gender Select Grid -->
+          <div>
+            <label
+              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+              >🎈 Select Gender</label
+            >
+            <div class="grid grid-cols-3 gap-2">
+              <label
+                class="border-2 border-slate-200 rounded-2xl p-2 text-center font-bold text-xs cursor-pointer block hover:bg-indigo-50 transition-all text-slate-600 has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50"
+              >
+                <input
+                  type="radio"
+                  name="reg-gender"
+                  value="male"
+                  class="hidden"
+                  checked
+                />
+                👦 Boy
+              </label>
+              <label
+                class="border-2 border-slate-200 rounded-2xl p-2 text-center font-bold text-xs cursor-pointer block hover:bg-pink-50 transition-all text-slate-600 has-[:checked]:border-pink-500 has-[:checked]:bg-pink-50"
+              >
+                <input
+                  type="radio"
+                  name="reg-gender"
+                  value="female"
+                  class="hidden"
+                />
+                👧 Girl
+              </label>
+              <label
+                class="border-2 border-slate-200 rounded-2xl p-2 text-center font-bold text-xs cursor-pointer block hover:bg-amber-50 transition-all text-slate-600 has-[:checked]:border-amber-500 has-[:checked]:bg-amber-50"
+              >
+                <input
+                  type="radio"
+                  name="reg-gender"
+                  value="other"
+                  class="hidden"
+                />
+                🦄 Other
+              </label>
+            </div>
+          </div>
+
+          <!-- Age Input -->
+          <div>
+            <label
+              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+              >🎂 How old are you? (Age)</label
+            >
+            <input
+              type="number"
+              id="reg-age"
+              required
+              min="1"
+              max="100"
+              placeholder="e.g. 8 or 30"
+              class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-indigo-600 outline-none focus:border-indigo-400 bg-slate-50 transition-all text-sm"
+            />
+          </div>
+
+          <!-- Action Submit Button -->
+          <button
+            type="submit"
+            id="reg-submit-btn"
+            class="w-full py-3.5 mt-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:opacity-95 text-white font-black rounded-2xl text-sm uppercase tracking-wider shadow-lg transform active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+          >
+            🚀 Let's Paint!
+          </button>
+        </form>
+      </div>
+    </div>
+
     <script src="js/templates.js"></script>
     <!-- CORE SCRIPTS PIPELINES ENGINE -->
     <script>
@@ -1125,6 +1267,112 @@
         "#00a2e8",
         "#3f48cc",
       ];
+
+      function checkKidsAuthStatus() {
+        // चेक करें कि क्या लोकलस्टोरेज में नाम पहले से मौजूद है
+        const savedUser = localStorage.getItem("kidspaint_username");
+
+        if (!savedUser) {
+          // अगर यूज़र नहीं है, तो मोडल को स्क्रीन पर दिखाएँ (Flex मोड में)
+          const modal = document.getElementById("kids-auth-modal");
+          if (modal) {
+            modal.classList.replace("hidden", "flex");
+          }
+        } else {
+          console.log(`✨ Welcome back artist: ${savedUser}`);
+        }
+      }
+
+      async function handleKidsRegistration(event) {
+        event.preventDefault(); // फ़ॉर्म रीलोड रोकें
+
+        const submitBtn = document.getElementById("reg-submit-btn");
+        const alertBox = document.getElementById("modal-alert-box");
+
+        // फ़ॉर्म वैल्यूज को कैप्चर करें
+        const fullName = document.getElementById("reg-fullname").value.trim();
+        const identifier = document
+          .getElementById("reg-identifier")
+          .value.trim();
+        const age = document.getElementById("reg-age").value;
+        const gender = document.querySelector(
+          'input[name="reg-gender"]:checked',
+        ).value;
+
+        // बटन को लोडिंग स्टेट में डालें
+        submitBtn.disabled = true;
+        submitBtn.innerText = "✨ Opening Studio...";
+        alertBox.className =
+          "hidden text-[11px] font-bold p-2.5 rounded-xl text-center mb-3";
+
+        // 📝 स्मार्ट डिटेक्शन: ईमेल है या फ़ोन नंबर
+        let payload = { fullName, age, gender };
+
+        // अगर इनपुट में '@' है तो इसे ईमेल मानें, वरना फोन/अन्य
+        if (identifier.includes("@")) {
+          payload.email = identifier.toLowerCase();
+        } else {
+          // अगर सिर्फ नंबर हैं तो phoneNumber फ़ील्ड में भेजें (या बैकएंड की जरूरत के हिसाब से)
+          payload.phoneNumber = identifier;
+          // बैकएंड की सुरक्षा के लिए एक फॉलबैक डमी ईमेल भी सेट कर सकते हैं अगर स्कीमा में आवश्यक हो
+          payload.email = `${fullName.replace(/\s+/g, "").toLowerCase()}_${Date.now().toString().slice(-4)}@kidspaint.cloud`;
+        }
+
+        try {
+          // 🚀 लाइव पोस्ट एपीआई कॉल
+          const response = await fetch(
+            "http://api.jawedsiddiqui.cloud/api/kidspaint/register",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            },
+          );
+
+          const data = await response.json();
+
+          if (data.success) {
+            // 💾 लोकलस्टोरेज में डेटा और टोकन लॉक करें
+            localStorage.setItem("kidspaint_username", data.user.fullName);
+            localStorage.setItem("kidspaint_contact", identifier);
+            localStorage.setItem("kidspaint_token", data.token);
+
+            // अलर्ट बॉक्स में सक्सेस मेसेज दिखाएँ
+            alertBox.innerText = "🎉 Success! Loading canvas...";
+            alertBox.classList.remove("hidden");
+            alertBox.classList.add(
+              "bg-emerald-50",
+              "text-emerald-600",
+              "border",
+              "border-emerald-200",
+            );
+
+            // 1 सेकंड बाद मोडल छुपा दें
+            setTimeout(() => {
+              const modal = document.getElementById("kids-auth-modal");
+              if (modal) modal.classList.replace("flex", "hidden");
+            }, 1000);
+          } else {
+            throw new Error(data.message || "Registration failed");
+          }
+        } catch (error) {
+          console.error("API Auth Error:", error);
+          alertBox.innerText = `❌ ${error.message || "Connection Error"}`;
+          alertBox.classList.remove("hidden");
+          alertBox.classList.add(
+            "bg-red-50",
+            "text-red-600",
+            "border",
+            "border-red-200",
+          );
+
+          // बटन रीसेट करें
+          submitBtn.disabled = false;
+          submitBtn.innerText = "🚀 Let's Paint!";
+        }
+      }
 
       // 2 CORNER GEOMETRIC EXCLUSIVE LINE RESIZE INTERACTION CONTROL
       const applyExclusiveLineControls = (targetLine) => {
@@ -1166,6 +1414,12 @@
       fabric.Object.prototype.set(baseDefaultObjectProps);
 
       window.onload = () => {
+        document.addEventListener("click", () => {
+          hideShapesMenu();
+        });
+
+        // 🌟 यहाँ पर इस लाइन को जोड़ दें:
+        checkKidsAuthStatus();
         const paletteContainer = document.getElementById("palette-colors");
         paletteContainer.innerHTML = paintPalette
           .map(
