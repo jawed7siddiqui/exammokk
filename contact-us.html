@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <!-- Google tag (gtag.js) -->
-    <!-- Google tag (gtag.js) -->
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-C1MVKY4RWF"
@@ -63,6 +62,21 @@
         color: #1e293b;
         margin: 0;
         overflow-x: hidden;
+      }
+
+      /* BOOTSTRAP BLUE & UNDERLINE OVERRIDE RESET */
+      header a,
+      #mobile-menu a {
+        color: #475569 !important; /* text-slate-600 */
+        text-decoration: none !important;
+      }
+      header a:hover,
+      #mobile-menu a:hover {
+        color: #4f46e5 !important; /* text-indigo-600 */
+      }
+      header a.active-link,
+      #mobile-menu a.active-link {
+        color: #4f46e5 !important; /* Active Contact Link stays Blue */
       }
 
       @keyframes floatSlow {
@@ -168,14 +182,14 @@
     </style>
   </head>
   <body class="antialiased flex flex-col min-h-screen pb-24 md:pb-0">
-    <!-- 1. HEADER (Explicit Independent Class Styles Applied) -->
+    <!-- 1. HEADER -->
     <header
       class="bg-white sticky top-0 z-50 px-4 py-3.5 md:px-8 md:py-4 flex items-center justify-between border-b-4 border-yellow-400 shadow-md"
     >
       <div class="flex items-center gap-8">
         <div
           onclick="window.location.href = '/'"
-          class="flex items-center gap-2.5 cursor-pointer transform active:scale-95 transition-transform group"
+          class="flex items-center gap-2.5 cursor-pointer transform active:scale-95 transition-transform group text-decoration-none"
         >
           <div
             class="w-10 h-10 md:w-12 md:h-12 bg-amber-400 rounded-xl md:rounded-2xl flex items-center justify-center shadow-md border-2 border-white rotate-[-3deg] group-hover:rotate-[12deg] transition-transform duration-300"
@@ -186,7 +200,7 @@
             ></i>
           </div>
           <span
-            class="text-xl md:text-2xl font-black tracking-wide text-indigo-600 uppercase flex items-center"
+            class="text-xl md:text-2xl font-black tracking-wide text-indigo-600 uppercase flex items-center text-decoration-none"
           >
             Kids&nbsp;<span class="text-pink-500">P</span
             ><span class="text-amber-500">a</span
@@ -197,24 +211,73 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-4">
-        <a
-          href="/"
-          class="text-sm font-bold !text-slate-600 hover:!text-indigo-600 transition-colors uppercase decoration-none"
+      <!-- DESKTOP MENU (HIDDEN ON MOBILE) -->
+      <div class="hidden md:flex items-center gap-6">
+        <a href="/" class="text-sm font-bold uppercase text-decoration-none"
           >Home</a
         >
         <a
           href="/coloring-pages"
-          class="text-sm font-bold !text-slate-600 hover:!text-indigo-600 transition-colors uppercase decoration-none"
+          class="text-sm font-bold uppercase text-decoration-none"
           >Coloring Pages</a
         >
         <a
+          href="/about-us"
+          class="text-sm font-bold uppercase text-decoration-none"
+          >About Us</a
+        >
+        <a
           href="/contact-us"
-          class="text-sm font-bold !text-indigo-600 uppercase decoration-none"
+          class="text-sm font-bold active-link uppercase text-decoration-none"
           >Contact Us</a
         >
+        <button
+          onclick="redirectToPaintApp()"
+          class="kids-shadow-btn-yellow px-5 py-2.5 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all items-center gap-2 cursor-pointer"
+        >
+          <i
+            data-lucide="sparkles"
+            class="w-4 h-4 text-yellow-200 fill-current"
+          ></i>
+          Open Paint Editor
+        </button>
       </div>
+
+      <!-- MOBILE HAMBURGER BUTTON -->
+      <button
+        onclick="toggleMobileMenu()"
+        class="md:hidden p-2 text-slate-600 hover:text-indigo-600 focus:outline-none cursor-pointer border-0 bg-transparent"
+      >
+        <i id="menu-icon" data-lucide="menu" class="w-7 h-7"></i>
+      </button>
     </header>
+
+    <!-- MOBILE DROPDOWN MENU CONTAINER -->
+    <div
+      id="mobile-menu"
+      class="hidden md:hidden fixed top-[72px] left-0 right-0 bg-white border-b-4 border-yellow-400 shadow-xl z-40 flex flex-col p-4 gap-4 animate__animated animate__fadeInDown animate__faster"
+    >
+      <a
+        href="/"
+        class="text-base font-bold p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase text-decoration-none"
+        >Home</a
+      >
+      <a
+        href="/coloring-pages"
+        class="text-base font-bold p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase text-decoration-none"
+        >Coloring Pages</a
+      >
+      <a
+        href="/about-us"
+        class="text-base font-bold p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase text-decoration-none"
+        >About Us</a
+      >
+      <a
+        href="/contact-us"
+        class="text-base font-bold active-link p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase text-decoration-none"
+        >Contact Us</a
+      >
+    </div>
 
     <!-- MOBILE STICKY FOOTER BAR -->
     <div
@@ -599,6 +662,22 @@
             console.error("Submission Error:", error);
           }
         });
+      }
+
+      function toggleMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        const icon = document.getElementById("menu-icon");
+
+        if (menu.classList.contains("hidden")) {
+          menu.classList.remove("hidden");
+          icon.setAttribute("data-lucide", "x");
+        } else {
+          menu.classList.add("hidden");
+          icon.setAttribute("data-lucide", "menu");
+        }
+
+        // Lucide icons को दोबारा रेंडर करें ताकि आइकॉन बदल सके
+        lucide.createIcons();
       }
     </script>
   </body>

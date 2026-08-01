@@ -260,7 +260,8 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-4">
+      <!-- DESKTOP NAVIGATION (बड़ी स्क्रीन के लिए) -->
+      <div class="hidden md:flex items-center gap-6">
         <a
           href="/"
           class="text-sm font-bold !text-indigo-600 uppercase decoration-none"
@@ -283,10 +284,58 @@
         >
         <button
           onclick="redirectToPaintApp()"
-          class="hidden md:flex kids-shadow-btn-yellow px-6 py-3 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all items-center gap-2 cursor-pointer"
+          class="kids-shadow-btn-yellow px-6 py-3 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all items-center gap-2 cursor-pointer"
         >
           <i
             class="sparkles text-yellow-200 fill-current w-4 h-4"
+            data-lucide="sparkles"
+          ></i>
+          Launch Brain Studio
+        </button>
+      </div>
+
+      <!-- MOBILE HAMBURGER BUTTON (सिर्फ मोबाइल के लिए) -->
+      <button
+        id="menu-btn"
+        onclick="toggleMobileMenu()"
+        class="flex md:hidden p-2 text-slate-700 hover:text-indigo-600 transition-colors cursor-pointer focus:outline-none"
+        aria-label="Toggle Menu"
+      >
+        <i id="menu-icon" data-lucide="menu" class="w-7 h-7"></i>
+      </button>
+
+      <!-- MOBILE DROPDOWN MENU -->
+      <div
+        id="mobile-menu"
+        class="hidden absolute top-[100%] left-0 right-0 bg-white border-b-4 border-indigo-500 shadow-xl flex flex-col p-5 gap-4 animate__animated animate__fadeInDown animate__faster z-40 md:hidden"
+      >
+        <a
+          href="/"
+          class="text-base font-black text-indigo-600 uppercase py-2 border-b border-slate-100"
+          >Home</a
+        >
+        <a
+          href="/coloring-pages"
+          class="text-base font-bold text-slate-700 hover:text-indigo-600 uppercase py-2 border-b border-slate-100"
+          >Coloring Pages</a
+        >
+        <a
+          href="/about-us"
+          class="text-base font-bold text-slate-700 hover:text-indigo-600 uppercase py-2 border-b border-slate-100"
+          >About Us</a
+        >
+        <a
+          href="/contact-us"
+          class="text-base font-bold text-slate-700 hover:text-indigo-600 uppercase py-2 border-b border-slate-100"
+          >Contact Us</a
+        >
+        <!-- मोबाइल यूज़र्स के लिए मेनू के अंदर एक्शन बटन -->
+        <button
+          onclick="redirectToPaintApp()"
+          class="kids-shadow-btn-yellow w-full mt-2 px-6 py-3.5 bg-amber-500 text-white font-bold text-base rounded-xl border-2 border-amber-600 flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <i
+            class="sparkles text-yellow-200 fill-current w-5 h-5"
             data-lucide="sparkles"
           ></i>
           Launch Brain Studio
@@ -1237,6 +1286,22 @@
       };
       function redirectToPaintApp() {
         window.location.href = "paint.html";
+      }
+
+      // पुराने window.onload के साथ इस नए फ़ंक्शन को नीचे जोड़ें
+      function toggleMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        const icon = document.getElementById("menu-icon");
+
+        if (menu.classList.contains("hidden")) {
+          // मेनू खोलें
+          menu.classList.remove("hidden");
+          icon.setAttribute("data-lucide", "x"); // हैमबर्गर को 'X' क्लोज़ आइकॉन में बदलें
+        } else {
+          // मेनू बंद करें
+          menu.classList.add("hidden");
+          icon.setAttribute("data-lucide", "menu"); // वापस हैमबर्बर आइकॉन लाएं
+        }
       }
     </script>
   </body>

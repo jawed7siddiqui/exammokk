@@ -215,10 +215,8 @@
       }
     </style>
   </head>
-  <body
-    class="antialiased select-none flex flex-col min-h-screen pb-24 md:pb-0"
-  >
-    <!-- 1. HEADER NAVIGATION -->
+  <body class="antialiased flex flex-col min-h-screen pb-24 md:pb-0">
+    <!-- 1. HEADER -->
     <header
       class="bg-white sticky top-0 z-50 px-4 py-3.5 md:px-8 md:py-4 flex items-center justify-between border-b-4 border-yellow-400 shadow-md"
     >
@@ -231,14 +229,14 @@
             class="w-10 h-10 md:w-12 md:h-12 bg-amber-400 rounded-xl md:rounded-2xl flex items-center justify-center shadow-md border-2 border-white rotate-[-3deg] group-hover:rotate-[12deg] transition-transform duration-300"
           >
             <i
-              class="palette text-white fill-amber-100 w-6 h-6 md:w-7 md:h-7"
               data-lucide="palette"
+              class="w-6 h-6 md:w-7 md:h-7 text-white fill-amber-100"
             ></i>
           </div>
           <span
             class="text-xl md:text-2xl font-black tracking-wide text-indigo-600 uppercase flex items-center"
           >
-            Kids&nbsp;<span class="text-pink-500 animate-pulse">P</span
+            Kids&nbsp;<span class="text-pink-500">P</span
             ><span class="text-amber-500">a</span
             ><span class="text-emerald-500">i</span
             ><span class="text-cyan-500">n</span
@@ -247,20 +245,21 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-4">
+      <!-- DESKTOP MENU (HIDDEN ON MOBILE) -->
+      <div class="hidden md:flex items-center gap-6">
         <a
           href="/"
-          class="text-sm font-bold !text-slate-600 hover:!text-indigo-600 transition-colors uppercase decoration-none"
+          class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors uppercase decoration-none"
           >Home</a
         >
         <a
-          href="/coloring-pages.html"
-          class="text-sm font-bold !text-indigo-600 uppercase decoration-none"
+          href="/coloring-pages"
+          class="text-sm font-bold text-indigo-600 transition-colors uppercase text-decoration-none"
           >Coloring Pages</a
         >
         <a
           href="/about-us"
-          class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors uppercase decoration-none"
+          class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors uppercase text-decoration-none"
           >About Us</a
         >
         <a
@@ -270,16 +269,51 @@
         >
         <button
           onclick="redirectToPaintApp()"
-          class="hidden md:flex kids-shadow-btn-yellow px-6 py-3 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all items-center gap-2 cursor-pointer"
+          class="kids-shadow-btn-yellow px-5 py-2.5 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all items-center gap-2 cursor-pointer"
         >
           <i
-            class="sparkles text-yellow-200 fill-current w-4 h-4"
             data-lucide="sparkles"
+            class="w-4 h-4 text-yellow-200 fill-current"
           ></i>
-          Launch Coloring Pad
+          Open Paint Editor
         </button>
       </div>
+
+      <!-- MOBILE HAMBURGER BUTTON (VISIBLE ONLY ON MOBILE) -->
+      <button
+        onclick="toggleMobileMenu()"
+        class="md:hidden p-2 text-slate-600 hover:text-indigo-600 focus:outline-none cursor-pointer"
+      >
+        <i id="menu-icon" data-lucide="menu" class="w-7 h-7"></i>
+      </button>
     </header>
+
+    <!-- MOBILE DROPDOWN MENU CONTAINER (HIDDEN BY DEFAULT) -->
+    <div
+      id="mobile-menu"
+      class="hidden md:hidden fixed top-[72px] left-0 right-0 bg-white border-b-4 border-yellow-400 shadow-xl z-40 flex flex-col p-4 gap-4 animate__animated animate__fadeInDown animate__faster"
+    >
+      <a
+        href="/"
+        class="text-base font-bold text-slate-700 hover:text-indigo-600 p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase"
+        >Home</a
+      >
+      <a
+        href="/coloring-pages"
+        class="text-sm font-bold text-indigo-600 transition-colors uppercase text-decoration-none"
+        >Coloring Pages</a
+      >
+      <a
+        href="/about-us"
+        class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors uppercase text-decoration-none"
+        >About Us</a
+      >
+      <a
+        href="/contact-us"
+        class="text-base font-bold text-slate-700 hover:text-indigo-600 p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase"
+        >Contact Us</a
+      >
+    </div>
 
     <!-- MOBILE STICKY FOOTER -->
     <div
@@ -810,6 +844,22 @@
       };
       function redirectToPaintApp() {
         window.location.href = "paint.html";
+      }
+
+      function toggleMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        const icon = document.getElementById("menu-icon");
+
+        if (menu.classList.contains("hidden")) {
+          menu.classList.remove("hidden");
+          icon.setAttribute("data-lucide", "x");
+        } else {
+          menu.classList.add("hidden");
+          icon.setAttribute("data-lucide", "menu");
+        }
+
+        // Lucide icons को दोबारा रेंडर करने के लिए ताकि आइकॉन 'menu' से 'x' में बदल सके
+        lucide.createIcons();
       }
     </script>
   </body>
