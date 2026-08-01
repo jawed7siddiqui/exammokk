@@ -58,48 +58,122 @@
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "Kids Paint",
+        "@id": "https://kidspaint.cloud/#webapplication",
+
+        "name": "KidsPaint",
+
+        "alternateName": [
+          "Kids Paint",
+          "KidsPaint AI India",
+          "Kids Paint Cloud"
+        ],
+
         "url": "https://kidspaint.cloud/",
+        "image": "https://kidspaint.cloud/assets/images/logo.png",
+
+        "description": "KidsPaint is a 100% free online paint editor and educational learning platform for kids, schools, teachers, and parents worldwide. Proudly Made in India, KidsPaint offers online drawing, coloring pages, letter tracing, connect the dots, maze games, symmetry drawing, math activities, and creative learning directly in the browser without downloads.",
+
         "applicationCategory": "EducationalApplication",
-        "operatingSystem": "All",
-        "browserRequirements": "Requires HTML5 canvas support.",
-        "description": "Kids Paint - 100% Free Online Paint & Cloud Paint Editor for School Students. A premium worldwide free online paint tool, browser-based cloud paint editor, and brain development suite hosting Letters Tracing, Coloring Pad, Connect Dots, Maze Runner, Symmetry Mirror, and Math Matrix games for school students.",
-        "alternativeHeadline": "Kids Paint - 100% Free Online Drawing Tool for School Students",
+        "applicationSubCategory": "Online Paint Editor, Drawing, Coloring, Educational Games",
+
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires a modern web browser with HTML5 Canvas support.",
+
+        "inLanguage": ["en", "hi"],
+
+        "isAccessibleForFree": true,
+
+        "creator": {
+          "@type": "Organization",
+          "name": "Farha AI Kids Education",
+          "url": "https://kidspaint.cloud/"
+        },
+
+        "provider": {
+          "@type": "Organization",
+          "name": "Farha AI Kids Education",
+          "url": "https://kidspaint.cloud/"
+        },
+
+        "publisher": {
+          "@type": "Organization",
+          "name": "Farha AI Kids Education",
+          "url": "https://kidspaint.cloud/"
+        },
+
         "offers": {
           "@type": "Offer",
-          "price": "0.00",
-          "priceCurrency": "INR"
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
         },
+
         "audience": {
           "@type": "Audience",
-          "audienceType": "School Students, Kids, Art Teachers, Children, Toddlers"
+          "audienceType": [
+            "Kids",
+            "Children",
+            "School Students",
+            "Teachers",
+            "Parents"
+          ]
         },
-        "abstract": "A 100% free browser-based digital drawing classroom and cognitive thinking operations practice studio for worldwide children.",
+
         "featureList": [
-          "Letters Tracing",
-          "Coloring Pad",
-          "Connect Dots",
+          "Online Paint Editor",
+          "Digital Drawing",
+          "Paint & Play Studio",
+          "Coloring Pages",
+          "Letter Tracing",
+          "Connect the Dots",
           "Maze Runner",
           "Symmetry Mirror",
           "Math Matrix",
-          "Cloud Paint Editor",
-          "Online Drawing Tool"
+          "Brushes",
+          "Shapes",
+          "Fill Tool",
+          "Text Tool",
+          "Eraser",
+          "Undo & Redo",
+          "Save Drawing",
+          "Printable Coloring Pages",
+          "Educational Games",
+          "Mouse Skill Development",
+          "Creativity Activities"
         ],
+
+        "keywords": [
+          "KidsPaint",
+          "Kids Paint",
+          "KidsPaint AI India",
+          "Online Paint",
+          "Paint Online",
+          "Online Paint Editor",
+          "Free Paint App",
+          "Drawing Tool",
+          "Drawing for Kids",
+          "Kids Drawing",
+          "Coloring Pages",
+          "Letter Tracing",
+          "Connect the Dots",
+          "Maze Game",
+          "Symmetry Drawing",
+          "Math Games",
+          "Educational Games",
+          "Brain Development",
+          "Creative Learning",
+          "Made in India"
+        ],
+
         "areaServed": [
-          { "@type": "AdministrativeArea", "name": "Worldwide" },
-          { "@type": "AdministrativeArea", "name": "Delhi" },
-          { "@type": "AdministrativeArea", "name": "New Delhi" },
-          { "@type": "AdministrativeArea", "name": "Ghaziabad" },
-          { "@type": "AdministrativeArea", "name": "Noida" },
-          { "@type": "AdministrativeArea", "name": "Greater Noida" },
-          { "@type": "AdministrativeArea", "name": "Gurgaon" },
-          { "@type": "Country", "name": "India" },
-          { "@type": "Country", "name": "United Arab Emirates" },
-          { "@type": "AdministrativeArea", "name": "Dubai" },
-          { "@type": "Country", "name": "Saudi Arabia" },
-          { "@type": "Country", "name": "Qatar" },
-          { "@type": "Country", "name": "United Kingdom" },
-          { "@type": "Country", "name": "United States" }
+          {
+            "@type": "Place",
+            "name": "Worldwide"
+          },
+          {
+            "@type": "Country",
+            "name": "India"
+          }
         ]
       }
     </script>
@@ -284,13 +358,13 @@
         >
         <button
           onclick="redirectToPaintApp()"
-          class="kids-shadow-btn-yellow px-6 py-3 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all items-center gap-2 cursor-pointer"
+          class="kids-shadow-btn-yellow flex items-center justify-center gap-2 whitespace-nowrap px-6 py-3 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all cursor-pointer"
         >
           <i
-            class="sparkles text-yellow-200 fill-current w-4 h-4"
+            class="sparkles text-yellow-200 fill-current w-4 h-4 flex-shrink-0"
             data-lucide="sparkles"
           ></i>
-          Launch Brain Studio
+          <span>LAUNCH PAINT & PLAY</span>
         </button>
       </div>
 
@@ -338,7 +412,7 @@
             class="sparkles text-yellow-200 fill-current w-5 h-5"
             data-lucide="sparkles"
           ></i>
-          Launch Brain Studio
+          LAUNCH PAINT & PLAY
         </button>
       </div>
     </header>
@@ -351,7 +425,7 @@
         onclick="redirectToPaintApp()"
         class="w-full kids-shadow-btn py-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-black text-lg rounded-2xl border-2 border-white transition-all flex items-center justify-center gap-3 active:scale-95 cursor-pointer shadow-[0_0_20px_rgba(79,70,229,0.4)]"
       >
-        <span>PLAY BRAIN GAMES 🎮</span>
+        <span>LAUNCH PAINT & PLAY 🎮</span>
         <i
           class="zap text-yellow-300 fill-current animate-bounce w-5 h-5"
           data-lucide="zap"
@@ -1218,6 +1292,7 @@
     >
       <div class="max-w-6xl mx-auto flex flex-col gap-10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+          <!-- Left Column: Brand & Features -->
           <div class="flex flex-col gap-4">
             <div class="flex items-center gap-2">
               <div
@@ -1227,41 +1302,49 @@
               </div>
               <span
                 class="text-white text-lg font-bold tracking-wider uppercase"
-                >Kids Paint Global</span
+                >KidsPaint AI India</span
               >
             </div>
             <p
               class="text-[11px] md:text-xs text-slate-400 max-w-sm leading-relaxed"
             >
-              Kids Paint delivers a high-speed, secure online paint studio and
-              comprehensive brain growth sandbox environment, training children
-              through Letters Tracing, Coloring Pad, Connect Dots, Maze Runner,
-              Symmetry Mirror, and Math Matrix games.
+              KidsPaint delivers a high-speed, secure online paint studio and
+              comprehensive brain growth sandbox environment worldwide. We train
+              children globally through interactive modules like Letters
+              Tracing, Coloring Pad, Connect Dots, Maze Runner, Symmetry Mirror,
+              and Math Matrix.
             </p>
           </div>
+
+          <!-- Right Column: Global Vision & India Sub-Brand Launch -->
           <div
             class="text-[11px] md:text-xs text-slate-400 space-y-3 border-l-0 md:border-l border-slate-800 pl-0 md:pl-8"
           >
             <h4
               class="font-bold uppercase text-slate-200 tracking-wider text-xs flex items-center gap-1"
             >
-              <span>🌐</span> Universal Art & IQ Literacy Infrastructure Nodes
+              <span>🌐</span> Universal Art & IQ Literacy Infrastructure
             </h4>
             <p class="leading-relaxed">
-              Our open-access application builds a balanced cognitive ecosystem
-              across domestic educational territories including Delhi, New Delhi
-              NCR, Ghaziabad, Noida, Greater Noida, and Gurgaon.
+              Designed for international scalability, our open-access
+              application builds a balanced cognitive ecosystem for children
+              worldwide. Through our regional chapter,
+              <strong>KidsPaint AI India</strong>, we are proudly launching
+              operations by supporting premium early-education networks across
+              Delhi NCR, Noida, Ghaziabad, and Gurgaon.
             </p>
-            <p class="leading-relaxed text-slate-500">
-              Expanding network instances worldwide, modules scale effortlessly
-              across elite standard school networks throughout Dubai (UAE),
-              Saudi Arabia, Qatar, alongside digital art blocks in the United
-              Kingdom (UK) and United States (US) with zero software
-              dependencies.
+            <p class="leading-relaxed text-slate-500 font-medium">
+              🚀 Powered by KidsPaint AI India — a dedicated local initiative by
+              Farha AI Kids Education, scaling effortlessly across elite
+              preschool networks with zero software dependencies.
             </p>
           </div>
         </div>
+
+        <!-- Divider -->
         <div class="h-[1px] bg-slate-800 w-full"></div>
+
+        <!-- Footer Bottom -->
         <div
           class="flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-semibold text-slate-500 text-center"
         >
