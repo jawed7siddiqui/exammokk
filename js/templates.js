@@ -8,13 +8,12 @@ const TEMPLATES_DATABASE = [
   // ==================== 💻 DESKTOP / WEB TEMPLATES ====================
   {
     id: "tracing_abc",
-    title:
-      "Letters Tracing: Trace over the alphabet template below with your Brush!",
+    title: "✨ Trace over the Alphabet with your Brush!",
     category: "tracing",
     deviceType: "web",
     themeColor: "#4f46e5",
     icon: "A B C",
-    label: "Letters Tracing",
+    label: "Alphabet",
     defaultTool: "brush",
     initGrid: false,
     objects: [
@@ -22,15 +21,15 @@ const TEMPLATES_DATABASE = [
         type: "text",
         text: "A  B  C",
         props: {
-          fontSize: 150,
+          fontSize: 180, // बच्चों के लिए आसान ट्रेसिंग हेतु आकार थोड़ा बड़ा किया गया
           fontFamily: "Fredoka",
           fontWeight: "bold",
           fill: "transparent",
           stroke: "#cbd5e1",
-          strokeWidth: 5,
-          strokeDashArray: [12, 10],
-          left: 576,
-          top: 354,
+          strokeWidth: 6, // डेस्कटॉप स्क्रीन पर क्रिस्प दिखने के लिए थिकनेस बढ़ाई गई
+          strokeDashArray: [12, 10], // परफेक्ट डॉट-डैश ट्रेसिंग गाइडलाइन्स
+          left: 576, // 1152 चौड़ाई का सटीक हॉरिजॉन्टल सेंटर लॉक
+          top: 380, // ऊपर टेक्स्ट से परफेक्ट वर्टिकल स्पेसिंग बनाए रखने के लिए थोड़ा नीचे खिसकाया
           originX: "center",
           originY: "center",
           role: "background_art",
