@@ -408,7 +408,7 @@
             </span>
           </a>
           <button
-            onclick="triggerNewCanvasModal()"
+            onclick="handleNewCanvasClick()"
             style="margin-left: 44px"
             class="px-2 py-0.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg text-[10px] font-black flex items-center gap-1 shadow-sm transition-all active:scale-95"
           >
@@ -597,6 +597,43 @@
         </div>
 
         <!-- SECTION 2: BRUSHES -->
+
+        <!-- SECTION 3: COLORS PALETTE -->
+        <div
+          class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
+        >
+          <div class="flex items-center gap-1 min-h-[42px] md:min-h-[80px]">
+            <div
+              class="flex gap-1.5 bg-slate-50 p-0.5 rounded-xl border border-slate-200 shrink-0"
+            >
+              <div
+                id="box-color1"
+                class="color-box w-6 h-6 rounded bg-black cursor-pointer shadow active"
+              ></div>
+            </div>
+            <div
+              id="palette-colors"
+              class="grid grid-cols-6 gap-0.5 w-[140px] md:w-[132px] shrink-0"
+            ></div>
+            <div
+              class="relative w-6 h-6 rounded border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-sm cursor-pointer shrink-0"
+              title="Custom Picker"
+            >
+              <i
+                data-lucide="pipette"
+                class="w-3 text-slate-400 pointer-events-none"
+              ></i>
+              <input
+                type="color"
+                id="custom-color-picker"
+                oninput="selectColor(this.value)"
+                class="absolute inset-0 opacity-0 cursor-pointer"
+                value="#000000"
+              />
+            </div>
+          </div>
+          <div class="tool-section-label pl-1 text-left">Colors</div>
+        </div>
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
@@ -646,44 +683,6 @@
           </div>
           <div class="tool-section-label">Brushes</div>
         </div>
-
-        <!-- SECTION 3: COLORS PALETTE -->
-        <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
-        >
-          <div class="flex items-center gap-1 min-h-[42px] md:min-h-[80px]">
-            <div
-              class="flex gap-1.5 bg-slate-50 p-0.5 rounded-xl border border-slate-200 shrink-0"
-            >
-              <div
-                id="box-color1"
-                class="color-box w-6 h-6 rounded bg-black cursor-pointer shadow active"
-              ></div>
-            </div>
-            <div
-              id="palette-colors"
-              class="grid grid-cols-6 gap-0.5 w-[140px] md:w-[132px] shrink-0"
-            ></div>
-            <div
-              class="relative w-6 h-6 rounded border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-sm cursor-pointer shrink-0"
-              title="Custom Picker"
-            >
-              <i
-                data-lucide="pipette"
-                class="w-3 text-slate-400 pointer-events-none"
-              ></i>
-              <input
-                type="color"
-                id="custom-color-picker"
-                oninput="selectColor(this.value)"
-                class="absolute inset-0 opacity-0 cursor-pointer"
-                value="#000000"
-              />
-            </div>
-          </div>
-          <div class="tool-section-label pl-1 text-left">Colors</div>
-        </div>
-
         <!-- SECTION 4: SHAPES (WITH DROP DOWN MENU RESTORED COMPLETELY) -->
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
@@ -2102,6 +2101,23 @@
           1.0,
         );
         applyZoomLevel();
+      }
+
+      function handleNewCanvasClick() {
+        // अगर मोबाइल स्क्रीन (768px से कम) है, तो बिना मोडल के सीधे नया पेज बनाएं
+        if (window.innerWidth < 768) {
+          if (
+            confirm(
+              "Do you want to create a new clean page? (Your current drawing will be removed)",
+            )
+          ) {
+            localStorage.removeItem("kidspaint_canvas_data");
+            setupCanvas(648, 800, "#ffffff"); // मोबाइल के लिए फिक्स परफेक्ट साइज
+          }
+        } else {
+          // वेब (डेस्कटॉप) के लिए आपका पुराना मोडल पॉप-अप खुल जाएगा
+          triggerNewCanvasModal();
+        }
       }
 
       function triggerNewCanvasModal() {
