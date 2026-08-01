@@ -22,7 +22,7 @@
       "destination": "/guide.html"
     },
     {
-      "source": "/ar",
+      "source": "/ar(.*)",
       "destination": "/lang/ar.html"
     }
   ]
