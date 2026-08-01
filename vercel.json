@@ -1,6 +1,5 @@
 {
   "cleanUrls": false,
-  "trailingSlash": true,
   "rewrites": [
     {
       "source": "/editor/(.*)",
@@ -23,8 +22,8 @@
       "destination": "/guide.html"
     },
     {
-      "source": "/ar(.*)",
-      "destination": "/lang/ar.html"
+      "source": "/ar",
+      "destination": "ar.html"
     }
   ]
 }
