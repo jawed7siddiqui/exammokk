@@ -38,54 +38,62 @@ const TEMPLATES_DATABASE = [
       },
     ],
   },
+  // ==========================================
+  // DESKTOP DESIGNS (WIDTH: 1152, HEIGHT: 648)
+  // Centered & Optimized with Top Vertical Spacing
+  // ==========================================
+
   {
     id: "coloring_cat",
-    title:
-      "Coloring Book: Pick colors from palette and fill segments inside the Cat template!",
+    title: "🐱 Fill colors inside the Big Cat!",
     category: "coloring",
     deviceType: "web",
     themeColor: "#ec4899",
     icon: "🐱🎨",
-    label: "Coloring Pad",
+    label: "Cat",
     defaultTool: "bucket",
     initGrid: false,
     objects: [
       {
         type: "path",
-        path: "M 250 360 C 250 220, 450 220, 450 360 C 450 450, 250 450, 250 360 Z",
+        // मुख्य चेहरा (Pushed down to Y=370)
+        path: "M 376 370 C 376 160, 776 160, 776 370 C 776 540, 376 540, 376 370 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 4,
+          strokeWidth: 5,
           role: "color_segment",
         },
       },
       {
         type: "path",
-        path: "M 265 265 L 240 180 L 315 235 Z",
+        // बायाँ कान
+        path: "M 396 250 L 336 100 L 486 200 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 4,
+          strokeWidth: 5,
           role: "color_segment",
         },
       },
       {
         type: "path",
-        path: "M 435 265 L 460 180 L 385 235 Z",
+        // दायाँ कान
+        path: "M 756 250 L 816 100 L 666 200 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 4,
+          strokeWidth: 5,
           role: "color_segment",
         },
       },
       {
         type: "circle",
+        // बाईं आँख
         props: {
-          left: 310,
-          top: 315,
-          radius: 16,
+          left: 486,
+          top: 310,
+          radius: 28,
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 4,
@@ -96,10 +104,11 @@ const TEMPLATES_DATABASE = [
       },
       {
         type: "circle",
+        // दाईं आँख
         props: {
-          left: 390,
-          top: 315,
-          radius: 16,
+          left: 666,
+          top: 310,
+          radius: 28,
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 4,
@@ -110,14 +119,455 @@ const TEMPLATES_DATABASE = [
       },
       {
         type: "triangle",
+        // नाक
         props: {
-          left: 350,
-          top: 350,
-          width: 26,
-          height: 18,
+          left: 576,
+          top: 380,
+          width: 44,
+          height: 28,
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 3,
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          angle: 180,
+          role: "color_segment",
+        },
+      },
+    ],
+  },
+  {
+    id: "coloring_dog",
+    title: "🐶 Color the Happy Puppy!",
+    category: "coloring",
+    deviceType: "web",
+    themeColor: "#a855f7",
+    icon: "🐶",
+    label: "Puppy",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "path",
+        // पिल्ले का चेहरा (Pushed down to Y=380)
+        path: "M 376 380 C 376 180, 776 180, 776 380 C 776 535, 376 535, 376 380 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "path",
+        // बायाँ लंबा कान
+        path: "M 380 270 C 300 230, 310 470, 390 400 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "path",
+        // दायाँ लंबा कान
+        path: "M 772 270 C 852 230, 842 470, 762 400 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle",
+        // बाईं आँख
+        props: {
+          left: 476,
+          top: 320,
+          radius: 25,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle",
+        // दाईं आँख
+        props: {
+          left: 676,
+          top: 320,
+          radius: 25,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle",
+        // प्यारी गोल नाक
+        props: {
+          left: 576,
+          top: 405,
+          radius: 22,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+    ],
+  },
+  {
+    id: "coloring_river",
+    title: "🏞️ Paint the River & Sun Nature Scene!",
+    category: "coloring",
+    deviceType: "web",
+    themeColor: "#0ea5e9",
+    icon: "🏞️",
+    label: "River",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "rect",
+        // मुख्य लैंडस्केप बैकड्रॉप (Pushed down to top: 110)
+        props: {
+          left: 176,
+          top: 110,
+          width: 800,
+          height: 460,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle",
+        // सूर्य
+        props: {
+          left: 576,
+          top: 290,
+          radius: 85,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "path",
+        // बहती हुई लहरदार नदी
+        path: "M 176 410 C 350 310, 650 510, 976 410 L 976 570 L 176 570 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      },
+    ],
+  },
+  {
+    id: "coloring_home",
+    title: "🏡 Color the Playhouse Roof & Walls!",
+    category: "coloring",
+    deviceType: "web",
+    themeColor: "#10b981",
+    icon: "🏡",
+    label: "House",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "triangle",
+        // घर की छत (Pushed down to top: 120)
+        props: {
+          left: 576,
+          top: 120,
+          width: 560,
+          height: 180,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          originX: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "rect",
+        // मुख्य निचला कमरा
+        props: {
+          left: 336,
+          top: 300,
+          width: 480,
+          height: 260,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "rect",
+        // मुख्य प्रवेश द्वार
+        props: {
+          left: 526,
+          top: 410,
+          width: 100,
+          height: 150,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          role: "color_segment",
+        },
+      },
+    ],
+  },
+  {
+    id: "coloring_rocket",
+    title: "🚀 Paint the Flying Space Rocket!",
+    category: "coloring",
+    deviceType: "web",
+    themeColor: "#6366f1",
+    icon: "🚀",
+    label: "Rocket",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "rect",
+        // स्पेस कैनवास फ्रेम (Pushed down to top: 100)
+        props: {
+          left: 226,
+          top: 100,
+          width: 700,
+          height: 480,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle",
+        // चाँद
+        props: {
+          left: 800,
+          top: 200,
+          radius: 55,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "path",
+        // मुख्य रॉकेट का ढांचा
+        path: "M 576 140 C 516 240, 506 430, 506 480 L 646 480 C 646 430, 636 240, 576 140 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle",
+        // रॉकेट की गोल खिड़की
+        props: {
+          left: 576,
+          top: 290,
+          radius: 32,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "path",
+        // बूस्टर से निकलने वाली ब्लास्ट आग
+        path: "M 526 486 L 576 560 L 626 486 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      },
+    ],
+  },
+  {
+    id: "coloring_teddy",
+    title: "🧸 Paint the Heart on the Teddy Bear!",
+    category: "coloring",
+    deviceType: "web",
+    themeColor: "#f59e0b",
+    icon: "🧸",
+    label: "Teddy",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "path",
+        // भालू का गोल-मटोल धड़ (Pushed down to Y=390)
+        path: "M 396 390 C 396 250, 756 250, 756 390 C 756 550, 396 550, 396 390 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle",
+        // गोल मासूम चेहरा
+        props: {
+          left: 576,
+          top: 230,
+          radius: 85,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle",
+        // बायाँ गोल कान
+        props: {
+          left: 486,
+          top: 140,
+          radius: 28,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle",
+        // दायाँ गोल कान
+        props: {
+          left: 666,
+          top: 140,
+          radius: 28,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "path",
+        // भालू के पेट पर बना सुंदर सा दिल
+        path: "M 576 350 C 576 350, 516 290, 516 330 C 516 370, 576 420, 576 420 C 576 420, 636 370, 636 330 C 636 290, 576 350, 576 350 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          role: "color_segment",
+        },
+      },
+    ],
+  },
+  {
+    id: "coloring_fish",
+    title: "🐠 Fill colors inside the Magic Fish!",
+    category: "coloring",
+    deviceType: "web",
+    themeColor: "#14b8a6",
+    icon: "🐠",
+    label: "Fish",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "path",
+        // जादुई मछली का मुख्य अंडाकार शरीर (Pushed down to Y=350)
+        path: "M 356 350 C 356 190, 696 190, 696 350 C 696 510, 356 510, 356 350 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "path",
+        // मछली के पीछे तैरने वाला विशाल फिन/पूंछ
+        path: "M 686 350 L 796 230 L 756 350 L 796 470 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle",
+        // बड़ी एनिमे आँख
+        props: {
+          left: 436,
+          top: 300,
+          radius: 25,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle",
+        // फ्लोटिंग एयर बबल 1
+        props: {
+          left: 300,
+          top: 220,
+          radius: 20,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle",
+        // फ्लोटिंग एयर बबल 2
+        props: {
+          left: 260,
+          top: 150,
+          radius: 14,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
           originX: "center",
           originY: "center",
           role: "color_segment",
@@ -390,40 +840,44 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "path",
-        path: "M 150 420 C 150 250, 450 250, 450 420 C 450 540, 150 540, 150 420 Z",
+        // बिल्ली का मुख्य चेहरा (Scaled and Centered)
+        path: "M 124 450 C 124 180, 524 180, 524 450 C 524 640, 124 640, 124 450 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 5,
+          strokeWidth: 6,
           role: "color_segment",
         },
       }, // Large Face
       {
         type: "path",
-        path: "M 170 300 L 130 180 L 240 260 Z",
+        // बायाँ कान (Enlarged)
+        path: "M 150 290 L 90 120 L 240 240 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 5,
+          strokeWidth: 6,
           role: "color_segment",
         },
       }, // Left Ear
       {
         type: "path",
-        path: "M 430 300 L 470 180 L 360 260 Z",
+        // दायाँ कान (Enlarged)
+        path: "M 498 290 L 558 120 L 408 240 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 5,
+          strokeWidth: 6,
           role: "color_segment",
         },
       }, // Right Ear
       {
         type: "circle",
+        // बाईं आँख (Wider Radius)
         props: {
-          left: 240,
-          top: 370,
-          radius: 24,
+          left: 234,
+          top: 380,
+          radius: 36,
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
@@ -434,10 +888,11 @@ const TEMPLATES_DATABASE = [
       }, // Eye L
       {
         type: "circle",
+        // दाईं आँख (Wider Radius)
         props: {
-          left: 360,
-          top: 370,
-          radius: 24,
+          left: 414,
+          top: 380,
+          radius: 36,
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
@@ -448,16 +903,18 @@ const TEMPLATES_DATABASE = [
       }, // Eye R
       {
         type: "triangle",
+        // नाक (Perfect proportions)
         props: {
-          left: 300,
-          top: 430,
-          width: 36,
-          height: 24,
+          left: 324,
+          top: 460,
+          width: 50,
+          height: 34,
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 4,
+          strokeWidth: 5,
           originX: "center",
           originY: "center",
+          angle: 180, // त्रिकोण को बिल्ली की नाक की तरह नीचे की तरफ पॉइंट करने के लिए फ्लिप किया
           role: "color_segment",
         },
       }, // Nose
@@ -476,75 +933,85 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "path",
-        path: "M 200 450 C 200 300, 448 300, 448 450 C 448 560, 200 560, 200 450 Z",
+        // पिल्ले का मुख्य चेहरा (Centered at 324 & Scale Up)
+        path: "M 124 450 C 124 200, 524 200, 524 450 C 524 620, 124 620, 124 450 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 5,
+          strokeWidth: 6,
           role: "color_segment",
         },
       }, // Face
       {
         type: "path",
-        path: "M 190 350 C 130 320, 140 500, 200 460 Z",
+        // बायाँ लंबा कान (Enlarged and re-mapped)
+        path: "M 130 310 C 30 270, 40 540, 140 470 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 5,
+          strokeWidth: 6,
           role: "color_segment",
         },
       }, // Long Ear L
       {
         type: "path",
-        path: "M 458 350 C 518 320, 508 500, 448 460 Z",
+        // दायाँ लंबा कान (Enlarged and re-mapped)
+        path: "M 518 310 C 618 270, 608 540, 508 470 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 5,
+          strokeWidth: 6,
           role: "color_segment",
         },
       }, // Long Ear R
       {
         type: "circle",
+        // बाईं आँख (Wider Radius for easy touch)
         props: {
-          left: 275,
-          top: 400,
-          radius: 20,
+          left: 244,
+          top: 380,
+          radius: 32,
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           originX: "center",
+          originY: "center",
           role: "color_segment",
         },
       }, // Eye L
       {
         type: "circle",
+        // दाईं आँख (Wider Radius for easy touch)
         props: {
-          left: 373,
-          top: 400,
-          radius: 20,
+          left: 404,
+          top: 380,
+          radius: 32,
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           originX: "center",
+          originY: "center",
           role: "color_segment",
         },
       }, // Eye R
       {
         type: "circle",
+        // गोल प्यारी सी नाक (Scaled Up)
         props: {
           left: 324,
-          top: 460,
-          radius: 14,
+          top: 470,
+          radius: 25,
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           originX: "center",
+          originY: "center",
           role: "color_segment",
         },
       }, // Center Nose
     ],
   },
+
   {
     id: "color_river_mobile",
     title: "🏞️ Coloring Pad: Fill colors in the Large River and Sun scene!",
@@ -558,33 +1025,25 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "rect",
+        // पूरे मोबाइल फ्रेम के हिसाब से बड़ा किया (Width: 560px, Height: 550px)
         props: {
-          left: 74,
-          top: 200,
-          width: 500,
-          height: 450,
+          left: 44,
+          top: 120,
+          width: 560,
+          height: 550,
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 5,
+          strokeWidth: 6,
           role: "color_segment",
         },
       }, // Sky backdrop block
       {
-        type: "path",
-        path: "M 74 480 C 200 400, 400 600, 574 480 L 574 650 L 74 650 Z",
-        props: {
-          fill: "#ffffff",
-          stroke: "#000000",
-          strokeWidth: 5,
-          role: "color_segment",
-        },
-      }, // Flowing River slot
-      {
         type: "circle",
+        // उगता हुआ सूरज (बड़ा आकार और आसान टच के लिए)
         props: {
           left: 324,
-          top: 320,
-          radius: 65,
+          top: 260,
+          radius: 90,
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
@@ -593,6 +1052,17 @@ const TEMPLATES_DATABASE = [
           role: "color_segment",
         },
       }, // Big Morning Sun
+      {
+        type: "path",
+        // बहती हुई नदी (648px विड्थ के अंदर पूरी तरह स्ट्रेच और बड़ी की गई)
+        path: "M 44 450 C 180 340, 420 580, 604 450 L 604 670 L 44 670 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          role: "color_segment",
+        },
+      }, // Flowing River slot
     ],
   },
   {
@@ -607,45 +1077,272 @@ const TEMPLATES_DATABASE = [
     initGrid: false,
     objects: [
       {
-        type: "rect",
-        props: {
-          left: 174,
-          top: 380,
-          width: 300,
-          height: 240,
-          fill: "#ffffff",
-          stroke: "#000000",
-          strokeWidth: 5,
-          role: "color_segment",
-        },
-      }, // Main Room Base
-      {
         type: "triangle",
+        // घर की छत (360px से बढ़ाकर 500px चौड़ी की गई, Centered)
         props: {
           left: 324,
-          top: 240,
-          width: 360,
-          height: 140,
+          top: 150,
+          width: 500,
+          height: 200,
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 5,
+          strokeWidth: 6,
           originX: "center",
           role: "color_segment",
         },
       }, // Large Airtight Roof
       {
         type: "rect",
+        // मुख्य कमरा (300px से बढ़ाकर 420px चौड़ा किया गया, Centered)
         props: {
-          left: 294,
-          top: 500,
-          width: 60,
-          height: 120,
+          left: 114,
+          top: 350,
+          width: 420,
+          height: 320,
           fill: "#ffffff",
           stroke: "#000000",
-          strokeWidth: 4,
+          strokeWidth: 6,
+          role: "color_segment",
+        },
+      }, // Main Room Base
+      {
+        type: "rect",
+        // मुख्य दरवाज़ा (बड़ा किया गया ताकि उंगली से छूने में आसानी हो)
+        props: {
+          left: 279,
+          top: 510,
+          width: 90,
+          height: 160,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
           role: "color_segment",
         },
       }, // Main Entry Door
+    ],
+  },
+  {
+    id: "color_rocket_mobile",
+    title: "🚀 Coloring Pad: Zoom into Space with the Big Rocket!",
+    category: "coloring",
+    deviceType: "mobile",
+    themeColor: "#6366f1",
+    icon: "🚀",
+    label: "Space Rocket",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "rect", // स्पेस बैकड्रॉप
+        props: {
+          left: 44,
+          top: 120,
+          width: 560,
+          height: 550,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle", // बड़ा चांद
+        props: {
+          left: 450,
+          top: 220,
+          radius: 60,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "path", // रॉकेट की बॉडी (Centered at 324)
+        path: "M 324 160 C 260 280, 250 500, 250 550 L 398 550 C 398 500, 388 280, 324 160 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle", // रॉकेट की बड़ी खिड़की (Easy Color Fill)
+        props: {
+          left: 324,
+          top: 320,
+          radius: 35,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "path", // रॉकेट के नीचे की आग (Thick Lines)
+        path: "M 270 558 L 324 660 L 378 558 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      },
+    ],
+  },
+  {
+    id: "color_teddy_mobile",
+    title: "🧸 Coloring Pad: Paint the Cute Big Teddy Bear!",
+    category: "coloring",
+    deviceType: "mobile",
+    themeColor: "#f59e0b",
+    icon: "🧸",
+    label: "Cute Teddy",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "path", // टेडी का बड़ा शरीर (Centered & Scaled)
+        path: "M 164 480 C 164 320, 484 320, 484 480 C 484 650, 164 650, 164 480 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle", // भालू का गोल चेहरा
+        props: {
+          left: 324,
+          top: 300,
+          radius: 95,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle", // बायाँ गोल कान
+        props: {
+          left: 220,
+          top: 200,
+          radius: 30,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle", // दायाँ गोल कान
+        props: {
+          left: 428,
+          top: 200,
+          radius: 30,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "path", // पेट के ऊपर बना बड़ा 'क्यूट हार्ट' (Easy Fill Template)
+        path: "M 324 440 C 324 440, 264 380, 264 420 C 264 460, 324 510, 324 510 C 324 510, 384 460, 384 420 C 384 380, 324 440, 324 440 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          role: "color_segment",
+        },
+      },
+    ],
+  },
+  {
+    id: "color_fish_mobile",
+    title: "🐠 Coloring Pad: Make the Magic Fish Colorful!",
+    category: "coloring",
+    deviceType: "mobile",
+    themeColor: "#14b8a6",
+    icon: "🐠",
+    label: "Magic Fish",
+    defaultTool: "bucket",
+    initGrid: false,
+    objects: [
+      {
+        type: "path", // मछली की मुख्य बड़ी बॉडी (Centered Big Oval)
+        path: "M 144 400 C 144 220, 484 220, 484 400 C 484 580, 144 580, 144 400 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "path", // पीछे की बड़ी पूंछ (Big Tail Fin)
+        path: "M 474 400 L 584 280 L 544 400 L 584 520 Z",
+        props: {
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 6,
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle", // मछली की बड़ी एनिमे आंख
+        props: {
+          left: 224,
+          top: 350,
+          radius: 28,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 5,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle", // पानी का बड़ा बुलबुला 1
+        props: {
+          left: 104,
+          top: 260,
+          radius: 22,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
+      {
+        type: "circle", // पानी का बड़ा बुलबुला 2
+        props: {
+          left: 84,
+          top: 180,
+          radius: 16,
+          fill: "#ffffff",
+          stroke: "#000000",
+          strokeWidth: 4,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+        },
+      },
     ],
   },
 
