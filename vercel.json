@@ -20,6 +20,10 @@
     {
       "source": "/guide",
       "destination": "/guide.html"
+    },
+    {
+      "source": "/ar/",
+      "destination": "/lang/ar/index.html"
     }
   ]
 }

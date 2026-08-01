@@ -7,3 +7,5 @@ RewriteRule ^about-us/?$ about-us.html [L,QSA]
 RewriteRule ^contact-us/?$ contact-us.html [L,QSA]
 RewriteRule ^guide/?$ guide.html [L,QSA]
 RewriteRule ^coloring-pages/?$ coloring-pages.html [L,QSA]
+
+RewriteRule ^ar/?$ lang/ar/index.html [L,QSA]
