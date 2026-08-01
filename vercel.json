@@ -24,6 +24,10 @@
     {
       "source": "/ar",
       "destination": "ar.html"
+    },
+    {
+      "source": "/es",
+      "destination": "es.html"
     }
   ]
 }

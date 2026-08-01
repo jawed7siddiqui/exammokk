@@ -9,3 +9,4 @@ RewriteRule ^guide/?$ guide.html [L,QSA]
 RewriteRule ^coloring-pages/?$ coloring-pages.html [L,QSA]
 
 RewriteRule ^ar/?$ ar.html [L,QSA]
+RewriteRule ^es/?$ es.html [L,QSA]
