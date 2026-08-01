@@ -24,11 +24,7 @@
     },
     {
       "source": "/ar",
-      "destination": "/lang/ar/index.html"
-    },
-    {
-      "source": "/ar/",
-      "destination": "/lang/ar/index.html"
+      "destination": "/lang/ar.html"
     }
   ]
 }
