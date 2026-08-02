@@ -1292,22 +1292,25 @@
         ></div>
 
         <!-- HEADER -->
-        <div class="text-center mb-6">
+        <div class="text-center mb-6 px-2">
+          <!-- whitespace-nowrap force karega ki text hamesha single line me hi rahe -->
           <h2
-            class="text-2xl font-black text-indigo-600 tracking-wide uppercase"
+            class="text-lg sm:text-2xl font-black text-indigo-600 tracking-wide uppercase whitespace-nowrap flex items-center justify-center gap-1.5"
           >
-            🔒 Teacher Activation
+            <span>🔒</span> <span>Teacher Activation</span>
           </h2>
-          <p class="text-xs font-bold text-slate-400 mt-1">
-            Enter monitor password to start the 20-min session
+          <p
+            class="text-[10px] sm:text-xs font-bold text-slate-400 mt-1 max-w-xs mx-auto whitespace-normal break-words"
+          >
+            Let's start the 20-min session!
           </p>
         </div>
 
         <!-- Alert Area for Incorrect Password -->
-        <div
+        <!-- <div
           id="modal-alert-box"
           class="hidden text-[11px] font-black p-2.5 rounded-xl text-center mb-4 bg-red-50 text-red-500 border border-red-200"
-        ></div>
+        ></div> -->
 
         <!-- Password Form -->
         <form
@@ -1330,6 +1333,10 @@
             />
           </div>
 
+          <div
+            id="kids-paint-alert-box"
+            class="hidden text-[11px] font-black p-2.5 rounded-xl text-center mt-2 bg-red-50 text-red-500 border border-red-200"
+          ></div>
           <!-- Submit Button -->
           <button
             type="submit"
@@ -2401,14 +2408,12 @@
         const pathname = window.location.pathname;
         const match = pathname.match(/\/school\/([^\/]+)/);
 
-        // Agar URL me /school/ dynamic structure hai tabhi localstorage me update karein
         if (match && match[1]) {
           localStorage.setItem("schoolName", match[1]);
         }
 
         const savedSchool = localStorage.getItem("schoolName");
 
-        // Agar schoolName nahi milta ya wo bilkul khali hai, to code yahi ruk jayega
         if (!savedSchool || savedSchool.trim() === "") {
           console.warn(
             "KidsPaint Session initialization skipped: 'schoolName' not found.",
@@ -2422,10 +2427,12 @@
         let attempts = 0;
 
         const modal = document.getElementById("teacher-auth-modal");
-        const alertBox = document.getElementById("modal-alert-box");
         const passInput = document.getElementById("teacher-password-input");
+        const kidsPaintAlertBox = document.getElementById(
+          "kids-paint-alert-box",
+        );
 
-        // FIX: Agar session data purane school ka hai YA date badal gayi hai, to pure session ko naye school ke liye reset karein
+        // Session Data Initialization / Reset Logic
         if (
           !sessionData ||
           sessionData.date !== today ||
@@ -2433,25 +2440,30 @@
         ) {
           sessionData = {
             date: today,
-            school: savedSchool, // Kis school ka data chal raha hai track karne ke liye
+            school: savedSchool,
             timeLeft: 0,
             isActivated: false,
+            isPaused: false, // Explicit track for reload recovery
           };
           localStorage.setItem("kidsPaintSession", JSON.stringify(sessionData));
         }
 
-        // Ab checks lagayein jo naye reset session ke mutabik chalenge
-        if (sessionData.isActivated && sessionData.timeLeft <= 0) {
+        // Parse parsing safeguards to prevent type mismatch
+        let timeLeftParsed = parseInt(sessionData.timeLeft, 10) || 0;
+
+        // Direct routing conditions based on active structural state
+        if (sessionData.isActivated && timeLeftParsed <= 0) {
           applyBlackOverlay();
           return;
         }
 
-        if (sessionData.isActivated && sessionData.timeLeft > 0) {
-          startTimer(sessionData.timeLeft);
+        if (sessionData.isActivated && timeLeftParsed > 0) {
+          // Reload Safe Initialization
+          startTimer(timeLeftParsed, sessionData.isPaused);
           return;
         }
 
-        if (!sessionData.isActivated && sessionData.timeLeft === 0) {
+        if (!sessionData.isActivated && timeLeftParsed === 0) {
           if (modal) {
             modal.style.display = "flex";
             modal.classList.remove("hidden");
@@ -2463,31 +2475,37 @@
 
           if (passInput.value === correctPassword) {
             if (modal) {
-              modal.style.display = "none";
+              modal.style.setProperty("display", "none", "important");
               modal.classList.add("hidden");
             }
 
-            // TESTING PURPOSE: Setting 20 seconds instead of 1200 (20 minutes)
-            sessionData.timeLeft = 20;
+            sessionData.timeLeft = 20; // TESTING PURPOSE: 20 seconds
             sessionData.isActivated = true;
+            sessionData.isPaused = false;
             localStorage.setItem(
               "kidsPaintSession",
               JSON.stringify(sessionData),
             );
 
-            startTimer(20);
+            startTimer(20, false);
           } else {
             attempts++;
-            if (alertBox) {
-              alertBox.innerText = `❌ Invalid Password! (${3 - attempts} attempts left)`;
-              alertBox.classList.remove("hidden");
+            if (kidsPaintAlertBox) {
+              kidsPaintAlertBox.innerText = `Invalid Password! (${3 - attempts} attempts left)`;
+              kidsPaintAlertBox.classList.remove("hidden");
+              kidsPaintAlertBox.style.setProperty(
+                "display",
+                "block",
+                "important",
+              );
             }
+
             passInput.value = "";
             passInput.focus();
 
             if (attempts >= 3) {
               if (modal) {
-                modal.style.display = "none";
+                modal.style.setProperty("display", "none", "important");
                 modal.classList.add("hidden");
               }
               applyBlackOverlay(
@@ -2497,10 +2515,7 @@
           }
         };
 
-        let isTimerRunning = false;
-        let totalSeconds = 0;
-
-        function startTimer(secondsLeft) {
+        function startTimer(secondsLeft, startAsPaused = false) {
           const timerBox = document.getElementById("timer-box");
           const countdownDisplay = document.getElementById("countdown");
           const controlBtn = document.getElementById("timer-control-btn");
@@ -2509,10 +2524,17 @@
 
           timerBox.style.setProperty("display", "flex", "important");
 
-          totalSeconds = parseInt(secondsLeft, 10);
-          isTimerRunning = true;
-          controlBtn.innerText = "⏸️";
-          controlBtn.style.backgroundColor = "#ff4757";
+          let totalSeconds = parseInt(secondsLeft, 10);
+          let isTimerRunning = !startAsPaused;
+
+          // Update control UI on initialize
+          if (isTimerRunning) {
+            controlBtn.innerText = "⏸️";
+            controlBtn.style.backgroundColor = "#ff4757";
+          } else {
+            controlBtn.innerText = "▶️";
+            controlBtn.style.backgroundColor = "#2ed573";
+          }
 
           const updateDisplay = (secs) => {
             let mins = Math.floor(secs / 60);
@@ -2534,6 +2556,7 @@
               let currentSession =
                 JSON.parse(localStorage.getItem("kidsPaintSession")) || {};
               currentSession.timeLeft = totalSeconds;
+              currentSession.isPaused = !isTimerRunning;
               localStorage.setItem(
                 "kidsPaintSession",
                 JSON.stringify(currentSession),
@@ -2548,11 +2571,17 @@
             }, 1000);
           }
 
-          runTicker();
+          // Sync active state ticker loop
+          if (isTimerRunning) {
+            runTicker();
+          }
 
           const toggleState = (e) => {
             e.preventDefault();
             e.stopPropagation();
+
+            let currentSession =
+              JSON.parse(localStorage.getItem("kidsPaintSession")) || {};
 
             if (isTimerRunning) {
               isTimerRunning = false;
@@ -2562,10 +2591,12 @@
                 "#2ed573",
                 "important",
               );
-              if (controlBtn.classList.contains("bg-red-500")) {
-                controlBtn.classList.remove("bg-red-500");
-                controlBtn.classList.add("bg-emerald-500");
-              }
+
+              currentSession.isPaused = true;
+              localStorage.setItem(
+                "kidsPaintSession",
+                JSON.stringify(currentSession),
+              );
             } else {
               isTimerRunning = true;
               controlBtn.innerText = "⏸️";
@@ -2574,10 +2605,12 @@
                 "#ff4757",
                 "important",
               );
-              if (controlBtn.classList.contains("bg-emerald-500")) {
-                controlBtn.classList.remove("bg-emerald-500");
-                controlBtn.classList.add("bg-red-500");
-              }
+
+              currentSession.isPaused = false;
+              localStorage.setItem(
+                "kidsPaintSession",
+                JSON.stringify(currentSession),
+              );
               runTicker();
             }
           };
@@ -2593,11 +2626,9 @@
 
           let schoolDisplay = "KIDSPAINT AI LAB";
           if (savedSchool) {
-            if (savedSchool.includes("-")) {
-              schoolDisplay = savedSchool.replace(/-/g, " ").toUpperCase();
-            } else {
-              schoolDisplay = savedSchool.toUpperCase();
-            }
+            schoolDisplay = savedSchool.includes("-")
+              ? savedSchool.replace(/-/g, " ").toUpperCase()
+              : savedSchool.toUpperCase();
           }
 
           const msg =
@@ -2605,61 +2636,15 @@
             "Time's up! Today's 20-minute computer lab session has ended. See you tomorrow!";
 
           const overlayHTML = `
-      <div style="
-          position: fixed !important; top: 0 !important; left: 0 !important; 
-          width: 100vw !important; height: 100vh !important; 
-          background: radial-gradient(circle at center, #111827 0%, #030712 100%) !important; 
-          color: #ffffff !important; display: flex !important; flex-direction: column !important; 
-          justify-content: center !important; align-items: center !important; 
-          z-index: 99999999 !important; font-family: 'Inter', system-ui, -apple-system, sans-serif !important; 
-          text-align: center !important; padding: 24px !important; box-sizing: border-box !important;
-      ">
-          <div style="
-              background: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important;
-              backdrop-filter: blur(16px) !important; -webkit-backdrop-filter: blur(16px) !important;
-              padding: 40px 32px !important; border-radius: 32px !important;
-              max-width: 480px !important; width: 100% !important;
-              box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important; box-sizing: border-box !important;
-          ">
-              <div style="
-                  width: 72px !important; height: 72px !important; background: rgba(239, 68, 68, 0.1) !important;
-                  border: 1px solid rgba(239, 68, 68, 0.2) !important; border-radius: 24px !important;
-                  display: flex !important; align-items: center !important; justify-content: center !important;
-                  margin: 0 auto 24px auto !important; font-size: 2rem !important;
-                  box-shadow: 0 0 20px rgba(239, 68, 68, 0.15) !important;
-              ">🔒</div>
-              
-              <div style="
-                  color: #9ca3af !important; font-size: 0.75rem !important; font-weight: 800 !important; 
-                  letter-spacing: 0.15em !important; margin-bottom: 8px !important; 
-                  text-transform: uppercase !important; opacity: 0.9 !important;
-              ">
-                  ${schoolDisplay}
-              </div>
-
-              <h1 style="
-                  color: #ffffff !important; font-size: 2rem !important; font-weight: 900 !important; 
-                  letter-spacing: -0.025em !important; margin: 0 0 4px 0 !important;
-              ">
-                  Screen Locked
-              </h1>
-              
-              <a href="https://kidspaint.cloud" target="_parent" style="
-                  color: #6366f1 !important; text-decoration: none !important; font-size: 0.8rem !important; 
-                  font-weight: 700 !important; letter-spacing: 0.05em !important; margin-bottom: 28px !important; 
-                  display: inline-block !important; transition: all 0.2s ease !important;
-              " onmouseover="this.style.color='#818cf8'" onmouseout="this.style.color='#6366f1'">
-                  https://kidspaint.cloud
-              </a>
-              
-              <p style="
-                  font-size: 1.05rem !important; color: #d1d5db !important; line-height: 1.6 !important; 
-                  font-weight: 500 !important; margin: 0 !important; background: rgba(255, 255, 255, 0.02) !important;
-                  padding: 16px 20px !important; border-radius: 16px !important; border: 1px solid rgba(255, 255, 255, 0.04) !important;
-              ">${msg}</p>
-          </div>
-      </div>
-    `;
+        <div style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: radial-gradient(circle at center, #111827 0%, #030712 100%) !important; color: #ffffff !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; z-index: 99999999 !important; font-family: 'Inter', system-ui, -apple-system, sans-serif !important; text-align: center !important; padding: 24px !important; box-sizing: border-box !important;">
+            <div style="background: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; backdrop-filter: blur(16px) !important; -webkit-backdrop-filter: blur(16px) !important; padding: 40px 32px !important; border-radius: 32px !important; max-width: 480px !important; width: 100% !important; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important; box-sizing: border-box !important;">
+                <div style="width: 72px !important; height: 72px !important; background: rgba(239, 68, 68, 0.1) !important; border: 1px solid rgba(239, 68, 68, 0.2) !important; border-radius: 24px !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto 24px auto !important; font-size: 2rem !important; box-shadow: 0 0 20px rgba(239, 68, 68, 0.15) !important;">🔒</div>
+                <div style="color: #9ca3af !important; font-size: 0.75rem !important; font-weight: 800 !important; letter-spacing: 0.15em !important; margin-bottom: 8px !important; text-transform: uppercase !important; opacity: 0.9 !important;">${schoolDisplay}</div>
+                <h1 style="color: #ffffff !important; font-size: 2rem !important; font-weight: 900 !important; letter-spacing: -0.025em !important; margin: 0 0 4px 0 !important;">Screen Locked</h1>
+                <a href="https://kidspaint.cloud" target="_parent" style="color: #6366f1 !important; text-decoration: none !important; font-size: 0.8rem !important; font-weight: 700 !important; letter-spacing: 0.05em !important; margin-bottom: 28px !important; display: inline-block !important;">https://kidspaint.cloud</a>
+                <p style="font-size: 1.05rem !important; color: #d1d5db !important; line-height: 1.6 !important; font-weight: 500 !important; margin: 0 !important; background: rgba(255, 255, 255, 0.02) !important; padding: 16px 20px !important; border-radius: 16px !important; border: 1px solid rgba(255, 255, 255, 0.04) !important;">${msg}</p>
+            </div>
+        </div>`;
 
           document.body.innerHTML = overlayHTML;
           document.body.style.setProperty("overflow", "hidden", "important");
