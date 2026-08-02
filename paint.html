@@ -2623,8 +2623,8 @@
 
         function applyBlackOverlay(customMessage) {
           if (window.kidsPaintInterval) clearInterval(window.kidsPaintInterval);
-
-          let schoolDisplay = "KIDSPAINT AI LAB";
+          localStorage.removeItem("kidsPaintSession");
+          let schoolDisplay = "KIDSPAINT AI INDIA";
           if (savedSchool) {
             schoolDisplay = savedSchool.includes("-")
               ? savedSchool.replace(/-/g, " ").toUpperCase()
