@@ -16,7 +16,10 @@
       gtag("config", "G-C1MVKY4RWF");
     </script>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Kids Paint Magic Guide - Interactive Documentation</title>
 
     <!-- CURATED KID-FRIENDLY GOOGLE FONTS -->
@@ -46,7 +49,6 @@
       .kids-card-title {
         font-family: "Fredoka", sans-serif;
       }
-      /* Custom active state for sidebar items */
       .sidebar-item.active {
         background-color: #eeebff;
         color: #4f46e5;
@@ -64,31 +66,55 @@
   <body class="text-slate-700 antialiased flex flex-col">
     <!-- TOP HEADER NAVBAR -->
     <header
-      class="bg-white border-b-4 border-dashed border-indigo-100 py-4 px-6 shrink-0 flex items-center justify-between"
+      class="bg-white border-b-4 border-dashed border-indigo-100 py-4 px-4 md:px-6 shrink-0 flex items-center justify-between z-30"
     >
-      <div class="flex items-center gap-2">
-        <i
-          data-lucide="sparkles"
-          class="w-5 h-5 fill-current text-amber-400"
-        ></i>
-        <h1 class="text-2xl kids-title text-indigo-600 tracking-wide uppercase">
-          Kids<span class="text-pink-500">P</span
-          ><span class="text-amber-500">a</span
-          ><span class="text-emerald-500">i</span
-          ><span class="text-cyan-500">n</span
-          ><span class="text-violet-500">t</span> Magic Hub
-        </h1>
+      <div class="flex items-center gap-3">
+        <!-- Mobile Toggle Button -->
+        <button
+          onclick="toggleMobileMenu()"
+          class="lg:hidden p-2 hover:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer"
+          aria-label="Toggle Menu"
+        >
+          <i
+            data-lucide="menu"
+            id="hamburger-icon"
+            class="w-5 h-5 text-indigo-600"
+          ></i>
+        </button>
+        <div class="flex items-center gap-2">
+          <i
+            data-lucide="sparkles"
+            class="w-5 h-5 fill-current text-amber-400"
+          ></i>
+          <h1
+            class="text-xl md:text-2xl kids-title text-indigo-600 tracking-wide uppercase"
+          >
+            Kids<span class="text-pink-500">P</span
+            ><span class="text-amber-500">a</span
+            ><span class="text-emerald-500">i</span
+            ><span class="text-cyan-500">n</span
+            ><span class="text-violet-500">t</span> Magic Hub
+          </h1>
+        </div>
       </div>
       <p class="text-xs font-bold text-slate-400 hidden sm:block">
         Interactive Student & Teacher Training Manual
       </p>
     </header>
 
-    <!-- MAIN TWO-COLUMN SPLIT WORKSPACE -->
-    <main class="flex flex-1 min-h-0 w-full overflow-hidden">
-      <!-- LEFT SIDEBAR: ALL TOOLS & FEATURES LIST -->
+    <!-- MAIN SPLIT WORKSPACE -->
+    <main class="flex flex-1 min-h-0 w-full overflow-hidden relative">
+      <!-- BACKGROUND OVERLAY FOR MOBILE SIDEBAR -->
+      <div
+        id="sidebar-overlay"
+        onclick="toggleMobileMenu()"
+        class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-10 lg:hidden"
+      ></div>
+
+      <!-- LEFT SIDEBAR (MOBILE DRAWER + DESKTOP PERSISTENT) -->
       <aside
-        class="w-80 border-r border-slate-200 bg-white flex flex-col shrink-0 overflow-hidden"
+        id="sidebar-drawer"
+        class="absolute inset-y-0 left-0 -translate-x-full lg:translate-x-0 lg:relative w-72 md:w-80 border-r border-slate-200 bg-white flex flex-col shrink-0 overflow-hidden transition-transform duration-300 ease-in-out z-20"
       >
         <!-- Live Search Box Inside Sidebar -->
         <div class="p-4 border-b border-slate-100 shrink-0">
@@ -239,32 +265,33 @@
 
       <!-- RIGHT PANEL: DYNAMIC DETAILS & HOW TO USE PANEL -->
       <section
-        class="flex-1 bg-slate-50 overflow-y-auto p-6 md:p-8 no-scrollbar"
+        class="flex-1 bg-slate-50 overflow-y-auto p-4 md:p-8 no-scrollbar"
       >
         <div
           id="details-box"
-          class="max-w-3xl mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-md border border-slate-200 transition-all duration-300"
+          class="max-w-3xl mx-auto bg-white rounded-2xl md:rounded-3xl p-5 md:p-8 shadow-sm border border-slate-200 transition-all duration-300"
         >
-          <!-- Default Welcome Graphic State -->
-          <div class="text-center py-20 text-slate-400">
+          <!-- Welcoming Graphic State -->
+          <div class="text-center py-16 md:py-20 text-slate-400">
             <i
               data-lucide="sparkles"
-              class="w-16 h-16 mx-auto mb-4 text-indigo-300 animate-pulse"
+              class="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 text-indigo-300 animate-pulse"
             ></i>
-            <h2 class="text-xl font-bold text-slate-700 kids-card-title mb-2">
+            <h2
+              class="text-lg md:text-xl font-bold text-slate-700 kids-card-title mb-2"
+            >
               Welcome to the Interactive Art Lab Manual!
             </h2>
-            <p class="text-sm max-w-sm mx-auto">
-              Click any specific tool option from the left sidebar list to
-              instantly open its technical specifications and 'How to Use'
-              guide.
+            <p class="text-xs md:text-sm max-w-sm mx-auto px-4">
+              Click any specific tool option from the sidebar menu to instantly
+              open its technical specifications.
             </p>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- MEMORY STRUCTURE ARRAYS (DATA BASE FOR DYNAMIC PANEL GENERATION) -->
+    <!-- MEMORY STRUCTURE ARRAYS -->
     <script>
       const documentationContentHub = {
         brush: {
@@ -483,64 +510,86 @@
         },
       };
 
-      // FUNCTION TO DYNAMICALLY GENERATE DETAILED HOW-TO GUIDE PANELS
+      // INTERACTIVE MOBILE MENU TOGGLE SYSTEM
+      function toggleMobileMenu() {
+        const drawer = document.getElementById("sidebar-drawer");
+        const overlay = document.getElementById("sidebar-overlay");
+        const icon = document.getElementById("hamburger-icon");
+
+        if (drawer.classList.contains("-translate-x-full")) {
+          drawer.classList.remove("-translate-x-full");
+          overlay.classList.remove("hidden");
+          icon.setAttribute("data-lucide", "x");
+        } else {
+          drawer.classList.add("-translate-x-full");
+          overlay.classList.add("hidden");
+          icon.setAttribute("data-lucide", "menu");
+        }
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+      }
+
+      // GENERATE DETAILED HOW-TO GUIDE PANELS
       function showFeatureDetails(featureKey) {
         const data = documentationContentHub[featureKey];
         if (!data) return;
 
-        // Sync Active Class Selection in Sidebar Buttons
+        // Sync Selection UI
         document
           .querySelectorAll(".sidebar-item")
           .forEach((el) => el.classList.remove("active"));
         document.getElementById(`item-${featureKey}`).classList.add("active");
 
+        // Close Mobile Menu automatically upon selection
+        if (window.innerWidth < 1024) {
+          toggleMobileMenu();
+        }
+
         const detailsBox = document.getElementById("details-box");
 
-        // Generate Step-by-Step HTML Elements dynamically
         let stepsHTML = "";
         data.steps.forEach((step, index) => {
           stepsHTML += `
-            <div class="flex items-start gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-inner">
-              <div class="w-6 h-6 shrink-0 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
+            <div class="flex items-start gap-3 md:gap-4 bg-slate-50 p-3 md:p-4 rounded-xl border border-slate-100 shadow-inner">
+              <div class="w-5 h-5 md:w-6 md:h-6 shrink-0 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
                 ${index + 1}
               </div>
               <div class="space-y-0.5">
-                <h4 class="font-bold text-slate-800 text-sm kids-card-title">${step.t}</h4>
-                <p class="text-slate-600 text-xs leading-relaxed">${step.d}</p>
+                <h4 class="font-bold text-slate-800 text-xs md:text-sm kids-card-title">${step.t}</h4>
+                <p class="text-slate-600 text-[11px] md:text-xs leading-relaxed">${step.d}</p>
               </div>
             </div>
           `;
         });
 
-        // Inject Rendered Templates into Content Shell Pane
         detailsBox.innerHTML = `
-          <div class="space-y-6 border-l-8 ${data.color} pl-2 transition-all duration-300">
+          <div class="space-y-4 md:space-y-6 border-l-4 md:border-l-8 ${data.color} pl-3 md:pl-4 transition-all duration-300">
             <div class="flex items-center justify-between flex-wrap gap-2">
-              <div class="inline-flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-full text-slate-600 font-bold text-[10px] uppercase tracking-wider">
+              <div class="inline-flex items-center gap-2 bg-slate-100 px-2.5 py-1 rounded-full text-slate-600 font-bold text-[9px] md:text-[10px] uppercase tracking-wider">
                 <i data-lucide="${data.icon}" class="w-3.5 h-3.5 text-indigo-500"></i> ${data.badge}
               </div>
-              <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Manual Layer</span>
+              <span class="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Manual Layer</span>
             </div>
             
-            <h2 class="text-2xl md:text-3xl font-black text-slate-800 kids-card-title">${data.title}</h2>
-            <p class="text-slate-600 text-sm leading-relaxed font-medium">${data.desc}</p>
+            <h2 class="text-xl md:text-3xl font-black text-slate-800 kids-card-title">${data.title}</h2>
+            <p class="text-slate-600 text-xs md:text-sm leading-relaxed font-medium">${data.desc}</p>
             
-            <div class="h-[1px] bg-slate-200 my-4"></div>
+            <div class="h-[1px] bg-slate-200 my-2 md:my-4"></div>
             
-            <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">🛠️ Operational Breakdown & Features List</h3>
+            <h3 class="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest mb-2">🛠️ Operational Breakdown & Features List</h3>
             <div class="space-y-3">
               ${stepsHTML}
             </div>
           </div>
         `;
 
-        // Force update Lucide vector icons inside newly rendered document panel
         if (typeof lucide !== "undefined") {
           lucide.createIcons();
         }
       }
 
-      // NATIVE SIDEBAR SEARCH/FILTER SCRIPT
+      // SIDEBAR FILTER SEARCH
       function searchSidebarFeatures() {
         const query = document
           .getElementById("sidebar-search")
@@ -552,7 +601,6 @@
         items.forEach((item) => {
           const keywords = item.getAttribute("data-keywords").toLowerCase();
           const textContent = item.textContent.toLowerCase();
-
           if (
             query === "" ||
             keywords.includes(query) ||
@@ -564,11 +612,9 @@
           }
         });
 
-        // Hide section grouping headers if empty during active filtering queries
         headers.forEach((header) => {
           let nextEl = header.nextElementSibling;
           let hasVisibleChild = false;
-
           while (nextEl && !nextEl.classList.contains("section-header")) {
             if (nextEl.style.display !== "none") {
               hasVisibleChild = true;
@@ -581,7 +627,6 @@
         });
       }
 
-      // Auto-load the first key module on system initialization
       window.onload = () => {
         if (typeof lucide !== "undefined") {
           lucide.createIcons();
