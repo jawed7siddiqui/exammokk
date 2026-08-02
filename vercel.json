@@ -28,6 +28,10 @@
     {
       "source": "/es",
       "destination": "es.html"
+    },
+    {
+      "source": "/school/:schoolname",
+      "destination": "/index.html"
     }
   ]
 }

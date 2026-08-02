@@ -1369,7 +1369,7 @@
         lucide.createIcons();
       };
       function redirectToPaintApp() {
-        window.location.href = "paint.html";
+        window.location.href = "/paint.html";
       }
 
       // पुराने window.onload के साथ इस नए फ़ंक्शन को नीचे जोड़ें
@@ -1385,6 +1385,37 @@
           // मेनू बंद करें
           menu.classList.add("hidden");
           icon.setAttribute("data-lucide", "menu"); // वापस हैमबर्बर आइकॉन लाएं
+        }
+      }
+
+      // URL check karne ke liye regex: path me strictly '/school/koi-naam' hona chahiye
+      const pathname = window.location.pathname;
+      const schoolMatch = pathname.match(/\/school\/([^\/]+)/);
+
+      // Agar main URL hai ya '/school/' ke baad kuch nahi hai, to ye block skip ho jayega (script crash nahi hogi)
+      if (schoolMatch && schoolMatch[1]) {
+        const schoolName = schoolMatch[1];
+
+        // 1. LocalStorage me school name save karein
+        localStorage.setItem("schoolName", schoolName);
+
+        // 2. Sirf setup initialization (Koi automatic time addition yahan nahi hoga)
+        const today = new Date().toDateString();
+        let sessionData = JSON.parse(localStorage.getItem("kidsPaintSession"));
+
+        // FIX: Agar session data nahi hai, YA date badal gayi hai, YA URL ka school name purane session school se alag hai, to reset karein
+        if (
+          !sessionData ||
+          sessionData.date !== today ||
+          sessionData.school !== schoolName
+        ) {
+          sessionData = {
+            date: today,
+            school: schoolName, // Yahan session data ke andar hi school name rakh diya hai
+            timeLeft: 0, // Shuru me 0 rahega jab tak password verify na ho
+            isActivated: false,
+          };
+          localStorage.setItem("kidsPaintSession", JSON.stringify(sessionData));
         }
       }
     </script>

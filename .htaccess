@@ -10,3 +10,5 @@ RewriteRule ^coloring-pages/?$ coloring-pages.html [L,QSA]
 
 RewriteRule ^ar/?$ ar.html [L,QSA]
 RewriteRule ^es/?$ es.html [L,QSA]
+
+RewriteRule ^school/([^/]+)/?$ index.html [L,QSA]
