@@ -109,6 +109,21 @@
       .kids-shadow {
         box-shadow: 0 8px 0px #e2e8f0;
       }
+
+      .kids-shadow-btn {
+        box-shadow: 0 8px 0px #312e81;
+      }
+      .kids-shadow-btn:active {
+        transform: translateY(6px);
+        box-shadow: 0 2px 0px #312e81;
+      }
+      .kids-shadow-btn-yellow {
+        box-shadow: 0 6px 0px #78350f;
+      }
+      .kids-shadow-btn-yellow:active {
+        transform: translateY(4px);
+        box-shadow: 0 2px 0px #78350f;
+      }
       .kids-shadow-pink {
         box-shadow: 0 6px 0px #db2777;
       }
@@ -233,13 +248,14 @@
         >
         <button
           onclick="redirectToPaintApp()"
-          class="kids-shadow-btn-yellow px-5 py-2.5 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all items-center gap-2 cursor-pointer"
+          style="border-radius: 42px; height: 46px"
+          class="kids-shadow-btn-yellow flex items-center justify-center gap-2 whitespace-nowrap px-6 py-3 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all cursor-pointer"
         >
           <i
+            class="sparkles text-yellow-200 fill-current w-4 h-4 flex-shrink-0"
             data-lucide="sparkles"
-            class="w-4 h-4 text-yellow-200 fill-current"
           ></i>
-          Open Paint Editor
+          <span>LAUNCH PAINT & PLAY</span>
         </button>
       </div>
 
@@ -303,7 +319,7 @@
         <div
           class="absolute top-6 right-10 opacity-20 floating-element text-pink-400"
         >
-          <i data-lucide="settings" class="w-16 h-16"></i>
+          <i data-lucide="palette" class="w-16 h-16"></i>
         </div>
         <div
           class="absolute bottom-6 left-8 opacity-20 floating-element text-cyan-300"
@@ -318,18 +334,19 @@
           <span
             class="px-4 py-1.5 bg-yellow-400 text-indigo-950 font-bold text-xs rounded-full uppercase tracking-widest shadow-md border-2 border-white animate-badge-bounce inline-block"
           >
-            ✨ Infrastructure Setup Matrix
+            🎨 KidsPaint Institutional Partnerships
           </span>
           <h1
             class="text-4xl md:text-6xl font-black uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-amber-300 to-pink-400"
           >
-            Contact & Configuration
+            Contact & Collaboration
           </h1>
           <p
             class="text-indigo-100 text-xs md:text-lg font-medium max-w-xl opacity-90 leading-relaxed"
           >
-            Submit your infrastructure deployment configuration requirements for
-            primary computer labs or cloud editor systems.
+            Bring the joy of digital creativity to your institution. Submit your
+            infrastructure deployment requirements for school labs, NGO
+            programs, or online platforms.
           </p>
         </div>
       </section>
@@ -339,7 +356,7 @@
         <div class="row g-4 align-items-stretch">
           <!-- Left Content Panel Box Grid Layout -->
           <div class="col-lg-6 flex flex-col gap-4 justify-content-between">
-            <!-- Standard Setup Box Panel -->
+            <!-- School Partnership Setup Box Panel -->
             <div
               class="bg-white p-6 md:p-8 rounded-3xl border-3 border-pink-400 kids-shadow-pink card-pop flex flex-col gap-3 h-100"
             >
@@ -347,20 +364,22 @@
                 <div
                   class="w-10 h-10 bg-pink-500 text-white rounded-xl flex items-center justify-center border-2 border-white shadow-sm"
                 >
-                  <i data-lucide="terminal" class="w-5 h-5"></i>
+                  <i data-lucide="graduation-cap" class="w-5 h-5"></i>
                 </div>
                 <h2 class="text-xl font-black text-indigo-950 uppercase">
-                  Software Framework
+                  School Partnerships
                 </h2>
               </div>
               <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
                 Engineered to deploy instantly across server setups, local
-                classroom domains, and multi-user configurations without
-                reliance on complex operating infrastructure parameters.
+                classroom domains, and multi-user computer lab configurations.
+                Perfect for integrating digital art into your standard K-12
+                school curriculum without reliance on complex operating
+                infrastructure parameters.
               </p>
             </div>
 
-            <!-- Pro Setup Box Panel -->
+            <!-- NGO & Online Education Box Panel -->
             <div
               class="bg-white p-6 md:p-8 rounded-3xl border-3 border-cyan-400 kids-shadow-cyan card-pop flex flex-col gap-3 h-100"
             >
@@ -368,21 +387,22 @@
                 <div
                   class="w-10 h-10 bg-cyan-500 text-white rounded-xl flex items-center justify-center border-2 border-white shadow-sm"
                 >
-                  <i data-lucide="layers" class="w-5 h-5"></i>
+                  <i data-lucide="heart-handshake" class="w-5 h-5"></i>
                 </div>
                 <h2 class="text-xl font-black text-indigo-950 uppercase">
-                  Pro Deployment
+                  NGO & EdTech Alliances
                 </h2>
               </div>
               <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
-                Custom integration workflows comfortably accommodate advanced
-                vector canvas architectures, institutional computer lab node
-                scaling, and local matrix tools deployment grids.
+                Custom integration workflows comfortably accommodate digital
+                vector canvas architectures for non-profit foundations, rural
+                community scaling, and local matrix tools deployment grids for
+                online distance education systems.
               </p>
             </div>
           </div>
 
-          <!-- Right Content Panel Form Card -->
+          <!-- Right Content Panel Form Card (Original Inputs Preserved Explicitly) -->
           <div class="col-lg-6">
             <div
               class="contact-card p-6 md:p-8 h-100 flex flex-col justify-content-center"
