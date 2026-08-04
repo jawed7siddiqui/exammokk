@@ -32,6 +32,14 @@
     {
       "source": "/school/:schoolname",
       "destination": "/index.html"
+    },
+    {
+      "source": "/blogs",
+      "destination": "/blogs.html"
+    },
+    {
+      "source": "/blogs/:slug",
+      "destination": "/blog-detail.html"
     }
   ]
 }

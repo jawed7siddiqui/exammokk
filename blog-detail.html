@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-C1MVKY4RWF"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-C1MVKY4RWF");
+    </script>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <!-- DYNAMIC SEO META TAGS -->
+    <title>Loading Blog... - Kids Paint</title>
+    <meta
+      id="meta-description"
+      name="description"
+      content="Kids Paint Article"
+    />
+    <meta name="author" content="Kids Paint AI India" />
+    <meta name="robots" content="index, follow" />
+    <link id="canonical-url" rel="canonical" href="https://kidspaint.cloud" />
+
+    <!-- OPEN GRAPH (OG) META TAGS -->
+    <meta id="og-title" property="og:title" content="Kids Paint Blog" />
+    <meta
+      id="og-description"
+      property="og:description"
+      content="Kids Paint Article"
+    />
+    <meta id="og-image" property="og:image" content="" />
+    <meta id="og-url" property="og:url" content="" />
+
+    <!-- TAILWIND, MARKED.JS & LUCIDE ICONS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Fredoka", sans-serif;
+        background: #fffdf0;
+        color: #1e293b;
+        margin: 0;
+        overflow-x: hidden;
+      }
+
+      /* Retro Kids Shadows */
+      .kids-shadow {
+        box-shadow: 0 8px 0px #e2e8f0;
+      }
+      .kids-shadow-pink {
+        box-shadow: 0 6px 0px #db2777;
+      }
+      .kids-shadow-cyan {
+        box-shadow: 0 6px 0px #0891b2;
+      }
+      .kids-shadow-amber {
+        box-shadow: 0 6px 0px #d97706;
+      }
+
+      .kids-shadow-btn-yellow {
+        box-shadow: 0 6px 0px #78350f;
+      }
+      .kids-shadow-btn-yellow:active {
+        transform: translateY(4px);
+        box-shadow: 0 2px 0px #78350f;
+      }
+
+      /* Article Content Typography Styles */
+      #blog-content h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #312e81;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      #blog-content h2 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #4338ca;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+      #blog-content h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-top: 1.25rem;
+        margin-bottom: 0.5rem;
+      }
+      #blog-content p {
+        font-size: 1rem;
+        line-height: 1.75;
+        color: #334155;
+        margin-bottom: 1.25rem;
+      }
+      #blog-content ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+        margin-bottom: 1.25rem;
+      }
+      #blog-content ol {
+        list-style-type: decimal;
+        padding-left: 1.5rem;
+        margin-bottom: 1.25rem;
+      }
+      #blog-content li {
+        margin-bottom: 0.5rem;
+        color: #334155;
+      }
+      #blog-content blockquote {
+        border-left: 4px solid #f59e0b;
+        padding-left: 1rem;
+        background-color: #fffbeb;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1.25rem;
+        font-style: italic;
+      }
+      #blog-content img {
+        border-radius: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 2px solid #e2e8f0;
+        width: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body class="antialiased flex flex-col min-h-screen pb-24 md:pb-0">
+    <!-- 1. HEADER -->
+    <header
+      class="bg-white sticky top-0 z-50 px-4 py-3.5 md:px-8 md:py-4 flex items-center justify-between border-b-4 border-yellow-400 shadow-md"
+    >
+      <div class="flex items-center gap-8">
+        <div
+          onclick="window.location.href = '/'"
+          class="flex items-center gap-2.5 cursor-pointer transform active:scale-95 transition-transform group"
+        >
+          <div
+            class="w-10 h-10 md:w-12 md:h-12 bg-amber-400 rounded-xl md:rounded-2xl flex items-center justify-center shadow-md border-2 border-white rotate-[-3deg] group-hover:rotate-[12deg] transition-transform duration-300"
+          >
+            <i
+              data-lucide="palette"
+              class="w-6 h-6 md:w-7 md:h-7 text-white fill-amber-100"
+            ></i>
+          </div>
+          <span
+            class="text-xl md:text-2xl font-black tracking-wide text-indigo-600 uppercase flex items-center"
+          >
+            Kids&nbsp;<span class="text-pink-500">P</span
+            ><span class="text-amber-500">a</span
+            ><span class="text-emerald-500">i</span
+            ><span class="text-cyan-500">n</span
+            ><span class="text-violet-500">t</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- DESKTOP MENU -->
+      <div class="hidden md:flex items-center gap-6">
+        <a
+          href="/"
+          class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors uppercase"
+          >Home</a
+        >
+        <a
+          href="/coloring-pages"
+          class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors uppercase"
+          >Coloring Pages</a
+        >
+        <a
+          href="/blogs"
+          class="text-sm font-bold text-indigo-600 transition-colors uppercase"
+          >Blogs</a
+        >
+        <a
+          href="/about-us"
+          class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors uppercase"
+          >About Us</a
+        >
+        <a
+          href="/contact-us"
+          class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors uppercase"
+          >Contact Us</a
+        >
+        <button
+          onclick="redirectToPaintApp()"
+          class="kids-shadow-btn-yellow flex items-center justify-center gap-2 whitespace-nowrap px-6 py-3 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all cursor-pointer"
+        >
+          <i
+            class="sparkles text-yellow-200 fill-current w-4 h-4 flex-shrink-0"
+            data-lucide="sparkles"
+          ></i>
+          <span>LAUNCH PAINT & PLAY</span>
+        </button>
+      </div>
+
+      <!-- MOBILE HAMBURGER BUTTON -->
+      <button
+        onclick="toggleMobileMenu()"
+        class="md:hidden p-2 text-slate-600 hover:text-indigo-600 focus:outline-none cursor-pointer"
+      >
+        <i id="menu-icon" data-lucide="menu" class="w-7 h-7"></i>
+      </button>
+    </header>
+
+    <!-- MOBILE DROPDOWN MENU CONTAINER -->
+    <div
+      id="mobile-menu"
+      class="hidden md:hidden fixed top-[72px] left-0 right-0 bg-white border-b-4 border-yellow-400 shadow-xl z-40 flex flex-col p-4 gap-4 animate__animated animate__fadeInDown animate__faster"
+    >
+      <a
+        href="/"
+        class="text-base font-bold text-slate-700 hover:text-indigo-600 p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase"
+        >Home</a
+      >
+      <a
+        href="/coloring-pages"
+        class="text-base font-bold text-slate-700 hover:text-indigo-600 p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase"
+        >Coloring Pages</a
+      >
+      <a
+        href="/blogs"
+        class="text-base font-bold text-indigo-600 p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase"
+        >Blogs</a
+      >
+      <a
+        href="/about-us"
+        class="text-base font-bold text-slate-700 hover:text-indigo-600 p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase"
+        >About Us</a
+      >
+      <a
+        href="/contact-us"
+        class="text-base font-bold text-slate-700 hover:text-indigo-600 p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase"
+        >Contact Us</a
+      >
+    </div>
+
+    <!-- MAIN ARTICLE SECTION -->
+    <main class="flex-grow py-8 md:py-12 px-4 md:px-8 max-w-4xl mx-auto w-full">
+      <!-- Back Button -->
+      <a
+        href="/blogs"
+        class="inline-flex items-center gap-2 text-sm font-bold text-indigo-600 hover:text-indigo-800 mb-6 no-underline"
+      >
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>Back to all blogs</span>
+      </a>
+
+      <!-- BLOG WRAPPER CARD -->
+      <article
+        class="bg-white rounded-3xl border-3 border-amber-400 kids-shadow-amber p-6 md:p-10"
+      >
+        <!-- Article Header -->
+        <header
+          class="flex flex-col gap-4 border-b-2 border-slate-100 pb-6 mb-6"
+        >
+          <div class="flex flex-wrap items-center gap-3 text-xs font-bold">
+            <span
+              id="blog-category"
+              class="px-3 py-1 bg-pink-100 text-pink-700 rounded-lg uppercase tracking-wider"
+            >
+              General
+            </span>
+            <span class="text-slate-400">•</span>
+            <span id="blog-date" class="text-slate-500">Loading Date...</span>
+            <span class="text-slate-400">•</span>
+            <span id="read-time" class="text-slate-500">Min Read</span>
+          </div>
+
+          <h1
+            id="blog-title"
+            class="text-2xl md:text-4xl font-black text-indigo-950 leading-tight"
+          >
+            Loading Blog Title...
+          </h1>
+
+          <div class="flex items-center gap-3">
+            <div
+              class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs"
+            >
+              KP
+            </div>
+            <span
+              id="blog-author"
+              class="text-xs font-bold text-slate-600 uppercase"
+            >
+              Kids Paint AI India
+            </span>
+          </div>
+        </header>
+
+        <!-- Featured Image Container -->
+        <div id="image-container" class="mb-8 hidden">
+          <img
+            id="featured-image"
+            src=""
+            alt="Blog Featured Image"
+            class="w-full max-h-[420px] object-cover rounded-2xl border-2 border-slate-200"
+          />
+        </div>
+
+        <!-- Blog Body Content -->
+        <div id="blog-content" class="min-h-[200px]">
+          <div class="flex flex-col items-center justify-center py-12">
+            <div
+              class="animate-spin rounded-full h-10 w-10 border-4 border-indigo-600 border-t-transparent"
+            ></div>
+            <p
+              class="text-slate-500 font-bold text-sm mt-3 uppercase tracking-wider"
+            >
+              Loading Article Content...
+            </p>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <!-- FOOTER -->
+    <footer
+      class="bg-slate-950 text-slate-400 py-16 px-4 md:px-8 border-t-8 border-pink-500 relative mt-12"
+    >
+      <div class="max-w-6xl mx-auto flex flex-col gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-2">
+              <div
+                class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold border-2 border-slate-700 shadow-sm"
+              >
+                <i data-lucide="palette" class="w-4 h-4 text-yellow-300"></i>
+              </div>
+              <span
+                class="text-white text-lg font-bold tracking-wider uppercase"
+                >KidsPaint AI India</span
+              >
+            </div>
+            <p
+              class="text-[11px] md:text-xs text-slate-400 max-w-sm leading-relaxed"
+            >
+              KidsPaint delivers a high-speed, secure online paint studio and
+              comprehensive brain growth sandbox environment worldwide.
+            </p>
+          </div>
+
+          <div
+            class="text-[11px] md:text-xs text-slate-400 space-y-3 border-l-0 md:border-l border-slate-800 pl-0 md:pl-8"
+          >
+            <h4
+              class="font-bold uppercase text-slate-200 tracking-wider text-xs flex items-center gap-1"
+            >
+              <span>🌐</span> Universal Art & IQ Literacy Infrastructure
+            </h4>
+            <p class="leading-relaxed">
+              Designed for international scalability, our open-access
+              application builds a balanced cognitive ecosystem for children
+              worldwide.
+            </p>
+          </div>
+        </div>
+
+        <div class="h-[1px] bg-slate-800 w-full"></div>
+
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-semibold text-slate-500 text-center"
+        >
+          <div>
+            &copy; 2026 Farha AI Kids Education. All Rights Reserved Worldwide.
+          </div>
+          <div
+            class="bg-slate-900/40 px-3.5 py-2 rounded-xl border border-slate-800/80"
+          >
+            Proudly <span class="text-[#FF9933]">Made</span> In
+            <span class="text-white">India</span>
+            <span class="text-[#128807]">🇮🇳</span> for Free Universal Brain
+            Development & Digital Literacy.
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC (SINGLE EXECUTION GUARDED) -->
+    <script>
+      // Execution Guard Flag to Prevent Multiple/Duplicate Calls
+      let isPageLoaded = false;
+
+      /* --- CURRENT DOMAIN DETECTION --- */
+      const getCurrentDomain = () => {
+        const host = window.location.hostname;
+        return host.includes("kidspaint.cloud")
+          ? "kidspaint.cloud"
+          : "kidspaint.cloud";
+      };
+
+      /* --- CLEAN SLUG EXTRACTION --- */
+      const getSlug = () => {
+        const params = new URLSearchParams(window.location.search);
+        const querySlug = params.get("slug");
+        if (querySlug) return querySlug.replace(/\.html$/, "");
+
+        const path = window.location.pathname;
+
+        if (path.includes("/blogs/")) {
+          return decodeURIComponent(
+            path
+              .split("/blogs/")[1]
+              .replace(/\.html$/, "")
+              .replace(/\/$/, ""),
+          );
+        }
+        if (path.includes("/insight/")) {
+          return decodeURIComponent(
+            path
+              .split("/insight/")[1]
+              .replace(/\.html$/, "")
+              .replace(/\/$/, ""),
+          );
+        }
+        return null;
+      };
+
+      /* --- FETCH DETAIL DATA --- */
+      async function fetchDetail() {
+        if (isPageLoaded) return; // Prevent duplicate execution
+        isPageLoaded = true;
+
+        const slug = getSlug();
+        const currentDomain = getCurrentDomain();
+
+        if (!slug) {
+          window.location.href = "/blogs";
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `https://api.jawedsiddiqui.cloud/api/blogs/${slug}`,
+          );
+          const result = await response.json();
+
+          if (result.success && result.data) {
+            const postDomain = result.data.domain || "kidspaint.cloud";
+
+            if (
+              postDomain === currentDomain ||
+              currentDomain === "kidspaint.cloud"
+            ) {
+              renderPage(result.data);
+            } else {
+              showError(
+                "The requested article is not available for this domain.",
+              );
+            }
+          } else {
+            showError("The specified article could not be located.");
+          }
+        } catch (e) {
+          console.error("Fetch Detail Error:", e);
+          showError("Service currently unavailable. Please try again later.");
+        }
+      }
+
+      /* --- RENDER ENGINE --- */
+      function renderPage(blog) {
+        const pageTitle = blog.metaTitle || `${blog.title} - Kids Paint`;
+        const pageDesc =
+          blog.excerpt ||
+          "Creative learning and drawing article by Kids Paint.";
+        const shareImg = blog.featuredImage || "";
+
+        // Update Document Title and SEO Meta Tags
+        document.title = pageTitle;
+        const setMeta = (id, attr, val) => {
+          const el = document.getElementById(id);
+          if (el) el.setAttribute(attr, val);
+        };
+
+        setMeta("meta-description", "content", pageDesc);
+        setMeta("og-title", "content", pageTitle);
+        setMeta("og-description", "content", pageDesc);
+        setMeta("og-url", "content", window.location.href);
+        setMeta("canonical-url", "href", window.location.href);
+
+        if (shareImg) {
+          setMeta("og-image", "content", shareImg);
+          const imgEl = document.getElementById("featured-image");
+          if (imgEl) {
+            imgEl.src = shareImg;
+            imgEl.alt = blog.title;
+            document
+              .getElementById("image-container")
+              ?.classList.remove("hidden");
+          }
+        }
+
+        // Dynamic JSON-LD Schema Injector
+        if (blog.jsonLd && Object.keys(blog.jsonLd).length > 0) {
+          const script = document.createElement("script");
+          script.type = "application/ld+json";
+          script.text = JSON.stringify(blog.jsonLd);
+          document.head.appendChild(script);
+        }
+
+        // Inject Content into UI
+        document.getElementById("blog-title").innerText = blog.title;
+        document.getElementById("blog-category").innerText =
+          blog.category || "Kids Art";
+        document.getElementById("blog-author").innerText =
+          blog.author || "Kids Paint AI India";
+        document.getElementById("blog-date").innerText = new Date(
+          blog.createdAt || Date.now(),
+        ).toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
+
+        const readMins =
+          blog.readingTime ||
+          Math.max(1, Math.ceil((blog.content || "").split(" ").length / 200));
+        document.getElementById("read-time").innerText = `${readMins} Min Read`;
+
+        // Parse Markdown Body Content
+        if (window.marked) {
+          document.getElementById("blog-content").innerHTML = marked.parse(
+            blog.content || "",
+          );
+        } else {
+          document.getElementById("blog-content").innerText =
+            blog.content || "";
+        }
+
+        if (window.lucide) {
+          lucide.createIcons();
+        }
+      }
+
+      function showError(msg) {
+        document.getElementById("blog-content").innerHTML = `
+          <div class="text-center py-8">
+            <h3 class="text-lg font-bold text-slate-700 mb-4">${msg}</h3>
+            <a href="/blogs" class="inline-block px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase rounded-xl no-underline transition-colors">
+              Return to Blogs
+            </a>
+          </div>
+        `;
+      }
+
+      function redirectToPaintApp() {
+        window.location.href = "/paint";
+      }
+
+      function toggleMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        const icon = document.getElementById("menu-icon");
+
+        if (menu.classList.contains("hidden")) {
+          menu.classList.remove("hidden");
+          icon?.setAttribute("data-lucide", "x");
+        } else {
+          menu.classList.add("hidden");
+          icon?.setAttribute("data-lucide", "menu");
+        }
+        if (window.lucide) {
+          lucide.createIcons();
+        }
+      }
+
+      // Single Load Handler
+      document.addEventListener("DOMContentLoaded", () => {
+        fetchDetail();
+        if (window.lucide) {
+          lucide.createIcons();
+        }
+      });
+    </script>
+  </body>
+</html>

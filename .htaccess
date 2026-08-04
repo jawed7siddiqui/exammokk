@@ -12,3 +12,8 @@ RewriteRule ^ar/?$ ar.html [L,QSA]
 RewriteRule ^es/?$ es.html [L,QSA]
 
 RewriteRule ^school/([^/]+)/?$ index.html [L,QSA]
+
+RewriteRule ^blogs/?$ blogs.html [L,QSA]
+
+# Map /blogs/slug-name to blog-detail.html (Single Blog Detail)
+RewriteRule ^blogs/([^/]+)/?$ blog-detail.html [L,QSA]
