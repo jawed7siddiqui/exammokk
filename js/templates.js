@@ -21,27 +21,25 @@ const TEMPLATES_DATABASE = [
         type: "text",
         text: "A  B  C",
         props: {
-          fontSize: 180, // बच्चों के लिए आसान ट्रेसिंग हेतु आकार थोड़ा बड़ा किया गया
+          fontSize: 180,
           fontFamily: "Fredoka",
           fontWeight: "bold",
           fill: "transparent",
           stroke: "#cbd5e1",
-          strokeWidth: 6, // डेस्कटॉप स्क्रीन पर क्रिस्प दिखने के लिए थिकनेस बढ़ाई गई
-          strokeDashArray: [12, 10], // परफेक्ट डॉट-डैश ट्रेसिंग गाइडलाइन्स
-          left: 576, // 1152 चौड़ाई का सटीक हॉरिजॉन्टल सेंटर लॉक
-          top: 380, // ऊपर टेक्स्ट से परफेक्ट वर्टिकल स्पेसिंग बनाए रखने के लिए थोड़ा नीचे खिसकाया
+          strokeWidth: 6,
+          strokeDashArray: [12, 10],
+          left: 576,
+          top: 380,
           originX: "center",
           originY: "center",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
   },
-  // ==========================================
-  // DESKTOP DESIGNS (WIDTH: 1152, HEIGHT: 648)
-  // Centered & Optimized with Top Vertical Spacing
-  // ==========================================
-
   {
     id: "coloring_cat",
     title: "🐱 Fill colors inside the Big Cat!",
@@ -55,40 +53,45 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "path",
-        // मुख्य चेहरा (Pushed down to Y=370)
         path: "M 376 370 C 376 160, 776 160, 776 370 C 776 540, 376 540, 376 370 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "path",
-        // बायाँ कान
         path: "M 396 250 L 336 100 L 486 200 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "path",
-        // दायाँ कान
         path: "M 756 250 L 816 100 L 666 200 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // बाईं आँख
         props: {
           left: 486,
           top: 310,
@@ -99,11 +102,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // दाईं आँख
         props: {
           left: 666,
           top: 310,
@@ -114,11 +119,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "triangle",
-        // नाक
         props: {
           left: 576,
           top: 380,
@@ -131,6 +138,9 @@ const TEMPLATES_DATABASE = [
           originY: "center",
           angle: 180,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -148,40 +158,45 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "path",
-        // पिल्ले का चेहरा (Pushed down to Y=380)
         path: "M 376 380 C 376 180, 776 180, 776 380 C 776 535, 376 535, 376 380 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "path",
-        // बायाँ लंबा कान
         path: "M 380 270 C 300 230, 310 470, 390 400 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "path",
-        // दायाँ लंबा कान
         path: "M 772 270 C 852 230, 842 470, 762 400 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // बाईं आँख
         props: {
           left: 476,
           top: 320,
@@ -192,11 +207,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // दाईं आँख
         props: {
           left: 676,
           top: 320,
@@ -207,11 +224,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // प्यारी गोल नाक
         props: {
           left: 576,
           top: 405,
@@ -222,6 +241,9 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -239,7 +261,6 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "rect",
-        // मुख्य लैंडस्केप बैकड्रॉप (Pushed down to top: 110)
         props: {
           left: 176,
           top: 110,
@@ -249,11 +270,13 @@ const TEMPLATES_DATABASE = [
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // सूर्य
         props: {
           left: 576,
           top: 290,
@@ -264,17 +287,22 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "path",
-        // बहती हुई लहरदार नदी
-        path: "M 176 410 C 350 310, 650 510, 976 410 L 976 570 L 176 570 Z",
+        path: "M 179 413 C 353 313, 653 513, 979 413 L 979 573 L 179 573 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -292,7 +320,6 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "triangle",
-        // घर की छत (Pushed down to top: 120)
         props: {
           left: 576,
           top: 120,
@@ -303,11 +330,13 @@ const TEMPLATES_DATABASE = [
           strokeWidth: 6,
           originX: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "rect",
-        // मुख्य निचला कमरा
         props: {
           left: 336,
           top: 300,
@@ -317,11 +346,13 @@ const TEMPLATES_DATABASE = [
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "rect",
-        // मुख्य प्रवेश द्वार
         props: {
           left: 526,
           top: 410,
@@ -331,6 +362,9 @@ const TEMPLATES_DATABASE = [
           stroke: "#000000",
           strokeWidth: 4,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -348,7 +382,6 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "rect",
-        // स्पेस कैनवास फ्रेम (Pushed down to top: 100)
         props: {
           left: 226,
           top: 100,
@@ -358,11 +391,13 @@ const TEMPLATES_DATABASE = [
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // चाँद
         props: {
           left: 800,
           top: 200,
@@ -373,22 +408,26 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "path",
-        // मुख्य रॉकेट का ढांचा
         path: "M 576 140 C 516 240, 506 430, 506 480 L 646 480 C 646 430, 636 240, 576 140 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // रॉकेट की गोल खिड़की
         props: {
           left: 576,
           top: 290,
@@ -399,17 +438,22 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "path",
-        // बूस्टर से निकलने वाली ब्लास्ट आग
         path: "M 526 486 L 576 560 L 626 486 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -427,18 +471,19 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "path",
-        // भालू का गोल-मटोल धड़ (Pushed down to Y=390)
         path: "M 396 390 C 396 250, 756 250, 756 390 C 756 550, 396 550, 396 390 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // गोल मासूम चेहरा
         props: {
           left: 576,
           top: 230,
@@ -449,11 +494,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // बायाँ गोल कान
         props: {
           left: 486,
           top: 140,
@@ -464,11 +511,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // दायाँ गोल कान
         props: {
           left: 666,
           top: 140,
@@ -479,17 +528,22 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "path",
-        // भालू के पेट पर बना सुंदर सा दिल
         path: "M 576 350 C 576 350, 516 290, 516 330 C 516 370, 576 420, 576 420 C 576 420, 636 370, 636 330 C 636 290, 576 350, 576 350 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 4,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -507,29 +561,32 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "path",
-        // जादुई मछली का मुख्य अंडाकार शरीर (Pushed down to Y=350)
         path: "M 356 350 C 356 190, 696 190, 696 350 C 696 510, 356 510, 356 350 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "path",
-        // मछली के पीछे तैरने वाला विशाल फिन/पूंछ
         path: "M 686 350 L 796 230 L 756 350 L 796 470 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // बड़ी एनिमे आँख
         props: {
           left: 436,
           top: 300,
@@ -540,11 +597,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // फ्लोटिंग एयर बबल 1
         props: {
           left: 300,
           top: 220,
@@ -555,11 +614,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "circle",
-        // फ्लोटिंग एयर बबल 2
         props: {
           left: 260,
           top: 150,
@@ -570,6 +631,9 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -607,6 +671,9 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         });
         const text = new fabric.Text(pt.label, {
           left: pt.x + 14,
@@ -616,6 +683,9 @@ const TEMPLATES_DATABASE = [
           fontWeight: "bold",
           fill: "#334155",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         });
         applyStrictLayerLocks(dot);
         applyStrictLayerLocks(text);
@@ -648,47 +718,106 @@ const TEMPLATES_DATABASE = [
           stroke: "#1e293b",
           strokeWidth: 6,
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "line",
         coords: [420, 130, 420, 320],
-        props: { stroke: "#1e293b", strokeWidth: 5, role: "background_art" },
+        props: {
+          stroke: "#1e293b",
+          strokeWidth: 5,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "line",
         coords: [420, 390, 420, 470],
-        props: { stroke: "#1e293b", strokeWidth: 5, role: "background_art" },
+        props: {
+          stroke: "#1e293b",
+          strokeWidth: 5,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "line",
         coords: [420, 320, 540, 320],
-        props: { stroke: "#1e293b", strokeWidth: 5, role: "background_art" },
+        props: {
+          stroke: "#1e293b",
+          strokeWidth: 5,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "line",
         coords: [540, 200, 540, 320],
-        props: { stroke: "#1e293b", strokeWidth: 5, role: "background_art" },
+        props: {
+          stroke: "#1e293b",
+          strokeWidth: 5,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "line",
         coords: [540, 200, 720, 200],
-        props: { stroke: "#1e293b", strokeWidth: 5, role: "background_art" },
+        props: {
+          stroke: "#1e293b",
+          strokeWidth: 5,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "line",
         coords: [640, 280, 640, 460],
-        props: { stroke: "#1e293b", strokeWidth: 5, role: "background_art" },
+        props: {
+          stroke: "#1e293b",
+          strokeWidth: 5,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "line",
         coords: [640, 360, 740, 360],
-        props: { stroke: "#1e293b", strokeWidth: 5, role: "background_art" },
+        props: {
+          stroke: "#1e293b",
+          strokeWidth: 5,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "line",
         coords: [500, 400, 500, 550],
-        props: { stroke: "#1e293b", strokeWidth: 5, role: "background_art" },
+        props: {
+          stroke: "#1e293b",
+          strokeWidth: 5,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "text",
@@ -701,6 +830,9 @@ const TEMPLATES_DATABASE = [
           fontWeight: "bold",
           fill: "#4f46e5",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
@@ -714,6 +846,9 @@ const TEMPLATES_DATABASE = [
           fontWeight: "bold",
           fill: "#10b981",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -733,17 +868,41 @@ const TEMPLATES_DATABASE = [
       {
         type: "text",
         text: "🍎 🍎 🍎",
-        props: { left: 220, top: 170, fontSize: 36, role: "background_art" },
+        props: {
+          left: 220,
+          top: 170,
+          fontSize: 36,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "text",
         text: "🍦 🍦",
-        props: { left: 220, top: 290, fontSize: 36, role: "background_art" },
+        props: {
+          left: 220,
+          top: 290,
+          fontSize: 36,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "text",
         text: "🍉 🍉 🍉 🍉",
-        props: { left: 220, top: 410, fontSize: 36, role: "background_art" },
+        props: {
+          left: 220,
+          top: 410,
+          fontSize: 36,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "text",
@@ -756,6 +915,9 @@ const TEMPLATES_DATABASE = [
           fill: "#4f46e5",
           fontWeight: "bold",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
@@ -769,6 +931,9 @@ const TEMPLATES_DATABASE = [
           fill: "#4f46e5",
           fontWeight: "bold",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
@@ -782,6 +947,9 @@ const TEMPLATES_DATABASE = [
           fill: "#4f46e5",
           fontWeight: "bold",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -805,6 +973,9 @@ const TEMPLATES_DATABASE = [
           strokeWidth: 3,
           strokeDashArray: [8, 6],
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       );
       const leftWing = new fabric.Path(
@@ -814,6 +985,9 @@ const TEMPLATES_DATABASE = [
           stroke: "#1e293b",
           strokeWidth: 5,
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       );
       applyStrictLayerLocks(axisLine);
@@ -1080,7 +1254,7 @@ const TEMPLATES_DATABASE = [
       },
       {
         type: "path",
-        path: "M 44 450 C 180 340, 420 580, 604 450 L 604 670 L 44 670 Z",
+        path: "M 47 453 C 183 343, 423 583, 607 453 L 607 673 L 47 673 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
