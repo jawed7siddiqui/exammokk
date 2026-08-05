@@ -839,40 +839,45 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "path",
-        // बिल्ली का मुख्य चेहरा (Scaled and Centered)
         path: "M 124 450 C 124 180, 524 180, 524 450 C 524 640, 124 640, 124 450 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Large Face
+      },
       {
         type: "path",
-        // बायाँ कान (Enlarged)
         path: "M 150 290 L 90 120 L 240 240 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Left Ear
+      },
       {
         type: "path",
-        // दायाँ कान (Enlarged)
         path: "M 498 290 L 558 120 L 408 240 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Right Ear
+      },
       {
         type: "circle",
-        // बाईं आँख (Wider Radius)
         props: {
           left: 234,
           top: 380,
@@ -883,11 +888,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Eye L
+      },
       {
         type: "circle",
-        // दाईं आँख (Wider Radius)
         props: {
           left: 414,
           top: 380,
@@ -898,11 +905,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Eye R
+      },
       {
         type: "triangle",
-        // नाक (Perfect proportions)
         props: {
           left: 324,
           top: 460,
@@ -913,10 +922,13 @@ const TEMPLATES_DATABASE = [
           strokeWidth: 5,
           originX: "center",
           originY: "center",
-          angle: 180, // त्रिकोण को बिल्ली की नाक की तरह नीचे की तरफ पॉइंट करने के लिए फ्लिप किया
+          angle: 180,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Nose
+      },
     ],
   },
   {
@@ -932,40 +944,45 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "path",
-        // पिल्ले का मुख्य चेहरा (Centered at 324 & Scale Up)
         path: "M 124 450 C 124 200, 524 200, 524 450 C 524 620, 124 620, 124 450 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Face
+      },
       {
         type: "path",
-        // बायाँ लंबा कान (Enlarged and re-mapped)
         path: "M 130 310 C 30 270, 40 540, 140 470 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Long Ear L
+      },
       {
         type: "path",
-        // दायाँ लंबा कान (Enlarged and re-mapped)
         path: "M 518 310 C 618 270, 608 540, 508 470 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Long Ear R
+      },
       {
         type: "circle",
-        // बाईं आँख (Wider Radius for easy touch)
         props: {
           left: 244,
           top: 380,
@@ -976,11 +993,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Eye L
+      },
       {
         type: "circle",
-        // दाईं आँख (Wider Radius for easy touch)
         props: {
           left: 404,
           top: 380,
@@ -991,11 +1010,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Eye R
+      },
       {
         type: "circle",
-        // गोल प्यारी सी नाक (Scaled Up)
         props: {
           left: 324,
           top: 470,
@@ -1006,11 +1027,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Center Nose
+      },
     ],
   },
-
   {
     id: "color_river_mobile",
     title: "🏞️ Coloring Pad: Fill colors in the Large River and Sun scene!",
@@ -1024,7 +1047,6 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "rect",
-        // पूरे मोबाइल फ्रेम के हिसाब से बड़ा किया (Width: 560px, Height: 550px)
         props: {
           left: 44,
           top: 120,
@@ -1034,11 +1056,13 @@ const TEMPLATES_DATABASE = [
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Sky backdrop block
+      },
       {
         type: "circle",
-        // उगता हुआ सूरज (बड़ा आकार और आसान टच के लिए)
         props: {
           left: 324,
           top: 260,
@@ -1049,19 +1073,24 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Big Morning Sun
+      },
       {
         type: "path",
-        // बहती हुई नदी (648px विड्थ के अंदर पूरी तरह स्ट्रेच और बड़ी की गई)
         path: "M 44 450 C 180 340, 420 580, 604 450 L 604 670 L 44 670 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Flowing River slot
+      },
     ],
   },
   {
@@ -1077,7 +1106,6 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "triangle",
-        // घर की छत (360px से बढ़ाकर 500px चौड़ी की गई, Centered)
         props: {
           left: 324,
           top: 150,
@@ -1088,11 +1116,13 @@ const TEMPLATES_DATABASE = [
           strokeWidth: 6,
           originX: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Large Airtight Roof
+      },
       {
         type: "rect",
-        // मुख्य कमरा (300px से बढ़ाकर 420px चौड़ा किया गया, Centered)
         props: {
           left: 114,
           top: 350,
@@ -1102,11 +1132,13 @@ const TEMPLATES_DATABASE = [
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Main Room Base
+      },
       {
         type: "rect",
-        // मुख्य दरवाज़ा (बड़ा किया गया ताकि उंगली से छूने में आसानी हो)
         props: {
           left: 279,
           top: 510,
@@ -1116,8 +1148,11 @@ const TEMPLATES_DATABASE = [
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
-      }, // Main Entry Door
+      },
     ],
   },
   {
@@ -1132,7 +1167,7 @@ const TEMPLATES_DATABASE = [
     initGrid: false,
     objects: [
       {
-        type: "rect", // स्पेस बैकड्रॉप
+        type: "rect",
         props: {
           left: 44,
           top: 120,
@@ -1142,10 +1177,13 @@ const TEMPLATES_DATABASE = [
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        type: "circle", // बड़ा चांद
+        type: "circle",
         props: {
           left: 450,
           top: 220,
@@ -1156,20 +1194,26 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        type: "path", // रॉकेट की बॉडी (Centered at 324)
+        type: "path",
         path: "M 324 160 C 260 280, 250 500, 250 550 L 398 550 C 398 500, 388 280, 324 160 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        type: "circle", // रॉकेट की बड़ी खिड़की (Easy Color Fill)
+        type: "circle",
         props: {
           left: 324,
           top: 320,
@@ -1180,16 +1224,22 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        type: "path", // रॉकेट के नीचे की आग (Thick Lines)
+        type: "path",
         path: "M 270 558 L 324 660 L 378 558 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -1206,17 +1256,20 @@ const TEMPLATES_DATABASE = [
     initGrid: false,
     objects: [
       {
-        type: "path", // टेडी का बड़ा शरीर (Centered & Scaled)
+        type: "path",
         path: "M 164 480 C 164 320, 484 320, 484 480 C 484 650, 164 650, 164 480 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        type: "circle", // भालू का गोल चेहरा
+        type: "circle",
         props: {
           left: 324,
           top: 300,
@@ -1227,10 +1280,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        type: "circle", // बायाँ गोल कान
+        type: "circle",
         props: {
           left: 220,
           top: 200,
@@ -1241,10 +1297,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        type: "circle", // दायाँ गोल कान
+        type: "circle",
         props: {
           left: 428,
           top: 200,
@@ -1255,16 +1314,22 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        type: "path", // पेट के ऊपर बना बड़ा 'क्यूट हार्ट' (Easy Fill Template)
+        type: "path",
         path: "M 324 440 C 324 440, 264 380, 264 420 C 264 460, 324 510, 324 510 C 324 510, 384 460, 384 420 C 384 380, 324 440, 324 440 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 5,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -1281,27 +1346,33 @@ const TEMPLATES_DATABASE = [
     initGrid: false,
     objects: [
       {
-        type: "path", // मछली की मुख्य बड़ी बॉडी (Centered Big Oval)
+        type: "path",
         path: "M 144 400 C 144 220, 484 220, 484 400 C 484 580, 144 580, 144 400 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        type: "path", // पीछे की बड़ी पूंछ (Big Tail Fin)
+        type: "path",
         path: "M 474 400 L 584 280 L 544 400 L 584 520 Z",
         props: {
           fill: "#ffffff",
           stroke: "#000000",
           strokeWidth: 6,
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        type: "circle", // मछली की बड़ी एनिमे आंख
+        type: "circle",
         props: {
           left: 224,
           top: 350,
@@ -1312,10 +1383,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        type: "circle", // पानी का बड़ा बुलबुला 1
+        type: "circle",
         props: {
           left: 104,
           top: 260,
@@ -1326,10 +1400,13 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        type: "circle", // पानी का बड़ा बुलबुला 2
+        type: "circle",
         props: {
           left: 84,
           top: 180,
@@ -1340,12 +1417,15 @@ const TEMPLATES_DATABASE = [
           originX: "center",
           originY: "center",
           role: "color_segment",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
   },
 
-  // --- MATH MATRIX BOOSTER (4 High-Visibility Large Levels) ---
+  // --- MATH MATRIX BOOSTER ---
   {
     id: "math_lvl1_mobile",
     title: "🔢 Math Lvl 1: Count Fruits & match with the Digit!",
@@ -1360,12 +1440,28 @@ const TEMPLATES_DATABASE = [
       {
         type: "text",
         text: "🍎 🍎 🍎",
-        props: { left: 80, top: 220, fontSize: 44, role: "background_art" },
+        props: {
+          left: 80,
+          top: 220,
+          fontSize: 44,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "text",
         text: "🍉 🍉",
-        props: { left: 80, top: 420, fontSize: 44, role: "background_art" },
+        props: {
+          left: 80,
+          top: 420,
+          fontSize: 44,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "text",
@@ -1378,6 +1474,9 @@ const TEMPLATES_DATABASE = [
           fill: "#4f46e5",
           fontWeight: "bold",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
@@ -1391,6 +1490,9 @@ const TEMPLATES_DATABASE = [
           fill: "#4f46e5",
           fontWeight: "bold",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -1409,12 +1511,28 @@ const TEMPLATES_DATABASE = [
       {
         type: "text",
         text: "🍦 🍦 🍦 🍦",
-        props: { left: 80, top: 220, fontSize: 40, role: "background_art" },
+        props: {
+          left: 80,
+          top: 220,
+          fontSize: 40,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "text",
         text: "🍌",
-        props: { left: 80, top: 420, fontSize: 44, role: "background_art" },
+        props: {
+          left: 80,
+          top: 420,
+          fontSize: 44,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "text",
@@ -1427,6 +1545,9 @@ const TEMPLATES_DATABASE = [
           fill: "#ec4899",
           fontWeight: "bold",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
@@ -1440,6 +1561,9 @@ const TEMPLATES_DATABASE = [
           fill: "#ec4899",
           fontWeight: "bold",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -1458,12 +1582,28 @@ const TEMPLATES_DATABASE = [
       {
         type: "text",
         text: "⭐ ⭐ ⭐ ⭐ ⭐",
-        props: { left: 60, top: 220, fontSize: 38, role: "background_art" },
+        props: {
+          left: 60,
+          top: 220,
+          fontSize: 38,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "text",
         text: "🎈 🎈 🎈",
-        props: { left: 60, top: 420, fontSize: 40, role: "background_art" },
+        props: {
+          left: 60,
+          top: 420,
+          fontSize: 40,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "text",
@@ -1476,6 +1616,9 @@ const TEMPLATES_DATABASE = [
           fill: "#10b981",
           fontWeight: "bold",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
@@ -1489,6 +1632,9 @@ const TEMPLATES_DATABASE = [
           fill: "#10b981",
           fontWeight: "bold",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -1507,12 +1653,28 @@ const TEMPLATES_DATABASE = [
       {
         type: "text",
         text: "🍇 🍇",
-        props: { left: 80, top: 220, fontSize: 44, role: "background_art" },
+        props: {
+          left: 80,
+          top: 220,
+          fontSize: 44,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "text",
         text: "🐱 🐱 🐱 🐱",
-        props: { left: 80, top: 420, fontSize: 40, role: "background_art" },
+        props: {
+          left: 80,
+          top: 420,
+          fontSize: 40,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
       },
       {
         type: "text",
@@ -1525,6 +1687,9 @@ const TEMPLATES_DATABASE = [
           fill: "#f59e0b",
           fontWeight: "bold",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
@@ -1538,6 +1703,9 @@ const TEMPLATES_DATABASE = [
           fill: "#f59e0b",
           fontWeight: "bold",
           role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
