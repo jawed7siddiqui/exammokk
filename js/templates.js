@@ -41,6 +41,236 @@ const TEMPLATES_DATABASE = [
     ],
   },
   {
+    id: "comp_class3_connect_parts",
+    title:
+      "✏️ Connect Parts: Draw lines to match Computer Parts with their Names!",
+    category: "math", // 'math' category taaki "Check Answer" 🚀 button visible rahe
+    deviceType: "web",
+    themeColor: "#4f46e5",
+    icon: "🔌 🖥️",
+    label: "Match Parts",
+    defaultTool: "pen",
+    initGrid: false,
+    correctAnswers: [
+      { leftText: "MONITOR", rightText: "MONITOR" },
+      { leftText: "CPU CABINET", rightText: "CPU CABINET" },
+      { leftText: "KEYBOARD", rightText: "KEYBOARD" },
+      { leftText: "MOUSE", rightText: "MOUSE" },
+    ],
+    objects: [
+      // --- LEFT COLUMN: COMPUTER PARTS (Shifted Further Down) ---
+
+      // 1. MONITOR (Shifted Down to Y: 180)
+      {
+        type: "rect", // Screen
+        props: {
+          width: 90,
+          height: 60,
+          fill: "#f8fafc",
+          stroke: "#1e293b",
+          strokeWidth: 4,
+          rx: 6,
+          ry: 6,
+          left: 200,
+          top: 170,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+        },
+      },
+      {
+        type: "rect", // Stand
+        props: {
+          width: 22,
+          height: 15,
+          fill: "#64748b",
+          left: 200,
+          top: 207,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+        },
+      },
+      {
+        type: "rect", // Base
+        props: {
+          width: 50,
+          height: 8,
+          fill: "#334155",
+          rx: 3,
+          ry: 3,
+          left: 200,
+          top: 218,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+        },
+      },
+
+      // 2. CPU CABINET (Shifted Down to Y: 290)
+      {
+        type: "rect", // Tower Box
+        props: {
+          width: 60,
+          height: 95,
+          fill: "#334155",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          rx: 6,
+          ry: 6,
+          left: 200,
+          top: 290,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+        },
+      },
+      {
+        type: "circle", // Power Button
+        props: {
+          radius: 5,
+          fill: "#38bdf8",
+          left: 200,
+          top: 265,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+        },
+      },
+      {
+        type: "rect", // DVD Slot
+        props: {
+          width: 40,
+          height: 7,
+          fill: "#64748b",
+          left: 200,
+          top: 285,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+        },
+      },
+
+      // 3. KEYBOARD (Shifted Down to Y: 420)
+      {
+        type: "rect", // Board Base
+        props: {
+          width: 120,
+          height: 45,
+          fill: "#f1f5f9",
+          stroke: "#334155",
+          strokeWidth: 4,
+          rx: 6,
+          ry: 6,
+          left: 200,
+          top: 420,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+        },
+      },
+      {
+        type: "text", // Keys Design
+        text: "⌨️ [||||||||||||||]",
+        props: {
+          fontSize: 14,
+          fill: "#475569",
+          left: 200,
+          top: 420,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+        },
+      },
+
+      // 4. MOUSE (Shifted Down to Y: 530)
+      {
+        type: "path", // Mouse Body Path
+        path: "M 0 22 C 0 0, 36 0, 36 22 C 36 50, 0 50, 0 22 Z",
+        props: {
+          fill: "#e2e8f0",
+          stroke: "#1e293b",
+          strokeWidth: 4,
+          left: 182,
+          top: 510,
+          role: "background_art",
+        },
+      },
+      {
+        type: "line", // Center Divider Line
+        coords: [200, 510, 200, 530],
+        props: {
+          stroke: "#1e293b",
+          strokeWidth: 3,
+          role: "background_art",
+        },
+      },
+
+      // --- RIGHT COLUMN: NAMES (Shifted Down to Match Left Side) ---
+
+      {
+        type: "text",
+        text: "KEYBOARD",
+        props: {
+          fontSize: 18,
+          fontFamily: "Fredoka",
+          fontWeight: "bold",
+          fill: "#0f172a",
+          left: 850,
+          top: 190,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+        },
+      },
+      {
+        type: "text",
+        text: "MOUSE",
+        props: {
+          fontSize: 18,
+          fontFamily: "Fredoka",
+          fontWeight: "bold",
+          fill: "#0f172a",
+          left: 850,
+          top: 290,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+        },
+      },
+      {
+        type: "text",
+        text: "MONITOR",
+        props: {
+          fontSize: 18,
+          fontFamily: "Fredoka",
+          fontWeight: "bold",
+          fill: "#0f172a",
+          left: 850,
+          top: 420,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+        },
+      },
+      {
+        type: "text",
+        text: "CPU CABINET",
+        props: {
+          fontSize: 18,
+          fontFamily: "Fredoka",
+          fontWeight: "bold",
+          fill: "#0f172a",
+          left: 850,
+          top: 530,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+        },
+      },
+    ],
+  },
+  {
     id: "coloring_cat",
     title: "🐱 Fill colors inside the Big Cat!",
     category: "coloring",

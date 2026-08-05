@@ -997,7 +997,7 @@
           class="hidden items-center gap-1.5 bg-slate-900 text-white px-2.5 py-0.5 rounded-full border border-slate-800 font-bold transition-all"
         >
           <span class="tracking-wider"
-            >⏳ <span id="countdown">20:00</span></span
+            >⏳ <span id="countdown">00:00</span></span
           >
           <button
             id="timer-control-btn"
@@ -1007,6 +1007,16 @@
             ⏸️
           </button>
         </div>
+        <!-- 🎨 NEW: Submit Drawing Button -->
+        <span class="w-[1px] h-3 bg-slate-300"></span>
+        <button
+          id="btn-submit-drawing"
+          onclick="syncLocalStorageAndSaveCanvas()"
+          class="flex items-center gap-1 bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white text-xs font-black px-3 py-1 rounded-full shadow-md transition-all cursor-pointer"
+        >
+          <span>Submit Drawing</span>
+          <span>🎨</span>
+        </button>
       </div>
       <div
         class="hidden md:flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full border"
@@ -1135,147 +1145,7 @@
       </div>
     </div>
 
-    <!-- 🎉 KIDS WELCOME REGISTRATION MODAL -->
-    <!-- 🎉 KIDS WELCOME REGISTRATION MODAL (CLEAN & COMBINED FIELD) -->
-    <div
-      id="kids-auth-modal"
-      class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[999999] hidden items-center justify-center p-4 transition-all duration-300"
-    >
-      <div
-        class="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl border-4 border-indigo-400 transform scale-95 transition-transform relative overflow-hidden"
-      >
-        <!-- Decorative Kids Shapes -->
-        <div
-          class="absolute -top-6 -right-6 w-16 h-16 bg-pink-400 rounded-full opacity-20 pointer-events-none"
-        ></div>
-        <div
-          class="absolute -bottom-6 -left-6 w-20 h-20 bg-amber-400 rounded-full opacity-20 pointer-events-none"
-        ></div>
-
-        <!-- SIMPLE HEADER -->
-        <div class="text-center mb-6">
-          <h2
-            class="text-2xl font-black text-indigo-600 tracking-wide uppercase"
-          >
-            🎨 Welcome to KidsPaint!
-          </h2>
-        </div>
-
-        <!-- Error/Success Alert Area -->
-        <div
-          id="modal-alert-box"
-          class="hidden text-[11px] font-bold p-2.5 rounded-xl text-center mb-3"
-        ></div>
-
-        <form
-          id="kids-registration-form"
-          onsubmit="handleKidsRegistration(event)"
-          class="space-y-4"
-        >
-          <!-- Full Name Input -->
-          <div>
-            <label
-              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
-              >👤 Your Full Name</label
-            >
-            <input
-              type="text"
-              id="reg-fullname"
-              required
-              placeholder="Type your name here..."
-              class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-indigo-600 outline-none focus:border-indigo-400 bg-slate-50 transition-all text-sm"
-            />
-          </div>
-
-          <!-- Combined Email or Phone Input -->
-          <div>
-            <label
-              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
-              >✉️📱 Email or Phone Number</label
-            >
-            <input
-              type="text"
-              id="reg-identifier"
-              required
-              placeholder="name@example.com or 9876543210"
-              class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-indigo-600 outline-none focus:border-indigo-400 bg-slate-50 transition-all text-sm"
-            />
-          </div>
-
-          <!-- Gender Select Grid -->
-          <div>
-            <label
-              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
-              >🎈 Select Gender</label
-            >
-            <div class="grid grid-cols-3 gap-2">
-              <label
-                class="border-2 border-slate-200 rounded-2xl p-2 text-center font-bold text-xs cursor-pointer block hover:bg-indigo-50 transition-all text-slate-600 has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50"
-              >
-                <input
-                  type="radio"
-                  name="reg-gender"
-                  value="male"
-                  class="hidden"
-                  checked
-                />
-                👦 Boy
-              </label>
-              <label
-                class="border-2 border-slate-200 rounded-2xl p-2 text-center font-bold text-xs cursor-pointer block hover:bg-pink-50 transition-all text-slate-600 has-[:checked]:border-pink-500 has-[:checked]:bg-pink-50"
-              >
-                <input
-                  type="radio"
-                  name="reg-gender"
-                  value="female"
-                  class="hidden"
-                />
-                👧 Girl
-              </label>
-              <label
-                class="border-2 border-slate-200 rounded-2xl p-2 text-center font-bold text-xs cursor-pointer block hover:bg-amber-50 transition-all text-slate-600 has-[:checked]:border-amber-500 has-[:checked]:bg-amber-50"
-              >
-                <input
-                  type="radio"
-                  name="reg-gender"
-                  value="other"
-                  class="hidden"
-                />
-                🦄 Other
-              </label>
-            </div>
-          </div>
-
-          <!-- Age Input -->
-          <div>
-            <label
-              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
-              >🎂 How old are you? (Age)</label
-            >
-            <input
-              type="number"
-              id="reg-age"
-              required
-              min="1"
-              max="100"
-              placeholder="e.g. 8 or 30"
-              class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-indigo-600 outline-none focus:border-indigo-400 bg-slate-50 transition-all text-sm"
-            />
-          </div>
-
-          <!-- Action Submit Button -->
-          <button
-            type="submit"
-            id="reg-submit-btn"
-            class="w-full py-3.5 mt-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:opacity-95 text-white font-black rounded-2xl text-sm uppercase tracking-wider shadow-lg transform active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
-          >
-            🚀 Let's Paint!
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Teacher Authentication Modal -->
+    <!-- Teacher / Parent Authentication Modal -->
     <div
       id="teacher-auth-modal"
       class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[999999] hidden items-center justify-center p-4 transition-all duration-300"
@@ -1291,61 +1161,332 @@
           class="absolute -bottom-6 -left-6 w-20 h-20 bg-amber-400 rounded-full opacity-20 pointer-events-none"
         ></div>
 
-        <!-- HEADER -->
-        <div class="text-center mb-6 px-2">
-          <!-- whitespace-nowrap force karega ki text hamesha single line me hi rahe -->
-          <h2
-            class="text-lg sm:text-2xl font-black text-indigo-600 tracking-wide uppercase whitespace-nowrap flex items-center justify-center gap-1.5"
-          >
-            <span>🔒</span> <span>Teacher Activation</span>
-          </h2>
-          <p
-            class="text-[10px] sm:text-xs font-bold text-slate-400 mt-1 max-w-xs mx-auto whitespace-normal break-words"
-          >
-            Let's start the 20-min session!
-          </p>
-        </div>
-
-        <!-- Alert Area for Incorrect Password -->
-        <!-- <div
-          id="modal-alert-box"
+        <!-- Alert Box -->
+        <div
+          id="kids-paint-alert-box"
           class="hidden text-[11px] font-black p-2.5 rounded-xl text-center mb-4 bg-red-50 text-red-500 border border-red-200"
-        ></div> -->
+        ></div>
 
-        <!-- Password Form -->
-        <form
-          id="kids-password-form"
-          onsubmit="handleTeacherAuth(event)"
-          class="space-y-4"
-        >
-          <div>
-            <label
-              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+        <!-- ========================================== -->
+        <!-- STEP 1: SCREEN 1 (COMMON LOGIN) -->
+        <!-- ========================================== -->
+        <div id="step-common-login" class="auth-step-container">
+          <div class="text-center mb-5 px-2">
+            <h2
+              class="text-lg sm:text-2xl font-black text-indigo-600 tracking-wide uppercase whitespace-nowrap flex items-center justify-center gap-1.5"
             >
-              🔑 Monitor Password
-            </label>
-            <input
-              type="password"
-              id="teacher-password-input"
-              required
-              placeholder="Enter secret password..."
-              class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-indigo-600 outline-none focus:border-indigo-400 bg-slate-50 transition-all text-sm tracking-widest text-center"
-            />
+              <span>🎨</span> <span>School Login</span>
+            </h2>
+            <p
+              class="text-[10px] sm:text-xs font-bold text-slate-400 mt-1 max-w-xs mx-auto whitespace-normal break-words"
+            >
+              Enter details to start the 20-min session!
+            </p>
           </div>
 
+          <form onsubmit="handleCommonLoginSubmit(event)" class="space-y-3.5">
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label
+                  class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                  >Role</label
+                >
+                <select
+                  id="user-role"
+                  class="w-full p-2.5 border-2 border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:border-indigo-400 bg-slate-50 text-xs"
+                >
+                  <option value="parent" selected>Parent</option>
+                  <!-- <option value="teacher">Teacher</option> -->
+                </select>
+              </div>
+              <div>
+                <label
+                  class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                  >Country</label
+                >
+                <select
+                  id="user-country"
+                  class="w-full p-2.5 border-2 border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:border-indigo-400 bg-slate-50 text-xs"
+                >
+                  <option value="IN" selected>🇮🇳 India</option>
+                  <option value="UAE">🇦🇪 UAE</option>
+                  <option value="US">🇺🇸 USA</option>
+                  <option value="GB">🇬🇧 UK</option>
+                  <option value="CA">🇨🇦 Canada</option>
+                  <option value="AU">🇦🇺 Australia</option>
+
+                  <!-- Expansion Markets (GCC & APAC) -->
+                  <option value="SG">🇸🇬 Singapore</option>
+                  <option value="SA">🇸🇦 Saudi Arabia</option>
+                  <option value="QA">🇶🇦 Qatar</option>
+                  <option value="OM">🇴🇲 Oman</option>
+                  <option value="KW">🇰🇼 Kuwait</option>
+                  <option value="BH">🇧🇭 Bahrain</option>
+                  <option value="MY">🇲🇾 Malaysia</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >📱 Mobile Number</label
+              >
+              <div class="flex items-center">
+                <span
+                  id="country-dial-code"
+                  class="bg-slate-100 border-2 border-r-0 border-slate-200 rounded-l-2xl p-3 text-xs font-black text-slate-500"
+                  >+91</span
+                >
+                <input
+                  type="tel"
+                  id="user-mobile"
+                  required
+                  pattern="[0-9]{10}"
+                  maxlength="10"
+                  placeholder="Enter 10-digit mobile"
+                  class="w-full p-3 border-2 border-slate-200 rounded-r-2xl font-bold text-indigo-600 outline-none focus:border-indigo-400 bg-slate-50 text-sm tracking-wider"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full py-3.5 mt-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:opacity-95 text-white font-black rounded-2xl text-sm uppercase tracking-wider shadow-lg transform active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+            >
+              Continue 🚀
+            </button>
+          </form>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- STEP 2A: ENTER PASSWORD (EXISTING USER) -->
+        <!-- ========================================== -->
+        <div id="step-enter-password" class="auth-step-container hidden">
+          <div class="text-center mb-5 px-2">
+            <h2 class="text-lg sm:text-xl font-black text-indigo-600 uppercase">
+              Welcome Back! 👋
+            </h2>
+            <p class="text-[10px] sm:text-xs font-bold text-slate-400 mt-1">
+              Enter password to access session
+            </p>
+          </div>
+
+          <form onsubmit="handlePasswordSubmit(event)" class="space-y-4">
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >🔑 Password</label
+              >
+              <input
+                type="password"
+                id="teacher-password-input"
+                required
+                placeholder="Enter password..."
+                class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-indigo-600 outline-none focus:border-indigo-400 bg-slate-50 text-sm tracking-widest text-center"
+              />
+            </div>
+
+            <button
+              type="submit"
+              class="w-full py-3.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:opacity-95 text-white font-black rounded-2xl text-sm uppercase tracking-wider shadow-lg active:scale-95 transition-all cursor-pointer"
+            >
+              🚀 Start 20-Min Session
+            </button>
+
+            <button
+              type="button"
+              onclick="switchStep('step-common-login')"
+              class="w-full text-center text-xs font-bold text-indigo-500 hover:underline mt-2"
+            >
+              ← Back to Login
+            </button>
+          </form>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- STEP 2B: PARENT REGISTRATION (NEW USER) -->
+        <!-- ========================================== -->
+        <div id="step-registration" class="auth-step-container hidden">
+          <div class="text-center mb-4 px-2">
+            <h2
+              class="text-base sm:text-xl font-black text-indigo-600 uppercase"
+            >
+              Parent Registration
+            </h2>
+            <p class="text-[10px] font-bold text-slate-400">
+              Register student for KidsPaint Studio
+            </p>
+          </div>
+
+          <form onsubmit="handleRegistrationSubmit(event)" class="space-y-3">
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >Student Name</label
+              >
+              <input
+                type="text"
+                id="reg-student-name"
+                required
+                placeholder="e.g. Abraham "
+                class="w-full p-2.5 border-2 border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:border-indigo-400 bg-slate-50 text-xs"
+              />
+            </div>
+
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >Gender</label
+              >
+              <div
+                class="flex gap-4 items-center pt-1 text-xs font-bold text-slate-600"
+              >
+                <label class="flex items-center gap-1 cursor-pointer"
+                  ><input
+                    type="radio"
+                    name="student_gender"
+                    value="Male"
+                    checked
+                    class="accent-indigo-600"
+                  />
+                  Male</label
+                >
+                <label class="flex items-center gap-1 cursor-pointer"
+                  ><input
+                    type="radio"
+                    name="student_gender"
+                    value="Female"
+                    class="accent-indigo-600"
+                  />
+                  Female</label
+                >
+                <label class="flex items-center gap-1 cursor-pointer"
+                  ><input
+                    type="radio"
+                    name="student_gender"
+                    value="Other"
+                    class="accent-indigo-600"
+                  />
+                  Other</label
+                >
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label
+                  class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                  >Class</label
+                >
+                <select
+                  id="reg-class"
+                  required
+                  class="w-full p-2.5 border-2 border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:border-indigo-400 bg-slate-50 text-xs"
+                >
+                  <option value="">Grade</option>
+                  <option value="Grade 1">Grade 1</option>
+                  <option value="Grade 2">Grade 2</option>
+                  <option value="Grade 3">Grade 3</option>
+                  <option value="Grade 4">Grade 4</option>
+                  <option value="Grade 5">Grade 5</option>
+                  <option value="Grade 6">Grade 6</option>
+                  <option value="Grade 7">Grade 7</option>
+                  <option value="Grade 8">Grade 8</option>
+                  <option value="Grade 9">Grade 9</option>
+                  <option value="Grade 10">Grade 10</option>
+                  <option value="Grade 11">Grade 11</option>
+                  <option value="Grade 12">Grade 12</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                  >Section</label
+                >
+                <select
+                  id="reg-section"
+                  required
+                  class="w-full p-2.5 border-2 border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:border-indigo-400 bg-slate-50 text-xs"
+                >
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E">E</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >Roll Number</label
+              >
+              <input
+                type="number"
+                id="reg-roll-no"
+                required
+                min="1"
+                max="100"
+                placeholder="Enter Roll No."
+                class="w-full p-2.5 border-2 border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:border-indigo-400 bg-slate-50 text-xs"
+              />
+            </div>
+
+            <button
+              type="submit"
+              class="w-full py-3 mt-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:opacity-95 text-white font-black rounded-2xl text-xs uppercase tracking-wider shadow-lg active:scale-95 transition-all cursor-pointer"
+            >
+              Register & Start 🚀
+            </button>
+          </form>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- STEP 3: REGISTRATION SUCCESSFUL -->
+        <!-- ========================================== -->
+        <div
+          id="step-reg-success"
+          class="auth-step-container hidden text-center"
+        >
+          <div class="text-4xl mb-2">🎉</div>
+          <h2 class="text-lg font-black text-emerald-600 uppercase mb-1">
+            Account Created!
+          </h2>
+          <p class="text-[11px] font-bold text-slate-400 mb-3">
+            Parent Registration completed successfully.
+          </p>
+
           <div
-            id="kids-paint-alert-box"
-            class="hidden text-[11px] font-black p-2.5 rounded-xl text-center mt-2 bg-red-50 text-red-500 border border-red-200"
-          ></div>
-          <!-- Submit Button -->
-          <button
-            type="submit"
-            id="reg-submit-btn"
-            class="w-full py-3.5 mt-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:opacity-95 text-white font-black rounded-2xl text-sm uppercase tracking-wider shadow-lg transform active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+            class="bg-slate-50 border border-dashed border-slate-300 rounded-2xl p-3 mb-4 text-xs font-bold text-slate-600 space-y-1"
           >
-            🚀 Start 20-Min Session
+            <p>
+              Mobile:
+              <span
+                id="disp-mobile"
+                class="text-indigo-600 font-extrabold"
+              ></span>
+            </p>
+            <p>
+              Default Password:
+              <code
+                class="bg-slate-200 px-2 py-0.5 rounded text-indigo-700 font-black"
+                >123456</code
+              >
+            </p>
+            <!-- <p class="text-[10px] text-amber-600 font-medium pt-1">
+              ⚠️ Change password recommended after first login.
+            </p> -->
+          </div>
+
+          <button
+            onclick="finishAuthAndStartSession()"
+            class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-black rounded-2xl text-xs uppercase tracking-wider shadow-lg active:scale-95 transition-all cursor-pointer"
+          >
+            Proceed to Dashboard 🚀
           </button>
-        </form>
+        </div>
       </div>
     </div>
 
@@ -1398,97 +1539,6 @@
           }
         } else {
           console.log(`✨ Welcome back artist: ${savedUser}`);
-        }
-      }
-
-      async function handleKidsRegistration(event) {
-        event.preventDefault(); // फ़ॉर्म रीलोड रोकें
-
-        const submitBtn = document.getElementById("reg-submit-btn");
-        const alertBox = document.getElementById("modal-alert-box");
-
-        // फ़ॉर्म वैल्यूज को कैप्चर करें
-        const fullName = document.getElementById("reg-fullname").value.trim();
-        const identifier = document
-          .getElementById("reg-identifier")
-          .value.trim();
-        const age = document.getElementById("reg-age").value;
-        const gender = document.querySelector(
-          'input[name="reg-gender"]:checked',
-        ).value;
-
-        // बटन को लोडिंग स्टेट में डालें
-        submitBtn.disabled = true;
-        submitBtn.innerText = "✨ Opening Studio...";
-        alertBox.className =
-          "hidden text-[11px] font-bold p-2.5 rounded-xl text-center mb-3";
-
-        // 📝 स्मार्ट डिटेक्शन: ईमेल है या फ़ोन नंबर
-        let payload = { fullName, age, gender };
-
-        // अगर इनपुट में '@' है तो इसे ईमेल मानें, वरना फोन/अन्य
-        if (identifier.includes("@")) {
-          payload.email = identifier.toLowerCase();
-        } else {
-          // अगर सिर्फ नंबर हैं तो phoneNumber फ़ील्ड में भेजें (या बैकएंड की जरूरत के हिसाब से)
-          payload.phoneNumber = identifier;
-          // बैकएंड की सुरक्षा के लिए एक फॉलबैक डमी ईमेल भी सेट कर सकते हैं अगर स्कीमा में आवश्यक हो
-          payload.email = `${fullName.replace(/\s+/g, "").toLowerCase()}_${Date.now().toString().slice(-4)}@kidspaint.cloud`;
-        }
-
-        try {
-          // 🚀 लाइव पोस्ट एपीआई कॉल
-          const response = await fetch(
-            "http://api.jawedsiddiqui.cloud/api/kidspaint/register",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(payload),
-            },
-          );
-
-          const data = await response.json();
-
-          if (data.success) {
-            // 💾 लोकलस्टोरेज में डेटा और टोकन लॉक करें
-            localStorage.setItem("kidspaint_username", data.user.fullName);
-            localStorage.setItem("kidspaint_contact", identifier);
-            localStorage.setItem("kidspaint_token", data.token);
-
-            // अलर्ट बॉक्स में सक्सेस मेसेज दिखाएँ
-            alertBox.innerText = "🎉 Success! Loading canvas...";
-            alertBox.classList.remove("hidden");
-            alertBox.classList.add(
-              "bg-emerald-50",
-              "text-emerald-600",
-              "border",
-              "border-emerald-200",
-            );
-
-            // 1 सेकंड बाद मोडल छुपा दें
-            setTimeout(() => {
-              const modal = document.getElementById("kids-auth-modal");
-              if (modal) modal.classList.replace("flex", "hidden");
-            }, 1000);
-          } else {
-            throw new Error(data.message || "Registration failed");
-          }
-        } catch (error) {
-          console.error("API Auth Error:", error);
-          alertBox.innerText = `❌ ${error.message || "Connection Error"}`;
-          alertBox.classList.remove("hidden");
-          alertBox.classList.add(
-            "bg-red-50",
-            "text-red-600",
-            "border",
-            "border-red-200",
-          );
-
-          // बटन रीसेट करें
-          submitBtn.disabled = false;
-          submitBtn.innerText = "🚀 Let's Paint!";
         }
       }
 
@@ -2685,6 +2735,547 @@
           document.body.style.setProperty("background", "#030712", "important");
         }
       });
+
+      // HTTPS API BASE URL
+      const API_BASE_URL = "https://api.jawedsiddiqui.cloud/api/kidspaint";
+      const API_TIMEOUT_MS = 15000; // 15 Seconds Threshold
+
+      let currentAuthData = {
+        role: "parent",
+        country: "IN",
+        mobile: "",
+        student: null,
+        sessionTimeSec: 1200,
+      };
+
+      // ⏱️ Class-Based Dynamic Timer Calculation
+      function calculateSessionTimeByClass(classGrade) {
+        if (!classGrade) return 1200;
+
+        // Convert to string, trim spaces and lower case
+        const gradeStr = String(classGrade).toLowerCase().trim();
+
+        // Extract number from string (e.g., "Grade 2" -> 2, "2" -> 2)
+        const match = gradeStr.match(/\d+/);
+        const gradeNumber = match ? parseInt(match[0], 10) : null;
+
+        // Class 1, 2, 3 ke liye 15 Minutes (900 seconds)
+        if (gradeNumber !== null && gradeNumber >= 1 && gradeNumber <= 3) {
+          return 900; // 15 Mins
+        }
+
+        // Class 4 se 8 aur baaki ke liye 20 Minutes (1200 seconds)
+        return 1200; // 20 Mins
+      }
+
+      // 🌐 Timeout Wrapper For Fetch Requests
+      function fetchWithTimeout(url, options = {}, timeoutMs = API_TIMEOUT_MS) {
+        return Promise.race([
+          fetch(url, options),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("API_TIMEOUT")), timeoutMs),
+          ),
+        ]);
+      }
+
+      // 🔄 UI Button Loader Toggle
+      function setButtonLoading(buttonElem, isLoading, originalText) {
+        if (!buttonElem) return;
+        if (isLoading) {
+          buttonElem.disabled = true;
+          buttonElem.dataset.origText = originalText || buttonElem.innerHTML;
+          buttonElem.innerHTML = `<span class="inline-block animate-spin mr-1">⏳</span> Processing...`;
+          buttonElem.classList.add("opacity-75", "cursor-not-allowed");
+        } else {
+          buttonElem.disabled = false;
+          buttonElem.innerHTML = buttonElem.dataset.origText || originalText;
+          buttonElem.classList.remove("opacity-75", "cursor-not-allowed");
+        }
+      }
+
+      // 🔀 Step Switch Helper Function
+      function switchStep(stepId) {
+        hideAlert();
+        document
+          .querySelectorAll(".auth-step-container")
+          .forEach((el) => el.classList.add("hidden"));
+        const target = document.getElementById(stepId);
+        if (target) target.classList.remove("hidden");
+      }
+
+      function showAlert(msg) {
+        const alertBox = document.getElementById("kids-paint-alert-box");
+        if (alertBox) {
+          alertBox.innerText = msg;
+          alertBox.classList.remove("hidden");
+        }
+      }
+
+      function hideAlert() {
+        const alertBox = document.getElementById("kids-paint-alert-box");
+        if (alertBox) alertBox.classList.add("hidden");
+      }
+
+      // 1. Step 1 Submit: Mobile Check (With 15-Sec Fallback)
+      // 1. Step 1 Submit: Mobile Check (With Immediate Button Disable & 15-Sec Fallback)
+      async function handleCommonLoginSubmit(event) {
+        event.preventDefault();
+        hideAlert();
+
+        // Submit button ko pakdein
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalBtnText = "Continue 🚀";
+
+        // 🔒 IMMEDIATELY DISABLE BUTTON & SHOW LOADING
+        setButtonLoading(submitBtn, true, originalBtnText);
+
+        currentAuthData.role = document.getElementById("user-role").value;
+        currentAuthData.country = document.getElementById("user-country").value;
+        currentAuthData.mobile = document
+          .getElementById("user-mobile")
+          .value.trim();
+
+        try {
+          const response = await fetchWithTimeout(
+            `${API_BASE_URL}/check-mobile`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ mobileNumber: currentAuthData.mobile }),
+            },
+            API_TIMEOUT_MS,
+          );
+
+          const data = await response.json();
+
+          if (data.exists) {
+            switchStep("step-enter-password");
+          } else {
+            switchStep("step-registration");
+          }
+        } catch (error) {
+          console.warn(
+            "Mobile Check API Failed or Timed Out (15s). Proceeding via Fallback.",
+            error,
+          );
+
+          // Fallback Local Storage Check
+          const registeredParents = JSON.parse(
+            localStorage.getItem("registeredParents") || "{}",
+          );
+
+          if (registeredParents[currentAuthData.mobile]) {
+            switchStep("step-enter-password");
+          } else {
+            switchStep("step-registration");
+          }
+        } finally {
+          // 🔓 RESPONSE AANE YA TIMEOUT HONE PAR BUTTON KO VAPAS ENABLE KAREIN
+          setButtonLoading(submitBtn, false, originalBtnText);
+        }
+      } // 2. Step 2A Submit: Password Login (With 15-Sec Fallback)
+      async function handlePasswordSubmit(event) {
+        event.preventDefault();
+        hideAlert();
+
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalBtnText = "🚀 Start 20-Min Session";
+        const pwdInput = document.getElementById(
+          "teacher-password-input",
+        ).value;
+
+        setButtonLoading(submitBtn, true, originalBtnText);
+
+        try {
+          const response = await fetchWithTimeout(
+            `${API_BASE_URL}/login`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                mobileNumber: currentAuthData.mobile,
+                password: pwdInput,
+              }),
+            },
+            API_TIMEOUT_MS,
+          );
+
+          const data = await response.json();
+          setButtonLoading(submitBtn, false, originalBtnText);
+
+          if (response.ok && data.success) {
+            localStorage.setItem("kidsPaintToken", data.token);
+            localStorage.setItem("kidsPaintUser", JSON.stringify(data.user));
+
+            const studentClass = data.user?.classGrade || "";
+            const classBasedTime = calculateSessionTimeByClass(studentClass);
+
+            finishAuthAndStartSession(classBasedTime);
+          } else {
+            showAlert(`❌ ${data.message || "Invalid password! Try again."}`);
+          }
+        } catch (error) {
+          console.warn(
+            "Login API Failed or Timed Out (15s). Falling back to Offline Mode.",
+            error,
+          );
+          setButtonLoading(submitBtn, false, originalBtnText);
+
+          const registeredParents = JSON.parse(
+            localStorage.getItem("registeredParents") || "{}",
+          );
+          const user = registeredParents[currentAuthData.mobile];
+
+          if ((user && user.password === pwdInput) || pwdInput === "123456") {
+            const studentClass = user?.student?.classGrade || "";
+            const classBasedTime = calculateSessionTimeByClass(studentClass);
+            finishAuthAndStartSession(classBasedTime);
+          } else {
+            showAlert("❌ Invalid Password! Try again.");
+          }
+        }
+      }
+
+      // 3. Step 2B Submit: Parent Registration (With 15-Sec Fallback)
+      async function handleRegistrationSubmit(event) {
+        event.preventDefault();
+        hideAlert();
+
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalBtnText = "Register & Start 🚀";
+
+        const genderElem = document.querySelector(
+          'input[name="student_gender"]:checked',
+        );
+        const savedSchoolName =
+          localStorage.getItem("schoolName") || "KidsPaint Partner School";
+        const selectedClass = document.getElementById("reg-class").value;
+
+        const studentDetails = {
+          studentName: document.getElementById("reg-student-name").value.trim(),
+          gender: genderElem ? genderElem.value : "Male",
+          classGrade: selectedClass,
+          section: document.getElementById("reg-section").value,
+          rollNo: document.getElementById("reg-roll-no").value.trim(),
+        };
+
+        const payload = {
+          mobileNumber: currentAuthData.mobile,
+          role: currentAuthData.role,
+          country: currentAuthData.country,
+          schoolName: savedSchoolName,
+          ...studentDetails,
+        };
+
+        currentAuthData.sessionTimeSec =
+          calculateSessionTimeByClass(selectedClass);
+        setButtonLoading(submitBtn, true, originalBtnText);
+
+        try {
+          const response = await fetchWithTimeout(
+            `${API_BASE_URL}/register`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            },
+            API_TIMEOUT_MS,
+          );
+
+          const data = await response.json();
+          setButtonLoading(submitBtn, false, originalBtnText);
+
+          if (response.ok && data.success) {
+            localStorage.setItem("kidsPaintToken", data.token);
+            localStorage.setItem("kidsPaintUser", JSON.stringify(data.user));
+
+            document.getElementById("disp-mobile").innerText =
+              `+91 ${currentAuthData.mobile}`;
+            switchStep("step-reg-success");
+          } else {
+            showAlert(`❌ ${data.message || "Registration failed."}`);
+          }
+        } catch (error) {
+          console.warn(
+            "Registration API Failed or Timed Out (15s). Saving to LocalStorage Fallback.",
+            error,
+          );
+          setButtonLoading(submitBtn, false, originalBtnText);
+
+          const registeredParents = JSON.parse(
+            localStorage.getItem("registeredParents") || "{}",
+          );
+          registeredParents[currentAuthData.mobile] = {
+            mobile: currentAuthData.mobile,
+            password: "123456",
+            student: studentDetails,
+            createdAt: new Date().toISOString(),
+          };
+          localStorage.setItem(
+            "registeredParents",
+            JSON.stringify(registeredParents),
+          );
+
+          localStorage.setItem("kidsPaintUser", JSON.stringify(payload));
+
+          document.getElementById("disp-mobile").innerText =
+            `+91 ${currentAuthData.mobile}`;
+          switchStep("step-reg-success");
+        }
+      }
+
+      // 4. Session Start & Modal Close Function (Fixed Timer Trigger)
+      function finishAuthAndStartSession(customTimeInSeconds = null) {
+        const modal = document.getElementById("teacher-auth-modal");
+        if (modal) {
+          modal.style.setProperty("display", "none", "important");
+          modal.classList.add("hidden");
+        }
+
+        let timeToSet =
+          customTimeInSeconds || currentAuthData.sessionTimeSec || 1200;
+
+        let sessionData = {
+          date: new Date().toDateString(),
+          school: localStorage.getItem("schoolName") || "KIDSPAINT",
+          timeLeft: timeToSet,
+          isActivated: true,
+          isPaused: false,
+        };
+
+        localStorage.setItem("kidsPaintSession", JSON.stringify(sessionData));
+
+        // Trigger main startTimer or fallback to emergency countdown ticker
+        if (typeof window.startTimer === "function") {
+          window.startTimer(timeToSet, false);
+        } else if (typeof startTimer === "function") {
+          startTimer(timeToSet, false);
+        } else {
+          // 🛑 Emergency Fallback Timer Trigger
+          runEmergencyTimer(timeToSet);
+        }
+      }
+
+      // 5. Emergency Timer Fallback Engine (Runs if main startTimer function is not bound globally)
+      function runEmergencyTimer(totalSeconds) {
+        const timerBox = document.getElementById("timer-box");
+        const countdownDisplay = document.getElementById("countdown");
+
+        if (timerBox)
+          timerBox.style.setProperty("display", "flex", "important");
+
+        if (window.kidsPaintInterval) clearInterval(window.kidsPaintInterval);
+
+        let currentSeconds = parseInt(totalSeconds, 10);
+
+        window.kidsPaintInterval = setInterval(() => {
+          currentSeconds--;
+
+          let session =
+            JSON.parse(localStorage.getItem("kidsPaintSession")) || {};
+          session.timeLeft = currentSeconds;
+          localStorage.setItem("kidsPaintSession", JSON.stringify(session));
+
+          let mins = Math.floor(currentSeconds / 60);
+          let secs = currentSeconds % 60;
+
+          if (countdownDisplay) {
+            countdownDisplay.innerText = `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+          }
+
+          if (currentSeconds <= 0) {
+            clearInterval(window.kidsPaintInterval);
+            if (typeof applyBlackOverlay === "function") {
+              applyBlackOverlay();
+            } else {
+              location.reload();
+            }
+          }
+        }, 1000);
+      }
+
+      // Country Config Map (Dial Code, Length, Placeholder Pattern)
+      const countryConfigs = {
+        IN: { code: "+91", length: 10, placeholder: "Enter 10-digit mobile" },
+        UAE: { code: "+971", length: 9, placeholder: "Enter 9-digit mobile" },
+        US: { code: "+1", length: 10, placeholder: "Enter 10-digit mobile" },
+        GB: { code: "+44", length: 10, placeholder: "Enter 10-digit mobile" },
+        CA: { code: "+1", length: 10, placeholder: "Enter 10-digit mobile" },
+        AU: { code: "+61", length: 9, placeholder: "Enter 9-digit mobile" },
+        SG: { code: "+65", length: 8, placeholder: "Enter 8-digit mobile" },
+        SA: { code: "+966", length: 9, placeholder: "Enter 9-digit mobile" },
+        QA: { code: "+974", length: 8, placeholder: "Enter 8-digit mobile" },
+        OM: { code: "+968", length: 8, placeholder: "Enter 8-digit mobile" },
+        KW: { code: "+965", length: 8, placeholder: "Enter 8-digit mobile" },
+        BH: { code: "+973", length: 8, placeholder: "Enter 8-digit mobile" },
+        MY: { code: "+60", length: 9, placeholder: "Enter 9-digit mobile" },
+      };
+
+      // Event Listener for Country Dropdown Change
+      document.addEventListener("DOMContentLoaded", () => {
+        const countrySelect = document.getElementById("user-country");
+        const dialCodeSpan = document.getElementById("country-dial-code");
+        const mobileInput = document.getElementById("user-mobile");
+
+        if (countrySelect && dialCodeSpan && mobileInput) {
+          countrySelect.addEventListener("change", (e) => {
+            const selectedCountry = e.target.value;
+            const config =
+              countryConfigs[selectedCountry] || countryConfigs["IN"];
+
+            // Update Prefix Text
+            dialCodeSpan.innerText = config.code;
+
+            // Update Maxlength and HTML5 Pattern Validation
+            mobileInput.maxLength = config.length;
+            mobileInput.pattern = `[0-9]{${config.length}}`;
+            mobileInput.placeholder = config.placeholder;
+
+            // Clear previous value if length changes
+            mobileInput.value = "";
+          });
+        }
+      });
+
+      async function syncLocalStorageAndSaveCanvas() {
+        const API_BASE_URL = "https://api.jawedsiddiqui.cloud/api/kidspaint";
+
+        // 1. LOCALSTORAGE SE USER & SESSION RETRIEVE KAREIN
+        const localUser = JSON.parse(
+          localStorage.getItem("kidsPaintUser") || "{}",
+        );
+        const localSession = JSON.parse(
+          localStorage.getItem("kidsPaintSession") || "{}",
+        );
+
+        // User Check
+        if (!localUser.mobileNumber && !localUser.studentName) {
+          alert(
+            "⚠️ User information missing in LocalStorage. Please login first.",
+          );
+          return;
+        }
+
+        // 2. RAW LOCALSTORAGE CANVAS OBJECT READ KAREIN
+        const canvasStorageData = localStorage.getItem("kidspaint_canvas_data");
+        let parsedCanvasObject = null;
+        let artworkBase64 = null;
+
+        if (canvasStorageData) {
+          try {
+            parsedCanvasObject =
+              typeof canvasStorageData === "string"
+                ? JSON.parse(canvasStorageData)
+                : canvasStorageData;
+
+            // Check if image URL already exists in object
+            if (
+              parsedCanvasObject.imageUrl ||
+              parsedCanvasObject.image ||
+              parsedCanvasObject.data
+            ) {
+              artworkBase64 =
+                parsedCanvasObject.imageUrl ||
+                parsedCanvasObject.image ||
+                parsedCanvasObject.data;
+            }
+          } catch (e) {
+            console.warn("Parsing raw canvas storage error:", e);
+          }
+        }
+
+        // 3. BASE64 IMAGE GENERATION FROM FABRIC / NATIVE CANVAS
+        if (!artworkBase64) {
+          // Canvas element check
+          const canvasElem =
+            document.getElementById("kids-canvas") ||
+            document.querySelector("canvas");
+
+          if (
+            window.fabricCanvas &&
+            typeof window.fabricCanvas.toDataURL === "function"
+          ) {
+            // Fabric.js Instance se High-Res Image Convert Karein
+            artworkBase64 = window.fabricCanvas.toDataURL({
+              format: "png",
+              multiplier: 1,
+            });
+          } else if (canvasElem && typeof canvasElem.toDataURL === "function") {
+            // Native HTML5 Canvas Element se Convert Karein
+            artworkBase64 = canvasElem.toDataURL("image/png");
+          }
+        }
+
+        // Still No Image Check
+        if (!artworkBase64) {
+          alert(
+            "⚠️ Canvas drawing image generate nahi ho saki. Kripya canvas check karein.",
+          );
+          return;
+        }
+
+        // 4. SESSION TIME CALCULATION
+        const currentLeftSec =
+          window.currentTimerLeftSeconds !== undefined
+            ? window.currentTimerLeftSeconds
+            : localSession.timeLeft || 0;
+        const timeSpentSeconds = Math.max(0, 1200 - currentLeftSec);
+
+        // 5. API PAYLOAD PREPARATION
+        const payload = {
+          userId: localUser.id || localUser._id || null,
+          mobileNumber: localUser.mobileNumber,
+          studentName: localUser.studentName,
+          schoolName:
+            localUser.schoolName ||
+            localStorage.getItem("schoolName") ||
+            "KidsPaint Partner School",
+          classGrade: localUser.classGrade,
+          section: localUser.section || "A",
+          title: `${localUser.studentName}'s Masterpiece`,
+          // imageUrl: artworkBase64, // PNG Base64 String
+          imageUrl: "", // PNG Base64 String
+          canvasData: parsedCanvasObject || {}, // Complete Fabric.js vector objects array
+          canvasWidth: 1152,
+          canvasHeight: 648,
+          sessionDurationSeconds: timeSpentSeconds,
+          status: "submitted",
+          isSubmittedForTalentHunt: true,
+        };
+
+        // 6. BACKEND API CALL WITH BUTTON SPINNER
+        const submitBtn = document.getElementById("btn-submit-drawing");
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<span>⏳ Submitting...</span>`;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/canvas/save`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            localStorage.setItem("lastSavedArtworkId", data.data.artworkId);
+            alert("🎉 Canvas artwork successfully saved and submitted!");
+          } else {
+            console.error("Server Response Error:", data);
+            alert(`❌ Failed to save: ${data.message || "Server Error"}`);
+          }
+        } catch (error) {
+          console.error("Network Error during Canvas Save:", error);
+          alert("❌ Network Error! Backend server se connect nahi ho paya.");
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<span>Submit Drawing</span> <span>🎨</span>`;
+          }
+        }
+      }
     </script>
   </body>
 </html>

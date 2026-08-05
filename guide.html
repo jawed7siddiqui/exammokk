@@ -12,7 +12,6 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-C1MVKY4RWF");
     </script>
     <meta charset="UTF-8" />
@@ -20,9 +19,9 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>Kids Paint Magic Guide - Interactive Documentation</title>
+    <title>Kids Paint Magic Guide - CBSE Class 1-12 Interactive Hub</title>
 
-    <!-- CURATED KID-FRIENDLY GOOGLE FONTS -->
+    <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -66,13 +65,14 @@
   <body class="text-slate-700 antialiased flex flex-col">
     <!-- TOP HEADER NAVBAR -->
     <header
-      class="bg-white border-b-4 border-dashed border-indigo-100 py-4 px-4 md:px-6 shrink-0 flex items-center justify-between z-30"
+      class="bg-white border-b-4 border-dashed border-indigo-100 py-2.5 px-3 md:px-6 shrink-0 flex items-center justify-between gap-1 sm:gap-3 z-30 shadow-2xs"
     >
-      <div class="flex items-center gap-3">
+      <!-- LEFT BRANDING -->
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
         <!-- Mobile Toggle Button -->
         <button
           onclick="toggleMobileMenu()"
-          class="lg:hidden p-2 hover:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer"
+          class="lg:hidden p-1.5 hover:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer"
           aria-label="Toggle Menu"
         >
           <i
@@ -81,25 +81,56 @@
             class="w-5 h-5 text-indigo-600"
           ></i>
         </button>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5">
           <i
             data-lucide="sparkles"
-            class="w-5 h-5 fill-current text-amber-400"
+            class="w-4 h-4 sm:w-5 sm:h-5 fill-current text-amber-400"
           ></i>
           <h1
-            class="text-xl md:text-2xl kids-title text-indigo-600 tracking-wide uppercase"
+            class="text-base sm:text-xl md:text-2xl kids-title text-indigo-600 tracking-wide uppercase"
           >
             Kids<span class="text-pink-500">P</span
             ><span class="text-amber-500">a</span
             ><span class="text-emerald-500">i</span
             ><span class="text-cyan-500">n</span
-            ><span class="text-violet-500">t</span> Magic Hub
+            ><span class="text-violet-500">t</span>
           </h1>
         </div>
       </div>
-      <p class="text-xs font-bold text-slate-400 hidden sm:block">
-        Interactive Student & Teacher Training Manual
-      </p>
+
+      <!-- CENTERED OPTIMIZED CLASS DROPDOWN SELECTOR FOR MOBILE & DESKTOP -->
+      <div class="flex-1 max-w-xs sm:max-w-md mx-1 sm:mx-2 flex justify-center">
+        <div class="w-full">
+          <div
+            class="flex items-center bg-indigo-600 border-2 border-indigo-700 rounded-xl sm:rounded-2xl px-2 sm:px-3 py-1 sm:py-1.5 shadow-md hover:bg-indigo-700 transition-all"
+          >
+            <i
+              data-lucide="graduation-cap"
+              class="w-4 h-4 sm:w-5 sm:h-5 text-amber-300 shrink-0 mr-1 sm:mr-2"
+            ></i>
+            <select
+              id="class-select"
+              onchange="selectClassFromDropdown(this.value)"
+              class="w-full bg-transparent font-extrabold text-xs sm:text-sm md:text-base text-white outline-none cursor-pointer tracking-wide appearance-none"
+            >
+              <!-- Options populated by JavaScript -->
+            </select>
+            <i
+              data-lucide="chevron-down"
+              class="w-4 h-4 text-amber-300 shrink-0 ml-1 pointer-events-none"
+            ></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT BADGE -->
+      <div class="shrink-0 hidden sm:block">
+        <span
+          class="text-[11px] md:text-xs font-black text-indigo-700 bg-indigo-50 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-indigo-100"
+        >
+          NEP 2020 Plan
+        </span>
+      </div>
     </header>
 
     <!-- MAIN SPLIT WORKSPACE -->
@@ -111,12 +142,12 @@
         class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-10 lg:hidden"
       ></div>
 
-      <!-- LEFT SIDEBAR (MOBILE DRAWER + DESKTOP PERSISTENT) -->
+      <!-- LEFT SIDEBAR -->
       <aside
         id="sidebar-drawer"
         class="absolute inset-y-0 left-0 -translate-x-full lg:translate-x-0 lg:relative w-72 md:w-80 border-r border-slate-200 bg-white flex flex-col shrink-0 overflow-hidden transition-transform duration-300 ease-in-out z-20"
       >
-        <!-- Live Search Box Inside Sidebar -->
+        <!-- Search Box -->
         <div class="p-4 border-b border-slate-100 shrink-0">
           <div class="relative">
             <i
@@ -126,23 +157,36 @@
             <input
               type="text"
               id="sidebar-search"
-              placeholder="Search tools & features..."
+              placeholder="Search features & manual..."
               class="w-full pl-9 pr-3 py-2 border-2 border-slate-200 rounded-xl outline-none focus:border-indigo-500 text-xs font-semibold transition-all"
               oninput="searchSidebarFeatures()"
             />
           </div>
         </div>
 
-        <!-- Scrollable Sidebar Item List -->
+        <!-- Sidebar Item List -->
         <div
           id="sidebar-list"
           class="flex-1 overflow-y-auto p-2 space-y-1 no-scrollbar"
         >
-          <!-- Category: Drawing Tools -->
+          <div
+            class="text-[10px] font-black uppercase text-indigo-600 tracking-wider px-3 pt-2 pb-1"
+          >
+            📚 Course Hub
+          </div>
+          <button
+            onclick="switchViewMode('curriculum')"
+            id="item-curriculum-view"
+            class="sidebar-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all cursor-pointer"
+            data-keywords="lesson plan curriculum 1 month class cbse syllabus daily learning"
+          >
+            <i data-lucide="book-open" class="w-4 h-4"></i> NEP 2020 Lesson Plan
+          </button>
+
           <div
             class="text-[10px] font-black uppercase text-slate-400 tracking-wider px-3 pt-3 pb-1 section-header"
           >
-            🖌️ Brushes & Draw
+            🖌️ Tool Manual & Features
           </div>
           <button
             onclick="showFeatureDetails('brush')"
@@ -154,7 +198,6 @@
             Eraser
           </button>
 
-          <!-- Category: Formatting & Styles -->
           <div
             class="text-[10px] font-black uppercase text-slate-400 tracking-wider px-3 pt-3 pb-1 section-header"
           >
@@ -164,7 +207,7 @@
             onclick="showFeatureDetails('font')"
             id="item-font"
             class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
-            data-keywords="fonts family fredoka bangers quicksand spicy rice bold italic underline strike text styling textbox"
+            data-keywords="fonts family fredoka bangers quicksand text styling"
           >
             <i data-lucide="type" class="w-4 h-4"></i> Dynamic Kids Fonts
           </button>
@@ -172,22 +215,20 @@
             onclick="showFeatureDetails('size')"
             id="item-size"
             class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
-            data-keywords="sizing hub dropdown font size line width brush weight 128px thickness weight"
+            data-keywords="sizing thickness width brush 128px"
           >
             <i data-lucide="sliders" class="w-4 h-4"></i> Unified Sizing Hub
-            (128px)
           </button>
           <button
             onclick="showFeatureDetails('color')"
             id="item-color"
             class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
-            data-keywords="color palette picker custom pipette hex paint bucket fill background swatch"
+            data-keywords="color palette bucket fill background swatch"
           >
             <i data-lucide="paint-bucket" class="w-4 h-4"></i> Color Swatches &
             Bucket
           </button>
 
-          <!-- Category: Geometry -->
           <div
             class="text-[10px] font-black uppercase text-slate-400 tracking-wider px-3 pt-3 pb-1 section-header"
           >
@@ -197,129 +238,705 @@
             onclick="showFeatureDetails('shapes')"
             id="item-shapes"
             class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
-            data-keywords="shapes geometric line curve circle rect roundrect triangle diamond pentagon star arrow heart lightning outline border fill"
+            data-keywords="shapes line circle rect triangle star heart"
           >
-            <i data-lucide="shapes" class="w-4 h-4"></i> Geometry & Extended
-            Shapes
+            <i data-lucide="shapes" class="w-4 h-4"></i> Geometry & Shapes
           </button>
 
-          <!-- Category: Layer Operations -->
           <div
             class="text-[10px] font-black uppercase text-slate-400 tracking-wider px-3 pt-3 pb-1 section-header"
           >
-            🛠️ Workspace Actions
+            🛠️ Layer Actions & Engine
           </div>
           <button
             onclick="showFeatureDetails('clipboard')"
             id="item-clipboard"
             class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
-            data-keywords="clipboard cut copy paste delete trash right click context menu layers select mode"
+            data-keywords="clipboard cut copy paste delete layers"
           >
             <i data-lucide="clipboard" class="w-4 h-4"></i> Clipboard & Context
             Menu
           </button>
           <button
-            onclick="showFeatureDetails('image-tools')"
-            id="item-image-tools"
-            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
-            data-keywords="rotate cw ccw flip x y image loader resize scale dimensions local import"
-          >
-            <i data-lucide="image" class="w-4 h-4"></i> Image Transformations &
-            Imports
-          </button>
-
-          <!-- Category: Platform Engine -->
-          <div
-            class="text-[10px] font-black uppercase text-slate-400 tracking-wider px-3 pt-3 pb-1 section-header"
-          >
-            💾 Engine Utilities
-          </div>
-          <button
             onclick="showFeatureDetails('export')"
             id="item-export"
             class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
-            data-keywords="export png download file save capture compile high resolution"
+            data-keywords="export png download save"
           >
-            <i data-lucide="download" class="w-4 h-4"></i> High-Res PNG Export
-          </button>
-          <button
-            onclick="showFeatureDetails('autosave')"
-            id="item-autosave"
-            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
-            data-keywords="auto save persistence localstorage crash shield json layer data protection data loss"
-          >
-            <i data-lucide="shield-check" class="w-4 h-4"></i> Auto-Save Shield
-            System
-          </button>
-          <button
-            onclick="showFeatureDetails('shortcuts')"
-            id="item-shortcuts"
-            class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent text-left text-xs font-bold transition-all hover:bg-slate-50 cursor-pointer"
-            data-keywords="keyboard shortcuts quick hotkeys undo redo ctrl z ctrl y escape select nudge arrow keys"
-          >
-            <i data-lucide="keyboard" class="w-4 h-4"></i> Production Hotkeys &
-            Zoom
+            <i data-lucide="download" class="w-4 h-4"></i> PNG Export
           </button>
         </div>
       </aside>
 
-      <!-- RIGHT PANEL: DYNAMIC DETAILS & HOW TO USE PANEL -->
+      <!-- RIGHT MAIN CONTENT DISPLAY AREA -->
       <section
-        class="flex-1 bg-slate-50 overflow-y-auto p-4 md:p-8 no-scrollbar"
+        class="flex-1 bg-slate-50 overflow-y-auto p-3 sm:p-5 md:p-8 no-scrollbar"
       >
         <div
           id="details-box"
-          class="max-w-3xl mx-auto bg-white rounded-2xl md:rounded-3xl p-5 md:p-8 shadow-sm border border-slate-200 transition-all duration-300"
+          class="max-w-4xl mx-auto bg-white rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 shadow-sm border border-slate-200 transition-all duration-300"
         >
-          <!-- Welcoming Graphic State -->
-          <div class="text-center py-16 md:py-20 text-slate-400">
-            <i
-              data-lucide="sparkles"
-              class="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 text-indigo-300 animate-pulse"
-            ></i>
-            <h2
-              class="text-lg md:text-xl font-bold text-slate-700 kids-card-title mb-2"
-            >
-              Welcome to the Interactive Art Lab Manual!
-            </h2>
-            <p class="text-xs md:text-sm max-w-sm mx-auto px-4">
-              Click any specific tool option from the sidebar menu to instantly
-              open its technical specifications.
-            </p>
-          </div>
+          <!-- Dynamic Content rendered via JS -->
         </div>
       </section>
     </main>
 
-    <!-- MEMORY STRUCTURE ARRAYS -->
+    <!-- SCRIPT FOR DYNAMIC LESSON PLANS & UI CONTROL -->
     <script>
+      let currentSelectedClass = 1;
+      let activeView = "curriculum";
+
+      // GENERATE 30-DAY CURRICULUM DATA
+      function generateCurriculumData() {
+        const plans = {};
+
+        // CLASS 1 PLAN
+        plans[1] = {
+          title: "Class 1: Digital Doodling & Basic Shapes",
+          focus:
+            "NEP Foundational Stage: Motor skills, freehand doodling, shapes & color recognition.",
+          weeks: [
+            {
+              week: "Week 1: Fundamentals & Pencil Tool",
+              days: [
+                {
+                  id: "c1-w1-d1",
+                  title: "Day 1: Intro to Kids Paint & Canvas",
+                  icon: "layout-template",
+                  toolName: "Canvas Board",
+                  usageShort:
+                    "Canvas drawing area hai. New button se blank sheet milegi.",
+                  steps: [
+                    "Top bar se 'New' click karein.",
+                    "Canvas border identify karein.",
+                    "Zoom 100% set karein.",
+                  ],
+                },
+                {
+                  id: "c1-w1-d2",
+                  title: "Day 2: Freehand Doodling with Pencil",
+                  icon: "pencil",
+                  toolName: "Pencil Tool",
+                  usageShort:
+                    "Pencil choose karein aur freehand drawing karein.",
+                  steps: [
+                    "Tools se Pencil icon select karein.",
+                    "Mouse drag karke doodle karein.",
+                  ],
+                },
+                {
+                  id: "c1-w1-d3",
+                  title: "Day 3: Controlling Line Size (Thin/Thick)",
+                  icon: "sliders",
+                  toolName: "Formatting Dropdown",
+                  usageShort:
+                    "Line motai badlane ke liye 2px ya 12px choose karein.",
+                  steps: [
+                    "Size menu open karein.",
+                    "4px thin stroke choose karein.",
+                    "12px thick stroke draw karein.",
+                  ],
+                },
+                {
+                  id: "c1-w1-d4",
+                  title: "Day 4: Color Picker & Primary Colors",
+                  icon: "palette",
+                  toolName: "Color Swatches",
+                  usageShort:
+                    "Colors matrix se Red, Blue, Yellow select karein.",
+                  steps: [
+                    "Colors palette par click karein.",
+                    "Different colored lines draw karein.",
+                  ],
+                },
+                {
+                  id: "c1-w1-d5",
+                  title: "Day 5: Eraser Tool practice",
+                  icon: "eraser",
+                  toolName: "Eraser Tool",
+                  usageShort:
+                    "Galti mitane ke liye Eraser ko line par drag karein.",
+                  steps: [
+                    "Eraser choose karein.",
+                    "Unwanted lines par move karke clean karein.",
+                  ],
+                },
+                {
+                  id: "c1-w1-d6",
+                  title: "Day 6: Draw lines to match dots",
+                  icon: "minus",
+                  toolName: "Line Shape Tool",
+                  usageShort: "Line tool se do dots ko aapas me jodein.",
+                  steps: [
+                    "Shapes se Straight Line lein.",
+                    "Dot A se Dot B tak stretch karein.",
+                  ],
+                },
+              ],
+            },
+            {
+              week: "Week 2: Shapes & Fills",
+              days: [
+                {
+                  id: "c1-w2-d7",
+                  title: "Day 7: Drawing Circles & Sun",
+                  icon: "circle",
+                  toolName: "Circle Shape",
+                  usageShort: "Circle draw karein aur pencil se rays banayein.",
+                  steps: [
+                    "Circle tool select karein.",
+                    "Canvas par drag karke round sun banayein.",
+                  ],
+                },
+                {
+                  id: "c1-w2-d8",
+                  title: "Day 8: Drawing Squares & Boxes",
+                  icon: "square",
+                  toolName: "Square Tool",
+                  usageShort: "Square tool se straight boxes draw karein.",
+                  steps: [
+                    "Square tool click karein.",
+                    "Equal box shape drag karein.",
+                  ],
+                },
+                {
+                  id: "c1-w2-d9",
+                  title: "Day 9: Triangles & Birthday Hats",
+                  icon: "triangle",
+                  toolName: "Triangle Tool",
+                  usageShort: "Triangle shape insert karke hat banayein.",
+                  steps: [
+                    "Triangle choose karein.",
+                    "Neeche circle se base complete karein.",
+                  ],
+                },
+                {
+                  id: "c1-w2-d10",
+                  title: "Day 10: Color Bucket Fill mode",
+                  icon: "paint-bucket",
+                  toolName: "Fill Bucket",
+                  usageShort:
+                    "Bucket select karke closed shape me color bharein.",
+                  steps: [
+                    "Bucket click karein.",
+                    "Closed shape ke andar click karein.",
+                  ],
+                },
+                {
+                  id: "c1-w2-d11",
+                  title: "Day 11: Rainbow Color Filling",
+                  icon: "rainbow",
+                  toolName: "Color Palette & Bucket",
+                  usageShort: "7 different colors bucket se bharein.",
+                  steps: [
+                    "Rainbow arcs banayein.",
+                    "VIBGYOR colors fill karein.",
+                  ],
+                },
+                {
+                  id: "c1-w2-d12",
+                  title: "Day 12: Alphabet Tracing (A to E)",
+                  icon: "type",
+                  toolName: "Pencil & Templates",
+                  usageShort: "A, B, C letters ko pencil se trace karein.",
+                  steps: [
+                    "Alphabet template load karein.",
+                    "Pencil se outline trace karein.",
+                  ],
+                },
+              ],
+            },
+            {
+              week: "Week 3: Objects & Animals",
+              days: [
+                {
+                  id: "c1-w3-d13",
+                  title: "Day 13: Drawing Simple Apple",
+                  icon: "apple",
+                  toolName: "Circle & Color Fill",
+                  usageShort: "Circle & Red color se apple draw karein.",
+                  steps: [
+                    "Circle shape draw karein.",
+                    "Red color fill karein.",
+                  ],
+                },
+                {
+                  id: "c1-w3-d14",
+                  title: "Day 14: Drawing a House Outline",
+                  icon: "home",
+                  toolName: "Square & Triangle",
+                  usageShort: "Square house base aur Triangle roof banayein.",
+                  steps: [
+                    "Neeche Square banayein.",
+                    "Upar Triangle roof set karein.",
+                  ],
+                },
+                {
+                  id: "c1-w3-d15",
+                  title: "Day 15: Color Template: Cat",
+                  icon: "cat",
+                  toolName: "Templates Bar & Bucket",
+                  usageShort:
+                    "Left bar se Cat template select karke color karein.",
+                  steps: [
+                    "Templates se Cat select karein.",
+                    "Color bucket se color bharein.",
+                  ],
+                },
+                {
+                  id: "c1-w3-d16",
+                  title: "Day 16: Spray Paint Fun",
+                  icon: "sparkles",
+                  toolName: "Spray Brush",
+                  usageShort: "Spray brush se canvas par starry effect dein.",
+                  steps: [
+                    "Brushes se Spray choose karein.",
+                    "Canvas par click hold karke spray karein.",
+                  ],
+                },
+                {
+                  id: "c1-w3-d17",
+                  title: "Day 17: Drawing Trees & Grass",
+                  icon: "trees",
+                  toolName: "Brush & Green Color",
+                  usageShort: "Brown trunk aur Green top se tree banayein.",
+                  steps: [
+                    "Trunk ke liye Rectangle banayein.",
+                    "Green brush se tree top draw karein.",
+                  ],
+                },
+                {
+                  id: "c1-w3-d18",
+                  title: "Day 18: Drawing Floating Balloons",
+                  icon: "circle",
+                  toolName: "Circle & Pencil",
+                  usageShort:
+                    "Circles banakar niche pencil se string draw karein.",
+                  steps: [
+                    "Multiple colored circles banayein.",
+                    "Pencil se niche string lines draw karein.",
+                  ],
+                },
+              ],
+            },
+            {
+              week: "Week 4: Creative Mini Projects",
+              days: [
+                {
+                  id: "c1-w4-d19",
+                  title: "Day 19: Traffic Light Drawing",
+                  icon: "traffic-cone",
+                  toolName: "Rectangle & Circles",
+                  usageShort:
+                    "Black rectangle me Red, Yellow, Green circles banayein.",
+                  steps: [
+                    "Vertical Rectangle banayein.",
+                    "3 Circles bana kar Red, Yellow, Green color fill karein.",
+                  ],
+                },
+                {
+                  id: "c1-w4-d20",
+                  title: "Day 20: Drawing Scenery (Hills & Sun)",
+                  icon: "mountain",
+                  toolName: "Triangle & Circle",
+                  usageShort: "Triangles se pahad aur Circle se Sun banayein.",
+                  steps: [
+                    "Triangles se Hills draw karein.",
+                    "Niche River & Upar Sun banayein.",
+                  ],
+                },
+                {
+                  id: "c1-w4-d21",
+                  title: "Day 21: Decorating Birthday Cake",
+                  icon: "cake",
+                  toolName: "Rectangles & Candles",
+                  usageShort:
+                    "Layered Rectangles se cake aur line se candle banayein.",
+                  steps: [
+                    "2-3 Rectangles stack karein.",
+                    "Line & Yellow color se candle flame banayein.",
+                  ],
+                },
+                {
+                  id: "c1-w4-d22",
+                  title: "Day 22: Template: Rocket Launch",
+                  icon: "rocket",
+                  toolName: "Templates & Spray",
+                  usageShort:
+                    "Rocket template me bright fire spray paint karein.",
+                  steps: [
+                    "Rocket template select karein.",
+                    "Niche Orange spray paint bharein.",
+                  ],
+                },
+                {
+                  id: "c1-w4-d23",
+                  title: "Day 23: Complete My Village Drawing",
+                  icon: "image",
+                  toolName: "All Combined Tools",
+                  usageShort:
+                    "House, Sun, Tree aur Hills ko milakar complete picture banayein.",
+                  steps: ["Sath me House, Hills & Sun combine karein."],
+                },
+                {
+                  id: "c1-w4-d24",
+                  title: "Day 24: Save & Download Artwork",
+                  icon: "download",
+                  toolName: "PNG Export Button",
+                  usageShort:
+                    "Download button daba kar drawing PC/Mobile me save karein.",
+                  steps: [
+                    "Top right Download button click karein.",
+                    "Image file save karein.",
+                  ],
+                },
+              ],
+            },
+          ],
+        };
+
+        // DYNAMIC GENERATOR FOR CLASSES 2 TO 12
+        for (let c = 2; c <= 12; c++) {
+          let stageTitle = "";
+          let focusText = "";
+
+          if (c <= 2) {
+            stageTitle = "Foundational Stage";
+            focusText =
+              "NEP Foundational: Motor skills, pattern building & storytelling.";
+          } else if (c <= 5) {
+            stageTitle = "Preparatory Stage";
+            focusText =
+              "NEP Preparatory: EVS diagrams, map keys & infographics.";
+          } else if (c <= 8) {
+            stageTitle = "Middle Stage";
+            focusText =
+              "NEP Middle: STEM schematics, flowcharts & UI wireframing.";
+          } else {
+            stageTitle = "Secondary Stage";
+            focusText =
+              "NEP Secondary: CBSE Board diagrams, System design & Ray optics.";
+          }
+
+          plans[c] = {
+            title: `Class ${c}: Digital Art & STEM Visuals (${stageTitle})`,
+            focus: focusText,
+            weeks: [
+              {
+                week: "Week 1: Precision Vector Drawing & Setup",
+                days: [
+                  {
+                    id: `c${c}-w1-d1`,
+                    title: "Day 1: Vector Line & Grid Alignment",
+                    icon: "grid",
+                    toolName: "Grid View & Line Tool",
+                    usageShort:
+                      "Grid Overlay ON karke precise lines draw karein.",
+                    steps: [
+                      "Footer se 'Grid View' toggle karein.",
+                      "Line tool se straight 90-degree lines banayein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w1-d2`,
+                    title: "Day 2: Precise Custom Sizing (128px)",
+                    icon: "sliders",
+                    toolName: "Sizing Hub",
+                    usageShort:
+                      "Stroke size dropdown se exact width set karein.",
+                    steps: [
+                      "Formatting menu open karein.",
+                      "Required line thickness (e.g., 6px) choose karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w1-d3`,
+                    title: "Day 3: Custom Hex Color Swatches",
+                    icon: "pipette",
+                    toolName: "Eyedropper / Pipette",
+                    usageShort:
+                      "Custom Hex codes enter karke exact colors paayein.",
+                    steps: [
+                      "Color picker open karein.",
+                      "Hex code enter karke select karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w1-d4`,
+                    title: "Day 4: Layer Duplication & Offset",
+                    icon: "copy",
+                    toolName: "Copy / Paste (+25px)",
+                    usageShort:
+                      "Ctrl+C / Ctrl+V se automatic shifted copies banayein.",
+                    steps: [
+                      "Element select karein.",
+                      "Copy-paste press karke +25px offset dekhein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w1-d5`,
+                    title: "Day 5: Canvas Zoom & Micro-Nudge",
+                    icon: "zoom-in",
+                    toolName: "Zoom & Arrow Keys",
+                    usageShort:
+                      "Arrow keys se 2px micro-shift karke perfect align karein.",
+                    steps: [
+                      "Zoom 150% karein.",
+                      "Arrow keys se alignment adjust karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w1-d6`,
+                    title: "Day 6: Hotkey Workflows (Undo/Redo)",
+                    icon: "keyboard",
+                    toolName: "Keyboard Shortcuts",
+                    usageShort:
+                      "Ctrl+Z aur Ctrl+Y ka use speed badhane ke liye karein.",
+                    steps: [
+                      "Ctrl+Z se Undo test karein.",
+                      "Ctrl+Y se Redo test karein.",
+                    ],
+                  },
+                ],
+              },
+              {
+                week: "Week 2: CBSE Curriculum Specific Diagrams",
+                days: [
+                  {
+                    id: `c${c}-w2-d7`,
+                    title: "Day 7: Subject Diagram Base Layout",
+                    icon: "file-text",
+                    toolName: "Shape & Outline Tools",
+                    usageShort:
+                      "Class specific core diagram ki outer outline banayein.",
+                    steps: [
+                      "Dashed / Solid outlines choose karein.",
+                      "Base framework draw karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w2-d8`,
+                    title: "Day 8: Technical Labeling & Typography",
+                    icon: "type",
+                    toolName: "Text Tool & Fonts",
+                    usageShort:
+                      "Text tool (T) se Fredoka/Quicksand font me labels likhein.",
+                    steps: [
+                      "Text box insert karein.",
+                      "Font size aur bold style apply karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w2-d9`,
+                    title: "Day 9: Flow Arrows & Direction Vectors",
+                    icon: "arrow-right",
+                    toolName: "Extended Arrow Shapes",
+                    usageShort:
+                      "Shapes menu se Direction Arrows se process dikhayein.",
+                    steps: [
+                      "Shapes dropdown se Arrow choose karein.",
+                      "Components connect karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w2-d10`,
+                    title: "Day 10: Component Color Coding",
+                    icon: "paint-bucket",
+                    toolName: "Fill Bucket",
+                    usageShort:
+                      "Diagram parts ko alag-alag color se categorize karein.",
+                    steps: [
+                      "Distinct color pick karein.",
+                      "Component boundaries fill karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w2-d11`,
+                    title: "Day 11: Image Asset Import & Scale",
+                    icon: "image",
+                    toolName: "Local Import Loader",
+                    usageShort:
+                      "External image load karke scale percentage adjust karein.",
+                    steps: [
+                      "Image upload button click karein.",
+                      "Proportional scale 100% set karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w2-d12`,
+                    title: "Day 12: Axis Inversion (Flip X & Y)",
+                    icon: "flip-horizontal",
+                    toolName: "Transform Controls",
+                    usageShort:
+                      "Object ko horizontal ya vertical plane par mirror karein.",
+                    steps: [
+                      "Object select karein.",
+                      "Flip X / Flip Y button press karein.",
+                    ],
+                  },
+                ],
+              },
+              {
+                week: "Week 3: Advanced Visual Schematics",
+                days: [
+                  {
+                    id: `c${c}-w3-d13`,
+                    title: "Day 13: Multi-Layer Composition",
+                    icon: "layers",
+                    toolName: "Layer Ordering",
+                    usageShort:
+                      "Elements ko Bring Forward / Send Backward karein.",
+                    steps: [
+                      "Right-click context menu kholein.",
+                      "Layer order change karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w3-d14`,
+                    title: "Day 14: Mathematical Geometry & Shapes",
+                    icon: "shapes",
+                    toolName: "Extended Shapes Vault",
+                    usageShort:
+                      "Pentagon, Star, Diamond shapes se chart banayein.",
+                    steps: [
+                      "Extended shapes menu open karein.",
+                      "Geometry shapes place karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w3-d15`,
+                    title: "Day 15: Data Visualization & Charts",
+                    icon: "bar-chart-3",
+                    toolName: "Bar & Line Tools",
+                    usageShort: "Bar charts aur data graphs draw karein.",
+                    steps: [
+                      "Axis lines banayein.",
+                      "Rectangles se bars draw karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w3-d16`,
+                    title: "Day 16: UI Wireframe / Diagram Cards",
+                    icon: "layout",
+                    toolName: "Rounded Rectangles",
+                    usageShort: "Card UI container layout design karein.",
+                    steps: [
+                      "Rounded Rectangle choose karein.",
+                      "Content grouping karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w3-d17`,
+                    title: "Day 17: Calligraphy & Header Banner",
+                    icon: "pen-tool",
+                    toolName: "Calligraphy Brushes",
+                    usageShort:
+                      "Title headers ke liye Calligraphy brush use karein.",
+                    steps: [
+                      "Brush type Calligraphy set karein.",
+                      "Main heading text write karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w3-d18`,
+                    title: "Day 18: Quality Alignment Pass",
+                    icon: "check-check",
+                    toolName: "Canvas Fit & Alignment",
+                    usageShort:
+                      "Canvas Fit button daba kar poora layout fit karein.",
+                    steps: [
+                      "Fit button click karein.",
+                      "Margins check karein.",
+                    ],
+                  },
+                ],
+              },
+              {
+                week: "Week 4: Term Capstone Project & Export",
+                days: [
+                  {
+                    id: `c${c}-w4-d19`,
+                    title: "Day 19: Capstone Poster/Diagram Assembly",
+                    icon: "pen-square",
+                    toolName: "All Workspace Tools",
+                    usageShort:
+                      "Class project ka final visual layout compile karein.",
+                    steps: ["All components combine karein."],
+                  },
+                  {
+                    id: `c${c}-w4-d20`,
+                    title: "Day 20: Fine Details & Touchups",
+                    icon: "sparkle",
+                    toolName: "Pencil & Eraser",
+                    usageShort:
+                      "Edges clean karein aur high-light strokes add karein.",
+                    steps: ["Unwanted dots erase karein."],
+                  },
+                  {
+                    id: `c${c}-w4-d21`,
+                    title: "Day 21: Auto-Save Shield State Check",
+                    icon: "shield-check",
+                    toolName: "Local Storage Vault",
+                    usageShort: "JSON state auto-save verify karein.",
+                    steps: ["Page refresh karke restore check karein."],
+                  },
+                  {
+                    id: `c${c}-w4-d22`,
+                    title: "Day 22: High-Resolution Clean Render",
+                    icon: "eye",
+                    toolName: "Clean Render Pass",
+                    usageShort:
+                      "Bounding frames remove karke final preview dekhein.",
+                    steps: ["Deselect all elements."],
+                  },
+                  {
+                    id: `c${c}-w4-d23`,
+                    title: "Day 23: Export HD PNG Image",
+                    icon: "download",
+                    toolName: "PNG Export Utility",
+                    usageShort:
+                      "High resolution PNG file system me download karein.",
+                    steps: [
+                      "Download PNG click karein.",
+                      "File verify karein.",
+                    ],
+                  },
+                  {
+                    id: `c${c}-w4-d24`,
+                    title: "Day 24: Submission & Presentation",
+                    icon: "award",
+                    toolName: "Presentation Mode",
+                    usageShort:
+                      "Project portfolio class presentation ke liye ready karein.",
+                    steps: ["Final PNG show karein."],
+                  },
+                ],
+              },
+            ],
+          };
+        }
+
+        return plans;
+      }
+
+      const classCurriculumData = generateCurriculumData();
+
+      // DOCUMENTATION FEATURE CONTENT HUB
       const documentationContentHub = {
         brush: {
           title: "Precision Brushes & Professional Eraser",
           badge: "Brushes Engine",
           color: "border-indigo-500",
           icon: "brush",
-          desc: "Allows students to trace vector lines and draw paths fluidly across the layer stack. Hand-drawn components automatic clean up standard Fabric.js rotation controllers by default to strictly avoid accidental skewing or uneven distortions.",
+          desc: "Allows students to trace vector lines and draw paths fluidly across the layer stack.",
           steps: [
             {
               t: "Pencil Tool",
-              d: "Renders solid line arrays using clean, structural square vector terminal caps.",
+              d: "Renders solid line arrays using clean, structural square caps.",
             },
             {
               t: "Standard Brush",
-              d: "Draws smooth organic paths utilizing perfectly circular terminal stroke edges.",
-            },
-            {
-              t: "Spray Paint Brush",
-              d: "Distributes dots randomly across drag vectors based on precise tracking parameters (Density: 35, Dot Width: 2.5).",
-            },
-            {
-              t: "Calligraphy Brushes",
-              d: "Creates elegant thin-to-thick cursive strokes using 2.2x and 1.6x multiplier angles.",
-            },
-            {
-              t: "Integrated Eraser",
-              d: "Maps the primary background layers locally with targeted pixel weights to cleanly wipe out custom line segments.",
+              d: "Draws smooth organic paths utilizing circular terminal stroke edges.",
             },
           ],
         },
@@ -328,19 +945,11 @@
           badge: "Typography Suite",
           color: "border-pink-500",
           icon: "type",
-          desc: "A highly intelligent, context-responsive rich text workspace area. To save valuable user monitor real estate, this operational zone automatically becomes visible *only* when a textbox element node is actively selected.",
+          desc: "Context-responsive rich text workspace area.",
           steps: [
             {
               t: "Google Fonts Integration",
-              d: "Features fun kids display options: Fredoka (Rounded Cute), Quicksand, Bangers (Comic Hero Style), and Spicy Rice, alongside classics like Arial and Comic Sans.",
-            },
-            {
-              t: "Typography Properties",
-              d: "Instantly adjust styling flags: Bold (B), Italic (I), Underline (U), and Line-Through (S) directly on target selections.",
-            },
-            {
-              t: "Auto-Fit Width Engine",
-              d: "Monitors real-time character input. If text values risk sudden unwanted word-wrapping, it expands the bounding width natively by +10px steps.",
+              d: "Features Fredoka, Quicksand, Bangers, and Spicy Rice fonts.",
             },
           ],
         },
@@ -349,15 +958,11 @@
           badge: "Scale Control",
           color: "border-cyan-500",
           icon: "sliders",
-          desc: "A singular, responsive thickness controller dropdown menu item that streamlines multi-tool property operations.",
+          desc: "Thickness controller dropdown menu item.",
           steps: [
             {
               t: "Smart Sizing Grid",
-              d: "Provides standard dimensions ranging through 2px, 4px, 6px, up to an expanded **128px** boundary for title blocks or bold paths.",
-            },
-            {
-              t: "Contextual Synchronization",
-              d: "Selecting any object on the canvas triggers an auto-sync routine. The dropdown immediately auto-selects and matches the exact value of the chosen vector element.",
+              d: "Provides dimensions from 2px up to 128px.",
             },
           ],
         },
@@ -366,19 +971,11 @@
           badge: "Color Engine",
           color: "border-emerald-500",
           icon: "paint-bucket",
-          desc: "Manages asset fills, custom paths, strokes, and background configurations instantly.",
+          desc: "Manages asset fills and background configurations.",
           steps: [
             {
-              t: "Preset Color Swatches",
-              d: "A bright array of 12 distinct kid-friendly preset colors, including primary tones, pure white, grayscale, and deep black.",
-            },
-            {
-              t: "Pipette Eyedropper API",
-              d: "Allows students to explore up to 16.7 million unique hex colors by loading native custom browser color pickers.",
-            },
-            {
               t: "Paint Bucket Mode",
-              d: "Fills target custom vector boundaries in one click, or updates the global background canvas sheet color seamlessly if clicked on an empty area.",
+              d: "Fills target custom vector boundaries in one click.",
             },
           ],
         },
@@ -387,130 +984,239 @@
           badge: "Vector Asset System",
           color: "border-amber-500",
           icon: "shapes",
-          desc: "Instantly builds crisp vector shapes on the canvas grid layer stack.",
+          desc: "Builds crisp vector shapes on the canvas grid.",
           steps: [
             {
               t: "Quick Drop Layouts",
-              d: "One-click deployment for standard geometric models: Straight Lines, Curves, Rectangles, Rounded Rectangles, Circles, and Equilateral Triangles.",
-            },
-            {
-              t: "Extended Asset Vault",
-              d: "Click the dropdown arrow to unlock premium vector shapes: Diamonds, Pentagons, Comic Stars, Direction Arrows, Hearts, and Lightning Bolts.",
-            },
-            {
-              t: "Outline Stroke Engine",
-              d: "Toggle vector styling parameters easily: choose solid or transparent fills, paired with Solid (──), Dashed (-- --), or Dotted (....) borders.",
+              d: "One-click deployment for Lines, Circles, Rectangles, Triangles.",
             },
           ],
         },
         clipboard: {
-          title: "Layer Clipboard & Context Menu Controls",
+          title: "Layer Clipboard Controls",
           badge: "Layer Management",
           color: "border-violet-500",
           icon: "clipboard",
-          desc: "Complete manipulation toolkit to control layer alignment hierarchies and perform clean duplication tasks.",
+          desc: "Cut, Copy, Paste, Delete layer management.",
           steps: [
             {
-              t: "Action Utilities",
-              d: "Includes dedicated, easily clickable buttons to instantly **Cut, Copy, Paste, or Delete** targeted elements.",
-            },
-            {
-              t: "Right-Click Context Menu",
-              d: "An intuitive custom popup panel that maps workspace click coordinates to deliver professional desktop functions right at your cursor position.",
-            },
-            {
-              t: "Smart Paste Spacing Offset",
-              d: "Every consecutive paste action automatically shifts the duplicate element down and right by **+25px** to prevent layers from stacking invisibly.",
-            },
-          ],
-        },
-        "image-tools": {
-          title: "Image Transformations & Imports",
-          badge: "Graphic Adjuster",
-          color: "border-orange-500",
-          icon: "image",
-          desc: "Allows students to import external visual graphic elements or modify current structural assets safely.",
-          steps: [
-            {
-              t: "Local Asset Upload",
-              d: "Supports standard drag-and-drop file inputs or input loader streams to place external images (`.png`, `.jpg`) right onto the center stage.",
-            },
-            {
-              t: "Axis Inversion (Mirroring)",
-              d: "Instantly mirrors selected assets along the Horizontal (X) or Vertical (Y) planes.",
-            },
-            {
-              t: "Proportional Scale Modals",
-              d: "Lets users input precise width/height percentage factors (e.g., 120%) to safely rescale dense raster graphics without losing proportion.",
+              t: "Clipboard Utilities",
+              d: "Instantly duplication and deletion tasks.",
             },
           ],
         },
         export: {
-          title: "High-Resolution PNG Export Utility",
+          title: "High-Resolution PNG Export",
           badge: "Export Engine",
           color: "border-teal-500",
           icon: "download",
-          desc: "High-fidelity asynchronous script pipeline engineered to download clean local image assets seamlessly.",
+          desc: "Download clean local image assets seamlessly.",
           steps: [
             {
               t: "Auto-Clean Pass",
-              d: "The engine instantly deselects active bounding frames and masks highlight boxes before compiling the drawing, ensuring a perfect export.",
-            },
-            {
-              t: "Temporal Zoom Correction",
-              d: "Temporarily recalibrates canvas zoom to exactly **1.0 (100%)** behind the scenes to lock the original high-resolution pixel dimensions during render export cycles.",
-            },
-            {
-              t: "Asynchronous Overlay",
-              d: "Displays a clean, animated progress shield overlay for 2 seconds to manage background system export pipelines safely.",
-            },
-          ],
-        },
-        autosave: {
-          title: "Auto-Save System & State Protection Shield",
-          badge: "Data Shield",
-          color: "border-red-500",
-          icon: "shield-check",
-          desc: "A completely background, fail-safe background engine designed to secure artwork files from data loss.",
-          steps: [
-            {
-              t: "JSON Serialization",
-              d: "Converts complex canvas elements, vectors, paths, and positions into string-based JSON snapshot arrays automatically.",
-            },
-            {
-              t: "Local Storage Vault",
-              d: "Saves current workspace assets, window target scale bounds, and active history step numbers straight into browser memory.",
-            },
-            {
-              t: "Crash Restoration Loop",
-              d: "Detects unexpected page reloads or tab closures, re-mapping data records onto canvas layers instantly so students never lose progress.",
-            },
-          ],
-        },
-        shortcuts: {
-          title: "Production Hotkeys & Workspace View Utilities",
-          badge: "Speed Utilities",
-          color: "border-slate-700",
-          icon: "keyboard",
-          desc: "Advanced workflow combinations designed to simplify canvas navigation for power users.",
-          steps: [
-            {
-              t: "Classic Commands Matrix",
-              d: "Full support for standard hotkeys: `Ctrl+Z` (Undo), `Ctrl+Y` (Redo), `Ctrl+C` (Copy), `Ctrl+V` (Paste), `Ctrl+X` (Cut), and `Delete/Backspace` to clear items.",
-            },
-            {
-              t: "Fine Nudging Matrix",
-              d: "Pressing the standard Arrow Keys shifts targeted objects by a micro-step of exactly **2px**. Holding down `Shift + Arrow Keys` triggers a larger **20px** shift.",
-            },
-            {
-              t: "Responsive Zooming Suite",
-              d: "Use the custom footer toolbar slider to zoom seamlessly from 10% to 200%. Click the **Fit Button** to auto-center layouts and optimize viewing angles instantly.",
+              d: "Deselects active bounding frames before export.",
             },
           ],
         },
       };
 
-      // INTERACTIVE MOBILE MENU TOGGLE SYSTEM
+      // POPULATE DROPDOWN WITH RESPONSIVE TEXT FOR MOBILE & DESKTOP
+      function populateClassDropdown() {
+        const select = document.getElementById("class-select");
+        const isMobile = window.innerWidth < 640;
+        let html = "";
+        for (let i = 1; i <= 12; i++) {
+          const label = isMobile ? `Class ${i}` : `CBSE Class ${i} Lesson Plan`;
+          html += `<option value="${i}" class="bg-indigo-900 text-white font-bold">${label}</option>`;
+        }
+        select.innerHTML = html;
+        select.value = currentSelectedClass;
+      }
+
+      function selectClassFromDropdown(val) {
+        currentSelectedClass = parseInt(val);
+        switchViewMode("curriculum");
+      }
+
+      // TOGGLE ACCORDION FOR DAYS
+      function toggleAccordion(dayId) {
+        const content = document.getElementById(`content-${dayId}`);
+        const icon = document.getElementById(`chevron-${dayId}`);
+
+        if (content.classList.contains("hidden")) {
+          content.classList.remove("hidden");
+          if (icon) icon.style.transform = "rotate(180deg)";
+        } else {
+          content.classList.add("hidden");
+          if (icon) icon.style.transform = "rotate(0deg)";
+        }
+      }
+
+      // RENDER CURRICULUM VIEW WITH EXPANDABLE ACCORDIONS
+      function renderCurriculum() {
+        const classData = classCurriculumData[currentSelectedClass];
+        const detailsBox = document.getElementById("details-box");
+
+        let weeksHTML = "";
+        classData.weeks.forEach((w) => {
+          let daysHTML = "";
+          w.days.forEach((day) => {
+            let stepsList = "";
+            if (day.steps) {
+              day.steps.forEach((s, idx) => {
+                stepsList += `<li class="flex items-start gap-2 text-xs text-slate-600"><span class="font-bold text-indigo-600">${idx + 1}.</span> ${s}</li>`;
+              });
+            }
+
+            daysHTML += `
+              <div class="border border-slate-200 rounded-xl overflow-hidden bg-white transition-all shadow-2xs">
+                <!-- ACCORDION HEADER (CLICK TO EXPAND / COLLAPSE) -->
+                <button
+                  onclick="toggleAccordion('${day.id}')"
+                  class="w-full flex items-center justify-between p-3 bg-slate-50 hover:bg-indigo-50/60 transition-all cursor-pointer text-left"
+                >
+                  <div class="flex items-center gap-3">
+                    <div class="p-2 bg-indigo-100 text-indigo-700 rounded-lg shrink-0">
+                      <i data-lucide="${day.icon}" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <h5 class="font-bold text-slate-800 text-xs md:text-sm kids-card-title">${day.title}</h5>
+                      <p class="text-[11px] text-indigo-600 font-semibold">Tool: ${day.toolName}</p>
+                    </div>
+                  </div>
+                  <i data-lucide="chevron-down" id="chevron-${day.id}" class="w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0"></i>
+                </button>
+
+                <!-- ACCORDION COLLAPSIBLE CONTENT -->
+                <div id="content-${day.id}" class="hidden p-4 border-t border-slate-100 bg-white space-y-3">
+                  <div class="bg-amber-50 border-l-4 border-amber-400 p-2.5 rounded-r-lg">
+                    <h6 class="text-[10px] font-black uppercase text-amber-800 tracking-wider">💡 Tool Answer / Quick Usage:</h6>
+                    <p class="text-xs text-amber-900 font-medium mt-0.5">${day.usageShort}</p>
+                  </div>
+
+                  <div>
+                    <h6 class="text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">🛠️ How To Perform (Step-by-Step):</h6>
+                    <ul class="space-y-1">
+                      ${stepsList}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+
+          weeksHTML += `
+            <div class="space-y-2 bg-slate-50/50 p-4 rounded-2xl border border-slate-200">
+              <h4 class="font-bold text-indigo-900 text-xs md:text-sm kids-card-title flex items-center gap-2 mb-3">
+                <i data-lucide="calendar" class="w-4 h-4 text-indigo-600"></i> ${w.week}
+              </h4>
+              <div class="space-y-2">
+                ${daysHTML}
+              </div>
+            </div>
+          `;
+        });
+
+        detailsBox.innerHTML = `
+          <div class="space-y-5 border-l-4 md:border-l-8 border-indigo-600 pl-3 md:pl-5 transition-all">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-black text-[10px] uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="book-marked" class="w-3.5 h-3.5"></i> CBSE NEP 2020 Aligned
+              </span>
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">30-Day Daily Plan</span>
+            </div>
+
+            <div>
+              <h2 class="text-xl md:text-3xl font-black text-slate-800 kids-card-title">${classData.title}</h2>
+              <p class="text-xs md:text-sm text-slate-600 font-medium mt-1"><strong class="text-indigo-900">NEP Focus:</strong> ${classData.focus}</p>
+            </div>
+
+            <div class="h-[1px] bg-slate-200 my-2"></div>
+
+            <div class="space-y-4">
+              ${weeksHTML}
+            </div>
+          </div>
+        `;
+
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+      }
+
+      // SHOW FEATURE DETAILS FROM SIDEBAR MANUAL
+      function showFeatureDetails(featureKey) {
+        activeView = "feature";
+        document
+          .querySelectorAll(".sidebar-item")
+          .forEach((el) => el.classList.remove("active"));
+        const itemBtn = document.getElementById(`item-${featureKey}`);
+        if (itemBtn) itemBtn.classList.add("active");
+
+        if (window.innerWidth < 1024) {
+          toggleMobileMenu();
+        }
+
+        const data = documentationContentHub[featureKey];
+        if (!data) return;
+
+        const detailsBox = document.getElementById("details-box");
+
+        let stepsHTML = "";
+        data.steps.forEach((step, index) => {
+          stepsHTML += `
+            <div class="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100 shadow-inner">
+              <div class="w-5 h-5 shrink-0 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
+                ${index + 1}
+              </div>
+              <div class="space-y-0.5">
+                <h4 class="font-bold text-slate-800 text-xs md:text-sm kids-card-title">${step.t}</h4>
+                <p class="text-slate-600 text-xs leading-relaxed">${step.d}</p>
+              </div>
+            </div>
+          `;
+        });
+
+        detailsBox.innerHTML = `
+          <div class="space-y-4 border-l-4 md:border-l-8 ${data.color} pl-3 md:pl-4 transition-all">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="inline-flex items-center gap-2 bg-slate-100 px-2.5 py-1 rounded-full text-slate-600 font-bold text-[10px] uppercase tracking-wider">
+                <i data-lucide="${data.icon}" class="w-3.5 h-3.5 text-indigo-500"></i> ${data.badge}
+              </div>
+              <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tool Specification Manual</span>
+            </div>
+            
+            <h2 class="text-xl md:text-3xl font-black text-slate-800 kids-card-title">${data.title}</h2>
+            <p class="text-slate-600 text-xs md:text-sm leading-relaxed font-medium">${data.desc}</p>
+            
+            <div class="h-[1px] bg-slate-200 my-2"></div>
+            
+            <h3 class="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest mb-2">🛠️ Operational Breakdown</h3>
+            <div class="space-y-3">
+              ${stepsHTML}
+            </div>
+          </div>
+        `;
+
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+      }
+
+      // SWITCH VIEW MODE
+      function switchViewMode(mode) {
+        activeView = mode;
+        if (mode === "curriculum") {
+          document
+            .querySelectorAll(".sidebar-item")
+            .forEach((el) => el.classList.remove("active"));
+          const currBtn = document.getElementById("item-curriculum-view");
+          if (currBtn) currBtn.classList.add("active");
+          renderCurriculum();
+        }
+      }
+
+      // MOBILE SIDEBAR MENU TOGGLE
       function toggleMobileMenu() {
         const drawer = document.getElementById("sidebar-drawer");
         const overlay = document.getElementById("sidebar-overlay");
@@ -530,66 +1236,7 @@
         }
       }
 
-      // GENERATE DETAILED HOW-TO GUIDE PANELS
-      function showFeatureDetails(featureKey) {
-        const data = documentationContentHub[featureKey];
-        if (!data) return;
-
-        // Sync Selection UI
-        document
-          .querySelectorAll(".sidebar-item")
-          .forEach((el) => el.classList.remove("active"));
-        document.getElementById(`item-${featureKey}`).classList.add("active");
-
-        // Close Mobile Menu automatically upon selection
-        if (window.innerWidth < 1024) {
-          toggleMobileMenu();
-        }
-
-        const detailsBox = document.getElementById("details-box");
-
-        let stepsHTML = "";
-        data.steps.forEach((step, index) => {
-          stepsHTML += `
-            <div class="flex items-start gap-3 md:gap-4 bg-slate-50 p-3 md:p-4 rounded-xl border border-slate-100 shadow-inner">
-              <div class="w-5 h-5 md:w-6 md:h-6 shrink-0 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
-                ${index + 1}
-              </div>
-              <div class="space-y-0.5">
-                <h4 class="font-bold text-slate-800 text-xs md:text-sm kids-card-title">${step.t}</h4>
-                <p class="text-slate-600 text-[11px] md:text-xs leading-relaxed">${step.d}</p>
-              </div>
-            </div>
-          `;
-        });
-
-        detailsBox.innerHTML = `
-          <div class="space-y-4 md:space-y-6 border-l-4 md:border-l-8 ${data.color} pl-3 md:pl-4 transition-all duration-300">
-            <div class="flex items-center justify-between flex-wrap gap-2">
-              <div class="inline-flex items-center gap-2 bg-slate-100 px-2.5 py-1 rounded-full text-slate-600 font-bold text-[9px] md:text-[10px] uppercase tracking-wider">
-                <i data-lucide="${data.icon}" class="w-3.5 h-3.5 text-indigo-500"></i> ${data.badge}
-              </div>
-              <span class="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Manual Layer</span>
-            </div>
-            
-            <h2 class="text-xl md:text-3xl font-black text-slate-800 kids-card-title">${data.title}</h2>
-            <p class="text-slate-600 text-xs md:text-sm leading-relaxed font-medium">${data.desc}</p>
-            
-            <div class="h-[1px] bg-slate-200 my-2 md:my-4"></div>
-            
-            <h3 class="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest mb-2">🛠️ Operational Breakdown & Features List</h3>
-            <div class="space-y-3">
-              ${stepsHTML}
-            </div>
-          </div>
-        `;
-
-        if (typeof lucide !== "undefined") {
-          lucide.createIcons();
-        }
-      }
-
-      // SIDEBAR FILTER SEARCH
+      // SIDEBAR SEARCH FILTER
       function searchSidebarFeatures() {
         const query = document
           .getElementById("sidebar-search")
@@ -599,7 +1246,9 @@
         const headers = document.querySelectorAll(".section-header");
 
         items.forEach((item) => {
-          const keywords = item.getAttribute("data-keywords").toLowerCase();
+          const keywords = item.getAttribute("data-keywords")
+            ? item.getAttribute("data-keywords").toLowerCase()
+            : "";
           const textContent = item.textContent.toLowerCase();
           if (
             query === "" ||
@@ -627,11 +1276,11 @@
         });
       }
 
+      window.addEventListener("resize", populateClassDropdown);
+
       window.onload = () => {
-        if (typeof lucide !== "undefined") {
-          lucide.createIcons();
-        }
-        showFeatureDetails("brush");
+        populateClassDropdown();
+        switchViewMode("curriculum");
       };
     </script>
   </body>
