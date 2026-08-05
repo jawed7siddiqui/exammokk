@@ -1518,6 +1518,40 @@
         });
       };
 
+      let currentTemplateMeta = {
+        id: "default-canvas",
+        title: "Blank Canvas",
+        category: "General",
+        defaultTool: "select", // (Array ki jagah string better hai agar aap ek tool active kar rahe hain)
+        label: "Free Drawing",
+      };
+
+      // 🛠️ 2. Helper to Update Template Metadata (Template Switch ke waqt use karein)
+      function setTemplateMeta(metaData = {}) {
+        currentTemplateMeta = {
+          id: metaData.id || "default-canvas",
+          title: metaData.title || "Blank Canvas",
+          category: metaData.category || "General",
+          defaultTool: metaData.defaultTool || "select",
+          label: metaData.label || "Free Drawing",
+        };
+      }
+
+      // 🛠️ 3. Fabric.js toJSON Method Override: Root Level Metadata Binding
+      const originalCanvasToJSON = fabric.Canvas.prototype.toJSON;
+      fabric.Canvas.prototype.toJSON = function (propertiesToInclude) {
+        const json = originalCanvasToJSON.call(this, propertiesToInclude);
+
+        // Top-level properties binding (background ke sath)
+        json.id = currentTemplateMeta.id;
+        json.title = currentTemplateMeta.title;
+        json.category = currentTemplateMeta.category;
+        json.defaultTool = currentTemplateMeta.defaultTool;
+        json.label = currentTemplateMeta.label;
+
+        return json;
+      };
+
       const baseDefaultObjectProps = {
         transparentCorners: false,
         cornerColor: "#ffffff",

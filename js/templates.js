@@ -2109,6 +2109,15 @@ function loadTemplateById(templateId) {
   const template = TEMPLATES_DATABASE.find((t) => t.id === templateId);
   if (!template) return;
 
+  if (typeof setTemplateMeta === "function") {
+    setTemplateMeta({
+      id: template.id,
+      title: template.title || template.label || "Untitled Template",
+      category: template.category || "General",
+      defaultTool: template.defaultTool || "select",
+      label: template.label || "Template",
+    });
+  }
   clearCanvasForTemplate();
   drawHeaderInstructionBlock(template.title, template.themeColor);
 
