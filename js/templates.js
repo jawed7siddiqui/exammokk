@@ -7,55 +7,991 @@
 const TEMPLATES_DATABASE = [
   // ==================== 💻 DESKTOP / WEB TEMPLATES ====================
   {
-    id: "tracing_abc",
-    title: "✨ Trace over the Alphabet with your Brush!",
-    category: "tracing",
+    id: "mouse_skill_color_fill_star",
+    board: "CBSE",
+    classGrade: "1",
+    subject: "Computer Science",
+    chapterNo: 1,
+    chapterName: "Mouse Skills",
+    topic: "Mouse Control & Color Fill",
+    learningObjective:
+      "Students will practice mouse control by selecting the bucket tool and filling color into the star.",
+    bloomsTaxonomyLevel: "Apply",
+    title: "🖱️ Mouse Control: Fill Color in the Star with Bucket Tool!",
+    category: "coloring",
     deviceType: "web",
-    themeColor: "#4f46e5",
-    icon: "A B C",
-    label: "Alphabet",
-    defaultTool: "brush",
+    themeColor: "#eab308",
+    icon: "⭐",
+    label: "Mouse Control Fill",
+    defaultTool: "bucket",
     initGrid: false,
+    correctAnswers: [
+      {
+        target: "GLOWING_STAR",
+      },
+    ],
     objects: [
       {
-        type: "text",
-        text: "A  B  C",
+        type: "path",
+        path: "M 0 -85 L 26 -26 L 89 -26 L 39 13 L 58 76 L 0 37 L -58 76 L -39 13 L -89 -26 L -26 -26 Z",
         props: {
-          fontSize: 180,
-          fontFamily: "Fredoka",
-          fontWeight: "bold",
-          fill: "transparent",
-          stroke: "#cbd5e1",
-          strokeWidth: 6,
-          strokeDashArray: [12, 10],
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 5,
           left: 576,
-          top: 380,
+          top: 300,
           originX: "center",
           originY: "center",
-          role: "background_art",
-          selectable: false,
-          hasControls: false,
-          hasBorders: false,
+          role: "color_segment",
+          selectable: true,
         },
       },
     ],
   },
   {
-    id: "comp_class3_connect_parts",
+    // 🏫 ROOT LEVEL METADATA & TITLES ONLY
+    id: "comp_class1_smart_machine",
+    board: "CBSE",
+    classGrade: "1",
+    subject: "Computer Science",
+    chapterNo: 1,
+    chapterName: "Computer - A Smart Machine",
+    topic: "Identifying Smart Machines vs Manual/Non-Smart Devices",
+    learningObjective:
+      "Students will differentiate between smart electronic machines and manual non-smart devices.",
+    bloomsTaxonomyLevel: "Remember & Identify",
+
+    // 🎨 WORKSHEET CONFIGURATION
     title:
-      "✏️ Connect Parts: Draw lines to match Computer Parts with their Names!",
-    category: "math", // 'math' category taaki "Check Answer" 🚀 button visible rahe
+      "✏️ Smart Machine Hunt: Connect ONLY Smart Machines to the Computer!",
+    category: "math",
     deviceType: "web",
-    themeColor: "#4f46e5",
-    icon: "🔌 🖥️",
-    label: "Match Parts",
+    themeColor: "#06b6d4",
+    icon: "🖥️ ⚡",
+    label: "Smart Machines",
     defaultTool: "pen",
     initGrid: false,
+
+    // 🎯 EVALUATION CONFIG (3 Correct Smart Devices)
     correctAnswers: [
-      { leftText: "MONITOR", rightText: "MONITOR" },
-      { leftText: "CPU CABINET", rightText: "CPU CABINET" },
-      { leftText: "KEYBOARD", rightText: "KEYBOARD" },
-      { leftText: "MOUSE", rightText: "MOUSE" },
+      { leftText: "SMARTPHONE", rightText: "COMPUTER" },
+      { leftText: "WALL CLOCK", rightText: "COMPUTER" },
+      { leftText: "SMART TV", rightText: "COMPUTER" },
+    ],
+
+    // 🖼️ CANVAS OBJECTS
+    objects: [
+      // ==========================================
+      // 🖥️ CENTER TARGET: DESKTOP MONITOR ONLY
+      // ==========================================
+      // Monitor Display Bezel
+      {
+        type: "rect",
+        props: {
+          width: 170,
+          height: 110,
+          fill: "#0f172a",
+          stroke: "#334155",
+          strokeWidth: 4,
+          rx: 10,
+          ry: 10,
+          left: 576,
+          top: 250,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Screen Glass
+      {
+        type: "rect",
+        props: {
+          width: 154,
+          height: 94,
+          fill: "#38bdf8",
+          rx: 4,
+          ry: 4,
+          left: 576,
+          top: 250,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Monitor Neck/Stand
+      {
+        type: "rect",
+        props: {
+          width: 28,
+          height: 35,
+          fill: "#64748b",
+          left: 576,
+          top: 315,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Monitor Base Plate
+      {
+        type: "rect",
+        props: {
+          width: 90,
+          height: 12,
+          fill: "#334155",
+          rx: 5,
+          ry: 5,
+          left: 576,
+          top: 335,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+
+      // ==========================================
+      // 📱 ITEM 1: SMARTPHONE (LEFT TOP)
+      // ==========================================
+      {
+        type: "rect",
+        props: {
+          width: 65,
+          height: 120,
+          fill: "#020617",
+          stroke: "#64748b",
+          strokeWidth: 3,
+          rx: 12,
+          ry: 12,
+          left: 200,
+          top: 180,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          width: 57,
+          height: 104,
+          fill: "#818cf8",
+          rx: 8,
+          ry: 8,
+          left: 200,
+          top: 180,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      {
+        type: "circle",
+        props: {
+          radius: 3,
+          fill: "#020617",
+          left: 200,
+          top: 134,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+
+      // ==========================================
+      // 🕒 ITEM 2: ANALOG WALL CLOCK (LEFT BOTTOM)
+      // ==========================================
+      // Clock Outer Bezel Ring
+      {
+        type: "circle",
+        props: {
+          radius: 45,
+          fill: "#f8fafc",
+          stroke: "#0f172a",
+          strokeWidth: 5,
+          left: 200,
+          top: 450,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Clock Inner Face Rim
+      {
+        type: "circle",
+        props: {
+          radius: 40,
+          fill: "#ffffff",
+          stroke: "#cbd5e1",
+          strokeWidth: 2,
+          left: 200,
+          top: 450,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Clock Center Pivot Pin
+      {
+        type: "circle",
+        props: {
+          radius: 4,
+          fill: "#dc2626",
+          left: 200,
+          top: 450,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Hour Hand (Short Line pointing to 3 o'clock)
+      {
+        type: "line",
+        coords: [200, 450, 222, 450],
+        props: {
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          strokeLineCap: "round",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Minute Hand (Long Line pointing to 12 o'clock)
+      {
+        type: "line",
+        coords: [200, 450, 200, 420],
+        props: {
+          stroke: "#0f172a",
+          strokeWidth: 3,
+          strokeLineCap: "round",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Second Hand (Thin Red Needle)
+      {
+        type: "line",
+        coords: [200, 450, 182, 470],
+        props: {
+          stroke: "#dc2626",
+          strokeWidth: 2,
+          role: "background_art",
+          selectable: false,
+        },
+      },
+
+      // ==========================================
+      // 📺 ITEM 3: SMART TV (RIGHT TOP)
+      // ==========================================
+      {
+        type: "rect",
+        props: {
+          width: 150,
+          height: 90,
+          fill: "#090d16",
+          stroke: "#475569",
+          strokeWidth: 3,
+          rx: 4,
+          ry: 4,
+          left: 950,
+          top: 180,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          width: 142,
+          height: 82,
+          fill: "#a855f7",
+          left: 950,
+          top: 180,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      {
+        type: "line",
+        coords: [910, 225, 900, 240],
+        props: {
+          stroke: "#334155",
+          strokeWidth: 4,
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      {
+        type: "line",
+        coords: [990, 225, 1000, 240],
+        props: {
+          stroke: "#334155",
+          strokeWidth: 4,
+          role: "background_art",
+          selectable: false,
+        },
+      },
+
+      // ==========================================
+      // 🪑 ITEM 4: WOODEN CHAIR (RIGHT BOTTOM - WRONG OPTION)
+      // ==========================================
+      {
+        type: "rect",
+        props: {
+          width: 70,
+          height: 45,
+          fill: "#854d0e",
+          stroke: "#451a03",
+          strokeWidth: 3,
+          rx: 4,
+          ry: 4,
+          left: 950,
+          top: 410,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          width: 80,
+          height: 14,
+          fill: "#a16207",
+          stroke: "#451a03",
+          strokeWidth: 2,
+          rx: 2,
+          ry: 2,
+          left: 950,
+          top: 442,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          width: 10,
+          height: 45,
+          fill: "#713f12",
+          left: 918,
+          top: 472,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          width: 10,
+          height: 45,
+          fill: "#713f12",
+          left: 982,
+          top: 472,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+    ],
+  },
+  {
+    id: "art_class1_color_fill_human_body_large",
+    board: "CBSE",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
+    chapterName: "Human Figure Coloring",
+    topic: "Color Fill in Human Body Parts",
+    learningObjective:
+      "Students will use the fill bucket tool to color large detailed human body parts in Art class.",
+    bloomsTaxonomyLevel: "Remember & Apply",
+    title:
+      "🎨 Art Fun: Fill Bright Colors in Hair, Eyes, Lips, Clothes & Shoes!",
+    category: "coloring",
+    deviceType: "web",
+    themeColor: "#ec4899",
+    icon: "🎨 🧍",
+    label: "Human Figure Art",
+    defaultTool: "bucket",
+    initGrid: false,
+    correctAnswers: [
+      { target: "HAIR" },
+      { target: "FACE" },
+      { target: "EYES" },
+      { target: "LIPS" },
+      { target: "SHIRT" },
+      { target: "HANDS" },
+      { target: "PANTS" },
+      { target: "SHOES" },
+    ],
+    objects: [
+      // ==========================================
+      // 1. HAIR (TOP OF HEAD) (+20px Shift)
+      // ==========================================
+      {
+        type: "polygon",
+        points: [
+          { x: -80, y: 0 },
+          { x: -50, y: -55 },
+          { x: 0, y: -70 },
+          { x: 50, y: -55 },
+          { x: 80, y: 0 },
+          { x: 40, y: -25 },
+          { x: 0, y: -15 },
+          { x: -40, y: -25 },
+        ],
+        props: {
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 5,
+          left: 576,
+          top: 120,
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 2. FACE (SKIN SEGMENT) (+20px Shift)
+      // ==========================================
+      {
+        type: "circle",
+        props: {
+          radius: 70,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 5,
+          left: 576,
+          top: 175,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 3. EYES (LEFT & RIGHT) (+20px Shift)
+      // ==========================================
+      {
+        type: "circle",
+        props: {
+          radius: 14,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 3.5,
+          left: 548,
+          top: 160,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+      {
+        type: "circle",
+        props: {
+          radius: 14,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 3.5,
+          left: 604,
+          top: 160,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 4. LIPS / MOUTH (+20px Shift)
+      // ==========================================
+      {
+        type: "polygon",
+        points: [
+          { x: -25, y: 0 },
+          { x: 0, y: -8 },
+          { x: 25, y: 0 },
+          { x: 0, y: 16 },
+        ],
+        props: {
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 3.5,
+          left: 576,
+          top: 205,
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 5. T-SHIRT (+20px Shift)
+      // ==========================================
+      {
+        type: "rect",
+        props: {
+          width: 140,
+          height: 140,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 5,
+          rx: 16,
+          ry: 16,
+          left: 576,
+          top: 320,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 6. HANDS / ARMS (+20px Shift)
+      // ==========================================
+      {
+        type: "rect",
+        props: {
+          width: 38,
+          height: 115,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          rx: 14,
+          ry: 14,
+          left: 476,
+          top: 325,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          width: 38,
+          height: 115,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          rx: 14,
+          ry: 14,
+          left: 676,
+          top: 325,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 7. PANTS / LEGS (+20px Shift)
+      // ==========================================
+      {
+        type: "rect",
+        props: {
+          width: 50,
+          height: 130,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 5,
+          rx: 10,
+          ry: 10,
+          left: 541,
+          top: 465,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          width: 50,
+          height: 130,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 5,
+          rx: 10,
+          ry: 10,
+          left: 611,
+          top: 465,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 8. SHOES (+20px Shift)
+      // ==========================================
+      {
+        type: "rect",
+        props: {
+          width: 65,
+          height: 32,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          rx: 12,
+          ry: 12,
+          left: 533,
+          top: 546,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          width: 65,
+          height: 32,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          rx: 12,
+          ry: 12,
+          left: 619,
+          top: 546,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+    ],
+  },
+
+  {
+    id: "art_class1_color_fill_human_body_mobile_648x800",
+    board: "CBSE",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
+    chapterName: "Human Figure Coloring",
+    topic: "Color Fill in Human Body Parts",
+    learningObjective:
+      "Students will use the fill bucket tool to color human body parts.",
+    bloomsTaxonomyLevel: "Remember & Apply",
+    title: "🎨 Art Fun: Fill Bright Colors in Hair, Eyes, Lips & Clothes!",
+    category: "coloring",
+    deviceType: "mobile",
+    themeColor: "#ec4899",
+    icon: "🎨 🧍",
+    label: "Human Figure Art",
+    defaultTool: "bucket",
+    initGrid: false,
+    correctAnswers: [
+      { target: "HAIR" },
+      { target: "FACE" },
+      { target: "EYES" },
+      { target: "LIPS" },
+      { target: "SHIRT" },
+      { target: "HANDS" },
+      { target: "PANTS" },
+      { target: "SHOES" },
+    ],
+    objects: [
+      // ==========================================
+      // 1. HAIR (TOP OF HEAD) (+40px Shift)
+      // ==========================================
+      {
+        type: "polygon",
+        points: [
+          { x: -95, y: 0 },
+          { x: -60, y: -65 },
+          { x: 0, y: -82 },
+          { x: 60, y: -65 },
+          { x: 95, y: 0 },
+          { x: 48, y: -30 },
+          { x: 0, y: -18 },
+          { x: -48, y: -30 },
+        ],
+        props: {
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 5,
+          left: 324,
+          top: 175,
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 2. FACE (SKIN SEGMENT) (+40px Shift)
+      // ==========================================
+      {
+        type: "circle",
+        props: {
+          radius: 82,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 5,
+          left: 324,
+          top: 245,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 3. EYES (LEFT & RIGHT) (+40px Shift)
+      // ==========================================
+      {
+        type: "circle",
+        props: {
+          radius: 17,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          left: 290,
+          top: 230,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+      {
+        type: "circle",
+        props: {
+          radius: 17,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          left: 358,
+          top: 230,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 4. LIPS / MOUTH (+40px Shift)
+      // ==========================================
+      {
+        type: "polygon",
+        points: [
+          { x: -30, y: 0 },
+          { x: 0, y: -10 },
+          { x: 30, y: 0 },
+          { x: 0, y: 20 },
+        ],
+        props: {
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          left: 324,
+          top: 282,
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 5. T-SHIRT (TORSO) (+40px Shift)
+      // ==========================================
+      {
+        type: "rect",
+        props: {
+          width: 175,
+          height: 175,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 5,
+          rx: 18,
+          ry: 18,
+          left: 324,
+          top: 415,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 6. HANDS / ARMS (+40px Shift)
+      // ==========================================
+      {
+        type: "rect",
+        props: {
+          width: 48,
+          height: 140,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          rx: 16,
+          ry: 16,
+          left: 202,
+          top: 420,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          width: 48,
+          height: 140,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          rx: 16,
+          ry: 16,
+          left: 446,
+          top: 420,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 7. PANTS / LEGS (+40px Shift)
+      // ==========================================
+      {
+        type: "rect",
+        props: {
+          width: 65,
+          height: 160,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 5,
+          rx: 12,
+          ry: 12,
+          left: 283,
+          top: 590,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          width: 65,
+          height: 160,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 5,
+          rx: 12,
+          ry: 12,
+          left: 365,
+          top: 590,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+
+      // ==========================================
+      // 8. SHOES (+40px Shift)
+      // ==========================================
+      {
+        type: "rect",
+        props: {
+          width: 82,
+          height: 42,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          rx: 14,
+          ry: 14,
+          left: 274,
+          top: 688,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          width: 82,
+          height: 42,
+          fill: "#ffffff",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          rx: 14,
+          ry: 14,
+          left: 374,
+          top: 688,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+    ],
+  },
+  {
+    id: "comp_class1_parts_of_computer",
+    board: "CBSE",
+    classGrade: "1",
+    subject: "Computer Science",
+    chapterNo: 2,
+    chapterName: "Parts of a Computer",
+    topic: "Identifying Main Parts of a Computer System",
+    learningObjective:
+      "Students will identify the main physical parts of a computer (Monitor, Keyboard, Mouse) and distinguish them from non-computer items.",
+    bloomsTaxonomyLevel: "Remember & Identify",
+
+    // 🎨 WORKSHEET CONFIGURATION
+    title:
+      "✏️ Computer Parts Hunt: Connect ONLY Computer Parts to the Central Computer!",
+    category: "math",
+    deviceType: "web",
+    themeColor: "#8b5cf6",
+    icon: "⌨️ 🖱️",
+    label: "Computer Parts",
+    defaultTool: "pen",
+    initGrid: false,
+
+    // 🎯 EVALUATION CONFIG (3 Correct Computer Parts)
+    correctAnswers: [
+      { leftText: "MONITOR", rightText: "COMPUTER" },
+      { leftText: "KEYBOARD", rightText: "COMPUTER" },
+      { leftText: "MOUSE", rightText: "COMPUTER" },
     ],
     objects: [
       // --- LEFT COLUMN: COMPUTER PARTS (Shifted Further Down) ---
@@ -270,6 +1206,576 @@ const TEMPLATES_DATABASE = [
       },
     ],
   },
+  {
+    id: "comp_class1_find_input_devices_tick6",
+    board: "CBSE",
+    classGrade: "1",
+    subject: "Computer Science",
+    chapterNo: 2,
+    chapterName: "Input and Output Devices",
+    topic: "Find Input Devices",
+    learningObjective:
+      "Students will find and tick input devices like keyboard, mouse, microphone, scanner, joystick, and webcam.",
+    bloomsTaxonomyLevel: "Identify & Apply",
+    title: "✅ Tick Hunt: Find and Tick (✔) all the Input Devices!",
+    category: "activity",
+    deviceType: "web",
+    themeColor: "#3b82f6",
+    icon: "⌨️ 🖱️ 🎤 📷",
+    label: "Input Tick Hunt",
+    defaultTool: "pen",
+    initGrid: false,
+    correctAnswers: [
+      { target: "KEYBOARD" },
+      { target: "MOUSE" },
+      { target: "MICROPHONE" },
+      { target: "SCANNER" },
+      { target: "JOYSTICK" },
+      { target: "WEBCAM" },
+    ],
+    objects: [
+      // --- ROW 1 (TOP) ---
+      // ITEM 1: KEYBOARD
+      {
+        type: "text",
+        props: {
+          text: "⌨️",
+          fontSize: 80,
+          left: 384,
+          top: 220,
+          originX: "center",
+          originY: "center",
+          role: "icon_art",
+          selectable: false,
+        },
+      },
+      // ITEM 2: MOUSE
+      {
+        type: "text",
+        props: {
+          text: "🖱️",
+          fontSize: 80,
+          left: 576,
+          top: 220,
+          originX: "center",
+          originY: "center",
+          role: "icon_art",
+          selectable: false,
+        },
+      },
+      // ITEM 3: MICROPHONE
+      {
+        type: "text",
+        props: {
+          text: "🎤",
+          fontSize: 80,
+          left: 768,
+          top: 220,
+          originX: "center",
+          originY: "center",
+          role: "icon_art",
+          selectable: false,
+        },
+      },
+
+      // --- ROW 2 (BOTTOM) ---
+      // ITEM 4: SCANNER
+      {
+        type: "text",
+        props: {
+          text: "📠",
+          fontSize: 80,
+          left: 384,
+          top: 420,
+          originX: "center",
+          originY: "center",
+          role: "icon_art",
+          selectable: false,
+        },
+      },
+      // ITEM 5: JOYSTICK
+      {
+        type: "text",
+        props: {
+          text: "🕹️",
+          fontSize: 80,
+          left: 576,
+          top: 420,
+          originX: "center",
+          originY: "center",
+          role: "icon_art",
+          selectable: false,
+        },
+      },
+      // ITEM 6: WEBCAM
+      {
+        type: "text",
+        props: {
+          text: "📷",
+          fontSize: 80,
+          left: 768,
+          top: 420,
+          originX: "center",
+          originY: "center",
+          role: "icon_art",
+          selectable: false,
+        },
+      },
+    ],
+  },
+  {
+    id: "comp_class1_find_output_devices_tick6",
+    board: "CBSE",
+    classGrade: "1",
+    subject: "Computer Science",
+    chapterNo: 2,
+    chapterName: "Input and Output Devices",
+    topic: "Find Output Devices",
+    learningObjective:
+      "Students will identify and tick output devices like monitor, printer, speaker, and headphones.",
+    bloomsTaxonomyLevel: "Identify & Apply",
+    title: "✅ Tick Hunt: Find and Tick (✔) all the Output Devices!",
+    category: "activity",
+    deviceType: "web",
+    themeColor: "#10b981",
+    icon: "🖥️ 🖨️ 🔊 🎧",
+    label: "Output Tick Hunt",
+    defaultTool: "pen",
+    initGrid: false,
+    correctAnswers: [
+      { target: "MONITOR" },
+      { target: "PRINTER" },
+      { target: "SPEAKER" },
+      { target: "HEADPHONES" },
+    ],
+    objects: [
+      // --- ROW 1 (TOP) ---
+      // ITEM 1: MONITOR (CORRECT)
+      {
+        type: "text",
+        props: {
+          text: "🖥️",
+          fontSize: 80,
+          left: 384,
+          top: 220,
+          originX: "center",
+          originY: "center",
+          role: "icon_art",
+          selectable: false,
+        },
+      },
+      // ITEM 2: PRINTER (CORRECT)
+      {
+        type: "text",
+        props: {
+          text: "🖨️",
+          fontSize: 80,
+          left: 576,
+          top: 220,
+          originX: "center",
+          originY: "center",
+          role: "icon_art",
+          selectable: false,
+        },
+      },
+      // ITEM 3: SPEAKER (CORRECT)
+      {
+        type: "text",
+        props: {
+          text: "🔊",
+          fontSize: 80,
+          left: 768,
+          top: 220,
+          originX: "center",
+          originY: "center",
+          role: "icon_art",
+          selectable: false,
+        },
+      },
+
+      // --- ROW 2 (BOTTOM) ---
+      // ITEM 4: HEADPHONES (CORRECT)
+      {
+        type: "text",
+        props: {
+          text: "🎧",
+          fontSize: 80,
+          left: 384,
+          top: 420,
+          originX: "center",
+          originY: "center",
+          role: "icon_art",
+          selectable: false,
+        },
+      },
+      // ITEM 5: SOCCER BALL (WRONG / DISTRACTOR)
+      {
+        type: "text",
+        props: {
+          text: "⚽",
+          fontSize: 80,
+          left: 576,
+          top: 420,
+          originX: "center",
+          originY: "center",
+          role: "icon_art",
+          selectable: false,
+        },
+      },
+      // ITEM 6: APPLE (WRONG / DISTRACTOR)
+      {
+        type: "text",
+        props: {
+          text: "🍎",
+          fontSize: 80,
+          left: 768,
+          top: 420,
+          originX: "center",
+          originY: "center",
+          role: "icon_art",
+          selectable: false,
+        },
+      },
+    ],
+  },
+  {
+    // 🏫 ROOT LEVEL METADATA & TITLES
+    id: "comp_class1_color_real_input_devices",
+    board: "CBSE",
+    classGrade: "1",
+    subject: "Computer Science",
+    chapterNo: 2,
+    chapterName: "Input and Output Devices",
+    topic: "Identify and Color Real Input Devices",
+    learningObjective:
+      "Students will identify realistic input devices (Keyboard, Mouse, Joystick) and fill colors in them.",
+    bloomsTaxonomyLevel: "Identify & Apply",
+    title: "🎨 Color Fun: Fill Bright Colors in all REAL INPUT DEVICES!",
+    category: "coloring",
+    deviceType: "web",
+    themeColor: "#2563eb",
+    icon: "⌨️ 🖱️ 🕹️",
+    label: "Real Input Devices",
+    defaultTool: "bucket",
+    initGrid: false,
+
+    // 🎯 EVALUATION CONFIG
+    correctAnswers: [
+      { target: "KEYBOARD" },
+      { target: "MOUSE" },
+      { target: "JOYSTICK" },
+    ],
+
+    // 🖼️ CANVAS OBJECTS (Original Vector Hardware Art)
+    objects: [
+      // ==========================================
+      // ⌨️ ITEM 1: REALISTIC KEYBOARD (TOP LEFT - INPUT)
+      // ==========================================
+      // Keyboard Main Base Body (Outer Fill Frame)
+      {
+        type: "rect",
+        props: {
+          width: 190,
+          height: 100,
+          fill: "#f8fafc",
+          stroke: "#1e293b",
+          strokeWidth: 4,
+          rx: 10,
+          ry: 10,
+          left: 384,
+          top: 220,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+      // Top Function Keys Row
+      {
+        type: "rect",
+        props: {
+          width: 170,
+          height: 14,
+          fill: "#cbd5e1",
+          stroke: "#475569",
+          strokeWidth: 1.5,
+          rx: 3,
+          ry: 3,
+          left: 384,
+          top: 190,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Main Keys Grid Block
+      {
+        type: "rect",
+        props: {
+          width: 170,
+          height: 28,
+          fill: "#cbd5e1",
+          stroke: "#475569",
+          strokeWidth: 1.5,
+          rx: 3,
+          ry: 3,
+          left: 384,
+          top: 218,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Long Spacebar Key
+      {
+        type: "rect",
+        props: {
+          width: 90,
+          height: 12,
+          fill: "#0f172a",
+          rx: 3,
+          ry: 3,
+          left: 384,
+          top: 245,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // USB Cable Line
+      {
+        type: "path",
+        path: "M 384 170 Q 384 150 350 140",
+        props: {
+          stroke: "#334155",
+          strokeWidth: 3,
+          fill: "transparent",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+
+      // ==========================================
+      // 🖱️ ITEM 2: REALISTIC OPTICAL MOUSE (TOP RIGHT - INPUT)
+      // ==========================================
+      // Mouse Outer Shell (For Color Fill)
+      {
+        type: "rect",
+        props: {
+          width: 85,
+          height: 125,
+          fill: "#f8fafc",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          rx: 42,
+          ry: 42,
+          left: 768,
+          top: 220,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+      // Center Split Line (Left & Right Click Buttons)
+      {
+        type: "line",
+        coords: [768, 158, 768, 205],
+        props: {
+          stroke: "#334155",
+          strokeWidth: 2.5,
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Horizontal Click Separator Line
+      {
+        type: "line",
+        coords: [730, 205, 806, 205],
+        props: {
+          stroke: "#334155",
+          strokeWidth: 2,
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Metallic Scroll Wheel
+      {
+        type: "rect",
+        props: {
+          width: 12,
+          height: 22,
+          fill: "#2563eb",
+          stroke: "#1e40af",
+          strokeWidth: 2,
+          rx: 5,
+          ry: 5,
+          left: 768,
+          top: 182,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Mouse Tail/Cable
+      {
+        type: "path",
+        path: "M 768 158 Q 768 135 800 125",
+        props: {
+          stroke: "#334155",
+          strokeWidth: 3,
+          fill: "transparent",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+
+      // ==========================================
+      // 🕹️ ITEM 3: REALISTIC FLIGHT JOYSTICK (BOTTOM LEFT - INPUT)
+      // ==========================================
+      // Joystick Heavy Base (For Color Fill)
+      {
+        type: "rect",
+        props: {
+          width: 130,
+          height: 65,
+          fill: "#f8fafc",
+          stroke: "#0f172a",
+          strokeWidth: 4,
+          rx: 14,
+          ry: 14,
+          left: 384,
+          top: 450,
+          originX: "center",
+          originY: "center",
+          role: "color_segment",
+          selectable: true,
+        },
+      },
+      // Joystick Rubber Boot Collar
+      {
+        type: "rect",
+        props: {
+          width: 50,
+          height: 18,
+          fill: "#334155",
+          rx: 4,
+          ry: 4,
+          left: 384,
+          top: 418,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Metal Stick Shaft
+      {
+        type: "rect",
+        props: {
+          width: 18,
+          height: 55,
+          fill: "#64748b",
+          left: 384,
+          top: 385,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Ergonomic Handle Knob
+      {
+        type: "circle",
+        props: {
+          radius: 22,
+          fill: "#dc2626",
+          stroke: "#991b1b",
+          strokeWidth: 3,
+          left: 384,
+          top: 355,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Trigger Red Button
+      {
+        type: "circle",
+        props: {
+          radius: 6,
+          fill: "#fef08a",
+          left: 376,
+          top: 350,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+
+      // ==========================================
+      // 📢 ITEM 4: SOUND SPEAKER (BOTTOM RIGHT - OUTPUT / DISTRACTOR)
+      // ==========================================
+      // Speaker Wooden Box Frame
+      {
+        type: "rect",
+        props: {
+          width: 100,
+          height: 130,
+          fill: "#451a03",
+          stroke: "#78350f",
+          strokeWidth: 4,
+          rx: 10,
+          ry: 10,
+          left: 768,
+          top: 420,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Upper Tweeter Cone
+      {
+        type: "circle",
+        props: {
+          radius: 16,
+          fill: "#1e293b",
+          stroke: "#94a3b8",
+          strokeWidth: 3,
+          left: 768,
+          top: 380,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+      // Lower Subwoofer Cone
+      {
+        type: "circle",
+        props: {
+          radius: 28,
+          fill: "#0f172a",
+          stroke: "#38bdf8",
+          strokeWidth: 4,
+          left: 768,
+          top: 442,
+          originX: "center",
+          originY: "center",
+          role: "background_art",
+          selectable: false,
+        },
+      },
+    ],
+  },
+
   {
     id: "coloring_cat",
     title: "🐱 Fill colors inside the Big Cat!",
@@ -2418,35 +3924,158 @@ function loadTemplateById(templateId) {
 }
 
 // 4. DYNAMIC FILTER SYSTEM: AUTOMATIC SCREEN RESOLUTION SNIFFER
+// 4. DYNAMIC FILTER SYSTEM: CANVA-STYLE 2-COLUMN SIDEBAR RENDERER
 function filterTemplatesByCategory(categoryName = "all") {
   const sidebarContainer = document.getElementById("templates-sidebar");
   if (!sidebarContainer) return;
 
-  let htmlContent = `<div class="tool-section-label text-indigo-600 font-black mb-1 md:block hidden text-center w-full">Templates</div>`;
+  const isMobile = window.innerWidth < 768;
+  const currentDevice = isMobile ? "mobile" : "web";
 
-  // रीयलटाइम स्क्रीन विड्थ के आधार पर डिवाइस प्रकार 'mobile' या 'web' डिटेक्ट करें
-  const currentDevice = window.innerWidth < 768 ? "mobile" : "web";
+  const classFilter = document.getElementById("filter-class")?.value || "all";
+  const subjectFilter =
+    document.getElementById("filter-subject")?.value || "all";
 
-  const deviceFiltered = TEMPLATES_DATABASE.filter(
+  let filtered = TEMPLATES_DATABASE.filter(
     (t) => t.deviceType === currentDevice,
   );
 
-  const finalFiltered =
-    categoryName === "all"
-      ? deviceFiltered
-      : deviceFiltered.filter((t) => t.category === categoryName);
+  if (categoryName !== "all") {
+    filtered = filtered.filter((t) => t.category === categoryName);
+  }
 
-  finalFiltered.forEach((t) => {
+  // Desktop filters logic
+  if (!isMobile) {
+    if (classFilter !== "all") {
+      filtered = filtered.filter(
+        (t) => String(t.classGrade) === String(classFilter),
+      );
+    }
+
+    if (subjectFilter !== "all") {
+      filtered = filtered.filter((t) =>
+        t.subject?.toLowerCase().includes(subjectFilter.toLowerCase()),
+      );
+    }
+  }
+
+  // ---------------------------------------------------------
+  // 📱 1. MOBILE VIEW (COMPACT FIT HORIZONTAL CARDS)
+  // ---------------------------------------------------------
+  if (isMobile) {
+    sidebarContainer.className =
+      "w-full bg-white border-b border-slate-200 px-2 py-2 select-none shadow-sm";
+
+    let mobileHtml = `
+      <div class="flex items-center gap-2 overflow-x-auto custom-scrollbar scroll-smooth no-scrollbar py-0.5">
+    `;
+
+    if (filtered.length === 0) {
+      mobileHtml += `
+        <div class="text-slate-400 text-xs font-bold whitespace-nowrap py-1 px-2">
+          No templates
+        </div>
+      `;
+    } else {
+      filtered.forEach((t) => {
+        mobileHtml += `
+          <div class="template-card flex-shrink-0 w-28 bg-slate-50 active:bg-indigo-50 border border-slate-200 rounded-xl p-1.5 flex flex-col items-center justify-center cursor-pointer shadow-sm" 
+               onclick="loadTemplateById('${t.id}')">
+            <div class="w-full h-12 bg-white rounded-lg border border-slate-100 flex items-center justify-center text-xl shadow-inner">
+              ${t.icon || "📄"}
+            </div>
+            <div class="w-full mt-1 text-center">
+              <div class="text-[11px] font-black text-slate-800 truncate w-full leading-tight">
+                ${t.label || t.title}
+              </div>
+              <div class="text-[9px] font-bold text-slate-400 mt-0.5">Cl ${t.classGrade || 1}</div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    mobileHtml += `</div>`;
+    sidebarContainer.innerHTML = mobileHtml;
+    return;
+  }
+
+  // ---------------------------------------------------------
+  // 🖥️ 2. DESKTOP/WEB VIEW (FULL SIDEBAR WITH FILTERS)
+  // ---------------------------------------------------------
+  sidebarContainer.className =
+    "w-96 min-w-[384px] bg-white border-r border-slate-200 flex flex-col h-full select-none shadow-sm";
+
+  let htmlContent = `
+    <!-- HEADER -->
+    <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-white sticky top-0 z-10">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold text-xl">🎨</div>
+        <div>
+          <h2 class="font-black text-slate-800 text-base tracking-tight leading-none">Worksheet Templates</h2>
+          <span class="text-[10px] font-bold text-slate-400">CBSE Curriculum Library</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="p-4 bg-slate-50/60 border-b border-slate-100 space-y-3">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1">Class Grade</label>
+          <select id="filter-class" onchange="filterTemplatesByCategory('${categoryName}')" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option value="all" ${classFilter === "all" ? "selected" : ""}>All Classes</option>
+            <option value="1" ${classFilter === "1" ? "selected" : ""}>Class 1</option>
+            <option value="2" ${classFilter === "2" ? "selected" : ""}>Class 2</option>
+            <option value="3" ${classFilter === "3" ? "selected" : ""}>Class 3</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1">Subject</label>
+          <select id="filter-subject" onchange="filterTemplatesByCategory('${categoryName}')" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option value="all" ${subjectFilter === "all" ? "selected" : ""}>All Subjects</option>
+            <option value="computer" ${subjectFilter === "computer" ? "selected" : ""}>Computer Science</option>
+            <option value="math" class="hidden" hidden ${subjectFilter === "math" ? "selected" : ""}>Mathematics</option>
+            <option value="art" class="hidden" hidden ${subjectFilter === "art" ? "selected" : ""}>Art & Tracing</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📦 SCROLLABLE CONTAINER -->
+    <div class="flex-1 overflow-y-auto p-4 custom-scrollbar">
+      <div class="grid grid-cols-2 gap-3.5">
+  `;
+
+  filtered.forEach((t) => {
     htmlContent += `
-      <div class="template-card" onclick="loadTemplateById('${t.id}')">
-        <div class="text-xl font-black text-indigo-500">${t.icon}</div>
-        <div class="text-[9px] font-black text-slate-500 uppercase mt-1">${t.label}</div>
+      <div class="template-card group relative bg-slate-50 hover:bg-indigo-50/70 border border-slate-200 hover:border-indigo-300 rounded-2xl p-3 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md" 
+           onclick="loadTemplateById('${t.id}')">
+        <div class="w-full aspect-[4/3] bg-white rounded-xl border border-slate-100 flex items-center justify-center text-4xl shadow-inner group-hover:scale-110 transition-transform duration-200">
+          ${t.icon || "📄"}
+        </div>
+        <div class="w-full mt-2.5 text-center">
+          <div class="text-xs font-black text-slate-800 group-hover:text-indigo-600 truncate w-full">
+            ${t.label || t.title}
+          </div>
+          <div class="text-[10px] font-bold text-slate-400 mt-0.5">Class ${t.classGrade || 1} • ${t.subject || "CS"}</div>
+        </div>
       </div>
     `;
   });
 
+  htmlContent += `
+      </div>
+    </div>
+  `;
+
   sidebarContainer.innerHTML = htmlContent;
 }
+
+// 🔥 Immediate Run without delay (DO NOT USE setTimeout 300ms)
+document.addEventListener("DOMContentLoaded", () => {
+  filterTemplatesByCategory("all");
+});
 
 // 5. WINDOW INITIALIZATION INITIAL CORE WRAPPERS
 function loadTracingTemplate() {
@@ -2480,3 +4109,24 @@ setTimeout(() => {
     filterTemplatesByCategory("all");
   }
 }, 300);
+
+function filterTemplates() {
+  const selectedClass = document.getElementById("filter-class").value;
+  const selectedSubject = document.getElementById("filter-subject").value;
+  const cards = document.querySelectorAll(".template-card");
+
+  cards.forEach((card) => {
+    const cardClass = card.getAttribute("data-class");
+    const cardSubject = card.getAttribute("data-subject");
+
+    const matchClass = selectedClass === "all" || cardClass === selectedClass;
+    const matchSubject =
+      selectedSubject === "all" || cardSubject === selectedSubject;
+
+    if (matchClass && matchSubject) {
+      card.style.display = "flex"; // Show Matching Cards
+    } else {
+      card.style.display = "none"; // Hide Non-Matching Cards
+    }
+  });
+}
