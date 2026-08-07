@@ -270,6 +270,18 @@
         gap: 8px;
         border-radius: 8px;
       }
+      #custom-context-menu button {
+        width: 100%;
+        padding: 8px 12px;
+        text-align: left;
+        font-size: 12px;
+        font-weight: 600;
+        color: #334155;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 8px;
+      }
 
       /* TEMPLATES SIDEBAR DESIGN - UPWARD HEIGHT FOR MOBILE ADAPTIVE FIT */
       #templates-sidebar {
@@ -1764,6 +1776,11 @@
           saveCanvasHistory();
         });
 
+        // 3. Click hone par agar galti se select ho jaye to turant active selection clear kar dein
+        canvas.on("mouse:down", function (options) {
+          canvas.discardActiveObject(); // Selection box clear kar dega
+          canvas.renderAll();
+        });
         canvas.on("object:added", (e) => {
           if (e.target.type === "line") {
             applyExclusiveLineControls(e.target);
@@ -2528,22 +2545,40 @@
               ? "crosshair"
               : "default";
       }
+
       function setupRightClickContextMenu() {
-        const container = document.getElementById("editor-container");
-        container.addEventListener("contextmenu", (e) => {
+        const canvasWrapper =
+          document.querySelector(".canvas-container") ||
+          document.getElementById("canvas-wrapper") ||
+          document.getElementById("paintCanvas");
+
+        if (!canvasWrapper) return;
+
+        canvasWrapper.addEventListener("contextmenu", (e) => {
           e.preventDefault();
+          e.stopPropagation();
+
           const contextMenu = document.getElementById("custom-context-menu");
-          const bounds = container.getBoundingClientRect();
-          const x = e.clientX - bounds.left + container.scrollLeft;
-          const y = e.clientY - bounds.top + container.scrollTop;
-          contextMenu.style.left = `${x}px`;
-          contextMenu.style.top = `${y}px`;
+          if (!contextMenu) return;
+
+          // Direct viewport mouse coordinates (fixed position ke sath exact tip par khulega)
+          contextMenu.style.left = `${e.clientX}px`;
+          contextMenu.style.top = `${e.clientY}px`;
           contextMenu.style.display = "block";
-          document.getElementById("context-paste-btn").style.opacity =
-            clipboardObject ? "1" : "0.5";
+
+          const pasteBtn = document.getElementById("context-paste-btn");
+          if (pasteBtn) {
+            pasteBtn.style.opacity =
+              typeof clipboardObject !== "undefined" && clipboardObject
+                ? "1"
+                : "0.5";
+          }
         });
+
         document.addEventListener("click", () => {
-          closeContextMenu();
+          if (typeof closeContextMenu === "function") {
+            closeContextMenu();
+          }
         });
       }
       function closeContextMenu() {
