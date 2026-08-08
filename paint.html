@@ -1755,10 +1755,10 @@
         });
 
         // 3. Click hone par agar galti se select ho jaye to turant active selection clear kar dein
-        canvas.on("mouse:down", function (options) {
-          canvas.discardActiveObject(); // Selection box clear kar dega
-          canvas.renderAll();
-        });
+        // canvas.on("mouse:down", function (options) {
+        //   canvas.discardActiveObject(); // Selection box clear kar dega
+        //   canvas.renderAll();
+        // });
         canvas.on("object:added", (e) => {
           if (e.target.type === "line") {
             applyExclusiveLineControls(e.target);
@@ -2163,18 +2163,21 @@
           canvas.setActiveObject(shapeObj).renderAll();
         }
       }
-
       function handleCanvasMouseDownClick(options) {
         const pointer = canvas.getPointer(options.e);
+
         if (activeMode === "bucket") {
           const target = options.target;
+
           if (target) {
+            // 🎨 Sirf clicked object/shape par hi color fill hoga
             target.set("fill", color1);
             if (target.type !== "textbox" && target.stroke !== "transparent")
               target.set("stroke", color1);
-          } else {
-            canvas.setBackgroundColor(color1, canvas.renderAll.bind(canvas));
           }
+          // 🚫 Blank background click par kuch nahi hoga (Background fill disabled)
+
+          canvas.discardActiveObject(); // Selection box clear kar dega
           canvas.renderAll();
           saveCanvasHistory();
         } else if (activeMode === "text") {
@@ -2194,7 +2197,6 @@
           txt.selectAll();
         }
       }
-
       function updateBrushSize(v) {
         const size = parseInt(v, 10);
         const activeObj = canvas.getActiveObject();
