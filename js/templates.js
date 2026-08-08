@@ -7680,7 +7680,7 @@ function filterTemplatesByCategory(categoryName = "all") {
 
   let htmlContent = `
     <!-- HEADER -->
-    <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-white sticky top-0 z-10">
+    <div class="hidden p-4 border-b border-slate-100 flex items-center justify-between bg-white sticky top-0 z-10">
       <div class="flex items-center gap-2.5">
         <div class="w-9 h-9 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold text-xl">🎨</div>
         <div>
@@ -7691,7 +7691,7 @@ function filterTemplatesByCategory(categoryName = "all") {
     </div>
 
     <!-- FILTERS -->
-    <div class="p-4 bg-slate-50/60 border-b border-slate-100 space-y-3">
+    <div class="hidden p-4 bg-slate-50/60 border-b border-slate-100 space-y-3">
       <div class="grid grid-cols-2 gap-3">
         <div>
           <label class="block text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1">Class Grade</label>
