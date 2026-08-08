@@ -6831,10 +6831,28 @@ function drawHeaderInstructionBlock(message, hexColor) {
   canvas.add(info);
 }
 
-// 3. CORE UNIVERSAL DYNAMIC LOADER ENGINE
+// ---------------------------------------------------------
+// 1. CORE UNIVERSAL DYNAMIC LOADER ENGINE
+// ---------------------------------------------------------
 function loadTemplateById(templateId) {
   const template = TEMPLATES_DATABASE.find((t) => t.id === templateId);
   if (!template) return;
+
+  // 🎯 Template load hone par Global State set karein
+  // (Isse canvas background bucket fill automatically disable ho jayega)
+  if (typeof currentTemplate !== "undefined") {
+    currentTemplate = template;
+  } else {
+    window.currentTemplate = template;
+  }
+
+  const activeBoard = template.board || "CBSE";
+
+  if (typeof board !== "undefined") {
+    board = activeBoard;
+  } else {
+    window.board = activeBoard;
+  }
 
   if (typeof setTemplateMeta === "function") {
     setTemplateMeta({
@@ -6845,6 +6863,7 @@ function loadTemplateById(templateId) {
       label: template.label || "Template",
     });
   }
+
   clearCanvasForTemplate();
   drawHeaderInstructionBlock(template.title, template.themeColor);
 
@@ -6914,12 +6933,15 @@ function loadTemplateById(templateId) {
   else if (template.defaultTool === "pen") startDrawing("pen");
 }
 
-// 4. DYNAMIC FILTER SYSTEM: AUTOMATIC SCREEN RESOLUTION SNIFFER
+// ---------------------------------------------------------
+// 2. DYNAMIC FILTER SYSTEM: AUTOMATIC SCREEN RESOLUTION SNIFFER
+// ---------------------------------------------------------
 function filterTemplatesByCategory(categoryName = "all") {
   const sidebarContainer = document.getElementById("templates-sidebar");
   if (!sidebarContainer) return;
 
-  const isMobile = window.innerWidth < 768;
+  // 📱 Mobile & Tablet/iPad (<= 1024px) detection
+  const isMobile = window.innerWidth <= 1024;
   const currentDevice = isMobile ? "mobile" : "web";
 
   const classFilter = document.getElementById("filter-class")?.value || "all";
@@ -6935,10 +6957,10 @@ function filterTemplatesByCategory(categoryName = "all") {
   }
 
   // ---------------------------------------------------------
-  // 📱 1. MOBILE VIEW (FIXED BOTTOM SUBJECT BAR)
+  // 📱 1. MOBILE & TABLET VIEW (FIXED BOTTOM SUBJECT BAR)
   // ---------------------------------------------------------
   if (isMobile) {
-    // 📱 Fixed Glassmorphic Mobile Bottom Nav
+    sidebarContainer.style.display = "block";
     sidebarContainer.className =
       "w-full bg-white/90 backdrop-blur-xl border-t border-slate-200/80 px-2 py-2 select-none shadow-[0_-8px_20px_rgba(0,0,0,0.06)] fixed bottom-0 left-0 z-50 shrink-0";
 
@@ -6952,24 +6974,21 @@ function filterTemplatesByCategory(categoryName = "all") {
       { name: "English", val: "english", icon: "🔤" },
     ];
 
-    // 🔄 Auto Horizontal Scroll Container
     let mobileHtml = `
-      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth w-full px-1 py-1 touch-pan-x">
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth w-full px-1 py-1 touch-pan-x justify-around sm:justify-center">
     `;
 
     subjects.forEach((sub) => {
       mobileHtml += `
         <button type="button"
                 onclick="openSubjectModal('${sub.val}', '${sub.name}')" 
-                class="group relative flex flex-col items-center justify-center flex-shrink-0 min-w-[82px] flex-1 py-2 px-2.5 bg-slate-50/90 active:bg-indigo-50 border border-slate-200/80 active:border-indigo-300 rounded-2xl transition-all duration-200 active:scale-95 touch-manipulation shadow-2xs">
+                class="group relative flex flex-col items-center justify-center flex-shrink-0 min-w-[82px] max-w-[120px] flex-1 py-2 px-2.5 bg-slate-50/90 active:bg-indigo-50 border border-slate-200/80 active:border-indigo-300 rounded-2xl transition-all duration-200 active:scale-95 touch-manipulation shadow-2xs">
           
-          <!-- 🎨 Bada Icon Badge (w-10 h-10) -->
           <div class="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-2xl shadow-inner group-active:scale-110 transition-transform duration-200">
             ${sub.icon}
           </div>
           
-          <!-- 🏷️ Bada & Responsive Text Label -->
-          <span class="text-xs sm:text-sm text-[clamp(12px,3.2vw,14px)] font-black text-slate-800 group-active:text-indigo-600 mt-1.5 whitespace-nowrap tracking-tight leading-none">
+          <span class="text-xs sm:text-sm font-black text-slate-800 group-active:text-indigo-600 mt-1.5 whitespace-nowrap tracking-tight leading-none">
             ${sub.name}
           </span>
         </button>
@@ -6984,6 +7003,8 @@ function filterTemplatesByCategory(categoryName = "all") {
   // ---------------------------------------------------------
   // 🖥️ 2. DESKTOP/WEB VIEW (FULL SIDEBAR WITH FILTERS)
   // ---------------------------------------------------------
+  sidebarContainer.style.display = "";
+
   if (classFilter !== "all") {
     filtered = filtered.filter(
       (t) => String(t.classGrade) === String(classFilter),
@@ -7075,7 +7096,7 @@ function filterTemplatesByCategory(categoryName = "all") {
 }
 
 // ---------------------------------------------------------
-// 🚀 CANVA STYLE SLIDE-UP MODAL LOGIC (MATHS FIX INCLUDED)
+// 3. CANVA STYLE SLIDE-UP MODAL LOGIC
 // ---------------------------------------------------------
 function openSubjectModal(subjectKey, subjectName) {
   const modal = document.getElementById("mobile-template-modal");
@@ -7086,7 +7107,6 @@ function openSubjectModal(subjectKey, subjectName) {
 
   modalTitle.innerText = `${subjectName} Templates`;
 
-  // Robust Subject Filter (Handles 'math', 'maths', 'mathematics')
   const templates = TEMPLATES_DATABASE.filter((t) => {
     if (t.deviceType !== "mobile") return false;
     const sub = (t.subject || "").toLowerCase();
@@ -7127,7 +7147,6 @@ function openSubjectModal(subjectKey, subjectName) {
 
   modalGrid.innerHTML = gridHtml;
 
-  // Open Modal (Slide Up)
   modal.classList.remove("translate-y-full", "pointer-events-none");
   modal.classList.add("translate-y-0");
 }
@@ -7147,65 +7166,40 @@ function selectMobileTemplate(templateId) {
   }
 }
 
-// Page load / Init call
-document.addEventListener("DOMContentLoaded", () => {
-  filterTemplatesByCategory("all");
-});
-// 🔥 Immediate Run without delay (DO NOT USE setTimeout 300ms)
-document.addEventListener("DOMContentLoaded", () => {
-  filterTemplatesByCategory("all");
-});
-
-// 5. WINDOW INITIALIZATION INITIAL CORE WRAPPERS
+// ---------------------------------------------------------
+// 4. WINDOW INITIALIZATION CORE WRAPPERS
+// ---------------------------------------------------------
 function loadTracingTemplate() {
-  const dev = window.innerWidth < 768 ? "color_cat_mobile" : "tracing_abc";
+  const dev = window.innerWidth <= 1024 ? "color_cat_mobile" : "tracing_abc";
   loadTemplateById(dev);
 }
 function loadColoringTemplate() {
-  const dev = window.innerWidth < 768 ? "color_cat_mobile" : "coloring_cat";
+  const dev = window.innerWidth <= 1024 ? "color_cat_mobile" : "coloring_cat";
   loadTemplateById(dev);
 }
 function loadDotsTemplate() {
-  const dev = window.innerWidth < 768 ? "math_lvl1_mobile" : "puzzle_dots";
+  const dev = window.innerWidth <= 1024 ? "math_lvl1_mobile" : "puzzle_dots";
   loadTemplateById(dev);
 }
 function loadMazeTemplate() {
-  const dev = window.innerWidth < 768 ? "math_lvl1_mobile" : "puzzle_maze";
+  const dev = window.innerWidth <= 1024 ? "math_lvl1_mobile" : "puzzle_maze";
   loadTemplateById(dev);
 }
 function loadSymmetryTemplate() {
-  const dev = window.innerWidth < 768 ? "color_cat_mobile" : "symmetry_mirror";
+  const dev =
+    window.innerWidth <= 1024 ? "color_cat_mobile" : "symmetry_mirror";
   loadTemplateById(dev);
 }
 function loadMathTemplate() {
-  const dev = window.innerWidth < 768 ? "math_lvl1_mobile" : "math_matrix";
+  const dev = window.innerWidth <= 1024 ? "math_lvl1_mobile" : "math_matrix";
   loadTemplateById(dev);
 }
 
-// DOM लोड होने के तुरंत बाद रीयलटाइम फ़िल्टर रन करें ताकि साइडबार ब्लैंक न रहे
-setTimeout(() => {
-  if (typeof filterTemplatesByCategory === "function") {
-    filterTemplatesByCategory("all");
-  }
-}, 300);
+// Single Clean DOM Listener (Window Resize event added for auto-responsiveness)
+document.addEventListener("DOMContentLoaded", () => {
+  filterTemplatesByCategory("all");
+});
 
-function filterTemplates() {
-  const selectedClass = document.getElementById("filter-class").value;
-  const selectedSubject = document.getElementById("filter-subject").value;
-  const cards = document.querySelectorAll(".template-card");
-
-  cards.forEach((card) => {
-    const cardClass = card.getAttribute("data-class");
-    const cardSubject = card.getAttribute("data-subject");
-
-    const matchClass = selectedClass === "all" || cardClass === selectedClass;
-    const matchSubject =
-      selectedSubject === "all" || cardSubject === selectedSubject;
-
-    if (matchClass && matchSubject) {
-      card.style.display = "flex"; // Show Matching Cards
-    } else {
-      card.style.display = "none"; // Hide Non-Matching Cards
-    }
-  });
-}
+window.addEventListener("resize", () => {
+  filterTemplatesByCategory("all");
+});

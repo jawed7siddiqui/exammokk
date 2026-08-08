@@ -2163,21 +2163,43 @@
           canvas.setActiveObject(shapeObj).renderAll();
         }
       }
+
       function handleCanvasMouseDownClick(options) {
         const pointer = canvas.getPointer(options.e);
 
         if (activeMode === "bucket") {
           const target = options.target;
 
+          // Board value check logic
+          const activeBoard =
+            typeof currentTemplate !== "undefined" && currentTemplate?.board
+              ? currentTemplate.board
+              : typeof window.board !== "undefined"
+                ? window.board
+                : typeof board !== "undefined"
+                  ? board
+                  : null;
+
+          const isCbseBoard = activeBoard === "CBSE";
+
           if (target) {
-            // 🎨 Sirf clicked object/shape par hi color fill hoga
+            // 🎨 Object / Shape par color fill karein
             target.set("fill", color1);
             if (target.type !== "textbox" && target.stroke !== "transparent")
               target.set("stroke", color1);
+          } else {
+            // 🪣 Agar Board "CBSE" NAHI hai (yaani undefined, null, ya general board hai)
+            // tabhi Canvas Background Fill hoga
+            if (!isCbseBoard) {
+              canvas.setBackgroundColor(color1, canvas.renderAll.bind(canvas));
+            }
           }
-          // 🚫 Blank background click par kuch nahi hoga (Background fill disabled)
 
-          canvas.discardActiveObject(); // Selection box clear kar dega
+          // CBSE Board hone par active selection clear karein
+          if (isCbseBoard) {
+            canvas.discardActiveObject();
+          }
+
           canvas.renderAll();
           saveCanvasHistory();
         } else if (activeMode === "text") {
