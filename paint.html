@@ -1709,7 +1709,7 @@
         // 📱 window.onload पर लाइव स्क्रीन साइज डिटेक्शन और कैनवास री-स्ट्रक्चरिंग
         if (window.innerWidth < 768) {
           // 📱 मोबाइल के लिए परफेक्ट वर्टिकल फ्रेम (100% फिट)
-          PAGE_WIDTH = 648;
+          PAGE_WIDTH = 800;
           PAGE_HEIGHT = 800;
         } else if (window.innerWidth >= 768 && window.innerWidth <= 1024) {
           // 📑 टैबलेट के लिए परफेक्ट फिट आनुपातिक साइज
@@ -2375,7 +2375,7 @@
             )
           ) {
             localStorage.removeItem("kidspaint_canvas_data");
-            setupCanvas(648, 800, "#ffffff"); // मोबाइल के लिए फिक्स परफेक्ट साइज
+            setupCanvas(800, 800, "#ffffff"); // मोबाइल के लिए फिक्स परफेक्ट साइज
           }
         } else {
           // वेब (डेस्कटॉप) के लिए आपका पुराना मोडल पॉप-अप खुल जाएगा
