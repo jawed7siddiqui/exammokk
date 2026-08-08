@@ -1022,7 +1022,7 @@ const TEMPLATES_DATABASE = [
     topic: "Key Identification",
     learningObjective: "Students will match keys with their correct names.",
     bloomsTaxonomyLevel: "Understand",
-    title: "⌨️ Computer: Match Keys",
+    title: "Match the keys with their correct names!",
     category: "computer",
     deviceType: "mobile",
     themeColor: "#7c3aed",
@@ -1033,25 +1033,10 @@ const TEMPLATES_DATABASE = [
     correctAnswers: [
       { leftText: "🔤 A B C...", rightText: "Alphabet Keys" },
       { leftText: "🔢 1 2 3...", rightText: "Number Keys" },
-      { leftText: "⎵ [   ]", rightText: "Spacebar" },
+      { leftText: "⌨️ Space Bar", rightText: "Spacebar" },
     ],
     objects: [
-      {
-        type: "text",
-        props: {
-          left: 400,
-          top: 50,
-          originX: "center",
-          fontSize: 26,
-          fontFamily: "Fredoka",
-          fill: "#334155",
-          fontWeight: "bold",
-          role: "background_art",
-          selectable: false,
-          hasControls: false,
-          hasBorders: false,
-        },
-      },
+      /* --- LEFT BOX 1: ALPHABET KEYS --- */
       {
         type: "rect",
         props: {
@@ -1076,9 +1061,10 @@ const TEMPLATES_DATABASE = [
         props: {
           left: 75,
           top: 192,
-          fontSize: 30,
-          fontFamily: "Fredoka",
+          fontSize: 28,
+          fontFamily: "system-ui, -apple-system, sans-serif",
           fill: "#0f172a",
+          fontWeight: "bold",
           role: "background_art",
           selectable: false,
           hasControls: false,
@@ -1100,6 +1086,8 @@ const TEMPLATES_DATABASE = [
           hasBorders: false,
         },
       },
+
+      /* --- LEFT BOX 2: NUMBER KEYS --- */
       {
         type: "rect",
         props: {
@@ -1124,9 +1112,10 @@ const TEMPLATES_DATABASE = [
         props: {
           left: 75,
           top: 362,
-          fontSize: 30,
-          fontFamily: "Fredoka",
+          fontSize: 28,
+          fontFamily: "system-ui, -apple-system, sans-serif",
           fill: "#0f172a",
+          fontWeight: "bold",
           role: "background_art",
           selectable: false,
           hasControls: false,
@@ -1148,6 +1137,8 @@ const TEMPLATES_DATABASE = [
           hasBorders: false,
         },
       },
+
+      /* --- LEFT BOX 3: SPACEBAR ICON --- */
       {
         type: "rect",
         props: {
@@ -1168,13 +1159,14 @@ const TEMPLATES_DATABASE = [
       },
       {
         type: "text",
-        text: "⎵ [   ]",
+        text: "⌨️ Space Bar",
         props: {
-          left: 95,
+          left: 70,
           top: 532,
-          fontSize: 30,
-          fontFamily: "Fredoka",
+          fontSize: 26,
+          fontFamily: "system-ui, -apple-system, sans-serif",
           fill: "#0f172a",
+          fontWeight: "bold",
           role: "background_art",
           selectable: false,
           hasControls: false,
@@ -1196,6 +1188,8 @@ const TEMPLATES_DATABASE = [
           hasBorders: false,
         },
       },
+
+      /* --- RIGHT BOX 1: NUMBER KEYS LABEL --- */
       {
         type: "rect",
         props: {
@@ -1220,8 +1214,8 @@ const TEMPLATES_DATABASE = [
         props: {
           left: 530,
           top: 195,
-          fontSize: 26,
-          fontFamily: "Fredoka",
+          fontSize: 24,
+          fontFamily: "Fredoka, sans-serif",
           fill: "#92400e",
           fontWeight: "bold",
           role: "background_art",
@@ -1245,6 +1239,8 @@ const TEMPLATES_DATABASE = [
           hasBorders: false,
         },
       },
+
+      /* --- RIGHT BOX 2: SPACEBAR LABEL --- */
       {
         type: "rect",
         props: {
@@ -1269,8 +1265,8 @@ const TEMPLATES_DATABASE = [
         props: {
           left: 555,
           top: 365,
-          fontSize: 26,
-          fontFamily: "Fredoka",
+          fontSize: 24,
+          fontFamily: "Fredoka, sans-serif",
           fill: "#92400e",
           fontWeight: "bold",
           role: "background_art",
@@ -1294,6 +1290,8 @@ const TEMPLATES_DATABASE = [
           hasBorders: false,
         },
       },
+
+      /* --- RIGHT BOX 3: ALPHABET KEYS LABEL --- */
       {
         type: "rect",
         props: {
@@ -1318,8 +1316,8 @@ const TEMPLATES_DATABASE = [
         props: {
           left: 520,
           top: 535,
-          fontSize: 26,
-          fontFamily: "Fredoka",
+          fontSize: 24,
+          fontFamily: "Fredoka, sans-serif",
           fill: "#92400e",
           fontWeight: "bold",
           role: "background_art",
