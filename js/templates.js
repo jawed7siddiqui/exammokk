@@ -11,7 +11,7 @@ const TEMPLATES_DATABASE = [
     id: "cbse_cl2_pixel_art_648x800_mobile",
     board: "CBSE",
     classGrade: "2",
-    subject: "Computer Science",
+    subject: "Computer",
     chapterNo: 4,
     chapterName: "Fun with Pixel Art",
     topic: "Pixel Art Grid Activity (Mobile Optimized 648x800)",
@@ -1013,946 +1013,371 @@ const TEMPLATES_DATABASE = [
     ],
   },
   {
-    id: "cbse_cl2_pixel_icons_visible",
+    id: "comp_lvl1_parts_match_800",
     board: "CBSE",
-    classGrade: "2",
-    subject: "Computer Science",
-    chapterNo: 4,
-    chapterName: "Fun with Pixel Art",
-    topic: "Grid Pixel Art with Visible Icon Markers",
+    classGrade: "1",
+    subject: "Computer",
+    chapterNo: 1,
+    chapterName: "Computer - A Smart Machine",
+    topic: "Parts of a Computer",
     learningObjective:
-      "Students will identify grid boxes marked with red apple and pink heart icons and fill color.",
-    bloomsTaxonomyLevel: "Apply",
-    title: "👾 Pixel Art: Color All Boxes with Red 🍎 and Pink 💖 Icons!",
-    category: "pixel_art",
-    deviceType: "web",
-    themeColor: "#f43f5e",
-    icon: "👾",
-    defaultTool: "bucket",
-    allowedTools: ["bucket"],
-    initGrid: true,
-    allowCanvasFill: false,
+      "Students will match computer parts with their main functions.",
+    bloomsTaxonomyLevel: "Understand",
+    title: "🖥️ Computer Lvl 1: Connect Parts to Their Work!",
+    category: "computer",
+    deviceType: "mobile",
+    themeColor: "#2563eb",
+    icon: "🖥️",
+    label: "Computer Parts",
+    defaultTool: "pen",
+    initGrid: false,
     correctAnswers: [
-      { target: "PX_R2_C2" },
-      { target: "PX_R2_C3" },
-      { target: "PX_R2_C4" },
-      { target: "PX_R2_C5" },
-      { target: "PX_R3_C3" },
-      { target: "PX_R3_C4" },
-      { target: "PX_R4_C2" },
-      { target: "PX_R4_C3" },
-      { target: "PX_R4_C4" },
-      { target: "PX_R4_C5" },
-      { target: "PX_R5_C2" },
-      { target: "PX_R5_C5" },
+      { leftText: "🖱️ Mouse", rightText: "Clicks & Points" },
+      { leftText: "⌨️ Keyboard", rightText: "Types Letters" },
+      { leftText: "📺 Monitor", rightText: "Shows Screen" },
     ],
     objects: [
-      /* ROW 1 */
       {
-        id: "PX_R1_C1",
         type: "rect",
         props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
+          left: 60,
+          top: 35,
+          width: 680,
+          height: 95,
+          rx: 24,
+          ry: 24,
+          fill: "#eff6ff",
+          stroke: "#bfdbfe",
           strokeWidth: 3,
-          left: 416,
-          top: 172,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
+          role: "background_art",
           selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        id: "PX_R1_C2",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 480,
-          top: 172,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        id: "PX_R1_C3",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 544,
-          top: 172,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        id: "PX_R1_C4",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 608,
-          top: 172,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        id: "PX_R1_C5",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 672,
-          top: 172,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        id: "PX_R1_C6",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 736,
-          top: 172,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-
-      /* ROW 2 */
-      {
-        id: "PX_R2_C1",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 416,
-          top: 236,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-
-      {
-        id: "PX_R2_C2",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#fff1f2",
-          stroke: "#0f172a",
-          strokeWidth: 3,
-          left: 480,
-          top: 236,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "text",
-        text: "🍎",
+        text: "🖥️ MATCH COMPUTER PARTS",
         props: {
+          left: 400,
+          top: 55,
+          originX: "center",
+          fontSize: 30,
+          fontFamily: "Fredoka",
+          fill: "#1e40af",
+          fontWeight: "bold",
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
+        type: "text",
+        text: "Draw a line connecting the dots! ✏️",
+        props: {
+          left: 400,
+          top: 92,
+          originX: "center",
+          fontSize: 18,
+          fontFamily: "Fredoka",
+          fill: "#3b82f6",
+          fontWeight: "bold",
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          left: 60,
+          top: 180,
+          width: 280,
+          height: 110,
+          rx: 20,
+          ry: 20,
+          fill: "#f1f5f9",
+          stroke: "#cbd5e1",
+          strokeWidth: 2,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
+        type: "text",
+        text: "🖱️ Mouse",
+        props: {
+          left: 85,
+          top: 215,
+          fontSize: 32,
+          fontFamily: "Fredoka",
+          fill: "#0f172a",
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
+        type: "circle",
+        props: {
+          left: 325,
+          top: 222,
+          radius: 13,
+          fill: "#2563eb",
+          stroke: "#ffffff",
+          strokeWidth: 3,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          left: 60,
+          top: 340,
+          width: 280,
+          height: 110,
+          rx: 20,
+          ry: 20,
+          fill: "#f1f5f9",
+          stroke: "#cbd5e1",
+          strokeWidth: 2,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
+        type: "text",
+        text: "⌨️ Keyboard",
+        props: {
+          left: 80,
+          top: 375,
+          fontSize: 30,
+          fontFamily: "Fredoka",
+          fill: "#0f172a",
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
+        type: "circle",
+        props: {
+          left: 325,
+          top: 382,
+          radius: 13,
+          fill: "#2563eb",
+          stroke: "#ffffff",
+          strokeWidth: 3,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          left: 60,
+          top: 500,
+          width: 280,
+          height: 110,
+          rx: 20,
+          ry: 20,
+          fill: "#f1f5f9",
+          stroke: "#cbd5e1",
+          strokeWidth: 2,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
+        type: "text",
+        text: "📺 Monitor",
+        props: {
+          left: 85,
+          top: 535,
+          fontSize: 32,
+          fontFamily: "Fredoka",
+          fill: "#0f172a",
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
+        type: "circle",
+        props: {
+          left: 325,
+          top: 542,
+          radius: 13,
+          fill: "#2563eb",
+          stroke: "#ffffff",
+          strokeWidth: 3,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
+        type: "rect",
+        props: {
+          left: 460,
+          top: 180,
+          width: 280,
+          height: 110,
+          rx: 20,
+          ry: 20,
+          fill: "#fef3c7",
+          stroke: "#fde047",
+          strokeWidth: 2,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
+        type: "text",
+        text: "Types Letters",
+        props: {
+          left: 505,
+          top: 218,
           fontSize: 28,
-          fontFamily:
-            "Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif",
-          left: 480,
-          top: 236,
-          originX: "center",
-          originY: "center",
-          role: "label",
+          fontFamily: "Fredoka",
+          fill: "#92400e",
+          fontWeight: "bold",
+          role: "background_art",
           selectable: false,
-          evented: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
-
       {
-        id: "PX_R2_C3",
+        type: "circle",
+        props: {
+          left: 445,
+          top: 222,
+          radius: 13,
+          fill: "#f59e0b",
+          stroke: "#ffffff",
+          strokeWidth: 3,
+          role: "background_art",
+          selectable: false,
+          hasControls: false,
+          hasBorders: false,
+        },
+      },
+      {
         type: "rect",
         props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#fff1f2",
-          stroke: "#0f172a",
-          strokeWidth: 3,
-          left: 544,
-          top: 236,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
+          left: 460,
+          top: 340,
+          width: 280,
+          height: 110,
+          rx: 20,
+          ry: 20,
+          fill: "#fef3c7",
+          stroke: "#fde047",
+          strokeWidth: 2,
+          role: "background_art",
           selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "text",
-        text: "💖",
+        text: "Shows Screen",
         props: {
-          fontSize: 26,
-          fontFamily:
-            "Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif",
-          left: 544,
-          top: 236,
-          originX: "center",
-          originY: "center",
-          role: "label",
-          selectable: false,
-          evented: false,
-        },
-      },
-
-      {
-        id: "PX_R2_C4",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#fff1f2",
-          stroke: "#0f172a",
-          strokeWidth: 3,
-          left: 608,
-          top: 236,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        type: "text",
-        text: "💖",
-        props: {
-          fontSize: 26,
-          fontFamily:
-            "Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif",
-          left: 608,
-          top: 236,
-          originX: "center",
-          originY: "center",
-          role: "label",
-          selectable: false,
-          evented: false,
-        },
-      },
-
-      {
-        id: "PX_R2_C5",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#fff1f2",
-          stroke: "#0f172a",
-          strokeWidth: 3,
-          left: 672,
-          top: 236,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        type: "text",
-        text: "🍎",
-        props: {
+          left: 500,
+          top: 378,
           fontSize: 28,
-          fontFamily:
-            "Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif",
-          left: 672,
-          top: 236,
-          originX: "center",
-          originY: "center",
-          role: "label",
+          fontFamily: "Fredoka",
+          fill: "#92400e",
+          fontWeight: "bold",
+          role: "background_art",
           selectable: false,
-          evented: false,
-        },
-      },
-
-      {
-        id: "PX_R2_C6",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 736,
-          top: 236,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-
-      /* ROW 3 */
-      {
-        id: "PX_R3_C1",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 416,
-          top: 300,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
-        id: "PX_R3_C2",
-        type: "rect",
+        type: "circle",
         props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
+          left: 445,
+          top: 382,
+          radius: 13,
+          fill: "#f59e0b",
+          stroke: "#ffffff",
           strokeWidth: 3,
-          left: 480,
-          top: 300,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
+          role: "background_art",
           selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
+          hasControls: false,
+          hasBorders: false,
         },
       },
-
       {
-        id: "PX_R3_C3",
         type: "rect",
         props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#fff1f2",
-          stroke: "#0f172a",
-          strokeWidth: 3,
-          left: 544,
-          top: 300,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
+          left: 460,
+          top: 500,
+          width: 280,
+          height: 110,
+          rx: 20,
+          ry: 20,
+          fill: "#fef3c7",
+          stroke: "#fde047",
+          strokeWidth: 2,
+          role: "background_art",
           selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
+          hasControls: false,
+          hasBorders: false,
         },
       },
       {
         type: "text",
-        text: "🍎",
+        text: "Clicks & Points",
         props: {
+          left: 495,
+          top: 538,
           fontSize: 28,
-          fontFamily:
-            "Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif",
-          left: 544,
-          top: 300,
-          originX: "center",
-          originY: "center",
-          role: "label",
+          fontFamily: "Fredoka",
+          fill: "#92400e",
+          fontWeight: "bold",
+          role: "background_art",
           selectable: false,
-          evented: false,
+          hasControls: false,
+          hasBorders: false,
         },
       },
-
       {
-        id: "PX_R3_C4",
-        type: "rect",
+        type: "circle",
         props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#fff1f2",
-          stroke: "#0f172a",
+          left: 445,
+          top: 542,
+          radius: 13,
+          fill: "#f59e0b",
+          stroke: "#ffffff",
           strokeWidth: 3,
-          left: 608,
-          top: 300,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
+          role: "background_art",
           selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        type: "text",
-        text: "🍎",
-        props: {
-          fontSize: 28,
-          fontFamily:
-            "Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif",
-          left: 608,
-          top: 300,
-          originX: "center",
-          originY: "center",
-          role: "label",
-          selectable: false,
-          evented: false,
-        },
-      },
-
-      {
-        id: "PX_R3_C5",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 672,
-          top: 300,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        id: "PX_R3_C6",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 736,
-          top: 300,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-
-      /* ROW 4 */
-      {
-        id: "PX_R4_C1",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 416,
-          top: 364,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-
-      {
-        id: "PX_R4_C2",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#fff1f2",
-          stroke: "#0f172a",
-          strokeWidth: 3,
-          left: 480,
-          top: 364,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        type: "text",
-        text: "💖",
-        props: {
-          fontSize: 26,
-          fontFamily:
-            "Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif",
-          left: 480,
-          top: 364,
-          originX: "center",
-          originY: "center",
-          role: "label",
-          selectable: false,
-          evented: false,
-        },
-      },
-
-      {
-        id: "PX_R4_C3",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#fff1f2",
-          stroke: "#0f172a",
-          strokeWidth: 3,
-          left: 544,
-          top: 364,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        type: "text",
-        text: "🍎",
-        props: {
-          fontSize: 28,
-          fontFamily:
-            "Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif",
-          left: 544,
-          top: 364,
-          originX: "center",
-          originY: "center",
-          role: "label",
-          selectable: false,
-          evented: false,
-        },
-      },
-
-      {
-        id: "PX_R4_C4",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#fff1f2",
-          stroke: "#0f172a",
-          strokeWidth: 3,
-          left: 608,
-          top: 364,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        type: "text",
-        text: "🍎",
-        props: {
-          fontSize: 28,
-          fontFamily:
-            "Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif",
-          left: 608,
-          top: 364,
-          originX: "center",
-          originY: "center",
-          role: "label",
-          selectable: false,
-          evented: false,
-        },
-      },
-
-      {
-        id: "PX_R4_C5",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#fff1f2",
-          stroke: "#0f172a",
-          strokeWidth: 3,
-          left: 672,
-          top: 364,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        type: "text",
-        text: "💖",
-        props: {
-          fontSize: 26,
-          fontFamily:
-            "Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif",
-          left: 672,
-          top: 364,
-          originX: "center",
-          originY: "center",
-          role: "label",
-          selectable: false,
-          evented: false,
-        },
-      },
-
-      {
-        id: "PX_R4_C6",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 736,
-          top: 364,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-
-      /* ROW 5 */
-      {
-        id: "PX_R5_C1",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 416,
-          top: 428,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-
-      {
-        id: "PX_R5_C2",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#fff1f2",
-          stroke: "#0f172a",
-          strokeWidth: 3,
-          left: 480,
-          top: 428,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        type: "text",
-        text: "🍎",
-        props: {
-          fontSize: 28,
-          fontFamily:
-            "Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif",
-          left: 480,
-          top: 428,
-          originX: "center",
-          originY: "center",
-          role: "label",
-          selectable: false,
-          evented: false,
-        },
-      },
-
-      {
-        id: "PX_R5_C3",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 544,
-          top: 428,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        id: "PX_R5_C4",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 608,
-          top: 428,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-
-      {
-        id: "PX_R5_C5",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#fff1f2",
-          stroke: "#0f172a",
-          strokeWidth: 3,
-          left: 672,
-          top: 428,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
-        },
-      },
-      {
-        type: "text",
-        text: "🍎",
-        props: {
-          fontSize: 28,
-          fontFamily:
-            "Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif",
-          left: 672,
-          top: 428,
-          originX: "center",
-          originY: "center",
-          role: "label",
-          selectable: false,
-          evented: false,
-        },
-      },
-
-      {
-        id: "PX_R5_C6",
-        type: "rect",
-        props: {
-          width: 60,
-          height: 60,
-          rx: 8,
-          ry: 8,
-          fill: "#ffffff",
-          stroke: "#cbd5e1",
-          strokeWidth: 3,
-          left: 736,
-          top: 428,
-          originX: "center",
-          originY: "center",
-          role: "color_segment",
-          selectable: false,
-          evented: true,
-          lockMovementX: true,
-          lockMovementY: true,
-          hoverCursor: "pointer",
+          hasControls: false,
+          hasBorders: false,
         },
       },
     ],
@@ -1961,7 +1386,7 @@ const TEMPLATES_DATABASE = [
     id: "cbse_cl2_paint_robot_coloring",
     board: "CBSE",
     classGrade: "2",
-    subject: "Computer Science",
+    subject: "Computer",
     chapterNo: 3,
     chapterName: "Fun with Paint",
     topic: "Drawing & Coloring a Robot using Basic Shapes",
@@ -1970,6 +1395,9 @@ const TEMPLATES_DATABASE = [
     bloomsTaxonomyLevel: "Apply",
     title: "🤖 Paint Tools: Fill Colors in the Robot!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "web",
     themeColor: "#6366f1",
     icon: "🤖",
@@ -2473,7 +1901,7 @@ const TEMPLATES_DATABASE = [
     id: "comp_class1_smart_machine",
     board: "CBSE",
     classGrade: "1",
-    subject: "Computer Science",
+    subject: "Computer",
     chapterNo: 1,
     chapterName: "Computer - A Smart Machine",
     topic: "Identifying Smart Machines vs Manual/Non-Smart Devices",
@@ -2848,6 +2276,9 @@ const TEMPLATES_DATABASE = [
     title:
       "🎨 Art Fun: Fill Bright Colors in Hair, Eyes, Lips, Clothes & Shoes!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "web",
     themeColor: "#ec4899",
     icon: "🎨 🧍",
@@ -3123,6 +2554,9 @@ const TEMPLATES_DATABASE = [
     bloomsTaxonomyLevel: "Remember & Apply",
     title: "🎨 Art Fun: Fill Bright Colors in Hair, Eyes, Lips & Clothes!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "mobile",
     themeColor: "#ec4899",
     icon: "🎨 🧍",
@@ -3388,7 +2822,7 @@ const TEMPLATES_DATABASE = [
     id: "comp_class1_parts_of_computer",
     board: "CBSE",
     classGrade: "1",
-    subject: "Computer Science",
+    subject: "Computer",
     chapterNo: 2,
     chapterName: "Parts of a Computer",
     topic: "Identifying Main Parts of a Computer System",
@@ -3630,7 +3064,7 @@ const TEMPLATES_DATABASE = [
     id: "comp_class1_find_input_devices_tick6",
     board: "CBSE",
     classGrade: "1",
-    subject: "Computer Science",
+    subject: "Computer",
     chapterNo: 2,
     chapterName: "Input and Output Devices",
     topic: "Find Input Devices",
@@ -3747,7 +3181,7 @@ const TEMPLATES_DATABASE = [
     id: "comp_class1_find_output_devices_tick6",
     board: "CBSE",
     classGrade: "1",
-    subject: "Computer Science",
+    subject: "Computer",
     chapterNo: 2,
     chapterName: "Input and Output Devices",
     topic: "Find Output Devices",
@@ -3863,7 +3297,7 @@ const TEMPLATES_DATABASE = [
     id: "comp_class1_color_real_input_devices",
     board: "CBSE",
     classGrade: "1",
-    subject: "Computer Science",
+    subject: "Computer",
     chapterNo: 2,
     chapterName: "Input and Output Devices",
     topic: "Identify and Color Real Input Devices",
@@ -3872,6 +3306,9 @@ const TEMPLATES_DATABASE = [
     bloomsTaxonomyLevel: "Identify & Apply",
     title: "🎨 Color Fun: Fill Bright Colors in all REAL INPUT DEVICES!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "web",
     themeColor: "#2563eb",
     icon: "⌨️ 🖱️ 🕹️",
@@ -4200,6 +3637,12 @@ const TEMPLATES_DATABASE = [
     id: "coloring_cat",
     title: "🐱 Fill colors inside the Big Cat!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "web",
     themeColor: "#ec4899",
     icon: "🐱🎨",
@@ -4305,6 +3748,12 @@ const TEMPLATES_DATABASE = [
     id: "coloring_dog",
     title: "🐶 Color the Happy Puppy!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "web",
     themeColor: "#a855f7",
     icon: "🐶",
@@ -4408,6 +3857,9 @@ const TEMPLATES_DATABASE = [
     id: "coloring_river",
     title: "🏞️ Paint the River & Sun Nature Scene!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "web",
     themeColor: "#0ea5e9",
     icon: "🏞️",
@@ -4467,6 +3919,9 @@ const TEMPLATES_DATABASE = [
     id: "coloring_home",
     title: "🏡 Color the Playhouse Roof & Walls!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "web",
     themeColor: "#10b981",
     icon: "🏡",
@@ -4529,6 +3984,9 @@ const TEMPLATES_DATABASE = [
     id: "coloring_rocket",
     title: "🚀 Paint the Flying Space Rocket!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "web",
     themeColor: "#6366f1",
     icon: "🚀",
@@ -4618,6 +4076,9 @@ const TEMPLATES_DATABASE = [
     id: "coloring_teddy",
     title: "🧸 Paint the Heart on the Teddy Bear!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "web",
     themeColor: "#f59e0b",
     icon: "🧸",
@@ -4708,6 +4169,9 @@ const TEMPLATES_DATABASE = [
     id: "coloring_fish",
     title: "🐠 Fill colors inside the Magic Fish!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "web",
     themeColor: "#14b8a6",
     icon: "🐠",
@@ -5241,6 +4705,9 @@ const TEMPLATES_DATABASE = [
     id: "color_cat_mobile",
     title: "🐱 Coloring Pad: Pick colors and fill the Big Cat!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "mobile",
     themeColor: "#ec4899",
     icon: "🐱",
@@ -5346,6 +4813,9 @@ const TEMPLATES_DATABASE = [
     id: "color_dog_mobile",
     title: "🐶 Coloring Pad: Fill colors inside the Happy Puppy!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "mobile",
     themeColor: "#a855f7",
     icon: "🐶",
@@ -5449,6 +4919,9 @@ const TEMPLATES_DATABASE = [
     id: "color_river_mobile",
     title: "🏞️ Coloring Pad: Fill colors in the Large River and Sun scene!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "mobile",
     themeColor: "#0ea5e9",
     icon: "🏞️",
@@ -5508,6 +4981,9 @@ const TEMPLATES_DATABASE = [
     id: "color_home_mobile",
     title: "🏡 Coloring Pad: Give colorful paints to the Big Playhouse!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "mobile",
     themeColor: "#10b981",
     icon: "🏡",
@@ -5570,6 +5046,9 @@ const TEMPLATES_DATABASE = [
     id: "color_rocket_mobile",
     title: "🚀 Coloring Pad: Zoom into Space with the Big Rocket!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "mobile",
     themeColor: "#6366f1",
     icon: "🚀",
@@ -5659,6 +5138,9 @@ const TEMPLATES_DATABASE = [
     id: "color_teddy_mobile",
     title: "🧸 Coloring Pad: Paint the Cute Big Teddy Bear!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "mobile",
     themeColor: "#f59e0b",
     icon: "🧸",
@@ -5749,6 +5231,9 @@ const TEMPLATES_DATABASE = [
     id: "color_fish_mobile",
     title: "🐠 Coloring Pad: Make the Magic Fish Colorful!",
     category: "coloring",
+    classGrade: "1",
+    subject: "Art",
+    chapterNo: 1,
     deviceType: "mobile",
     themeColor: "#14b8a6",
     icon: "🐠",
@@ -7722,7 +7207,6 @@ function loadTemplateById(templateId) {
 }
 
 // 4. DYNAMIC FILTER SYSTEM: AUTOMATIC SCREEN RESOLUTION SNIFFER
-// 4. DYNAMIC FILTER SYSTEM: CANVA-STYLE 2-COLUMN SIDEBAR RENDERER
 function filterTemplatesByCategory(categoryName = "all") {
   const sidebarContainer = document.getElementById("templates-sidebar");
   if (!sidebarContainer) return;
@@ -7742,56 +7226,44 @@ function filterTemplatesByCategory(categoryName = "all") {
     filtered = filtered.filter((t) => t.category === categoryName);
   }
 
-  // Desktop filters logic
-  if (!isMobile) {
-    if (classFilter !== "all") {
-      filtered = filtered.filter(
-        (t) => String(t.classGrade) === String(classFilter),
-      );
-    }
-
-    if (subjectFilter !== "all") {
-      filtered = filtered.filter((t) =>
-        t.subject?.toLowerCase().includes(subjectFilter.toLowerCase()),
-      );
-    }
-  }
-
   // ---------------------------------------------------------
-  // 📱 1. MOBILE VIEW (COMPACT FIT HORIZONTAL CARDS)
+  // 📱 1. MOBILE VIEW (FIXED BOTTOM SUBJECT BAR)
   // ---------------------------------------------------------
   if (isMobile) {
+    // 📱 Fixed Ultra-Sleek Glassmorphic Bottom Nav Bar
     sidebarContainer.className =
-      "w-full bg-white border-b border-slate-200 px-2 py-2 select-none shadow-sm";
+      "w-full bg-white/90 backdrop-blur-xl border-t border-slate-200/80 px-2 py-2 select-none shadow-[0_-8px_20px_rgba(0,0,0,0.06)] fixed bottom-0 left-0 z-50 shrink-0";
 
+    // iPhone notch / Android gesture bar safe-area padding
+    sidebarContainer.style.paddingBottom =
+      "calc(0.5rem + env(safe-area-inset-bottom, 0px))";
+
+    const subjects = [
+      { name: "Maths", val: "math", icon: "📐" },
+      { name: "Computer", val: "computer", icon: "💻" },
+      { name: "Art", val: "art", icon: "🎨" },
+      { name: "English", val: "english", icon: "🔤" },
+    ];
+
+    // 🔄 Butter-Smooth Horizontal Nav Scroll
     let mobileHtml = `
-      <div class="flex items-center gap-2 overflow-x-auto custom-scrollbar scroll-smooth no-scrollbar py-0.5">
+      <div class="flex items-center gap-2.5 overflow-x-auto no-scrollbar scroll-smooth w-full px-1 py-0.5 touch-pan-x">
     `;
 
-    if (filtered.length === 0) {
+    subjects.forEach((sub) => {
       mobileHtml += `
-        <div class="text-slate-400 text-xs font-bold whitespace-nowrap py-1 px-2">
-          No templates
-        </div>
-      `;
-    } else {
-      filtered.forEach((t) => {
-        mobileHtml += `
-          <div class="template-card flex-shrink-0 w-28 bg-slate-50 active:bg-indigo-50 border border-slate-200 rounded-xl p-1.5 flex flex-col items-center justify-center cursor-pointer shadow-sm" 
-               onclick="loadTemplateById('${t.id}')">
-            <div class="w-full h-12 bg-white rounded-lg border border-slate-100 flex items-center justify-center text-xl shadow-inner">
-              ${t.icon || "📄"}
-            </div>
-            <div class="w-full mt-1 text-center">
-              <div class="text-[11px] font-black text-slate-800 truncate w-full leading-tight">
-                ${t.label || t.title}
-              </div>
-              <div class="text-[9px] font-bold text-slate-400 mt-0.5">Cl ${t.classGrade || 1}</div>
-            </div>
+        <button type="button"
+                onclick="openSubjectModal('${sub.val}', '${sub.name}')" 
+                class="group relative flex flex-col items-center justify-center flex-shrink-0 min-w-[76px] flex-1 py-1.5 px-2 bg-slate-50/90 active:bg-indigo-50 border border-slate-200/70 active:border-indigo-200 rounded-2xl transition-all duration-200 ease-out active:scale-95 touch-manipulation shadow-2xs">
+          <!-- 🎨 Icon Badge Container -->
+          <div class="w-9 h-9 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-xl shadow-inner group-active:scale-110 transition-transform duration-200">
+            ${sub.icon}
           </div>
-        `;
-      });
-    }
+          <!-- 🏷️ Subject Label -->
+          <span class="text-[10px] font-black text-slate-700 group-active:text-indigo-600 mt-1 whitespace-nowrap tracking-tight leading-none">${sub.name}</span>
+        </button>
+      `;
+    });
 
     mobileHtml += `</div>`;
     sidebarContainer.innerHTML = mobileHtml;
@@ -7801,12 +7273,24 @@ function filterTemplatesByCategory(categoryName = "all") {
   // ---------------------------------------------------------
   // 🖥️ 2. DESKTOP/WEB VIEW (FULL SIDEBAR WITH FILTERS)
   // ---------------------------------------------------------
+  if (classFilter !== "all") {
+    filtered = filtered.filter(
+      (t) => String(t.classGrade) === String(classFilter),
+    );
+  }
+
+  if (subjectFilter !== "all") {
+    filtered = filtered.filter((t) =>
+      t.subject?.toLowerCase().includes(subjectFilter.toLowerCase()),
+    );
+  }
+
   sidebarContainer.className =
     "w-96 min-w-[384px] bg-white border-r border-slate-200 flex flex-col h-full select-none shadow-sm";
 
   let htmlContent = `
     <!-- HEADER -->
-    <div class=" hidden p-4 border-b border-slate-100 flex items-center justify-between bg-white sticky top-0 z-10">
+    <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-white sticky top-0 z-10">
       <div class="flex items-center gap-2.5">
         <div class="w-9 h-9 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold text-xl">🎨</div>
         <div>
@@ -7817,7 +7301,7 @@ function filterTemplatesByCategory(categoryName = "all") {
     </div>
 
     <!-- FILTERS -->
-    <div class=" hidden p-4 bg-slate-50/60 border-b border-slate-100 space-y-3">
+    <div class="p-4 bg-slate-50/60 border-b border-slate-100 space-y-3">
       <div class="grid grid-cols-2 gap-3">
         <div>
           <label class="block text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1">Class Grade</label>
@@ -7829,12 +7313,13 @@ function filterTemplatesByCategory(categoryName = "all") {
           </select>
         </div>
         <div>
-          <label class=" block text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1">Subject</label>
+          <label class="block text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1">Subject</label>
           <select id="filter-subject" onchange="filterTemplatesByCategory('${categoryName}')" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             <option value="all" ${subjectFilter === "all" ? "selected" : ""}>All Subjects</option>
             <option value="computer" ${subjectFilter === "computer" ? "selected" : ""}>Computer Science</option>
-            <option value="math" class="hidden" hidden ${subjectFilter === "math" ? "selected" : ""}>Mathematics</option>
-            <option value="art" class="hidden" hidden ${subjectFilter === "art" ? "selected" : ""}>Art & Tracing</option>
+            <option value="math" ${subjectFilter === "math" ? "selected" : ""}>Maths</option>
+            <option value="art" ${subjectFilter === "art" ? "selected" : ""}>Art & Tracing</option>
+            <option value="english" ${subjectFilter === "english" ? "selected" : ""}>English</option>
           </select>
         </div>
       </div>
@@ -7845,22 +7330,30 @@ function filterTemplatesByCategory(categoryName = "all") {
       <div class="grid grid-cols-2 gap-3.5">
   `;
 
-  filtered.forEach((t) => {
+  if (filtered.length === 0) {
     htmlContent += `
-      <div class="template-card group relative bg-slate-50 hover:bg-indigo-50/70 border border-slate-200 hover:border-indigo-300 rounded-2xl p-3 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md" 
-           onclick="loadTemplateById('${t.id}')">
-        <div class="w-full aspect-[4/3] bg-white rounded-xl border border-slate-100 flex items-center justify-center text-4xl shadow-inner group-hover:scale-110 transition-transform duration-200">
-          ${t.icon || "📄"}
-        </div>
-        <div class="w-full mt-2.5 text-center">
-          <div class="text-xs font-black text-slate-800 group-hover:text-indigo-600 truncate w-full">
-            ${t.label || t.title}
-          </div>
-          <div class="text-[10px] font-bold text-slate-400 mt-0.5">Class ${t.classGrade || 1} • ${t.subject || "CS"}</div>
-        </div>
+      <div class="col-span-2 text-center py-8 text-slate-400 text-xs font-bold">
+        No templates found.
       </div>
     `;
-  });
+  } else {
+    filtered.forEach((t) => {
+      htmlContent += `
+        <div class="template-card group relative bg-slate-50 hover:bg-indigo-50/70 border border-slate-200 hover:border-indigo-300 rounded-2xl p-3 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md" 
+             onclick="loadTemplateById('${t.id}')">
+          <div class="w-full aspect-[4/3] bg-white rounded-xl border border-slate-100 flex items-center justify-center text-4xl shadow-inner group-hover:scale-110 transition-transform duration-200">
+            ${t.icon || "📄"}
+          </div>
+          <div class="w-full mt-2.5 text-center">
+            <div class="text-xs font-black text-slate-800 group-hover:text-indigo-600 truncate w-full">
+              ${t.label || t.title}
+            </div>
+            <div class="text-[10px] font-bold text-slate-400 mt-0.5">Class ${t.classGrade || 1} • ${t.subject || "Maths"}</div>
+          </div>
+        </div>
+      `;
+    });
+  }
 
   htmlContent += `
       </div>
@@ -7870,6 +7363,83 @@ function filterTemplatesByCategory(categoryName = "all") {
   sidebarContainer.innerHTML = htmlContent;
 }
 
+// ---------------------------------------------------------
+// 🚀 CANVA STYLE SLIDE-UP MODAL LOGIC (MATHS FIX INCLUDED)
+// ---------------------------------------------------------
+function openSubjectModal(subjectKey, subjectName) {
+  const modal = document.getElementById("mobile-template-modal");
+  const modalTitle = document.getElementById("mobile-modal-title");
+  const modalGrid = document.getElementById("mobile-modal-grid");
+
+  if (!modal || !modalGrid) return;
+
+  modalTitle.innerText = `${subjectName} Templates`;
+
+  // Robust Subject Filter (Handles 'math', 'maths', 'mathematics')
+  const templates = TEMPLATES_DATABASE.filter((t) => {
+    if (t.deviceType !== "mobile") return false;
+    const sub = (t.subject || "").toLowerCase();
+    const searchKey = subjectKey.toLowerCase();
+
+    if (searchKey === "math") {
+      return sub.includes("math") || sub.includes("maths");
+    }
+    return sub.includes(searchKey);
+  });
+
+  let gridHtml = "";
+
+  if (templates.length === 0) {
+    gridHtml = `
+      <div class="col-span-3 text-center py-8 text-slate-400 text-xs font-bold">
+        No ${subjectName} templates available right now.
+      </div>
+    `;
+  } else {
+    templates.forEach((t) => {
+      gridHtml += `
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-2 flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-transform shadow-sm"
+             onclick="selectMobileTemplate('${t.id}')">
+          <div class="w-full h-16 bg-white rounded-xl border border-slate-100 flex items-center justify-center text-2xl shadow-inner">
+            ${t.icon || "📄"}
+          </div>
+          <div class="w-full mt-1.5 text-center">
+            <div class="text-[11px] font-black text-slate-800 truncate leading-tight w-full">
+              ${t.label || t.title}
+            </div>
+            <div class="text-[9px] font-bold text-slate-400 mt-0.5">Cl ${t.classGrade || 1}</div>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  modalGrid.innerHTML = gridHtml;
+
+  // Open Modal (Slide Up)
+  modal.classList.remove("translate-y-full", "pointer-events-none");
+  modal.classList.add("translate-y-0");
+}
+
+function closeSubjectModal() {
+  const modal = document.getElementById("mobile-template-modal");
+  if (modal) {
+    modal.classList.remove("translate-y-0");
+    modal.classList.add("translate-y-full", "pointer-events-none");
+  }
+}
+
+function selectMobileTemplate(templateId) {
+  closeSubjectModal();
+  if (typeof loadTemplateById === "function") {
+    loadTemplateById(templateId);
+  }
+}
+
+// Page load / Init call
+document.addEventListener("DOMContentLoaded", () => {
+  filterTemplatesByCategory("all");
+});
 // 🔥 Immediate Run without delay (DO NOT USE setTimeout 300ms)
 document.addEventListener("DOMContentLoaded", () => {
   filterTemplatesByCategory("all");
