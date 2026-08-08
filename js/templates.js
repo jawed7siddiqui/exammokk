@@ -1038,7 +1038,6 @@ const TEMPLATES_DATABASE = [
     objects: [
       {
         type: "text",
-        text: "⌨️ Match the Keyboard Keys",
         props: {
           left: 400,
           top: 50,
