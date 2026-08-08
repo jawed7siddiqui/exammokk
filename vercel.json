@@ -40,6 +40,10 @@
     {
       "source": "/blogs/:slug",
       "destination": "/blog-detail.html"
+    },
+    {
+      "source": "/math-games",
+      "destination": "/math-games.html"
     }
   ]
 }

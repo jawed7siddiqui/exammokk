@@ -17,3 +17,4 @@ RewriteRule ^blogs/?$ blogs.html [L,QSA]
 
 # Map /blogs/slug-name to blog-detail.html (Single Blog Detail)
 RewriteRule ^blogs/([^/]+)/?$ blog-detail.html [L,QSA]
+RewriteRule ^math-games/?$ math-games.html [L,QSA]
