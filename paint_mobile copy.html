@@ -108,8 +108,7 @@
         ]
       }
     </script>
-    <!-- Confetti Celebration Library -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <!-- CDN SCRIPTS LOADED PROPERLY -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -3470,15 +3469,6 @@
       }
 
       // 4. Main Answer Checking Engine
-      // 🔊 Correct aur Wrong Sounds (CDN Audio Links)
-      const soundCorrect = new Audio(
-        "https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3",
-      );
-      const soundWrong = new Audio(
-        "https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3",
-      );
-
-      // 🎯 Main Answer Check Engine (With Sound & Confetti Effects)
       function checkAnswer() {
         if (!canvas || !currentTemplate) return;
 
@@ -3503,7 +3493,6 @@
 
         const targetAnswers = currentTemplate.correctAnswers || [];
         let correctMatches = 0;
-        let hasWrongMatch = false;
 
         userLines.forEach((line) => {
           const { start, end } = getPathEndpoints(line);
@@ -3542,7 +3531,6 @@
                 correctMatches++;
                 line.set({ stroke: "#22c55e", strokeWidth: 6 }); // Correct Match: Green Line
               } else {
-                hasWrongMatch = true;
                 line.set({ stroke: "#ef4444", strokeWidth: 6 }); // Wrong Match: Red Line
               }
             }
@@ -3551,40 +3539,17 @@
 
         canvas.renderAll();
 
-        // 🎉 Saare Answers Sahi Hone Par
         if (
           correctMatches === targetAnswers.length &&
-          targetAnswers.length > 0 &&
-          !hasWrongMatch
+          targetAnswers.length > 0
         ) {
-          // 🔊 Play Win Sound
-          soundCorrect.currentTime = 0;
-          soundCorrect.play().catch(() => {});
-
-          // 🎊 Trigger Confetti Canvas Animation
-          if (typeof confetti === "function") {
-            confetti({
-              particleCount: 120,
-              spread: 80,
-              origin: { y: 0.6 },
-            });
-          }
-
-          setTimeout(() => {
-            alert("🎉 Zabardast! Saare answers sahi hain! ✅");
-          }, 200);
+          alert("🎉 Zabardast! Saare answers sahi hain! ✅");
+        } else if (correctMatches > 0) {
+          alert(
+            "👍 Kuch answers sahi hain, baaki line delete karke dobara try karein!",
+          );
         } else {
-          // 🔊 Play Wrong Sound
-          soundWrong.currentTime = 0;
-          soundWrong.play().catch(() => {});
-
-          if (correctMatches > 0) {
-            alert(
-              "👍 Kuch answers sahi hain, baaki line delete karke dobara try karein!",
-            );
-          } else {
-            alert("❌ Galat match! Sahi box par line draw karein.");
-          }
+          alert("❌ Galat match! Sahi box par line draw karein.");
         }
       }
     </script>
