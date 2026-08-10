@@ -3469,7 +3469,7 @@
         );
       }
 
-      // 🔔 Custom Kid-Friendly Toast Notification Helper
+      // 🔔 Bottom Compact Horizontal Toast Notification
       function showToast(message, type = "info") {
         const oldToast = document.getElementById("kids-paint-toast");
         if (oldToast) oldToast.remove();
@@ -3477,35 +3477,34 @@
         const toast = document.createElement("div");
         toast.id = "kids-paint-toast";
 
-        let bgColor = "bg-amber-500 border-amber-400";
-        let icon = "⚠️";
+        let bgColor = "bg-amber-500 border-amber-300";
+        let icon = "💡";
 
         if (type === "success") {
-          bgColor = "bg-emerald-500 border-emerald-400";
+          bgColor = "bg-emerald-500 border-emerald-300";
           icon = "🎉";
         } else if (type === "error") {
-          bgColor = "bg-red-500 border-red-400";
+          bgColor = "bg-red-500 border-red-300";
           icon = "❌";
-        } else if (type === "warning") {
-          bgColor = "bg-amber-500 border-amber-400";
-          icon = "💡";
         }
 
-        toast.className = `fixed top-16 left-1/2 -translate-x-1/2 z-[9999999] flex items-center gap-2.5 px-6 py-3 rounded-2xl text-white font-black text-sm md:text-base border-2 shadow-2xl transition-all duration-300 transform -translate-y-4 opacity-0 active:scale-95 ${bgColor}`;
-        toast.innerHTML = `<span class="text-xl">${icon}</span> <span>${message}</span>`;
-
+        // Bottom Center, Pill Shape, Single-line Horizontal Layout
+        toast.className = `fixed bottom-25 left-1/2 -translate-x-1/2 z-[9999999] flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-xs sm:text-sm border shadow-xl whitespace-nowrap max-w-[90vw] transition-all duration-300 transform translate-y-6 opacity-0 active:scale-95 ${bgColor}`;
+        toast.innerHTML = `<span class="text-base">${icon}</span><span>${message}</span>`;
         document.body.appendChild(toast);
 
+        // Bottom-Up Slide Animation
         requestAnimationFrame(() => {
-          toast.classList.remove("-translate-y-4", "opacity-0");
+          toast.classList.remove("translate-y-6", "opacity-0");
           toast.classList.add("translate-y-0", "opacity-100");
         });
 
+        // Auto Hide after 2.5s
         setTimeout(() => {
           toast.classList.remove("translate-y-0", "opacity-100");
-          toast.classList.add("-translate-y-4", "opacity-0");
+          toast.classList.add("translate-y-6", "opacity-0");
           setTimeout(() => toast.remove(), 300);
-        }, 3000);
+        }, 2500);
       }
 
       // 🔊 Audio Effects Setup
@@ -3529,10 +3528,7 @@
           );
 
         if (userLines.length === 0) {
-          showToast(
-            "Please draw lines with the pencil to connect the boxes first!",
-            "warning",
-          );
+          showToast("Draw lines first!", "warning");
           return;
         }
 
@@ -3608,21 +3604,15 @@
             });
           }
 
-          showToast("Awesome! All answers are correct! ✅", "success");
+          showToast("Awesome! All Correct!", "success");
         } else {
           soundWrong.currentTime = 0;
           soundWrong.play().catch(() => {});
 
           if (correctMatches > 0) {
-            showToast(
-              "Some answers are correct. Clear wrong lines and try again!",
-              "warning",
-            );
+            showToast("Try again! Some wrong.", "warning");
           } else {
-            showToast(
-              "Incorrect match! Draw lines to the correct boxes.",
-              "error",
-            );
+            showToast("Wrong match! Try again.", "error");
           }
         }
       }
