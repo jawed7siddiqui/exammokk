@@ -1019,22 +1019,18 @@
         </div>
       </div>
       <!-- CANVA SYSTEM VIEWPORT -->
-      <!-- CANVA SYSTEM VIEWPORT -->
-      <main
-        id="editor-container"
-        class="relative w-full h-full flex items-center justify-center"
-      >
-        <div class="canvas-holder relative" id="canvas-wrapper">
+      <main id="editor-container">
+        <div class="canvas-holder" id="canvas-wrapper">
           <canvas id="paintCanvas"></canvas>
 
-          <!-- 🎯 Floating "Check Answer" Button (Canvas Wrapper ke andar Bottom Right par) -->
+          <!-- 🎯 Button ko canvas-wrapper ke andar daal diya hai -->
           <button
             id="btn-check-answer"
             onclick="checkAnswer()"
-            class="absolute bottom-16 right-3 z-[9999] flex items-center gap-1.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 active:scale-95 text-white text-xs md:text-sm font-black px-3.5 py-2 rounded-full shadow-2xl transition-all cursor-pointer border-2 border-white/90 backdrop-blur-md"
+            class="absolute bottom-16 right-4 z-50 flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 active:scale-95 text-white text-xs md:text-sm font-black px-4 py-2 rounded-full shadow-xl transition-all cursor-pointer border-2 border-white/80 backdrop-blur-md"
           >
             <span>Check Answer</span>
-            <span class="text-sm md:text-base">✅</span>
+            <span class="text-base">✅</span>
           </button>
         </div>
       </main>

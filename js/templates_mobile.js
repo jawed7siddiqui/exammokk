@@ -6229,6 +6229,21 @@ function loadTemplateById(templateId) {
   const template = TEMPLATES_DATABASE.find((t) => t.id === templateId);
   if (!template) return;
 
+  // 🎯 Subject "Art", Category "coloring" ya Default Tool "bucket" hone par Check Answer Button Hide Karein
+  const checkBtn = document.getElementById("btn-check-answer");
+  if (checkBtn) {
+    const shouldHide =
+      (template.subject && template.subject.toLowerCase() === "art") ||
+      template.category === "coloring" ||
+      template.defaultTool === "bucket";
+
+    if (shouldHide) {
+      checkBtn.classList.add("hidden");
+    } else {
+      checkBtn.classList.remove("hidden");
+    }
+  }
+
   // 🎯 Template load hone par Global State set karein
   // (Isse canvas background bucket fill automatically disable ho jayega)
   if (typeof currentTemplate !== "undefined") {

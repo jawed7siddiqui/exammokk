@@ -108,7 +108,8 @@
         ]
       }
     </script>
-
+    <!-- Confetti Celebration Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- CDN SCRIPTS LOADED PROPERLY -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -1021,6 +1022,16 @@
       <main id="editor-container">
         <div class="canvas-holder" id="canvas-wrapper">
           <canvas id="paintCanvas"></canvas>
+
+          <!-- 🎯 Button ko canvas-wrapper ke andar daal diya hai -->
+          <button
+            id="btn-check-answer"
+            onclick="checkAnswer()"
+            class="absolute bottom-16 right-4 z-50 flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 active:scale-95 text-white text-xs md:text-sm font-black px-4 py-2 rounded-full shadow-xl transition-all cursor-pointer border-2 border-white/80 backdrop-blur-md"
+          >
+            <span>Check Answer</span>
+            <span class="text-base">✅</span>
+          </button>
         </div>
       </main>
     </div>
@@ -1554,7 +1565,7 @@
       </div>
     </div>
 
-    <script src="js/templates.js"></script>
+    <script src="js/templates_mobile.js"></script>
     <!-- CORE SCRIPTS PIPELINES ENGINE -->
     <script>
       let canvas;
@@ -1605,32 +1616,6 @@
           console.log(`✨ Welcome back artist: ${savedUser}`);
         }
       }
-
-      // 2 CORNER GEOMETRIC EXCLUSIVE LINE RESIZE INTERACTION CONTROL
-      const applyExclusiveLineControls = (targetLine) => {
-        targetLine.setControlsVisibility({
-          tl: true,
-          br: true,
-          tr: false,
-          bl: false,
-          ml: false,
-          mr: false,
-          mt: false,
-          mb: false,
-          mtr: false,
-        });
-        targetLine.set({
-          transparentCorners: false,
-          cornerColor: "#4f46e5",
-          cornerStrokeColor: "#ffffff",
-          cornerSize: 10,
-          cornerStyle: "circle",
-          borderColor: "#4f46e5",
-          hasRotatingPoint: false,
-          lockRotation: true,
-          strokeUniform: true, // STROKEUNIFORM STABILIZED: Eliminates line thickness distortion on stretch!
-        });
-      };
 
       let currentTemplateMeta = {
         id: "default-canvas",
@@ -3401,53 +3386,247 @@
         }
       }
 
-      // ---------------------------------------------------------
-      // 🔔 HELPER: UI Toast / Popup Notifications
-      // ---------------------------------------------------------
-      function showAnswerToast(message, type = "info") {
-        // Existing modal ya alert agar aapke app me ho, nahi toh custom popup create karein
-        const existingToast = document.getElementById("answer-toast");
-        if (existingToast) existingToast.remove();
-
-        const toast = document.createElement("div");
-        toast.id = "answer-toast";
-
-        let bgClass = "bg-slate-900 border-slate-700 text-white";
-        if (type === "success")
-          bgClass = "bg-emerald-600 border-emerald-500 text-white";
-        if (type === "error")
-          bgClass = "bg-rose-600 border-rose-500 text-white";
-        if (type === "warning")
-          bgClass = "bg-amber-500 border-amber-400 text-white";
-
-        toast.className = `fixed top-16 left-1/2 -translate-x-1/2 z-[99999] px-4 py-2.5 rounded-2xl border shadow-xl text-xs sm:text-sm font-black flex items-center gap-2 transition-all duration-300 animate-bounce ${bgClass}`;
-        toast.innerHTML = `<span>${message}</span>`;
-
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-          toast.classList.add("opacity-0", "translate-y-[-10px]");
-          setTimeout(() => toast.remove(), 300);
-        }, 3500);
+      // 1. Line Handle Restriction Logic (Rotation Disable & Start/End Controls Only)
+      function applyExclusiveLineControls(targetLine) {
+        if (!targetLine) return;
+        targetLine.setControlsVisibility({
+          tl: true,
+          br: true,
+          tr: false,
+          bl: false,
+          ml: false,
+          mr: false,
+          mt: false,
+          mb: false,
+          mtr: false,
+        });
+        targetLine.set({
+          transparentCorners: false,
+          cornerColor: "#ec4899",
+          cornerStrokeColor: "#ffffff",
+          cornerSize: 10,
+          cornerStyle: "circle",
+          borderColor: "#ec4899",
+          hasRotatingPoint: false,
+          lockRotation: true,
+          strokeUniform: true,
+        });
       }
 
-      // 🎵 Optional Sound Effect
-      function playSuccessSound() {
-        try {
-          const audioCtx = new (
-            window.AudioContext || window.webkitAudioContext
-          )();
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
-          osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
-          gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-          osc.start();
-          osc.stop(audioCtx.currentTime + 0.3);
-        } catch (e) {
-          // Audio context fallback
+      // 2. Pencil Path Start aur End Points Coordinates Calculator
+      function getPathEndpoints(pathObj) {
+        if (pathObj.type === "line") {
+          const matrix = pathObj.calcTransformMatrix();
+          const p1 = fabric.util.transformPoint(
+            {
+              x: pathObj.x1 - pathObj.width / 2,
+              y: pathObj.y1 - pathObj.height / 2,
+            },
+            matrix,
+          );
+          const p2 = fabric.util.transformPoint(
+            {
+              x: pathObj.x2 - pathObj.width / 2,
+              y: pathObj.y2 - pathObj.height / 2,
+            },
+            matrix,
+          );
+          return { start: p1, end: p2 };
+        }
+
+        if (pathObj.type === "path" && pathObj.path) {
+          const matrix = pathObj.calcTransformMatrix();
+          const firstCmd = pathObj.path[0];
+          const lastCmd = pathObj.path[pathObj.path.length - 1];
+
+          const startPt = {
+            x: firstCmd[1] - pathObj.pathOffset.x,
+            y: firstCmd[2] - pathObj.pathOffset.y,
+          };
+          const endPt = {
+            x: lastCmd[lastCmd.length - 2] - pathObj.pathOffset.x,
+            y: lastCmd[lastCmd.length - 1] - pathObj.pathOffset.y,
+          };
+
+          return {
+            start: fabric.util.transformPoint(startPt, matrix),
+            end: fabric.util.transformPoint(endPt, matrix),
+          };
+        }
+
+        const b = pathObj.getBoundingRect();
+        return {
+          start: { x: b.left, y: b.top },
+          end: { x: b.left + b.width, y: b.top + b.height },
+        };
+      }
+
+      // 3. Point Inside Box Checker (40px Boundary Margin Tolerance)
+      function isInsideBox(x, y, box) {
+        return (
+          x >= box.left - 40 &&
+          x <= box.left + box.width + 40 &&
+          y >= box.top - 40 &&
+          y <= box.top + box.height + 40
+        );
+      }
+
+      // 🔔 Bottom Compact Horizontal Toast Notification
+      function showToast(message, type = "info") {
+        const oldToast = document.getElementById("kids-paint-toast");
+        if (oldToast) oldToast.remove();
+
+        const toast = document.createElement("div");
+        toast.id = "kids-paint-toast";
+
+        let bgColor = "bg-amber-500 border-amber-300";
+        let icon = "💡";
+
+        if (type === "success") {
+          bgColor = "bg-emerald-500 border-emerald-300";
+          icon = "🎉";
+        } else if (type === "error") {
+          bgColor = "bg-red-500 border-red-300";
+          icon = "❌";
+        }
+
+        // Bottom Center, Pill Shape, Single-line Horizontal Layout
+        toast.className = `fixed bottom-25 left-1/2 -translate-x-1/2 z-[9999999] flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-xs sm:text-sm border shadow-xl whitespace-nowrap max-w-[90vw] transition-all duration-300 transform translate-y-6 opacity-0 active:scale-95 ${bgColor}`;
+        toast.innerHTML = `<span class="text-base">${icon}</span><span>${message}</span>`;
+        document.body.appendChild(toast);
+
+        // Bottom-Up Slide Animation
+        requestAnimationFrame(() => {
+          toast.classList.remove("translate-y-6", "opacity-0");
+          toast.classList.add("translate-y-0", "opacity-100");
+        });
+
+        // Auto Hide after 2.5s
+        setTimeout(() => {
+          toast.classList.remove("translate-y-0", "opacity-100");
+          toast.classList.add("translate-y-6", "opacity-0");
+          setTimeout(() => toast.remove(), 300);
+        }, 2500);
+      }
+
+      // 🔊 Audio Effects Setup
+      const soundCorrect = new Audio(
+        "https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3",
+      );
+      const soundWrong = new Audio(
+        "https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3",
+      );
+
+      // 🎯 Main Answer Check Engine
+      function checkAnswer() {
+        if (!canvas || !currentTemplate) return;
+
+        const userLines = canvas
+          .getObjects()
+          .filter(
+            (obj) =>
+              (obj.type === "path" || obj.type === "line") &&
+              obj.role !== "background_art",
+          );
+
+        if (userLines.length === 0) {
+          showToast("Draw lines first!", "warning");
+          return;
+        }
+
+        const allRects = canvas
+          .getObjects()
+          .filter((obj) => obj.type === "rect");
+        const leftBoxes = allRects.filter((r) => r.left < 350);
+        const rightBoxes = allRects.filter((r) => r.left >= 350);
+
+        const targetAnswers = currentTemplate.correctAnswers || [];
+        let correctMatches = 0;
+        let hasWrongMatch = false;
+
+        userLines.forEach((line) => {
+          const { start, end } = getPathEndpoints(line);
+
+          const matchedLeft = leftBoxes.find(
+            (b) =>
+              isInsideBox(start.x, start.y, b) || isInsideBox(end.x, end.y, b),
+          );
+          const matchedRight = rightBoxes.find(
+            (b) =>
+              isInsideBox(start.x, start.y, b) || isInsideBox(end.x, end.y, b),
+          );
+
+          if (matchedLeft && matchedRight) {
+            const leftTextObj = canvas
+              .getObjects()
+              .find(
+                (t) =>
+                  t.type === "text" && isInsideBox(t.left, t.top, matchedLeft),
+              );
+            const rightTextObj = canvas
+              .getObjects()
+              .find(
+                (t) =>
+                  t.type === "text" && isInsideBox(t.left, t.top, matchedRight),
+              );
+
+            if (leftTextObj && rightTextObj) {
+              const isCorrect = targetAnswers.some(
+                (ans) =>
+                  ans.leftText.trim() === leftTextObj.text.trim() &&
+                  ans.rightText.trim() === rightTextObj.text.trim(),
+              );
+
+              if (isCorrect) {
+                correctMatches++;
+                line.set({ stroke: "#22c55e", strokeWidth: 6 });
+              } else {
+                hasWrongMatch = true;
+                line.set({ stroke: "#ef4444", strokeWidth: 6 });
+              }
+            }
+          }
+        });
+
+        canvas.renderAll();
+
+        if (
+          correctMatches === targetAnswers.length &&
+          targetAnswers.length > 0 &&
+          !hasWrongMatch
+        ) {
+          soundCorrect.currentTime = 0;
+          soundCorrect.play().catch(() => {});
+
+          if (typeof confetti === "function") {
+            confetti({
+              particleCount: 120,
+              spread: 80,
+              origin: { y: 0.6 },
+            });
+          }
+
+          showToast("Awesome! All Correct!", "success");
+        } else {
+          // 🔊 Play Wrong Sound
+          soundWrong.currentTime = 0;
+          soundWrong.play().catch(() => {});
+
+          showToast("Try again! Red lines are wrong.", "error");
+
+          // ⏳ 1.5 Seconds baad SIRF RED (Galat) lines ko automatic canvas se hata dein
+          setTimeout(() => {
+            const redLines = canvas
+              .getObjects()
+              .filter(
+                (obj) =>
+                  (obj.type === "path" || obj.type === "line") &&
+                  obj.stroke === "#ef4444",
+              );
+
+            redLines.forEach((line) => canvas.remove(line));
+            canvas.renderAll();
+          }, 1500);
         }
       }
     </script>
