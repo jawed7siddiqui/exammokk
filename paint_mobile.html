@@ -3606,14 +3606,25 @@
 
           showToast("Awesome! All Correct!", "success");
         } else {
+          // 🔊 Play Wrong Sound
           soundWrong.currentTime = 0;
           soundWrong.play().catch(() => {});
 
-          if (correctMatches > 0) {
-            showToast("Try again! Some wrong.", "warning");
-          } else {
-            showToast("Wrong match! Try again.", "error");
-          }
+          showToast("Try again! Red lines are wrong.", "error");
+
+          // ⏳ 1.5 Seconds baad SIRF RED (Galat) lines ko automatic canvas se hata dein
+          setTimeout(() => {
+            const redLines = canvas
+              .getObjects()
+              .filter(
+                (obj) =>
+                  (obj.type === "path" || obj.type === "line") &&
+                  obj.stroke === "#ef4444",
+              );
+
+            redLines.forEach((line) => canvas.remove(line));
+            canvas.renderAll();
+          }, 1500);
         }
       }
     </script>
