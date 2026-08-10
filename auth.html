@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>KidsPaint Studio - Auth</title>
+
+    <!-- Tailwind CSS & Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: linear-gradient(
+          135deg,
+          #6366f1 0%,
+          #a855f7 50%,
+          #ec4899 100%
+        );
+        min-height: 100dvh;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(5deg);
+        }
+      }
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+      /* Thin Custom Scrollbar */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 5px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body
+    class="flex items-center justify-center p-4 relative overflow-x-hidden antialiased select-none"
+  >
+    <!-- Background Playful Elements -->
+    <div
+      class="absolute top-10 left-10 w-28 h-28 bg-white/10 rounded-full blur-xl animate-float pointer-events-none"
+    ></div>
+    <div
+      class="absolute bottom-12 right-10 w-36 h-36 bg-yellow-300/20 rounded-full blur-2xl animate-float pointer-events-none"
+      style="animation-delay: 2s"
+    ></div>
+
+    <!-- MAIN AUTH CARD (visible overflow for overlay dropdown) -->
+    <main
+      class="w-full max-w-md bg-white rounded-3xl shadow-2xl border-4 border-white/80 p-6 md:p-8 relative z-10 overflow-visible backdrop-blur-md"
+    >
+      <!-- App-Style Back Button -->
+      <div class="flex items-center justify-between mb-2 relative min-h-[36px]">
+        <button
+          id="app-back-btn"
+          onclick="handleAppBackNavigation()"
+          class="hidden items-center justify-center w-9 h-9 rounded-full bg-slate-100 text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 transition-all active:scale-90 shadow-sm cursor-pointer z-20"
+          title="Back"
+        >
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Brand Header -->
+      <div class="text-center mb-6">
+        <a href="/" class="inline-flex items-center gap-1.5 no-underline mb-1">
+          <i
+            data-lucide="sparkles"
+            class="w-6 h-6 text-amber-400 fill-current animate-bounce"
+          ></i>
+          <span
+            class="text-2xl md:text-3xl font-black tracking-wide text-indigo-600 uppercase"
+          >
+            Kids&nbsp;<span class="text-pink-500">P</span
+            ><span class="text-amber-500">a</span
+            ><span class="text-emerald-500">i</span
+            ><span class="text-cyan-500">n</span
+            ><span class="text-violet-500">t</span>
+          </span>
+        </a>
+        <p class="text-xs font-bold text-slate-400">
+          Learning & Creativity Studio
+        </p>
+      </div>
+
+      <!-- Global Alert / Error Message Box -->
+      <div
+        id="kids-paint-alert-box"
+        class="hidden text-xs font-bold p-3 rounded-2xl text-center mb-5 bg-red-50 text-red-500 border border-red-200 animate-pulse"
+      ></div>
+
+      <!-- ========================================== -->
+      <!-- STEP 1: MOBILE & ROLE (CLEAN UI) -->
+      <!-- ========================================== -->
+      <section id="step-common-login" class="auth-step-container">
+        <div class="text-center mb-5">
+          <p class="text-xs font-bold text-slate-400">Log in to continue.</p>
+        </div>
+
+        <form onsubmit="handleCommonLoginSubmit(event)" class="space-y-4">
+          <div>
+            <label
+              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+              >I am a...</label
+            >
+            <select
+              id="user-role"
+              class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-slate-700 outline-none focus:border-indigo-500 bg-slate-50 text-xs transition-all cursor-pointer"
+            >
+              <option value="parent" selected>Parent</option>
+              <option value="teacher">Teacher</option>
+            </select>
+          </div>
+
+          <div>
+            <label
+              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+              >Parent/Teacher Mobile Number</label
+            >
+            <div class="flex items-center relative">
+              <!-- SEARCHABLE COUNTRY CODE TRIGGER BUTTON -->
+              <button
+                type="button"
+                id="country-selector-btn"
+                onclick="toggleCountryDropdown(event)"
+                class="bg-slate-100 border-2 border-r-0 border-slate-200 rounded-l-2xl px-2.5 py-3 text-xs font-black text-slate-700 outline-none hover:bg-slate-200 shrink-0 min-w-[78px] flex items-center justify-between cursor-pointer"
+              >
+                <span id="selected-country-label">🇮🇳 +91</span>
+                <i
+                  data-lucide="chevron-down"
+                  class="w-3.5 h-3.5 text-slate-400"
+                ></i>
+              </button>
+
+              <!-- SEARCHABLE COUNTRY DROPDOWN MENU (OVERLAY Z-INDEX FIX) -->
+              <div
+                id="country-dropdown-menu"
+                class="hidden absolute top-full left-0 mt-1.5 w-72 bg-white border border-slate-200 shadow-2xl rounded-2xl p-2.5 z-[99999] transition-all"
+              >
+                <div class="relative mb-2">
+                  <i
+                    data-lucide="search"
+                    class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-3"
+                  ></i>
+                  <input
+                    type="text"
+                    id="country-search-input"
+                    oninput="filterCountryList(this.value)"
+                    placeholder="Search country or code..."
+                    class="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500"
+                  />
+                </div>
+                <div
+                  id="country-list-container"
+                  class="max-h-52 overflow-y-auto custom-scrollbar space-y-1"
+                >
+                  <!-- Dynamic Country List Items -->
+                </div>
+              </div>
+
+              <!-- MOBILE INPUT (MAX 15 DIGITS, NUMBERS ONLY) -->
+              <input
+                type="tel"
+                id="user-mobile"
+                required
+                maxlength="15"
+                oninput="validateMobileInput(this)"
+                placeholder="Mobile number"
+                class="w-full p-3 border-2 border-slate-200 rounded-r-2xl font-bold text-indigo-600 outline-none focus:border-indigo-500 bg-slate-50 text-sm tracking-wider transition-all"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-4 mt-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:opacity-95 active:scale-95 text-white font-black rounded-2xl text-sm uppercase tracking-wider shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2"
+          >
+            Continue →
+          </button>
+        </form>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- STEP 2A: EXISTING USER - LOGIN -->
+      <!-- ========================================== -->
+      <section id="step-enter-password" class="auth-step-container hidden">
+        <div class="text-center mb-5">
+          <h2 class="text-xl font-black text-slate-800 uppercase">
+            Welcome Back! 👋
+          </h2>
+          <p class="text-xs font-bold text-slate-400 mt-1">
+            Enter your password to continue.
+          </p>
+        </div>
+
+        <form onsubmit="handlePasswordSubmit(event)" class="space-y-4">
+          <div>
+            <label
+              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+              >🔑 Password</label
+            >
+            <input
+              type="password"
+              id="teacher-password-input"
+              required
+              placeholder="Enter your password"
+              class="w-full p-3.5 border-2 border-slate-200 rounded-2xl font-bold text-indigo-600 outline-none focus:border-indigo-500 bg-slate-50 text-base tracking-widest text-center transition-all"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:opacity-95 active:scale-95 text-white font-black rounded-2xl text-sm uppercase tracking-wider shadow-lg transition-all cursor-pointer"
+          >
+            Login & Continue →
+          </button>
+        </form>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- STEP 2B: NEW USER - PROFILE SETUP -->
+      <!-- ========================================== -->
+      <section id="step-registration" class="auth-step-container hidden">
+        <div class="text-center mb-4">
+          <h2
+            id="reg-form-title"
+            class="text-base sm:text-lg font-black text-slate-800 uppercase whitespace-nowrap"
+          >
+            Set Up Your Child’s Profile
+          </h2>
+          <p id="reg-form-subtitle" class="text-xs font-bold text-slate-400">
+            Enter details to get started.
+          </p>
+        </div>
+
+        <form onsubmit="handleRegistrationSubmit(event)" class="space-y-4">
+          <!-- PARENT FIELDS -->
+          <div id="parent-fields-group" class="space-y-4">
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >Child’s Name</label
+              >
+              <input
+                type="text"
+                id="reg-student-name"
+                placeholder="e.g. Aarav"
+                class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-slate-700 outline-none focus:border-indigo-500 bg-slate-50 text-xs transition-all"
+              />
+            </div>
+
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >Gender</label
+              >
+              <div
+                class="flex gap-4 items-center pt-1 text-xs font-bold text-slate-600"
+              >
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="student_gender"
+                    value="Male"
+                    checked
+                    class="accent-indigo-600 w-4 h-4"
+                  />
+                  Boy
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="student_gender"
+                    value="Female"
+                    class="accent-indigo-600 w-4 h-4"
+                  />
+                  Girl
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="student_gender"
+                    value="Other"
+                    class="accent-indigo-600 w-4 h-4"
+                  />
+                  Other
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >Class/Grade</label
+              >
+              <select
+                id="reg-class"
+                class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-slate-700 outline-none focus:border-indigo-500 bg-slate-50 text-xs transition-all cursor-pointer"
+              >
+                <option value="">Select Class/Grade</option>
+                <option value="Grade 1">Grade 1</option>
+                <option value="Grade 2">Grade 2</option>
+                <option value="Grade 3">Grade 3</option>
+                <option value="Grade 4">Grade 4</option>
+                <option value="Grade 5">Grade 5</option>
+                <option value="Grade 6">Grade 6</option>
+                <option value="Grade 7">Grade 7</option>
+                <option value="Grade 8">Grade 8</option>
+                <option value="Grade 9">Grade 9</option>
+                <option value="Grade 10">Grade 10</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- TEACHER FIELDS -->
+          <div id="teacher-fields-group" class="space-y-4 hidden">
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >Teacher Name</label
+              >
+              <input
+                type="text"
+                id="reg-teacher-name"
+                placeholder="e.g. Mrs. Sharma"
+                class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-slate-700 outline-none focus:border-indigo-500 bg-slate-50 text-xs transition-all"
+              />
+            </div>
+
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >Gender</label
+              >
+              <div
+                class="flex gap-4 items-center pt-1 text-xs font-bold text-slate-600"
+              >
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="teacher_gender"
+                    value="Female"
+                    checked
+                    class="accent-indigo-600 w-4 h-4"
+                  />
+                  Female
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="teacher_gender"
+                    value="Male"
+                    class="accent-indigo-600 w-4 h-4"
+                  />
+                  Male
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="teacher_gender"
+                    value="Other"
+                    class="accent-indigo-600 w-4 h-4"
+                  />
+                  Other
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >Age</label
+              >
+              <input
+                type="number"
+                id="reg-teacher-age"
+                min="18"
+                max="80"
+                placeholder="e.g. 30"
+                class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-slate-700 outline-none focus:border-indigo-500 bg-slate-50 text-xs transition-all"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-4 mt-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:opacity-95 active:scale-95 text-white font-black rounded-2xl text-xs uppercase tracking-wider shadow-lg transition-all cursor-pointer"
+          >
+            Create Profile & Continue →
+          </button>
+        </form>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- STEP 3: SUCCESS -->
+      <!-- ========================================== -->
+      <section
+        id="step-reg-success"
+        class="auth-step-container hidden text-center"
+      >
+        <div class="text-5xl mb-3 animate-bounce">🎉</div>
+        <h2 class="text-xl font-black text-emerald-600 uppercase mb-1">
+          Account Created!
+        </h2>
+        <p class="text-xs font-bold text-slate-500 mb-6">
+          Your profile is ready!
+        </p>
+
+        <button
+          onclick="finishAuthAndStartSession()"
+          class="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-black rounded-2xl text-xs uppercase tracking-wider shadow-lg active:scale-95 transition-all cursor-pointer"
+        >
+          Continue to KidsPaint →
+        </button>
+      </section>
+    </main>
+
+    <!-- SCRIPT CONTROLLER -->
+    <script>
+      const API_BASE_URL = "https://api.jawedsiddiqui.cloud/api/kidspaint";
+      const API_TIMEOUT_MS = 15000;
+
+      const globalCountries = [
+        { code: "+91", country: "India", flag: "🇮🇳" },
+        { code: "+1", country: "United States", flag: "🇺🇸" },
+        { code: "+44", country: "United Kingdom", flag: "🇬🇧" },
+        { code: "+971", country: "United Arab Emirates", flag: "🇦🇪" },
+        { code: "+1", country: "Canada", flag: "🇨🇦" },
+        { code: "+61", country: "Australia", flag: "🇦🇺" },
+        { code: "+65", country: "Singapore", flag: "🇸🇬" },
+        { code: "+966", country: "Saudi Arabia", flag: "🇸🇦" },
+        { code: "+974", country: "Qatar", flag: "🇶🇦" },
+        { code: "+968", country: "Oman", flag: "🇴🇲" },
+        { code: "+965", country: "Kuwait", flag: "🇰🇼" },
+        { code: "+973", country: "Bahrain", flag: "🇧🇭" },
+        { code: "+60", country: "Malaysia", flag: "🇲🇾" },
+        { code: "+49", country: "Germany", flag: "🇩🇪" },
+        { code: "+33", country: "France", flag: "🇫🇷" },
+        { code: "+39", country: "Italy", flag: "🇮🇹" },
+        { code: "+34", country: "Spain", flag: "🇪🇸" },
+        { code: "+31", country: "Netherlands", flag: "🇳🇱" },
+        { code: "+81", country: "Japan", flag: "🇯🇵" },
+        { code: "+82", country: "South Korea", flag: "🇰🇷" },
+        { code: "+86", country: "China", flag: "🇨🇳" },
+        { code: "+62", country: "Indonesia", flag: "🇮🇩" },
+        { code: "+63", country: "Philippines", flag: "🇵🇭" },
+        { code: "+66", country: "Thailand", flag: "🇹🇭" },
+        { code: "+84", country: "Vietnam", flag: "🇻🇳" },
+        { code: "+880", country: "Bangladesh", flag: "🇧🇩" },
+        { code: "+92", country: "Pakistan", flag: "🇵🇰" },
+        { code: "+94", country: "Sri Lanka", flag: "🇱🇰" },
+        { code: "+977", country: "Nepal", flag: "🇳🇵" },
+        { code: "+20", country: "Egypt", flag: "🇪🇬" },
+        { code: "+234", country: "Nigeria", flag: "🇳🇬" },
+        { code: "+254", country: "Kenya", flag: "🇰🇪" },
+        { code: "+27", country: "South Africa", flag: "🇿🇦" },
+        { code: "+55", country: "Brazil", flag: "🇧🇷" },
+        { code: "+52", country: "Mexico", flag: "🇲🇽" },
+        { code: "+7", country: "Russia", flag: "🇷🇺" },
+        { code: "+90", country: "Turkey", flag: "🇹🇷" },
+      ];
+
+      let currentAuthData = {
+        role: "parent",
+        mobile: "",
+        countryCode: "+91",
+        countryName: "India",
+        sessionTimeSec: 1200,
+      };
+
+      let activeStepHistory = ["step-common-login"];
+
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof lucide !== "undefined") lucide.createIcons();
+        renderCountryList(globalCountries);
+
+        // Outside Click Listener to hide Country Dropdown
+        document.addEventListener("click", (e) => {
+          const btn = document.getElementById("country-selector-btn");
+          const dropdown = document.getElementById("country-dropdown-menu");
+          if (
+            btn &&
+            dropdown &&
+            !btn.contains(e.target) &&
+            !dropdown.contains(e.target)
+          ) {
+            dropdown.classList.add("hidden");
+          }
+        });
+      });
+
+      // RESTRICT INPUT TO NUMBERS ONLY & MAX 15 DIGITS
+      function validateMobileInput(input) {
+        input.value = input.value.replace(/[^0-9]/g, ""); // Remove non-numeric chars
+        if (input.value.length > 15) {
+          input.value = input.value.slice(0, 15);
+        }
+      }
+
+      function renderCountryList(list) {
+        const container = document.getElementById("country-list-container");
+        if (!container) return;
+
+        if (list.length === 0) {
+          container.innerHTML = `<p class="text-[10px] text-slate-400 font-bold text-center py-2">No country found</p>`;
+          return;
+        }
+
+        container.innerHTML = list
+          .map(
+            (c) => `
+          <button
+            type="button"
+            onclick="selectCountry('${c.code}', '${c.country}', '${c.flag}')"
+            class="w-full text-left px-2.5 py-1.5 rounded-xl hover:bg-indigo-50 flex items-center justify-between text-xs font-bold text-slate-700 transition-all cursor-pointer"
+          >
+            <span class="flex items-center gap-2">
+              <span>${c.flag}</span>
+              <span>${c.country}</span>
+            </span>
+            <span class="text-indigo-600 font-black">${c.code}</span>
+          </button>
+        `,
+          )
+          .join("");
+      }
+
+      function toggleCountryDropdown(event) {
+        event.stopPropagation();
+        const dropdown = document.getElementById("country-dropdown-menu");
+        if (dropdown) dropdown.classList.toggle("hidden");
+      }
+
+      function filterCountryList(query) {
+        const q = query.toLowerCase().trim();
+        const filtered = globalCountries.filter(
+          (c) => c.country.toLowerCase().includes(q) || c.code.includes(q),
+        );
+        renderCountryList(filtered);
+      }
+
+      function selectCountry(code, countryName, flag) {
+        currentAuthData.countryCode = code;
+        currentAuthData.countryName = countryName;
+        document.getElementById("selected-country-label").innerText =
+          `${flag} ${code}`;
+        document
+          .getElementById("country-dropdown-menu")
+          .classList.add("hidden");
+      }
+
+      function fetchWithTimeout(url, options = {}, timeoutMs = API_TIMEOUT_MS) {
+        return Promise.race([
+          fetch(url, options),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("API_TIMEOUT")), timeoutMs),
+          ),
+        ]);
+      }
+
+      function setButtonLoading(buttonElem, isLoading, originalText) {
+        if (!buttonElem) return;
+        if (isLoading) {
+          buttonElem.disabled = true;
+          buttonElem.dataset.origText = originalText || buttonElem.innerHTML;
+          buttonElem.innerHTML = `<span class="inline-block animate-spin mr-1">⏳</span> Checking...`;
+          buttonElem.classList.add("opacity-75", "cursor-not-allowed");
+        } else {
+          buttonElem.disabled = false;
+          buttonElem.innerHTML = buttonElem.dataset.origText || originalText;
+          buttonElem.classList.remove("opacity-75", "cursor-not-allowed");
+        }
+      }
+
+      function switchStep(stepId, pushHistory = true) {
+        hideAlert();
+
+        if (
+          pushHistory &&
+          activeStepHistory[activeStepHistory.length - 1] !== stepId
+        ) {
+          activeStepHistory.push(stepId);
+        }
+
+        const backBtn = document.getElementById("app-back-btn");
+        if (backBtn) {
+          if (activeStepHistory.length > 1 && stepId !== "step-common-login") {
+            backBtn.classList.remove("hidden");
+            backBtn.classList.add("flex");
+          } else {
+            backBtn.classList.add("hidden");
+            backBtn.classList.remove("flex");
+          }
+        }
+
+        if (stepId === "step-registration") {
+          setupRegistrationFieldsByRole();
+        }
+
+        document
+          .querySelectorAll(".auth-step-container")
+          .forEach((el) => el.classList.add("hidden"));
+
+        const target = document.getElementById(stepId);
+        if (target) target.classList.remove("hidden");
+      }
+
+      function setupRegistrationFieldsByRole() {
+        const isTeacher = currentAuthData.role === "teacher";
+        const parentGroup = document.getElementById("parent-fields-group");
+        const teacherGroup = document.getElementById("teacher-fields-group");
+
+        const titleElem = document.getElementById("reg-form-title");
+        const subtitleElem = document.getElementById("reg-form-subtitle");
+
+        if (isTeacher) {
+          titleElem.innerText = "Set Up Your Teacher Profile";
+          subtitleElem.innerText = "Enter your details to continue.";
+
+          parentGroup.classList.add("hidden");
+          teacherGroup.classList.remove("hidden");
+        } else {
+          titleElem.innerText = "Set Up Your Child’s Profile";
+          subtitleElem.innerText = "Enter your child’s details to get started.";
+
+          teacherGroup.classList.add("hidden");
+          parentGroup.classList.remove("hidden");
+        }
+      }
+
+      function handleAppBackNavigation() {
+        if (activeStepHistory.length > 1) {
+          activeStepHistory.pop();
+          const previousStep = activeStepHistory[activeStepHistory.length - 1];
+          switchStep(previousStep, false);
+        }
+      }
+
+      function showAlert(msg) {
+        const alertBox = document.getElementById("kids-paint-alert-box");
+        if (alertBox) {
+          alertBox.innerText = msg;
+          alertBox.classList.remove("hidden");
+        }
+      }
+
+      function hideAlert() {
+        const alertBox = document.getElementById("kids-paint-alert-box");
+        if (alertBox) alertBox.classList.add("hidden");
+      }
+
+      // STEP 1: MOBILE CHECK
+      async function handleCommonLoginSubmit(event) {
+        event.preventDefault();
+        hideAlert();
+
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalBtnText = "Continue →";
+
+        setButtonLoading(submitBtn, true, originalBtnText);
+
+        currentAuthData.role = document.getElementById("user-role").value;
+        currentAuthData.mobile = document
+          .getElementById("user-mobile")
+          .value.trim();
+
+        try {
+          const response = await fetchWithTimeout(
+            `${API_BASE_URL}/check-mobile`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ mobileNumber: currentAuthData.mobile }),
+            },
+            API_TIMEOUT_MS,
+          );
+
+          const data = await response.json();
+
+          if (data.exists) {
+            switchStep("step-enter-password");
+          } else {
+            switchStep("step-registration");
+          }
+        } catch (error) {
+          console.warn("API check fallback active.", error);
+
+          const registeredParents = JSON.parse(
+            localStorage.getItem("registeredParents") || "{}",
+          );
+
+          if (registeredParents[currentAuthData.mobile]) {
+            switchStep("step-enter-password");
+          } else {
+            switchStep("step-registration");
+          }
+        } finally {
+          setButtonLoading(submitBtn, false, originalBtnText);
+        }
+      }
+
+      // STEP 2A: EXISTING LOGIN
+      async function handlePasswordSubmit(event) {
+        event.preventDefault();
+        hideAlert();
+
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalBtnText = "Login & Continue →";
+        const pwdInput = document.getElementById(
+          "teacher-password-input",
+        ).value;
+
+        setButtonLoading(submitBtn, true, originalBtnText);
+
+        try {
+          const response = await fetchWithTimeout(
+            `${API_BASE_URL}/login`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                mobileNumber: currentAuthData.mobile,
+                password: pwdInput,
+              }),
+            },
+            API_TIMEOUT_MS,
+          );
+
+          const data = await response.json();
+          setButtonLoading(submitBtn, false, originalBtnText);
+
+          if (response.ok && data.success) {
+            localStorage.setItem("kidsPaintToken", data.token);
+            localStorage.setItem("kidsPaintUser", JSON.stringify(data.user));
+
+            finishAuthAndStartSession();
+          } else {
+            showAlert(`❌ ${data.message || "Invalid password! Try again."}`);
+          }
+        } catch (error) {
+          setButtonLoading(submitBtn, false, originalBtnText);
+          finishAuthAndStartSession();
+        }
+      }
+
+      // STEP 2B: NEW PROFILE SETUP
+      async function handleRegistrationSubmit(event) {
+        event.preventDefault();
+        hideAlert();
+
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalBtnText = "Create Profile & Continue →";
+
+        const isTeacher = currentAuthData.role === "teacher";
+        const savedSchoolName =
+          localStorage.getItem("schoolName") || "KidsPaint Partner School";
+
+        let userDetails = {};
+
+        if (isTeacher) {
+          const teacherGenderElem = document.querySelector(
+            'input[name="teacher_gender"]:checked',
+          );
+          userDetails = {
+            teacherName: document
+              .getElementById("reg-teacher-name")
+              .value.trim(),
+            gender: teacherGenderElem ? teacherGenderElem.value : "Female",
+            age: document.getElementById("reg-teacher-age").value.trim(),
+            section: "A",
+            rollNo: "0000",
+          };
+        } else {
+          const studentGenderElem = document.querySelector(
+            'input[name="student_gender"]:checked',
+          );
+          userDetails = {
+            studentName: document
+              .getElementById("reg-student-name")
+              .value.trim(),
+            gender: studentGenderElem ? studentGenderElem.value : "Male",
+            classGrade: document.getElementById("reg-class").value || "Grade 1",
+            section: "A",
+            rollNo: "0000",
+          };
+        }
+
+        const payload = {
+          mobileNumber: currentAuthData.mobile,
+          role: currentAuthData.role,
+          country: currentAuthData.countryName,
+          schoolName: savedSchoolName,
+          ...userDetails,
+        };
+
+        setButtonLoading(submitBtn, true, originalBtnText);
+
+        try {
+          const response = await fetchWithTimeout(
+            `${API_BASE_URL}/register`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            },
+            API_TIMEOUT_MS,
+          );
+
+          const data = await response.json();
+          setButtonLoading(submitBtn, false, originalBtnText);
+
+          if (response.ok && data.success) {
+            localStorage.setItem("kidsPaintToken", data.token);
+            localStorage.setItem("kidsPaintUser", JSON.stringify(data.user));
+            switchStep("step-reg-success");
+          } else {
+            showAlert(`❌ ${data.message || "Registration failed."}`);
+          }
+        } catch (error) {
+          setButtonLoading(submitBtn, false, originalBtnText);
+          localStorage.setItem("kidsPaintUser", JSON.stringify(payload));
+          switchStep("step-reg-success");
+        }
+      }
+
+      function finishAuthAndStartSession() {
+        let sessionData = {
+          date: new Date().toDateString(),
+          school: localStorage.getItem("schoolName") || "KIDSPAINT",
+          timeLeft: 1200,
+          isActivated: true,
+          isPaused: false,
+        };
+
+        localStorage.setItem("kidsPaintSession", JSON.stringify(sessionData));
+        window.location.href = "paint.html";
+      }
+    </script>
+  </body>
+</html>
