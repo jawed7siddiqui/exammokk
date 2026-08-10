@@ -4253,24 +4253,24 @@ const TEMPLATES_DATABASE = [
     chapterName: "Handwriting",
     topic: "Letter Tracing Practice",
     learningObjective:
-      "Students will trace uppercase letters using the pen tool.",
+      "Students will trace uppercase letter A using the brush tool.",
     bloomsTaxonomyLevel: "Apply",
     title: "",
     category: "english",
     deviceType: "mobile",
     themeColor: "#3b82f6",
-    icon: "✏️",
+    icon: "🖌️",
     label: "Letter Tracing",
-    defaultTool: "pen",
+    defaultTool: "brush",
     initGrid: false,
     correctAnswers: [],
     objects: [
       {
         type: "text",
-        text: "Trace Uppercase Letters! ✏️",
+        text: "Trace Letter 'A'! 🖌️",
         props: {
           left: 400,
-          top: 45,
+          top: 40,
           originX: "center",
           fontSize: 34,
           fontFamily: "Fredoka",
@@ -4285,12 +4285,12 @@ const TEMPLATES_DATABASE = [
       {
         type: "rect",
         props: {
-          left: 60,
-          top: 130,
-          width: 680,
-          height: 580,
-          rx: 32,
-          ry: 32,
+          left: 50,
+          top: 100,
+          width: 700,
+          height: 640,
+          rx: 36,
+          ry: 36,
           fill: "#eff6ff",
           stroke: "#3b82f6",
           strokeWidth: 5,
@@ -4302,17 +4302,17 @@ const TEMPLATES_DATABASE = [
       },
       {
         type: "text",
-        text: "A   B   C",
+        text: "A",
         props: {
           left: 400,
-          top: 240,
+          top: 160,
           originX: "center",
-          fontSize: 80,
+          fontSize: 360, // 💥 Extra Giant Size for single letter tracing
           fontFamily: "Fredoka",
-          fill: "#93c5fd",
+          fill: "#bfdbfe",
           stroke: "#2563eb",
-          strokeWidth: 2,
-          strokeDashArray: [10, 10],
+          strokeWidth: 6,
+          strokeDashArray: [16, 16],
           role: "background_art",
           selectable: false,
           hasControls: false,
@@ -4321,29 +4321,10 @@ const TEMPLATES_DATABASE = [
       },
       {
         type: "text",
-        text: "D   E   F",
+        text: "🖌️ Trace over dotted lines with Brush tool!",
         props: {
           left: 400,
-          top: 410,
-          originX: "center",
-          fontSize: 80,
-          fontFamily: "Fredoka",
-          fill: "#93c5fd",
-          stroke: "#2563eb",
-          strokeWidth: 2,
-          strokeDashArray: [10, 10],
-          role: "background_art",
-          selectable: false,
-          hasControls: false,
-          hasBorders: false,
-        },
-      },
-      {
-        type: "text",
-        text: "✏️ Trace over dotted lines with Pen tool!",
-        props: {
-          left: 400,
-          top: 580,
+          top: 640,
           originX: "center",
           fontSize: 26,
           fontFamily: "Fredoka",
@@ -6235,7 +6216,8 @@ function loadTemplateById(templateId) {
     const shouldHide =
       (template.subject && template.subject.toLowerCase() === "art") ||
       template.category === "coloring" ||
-      template.defaultTool === "bucket";
+      template.defaultTool === "bucket" ||
+      template.defaultTool === "brush";
 
     if (shouldHide) {
       checkBtn.classList.add("hidden");

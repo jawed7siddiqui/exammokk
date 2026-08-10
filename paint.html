@@ -3535,6 +3535,15 @@
       function checkAnswer() {
         if (!canvas || !currentTemplate) return;
 
+        const isFreeDrawingTemplate =
+          (currentTemplate.subject &&
+            currentTemplate.subject.toLowerCase() === "art") ||
+          currentTemplate.category === "coloring" ||
+          currentTemplate.defaultTool === "bucket" ||
+          currentTemplate.defaultTool === "brush"; // 👈 Brush Tracing/Painting par detect nahi karega
+
+        if (isFreeDrawingTemplate) return;
+
         const userLines = canvas
           .getObjects()
           .filter(
