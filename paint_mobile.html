@@ -1746,7 +1746,8 @@
 
         canvas.on("path:created", (e) => {
           disableObjectRotation(e.path);
-          saveCanvasHistory();
+          if (typeof saveCanvasHistory === "function") saveCanvasHistory();
+          checkAnswer();
         });
 
         // 3. Click hone par agar galti se select ho jaye to turant active selection clear kar dein
@@ -1983,7 +1984,7 @@
         canvas.isDrawingMode = true;
         let brush = new fabric.PencilBrush(canvas);
         if (type === "brush") brush.width = 14;
-        else if (type === "pen") brush.width = 4;
+        else if (type === "pen") brush.width = 6;
         else if (type === "spray") {
           brush = new fabric.SprayBrush(canvas);
           brush.width = 25;
@@ -3518,6 +3519,19 @@
       );
 
       // 🎯 Main Answer Check Engine
+      // 🎯 Line Draw Hote Hi Automatic Check Trigger Karein
+
+      // 🎯 Smart Answer Check Engine
+      // 🎯 Line Draw Hote Hi Automatic Check Trigger Karein
+      canvas.on("path:created", (e) => {
+        disableObjectRotation(e.path);
+        if (typeof saveCanvasHistory === "function") saveCanvasHistory();
+
+        // Instant Check Call
+        checkAnswer();
+      });
+
+      // 🎯 Smart Answer Check Engine
       function checkAnswer() {
         if (!canvas || !currentTemplate) return;
 
@@ -3543,8 +3557,15 @@
         const targetAnswers = currentTemplate.correctAnswers || [];
         let correctMatches = 0;
         let hasWrongMatch = false;
+        let invalidOutsideLines = []; // Khali/Range ke bahar wali lines
 
         userLines.forEach((line) => {
+          // Green (pehle se correct) lines ko count karein
+          if (line.stroke === "#22c55e") {
+            correctMatches++;
+            return;
+          }
+
           const { start, end } = getPathEndpoints(line);
 
           const matchedLeft = leftBoxes.find(
@@ -3556,44 +3577,83 @@
               isInsideBox(start.x, start.y, b) || isInsideBox(end.x, end.y, b),
           );
 
-          if (matchedLeft && matchedRight) {
-            const leftTextObj = canvas
-              .getObjects()
-              .find(
-                (t) =>
-                  t.type === "text" && isInsideBox(t.left, t.top, matchedLeft),
-              );
-            const rightTextObj = canvas
-              .getObjects()
-              .find(
-                (t) =>
-                  t.type === "text" && isInsideBox(t.left, t.top, matchedRight),
-              );
+          // 🔴 AGAR LINE RANGE KE BAHAR / KHALI JAGAH MEIN HAI:
+          if (!matchedLeft || !matchedRight) {
+            invalidOutsideLines.push(line);
+            return;
+          }
 
-            if (leftTextObj && rightTextObj) {
-              const isCorrect = targetAnswers.some(
-                (ans) =>
-                  ans.leftText.trim() === leftTextObj.text.trim() &&
-                  ans.rightText.trim() === rightTextObj.text.trim(),
-              );
+          // 🟢 AGAR BOTH BOXES SE CONNECTED HAI:
+          const leftTextObj = canvas
+            .getObjects()
+            .find(
+              (t) =>
+                t.type === "text" && isInsideBox(t.left, t.top, matchedLeft),
+            );
+          const rightTextObj = canvas
+            .getObjects()
+            .find(
+              (t) =>
+                t.type === "text" && isInsideBox(t.left, t.top, matchedRight),
+            );
 
-              if (isCorrect) {
-                correctMatches++;
-                line.set({ stroke: "#22c55e", strokeWidth: 6 });
-              } else {
-                hasWrongMatch = true;
-                line.set({ stroke: "#ef4444", strokeWidth: 6 });
-              }
+          if (leftTextObj && rightTextObj) {
+            const isCorrect = targetAnswers.some(
+              (ans) =>
+                ans.leftText.trim() === leftTextObj.text.trim() &&
+                ans.rightText.trim() === rightTextObj.text.trim(),
+            );
+
+            if (isCorrect) {
+              correctMatches++;
+              line.set({
+                stroke: "#22c55e",
+                strokeWidth: 6,
+                selectable: false,
+              });
+            } else {
+              hasWrongMatch = true;
+              line.set({
+                stroke: "#ef4444",
+                strokeWidth: 6,
+                selectable: false,
+              });
             }
           }
         });
 
+        // 🧹 Idhar-udhar kheenchi gayi lines ko TURANT canvas se hata dein
+        if (invalidOutsideLines.length > 0) {
+          invalidOutsideLines.forEach((line) => canvas.remove(line));
+          showToast("Connect boxes properly!", "warning");
+        }
+
         canvas.renderAll();
 
-        if (
+        // 🔴 CASE 1: Galat Match
+        if (hasWrongMatch) {
+          soundWrong.currentTime = 0;
+          soundWrong.play().catch(() => {});
+
+          showToast("Wrong match! Try again.", "error");
+
+          // ⏳ 1.2s baad Red lines auto-clear hongi
+          setTimeout(() => {
+            const redLines = canvas
+              .getObjects()
+              .filter(
+                (obj) =>
+                  (obj.type === "path" || obj.type === "line") &&
+                  obj.stroke === "#ef4444",
+              );
+            redLines.forEach((line) => canvas.remove(line));
+            canvas.renderAll();
+          }, 1200);
+
+          // 🎉 CASE 2: Saare Matches Sahi (WIN)
+        } else if (
           correctMatches === targetAnswers.length &&
-          targetAnswers.length > 0 &&
-          !hasWrongMatch
+          targetAnswers.length > 0
         ) {
           soundCorrect.currentTime = 0;
           soundCorrect.play().catch(() => {});
@@ -3607,26 +3667,10 @@
           }
 
           showToast("Awesome! All Correct!", "success");
-        } else {
-          // 🔊 Play Wrong Sound
-          soundWrong.currentTime = 0;
-          soundWrong.play().catch(() => {});
 
-          showToast("Try again! Red lines are wrong.", "error");
-
-          // ⏳ 1.5 Seconds baad SIRF RED (Galat) lines ko automatic canvas se hata dein
-          setTimeout(() => {
-            const redLines = canvas
-              .getObjects()
-              .filter(
-                (obj) =>
-                  (obj.type === "path" || obj.type === "line") &&
-                  obj.stroke === "#ef4444",
-              );
-
-            redLines.forEach((line) => canvas.remove(line));
-            canvas.renderAll();
-          }, 1500);
+          // 👍 CASE 3: Single Valid Match Success
+        } else if (correctMatches > 0 && invalidOutsideLines.length === 0) {
+          showToast("Good match! Next one...", "success");
         }
       }
     </script>

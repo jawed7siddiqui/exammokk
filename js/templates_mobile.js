@@ -6265,6 +6265,7 @@ function loadTemplateById(templateId) {
       id: template.id,
       title: template.title || template.label || "Untitled Template",
       category: template.category || "General",
+      subject: template.subject || "N/A",
       defaultTool: template.defaultTool || "select",
       label: template.label || "Template",
     });
