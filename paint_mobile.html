@@ -3469,8 +3469,46 @@
         );
       }
 
-      // 4. Main Answer Checking Engine
-      // 🔊 Correct aur Wrong Sounds (CDN Audio Links)
+      // 🔔 Custom Kid-Friendly Toast Notification Helper
+      function showToast(message, type = "info") {
+        const oldToast = document.getElementById("kids-paint-toast");
+        if (oldToast) oldToast.remove();
+
+        const toast = document.createElement("div");
+        toast.id = "kids-paint-toast";
+
+        let bgColor = "bg-amber-500 border-amber-400";
+        let icon = "⚠️";
+
+        if (type === "success") {
+          bgColor = "bg-emerald-500 border-emerald-400";
+          icon = "🎉";
+        } else if (type === "error") {
+          bgColor = "bg-red-500 border-red-400";
+          icon = "❌";
+        } else if (type === "warning") {
+          bgColor = "bg-amber-500 border-amber-400";
+          icon = "💡";
+        }
+
+        toast.className = `fixed top-16 left-1/2 -translate-x-1/2 z-[9999999] flex items-center gap-2.5 px-6 py-3 rounded-2xl text-white font-black text-sm md:text-base border-2 shadow-2xl transition-all duration-300 transform -translate-y-4 opacity-0 active:scale-95 ${bgColor}`;
+        toast.innerHTML = `<span class="text-xl">${icon}</span> <span>${message}</span>`;
+
+        document.body.appendChild(toast);
+
+        requestAnimationFrame(() => {
+          toast.classList.remove("-translate-y-4", "opacity-0");
+          toast.classList.add("translate-y-0", "opacity-100");
+        });
+
+        setTimeout(() => {
+          toast.classList.remove("translate-y-0", "opacity-100");
+          toast.classList.add("-translate-y-4", "opacity-0");
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      // 🔊 Audio Effects Setup
       const soundCorrect = new Audio(
         "https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3",
       );
@@ -3478,7 +3516,7 @@
         "https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3",
       );
 
-      // 🎯 Main Answer Check Engine (With Sound & Confetti Effects)
+      // 🎯 Main Answer Check Engine
       function checkAnswer() {
         if (!canvas || !currentTemplate) return;
 
@@ -3491,7 +3529,10 @@
           );
 
         if (userLines.length === 0) {
-          alert("⚠️ Kripya pehle pencil se line draw karke match karein!");
+          showToast(
+            "Please draw lines with the pencil to connect the boxes first!",
+            "warning",
+          );
           return;
         }
 
@@ -3540,10 +3581,10 @@
 
               if (isCorrect) {
                 correctMatches++;
-                line.set({ stroke: "#22c55e", strokeWidth: 6 }); // Correct Match: Green Line
+                line.set({ stroke: "#22c55e", strokeWidth: 6 });
               } else {
                 hasWrongMatch = true;
-                line.set({ stroke: "#ef4444", strokeWidth: 6 }); // Wrong Match: Red Line
+                line.set({ stroke: "#ef4444", strokeWidth: 6 });
               }
             }
           }
@@ -3551,17 +3592,14 @@
 
         canvas.renderAll();
 
-        // 🎉 Saare Answers Sahi Hone Par
         if (
           correctMatches === targetAnswers.length &&
           targetAnswers.length > 0 &&
           !hasWrongMatch
         ) {
-          // 🔊 Play Win Sound
           soundCorrect.currentTime = 0;
           soundCorrect.play().catch(() => {});
 
-          // 🎊 Trigger Confetti Canvas Animation
           if (typeof confetti === "function") {
             confetti({
               particleCount: 120,
@@ -3570,20 +3608,21 @@
             });
           }
 
-          setTimeout(() => {
-            alert("🎉 Zabardast! Saare answers sahi hain! ✅");
-          }, 200);
+          showToast("Awesome! All answers are correct! ✅", "success");
         } else {
-          // 🔊 Play Wrong Sound
           soundWrong.currentTime = 0;
           soundWrong.play().catch(() => {});
 
           if (correctMatches > 0) {
-            alert(
-              "👍 Kuch answers sahi hain, baaki line delete karke dobara try karein!",
+            showToast(
+              "Some answers are correct. Clear wrong lines and try again!",
+              "warning",
             );
           } else {
-            alert("❌ Galat match! Sahi box par line draw karein.");
+            showToast(
+              "Incorrect match! Draw lines to the correct boxes.",
+              "error",
+            );
           }
         }
       }
