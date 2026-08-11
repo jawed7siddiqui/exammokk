@@ -1784,26 +1784,84 @@
         canvas.on("selection:cleared", handleSelectionCleared);
 
         // PERSISTENCE SYNC AUTO-LOAD IMPLEMENTATION
-        const savedJSON = localStorage.getItem("kidspaint_canvas_data");
-        if (savedJSON && savedJSON !== "{}") {
-          isStateChanging = true;
-          canvas.loadFromJSON(savedJSON, () => {
-            canvas.getObjects().forEach((obj) => {
-              if (obj.type === "line") applyExclusiveLineControls(obj);
-              else disableObjectRotation(obj);
-            });
-            setTimeout(() => {
-              resetZoomToFit();
-              canvas.renderAll();
-            }, 50);
-            isStateChanging = false;
-            canvasHistory = [JSON.stringify(canvas.toJSON())];
-            historyStep = 0;
-          });
-        } else {
-          saveCanvasHistory();
-          setTimeout(resetZoomToFit, 100);
+      // PERSISTENCE SYNC AUTO-LOAD IMPLEMENTATION
+const savedJSON = localStorage.getItem("kidspaint_canvas_data");
+if (savedJSON && savedJSON !== "{}") {
+  isStateChanging = true;
+
+  // 1. JSON parse करके चेक करें कि क्या Template ID या defaultTool मौजूद है
+  let parsedJSON = {};
+  try {
+    parsedJSON = JSON.parse(savedJSON);
+  } catch (e) {
+    console.error("Error parsing saved JSON:", e);
+  }
+
+  canvas.loadFromJSON(savedJSON, () => {
+    canvas.getObjects().forEach((obj) => {
+      if (
+        obj.role === "background_art" ||
+        obj.role === "color_segment" ||
+        obj.type === "text" ||
+        obj.type === "rect"
+      ) {
+        if (typeof applyStrictLayerLocks === "function") applyStrictLayerLocks(obj);
+      } else if (obj.type === "line") {
+        applyExclusiveLineControls(obj);
+      } else {
+        disableObjectRotation(obj);
+      }
+    });
+
+    // 🎯 2. TEMPLATE META & DEFAULT TOOL RE-ACTIVATION (FIX)
+    // सबसे पहले चेक करें कि क्या JSON में defaultTool सेव हुआ था
+    const savedTool = parsedJSON.defaultTool || (currentTemplateMeta && currentTemplateMeta.defaultTool);
+    const savedTemplateId = parsedJSON.id || (currentTemplateMeta && currentTemplateMeta.id);
+
+    // Global state और Metadata restore करें
+    if (savedTemplateId) {
+      if (typeof TEMPLATES_DATABASE !== "undefined") {
+        const foundTemplate = TEMPLATES_DATABASE.find(t => t.id === savedTemplateId);
+        if (foundTemplate) {
+          window.currentTemplate = foundTemplate;
+          if (typeof currentTemplate !== "undefined") currentTemplate = foundTemplate;
         }
+      }
+    }
+
+    if (savedTool) {
+      // ⏱️ Small Delay ताकि Fabric Canvas पूरी तरह Render होने के बाद Pencil / Tool active हो
+      setTimeout(() => {
+        if (savedTool === "bucket") {
+          setMode("bucket");
+        } else if (savedTool === "brush") {
+          startDrawing("brush");
+        } else if (savedTool === "pen" || savedTool === "pencil") {
+          startDrawing("pen");
+        } else if (savedTool === "eraser") {
+          startDrawing("eraser");
+        } else {
+          setMode(savedTool);
+        }
+      }, 100);
+    } else {
+      // Default fallback
+      setMode("select");
+    }
+
+    setTimeout(() => {
+      resetZoomToFit();
+      canvas.renderAll();
+    }, 50);
+
+    isStateChanging = false;
+    canvasHistory = [JSON.stringify(canvas.toJSON())];
+    historyStep = 0;
+  });
+} else {
+  saveCanvasHistory();
+  setTimeout(resetZoomToFit, 100);
+}
 
         updateCursor();
       }
@@ -2402,18 +2460,39 @@
       }
 
       // PERSISTENCE SYNC IN STORAGE DECK
-      function saveCanvasHistory() {
-        if (isStateChanging) return;
-        const snap = JSON.stringify(canvas.toJSON());
-        if (historyStep < canvasHistory.length - 1)
-          canvasHistory = canvasHistory.slice(0, historyStep + 1);
-        canvasHistory.push(snap);
-        historyStep++;
+function saveCanvasHistory() {
+  if (isStateChanging) return;
 
-        localStorage.setItem("kidspaint_canvas_data", snap);
-        localStorage.setItem("kidspaint_width", PAGE_WIDTH);
-        localStorage.setItem("kidspaint_height", PAGE_HEIGHT);
-      }
+  // 🎯 toJSON में role, id, defaultTool आदि Fields जरूर include करें
+  const snap = JSON.stringify(
+    canvas.toJSON([
+      'id',
+      'title',
+      'category',
+      'defaultTool',
+      'label',
+      'role',
+      'selectable',
+      'evented',
+      'hasControls',
+      'hasBorders',
+      'lockMovementX',
+      'lockMovementY',
+      'lockRotation',
+      'hasRotatingPoint'
+    ])
+  );
+
+  if (historyStep < canvasHistory.length - 1)
+    canvasHistory = canvasHistory.slice(0, historyStep + 1);
+  canvasHistory.push(snap);
+
+  historyStep++;
+
+  localStorage.setItem("kidspaint_canvas_data", snap);
+  localStorage.setItem("kidspaint_width", PAGE_WIDTH);
+  localStorage.setItem("kidspaint_height", PAGE_HEIGHT);
+}
 
       function undo() {
         if (historyStep > 0) {
