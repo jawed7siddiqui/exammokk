@@ -10052,161 +10052,78 @@ function filterTemplatesByCategory(categoryName = "all") {
   const sidebarContainer = document.getElementById("templates-sidebar");
   if (!sidebarContainer) return;
 
-  // 📱 Mobile & Tablet/iPad (<= 1024px) detection
+  // 📱 Mobile & Tablet check (<= 1024px)
   const isMobile = window.innerWidth <= 1024;
-  const currentDevice = isMobile ? "mobile" : "web";
 
-  const classFilter = document.getElementById("filter-class")?.value || "all";
-  const subjectFilter =
-    document.getElementById("filter-subject")?.value || "all";
-
-  let filtered = TEMPLATES_DATABASE.filter(
-    (t) => t.deviceType === currentDevice,
-  );
-
-  if (categoryName !== "all") {
-    filtered = filtered.filter((t) => t.category === categoryName);
-  }
-
-  // ---------------------------------------------------------
-  // 📱 1. MOBILE & TABLET VIEW (FIXED BOTTOM SUBJECT BAR)
-  // ---------------------------------------------------------
-  if (isMobile) {
-    sidebarContainer.style.display = "block";
-    sidebarContainer.className =
-      "w-full bg-white/90 backdrop-blur-xl border-t border-slate-200/80 px-2 py-2 select-none shadow-[0_-8px_20px_rgba(0,0,0,0.06)] fixed bottom-0 left-0 z-50 shrink-0";
-
-    sidebarContainer.style.paddingBottom =
-      "calc(0.5rem + env(safe-area-inset-bottom, 0px))";
-
-    const subjects = [
-      { name: "Maths", val: "math", icon: "📐" },
-      { name: "Computer", val: "computer", icon: "💻" },
-      { name: "Art", val: "art", icon: "🎨" },
-      { name: "English", val: "english", icon: "🔤" },
-    ];
-
-    let mobileHtml = `
-      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth w-full px-1 py-1 touch-pan-x justify-around sm:justify-center">
-    `;
-
-    subjects.forEach((sub) => {
-      mobileHtml += `
-        <button type="button"
-                onclick="openSubjectModal('${sub.val}', '${sub.name}')" 
-                class="group relative flex flex-col items-center justify-center flex-shrink-0 min-w-[82px] max-w-[120px] flex-1 py-2 px-2.5 bg-slate-50/90 active:bg-indigo-50 border border-slate-200/80 active:border-indigo-300 rounded-2xl transition-all duration-200 active:scale-95 touch-manipulation shadow-2xs">
-          
-          <div class="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-2xl shadow-inner group-active:scale-110 transition-transform duration-200">
-            ${sub.icon}
-          </div>
-          
-          <span class="text-xs sm:text-sm font-black text-slate-800 group-active:text-indigo-600 mt-1.5 whitespace-nowrap tracking-tight leading-none">
-            ${sub.name}
-          </span>
-        </button>
-      `;
-    });
-
-    mobileHtml += `</div>`;
-    sidebarContainer.innerHTML = mobileHtml;
+  if (!isMobile) {
+    sidebarContainer.style.display = "none";
+    sidebarContainer.innerHTML = "";
     return;
   }
 
   // ---------------------------------------------------------
-  // 🖥️ 2. DESKTOP/WEB VIEW (FULL SIDEBAR WITH FILTERS)
+  // 🎨 PAGE-MATCHED CLEAN KIDS EDTECH BAR
   // ---------------------------------------------------------
-  sidebarContainer.style.display = "";
-
-  if (classFilter !== "all") {
-    filtered = filtered.filter(
-      (t) => String(t.classGrade) === String(classFilter),
-    );
-  }
-
-  if (subjectFilter !== "all") {
-    filtered = filtered.filter((t) =>
-      t.subject?.toLowerCase().includes(subjectFilter.toLowerCase()),
-    );
-  }
-
+  sidebarContainer.style.display = "block";
   sidebarContainer.className =
-    "w-96 min-w-[384px] bg-white border-r border-slate-200 flex flex-col h-full select-none shadow-sm";
+    "w-full bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-1.5 select-none shadow-[0_-4px_12px_rgba(0,0,0,0.05)] fixed bottom-0 left-0 z-50 shrink-0";
 
-  let htmlContent = `
-    <!-- HEADER -->
-    <div class="hidden p-4 border-b border-slate-100 flex items-center justify-between bg-white sticky top-0 z-10">
-      <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold text-xl">🎨</div>
-        <div>
-          <h2 class="font-black text-slate-800 text-base tracking-tight leading-none">Worksheet Templates</h2>
-          <span class="text-[10px] font-bold text-slate-400">CBSE Curriculum Library</span>
-        </div>
-      </div>
-    </div>
+  sidebarContainer.style.paddingBottom =
+    "calc(0.4rem + env(safe-area-inset-bottom, 0px))";
 
-    <!-- FILTERS -->
-    <div class="hidden p-4 bg-slate-50/60 border-b border-slate-100 space-y-3">
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="block text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1">Class Grade</label>
-          <select id="filter-class" onchange="filterTemplatesByCategory('${categoryName}')" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <option value="all" ${classFilter === "all" ? "selected" : ""}>All Classes</option>
-            <option value="1" ${classFilter === "1" ? "selected" : ""}>Class 1</option>
-            <option value="2" ${classFilter === "2" ? "selected" : ""}>Class 2</option>
-            <option value="3" ${classFilter === "3" ? "selected" : ""}>Class 3</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1">Subject</label>
-          <select id="filter-subject" onchange="filterTemplatesByCategory('${categoryName}')" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <option value="all" ${subjectFilter === "all" ? "selected" : ""}>All Subjects</option>
-            <option value="computer" ${subjectFilter === "computer" ? "selected" : ""}>Computer Science</option>
-            <option value="math" ${subjectFilter === "math" ? "selected" : ""}>Maths</option>
-            <option value="art" ${subjectFilter === "art" ? "selected" : ""}>Art & Tracing</option>
-            <option value="english" ${subjectFilter === "english" ? "selected" : ""}>English</option>
-          </select>
-        </div>
-      </div>
-    </div>
+  const subjects = [
+    {
+      name: "Maths",
+      val: "math",
+      icon: "🔢",
+      badge: "bg-amber-50 text-amber-600 border-amber-200",
+    },
+    {
+      name: "Computer",
+      val: "computer",
+      icon: "💻",
+      badge: "bg-sky-50 text-sky-600 border-sky-200",
+    },
+    {
+      name: "Art",
+      val: "art",
+      icon: "🎨",
+      badge: "bg-pink-50 text-pink-600 border-pink-200",
+    },
+    {
+      name: "English",
+      val: "english",
+      icon: "🔤",
+      badge: "bg-emerald-50 text-emerald-600 border-emerald-200",
+    },
+  ];
 
-    <!-- 📦 SCROLLABLE CONTAINER -->
-    <div class="flex-1 overflow-y-auto p-4 custom-scrollbar">
-      <div class="grid grid-cols-2 gap-3.5">
+  let mobileHtml = `
+    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth w-full px-1 py-0.5 touch-pan-x justify-around sm:justify-center">
   `;
 
-  if (filtered.length === 0) {
-    htmlContent += `
-      <div class="col-span-2 text-center py-8 text-slate-400 text-xs font-bold">
-        No templates found.
-      </div>
+  subjects.forEach((sub) => {
+    mobileHtml += `
+      <button type="button"
+              onclick="openSubjectModal('${sub.val}', '${sub.name}')" 
+              class="group flex flex-col items-center justify-center flex-1 min-w-[70px] max-w-[100px] py-1.5 px-1 bg-slate-50 hover:bg-slate-100 active:bg-indigo-50/80 border border-slate-200/80 active:border-indigo-300 rounded-xl transition-all duration-150 active:scale-95 touch-manipulation cursor-pointer">
+        
+        <!-- Icon Badge -->
+        <div class="w-9 h-9 rounded-lg ${sub.badge} border flex items-center justify-center text-xl shadow-2xs group-active:scale-110 transition-transform duration-150">
+          <span>${sub.icon}</span>
+        </div>
+        
+        <!-- Subject Label -->
+        <span class="text-[11px] font-black text-slate-700 group-active:text-indigo-600 mt-1 whitespace-nowrap tracking-wide uppercase leading-none">
+          ${sub.name}
+        </span>
+      </button>
     `;
-  } else {
-    filtered.forEach((t) => {
-      htmlContent += `
-        <div class="template-card group relative bg-slate-50 hover:bg-indigo-50/70 border border-slate-200 hover:border-indigo-300 rounded-2xl p-3 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md" 
-             onclick="loadTemplateById('${t.id}')">
-          <div class="w-full aspect-[4/3] bg-white rounded-xl border border-slate-100 flex items-center justify-center text-4xl shadow-inner group-hover:scale-110 transition-transform duration-200">
-            ${t.icon || "📄"}
-          </div>
-          <div class="w-full mt-2.5 text-center">
-            <div class="text-xs font-black text-slate-800 group-hover:text-indigo-600 truncate w-full">
-              ${t.label || t.title}
-            </div>
-            <div class="text-[10px] font-bold text-slate-400 mt-0.5">Class ${t.classGrade || 1} • ${t.subject || "Maths"}</div>
-          </div>
-        </div>
-      `;
-    });
-  }
+  });
 
-  htmlContent += `
-      </div>
-    </div>
-  `;
-
-  sidebarContainer.innerHTML = htmlContent;
+  mobileHtml += `</div>`;
+  sidebarContainer.innerHTML = mobileHtml;
 }
-
 // ---------------------------------------------------------
 // 3. CANVA STYLE SLIDE-UP MODAL LOGIC
 // ---------------------------------------------------------
