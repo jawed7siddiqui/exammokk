@@ -3645,7 +3645,7 @@ function deleteSelected() {
 
       // 🔊 Audio Effects Setup
       const soundCorrect = new Audio(
-        "https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3",
+        "/sound/soundCorrectWIn.mp3",
       );
 
       //one by one correct answer sound play karne ke liye
@@ -3653,7 +3653,7 @@ function deleteSelected() {
         "/sound/correctAnswer.mp3",
       );
       const soundWrong = new Audio(
-        "https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3",
+        "/sound/WrongAnswer.mp3",
       );
 
       // 🎯 Main Answer Check Engine
@@ -3669,9 +3669,7 @@ function deleteSelected() {
         checkAnswer();
       });
 
-      // 🎯 Smart Answer Check Engine
  // 🎯 Smart Answer Check Engine
-// 🎯 Smart Answer Check Engine
 function checkAnswer() {
   if (!canvas || !currentTemplate) return;
 
@@ -3706,7 +3704,7 @@ function checkAnswer() {
   let newlyMatched = false;
   let invalidOutsideLines = [];
 
-  let newCorrectLines = []; // 🟢 Nayi green lines animate karne ke liye
+  let newCorrectLines = []; // 🟢 Nayi straight green lines
   let newWrongLines = [];   // 🔴 Nayi red lines shake karne ke liye
 
   userLines.forEach((line) => {
@@ -3757,12 +3755,27 @@ function checkAnswer() {
       if (isCorrect) {
         correctMatches++;
         newlyMatched = true;
-        line.set({
-          stroke: "#22c55e",
-          strokeWidth: 6,
-          selectable: false,
-        });
-        newCorrectLines.push(line);
+
+        // 📐 Left Box ke Right Edge Center aur Right Box ke Left Edge Center ke Points nikalna
+        const startPoint = getBoxConnectionPoint(matchedLeft, "right_edge");
+        const endPoint = getBoxConnectionPoint(matchedRight, "left_edge");
+
+        // 🧹 Freehand line hatao
+        canvas.remove(line);
+
+        // 📏 Border-to-Border Straight Line banayein
+        const straightLine = new fabric.Line(
+          [startPoint.x, startPoint.y, endPoint.x, endPoint.y],
+          {
+            stroke: "#22c55e",
+            strokeWidth: 6,
+            strokeLineCap: "round",
+            selectable: false,
+          }
+        );
+
+        canvas.add(straightLine);
+        newCorrectLines.push(straightLine);
       } else {
         hasWrongMatch = true;
         line.set({
@@ -3787,7 +3800,6 @@ function checkAnswer() {
     soundWrong.currentTime = 0;
     soundWrong.play().catch(() => {});
 
-    // Har galat line ko Wiggle Shake karein aur phir hata dein
     newWrongLines.forEach((line) => {
       shakeLine(line, () => {
         setTimeout(() => {
@@ -3797,12 +3809,11 @@ function checkAnswer() {
       });
     });
 
-    // 🎉 CASE 2: Saare Matches Sahi (Green Pulse + Win Sound + Confetti)
+    // 🎉 CASE 2: Saare Matches Sahi (Win Sound + Confetti)
   } else if (
     correctMatches === targetAnswers.length &&
     targetAnswers.length > 0
   ) {
-    // Correct line ko pulse effect dein
     newCorrectLines.forEach((line) => pulseCorrectLine(line));
 
     soundCorrect.currentTime = 0;
@@ -3816,13 +3827,27 @@ function checkAnswer() {
       });
     }
 
-    // 👍 CASE 3: Single Correct Match (Green Pulse + Single Sound)
+    // 👍 CASE 3: Single Correct Match (Single Sound)
   } else if (newlyMatched) {
-    // Correct line ko pulse effect dein
     newCorrectLines.forEach((line) => pulseCorrectLine(line));
 
     soundCorrectAnswer.currentTime = 0;
     soundCorrectAnswer.play().catch(() => {});
+  }
+}
+
+// 📐 Helper: Object/Box ke Border/Edge ka Point nikalne ke liye
+function getBoxConnectionPoint(box, edgeSide) {
+  const width = box.width * (box.scaleX || 1);
+  const height = box.height * (box.scaleY || 1);
+  const centerY = box.top + height / 2;
+
+  if (edgeSide === "right_edge") {
+    // Left waale Object ki Right Border ka Center
+    return { x: box.left + width, y: centerY };
+  } else {
+    // Right waale Object ki Left Border ka Center
+    return { x: box.left, y: centerY };
   }
 }
 
@@ -3845,7 +3870,7 @@ function shakeLine(line, onComplete) {
   }, 45);
 }
 
-// ✨ Helper 2: Sahi Line ko Pulse/Pop karne ke liye
+// ✨ Helper 2: Sahi Straight Line ko Pulse/Pop karne ke liye
 function pulseCorrectLine(line) {
   if (!line) return;
   line.animate("strokeWidth", 10, {
