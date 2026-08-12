@@ -2538,22 +2538,19 @@ function saveCanvasHistory() {
         }
       }
 
- async function downloadPaint() {
+async function downloadPaint() {
   const overlay = document.getElementById("download-progress-overlay");
-  overlay.classList.replace("hidden", "flex");
+  if (overlay) overlay.classList.replace("hidden", "flex");
 
-  // Credentials
   const CLOUD_NAME = "dzay0p6hc";
   const API_KEY = "718694214558592";
   const API_SECRET = "BWkJK-QspQciZZCBkwkssjHogyE";
   const FOLDER = "kidspaint_temp";
 
   try {
-    // 1. 4-Digit Random Number Generate Karein (e.g., 4829)
     const random4Digit = Math.floor(1000 + Math.random() * 9000);
     const customFileName = `kidspaint_${random4Digit}`;
 
-    // 2. Canvas Resolution Maintain Karke Base64 DataURL Nikalein
     const multiplier = PAGE_WIDTH / canvas.getWidth();
     const dataURL = canvas.toDataURL({
       format: "png",
@@ -2561,12 +2558,10 @@ function saveCanvasHistory() {
       multiplier: multiplier,
     });
 
-    // 3. Client-side SHA-1 Signature Generate Karein
     const timestamp = Math.floor(Date.now() / 1000);
     const uploadSignStr = `folder=${FOLDER}&timestamp=${timestamp}${API_SECRET}`;
     const uploadSignature = CryptoJS.SHA1(uploadSignStr).toString();
 
-    // 4. Cloudinary REST API Upload
     const formData = new FormData();
     formData.append("file", dataURL);
     formData.append("api_key", API_KEY);
@@ -2576,25 +2571,22 @@ function saveCanvasHistory() {
 
     const uploadRes = await fetch(
       `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
+      { method: "POST", body: formData }
     );
 
     const uploadData = await uploadRes.json();
 
     if (uploadData.secure_url) {
-      // 5. Custom File Name Ke Saath Forced Download Link Banayein (kidspaint_XXXX)
+      // Custom filename forced-download URL
       const forcedDownloadUrl = uploadData.secure_url.replace(
         "/upload/",
         `/upload/fl_attachment:${customFileName}/`
       );
 
-      // Mobile / Browser par Download Trigger Karein
+      // Simple navigation trigger (InAppBrowser ka loadstart ise catch kar lega)
       window.location.href = forcedDownloadUrl;
 
-      // 6. Download Ke 15 Second Baad Server Se Auto-Delete Karein
+      // Auto-Delete from Cloudinary after 15 seconds
       setTimeout(async () => {
         try {
           const delTimestamp = Math.floor(Date.now() / 1000);
@@ -2609,27 +2601,21 @@ function saveCanvasHistory() {
 
           await fetch(
             `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/destroy`,
-            {
-              method: "POST",
-              body: delData,
-            }
+            { method: "POST", body: delData }
           );
-          console.log("Image auto-deleted from Cloudinary!");
-        } catch (delErr) {
-          console.error("Cloudinary Delete Error:", delErr);
+        } catch (e) {
+          console.error("Delete Error:", e);
         }
       }, 15000);
     } else {
       alert("Upload failed. Please try again.");
     }
   } catch (error) {
-    console.error("Download Error:", error);
-    alert("Error processing download.");
+    alert("Download error: " + error.message);
   } finally {
-    overlay.classList.replace("flex", "hidden");
+    if (overlay) overlay.classList.replace("flex", "hidden");
   }
-}  
-
+}
 function deleteSelected() {
         canvas.getActiveObjects().forEach((obj) => canvas.remove(obj));
         canvas.discardActiveObject().renderAll();
