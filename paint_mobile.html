@@ -110,6 +110,7 @@
     </script>
     <!-- Confetti Celebration Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <!-- CDN SCRIPTS LOADED PROPERLY -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -2537,32 +2538,99 @@ function saveCanvasHistory() {
         }
       }
 
-      function downloadPaint() {
-        const overlay = document.getElementById("download-progress-overlay");
-        overlay.classList.replace("hidden", "flex");
+ async function downloadPaint() {
+  const overlay = document.getElementById("download-progress-overlay");
+  overlay.classList.replace("hidden", "flex");
 
-        setTimeout(() => {
-          // Original native width ke hisab se multiplier calculate karein
-          const multiplier = PAGE_WIDTH / canvas.getWidth();
+  // Credentials
+  const CLOUD_NAME = "dzay0p6hc";
+  const API_KEY = "718694214558592";
+  const API_SECRET = "BWkJK-QspQciZZCBkwkssjHogyE";
+  const FOLDER = "kidspaint_temp";
 
-          const dataURL = canvas.toDataURL({
-            format: "png",
-            quality: 1.0,
-            multiplier: multiplier, // Original 800x800 resolution maintain rakhega
-          });
+  try {
+    // 1. 4-Digit Random Number Generate Karein (e.g., 4829)
+    const random4Digit = Math.floor(1000 + Math.random() * 9000);
+    const customFileName = `kidspaint_${random4Digit}`;
 
-          const link = document.createElement("a");
-          link.href = dataURL;
-          link.download = `Kids-Paint-${Date.now()}.png`;
-          document.body.appendChild(link); // Mobile browsers compatibility fix
-          link.click();
-          document.body.removeChild(link);
+    // 2. Canvas Resolution Maintain Karke Base64 DataURL Nikalein
+    const multiplier = PAGE_WIDTH / canvas.getWidth();
+    const dataURL = canvas.toDataURL({
+      format: "png",
+      quality: 1.0,
+      multiplier: multiplier,
+    });
 
-          overlay.classList.replace("flex", "hidden");
-        }, 800);
+    // 3. Client-side SHA-1 Signature Generate Karein
+    const timestamp = Math.floor(Date.now() / 1000);
+    const uploadSignStr = `folder=${FOLDER}&timestamp=${timestamp}${API_SECRET}`;
+    const uploadSignature = CryptoJS.SHA1(uploadSignStr).toString();
+
+    // 4. Cloudinary REST API Upload
+    const formData = new FormData();
+    formData.append("file", dataURL);
+    formData.append("api_key", API_KEY);
+    formData.append("timestamp", timestamp);
+    formData.append("folder", FOLDER);
+    formData.append("signature", uploadSignature);
+
+    const uploadRes = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      {
+        method: "POST",
+        body: formData,
       }
+    );
 
-      function deleteSelected() {
+    const uploadData = await uploadRes.json();
+
+    if (uploadData.secure_url) {
+      // 5. Custom File Name Ke Saath Forced Download Link Banayein (kidspaint_XXXX)
+      const forcedDownloadUrl = uploadData.secure_url.replace(
+        "/upload/",
+        `/upload/fl_attachment:${customFileName}/`
+      );
+
+      // Mobile / Browser par Download Trigger Karein
+      window.location.href = forcedDownloadUrl;
+
+      // 6. Download Ke 15 Second Baad Server Se Auto-Delete Karein
+      setTimeout(async () => {
+        try {
+          const delTimestamp = Math.floor(Date.now() / 1000);
+          const delSignStr = `public_id=${uploadData.public_id}&timestamp=${delTimestamp}${API_SECRET}`;
+          const delSignature = CryptoJS.SHA1(delSignStr).toString();
+
+          const delData = new FormData();
+          delData.append("public_id", uploadData.public_id);
+          delData.append("api_key", API_KEY);
+          delData.append("timestamp", delTimestamp);
+          delData.append("signature", delSignature);
+
+          await fetch(
+            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/destroy`,
+            {
+              method: "POST",
+              body: delData,
+            }
+          );
+          console.log("Image auto-deleted from Cloudinary!");
+        } catch (delErr) {
+          console.error("Cloudinary Delete Error:", delErr);
+        }
+      }, 15000);
+    } else {
+      alert("Upload failed. Please try again.");
+    }
+  } catch (error) {
+    console.error("Download Error:", error);
+    alert("Error processing download.");
+  } finally {
+    overlay.classList.replace("flex", "hidden");
+  }
+}  
+
+function deleteSelected() {
         canvas.getActiveObjects().forEach((obj) => canvas.remove(obj));
         canvas.discardActiveObject().renderAll();
         saveCanvasHistory();
