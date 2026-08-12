@@ -3647,6 +3647,11 @@ function deleteSelected() {
       const soundCorrect = new Audio(
         "https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3",
       );
+
+      //one by one correct answer sound play karne ke liye
+           const soundCorrectAnswer = new Audio(
+        "/sound/correctAnswer.mp3",
+      );
       const soundWrong = new Audio(
         "https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3",
       );
@@ -3665,155 +3670,195 @@ function deleteSelected() {
       });
 
       // 🎯 Smart Answer Check Engine
-      function checkAnswer() {
-        if (!canvas || !currentTemplate) return;
+ // 🎯 Smart Answer Check Engine
+// 🎯 Smart Answer Check Engine
+function checkAnswer() {
+  if (!canvas || !currentTemplate) return;
 
-        const isFreeDrawingTemplate =
-          (currentTemplate.subject &&
-            currentTemplate.subject.toLowerCase() === "art") ||
-          currentTemplate.category === "coloring" ||
-          currentTemplate.defaultTool === "bucket" ||
-          currentTemplate.defaultTool === "brush"; // 👈 Brush Tracing/Painting par detect nahi karega
+  const isFreeDrawingTemplate =
+    (currentTemplate.subject &&
+      currentTemplate.subject.toLowerCase() === "art") ||
+    currentTemplate.category === "coloring" ||
+    currentTemplate.defaultTool === "bucket" ||
+    currentTemplate.defaultTool === "brush";
 
-        if (isFreeDrawingTemplate) return;
-        const userLines = canvas
-          .getObjects()
-          .filter(
-            (obj) =>
-              (obj.type === "path" || obj.type === "line") &&
-              obj.role !== "background_art",
-          );
+  if (isFreeDrawingTemplate) return;
 
-        if (userLines.length === 0) {
-          showToast("Draw lines first!", "warning");
-          return;
-        }
+  const userLines = canvas
+    .getObjects()
+    .filter(
+      (obj) =>
+        (obj.type === "path" || obj.type === "line") &&
+        obj.role !== "background_art",
+    );
 
-        const allRects = canvas
-          .getObjects()
-          .filter((obj) => obj.type === "rect");
-        const leftBoxes = allRects.filter((r) => r.left < 350);
-        const rightBoxes = allRects.filter((r) => r.left >= 350);
+  if (userLines.length === 0) return;
 
-        const targetAnswers = currentTemplate.correctAnswers || [];
-        let correctMatches = 0;
-        let hasWrongMatch = false;
-        let invalidOutsideLines = []; // Khali/Range ke bahar wali lines
+  const allRects = canvas
+    .getObjects()
+    .filter((obj) => obj.type === "rect");
+  const leftBoxes = allRects.filter((r) => r.left < 350);
+  const rightBoxes = allRects.filter((r) => r.left >= 350);
 
-        userLines.forEach((line) => {
-          // Green (pehle se correct) lines ko count karein
-          if (line.stroke === "#22c55e") {
-            correctMatches++;
-            return;
-          }
+  const targetAnswers = currentTemplate.correctAnswers || [];
+  let correctMatches = 0;
+  let hasWrongMatch = false;
+  let newlyMatched = false;
+  let invalidOutsideLines = [];
 
-          const { start, end } = getPathEndpoints(line);
+  let newCorrectLines = []; // 🟢 Nayi green lines animate karne ke liye
+  let newWrongLines = [];   // 🔴 Nayi red lines shake karne ke liye
 
-          const matchedLeft = leftBoxes.find(
-            (b) =>
-              isInsideBox(start.x, start.y, b) || isInsideBox(end.x, end.y, b),
-          );
-          const matchedRight = rightBoxes.find(
-            (b) =>
-              isInsideBox(start.x, start.y, b) || isInsideBox(end.x, end.y, b),
-          );
+  userLines.forEach((line) => {
+    // Green (pehle se correct) lines ko count karein
+    if (line.stroke === "#22c55e") {
+      correctMatches++;
+      return;
+    }
 
-          // 🔴 AGAR LINE RANGE KE BAHAR / KHALI JAGAH MEIN HAI:
-          if (!matchedLeft || !matchedRight) {
-            invalidOutsideLines.push(line);
-            return;
-          }
+    const { start, end } = getPathEndpoints(line);
 
-          // 🟢 AGAR BOTH BOXES SE CONNECTED HAI:
-          const leftTextObj = canvas
-            .getObjects()
-            .find(
-              (t) =>
-                t.type === "text" && isInsideBox(t.left, t.top, matchedLeft),
-            );
-          const rightTextObj = canvas
-            .getObjects()
-            .find(
-              (t) =>
-                t.type === "text" && isInsideBox(t.left, t.top, matchedRight),
-            );
+    const matchedLeft = leftBoxes.find(
+      (b) =>
+        isInsideBox(start.x, start.y, b) || isInsideBox(end.x, end.y, b),
+    );
+    const matchedRight = rightBoxes.find(
+      (b) =>
+        isInsideBox(start.x, start.y, b) || isInsideBox(end.x, end.y, b),
+    );
 
-          if (leftTextObj && rightTextObj) {
-            const isCorrect = targetAnswers.some(
-              (ans) =>
-                ans.leftText.trim() === leftTextObj.text.trim() &&
-                ans.rightText.trim() === rightTextObj.text.trim(),
-            );
+    // 🔴 Line khali jagah kheenchi gayi ho toh remove list mein dalein
+    if (!matchedLeft || !matchedRight) {
+      invalidOutsideLines.push(line);
+      return;
+    }
 
-            if (isCorrect) {
-              correctMatches++;
-              line.set({
-                stroke: "#22c55e",
-                strokeWidth: 6,
-                selectable: false,
-              });
-            } else {
-              hasWrongMatch = true;
-              line.set({
-                stroke: "#ef4444",
-                strokeWidth: 6,
-                selectable: false,
-              });
-            }
-          }
+    // 🟢 Dono boxes connect hone par text check karein
+    const leftTextObj = canvas
+      .getObjects()
+      .find(
+        (t) =>
+          t.type === "text" && isInsideBox(t.left, t.top, matchedLeft),
+      );
+    const rightTextObj = canvas
+      .getObjects()
+      .find(
+        (t) =>
+          t.type === "text" && isInsideBox(t.left, t.top, matchedRight),
+      );
+
+    if (leftTextObj && rightTextObj) {
+      const isCorrect = targetAnswers.some(
+        (ans) =>
+          ans.leftText.trim() === leftTextObj.text.trim() &&
+          ans.rightText.trim() === rightTextObj.text.trim(),
+      );
+
+      if (isCorrect) {
+        correctMatches++;
+        newlyMatched = true;
+        line.set({
+          stroke: "#22c55e",
+          strokeWidth: 6,
+          selectable: false,
         });
-
-        // 🧹 Idhar-udhar kheenchi gayi lines ko TURANT canvas se hata dein
-        if (invalidOutsideLines.length > 0) {
-          invalidOutsideLines.forEach((line) => canvas.remove(line));
-          showToast("Connect boxes properly!", "warning");
-        }
-
-        canvas.renderAll();
-
-        // 🔴 CASE 1: Galat Match
-        if (hasWrongMatch) {
-          soundWrong.currentTime = 0;
-          soundWrong.play().catch(() => {});
-
-          showToast("Wrong match! Try again.", "error");
-
-          // ⏳ 1.2s baad Red lines auto-clear hongi
-          setTimeout(() => {
-            const redLines = canvas
-              .getObjects()
-              .filter(
-                (obj) =>
-                  (obj.type === "path" || obj.type === "line") &&
-                  obj.stroke === "#ef4444",
-              );
-            redLines.forEach((line) => canvas.remove(line));
-            canvas.renderAll();
-          }, 1200);
-
-          // 🎉 CASE 2: Saare Matches Sahi (WIN)
-        } else if (
-          correctMatches === targetAnswers.length &&
-          targetAnswers.length > 0
-        ) {
-          soundCorrect.currentTime = 0;
-          soundCorrect.play().catch(() => {});
-
-          if (typeof confetti === "function") {
-            confetti({
-              particleCount: 120,
-              spread: 80,
-              origin: { y: 0.6 },
-            });
-          }
-
-          showToast("Awesome! All Correct!", "success");
-
-          // 👍 CASE 3: Single Valid Match Success
-        } else if (correctMatches > 0 && invalidOutsideLines.length === 0) {
-          showToast("Good match! Next one...", "success");
-        }
+        newCorrectLines.push(line);
+      } else {
+        hasWrongMatch = true;
+        line.set({
+          stroke: "#ef4444",
+          strokeWidth: 6,
+          selectable: false,
+        });
+        newWrongLines.push(line);
       }
-    </script>
+    }
+  });
+
+  // 🧹 Khali jagah kheenchi gayi lines ko turant canvas se hatayein
+  if (invalidOutsideLines.length > 0) {
+    invalidOutsideLines.forEach((line) => canvas.remove(line));
+  }
+
+  canvas.renderAll();
+
+  // 🔴 CASE 1: Galat Match (Wiggle/Shake Effect + Sound)
+  if (hasWrongMatch) {
+    soundWrong.currentTime = 0;
+    soundWrong.play().catch(() => {});
+
+    // Har galat line ko Wiggle Shake karein aur phir hata dein
+    newWrongLines.forEach((line) => {
+      shakeLine(line, () => {
+        setTimeout(() => {
+          canvas.remove(line);
+          canvas.renderAll();
+        }, 500);
+      });
+    });
+
+    // 🎉 CASE 2: Saare Matches Sahi (Green Pulse + Win Sound + Confetti)
+  } else if (
+    correctMatches === targetAnswers.length &&
+    targetAnswers.length > 0
+  ) {
+    // Correct line ko pulse effect dein
+    newCorrectLines.forEach((line) => pulseCorrectLine(line));
+
+    soundCorrect.currentTime = 0;
+    soundCorrect.play().catch(() => {});
+
+    if (typeof confetti === "function") {
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.6 },
+      });
+    }
+
+    // 👍 CASE 3: Single Correct Match (Green Pulse + Single Sound)
+  } else if (newlyMatched) {
+    // Correct line ko pulse effect dein
+    newCorrectLines.forEach((line) => pulseCorrectLine(line));
+
+    soundCorrectAnswer.currentTime = 0;
+    soundCorrectAnswer.play().catch(() => {});
+  }
+}
+
+// 🌀 Helper 1: Galat Line ko Wiggle/Shake karne ke liye
+function shakeLine(line, onComplete) {
+  if (!line) return;
+  const originalLeft = line.left;
+  const shifts = [8, -8, 6, -6, 3, -3, 0];
+  let step = 0;
+
+  const interval = setInterval(() => {
+    line.set("left", originalLeft + shifts[step]);
+    canvas.renderAll();
+    step++;
+
+    if (step >= shifts.length) {
+      clearInterval(interval);
+      if (onComplete) onComplete();
+    }
+  }, 45);
+}
+
+// ✨ Helper 2: Sahi Line ko Pulse/Pop karne ke liye
+function pulseCorrectLine(line) {
+  if (!line) return;
+  line.animate("strokeWidth", 10, {
+    duration: 150,
+    onChange: canvas.renderAll.bind(canvas),
+    onComplete: function () {
+      line.animate("strokeWidth", 6, {
+        duration: 150,
+        onChange: canvas.renderAll.bind(canvas),
+      });
+    },
+  });
+}
+   </script>
   </body>
 </html>
