@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>KidsPaint - Profile</title>
+
+    <!-- Tailwind CSS & Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Fredoka:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Dynamic Bottom Navigation Component -->
+    <script src="js/nav.js"></script>
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #0f172a;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .font-kids {
+        font-family: "Fredoka", sans-serif;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body class="flex justify-center items-center min-h-screen bg-slate-900">
+    <!-- MOBILE CONTAINER (Phone Viewport: 430px) -->
+    <div
+      class="w-full max-w-[430px] bg-slate-50 h-screen max-h-screen flex flex-col justify-start shadow-2xl relative overflow-hidden"
+    >
+      <!-- 1. TOP FIXED HEADER -->
+      <header
+        class="bg-white border-b border-slate-200 px-4 py-2.5 sticky top-0 z-30 shadow-2xs shrink-0 flex items-center justify-between w-full"
+      >
+        <div class="flex items-center gap-2">
+          <button
+            onclick="history.back()"
+            class="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-700 active:scale-95 transition-all cursor-pointer"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+          <span
+            class="text-lg font-black tracking-wide text-indigo-600 uppercase flex items-center font-kids"
+          >
+            My&nbsp;<span class="text-pink-500">P</span
+            ><span class="text-amber-500">r</span
+            ><span class="text-emerald-500">o</span
+            ><span class="text-cyan-500">f</span
+            ><span class="text-violet-500">i</span
+            ><span class="text-indigo-600">le</span>
+          </span>
+        </div>
+
+        <button
+          onclick="handleLogout()"
+          class="flex items-center gap-1 bg-red-50 hover:bg-red-100 text-red-600 px-2.5 py-1 rounded-xl border border-red-100 text-xs font-extrabold transition-all active:scale-95 cursor-pointer shadow-2xs"
+        >
+          <i data-lucide="log-out" class="w-3.5 h-3.5 text-red-500"></i>
+          <span>Logout</span>
+        </button>
+      </header>
+
+      <!-- 2. MAIN CONTENT (COMPACT & CLEAN) -->
+      <main
+        class="flex-1 px-4 pt-3 pb-24 space-y-3 overflow-y-auto no-scrollbar"
+      >
+        <!-- PROFILE HERO CARD -->
+        <div
+          class="bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 rounded-2xl p-4 text-white shadow-md shadow-indigo-600/10 text-center relative overflow-hidden"
+        >
+          <div
+            id="profile-avatar"
+            class="w-14 h-14 mx-auto rounded-2xl bg-white/20 border-2 border-white/30 text-white font-extrabold flex items-center justify-center text-xl shadow-inner uppercase font-kids mb-2"
+          >
+            K
+          </div>
+
+          <h2
+            id="profile-name"
+            class="text-sm font-black tracking-wide font-kids"
+          >
+            Kumar
+          </h2>
+          <p
+            id="profile-grade"
+            class="text-[11px] text-indigo-200 font-semibold mt-0.5"
+          >
+            Grade 1
+          </p>
+          <p class="text-[9px] text-indigo-300 font-bold mt-1">
+            ID: <span id="profile-user-id" class="text-amber-300">--</span>
+          </p>
+        </div>
+
+        <!-- QUICK 3 STATS -->
+        <div class="grid grid-cols-3 gap-2">
+          <div
+            class="bg-white border border-slate-200/80 rounded-2xl p-2.5 text-center shadow-2xs"
+          >
+            <span class="text-base">📝</span>
+            <p class="text-[8px] font-bold text-slate-400 uppercase mt-0.5">
+              Tests
+            </p>
+            <p
+              id="stat-profile-tests"
+              class="text-xs font-black text-slate-800 font-kids mt-0.5"
+            >
+              0
+            </p>
+          </div>
+          <div
+            class="bg-white border border-slate-200/80 rounded-2xl p-2.5 text-center shadow-2xs"
+          >
+            <span class="text-base">🎯</span>
+            <p class="text-[8px] font-bold text-slate-400 uppercase mt-0.5">
+              Accuracy
+            </p>
+            <p
+              id="stat-profile-accuracy"
+              class="text-xs font-black text-emerald-600 font-kids mt-0.5"
+            >
+              0%
+            </p>
+          </div>
+          <div
+            class="bg-white border border-slate-200/80 rounded-2xl p-2.5 text-center shadow-2xs"
+          >
+            <span class="text-base">⭐</span>
+            <p class="text-[8px] font-bold text-slate-400 uppercase mt-0.5">
+              Stars
+            </p>
+            <p
+              id="stat-profile-stars"
+              class="text-xs font-black text-amber-500 font-kids mt-0.5"
+            >
+              0
+            </p>
+          </div>
+        </div>
+
+        <!-- SIMPLE ACCOUNT INFO -->
+        <div class="space-y-1">
+          <h3
+            class="text-[11px] font-extrabold text-slate-700 uppercase tracking-wider px-1"
+          >
+            Details
+          </h3>
+
+          <div
+            class="bg-white border border-slate-200/80 rounded-2xl p-3 space-y-2 shadow-2xs text-xs"
+          >
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400 font-semibold">Name</span>
+              <span id="detail-name" class="font-extrabold text-slate-800"
+                >Kumar</span
+              >
+            </div>
+            <div
+              class="border-t border-slate-100 pt-2 flex items-center justify-between"
+            >
+              <span class="text-slate-400 font-semibold">Grade</span>
+              <span id="detail-grade" class="font-extrabold text-slate-800"
+                >Grade 1</span
+              >
+            </div>
+            <div
+              class="border-t border-slate-100 pt-2 flex items-center justify-between"
+            >
+              <span class="text-slate-400 font-semibold">Curriculum</span>
+              <span class="font-extrabold text-indigo-600">CBSE / School</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIMPLE SHORTCUTS -->
+        <div class="space-y-1">
+          <h3
+            class="text-[11px] font-extrabold text-slate-700 uppercase tracking-wider px-1"
+          >
+            Shortcuts
+          </h3>
+
+          <div
+            class="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-2xs divide-y divide-slate-100 text-xs"
+          >
+            <button
+              onclick="window.location.href = 'scoreboard.html'"
+              class="w-full p-3 flex items-center justify-between hover:bg-slate-50 active:bg-slate-100 transition-all cursor-pointer"
+            >
+              <div class="flex items-center gap-2.5 font-bold text-slate-700">
+                <span class="text-sm">📊</span>
+                <span>View Full Scoreboard</span>
+              </div>
+              <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+            </button>
+
+            <button
+              onclick="window.location.href = 'testpaper.html'"
+              class="w-full p-3 flex items-center justify-between hover:bg-slate-50 active:bg-slate-100 transition-all cursor-pointer"
+            >
+              <div class="flex items-center gap-2.5 font-bold text-slate-700">
+                <span class="text-sm">📝</span>
+                <span>All Practice Tests</span>
+              </div>
+              <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <!-- 3. DYNAMIC BOTTOM NAVIGATION (RENDERED BY js/nav.js) -->
+      <div id="bottom-nav-placeholder"></div>
+    </div>
+
+    <!-- JAVASCRIPT PROFILE ENGINE -->
+    <script>
+      const SCOREBOARD_API_URL =
+        "https://api.jawedsiddiqui.cloud/api/test/questions/scoreboard";
+
+      function getActiveUserId() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let userId = urlParams.get("user_id");
+
+        if (!userId) {
+          try {
+            const rawUser = localStorage.getItem("kidsPaintUser");
+            if (rawUser) {
+              const userObj = JSON.parse(rawUser);
+              userId = userObj.id || userObj.userId || userObj.user_id;
+            }
+          } catch (e) {
+            console.error("Local storage error:", e);
+          }
+        }
+        return userId || "GUEST_USER";
+      }
+
+      function loadProfileData() {
+        const userId = getActiveUserId();
+        let userName = "Kumar";
+        let classGrade = "Grade 1";
+
+        try {
+          const rawUser = localStorage.getItem("kidsPaintUser");
+          if (rawUser) {
+            const userObj = JSON.parse(rawUser);
+            userName =
+              userObj.name || userObj.userName || userObj.user_name || "Kumar";
+            classGrade = userObj.classGrade || "Grade 1";
+          }
+        } catch (e) {}
+
+        document.getElementById("profile-name").innerText = userName;
+        document.getElementById("detail-name").innerText = userName;
+        document.getElementById("profile-grade").innerText = classGrade;
+        document.getElementById("detail-grade").innerText = classGrade;
+        document.getElementById("profile-user-id").innerText = userId;
+        document.getElementById("profile-avatar").innerText = userName
+          .charAt(0)
+          .toUpperCase();
+
+        fetchUserStats(userId);
+      }
+
+      async function fetchUserStats(userId) {
+        try {
+          const res = await fetch(
+            `${SCOREBOARD_API_URL}/${encodeURIComponent(userId)}`,
+          );
+          const resData = await res.json();
+
+          if (resData?.success && resData.data?.summary) {
+            const summary = resData.data.summary;
+            document.getElementById("stat-profile-tests").innerText =
+              summary.total_tests || 0;
+            document.getElementById("stat-profile-accuracy").innerText =
+              `${summary.overall_accuracy || 0}%`;
+            document.getElementById("stat-profile-stars").innerText =
+              summary.total_stars || 0;
+          }
+        } catch (err) {
+          console.error("Profile Stats Fetch Error:", err);
+        }
+      }
+
+      function handleLogout() {
+        if (confirm("Kya aap logout karna chahte hain?")) {
+          localStorage.clear();
+          sessionStorage.clear();
+          window.location.href = "index.html";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadProfileData();
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+      });
+    </script>
+  </body>
+</html>

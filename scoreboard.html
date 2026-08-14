@@ -16,9 +16,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Fredoka:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Fredoka:wght@400;600;700&family=JetBrains+Mono:wght@600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Dynamic Bottom Navigation Component -->
+    <script src="js/nav.js"></script>
 
     <style>
       body {
@@ -28,6 +31,9 @@
       }
       .font-kids {
         font-family: "Fredoka", sans-serif;
+      }
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
       }
       .no-scrollbar::-webkit-scrollbar {
         display: none;
@@ -58,54 +64,54 @@
     >
       <!-- 1. TOP FIXED HEADER -->
       <header
-        class="bg-white border-b border-slate-200 px-4 py-3 sticky top-0 z-30 shadow-2xs shrink-0"
+        class="bg-white border-b border-slate-200 px-4 py-2.5 sticky top-0 z-30 shadow-2xs shrink-0 flex items-center justify-between w-full"
       >
-        <div class="flex items-center justify-between w-full">
-          <div class="flex items-center gap-2">
-            <button
-              onclick="history.back()"
-              class="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-700 active:scale-95 transition-all cursor-pointer"
-            >
-              <i data-lucide="arrow-left" class="w-4 h-4"></i>
-            </button>
-            <span
-              class="text-lg font-black tracking-wide text-indigo-600 uppercase flex items-center font-kids"
-            >
-              Score<span class="text-amber-500">b</span
-              ><span class="text-pink-500">o</span
-              ><span class="text-emerald-500">a</span
-              ><span class="text-cyan-500">r</span
-              ><span class="text-violet-500">d</span>
-            </span>
-          </div>
-
+        <div class="flex items-center gap-2">
           <button
-            onclick="loadScoreboardData()"
-            class="flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-xl border border-indigo-100 text-xs font-extrabold transition-all active:scale-95 cursor-pointer shadow-2xs"
+            onclick="history.back()"
+            class="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-700 active:scale-95 transition-all cursor-pointer"
           >
-            <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
-            <span>Refresh</span>
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
           </button>
+          <span
+            class="text-lg font-black tracking-wide text-indigo-600 uppercase flex items-center font-kids"
+          >
+            Score<span class="text-amber-500">b</span
+            ><span class="text-pink-500">o</span
+            ><span class="text-emerald-500">a</span
+            ><span class="text-cyan-500">r</span
+            ><span class="text-violet-500">d</span>
+          </span>
         </div>
+
+        <button
+          onclick="loadScoreboardData()"
+          class="flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-xl border border-indigo-100 text-xs font-extrabold transition-all active:scale-95 cursor-pointer shadow-2xs"
+        >
+          <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+          <span>Refresh</span>
+        </button>
       </header>
 
       <!-- 2. MAIN SCROLLABLE CONTENT (ANCHORED TO TOP) -->
-      <main class="flex-1 px-4 py-4 space-y-4 overflow-y-auto pb-24">
+      <main
+        class="flex-1 px-4 pt-3 pb-24 space-y-3 overflow-y-auto no-scrollbar"
+      >
         <!-- USER PROFILE & TOTAL STARS -->
         <div
-          class="flex items-center justify-between bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-2xs"
+          class="flex items-center justify-between bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs"
         >
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2.5 min-w-0">
             <div
               id="user-avatar"
-              class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white font-extrabold flex items-center justify-center text-base shadow-sm uppercase"
+              class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white font-extrabold flex items-center justify-center text-sm shadow-xs uppercase shrink-0"
             >
               K
             </div>
-            <div>
+            <div class="min-w-0">
               <h2
                 id="user-display-name"
-                class="text-xs font-extrabold text-slate-800 leading-tight"
+                class="text-xs font-extrabold text-slate-800 leading-tight truncate"
               >
                 Student
               </h2>
@@ -120,9 +126,9 @@
 
           <!-- STARS ACCUMULATED -->
           <div
-            class="bg-amber-50 border border-amber-200 px-3 py-1 rounded-xl text-right flex items-center gap-1.5"
+            class="bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-xl text-right flex items-center gap-1.5 shrink-0"
           >
-            <span class="text-base">⭐</span>
+            <span class="text-sm">⭐</span>
             <div>
               <span
                 class="text-[8px] font-extrabold text-amber-800 block uppercase"
@@ -139,9 +145,9 @@
 
         <!-- LIFETIME PROGRESS BANNER -->
         <div
-          class="bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 rounded-2xl p-4 text-white shadow-lg shadow-indigo-600/10 relative overflow-hidden"
+          class="bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 rounded-2xl p-3.5 text-white shadow-md shadow-indigo-600/10 relative overflow-hidden"
         >
-          <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center justify-between mb-1.5">
             <span
               class="text-[9px] font-extrabold uppercase tracking-wider bg-white/20 backdrop-blur-md px-2 py-0.5 rounded-full text-white"
             >
@@ -152,40 +158,40 @@
 
           <div class="grid grid-cols-3 gap-2 text-center my-2">
             <div
-              class="bg-white/10 backdrop-blur-xs rounded-xl p-2 border border-white/10"
+              class="bg-white/10 backdrop-blur-xs rounded-xl p-1.5 border border-white/10"
             >
-              <p class="text-[9px] font-bold text-indigo-200 uppercase">
+              <p class="text-[8px] font-bold text-indigo-200 uppercase">
                 Tests Taken
               </p>
               <p
                 id="stat-tests-count"
-                class="text-sm font-black text-white mt-0.5 font-kids"
+                class="text-xs font-black text-white mt-0.5 font-kids"
               >
                 0
               </p>
             </div>
             <div
-              class="bg-white/10 backdrop-blur-xs rounded-xl p-2 border border-white/10"
+              class="bg-white/10 backdrop-blur-xs rounded-xl p-1.5 border border-white/10"
             >
-              <p class="text-[9px] font-bold text-indigo-200 uppercase">
+              <p class="text-[8px] font-bold text-indigo-200 uppercase">
                 Accuracy
               </p>
               <p
                 id="stat-accuracy"
-                class="text-sm font-black text-emerald-300 mt-0.5 font-kids"
+                class="text-xs font-black text-emerald-300 mt-0.5 font-kids"
               >
                 0%
               </p>
             </div>
             <div
-              class="bg-white/10 backdrop-blur-xs rounded-xl p-2 border border-white/10"
+              class="bg-white/10 backdrop-blur-xs rounded-xl p-1.5 border border-white/10"
             >
-              <p class="text-[9px] font-bold text-indigo-200 uppercase">
+              <p class="text-[8px] font-bold text-indigo-200 uppercase">
                 Total Score
               </p>
               <p
                 id="stat-total-score"
-                class="text-sm font-black text-amber-300 mt-0.5 font-kids"
+                class="text-xs font-black text-amber-300 mt-0.5 font-kids"
               >
                 0/0
               </p>
@@ -193,7 +199,7 @@
           </div>
 
           <div
-            class="flex items-center justify-between text-[10px] text-indigo-200 font-bold mt-2 pt-2 border-t border-white/10 px-1"
+            class="flex items-center justify-between text-[10px] text-indigo-200 font-bold mt-1.5 pt-1.5 border-t border-white/10 px-1"
           >
             <span
               >Correct Matches:
@@ -207,7 +213,7 @@
         </div>
 
         <!-- SUBJECT ACCURACY STRIP -->
-        <div class="space-y-2">
+        <div class="space-y-1.5">
           <h3
             class="text-xs font-extrabold text-slate-800 uppercase tracking-wider px-1"
           >
@@ -223,7 +229,7 @@
         </div>
 
         <!-- RECENT TEST PAPERS SCOREBOARD & PAGINATION -->
-        <div class="space-y-2.5">
+        <div class="space-y-2">
           <div class="flex items-center justify-between px-1">
             <h3
               class="text-xs font-extrabold text-slate-800 uppercase tracking-wider"
@@ -232,7 +238,7 @@
             </h3>
             <span
               id="total-attempts-badge"
-              class="text-[10px] font-extrabold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full"
+              class="text-[9px] font-extrabold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full border border-indigo-100"
             >
               0 Tests
             </span>
@@ -241,7 +247,7 @@
           <!-- INLINE LOADER -->
           <div id="history-loading" class="py-8 text-center hidden">
             <div
-              class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"
+              class="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-1.5"
             ></div>
             <p class="text-xs font-bold text-indigo-600">
               Fetching Test Records...
@@ -256,20 +262,20 @@
           <!-- PAGINATION CONTROLS (10 PER PAGE) -->
           <div
             id="pagination-controls"
-            class="hidden bg-white border border-slate-200/80 rounded-2xl p-2.5 flex items-center justify-between shadow-2xs mt-3"
+            class="hidden bg-white border border-slate-200/80 rounded-xl p-2 flex items-center justify-between shadow-2xs mt-2"
           >
             <button
               id="btn-prev-page"
               onclick="prevPage()"
-              class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-xl flex items-center gap-1 active:scale-95 cursor-pointer disabled:opacity-40 disabled:pointer-events-none transition-all"
+              class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-lg flex items-center gap-1 active:scale-95 cursor-pointer disabled:opacity-40 disabled:pointer-events-none transition-all"
             >
-              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+              <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
               <span>Prev</span>
             </button>
 
             <span
               id="page-indicator"
-              class="text-xs font-extrabold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-xl"
+              class="text-[11px] font-extrabold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg"
             >
               Page 1 of 1
             </span>
@@ -277,47 +283,17 @@
             <button
               id="btn-next-page"
               onclick="nextPage()"
-              class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-xl flex items-center gap-1 active:scale-95 cursor-pointer disabled:opacity-40 disabled:pointer-events-none transition-all"
+              class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-lg flex items-center gap-1 active:scale-95 cursor-pointer disabled:opacity-40 disabled:pointer-events-none transition-all"
             >
               <span>Next</span>
-              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
             </button>
           </div>
         </div>
       </main>
 
-      <!-- 3. FIXED BOTTOM NAVIGATION -->
-      <nav
-        class="absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 px-6 py-2.5 flex justify-between items-center z-30 shadow-lg"
-      >
-        <button
-          onclick="window.location.href = 'index.html'"
-          class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-indigo-600 cursor-pointer"
-        >
-          <i data-lucide="home" class="w-5 h-5"></i>
-          <span class="text-[10px] font-bold">Home</span>
-        </button>
-        <button
-          onclick="window.location.href = 'index.html'"
-          class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-indigo-600 cursor-pointer"
-        >
-          <i data-lucide="file-check-2" class="w-5 h-5"></i>
-          <span class="text-[10px] font-bold">Tests</span>
-        </button>
-        <button
-          class="flex flex-col items-center gap-0.5 text-indigo-600 cursor-pointer"
-        >
-          <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-          <span class="text-[10px] font-extrabold">Scorecard</span>
-        </button>
-        <button
-          onclick="window.location.href = 'profile.html'"
-          class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-indigo-600 cursor-pointer"
-        >
-          <i data-lucide="user" class="w-5 h-5"></i>
-          <span class="text-[10px] font-bold">Profile</span>
-        </button>
-      </nav>
+      <!-- 3. DYNAMIC BOTTOM NAVIGATION PLACEHOLDER (RENDERED BY js/nav.js) -->
+      <div id="bottom-nav-placeholder"></div>
     </div>
 
     <!-- 4. BREAKDOWN REVIEW MODAL (FIXED FOR MATCHING DETAILS) -->
@@ -361,7 +337,7 @@
         <div class="pt-3 border-t mt-3">
           <button
             onclick="closeBreakdownModal()"
-            class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs uppercase rounded-xl active:scale-95 transition-all cursor-pointer"
+            class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs uppercase rounded-xl active:scale-95 transition-all cursor-pointer font-kids"
           >
             Back to Scoreboard
           </button>
@@ -487,8 +463,7 @@
         renderPaginatedAttempts();
       }
 
-      // 4. Render Paginated Attempts List (10 per page)
-      // Render Paginated Attempts List (10 per page with Date & Time)
+      // 4. Render Paginated Attempts List (10 per page with Date & Time)
       function renderPaginatedAttempts() {
         const historyContainer = document.getElementById(
           "attempts-list-container",
@@ -517,7 +492,7 @@
             const percentage = test.percentage || 0;
             const isPassed = percentage >= 60;
 
-            // 🕒 Date + Time Formatting (e.g., "14 Aug, 02:30 PM")
+            // 🕒 Date + Time Formatting
             const testDate = new Date(test.createdAt || Date.now());
             const dateFormatted = testDate.toLocaleDateString("en-IN", {
               day: "2-digit",
@@ -531,32 +506,32 @@
             const dateTimeStr = `${dateFormatted}, ${timeFormatted}`;
 
             return `
-      <div 
-        onclick="openBreakdownModal(${actualGlobalIndex})"
-        class="bg-white border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all cursor-pointer active:scale-98"
-      >
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="w-10 h-10 rounded-xl ${isPassed ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-rose-50 text-rose-600 border border-rose-200"} flex items-center justify-center font-black text-sm shrink-0 font-kids">
-            ${test.grade || (isPassed ? "A" : "F")}
-          </div>
-          <div class="min-w-0">
-            <h4 class="font-extrabold text-slate-800 text-xs truncate">${test.class_or_exam_name || "Practice Test"}</h4>
-            <p class="text-[10px] text-slate-400 font-semibold mt-0.5 flex items-center gap-1">
-              <span>${test.subject || "General"}</span>
-              <span>•</span>
-              <span class="text-slate-500 font-mono">${dateTimeStr}</span>
-            </p>
-          </div>
-        </div>
+            <div 
+              onclick="openBreakdownModal(${actualGlobalIndex})"
+              class="bg-white border border-slate-200/80 rounded-2xl p-2.5 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all cursor-pointer active:scale-98"
+            >
+              <div class="flex items-center gap-2.5 min-w-0 pr-2">
+                <div class="w-9 h-9 rounded-xl ${isPassed ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-rose-50 text-rose-600 border border-rose-200"} flex items-center justify-center font-black text-xs shrink-0 font-kids">
+                  ${test.grade || (isPassed ? "A" : "F")}
+                </div>
+                <div class="min-w-0">
+                  <h4 class="font-extrabold text-slate-800 text-xs truncate">${test.class_or_exam_name || "Practice Test"}</h4>
+                  <p class="text-[9px] text-slate-400 font-semibold mt-0.5 flex items-center gap-1">
+                    <span>${test.subject || "General"}</span>
+                    <span>•</span>
+                    <span class="text-slate-500 font-mono">${dateTimeStr}</span>
+                  </p>
+                </div>
+              </div>
 
-        <div class="text-right shrink-0">
-          <span class="text-xs font-black font-kids ${isPassed ? "text-emerald-600" : "text-rose-600"}">
-            ${test.total_score}/${test.max_score}
-          </span>
-          <span class="text-[10px] font-bold text-slate-400 block">${percentage}%</span>
-        </div>
-      </div>
-    `;
+              <div class="text-right shrink-0">
+                <span class="text-xs font-black font-kids ${isPassed ? "text-emerald-600" : "text-rose-600"}">
+                  ${test.total_score}/${test.max_score}
+                </span>
+                <span class="text-[9px] font-bold text-slate-400 block">${percentage}%</span>
+              </div>
+            </div>
+          `;
           })
           .join("");
 
@@ -572,8 +547,11 @@
           paginationControls.classList.add("hidden");
         }
 
-        lucide.createIcons();
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
       }
+
       function prevPage() {
         if (currentPage > 1) {
           currentPage--;
@@ -599,7 +577,7 @@
         `;
       }
 
-      // 5. Modal Breakdown Review (Fixed Logic for attempted pairs)
+      // 5. Modal Breakdown Review
       function openBreakdownModal(index) {
         const test = globalAttemptsData[index];
         if (!test) return;
@@ -632,22 +610,34 @@
                   ${userChoices
                     .map((u) => {
                       const matched = correctChoices.find(
-                        (c) => c.left.trim() === u.left.trim(),
+                        (c) =>
+                          c.left && u.left && c.left.trim() === u.left.trim(),
                       );
 
-                      // Match check: Check if userChoice equals correct match or if the entire question is correct
-                      const isAttempted =
-                        u.userChoice && u.userChoice !== "Not Attempted";
-                      const isMatchRight =
-                        isAttempted &&
-                        matched &&
-                        matched.match.trim().toLowerCase() ===
-                          u.userChoice.trim().toLowerCase();
+                      let userChoiceText = u.userChoice;
+                      let isMatchRight = false;
+
+                      if (matched) {
+                        if (
+                          userChoiceText &&
+                          userChoiceText.trim().toLowerCase() ===
+                            matched.match.trim().toLowerCase()
+                        ) {
+                          isMatchRight = true;
+                        } else if (
+                          isPassed &&
+                          (!userChoiceText ||
+                            userChoiceText === "Not Attempted")
+                        ) {
+                          userChoiceText = matched.match;
+                          isMatchRight = true;
+                        }
+                      }
 
                       return `
                       <div class="p-2 rounded-xl border text-[11px] font-bold ${isMatchRight ? "bg-emerald-50/70 border-emerald-200 text-emerald-800" : "bg-rose-50/70 border-rose-200 text-rose-800"}">
                         <div class="flex items-center justify-between">
-                          <span>${u.left} ➔ ${u.userChoice || "Not Attempted"}</span>
+                          <span>${u.left} ➔ ${userChoiceText || "Not Attempted"}</span>
                           <span>${isMatchRight ? "✅" : "❌"}</span>
                         </div>
                         ${
@@ -675,7 +665,9 @@
         }
 
         document.getElementById("breakdown-modal").classList.remove("hidden");
-        lucide.createIcons();
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
       }
 
       function closeBreakdownModal() {

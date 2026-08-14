@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>KidsPaint - Practice Test Papers</title>
+
+    <!-- Tailwind CSS & Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Fredoka:wght@400;600;700&family=JetBrains+Mono:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Master Scripts -->
+    <script src="js/kidsSubject.js"></script>
+    <script src="js/nav.js"></script>
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #090d16;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .font-kids {
+        font-family: "Fredoka", sans-serif;
+      }
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+      .animate-slide-up {
+        animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+    </style>
+  </head>
+  <body class="flex justify-center items-center min-h-screen bg-slate-950">
+    <!-- MOBILE CONTAINER (Viewport 430px) -->
+    <div
+      class="w-full max-w-[430px] bg-slate-50 h-screen max-h-screen flex flex-col justify-start shadow-2xl relative overflow-hidden"
+    >
+      <!-- 1. FIXED TOP HEADER -->
+      <header
+        class="bg-white border-b border-slate-200 px-4 py-2.5 sticky top-0 z-30 shadow-2xs shrink-0 flex items-center justify-between w-full"
+      >
+        <div class="flex items-center gap-1.5">
+          <a href="index.html" class="flex items-center gap-1.5 no-underline">
+            <span class="text-lg">🎨</span>
+            <span
+              class="text-lg font-black tracking-wide text-indigo-600 uppercase flex items-center font-kids"
+            >
+              Kids<span class="text-pink-500">P</span
+              ><span class="text-amber-500">a</span
+              ><span class="text-emerald-500">i</span
+              ><span class="text-cyan-500">n</span
+              ><span class="text-violet-500">t</span>
+            </span>
+          </a>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span
+            class="flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase"
+          >
+            <span>✨ Free</span>
+          </span>
+
+          <button
+            onclick="loadInitialData()"
+            class="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl active:scale-95 transition-all cursor-pointer shadow-2xs"
+          >
+            <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- 2. SCROLLABLE MAIN ARENA -->
+      <main
+        class="flex-1 px-4 pt-3 pb-24 space-y-3 overflow-y-auto no-scrollbar"
+      >
+        <!-- 🔥 TODAY'S FRESH TEST BLOCK -->
+        <div
+          id="today-featured-block"
+          class="bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 rounded-2xl p-3.5 text-white shadow-md shadow-indigo-600/10 relative overflow-hidden"
+        >
+          <div class="flex items-center justify-between mb-1.5">
+            <span
+              class="inline-flex items-center gap-1 text-[8px] font-extrabold uppercase tracking-wider bg-amber-400 text-slate-950 px-2 py-0.5 rounded-full shadow-xs font-kids"
+            >
+              🔥 Fresh Today
+            </span>
+            <span
+              id="today-date-badge"
+              class="text-[9px] font-bold text-indigo-200"
+            >
+              Live Challenge
+            </span>
+          </div>
+
+          <div class="my-1.5">
+            <h2
+              id="today-test-title"
+              class="text-xs font-extrabold text-white leading-snug line-clamp-1 font-kids"
+            >
+              Loading Today's Test...
+            </h2>
+            <p
+              id="today-test-subtitle"
+              class="text-[10px] text-indigo-200 font-semibold mt-0.5 truncate"
+            >
+              Solve and earn Stars ⭐
+            </p>
+          </div>
+
+          <div
+            class="flex items-center justify-between pt-2 border-t border-white/15 mt-2"
+          >
+            <div
+              class="flex items-center gap-1.5 text-[9px] text-indigo-100 font-bold"
+            >
+              <span id="today-q-count" class="bg-white/10 px-1.5 py-0.5 rounded"
+                >-- Ques</span
+              >
+              <span
+                id="today-time-count"
+                class="bg-white/10 px-1.5 py-0.5 rounded"
+                >⏱️ -- M</span
+              >
+            </div>
+
+            <button
+              id="today-start-btn"
+              onclick="startFeaturedTest()"
+              class="px-3.5 py-1 bg-amber-400 hover:bg-amber-300 text-slate-950 rounded-xl text-[11px] font-extrabold uppercase flex items-center gap-1 shadow-sm active:scale-95 transition-all cursor-pointer font-kids"
+            >
+              <span>Play</span>
+              <i data-lucide="play" class="w-3 h-3 fill-current"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- SEARCH INPUT -->
+        <div class="relative w-full">
+          <i
+            data-lucide="search"
+            class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+          ></i>
+          <input
+            type="text"
+            id="test-search-input"
+            oninput="applyFilters()"
+            placeholder="Search test name, subject..."
+            class="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 outline-none focus:border-indigo-500 shadow-2xs transition-all"
+          />
+        </div>
+
+        <!-- SUBJECTS BAR (HORIZONTAL + VIEW ALL MODAL) -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between px-1">
+            <span
+              class="text-[10px] font-extrabold text-slate-700 uppercase tracking-wider"
+            >
+              Subjects
+            </span>
+            <button
+              onclick="openSubjectModal()"
+              class="text-[10px] font-extrabold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 cursor-pointer"
+            >
+              <span>All Subjects</span>
+              <i data-lucide="layout-grid" class="w-3 h-3"></i>
+            </button>
+          </div>
+
+          <div
+            id="subject-pills-container"
+            class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5"
+          >
+            <!-- Dynamic Subject Horizontal Pills -->
+          </div>
+        </div>
+
+        <!-- STATUS TOGGLE (ALL vs PENDING vs COMPLETED) -->
+        <div class="grid grid-cols-3 gap-1 bg-slate-200/70 p-1 rounded-xl">
+          <button
+            onclick="setStatusFilter('ALL')"
+            id="status-btn-ALL"
+            class="status-btn active py-1.5 text-center text-[10px] font-extrabold rounded-lg bg-white text-indigo-700 shadow-xs transition-all cursor-pointer"
+          >
+            All Tests
+          </button>
+          <button
+            onclick="setStatusFilter('PENDING')"
+            id="status-btn-PENDING"
+            class="status-btn py-1.5 text-center text-[10px] font-extrabold rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer"
+          >
+            🔥 Unsolved
+          </button>
+          <button
+            onclick="setStatusFilter('COMPLETED')"
+            id="status-btn-COMPLETED"
+            class="status-btn py-1.5 text-center text-[10px] font-extrabold rounded-lg text-emerald-700 hover:text-emerald-800 transition-all cursor-pointer"
+          >
+            ✅ Done
+          </button>
+        </div>
+
+        <!-- LIST HEADER INFO -->
+        <div class="flex items-center justify-between px-1 pt-0.5">
+          <h3
+            class="text-xs font-extrabold text-slate-800 uppercase tracking-wider"
+          >
+            Test Papers
+          </h3>
+          <span
+            id="filtered-count-badge"
+            class="text-[9px] font-extrabold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full border border-indigo-100"
+          >
+            0 Papers
+          </span>
+        </div>
+
+        <!-- LOADING SKELETON -->
+        <div id="test-loading" class="py-8 text-center">
+          <div
+            class="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-1.5"
+          ></div>
+          <p class="text-xs font-bold text-indigo-600">
+            Loading Test Papers...
+          </p>
+        </div>
+
+        <!-- TEST PAPERS LIST CONTAINER -->
+        <div id="test-list-container" class="space-y-2">
+          <!-- Dynamic Cards -->
+        </div>
+
+        <!-- 10-ITEMS PAGINATION -->
+        <div
+          id="pagination-controls"
+          class="hidden bg-white border border-slate-200/80 rounded-xl p-2 flex items-center justify-between shadow-2xs mt-2"
+        >
+          <button
+            id="btn-prev-page"
+            onclick="prevPage()"
+            class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-lg flex items-center gap-1 active:scale-95 cursor-pointer disabled:opacity-40 disabled:pointer-events-none transition-all"
+          >
+            <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+            <span>Prev</span>
+          </button>
+
+          <span
+            id="page-indicator"
+            class="text-[11px] font-extrabold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg"
+          >
+            Page 1 of 1
+          </span>
+
+          <button
+            id="btn-next-page"
+            onclick="nextPage()"
+            class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-lg flex items-center gap-1 active:scale-95 cursor-pointer disabled:opacity-40 disabled:pointer-events-none transition-all"
+          >
+            <span>Next</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </main>
+
+      <!-- 3. DYNAMIC BOTTOM NAVIGATION (RENDERED BY js/nav.js) -->
+      <div id="bottom-nav-placeholder"></div>
+    </div>
+
+    <!-- 4. ALL SUBJECTS BOTTOM SHEET / MODAL -->
+    <div
+      id="subject-modal"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs flex items-end justify-center z-50 hidden"
+    >
+      <div
+        class="w-full max-w-[430px] bg-white rounded-t-3xl p-4 border-t border-slate-200 shadow-2xl space-y-3 animate-slide-up max-h-[80vh] flex flex-col"
+      >
+        <!-- MODAL HEADER -->
+        <div
+          class="flex items-center justify-between border-b border-slate-100 pb-2.5"
+        >
+          <div>
+            <h3 class="text-xs font-black text-slate-800 font-kids">
+              All Subjects
+            </h3>
+            <p class="text-[9px] font-bold text-slate-400">
+              Choose a subject to filter practice tests
+            </p>
+          </div>
+          <button
+            onclick="closeSubjectModal()"
+            class="p-1 bg-slate-100 hover:bg-slate-200 rounded-full text-slate-500 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- SUBJECTS GRID CARDS -->
+        <div
+          id="modal-subjects-grid"
+          class="grid grid-cols-2 gap-2 overflow-y-auto pr-1 flex-1"
+        >
+          <!-- Rendered dynamically from kidsSubject.js -->
+        </div>
+
+        <button
+          onclick="
+            selectSubjectFilter('ALL');
+            closeSubjectModal();
+          "
+          class="w-full py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-extrabold text-xs rounded-xl transition-all cursor-pointer"
+        >
+          Show All Tests
+        </button>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+      const TEST_API_URL = "https://api.jawedsiddiqui.cloud/api/kidspaint";
+      const USER_RESULTS_API_URL =
+        "https://api.jawedsiddiqui.cloud/api/test/questions/results/user";
+
+      let allTests = [];
+      let userAttemptedMap = {};
+      let selectedSubject = "ALL";
+      let selectedStatus = "ALL";
+      let currentPage = 1;
+      const ITEMS_PER_PAGE = 10;
+      let featuredTestId = null;
+
+      function getActiveUserId() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let userId = urlParams.get("user_id") || urlParams.get("student_id");
+        if (!userId) {
+          try {
+            const rawUser = localStorage.getItem("kidsPaintUser");
+            if (rawUser) {
+              const u = JSON.parse(rawUser);
+              userId = u.id || u.student_id || u.userId;
+            }
+          } catch (e) {}
+        }
+        return userId || "GUEST_STUDENT";
+      }
+
+      // 1. Initial Data Fetcher
+      async function loadInitialData() {
+        const loadingEl = document.getElementById("test-loading");
+        loadingEl.classList.remove("hidden");
+        document.getElementById("test-list-container").innerHTML = "";
+
+        const userId = getActiveUserId();
+
+        try {
+          const [testsRes, historyRes] = await Promise.allSettled([
+            fetch(TEST_API_URL).then((r) => r.json()),
+            fetch(`${USER_RESULTS_API_URL}/${encodeURIComponent(userId)}`).then(
+              (r) => r.json(),
+            ),
+          ]);
+
+          if (
+            testsRes.status === "fulfilled" &&
+            testsRes.value?.success &&
+            Array.isArray(testsRes.value.data)
+          ) {
+            allTests = testsRes.value.data;
+          } else {
+            allTests = [];
+          }
+
+          userAttemptedMap = {};
+          if (
+            historyRes.status === "fulfilled" &&
+            historyRes.value?.success &&
+            Array.isArray(historyRes.value.data)
+          ) {
+            historyRes.value.data.forEach((r) => {
+              const tid = r.test_id?.trim().toUpperCase();
+              if (tid && !userAttemptedMap[tid]) {
+                userAttemptedMap[tid] = r;
+              }
+            });
+          }
+
+          renderTodayFeaturedTest();
+          populateDynamicSubjects();
+          populateModalSubjectsGrid();
+          applyFilters();
+        } catch (err) {
+          console.error("Initialization Error:", err);
+          renderEmptyState("Unable to connect to tests server. Please retry.");
+        } finally {
+          loadingEl.classList.add("hidden");
+        }
+      }
+
+      // 2. Render Featured Test Card
+      function renderTodayFeaturedTest() {
+        if (allTests.length === 0) {
+          document
+            .getElementById("today-featured-block")
+            .classList.add("hidden");
+          return;
+        }
+
+        document
+          .getElementById("today-featured-block")
+          .classList.remove("hidden");
+        const unattemptedTests = allTests.filter(
+          (t) => !userAttemptedMap[t.test_id?.toUpperCase()],
+        );
+        const featured =
+          unattemptedTests.length > 0 ? unattemptedTests[0] : allTests[0];
+
+        featuredTestId = featured.test_id;
+        document.getElementById("today-test-title").innerText =
+          featured.title || featured.test_name || "Daily Practice Paper";
+        document.getElementById("today-test-subtitle").innerText =
+          `${featured.subject || "General"} • ${featured.category_title || "Class 1 Challenge"}`;
+
+        const qCount =
+          featured.total_questions || featured.questions?.length || 10;
+        const tMins = featured.total_time_mins || 20;
+
+        document.getElementById("today-q-count").innerText = `${qCount} Ques`;
+        document.getElementById("today-time-count").innerText = `⏱️ ${tMins} M`;
+      }
+
+      function startFeaturedTest() {
+        if (featuredTestId) startTest(featuredTestId);
+      }
+
+      // 3. Populate Subjects Horizontal Bar
+      function populateDynamicSubjects() {
+        const container = document.getElementById("subject-pills-container");
+        const activeSubjects =
+          typeof subjectsData !== "undefined" ? subjectsData : [];
+
+        let pillsHtml = `
+          <button
+            onclick="selectSubjectFilter('ALL')"
+            class="filter-pill ${selectedSubject === "ALL" ? "active bg-indigo-600 text-white shadow-xs" : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shadow-2xs"} px-2.5 py-1 rounded-xl text-[11px] font-extrabold whitespace-nowrap cursor-pointer transition-all shrink-0"
+            data-subject="ALL"
+          >
+            🌟 All
+          </button>
+        `;
+
+        activeSubjects.forEach((sub) => {
+          const isActive =
+            selectedSubject.toLowerCase() === sub.apiSubject.toLowerCase();
+
+          pillsHtml += `
+            <button
+              onclick="selectSubjectFilter('${sub.apiSubject}')"
+              class="filter-pill ${isActive ? "active bg-indigo-600 text-white shadow-xs" : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shadow-2xs"} px-2.5 py-1 rounded-xl text-[11px] font-extrabold whitespace-nowrap cursor-pointer transition-all shrink-0 flex items-center gap-1"
+              data-subject="${sub.apiSubject}"
+            >
+              <span>${sub.icon}</span>
+              <span>${sub.shortName || sub.name}</span>
+            </button>
+          `;
+        });
+
+        container.innerHTML = pillsHtml;
+      }
+
+      // 4. Populate Subjects Grid in Bottom Sheet
+      function populateModalSubjectsGrid() {
+        const gridContainer = document.getElementById("modal-subjects-grid");
+        const activeSubjects =
+          typeof subjectsData !== "undefined" ? subjectsData : [];
+
+        gridContainer.innerHTML = activeSubjects
+          .map((sub) => {
+            const totalInSubj = allTests.filter(
+              (t) =>
+                (t.subject || "").trim().toLowerCase() ===
+                sub.apiSubject.toLowerCase(),
+            ).length;
+            const isCurrentActive =
+              selectedSubject.toLowerCase() === sub.apiSubject.toLowerCase();
+
+            return `
+            <div
+              onclick="selectSubjectFilter('${sub.apiSubject}'); closeSubjectModal();"
+              class="border ${isCurrentActive ? "border-indigo-600 bg-indigo-50/50 shadow-xs" : "border-slate-200 bg-white hover:border-indigo-300"} rounded-2xl p-2.5 flex flex-col justify-between cursor-pointer transition-all active:scale-95 shadow-2xs"
+            >
+              <div class="flex items-center justify-between">
+                <span class="text-xl">${sub.icon}</span>
+                <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded-full ${isCurrentActive ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-600"}">
+                  ${totalInSubj} Tests
+                </span>
+              </div>
+              <div class="mt-1.5">
+                <h4 class="font-extrabold text-xs text-slate-800 truncate">${sub.name}</h4>
+                <p class="text-[8px] font-semibold text-slate-400">Interactive modules</p>
+              </div>
+            </div>
+          `;
+          })
+          .join("");
+      }
+
+      function selectSubjectFilter(subj) {
+        selectedSubject = subj;
+        populateDynamicSubjects();
+        populateModalSubjectsGrid();
+        applyFilters();
+      }
+
+      function setStatusFilter(status) {
+        selectedStatus = status;
+        document.querySelectorAll(".status-btn").forEach((btn) => {
+          btn.className =
+            "status-btn py-1.5 text-center text-[10px] font-extrabold rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer";
+        });
+        const activeBtn = document.getElementById(`status-btn-${status}`);
+        if (activeBtn) {
+          activeBtn.className =
+            "status-btn active py-1.5 text-center text-[10px] font-extrabold rounded-lg bg-white text-indigo-700 shadow-xs transition-all cursor-pointer";
+        }
+        applyFilters();
+      }
+
+      // 5. Combined Filter and Sorting
+      function applyFilters() {
+        const searchVal = document
+          .getElementById("test-search-input")
+          .value.toLowerCase()
+          .trim();
+
+        let filtered = allTests.filter((test) => {
+          const title = (test.title || test.test_name || "").toLowerCase();
+          const testId = (test.test_id || "").toLowerCase();
+          const subject = (test.subject || "").toLowerCase();
+          const category = (test.category_title || "").toLowerCase();
+
+          const matchSubject =
+            selectedSubject === "ALL" ||
+            subject === selectedSubject.toLowerCase();
+
+          const matchSearch =
+            !searchVal ||
+            title.includes(searchVal) ||
+            testId.includes(searchVal) ||
+            subject.includes(searchVal) ||
+            category.includes(searchVal);
+
+          const isCompleted = !!userAttemptedMap[test.test_id?.toUpperCase()];
+
+          let matchStatus = true;
+          if (selectedStatus === "PENDING") matchStatus = !isCompleted;
+          else if (selectedStatus === "COMPLETED") matchStatus = isCompleted;
+
+          return matchSubject && matchSearch && matchStatus;
+        });
+
+        // Unattempted tests on top, completed at bottom
+        filtered.sort((a, b) => {
+          const aDone = !!userAttemptedMap[a.test_id?.toUpperCase()];
+          const bDone = !!userAttemptedMap[b.test_id?.toUpperCase()];
+          if (aDone === bDone) return 0;
+          return aDone ? 1 : -1;
+        });
+
+        document.getElementById("filtered-count-badge").innerText =
+          `${filtered.length} Papers`;
+        currentPage = 1;
+        renderPaginatedList(filtered);
+      }
+
+      // 6. Render Paginated Cards
+      function renderPaginatedList(testList) {
+        const container = document.getElementById("test-list-container");
+        const paginationControls = document.getElementById(
+          "pagination-controls",
+        );
+
+        if (testList.length === 0) {
+          renderEmptyState("No test papers found for this selection.");
+          paginationControls.classList.add("hidden");
+          return;
+        }
+
+        const totalPages = Math.ceil(testList.length / ITEMS_PER_PAGE) || 1;
+        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+        const pageItems = testList.slice(
+          startIndex,
+          startIndex + ITEMS_PER_PAGE,
+        );
+
+        container.innerHTML = pageItems
+          .map((test) => {
+            const subjName = test.subject || "Mathematics";
+            const style =
+              typeof getSubjectConfig === "function"
+                ? getSubjectConfig(subjName)
+                : { icon: "📝" };
+
+            const qCount = test.total_questions || test.questions?.length || 10;
+            const timeMins = test.total_time_mins || 20;
+            const classInfo = test.classGrade
+              ? `Class ${test.classGrade}`
+              : "Grade 1";
+
+            const pastResult = userAttemptedMap[test.test_id?.toUpperCase()];
+            const isCompleted = !!pastResult;
+
+            return `
+            <div class="bg-white border ${isCompleted ? "border-emerald-200 bg-emerald-50/20" : "border-slate-200/90"} rounded-2xl p-3 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all">
+              
+              <div class="flex items-center gap-2.5 min-w-0 pr-2">
+                <div class="w-9 h-9 rounded-xl ${isCompleted ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-slate-50 border border-slate-200"} flex items-center justify-center text-lg shrink-0 shadow-2xs font-kids">
+                  ${isCompleted ? "🏆" : style.icon}
+                </div>
+
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5 mb-0.5">
+                    ${
+                      isCompleted
+                        ? `
+                      <span class="text-[8px] font-extrabold bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded">
+                        Score: ${pastResult.total_score}/${pastResult.max_score} (${pastResult.percentage}%)
+                      </span>
+                    `
+                        : `
+                      <span class="text-[8px] font-extrabold bg-indigo-50 text-indigo-700 px-1.5 py-0.2 rounded border border-indigo-100">
+                        ✨ Free Test
+                      </span>
+                    `
+                    }
+                  </div>
+
+                  <h4 class="font-extrabold text-slate-800 text-xs truncate leading-snug">
+                    ${test.title || test.test_name || "Practice Test Paper"}
+                  </h4>
+                  
+                  <p class="text-[9px] font-semibold text-slate-400 truncate mt-0.5">
+                    ${test.category_title || subjName} • ${classInfo}
+                  </p>
+
+                  <div class="flex items-center gap-1.5 mt-1">
+                    <span class="text-[8px] font-bold bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded">
+                      ${qCount} Ques
+                    </span>
+                    <span class="text-[8px] font-bold bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded">
+                      ⏱️ ${timeMins}m
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ACTION BUTTON -->
+              <div class="shrink-0">
+                ${
+                  isCompleted
+                    ? `
+                  <button
+                    onclick="startTest('${test.test_id}')"
+                    class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-[11px] font-extrabold flex items-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer font-kids"
+                  >
+                    <span>Retake</span>
+                    <i data-lucide="rotate-cw" class="w-3 h-3"></i>
+                  </button>
+                `
+                    : `
+                  <button
+                    onclick="startTest('${test.test_id}')"
+                    class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[11px] font-extrabold flex items-center gap-1 shadow-2xs shadow-indigo-600/20 active:scale-95 transition-all cursor-pointer font-kids"
+                  >
+                    <span>Start</span>
+                    <i data-lucide="play" class="w-3 h-3 fill-current"></i>
+                  </button>
+                `
+                }
+              </div>
+
+            </div>
+          `;
+          })
+          .join("");
+
+        if (totalPages > 1) {
+          paginationControls.classList.remove("hidden");
+          document.getElementById("page-indicator").innerText =
+            `Page ${currentPage} of ${totalPages}`;
+          document.getElementById("btn-prev-page").disabled = currentPage === 1;
+          document.getElementById("btn-next-page").disabled =
+            currentPage === totalPages;
+        } else {
+          paginationControls.classList.add("hidden");
+        }
+
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+      }
+
+      function prevPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          applyFilters();
+        }
+      }
+
+      function nextPage() {
+        currentPage++;
+        applyFilters();
+      }
+
+      function renderEmptyState(msg) {
+        document.getElementById("test-list-container").innerHTML = `
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center text-xs font-bold text-slate-400">
+            ${msg}
+          </div>
+        `;
+      }
+
+      function startTest(testId) {
+        window.location.href = `kids_runner.html?test_id=${encodeURIComponent(testId)}`;
+      }
+
+      function openSubjectModal() {
+        document.getElementById("subject-modal").classList.remove("hidden");
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      }
+
+      function closeSubjectModal() {
+        document.getElementById("subject-modal").classList.add("hidden");
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadInitialData();
+      });
+    </script>
+  </body>
+</html>
