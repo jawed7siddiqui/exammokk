@@ -392,6 +392,7 @@
       let totalTimeMins = 20;
       let timeRemainingSeconds = 1200;
       let calculatedTotalMaxScore = 0;
+      let testSubject = "Mathematics";
 
       let userDrawnPathsMap = {};
       let evaluatedEvaluationData = [];
@@ -425,7 +426,12 @@
               "Class 1 Practice Test";
 
             document.getElementById("test-title").innerText = extractedTitle;
-
+            testSubject =
+              apiData.subject ||
+              apiData.subject_name ||
+              (questionsList.length > 0 &&
+                (questionsList[0].subject || questionsList[0].subject_name)) ||
+              "Mathematics";
             // 3. Time Limit Extraction
             totalTimeMins =
               apiData.total_time_mins ||
@@ -644,7 +650,6 @@
         }
       }
 
-      // 2. Updated Dynamic Evaluation Function
       function evaluateTestScore() {
         saveCurrentQuestionPaths();
 
@@ -720,8 +725,7 @@
                 const endX = Math.max(x1, x2);
                 const endY = x1 < x2 ? y2 : y1;
 
-                // अगर लाइन Left side (X < 400) से शुरू होकर Right side (X > 400) जा रही है
-                // टॉलरेंस को 120px रखा गया है ताकि बड़े कार्ड्स भी आसानी से डिटेक्ट हों
+                // लाइन Left side (X < 380) से शुरू होकर Right side (X > 420) जा रही है
                 if (
                   Math.abs(startY - lItem.y) < 120 &&
                   startX < 380 &&
@@ -756,6 +760,7 @@
                 pairEvaluations.push({
                   leftText: lItem.text,
                   rightText: lItem.expectedRight,
+                  userAnswer: matchedRightText, // 👈 FIX: सही उत्तर होने पर भी यूजर का आंसर भेजा जाएगा
                   isCorrect: true,
                 });
               } else {
@@ -927,7 +932,7 @@
           class_or_exam_name:
             document.getElementById("test-title").innerText ||
             "Class 1 Practice",
-          subject: "Mathematics",
+          subject: testSubject,
           student_id: studentId,
           student_name: studentName,
           total_score: totalScore,

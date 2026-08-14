@@ -3,18 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Panel - Dual Route Test & Question Manager</title>
+    <title>Admin Panel - Dual Route Test & Question Engine</title>
+    <!-- Tailwind CSS v4 -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
       rel="stylesheet"
     />
     <style>
       body {
         font-family: "Plus Jakarta Sans", sans-serif;
       }
+      code,
+      pre,
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
       .spinner {
+        border: 2px solid rgba(79, 70, 229, 0.2);
+        border-radius: 50%;
+        border-top-color: #4f46e5;
+        width: 14px;
+        height: 14px;
+        animation: spin 0.6s linear infinite;
+      }
+      .spinner-white {
         border: 2px solid rgba(255, 255, 255, 0.3);
         border-radius: 50%;
         border-top-color: #fff;
@@ -30,148 +46,245 @@
           transform: rotate(360deg);
         }
       }
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      .toast-enter {
+        animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
     </style>
   </head>
   <body
-    class="bg-slate-100 text-slate-800 min-h-screen flex flex-col md:flex-row"
+    class="bg-slate-50 text-slate-800 min-h-screen flex flex-col md:flex-row antialiased selection:bg-indigo-600 selection:text-white"
   >
-    <!-- MOBILE TOP BAR -->
+    <!-- TOAST NOTIFICATION CONTAINER (TOP-RIGHT) -->
     <div
-      class="md:hidden bg-slate-900 text-white p-4 flex items-center justify-between sticky top-0 z-50 shadow-md"
+      id="toast-container"
+      class="fixed top-5 right-5 z-[9999] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"
+    ></div>
+
+    <!-- MOBILE TOP HEADER BAR -->
+    <div
+      class="md:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between sticky top-0 z-40 shadow-xs"
     >
-      <div class="flex items-center gap-2">
-        <div class="p-1.5 bg-indigo-600 rounded-lg">
-          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+      <div class="flex items-center gap-2.5">
+        <div class="p-2 bg-indigo-600 rounded-xl text-white shadow-xs">
+          <i data-lucide="layers" class="w-5 h-5"></i>
         </div>
-        <span class="font-extrabold text-sm tracking-wide"
-          >Test Portal Admin</span
-        >
+        <div>
+          <span
+            class="font-extrabold text-sm tracking-tight text-slate-800 block"
+            >DualEngine Pro</span
+          >
+          <span
+            class="text-[10px] text-indigo-600 font-bold uppercase tracking-wider"
+            >Admin Workspace</span
+          >
+        </div>
       </div>
       <button
         onclick="toggleMobileSidebar()"
-        class="p-1 text-slate-300 hover:text-white cursor-pointer"
+        class="p-2 text-slate-600 hover:text-slate-900 bg-slate-100 rounded-xl border border-slate-200 transition-colors"
       >
-        <i data-lucide="menu" class="w-6 h-6"></i>
+        <i data-lucide="menu" class="w-5 h-5"></i>
       </button>
     </div>
 
     <!-- SIDEBAR NAV -->
     <aside
       id="sidebar"
-      class="w-full md:w-64 bg-slate-900 text-white flex flex-col fixed md:sticky top-0 h-screen z-40 transition-transform duration-300 -translate-x-full md:translate-x-0"
+      class="w-full md:w-64 bg-white border-r border-slate-200 flex flex-col fixed md:sticky top-0 h-screen z-40 transition-transform duration-300 -translate-x-full md:translate-x-0 shrink-0"
     >
+      <!-- BRAND HEADER -->
       <div
-        class="p-6 border-b border-slate-800 hidden md:flex items-center gap-3"
+        class="p-5 border-b border-slate-100 hidden md:flex items-center gap-3"
       >
-        <div class="p-2 bg-indigo-600 rounded-xl">
-          <i data-lucide="layout-dashboard" class="w-5 h-5 text-white"></i>
+        <div
+          class="p-2.5 bg-gradient-to-tr from-indigo-600 to-indigo-500 rounded-2xl shadow-sm text-white"
+        >
+          <i data-lucide="layers" class="w-5 h-5"></i>
         </div>
         <div>
-          <h1 class="font-extrabold text-sm tracking-wide">Test Portal</h1>
-          <p class="text-[10px] text-slate-400 font-semibold">
-            Dual Route v4.5
+          <h1 class="font-extrabold text-sm tracking-tight text-slate-800">
+            DualEngine Pro
+          </h1>
+          <p class="text-[11px] text-slate-500 font-semibold">
+            Test &amp; Item Manager
           </p>
         </div>
       </div>
 
-      <nav class="flex-1 p-4 space-y-2">
+      <!-- NAV BUTTONS -->
+      <nav class="flex-1 p-3.5 space-y-1.5">
         <button
           onclick="switchTab('tests')"
           id="nav-tests"
-          class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs bg-indigo-600 text-white shadow-lg transition-all cursor-pointer"
+          class="w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs bg-indigo-600 text-white shadow-sm shadow-indigo-600/20 transition-all cursor-pointer"
         >
-          <i data-lucide="file-text" class="w-4 h-4"></i>
-          <span>1. Test Papers (Containers)</span>
+          <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+          <span>1. Test Containers</span>
         </button>
 
         <button
           onclick="switchTab('questions')"
           id="nav-questions"
-          class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs text-slate-400 hover:bg-slate-800 hover:text-white transition-all cursor-pointer"
+          class="w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all cursor-pointer"
         >
           <i data-lucide="help-circle" class="w-4 h-4"></i>
-          <span>2. Test Questions (Items)</span>
+          <span>2. Questions Items</span>
         </button>
       </nav>
 
+      <!-- FOOTER INFO -->
       <div
-        class="p-4 border-t border-slate-800 text-[11px] text-slate-500 text-center font-medium"
+        class="p-4 border-t border-slate-100 bg-slate-50/50 text-[11px] text-slate-600 space-y-1"
       >
-        api.jawedsiddiqui.cloud
+        <div class="flex items-center justify-between font-bold text-slate-700">
+          <span>Backend API</span>
+          <span
+            class="inline-flex items-center gap-1 text-[10px] text-emerald-600"
+          >
+            <span
+              class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"
+            ></span>
+            Live
+          </span>
+        </div>
+        <p class="text-[10px] text-slate-400 font-mono truncate">
+          api.jawedsiddiqui.cloud
+        </p>
       </div>
     </aside>
 
     <!-- MAIN CONTENT AREA -->
-    <div class="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden">
-      <!-- HEADER -->
+    <div
+      class="flex-1 flex flex-col min-h-screen w-full bg-slate-50 overflow-x-hidden"
+    >
+      <!-- TOP HEADER (PURE WHITE) -->
       <header
-        class="bg-white border-b border-slate-200 px-4 md:px-8 py-4 flex flex-col md:flex-row md:items-center justify-between gap-3 sticky top-0 z-30 shadow-xs"
+        class="bg-white border-b border-slate-200 px-4 md:px-8 py-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3 sticky top-0 z-30 shadow-2xs"
       >
         <div>
           <h2
             id="page-title"
-            class="text-base md:text-lg font-extrabold text-slate-800"
+            class="text-base md:text-lg font-extrabold text-slate-800 tracking-tight"
           >
-            Test Paper Management
+            Test Papers Management
           </h2>
-          <p class="text-xs text-slate-500 font-semibold">
-            Base: /api/kidspaint (Papers) &amp; /api/test/questions (Questions)
+          <p class="text-xs text-slate-500 font-medium">
+            Endpoints:
+            <span class="font-mono text-[11px] text-indigo-600 font-semibold"
+              >/api/kidspaint</span
+            >
+            &amp;
+            <span class="font-mono text-[11px] text-indigo-600 font-semibold"
+              >/api/test/questions</span
+            >
           </p>
         </div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2.5 self-end md:self-auto">
           <button
             onclick="refreshCurrentTab(this)"
-            class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-xl flex items-center gap-1.5 cursor-pointer"
+            class="px-3.5 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs rounded-xl flex items-center gap-2 cursor-pointer transition-all active:scale-95 shadow-2xs"
           >
             <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
             <span>Refresh</span>
           </button>
           <span
-            class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-[11px] font-bold px-3 py-1.5 rounded-full border border-emerald-200"
+            class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-bold px-3 py-1.5 rounded-full"
           >
             <span
-              class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
+              class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"
             ></span>
-            Live APIs
+            Sync Active
           </span>
         </div>
       </header>
 
-      <!-- PAGE CONTENT BODY -->
+      <!-- MAIN BODY CONTAINER -->
       <main class="p-4 md:p-8 flex-1 space-y-6">
-        <!-- TAB 1: TEST PAPERS CRUD SECTION -->
-        <section id="section-tests" class="space-y-6">
+        <!-- ================= TAB 1: TEST PAPERS ================= -->
+        <section id="section-tests" class="space-y-4">
+          <!-- SEARCH & FILTER TOOLBAR -->
           <div
-            class="flex flex-col md:flex-row md:items-center justify-between gap-3"
+            class="bg-white border border-slate-200 p-3.5 md:p-4 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs"
           >
-            <h3 class="font-extrabold text-sm text-slate-800">
-              All Saved Test Papers
-            </h3>
+            <div
+              class="flex flex-1 flex-col sm:flex-row items-center gap-2.5 w-full"
+            >
+              <!-- SEARCH INPUT -->
+              <div class="relative w-full sm:w-64">
+                <i
+                  data-lucide="search"
+                  class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+                ></i>
+                <input
+                  type="text"
+                  id="filter_test_search"
+                  oninput="applyTestPaperFilters()"
+                  placeholder="Search by ID or Title..."
+                  class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 outline-none focus:border-indigo-500 focus:bg-white transition-all"
+                />
+              </div>
+
+              <!-- SUBJECT FILTER -->
+              <select
+                id="filter_test_subject"
+                onchange="applyTestPaperFilters()"
+                class="w-full sm:w-48 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
+              >
+                <option value="">All Subjects</option>
+              </select>
+
+              <!-- CATEGORY FILTER -->
+              <select
+                id="filter_test_category"
+                onchange="applyTestPaperFilters()"
+                class="w-full sm:w-44 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
+              >
+                <option value="">All Categories</option>
+                <option value="KIDS_SCHOOL">🎨 Kids School</option>
+                <option value="BOARD_EXAMS">📚 Board Exams</option>
+                <option value="GOVT_PSC">🏛️ Govt PSC</option>
+                <option value="OTHER">⚡ Other</option>
+              </select>
+            </div>
+
+            <!-- CREATE TEST BUTTON -->
             <button
               onclick="openTestModal(false)"
-              class="w-full md:w-auto px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+              class="w-full md:w-auto px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm shadow-indigo-600/20 cursor-pointer transition-all shrink-0"
             >
               <i data-lucide="plus-circle" class="w-4 h-4"></i>
-              <span>+ Create New Test Paper</span>
+              <span>+ Create Test Paper</span>
             </button>
           </div>
 
+          <!-- TABLE CARD -->
           <div
-            class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden"
+            class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden"
           >
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs">
                 <thead
-                  class="bg-slate-50 text-slate-500 uppercase font-extrabold text-[10px] tracking-wider border-b"
+                  class="bg-slate-50/80 text-slate-500 uppercase font-extrabold text-[10px] tracking-wider border-b border-slate-200"
                 >
                   <tr>
-                    <th class="p-3 md:p-4">Test ID</th>
-                    <th class="p-3 md:p-4">Title</th>
-                    <th class="p-3 md:p-4">Category / Subject</th>
-                    <th class="p-3 md:p-4">Class</th>
-                    <th class="p-3 md:p-4">Total Qs</th>
-                    <th class="p-3 md:p-4 text-right">Actions</th>
+                    <th class="p-3.5 md:p-4">Test ID</th>
+                    <th class="p-3.5 md:p-4">Title</th>
+                    <th class="p-3.5 md:p-4">Category / Subject</th>
+                    <th class="p-3.5 md:p-4">Class</th>
+                    <th class="p-3.5 md:p-4">Total Qs</th>
+                    <th class="p-3.5 md:p-4">Created At</th>
+                    <th class="p-3.5 md:p-4 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody
@@ -179,7 +292,7 @@
                   class="divide-y divide-slate-100 font-semibold text-slate-700"
                 >
                   <tr>
-                    <td colspan="6" class="p-6 text-center text-slate-400">
+                    <td colspan="7" class="p-8 text-center text-slate-400">
                       Loading Test Papers...
                     </td>
                   </tr>
@@ -189,48 +302,98 @@
           </div>
         </section>
 
-        <!-- TAB 2: TEST QUESTIONS CRUD SECTION -->
-        <section id="section-questions" class="hidden space-y-6">
+        <!-- ================= TAB 2: QUESTIONS ================= -->
+        <section id="section-questions" class="hidden space-y-4">
+          <!-- TOP SELECTION & ADVANCED FILTER CARD -->
           <div
-            class="bg-white p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4"
+            class="bg-white border border-slate-200 p-4 md:p-5 rounded-2xl space-y-3.5 shadow-xs"
           >
-            <label
-              class="block text-xs font-extrabold text-slate-700 uppercase tracking-wider"
+            <div
+              class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"
             >
-              Select Target Test ID to Manage Questions (/api/test/questions)
-            </label>
+              <label
+                class="block text-[11px] font-extrabold text-indigo-600 uppercase tracking-wider"
+              >
+                Target Test Paper &amp; Filters
+              </label>
+              <span class="text-[11px] text-slate-400 font-medium"
+                >Filter questions by Subject, Type, and Query</span
+              >
+            </div>
+
+            <!-- ROW 1: SELECT TEST PAPER & ADD QUESTION BUTTON -->
             <div class="flex flex-col md:flex-row gap-3">
               <select
                 id="q_target_test_id"
-                onchange="loadQuestionsForTest()"
-                class="flex-1 p-3 border-2 border-indigo-200 rounded-xl text-xs font-extrabold text-indigo-700 bg-indigo-50/50 outline-none focus:border-indigo-600"
+                onchange="onTargetTestChange()"
+                class="flex-1 p-2.5 border-2 border-indigo-200 focus:border-indigo-600 rounded-xl text-xs font-extrabold text-indigo-900 bg-indigo-50/40 outline-none cursor-pointer"
               >
                 <option value="">-- Choose Test Paper First --</option>
               </select>
               <button
                 onclick="openQuestionModal(false)"
-                class="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-extrabold rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer shadow-sm transition-all shrink-0"
               >
                 <i data-lucide="plus" class="w-4 h-4"></i>
                 <span>+ Add Question to Test</span>
               </button>
             </div>
+
+            <!-- ROW 2: QUESTIONS IN-TABLE FILTERS (SUBJECT / SEARCH / TYPE) -->
+            <div
+              class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 border-t border-slate-100"
+            >
+              <!-- SEARCH QUESTION TEXT -->
+              <div class="relative">
+                <i
+                  data-lucide="search"
+                  class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+                ></i>
+                <input
+                  type="text"
+                  id="filter_question_search"
+                  oninput="applyQuestionFilters()"
+                  placeholder="Search question text or ID..."
+                  class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 outline-none focus:border-indigo-500 focus:bg-white transition-all"
+                />
+              </div>
+
+              <!-- FILTER BY SUBJECT -->
+              <select
+                id="filter_question_subject"
+                onchange="onQuestionSubjectFilterChange()"
+                class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
+              >
+                <option value="">All Subjects (Quick Switch)</option>
+              </select>
+
+              <!-- FILTER BY QUESTION TYPE -->
+              <select
+                id="filter_question_type"
+                onchange="applyQuestionFilters()"
+                class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
+              >
+                <option value="">All Question Types</option>
+                <option value="matching_canvas">🎨 Matching Canvas</option>
+                <option value="mcq_single">🔘 Single MCQ</option>
+                <option value="true_false">⚡ True / False</option>
+              </select>
+            </div>
           </div>
 
           <!-- QUESTIONS LIST TABLE -->
           <div
-            class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden"
+            class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden"
           >
             <div
-              class="p-4 border-b border-slate-100 font-extrabold text-xs text-slate-800 flex items-center justify-between"
+              class="p-3.5 md:p-4 border-b border-slate-100 font-extrabold text-xs text-slate-800 flex items-center justify-between"
             >
               <div class="flex items-center gap-3">
-                <span>Questions inside Selected Test Paper</span>
-                <!-- BULK DELETE BUTTON CONTAINER -->
+                <span>Questions List</span>
                 <button
                   id="btn-bulk-delete"
                   onclick="bulkDeleteQuestions(this)"
-                  class="hidden px-3 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-[11px] font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                  class="hidden px-3 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-[11px] font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
                 >
                   <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                   <span id="bulk-delete-text">Delete Selected (0)</span>
@@ -238,17 +401,19 @@
               </div>
               <span
                 id="questions-count-badge"
-                class="px-2.5 py-0.5 bg-indigo-50 text-indigo-600 rounded-full text-[11px]"
-                >0 Items</span
+                class="px-2.5 py-0.5 bg-indigo-50 border border-indigo-100 text-indigo-700 rounded-full text-[11px] font-bold"
               >
+                0 Items
+              </span>
             </div>
+
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs">
                 <thead
-                  class="bg-slate-50 text-slate-500 uppercase font-extrabold text-[10px] tracking-wider border-b"
+                  class="bg-slate-50/80 text-slate-500 uppercase font-extrabold text-[10px] tracking-wider border-b border-slate-200"
                 >
                   <tr>
-                    <th class="p-3 md:p-4 w-10 text-center">
+                    <th class="p-3.5 md:p-4 w-10 text-center">
                       <input
                         type="checkbox"
                         id="selectAllQuestions"
@@ -256,12 +421,13 @@
                         class="w-4 h-4 text-indigo-600 rounded cursor-pointer border-slate-300 focus:ring-indigo-500"
                       />
                     </th>
-                    <th class="p-3 md:p-4">Q.No</th>
-                    <th class="p-3 md:p-4">Type</th>
-                    <th class="p-3 md:p-4">Question ID</th>
-                    <th class="p-3 md:p-4">Question Preview</th>
-                    <th class="p-3 md:p-4">Marks</th>
-                    <th class="p-3 md:p-4 text-right">Actions</th>
+                    <th class="p-3.5 md:p-4">Q.No</th>
+                    <th class="p-3.5 md:p-4">Type</th>
+                    <th class="p-3.5 md:p-4">Question ID</th>
+                    <th class="p-3.5 md:p-4">Question Preview</th>
+                    <th class="p-3.5 md:p-4">Marks</th>
+                    <th class="p-3.5 md:p-4">Created At</th>
+                    <th class="p-3.5 md:p-4 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody
@@ -269,7 +435,7 @@
                   class="divide-y divide-slate-100 font-semibold text-slate-700"
                 >
                   <tr>
-                    <td colspan="7" class="p-6 text-center text-slate-400">
+                    <td colspan="8" class="p-8 text-center text-slate-400">
                       Select a Test ID above to view questions.
                     </td>
                   </tr>
@@ -281,7 +447,7 @@
       </main>
     </div>
 
-    <!-- MODAL 1: CREATE / EDIT TEST PAPER CONTAINER -->
+    <!-- ================= MODAL 1: TEST PAPER ================= -->
     <div
       id="modal-test"
       class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden overflow-y-auto"
@@ -289,12 +455,14 @@
       <div
         class="bg-white p-6 md:p-8 rounded-3xl shadow-2xl w-full max-w-lg border border-slate-200 my-8"
       >
-        <div class="flex items-center justify-between border-b pb-3 mb-4">
+        <div
+          class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4"
+        >
           <h3
             id="modal-test-title"
             class="text-base font-extrabold text-slate-800"
           >
-            Step 1 — Create Test Paper Information
+            Step 1 — Create Test Paper
           </h3>
           <button
             onclick="closeTestModal()"
@@ -313,7 +481,7 @@
             <select
               id="m_exam_category"
               onchange="populateSubjects()"
-              class="w-full p-2.5 border rounded-xl text-xs font-bold bg-slate-50 outline-none"
+              class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
               required
             >
               <option value="KIDS_SCHOOL">🎨 Kids School (Class 1-3)</option>
@@ -332,7 +500,7 @@
                 type="text"
                 id="m_board"
                 value="CBSE"
-                class="w-full p-2.5 border rounded-xl text-xs font-bold bg-slate-50"
+                class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
                 required
               />
             </div>
@@ -344,7 +512,7 @@
                 type="text"
                 id="m_class"
                 value="1"
-                class="w-full p-2.5 border rounded-xl text-xs font-bold bg-slate-50"
+                class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
               />
             </div>
           </div>
@@ -357,7 +525,7 @@
               <select
                 id="m_subject"
                 onchange="populateCategories()"
-                class="w-full p-2.5 border rounded-xl text-xs font-bold bg-slate-50"
+                class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
                 required
               ></select>
             </div>
@@ -367,7 +535,7 @@
               >
               <select
                 id="m_category"
-                class="w-full p-2.5 border rounded-xl text-xs font-bold bg-slate-50"
+                class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
                 required
               ></select>
             </div>
@@ -380,8 +548,8 @@
             <input
               type="text"
               id="m_title"
-              placeholder="e.g. Class 1 Maths Practice Paper"
-              class="w-full p-2.5 border rounded-xl text-xs font-bold bg-slate-50"
+              placeholder="e.g. Class 1 GK & National Symbols"
+              class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
               required
             />
           </div>
@@ -393,7 +561,7 @@
               >
               <select
                 id="m_mode"
-                class="w-full p-2.5 border rounded-xl text-xs font-bold bg-slate-50"
+                class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
               >
                 <option value="canvas_matching">Line Matching</option>
                 <option value="standard_mcq">Standard MCQ</option>
@@ -408,7 +576,7 @@
                 type="number"
                 id="m_duration"
                 value="20"
-                class="w-full p-2.5 border rounded-xl text-xs font-bold bg-slate-50"
+                class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
               />
             </div>
             <div>
@@ -419,7 +587,7 @@
                 type="number"
                 id="m_questions"
                 value="20"
-                class="w-full p-2.5 border rounded-xl text-xs font-bold bg-slate-50"
+                class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
               />
             </div>
           </div>
@@ -427,7 +595,7 @@
           <button
             id="btn-submit-test"
             type="submit"
-            class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-xl text-xs uppercase flex items-center justify-center gap-2 cursor-pointer"
+            class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold rounded-xl text-xs uppercase flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all"
           >
             <span>Save Test Paper</span>
           </button>
@@ -435,7 +603,7 @@
       </div>
     </div>
 
-    <!-- MODAL 2: ADD / EDIT QUESTION ITEM WITH DEMO ACCORDION GUIDE -->
+    <!-- ================= MODAL 2: QUESTION ITEM ================= -->
     <div
       id="modal-question"
       class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden overflow-y-auto"
@@ -443,7 +611,9 @@
       <div
         class="bg-white p-6 md:p-8 rounded-3xl shadow-2xl w-full max-w-2xl border border-slate-200 my-8"
       >
-        <div class="flex items-center justify-between border-b pb-3 mb-4">
+        <div
+          class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4"
+        >
           <h3
             id="modal-q-title"
             class="text-base font-extrabold text-slate-800"
@@ -471,38 +641,40 @@
             <textarea
               id="q_json_payload"
               rows="10"
-              placeholder='{ "question_no": 1, "question_type": "mcq_single", "question_text_en": "What is 2+2?", "options_en": ["2","3","4","5"], "correct_option_index": 2 }'
-              class="w-full p-3 border rounded-xl font-mono text-xs bg-slate-50 outline-none focus:border-indigo-500"
+              placeholder='{ "question_no": 1, "question_type": "matching_canvas", ... }'
+              class="w-full p-3 border border-slate-200 rounded-xl font-mono text-xs bg-slate-900 text-emerald-400 outline-none focus:border-indigo-600 leading-relaxed"
               required
             ></textarea>
           </div>
 
-          <!-- DEMO JSON FORMAT ACCORDIONS -->
+          <!-- DEMO JSON ACCORDIONS -->
           <div
             class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3"
           >
             <div class="flex items-center justify-between">
               <span
-                class="text-xs font-extrabold text-slate-800 uppercase tracking-wide flex items-center gap-1.5"
+                class="text-xs font-extrabold text-slate-800 uppercase tracking-wide"
+                >💡 Demo Templates</span
               >
-                <span>💡 Demo JSON Payload Formats</span>
-              </span>
               <span class="text-[10px] text-slate-500 font-semibold"
-                >(Click format to expand & copy)</span
+                >(Click format to expand &amp; copy)</span
               >
             </div>
 
             <div class="space-y-2">
-              <!-- ACCORDION 1: KIDS SCHOOL -->
+              <!-- ACCORDION 1: KIDS MATCHING -->
               <div
                 class="border border-slate-200 bg-white rounded-xl overflow-hidden shadow-2xs"
               >
                 <button
                   type="button"
                   onclick="toggleDemoAccordion('demo-kids')"
-                  class="w-full p-3 flex items-center justify-between text-left font-bold text-xs text-indigo-700 bg-indigo-50/50 hover:bg-indigo-50 cursor-pointer"
+                  class="w-full p-3 flex items-center justify-between text-left font-bold text-xs text-indigo-700 bg-indigo-50/40 hover:bg-indigo-50 cursor-pointer"
                 >
-                  <span>🎨 1. Kids School (Canvas Line Matching)</span>
+                  <span
+                    >🎨 1. Kids Matching Canvas (Standard 230px Box
+                    Template)</span
+                  >
                   <i
                     data-lucide="chevron-down"
                     id="icon-demo-kids"
@@ -519,18 +691,23 @@
 {
   "question_no": 1,
   "question_type": "matching_canvas",
-  "question_text_en": "Match the correct addition pairs ➕",
-  "question_text_hi": "सही जोड़े मिलाइए ➕",
+  "question_text_en": "MATCH THE NATIONAL SYMBOLS! 🇮🇳",
+  "question_text_hi": "राष्ट्रीय प्रतीकों का सही मिलान करें! 🇮🇳",
   "matching_pairs": [
-    { "pair_id": "P1", "left_id": "L1", "leftText": "3 + 2", "right_id": "R1", "rightText": "5" },
-    { "pair_id": "P2", "left_id": "L2", "leftText": "4 + 4", "right_id": "R2", "rightText": "8" },
-    { "pair_id": "P3", "left_id": "L3", "leftText": "6 + 1", "right_id": "R3", "rightText": "7" }
+    { "pair_id": "P1", "left_id": "L1", "leftText": "National Animal", "right_id": "R1", "rightText": "Tiger 🐅" },
+    { "pair_id": "P2", "left_id": "L2", "leftText": "National Bird", "right_id": "R2", "rightText": "Peacock 🦚" }
   ],
   "canvas_objects": [
-    { "type": "text", "text": "3 + 2", "props": { "left": 100, "top": 150, "fontSize": 28, "fill": "#4f46e5" } },
-    { "type": "text", "text": "5", "props": { "left": 500, "top": 150, "fontSize": 28, "fill": "#16a34a" } }
+    { "type": "rect", "props": { "left": 40, "top": 25, "width": 720, "height": 80, "rx": 20, "fill": "#4f46e5", "stroke": "#3730a3", "strokeWidth": 3 } },
+    { "type": "text", "text": "MATCH THE NATIONAL SYMBOLS! 🇮🇳", "props": { "left": 400, "top": 65, "originX": "center", "originY": "center", "fontSize": 30, "fill": "#ffffff", "fontWeight": "bold" } },
+    { "type": "rect", "props": { "left": 50, "top": 240, "width": 270, "height": 230, "rx": 28, "fill": "#e0e7ff", "stroke": "#4f46e5", "strokeWidth": 4 } },
+    { "type": "text", "text": "🐅", "props": { "left": 185, "top": 330, "originX": "center", "originY": "center", "fontSize": 140 } },
+    { "type": "text", "text": "National Animal", "props": { "left": 185, "top": 435, "originX": "center", "originY": "center", "fontSize": 22, "fill": "#1e1b4b", "fontWeight": "bold" } },
+    { "type": "rect", "props": { "left": 480, "top": 240, "width": 270, "height": 230, "rx": 28, "fill": "#dcfce7", "stroke": "#22c55e", "strokeWidth": 4 } },
+    { "type": "text", "text": "🦚", "props": { "left": 615, "top": 330, "originX": "center", "originY": "center", "fontSize": 140 } },
+    { "type": "text", "text": "Peacock 🦚", "props": { "left": 615, "top": 435, "originX": "center", "originY": "center", "fontSize": 22, "fill": "#14532d", "fontWeight": "bold" } }
   ],
-  "marks": 3,
+  "marks": 2,
   "negative_marks": 0
 }</pre
                   >
@@ -539,12 +716,12 @@
                     onclick="applyDemoTemplate('kids')"
                     class="w-full py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-[10px] uppercase rounded-lg cursor-pointer"
                   >
-                    📋 Insert Kids School Template
+                    📋 Insert Matching Template
                   </button>
                 </div>
               </div>
 
-              <!-- ACCORDION 2: BOARD EXAMS -->
+              <!-- ACCORDION 2: MCQ -->
               <div
                 class="border border-slate-200 bg-white rounded-xl overflow-hidden shadow-2xs"
               >
@@ -553,7 +730,7 @@
                   onclick="toggleDemoAccordion('demo-board')"
                   class="w-full p-3 flex items-center justify-between text-left font-bold text-xs text-slate-800 hover:bg-slate-50 cursor-pointer"
                 >
-                  <span>📚 2. Board Exams (Class 4-12 Standard MCQ)</span>
+                  <span>📚 2. Standard MCQ (Single Choice)</span>
                   <i
                     data-lucide="chevron-down"
                     id="icon-demo-board"
@@ -577,8 +754,7 @@
   "correct_option_index": 0,
   "marks": 1,
   "negative_marks": 0,
-  "explanation_en": "26 = 2 x 13, 169 = 13 x 13. HCF is 13.",
-  "explanation_hi": "26 = 2 x 13 और 169 = 13 x 13. म.स.प (HCF) 13 है।"
+  "explanation_en": "26 = 2 x 13, 169 = 13 x 13. HCF is 13."
 }</pre
                   >
                   <button
@@ -586,101 +762,7 @@
                     onclick="applyDemoTemplate('board')"
                     class="w-full py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-[10px] uppercase rounded-lg cursor-pointer"
                   >
-                    📋 Insert Board Exam Template
-                  </button>
-                </div>
-              </div>
-
-              <!-- ACCORDION 3: GOVT PSC / UPSC -->
-              <div
-                class="border border-slate-200 bg-white rounded-xl overflow-hidden shadow-2xs"
-              >
-                <button
-                  type="button"
-                  onclick="toggleDemoAccordion('demo-upsc')"
-                  class="w-full p-3 flex items-center justify-between text-left font-bold text-xs text-slate-800 hover:bg-slate-50 cursor-pointer"
-                >
-                  <span>🏛️ 3. Govt PSC / UPSC (Statement Based)</span>
-                  <i
-                    data-lucide="chevron-down"
-                    id="icon-demo-upsc"
-                    class="w-4 h-4 transition-transform"
-                  ></i>
-                </button>
-                <div
-                  id="demo-upsc"
-                  class="hidden p-3 border-t border-slate-100 bg-slate-900 text-emerald-400 space-y-2"
-                >
-                  <pre
-                    class="font-mono text-[11px] overflow-x-auto leading-relaxed max-h-48"
-                  >
-{
-  "question_no": 1,
-  "question_type": "mcq_single",
-  "question_text_en": "Consider the following statements regarding the Preamble:",
-  "question_text_hi": "भारतीय संविधान की प्रस्तावना के संदर्भ में कथनों पर विचार करें:",
-  "statements": [
-    "1. It was adopted on 26th November 1949.",
-    "2. It is an integral part of the Constitution."
-  ],
-  "options_en": ["1 only", "2 only", "Both 1 and 2", "Neither 1 nor 2"],
-  "options_hi": ["केवल 1", "केवल 2", "1 और 2 दोनों", "न तो 1, न ही 2"],
-  "correct_option_index": 2,
-  "marks": 2,
-  "negative_marks": 0.66,
-  "explanation_en": "Both statements are correct as per Kesavananda Bharati case.",
-  "explanation_hi": "केशवानंद भारती मामले के अनुसार दोनों कथन सत्य हैं।"
-}</pre
-                  >
-                  <button
-                    type="button"
-                    onclick="applyDemoTemplate('upsc')"
-                    class="w-full py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-[10px] uppercase rounded-lg cursor-pointer"
-                  >
-                    📋 Insert UPSC/PSC Template
-                  </button>
-                </div>
-              </div>
-
-              <!-- ACCORDION 4: TRUE / FALSE -->
-              <div
-                class="border border-slate-200 bg-white rounded-xl overflow-hidden shadow-2xs"
-              >
-                <button
-                  type="button"
-                  onclick="toggleDemoAccordion('demo-tf')"
-                  class="w-full p-3 flex items-center justify-between text-left font-bold text-xs text-slate-800 hover:bg-slate-50 cursor-pointer"
-                >
-                  <span>⚡ 4. True / False &amp; Fill Blanks</span>
-                  <i
-                    data-lucide="chevron-down"
-                    id="icon-demo-tf"
-                    class="w-4 h-4 transition-transform"
-                  ></i>
-                </button>
-                <div
-                  id="demo-tf"
-                  class="hidden p-3 border-t border-slate-100 bg-slate-900 text-emerald-400 space-y-2"
-                >
-                  <pre
-                    class="font-mono text-[11px] overflow-x-auto leading-relaxed max-h-48"
-                  >
-{
-  "question_no": 1,
-  "question_type": "true_false",
-  "question_text_en": "The Earth revolves around the Sun.",
-  "question_text_hi": "पृथ्वी सूर्य के चारों ओर घूमती है।",
-  "correct_boolean_answer": true,
-  "marks": 1,
-  "explanation_en": "Earth completes one revolution in approx 365 days."
-}</pre
-                  >
-                  <button
-                    type="button"
-                    onclick="applyDemoTemplate('tf')"
-                    class="w-full py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-[10px] uppercase rounded-lg cursor-pointer"
-                  >
-                    📋 Insert True/False Template
+                    📋 Insert MCQ Template
                   </button>
                 </div>
               </div>
@@ -690,7 +772,7 @@
           <button
             id="btn-submit-question"
             type="submit"
-            class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-xl text-xs uppercase flex items-center justify-center gap-2 cursor-pointer"
+            class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-extrabold rounded-xl text-xs uppercase flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all"
           >
             <span>Save Question</span>
           </button>
@@ -698,7 +780,7 @@
       </div>
     </div>
 
-    <!-- MODAL 3: VIEW FULL QUESTION JSON PAYLOAD -->
+    <!-- ================= MODAL 3: VIEW QUESTION JSON ================= -->
     <div
       id="modal-view-json"
       class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden overflow-y-auto"
@@ -706,14 +788,16 @@
       <div
         class="bg-white p-6 md:p-8 rounded-3xl shadow-2xl w-full max-w-2xl border border-slate-200 my-8"
       >
-        <div class="flex items-center justify-between border-b pb-3 mb-4">
+        <div
+          class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4"
+        >
           <div>
             <h3 class="text-base font-extrabold text-slate-800">
-              Full Question Payload View
+              Full Question Payload
             </h3>
             <p
               id="view-json-subtitle"
-              class="text-xs text-indigo-600 font-extrabold"
+              class="text-xs text-indigo-600 font-mono font-bold"
             >
               Q_ID: --
             </p>
@@ -726,23 +810,25 @@
           </button>
         </div>
 
-        <div class="bg-slate-900 p-4 rounded-2xl overflow-x-auto max-h-96">
+        <div
+          class="bg-slate-900 p-4 rounded-2xl overflow-x-auto max-h-96 border border-slate-800"
+        >
           <pre
             id="view-json-content"
             class="font-mono text-xs text-emerald-400 leading-relaxed"
           ></pre>
         </div>
 
-        <div class="mt-4 flex justify-end gap-2">
+        <div class="mt-4 flex justify-end gap-2.5">
           <button
             onclick="copyJsonToClipboard()"
-            class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl cursor-pointer"
+            class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl cursor-pointer transition-all active:scale-95"
           >
             📋 Copy JSON
           </button>
           <button
             onclick="closeViewJsonModal()"
-            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl cursor-pointer"
+            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl cursor-pointer transition-all active:scale-95"
           >
             Close
           </button>
@@ -756,11 +842,12 @@
       const QUESTION_API_URL =
         "https://api.jawedsiddiqui.cloud/api/test/questions";
 
+      let allTestPapers = [];
+      let currentTestQuestions = [];
       let editingTestId = null;
       let editingQuestionMongoId = null;
-      let currentTestQuestions = [];
 
-      // Preset Data
+      // Preset Subjects Data
       const masterPresetData = {
         KIDS_SCHOOL: [
           {
@@ -769,42 +856,7 @@
             categories: [
               { id: "km_num", title: "Numbers & Counting" },
               { id: "km_add", title: "Addition & Subtraction" },
-              { id: "km_mul", title: "Multiplication & Division" },
               { id: "km_shapes", title: "Shapes & Patterns" },
-              { id: "km_time", title: "Time, Money & Calendar" },
-              { id: "km_frac", title: "Basic Fractions" },
-            ],
-          },
-          {
-            id: "k_english",
-            name: "English Language",
-            categories: [
-              { id: "ke_phonics", title: "Phonics & Alphabets" },
-              { id: "ke_vocab", title: "Vocabulary & Word Power" },
-              { id: "ke_gram", title: "Nouns, Verbs & Adjectives" },
-              { id: "ke_spell", title: "Spelling & Sight Words" },
-              { id: "ke_comp", title: "Reading & Comprehension" },
-            ],
-          },
-          {
-            id: "k_evs",
-            name: "Environmental Science (EVS)",
-            categories: [
-              { id: "ke_body", title: "Human Body & Health" },
-              { id: "ke_plants", title: "Plants & Animals" },
-              { id: "ke_family", title: "Family, Home & Community" },
-              { id: "ke_weather", title: "Seasons & Weather" },
-              { id: "ke_earth", title: "Earth & Solar System" },
-            ],
-          },
-          {
-            id: "k_hindi",
-            name: "Hindi (हिंदी)",
-            categories: [
-              { id: "kh_varn", title: "वर्णमाला एवं मात्राएँ" },
-              { id: "kh_shabd", title: "शब्द एवं वाक्य ज्ञान" },
-              { id: "kh_vyak", title: "बुनियादी व्याकरण" },
-              { id: "kh_kahani", title: "कहानी एवं बाल कविताएँ" },
             ],
           },
           {
@@ -813,312 +865,97 @@
             categories: [
               { id: "kg_india", title: "Our Country India" },
               { id: "kg_nature", title: "Wonders of Nature" },
-              { id: "kg_habits", title: "Good Habits & Safety Rules" },
-              { id: "kg_sports", title: "Sports & Games" },
-            ],
-          },
-          {
-            id: "k_computer",
-            name: "Computer Fundamentals",
-            categories: [
-              { id: "kc_parts", title: "Parts of Computer" },
-              { id: "kc_paint", title: "MS Paint & Drawing" },
-              { id: "kc_uses", title: "Uses of Computers" },
             ],
           },
         ],
-
         BOARD_EXAMS: [
           {
             id: "b_maths",
             name: "Mathematics",
             categories: [
-              { id: "bm_real", title: "Number Systems & Real Numbers" },
-              { id: "bm_alg", title: "Algebra & Polynomials" },
-              { id: "bm_eq", title: "Linear & Quadratic Equations" },
-              { id: "bm_trig", title: "Trigonometry & Applications" },
-              { id: "bm_geo", title: "Coordinate Geometry & Theorems" },
-              { id: "bm_mens", title: "Mensuration, Surface Area & Volume" },
-              { id: "bm_calc", title: "Calculus (Limits & Derivatives)" },
-              { id: "bm_stat", title: "Statistics & Probability" },
+              { id: "bm_real", title: "Number Systems" },
+              { id: "bm_alg", title: "Algebra" },
             ],
           },
           {
             id: "b_physics",
             name: "Physics",
-            categories: [
-              { id: "bp_motion", title: "Motion & Laws of Motion" },
-              { id: "bp_grav", title: "Gravitation & Pressure" },
-              { id: "bp_work", title: "Work, Energy & Power" },
-              { id: "bp_elec", title: "Electricity & Magnetism" },
-              { id: "bp_optics", title: "Light, Reflection & Optics" },
-              { id: "bp_thermo", title: "Heat & Thermodynamics" },
-            ],
-          },
-          {
-            id: "b_chemistry",
-            name: "Chemistry",
-            categories: [
-              { id: "bc_react", title: "Chemical Reactions & Equations" },
-              { id: "bc_acids", title: "Acids, Bases & Salts" },
-              { id: "bc_metal", title: "Metals & Non-Metals" },
-              { id: "bc_carbon", title: "Carbon & Its Compounds" },
-              { id: "bc_period", title: "Periodic Classification" },
-              { id: "bc_org", title: "Organic Chemistry Basics" },
-            ],
-          },
-          {
-            id: "b_biology",
-            name: "Biology",
-            categories: [
-              { id: "bb_cell", title: "Cell Structure & Tissues" },
-              { id: "bb_life", title: "Life Processes & Nutrition" },
-              { id: "bb_control", title: "Control & Coordination" },
-              { id: "bb_repro", title: "Reproduction in Organisms" },
-              { id: "bb_genetics", title: "Heredity & Evolution" },
-              { id: "bb_eco", title: "Our Environment & Ecology" },
-            ],
-          },
-          {
-            id: "b_sst",
-            name: "Social Science",
-            categories: [
-              {
-                id: "bs_hist",
-                title: "History: Freedom Movement & Revolutions",
-              },
-              {
-                id: "bs_geog",
-                title: "Geography: Resources, Agriculture & Climate",
-              },
-              {
-                id: "bs_civics",
-                title: "Civics: Democratic Politics & Constitution",
-              },
-              { id: "bs_econ", title: "Economics: Development & Banking" },
-            ],
-          },
-          {
-            id: "b_english",
-            name: "English Literature & Grammar",
-            categories: [
-              { id: "be_gram", title: "Tenses, Voice & Reported Speech" },
-              { id: "be_write", title: "Essays, Letters & Report Writing" },
-              { id: "be_reading", title: "Reading Comprehension Passages" },
-              { id: "be_lit", title: "Prose & Poetry Analysis" },
-            ],
-          },
-          {
-            id: "b_cs",
-            name: "Computer Science & IT",
-            categories: [
-              { id: "bcs_py", title: "Python Programming" },
-              { id: "bcs_sql", title: "SQL & Relational Databases" },
-              { id: "bcs_net", title: "Computer Networks & Security" },
-              { id: "bcs_html", title: "HTML, CSS & Web Design" },
-            ],
-          },
-          {
-            id: "b_commerce",
-            name: "Commerce & Accountancy",
-            categories: [
-              { id: "bcom_acc", title: "Financial Accounting Basics" },
-              { id: "bcom_bst", title: "Business Studies & Management" },
-              { id: "bcom_eco", title: "Micro & Macro Economics" },
-            ],
+            categories: [{ id: "bp_motion", title: "Motion & Laws" }],
           },
         ],
-
         GOVT_PSC: [
           {
             id: "g_polity",
-            name: "Indian Polity & Governance",
-            categories: [
-              { id: "gp_pream", title: "Preamble & Salient Features" },
-              { id: "gp_rights", title: "Fundamental Rights & Duties" },
-              {
-                id: "gp_exec",
-                title: "Union & State Executive (President, PM, CM)",
-              },
-              { id: "gp_parl", title: "Indian Parliament & State Legislature" },
-              { id: "gp_jud", title: "Judiciary: Supreme Court & High Courts" },
-              { id: "gp_local", title: "Panchayati Raj & Local Bodies" },
-              {
-                id: "gp_const",
-                title: "Constitutional & Non-Constitutional Bodies",
-              },
-            ],
-          },
-          {
-            id: "g_history",
-            name: "Indian History & Culture",
-            categories: [
-              {
-                id: "gh_anc",
-                title: "Ancient India & Indus Valley Civilization",
-              },
-              { id: "gh_med", title: "Medieval India & Empires" },
-              {
-                id: "gh_mod",
-                title: "Modern India & Freedom Struggle (1857-1947)",
-              },
-              { id: "gh_art", title: "Indian Art, Architecture & Culture" },
-            ],
-          },
-          {
-            id: "g_geography",
-            name: "Geography (India & World)",
-            categories: [
-              { id: "gg_phys", title: "Physical Geography & Geomorphology" },
-              { id: "gg_clim", title: "Climatology & Oceanography" },
-              {
-                id: "gg_ind",
-                title: "Indian Geography: Rivers, Soil & Climate",
-              },
-              { id: "gg_econ", title: "Economic & Human Geography" },
-            ],
-          },
-          {
-            id: "g_economy",
-            name: "Indian Economy",
-            categories: [
-              { id: "ge_gdp", title: "National Income, Inflation & GDP" },
-              { id: "ge_bank", title: "Banking, RBI & Monetary Policy" },
-              {
-                id: "ge_budget",
-                title: "Fiscal Policy, Tax Systems & Union Budget",
-              },
-              {
-                id: "ge_agri",
-                title: "Agriculture, Industry & Infrastructure",
-              },
-              { id: "ge_plans", title: "Economic Planning & Govt Schemes" },
-            ],
-          },
-          {
-            id: "g_science",
-            name: "General Science & Technology",
-            categories: [
-              {
-                id: "gs_phy",
-                title: "Physics Fundamentals for Competitive Exams",
-              },
-              { id: "gs_chem", title: "Everyday Chemistry" },
-              { id: "gs_bio", title: "Human Biology, Diseases & Nutrition" },
-              { id: "gs_tech", title: "Space, Defense, Biotech & IT News" },
-            ],
-          },
-          {
-            id: "g_environment",
-            name: "Environment & Ecology",
-            categories: [
-              {
-                id: "gev_bio",
-                title: "Ecosystems & Biodiversity Conservation",
-              },
-              { id: "gev_clim", title: "Climate Change & Global Warming" },
-              {
-                id: "gev_acts",
-                title: "Environmental Acts, National Parks & Sanctuaries",
-              },
-            ],
-          },
-          {
-            id: "g_quant",
-            name: "Quantitative Aptitude",
-            categories: [
-              { id: "gq_num", title: "Number System & Simplification" },
-              { id: "gq_percent", title: "Percentage, Profit & Loss" },
-              { id: "gq_ratio", title: "Ratio, Proportion & Average" },
-              { id: "gq_speed", title: "Time, Speed, Distance & Work" },
-              { id: "gq_si", title: "Simple & Compound Interest" },
-              {
-                id: "gq_di",
-                title: "Data Interpretation (Charts, Tables, Graphs)",
-              },
-            ],
-          },
-          {
-            id: "g_reasoning",
-            name: "Reasoning & Mental Ability",
-            categories: [
-              { id: "gr_ver", title: "Analogy, Series & Coding-Decoding" },
-              { id: "gr_rel", title: "Blood Relations & Direction Sense" },
-              { id: "gr_syl", title: "Syllogism & Venn Diagrams" },
-              { id: "gr_seat", title: "Seating Arrangement & Puzzles" },
-              { id: "gr_nonv", title: "Non-Verbal & Pattern Reasoning" },
-            ],
-          },
-          {
-            id: "g_english",
-            name: "General English",
-            categories: [
-              {
-                id: "gen_error",
-                title: "Spotting Errors & Sentence Correction",
-              },
-              { id: "gen_vocab", title: "Synonyms, Antonyms & Idioms" },
-              { id: "gen_rc", title: "Reading Comprehension & Cloze Test" },
-            ],
-          },
-          {
-            id: "g_current",
-            name: "Current Affairs & GK",
-            categories: [
-              { id: "gc_national", title: "National & International Events" },
-              { id: "gc_schemes", title: "Govt Schemes, Policies & Summits" },
-              { id: "gc_sports", title: "Awards, Appointments & Sports" },
-            ],
+            name: "Indian Polity",
+            categories: [{ id: "gp_const", title: "Constitution & Rights" }],
           },
         ],
-
         OTHER: [
           {
             id: "gen_apt",
-            name: "General Aptitude & Logic",
-            categories: [
-              { id: "ga_num", title: "Numerical Ability & Mental Math" },
-              { id: "ga_logic", title: "Logical Deduction & Puzzles" },
-              { id: "ga_data", title: "Data Interpretation & Analysis" },
-              { id: "ga_spatial", title: "Spatial Reasoning & Shapes" },
-            ],
-          },
-          {
-            id: "coding_dev",
-            name: "Programming & Web Development",
-            categories: [
-              { id: "cd_html", title: "HTML, CSS & Responsive Design" },
-              { id: "cd_js", title: "JavaScript & Frontend Frameworks" },
-              { id: "cd_node", title: "Node.js & Backend APIs" },
-              { id: "cd_db", title: "Databases (SQL & MongoDB)" },
-              { id: "cd_dsa", title: "Data Structures & Algorithms" },
-            ],
-          },
-          {
-            id: "soft_skills",
-            name: "Communication & Professional Skills",
-            categories: [
-              { id: "sk_eng", title: "Business English & Email Etiquette" },
-              { id: "sk_inter", title: "Interview Skills & Group Discussions" },
-              {
-                id: "sk_speak",
-                title: "Public Speaking & Presentation Skills",
-              },
-            ],
-          },
-          {
-            id: "digital_marketing",
-            name: "Digital Marketing & Tech",
-            categories: [
-              { id: "dm_seo", title: "SEO (Search Engine Optimization)" },
-              { id: "dm_smm", title: "Social Media Marketing" },
-              { id: "dm_content", title: "Content Writing & Blogging" },
-            ],
+            name: "General Aptitude",
+            categories: [{ id: "ga_num", title: "Numerical Ability" }],
           },
         ],
       };
 
-      // ACCORDION EXPAND / COLLAPSE
+      // ================= TOAST NOTIFICATION ENGINE ================= //
+      function showToast(message, type = "success") {
+        const container = document.getElementById("toast-container");
+        const toast = document.createElement("div");
+
+        const icons = {
+          success: `<i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0"></i>`,
+          error: `<i data-lucide="alert-circle" class="w-5 h-5 text-rose-600 shrink-0"></i>`,
+          info: `<i data-lucide="info" class="w-5 h-5 text-indigo-600 shrink-0"></i>`,
+        };
+
+        const bgStyles = {
+          success:
+            "bg-white border-emerald-200 text-slate-800 shadow-lg shadow-emerald-500/10",
+          error:
+            "bg-white border-rose-200 text-slate-800 shadow-lg shadow-rose-500/10",
+          info: "bg-white border-indigo-200 text-slate-800 shadow-lg shadow-indigo-500/10",
+        };
+
+        toast.className = `toast-enter pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl border ${bgStyles[type] || bgStyles.info} text-xs font-bold`;
+        toast.innerHTML = `
+          ${icons[type] || icons.info}
+          <div class="flex-1 leading-snug">${message}</div>
+          <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-700 p-1 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        `;
+
+        container.appendChild(toast);
+        lucide.createIcons();
+
+        setTimeout(() => {
+          toast.style.transition = "all 0.3s ease";
+          toast.style.opacity = "0";
+          toast.style.transform = "translateX(100%)";
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      }
+
+      // HELPER: FORMAT DATES
+      function formatDate(dateStr) {
+        if (!dateStr) return "-";
+        try {
+          const d = new Date(dateStr);
+          return d.toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        } catch (e) {
+          return dateStr;
+        }
+      }
+
+      // ACCORDION
       function toggleDemoAccordion(id) {
         const content = document.getElementById(id);
         const icon = document.getElementById(`icon-${id}`);
@@ -1142,7 +979,6 @@
           document.getElementById("q_target_test_id").value ||
           "TEST_ID_EXAMPLE";
         const nextQNo = currentTestQuestions.length + 1;
-
         let templateObj = {};
 
         if (type === "kids") {
@@ -1150,47 +986,136 @@
             test_id: targetId,
             question_no: nextQNo,
             question_type: "matching_canvas",
-            question_text_en: "Match the correct addition pairs ➕",
-            question_text_hi: "सही जोड़े मिलाइए ➕",
+            question_text_en: "MATCH THE NATIONAL SYMBOLS! 🇮🇳",
+            question_text_hi: "राष्ट्रीय प्रतीकों का सही मिलान करें! 🇮🇳",
             matching_pairs: [
               {
                 pair_id: "P1",
                 left_id: "L1",
-                leftText: "3 + 2",
+                leftText: "National Animal",
                 right_id: "R1",
-                rightText: "5",
+                rightText: "Tiger 🐅",
               },
               {
                 pair_id: "P2",
                 left_id: "L2",
-                leftText: "4 + 4",
+                leftText: "National Bird",
                 right_id: "R2",
-                rightText: "8",
-              },
-              {
-                pair_id: "P3",
-                left_id: "L3",
-                leftText: "6 + 1",
-                right_id: "R3",
-                rightText: "7",
+                rightText: "Peacock 🦚",
               },
             ],
             canvas_objects: [
               {
-                type: "text",
-                text: "3 + 2",
-                props: { left: 100, top: 150, fontSize: 28, fill: "#4f46e5" },
+                type: "rect",
+                props: {
+                  left: 40,
+                  top: 25,
+                  width: 720,
+                  height: 80,
+                  rx: 20,
+                  ry: 20,
+                  fill: "#4f46e5",
+                  stroke: "#3730a3",
+                  strokeWidth: 3,
+                },
               },
               {
                 type: "text",
-                text: "5",
-                props: { left: 500, top: 150, fontSize: 28, fill: "#16a34a" },
+                text: "MATCH THE NATIONAL SYMBOLS! 🇮🇳",
+                props: {
+                  left: 400,
+                  top: 65,
+                  originX: "center",
+                  originY: "center",
+                  fontSize: 30,
+                  fontFamily: "Fredoka",
+                  fill: "#ffffff",
+                  fontWeight: "bold",
+                },
+              },
+              {
+                type: "rect",
+                props: {
+                  left: 50,
+                  top: 240,
+                  width: 270,
+                  height: 230,
+                  rx: 28,
+                  ry: 28,
+                  fill: "#e0e7ff",
+                  stroke: "#4f46e5",
+                  strokeWidth: 4,
+                },
+              },
+              {
+                type: "text",
+                text: "🐅",
+                props: {
+                  left: 185,
+                  top: 330,
+                  originX: "center",
+                  originY: "center",
+                  fontSize: 140,
+                },
+              },
+              {
+                type: "text",
+                text: "National Animal",
+                props: {
+                  left: 185,
+                  top: 435,
+                  originX: "center",
+                  originY: "center",
+                  fontSize: 22,
+                  fontFamily: "Fredoka",
+                  fill: "#1e1b4b",
+                  fontWeight: "bold",
+                },
+              },
+              {
+                type: "rect",
+                props: {
+                  left: 480,
+                  top: 240,
+                  width: 270,
+                  height: 230,
+                  rx: 28,
+                  ry: 28,
+                  fill: "#dcfce7",
+                  stroke: "#22c55e",
+                  strokeWidth: 4,
+                },
+              },
+              {
+                type: "text",
+                text: "🦚",
+                props: {
+                  left: 615,
+                  top: 330,
+                  originX: "center",
+                  originY: "center",
+                  fontSize: 140,
+                },
+              },
+              {
+                type: "text",
+                text: "Peacock 🦚",
+                props: {
+                  left: 615,
+                  top: 435,
+                  originX: "center",
+                  originY: "center",
+                  fontSize: 22,
+                  fontFamily: "Fredoka",
+                  fill: "#14532d",
+                  fontWeight: "bold",
+                },
               },
             ],
-            marks: 3,
+            marks: 2,
             negative_marks: 0,
           };
-        } else if (type === "board") {
+        } else {
           templateObj = {
             test_id: targetId,
             question_no: nextQNo,
@@ -1203,42 +1128,6 @@
             marks: 1,
             negative_marks: 0,
             explanation_en: "26 = 2 x 13, 169 = 13 x 13. HCF is 13.",
-            explanation_hi: "26 = 2 x 13 और 169 = 13 x 13. म.स.प (HCF) 13 है।",
-          };
-        } else if (type === "upsc") {
-          templateObj = {
-            test_id: targetId,
-            question_no: nextQNo,
-            question_type: "mcq_single",
-            question_text_en:
-              "Consider the following statements regarding the Preamble:",
-            question_text_hi:
-              "भारतीय संविधान की प्रस्तावना के संदर्भ में कथनों पर विचार करें:",
-            statements: [
-              "1. It was adopted on 26th November 1949.",
-              "2. It is an integral part of the Constitution.",
-            ],
-            options_en: ["1 only", "2 only", "Both 1 and 2", "Neither 1 nor 2"],
-            options_hi: ["केवल 1", "केवल 2", "1 और 2 दोनों", "न तो 1, न ही 2"],
-            correct_option_index: 2,
-            marks: 2,
-            negative_marks: 0.66,
-            explanation_en:
-              "Both statements are correct as per Kesavananda Bharati case.",
-            explanation_hi:
-              "केशवानंद भारती मामले के अनुसार दोनों कथन सत्य हैं।",
-          };
-        } else if (type === "tf") {
-          templateObj = {
-            test_id: targetId,
-            question_no: nextQNo,
-            question_type: "true_false",
-            question_text_en: "The Earth revolves around the Sun.",
-            question_text_hi: "पृथ्वी सूर्य के चारों ओर घूमती है।",
-            correct_boolean_answer: true,
-            marks: 1,
-            explanation_en:
-              "Earth completes one revolution in approx 365 days.",
           };
         }
 
@@ -1247,16 +1136,16 @@
           null,
           2,
         );
+        showToast("Template loaded into JSON editor", "info");
       }
 
-      // BUTTON LOADER
       function setBtnLoading(button, isLoading, loadingText = "Processing...") {
         if (!button) return;
         if (isLoading) {
           button.dataset.originalHtml = button.innerHTML;
           button.disabled = true;
           button.classList.add("opacity-75", "cursor-not-allowed");
-          button.innerHTML = `<div class="spinner"></div><span>${loadingText}</span>`;
+          button.innerHTML = `<div class="spinner-white"></div><span>${loadingText}</span>`;
         } else {
           button.disabled = false;
           button.classList.remove("opacity-75", "cursor-not-allowed");
@@ -1280,34 +1169,38 @@
 
         document.getElementById("nav-tests").className =
           tab === "tests"
-            ? "w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs bg-indigo-600 text-white shadow-lg cursor-pointer"
-            : "w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs text-slate-400 hover:bg-slate-800 hover:text-white cursor-pointer";
+            ? "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs bg-indigo-600 text-white shadow-sm transition-all cursor-pointer"
+            : "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all cursor-pointer";
 
         document.getElementById("nav-questions").className =
           tab === "questions"
-            ? "w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs bg-indigo-600 text-white shadow-lg cursor-pointer"
-            : "w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs text-slate-400 hover:bg-slate-800 hover:text-white cursor-pointer";
+            ? "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs bg-indigo-600 text-white shadow-sm transition-all cursor-pointer"
+            : "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all cursor-pointer";
 
         document.getElementById("page-title").innerText =
           tab === "tests"
-            ? "Test Paper Management"
+            ? "Test Papers Management"
             : "Test Questions Management";
 
-        if (tab === "questions") populateTestDropdown();
+        if (tab === "questions") populateTestDropdown(allTestPapers);
       }
 
       function refreshCurrentTab(btn) {
         setBtnLoading(btn, true, "Refreshing...");
-        setTimeout(() => {
-          const isTestsTab = !document
-            .getElementById("section-tests")
-            .classList.contains("hidden");
-          if (isTestsTab) {
-            loadTestPapers().then(() => setBtnLoading(btn, false));
-          } else {
-            loadQuestionsForTest().then(() => setBtnLoading(btn, false));
-          }
-        }, 300);
+        const isTestsTab = !document
+          .getElementById("section-tests")
+          .classList.contains("hidden");
+        if (isTestsTab) {
+          loadTestPapers().then(() => {
+            setBtnLoading(btn, false);
+            showToast("Test papers refreshed", "info");
+          });
+        } else {
+          loadQuestionsForTest().then(() => {
+            setBtnLoading(btn, false);
+            showToast("Questions refreshed", "info");
+          });
+        }
       }
 
       function getCategory() {
@@ -1343,11 +1236,11 @@
           : "";
       }
 
-      // MODALS CONTROL
+      // MODALS
       function openTestModal(isEdit = false, testData = null) {
         editingTestId = isEdit && testData ? testData.test_id : null;
         document.getElementById("modal-test-title").innerText = isEdit
-          ? `Edit Test Paper: ${editingTestId}`
+          ? `Edit Test: ${editingTestId}`
           : "Step 1 — Create Test Paper";
 
         populateSubjects();
@@ -1381,7 +1274,8 @@
 
       function openQuestionModal(isEdit = false, questionData = null) {
         const targetId = document.getElementById("q_target_test_id").value;
-        if (!targetId) return alert("Pehle Test ID select karein!");
+        if (!targetId)
+          return showToast("Pehle Test ID select karein!", "error");
 
         editingQuestionMongoId =
           isEdit && questionData ? questionData._id || questionData.id : null;
@@ -1396,7 +1290,7 @@
             2,
           );
         } else {
-          applyDemoTemplate("board");
+          applyDemoTemplate("kids");
         }
 
         document.getElementById("modal-question").classList.remove("hidden");
@@ -1428,57 +1322,125 @@
       function copyJsonToClipboard() {
         const text = document.getElementById("view-json-content").innerText;
         navigator.clipboard.writeText(text);
-        alert("JSON copied to clipboard!");
+        showToast("JSON copied to clipboard!", "success");
       }
 
-      // FETCH ALL TEST PAPERS (SINGLE API CALL FIX)
+      // LOAD TEST PAPERS & POPULATE SUBJECT FILTER
       async function loadTestPapers() {
         const tbody = document.getElementById("testPaperTableBody");
-        tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400"><div class="inline-flex items-center gap-2"><div class="spinner !border-indigo-600 !border-t-transparent"></div> Loading Test Papers...</div></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400"><div class="inline-flex items-center gap-2"><div class="spinner"></div> Loading Test Papers...</div></td></tr>`;
 
         try {
           const res = await fetch(`${TEST_API_URL}`);
           const result = await res.json();
 
-          if (result.success && result.data && result.data.length > 0) {
-            tbody.innerHTML = result.data
-              .map((test) => {
-                const qCount =
-                  (test.questions?.length || 0) +
-                  (test.correctAnswers?.length || 0);
-                const testJsonEscaped = JSON.stringify(test).replace(
-                  /'/g,
-                  "&apos;",
-                );
-                return `
-                <tr class="hover:bg-slate-50 transition-all border-b border-slate-100">
-                  <td class="p-3 md:p-4 font-extrabold text-indigo-600">${test.test_id}</td>
-                  <td class="p-3 md:p-4 font-bold text-slate-800">${test.title}</td>
-                  <td class="p-3 md:p-4">${test.exam_category || "-"} / ${test.subject}</td>
-                  <td class="p-3 md:p-4">Class ${test.classGrade || "-"}</td>
-                  <td class="p-3 md:p-4 font-extrabold">${test.total_questions || qCount} Qs</td>
-                  <td class="p-3 md:p-4 text-right space-x-1.5">
-                    <button onclick="manageTestQuestions('${test.test_id}')" class="px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg font-bold text-[11px] cursor-pointer">Questions</button>
-                    <button onclick='openTestModal(true, ${testJsonEscaped})' class="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-lg font-bold text-[11px] cursor-pointer">Edit</button>
-                    <button onclick="deleteTestPaper('${test.test_id}', this)" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg font-bold text-[11px] cursor-pointer">Delete</button>
-                  </td>
-                </tr>
-              `;
-              })
-              .join("");
-
-            // Ek hi API call ke Data se Dropdown bhi populate karein
-            populateTestDropdown(result.data);
+          if (result.success && result.data) {
+            allTestPapers = result.data;
+            populateSubjectFilterDropdowns(allTestPapers);
+            applyTestPaperFilters();
+            populateTestDropdown(allTestPapers);
           } else {
-            tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No test papers found.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">No test papers found.</td></tr>`;
             populateTestDropdown([]);
           }
         } catch (err) {
-          tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-rose-500">Failed to load tests.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-rose-500">Failed to connect to backend server.</td></tr>`;
+          showToast("Failed to fetch test papers!", "error");
         }
       }
 
-      // SUBMIT TEST CONTAINER (STEP 1)
+      function populateSubjectFilterDropdowns(data) {
+        const subjects = Array.from(
+          new Set(data.map((t) => t.subject).filter(Boolean)),
+        );
+
+        // 1. Tab 1 Subject Filter
+        const subSel = document.getElementById("filter_test_subject");
+        const currentVal = subSel.value;
+        subSel.innerHTML =
+          `<option value="">All Subjects</option>` +
+          subjects.map((s) => `<option value="${s}">${s}</option>`).join("");
+        if (subjects.includes(currentVal)) subSel.value = currentVal;
+
+        // 2. Tab 2 Questions Subject Filter
+        const qSubSel = document.getElementById("filter_question_subject");
+        const currentQSubVal = qSubSel.value;
+        qSubSel.innerHTML =
+          `<option value="">All Subjects (Quick Switch)</option>` +
+          subjects.map((s) => `<option value="${s}">${s}</option>`).join("");
+        if (subjects.includes(currentQSubVal)) qSubSel.value = currentQSubVal;
+      }
+
+      function applyTestPaperFilters() {
+        const searchVal = document
+          .getElementById("filter_test_search")
+          .value.toLowerCase()
+          .trim();
+        const subjectVal = document.getElementById("filter_test_subject").value;
+        const categoryVal = document.getElementById(
+          "filter_test_category",
+        ).value;
+
+        const filtered = allTestPapers.filter((test) => {
+          const matchSearch =
+            !searchVal ||
+            (test.test_id && test.test_id.toLowerCase().includes(searchVal)) ||
+            (test.title && test.title.toLowerCase().includes(searchVal));
+
+          const matchSubject = !subjectVal || test.subject === subjectVal;
+          const matchCategory =
+            !categoryVal || test.exam_category === categoryVal;
+
+          return matchSearch && matchSubject && matchCategory;
+        });
+
+        renderTestPaperTable(filtered);
+      }
+
+      function renderTestPaperTable(data) {
+        const tbody = document.getElementById("testPaperTableBody");
+        if (!data || data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">No matching test papers found.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = data
+          .map((test) => {
+            const qCount =
+              (test.questions?.length || 0) +
+              (test.correctAnswers?.length || 0);
+            const testJsonEscaped = JSON.stringify(test).replace(
+              /'/g,
+              "&apos;",
+            );
+            const formattedCreated = formatDate(
+              test.createdAt || test.created_at,
+            );
+
+            return `
+            <tr class="hover:bg-slate-50/80 transition-colors border-b border-slate-100">
+              <td class="p-3.5 md:p-4 font-mono font-bold text-indigo-600">${test.test_id}</td>
+              <td class="p-3.5 md:p-4 font-bold text-slate-800">${test.title}</td>
+              <td class="p-3.5 md:p-4 text-slate-600">
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[11px] font-semibold">${test.exam_category || "-"}</span>
+                <span class="text-slate-400 ml-1">/ ${test.subject || "-"}</span>
+              </td>
+              <td class="p-3.5 md:p-4 text-slate-500">Class ${test.classGrade || "-"}</td>
+              <td class="p-3.5 md:p-4 font-bold text-indigo-700">${test.total_questions || qCount} Qs</td>
+              <td class="p-3.5 md:p-4 text-[11px] text-slate-500">${formattedCreated}</td>
+              <td class="p-3.5 md:p-4 text-right space-x-1.5">
+                <button onclick="manageTestQuestions('${test.test_id}')" class="px-2.5 py-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 rounded-xl font-bold text-[11px] cursor-pointer transition-all active:scale-95">Questions</button>
+                <button onclick='openTestModal(true, ${testJsonEscaped})' class="px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 rounded-xl font-bold text-[11px] cursor-pointer transition-all active:scale-95">Edit</button>
+                <button onclick="deleteTestPaper('${test.test_id}', this)" class="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 rounded-xl font-bold text-[11px] cursor-pointer transition-all active:scale-95">Delete</button>
+              </td>
+            </tr>
+          `;
+          })
+          .join("");
+        lucide.createIcons();
+      }
+
+      // SUBMIT TEST FORM
       document
         .getElementById("testPaperForm")
         .addEventListener("submit", async (e) => {
@@ -1529,36 +1491,33 @@
 
             const result = await res.json();
             if (result.success) {
-              alert(
+              showToast(
                 editingTestId
-                  ? "🎉 Test Paper Updated!"
-                  : `🎉 Test Container Created!\nID: ${result.test_id}`,
+                  ? "Test paper updated successfully!"
+                  : `Test created! ID: ${result.test_id}`,
+                "success",
               );
               closeTestModal();
-              loadTestPapers(); // Yeh automatic dropdown ko bhi update kar dega
+              loadTestPapers();
             } else {
-              alert("Error: " + result.message);
+              showToast(result.message || "Failed to save test paper", "error");
             }
           } catch (err) {
-            alert("Network error! Unable to save test paper.");
+            showToast("Network error! Could not connect to API", "error");
           } finally {
             setBtnLoading(submitBtn, false);
           }
         });
 
-      // POPULATE TEST DROPDOWN FOR QUESTIONS (UPDATED TO ACCEPT PASSED DATA)
+      // DROPDOWN HELPER
       async function populateTestDropdown(data = null) {
         const select = document.getElementById("q_target_test_id");
         try {
           let testList = data;
-
-          // Jab tak data pass na ho, tabhi API call karo
           if (!testList) {
             const res = await fetch(`${TEST_API_URL}`);
             const result = await res.json();
-            if (result.success && result.data) {
-              testList = result.data;
-            }
+            if (result.success && result.data) testList = result.data;
           }
 
           if (testList) {
@@ -1568,7 +1527,7 @@
               testList
                 .map(
                   (t) =>
-                    `<option value="${t.test_id}">${t.test_id} - ${t.title}</option>`,
+                    `<option value="${t.test_id}">${t.test_id} - ${t.title} (${t.subject})</option>`,
                 )
                 .join("");
             if (selectedVal) select.value = selectedVal;
@@ -1584,25 +1543,52 @@
         }, 100);
       }
 
+      function onTargetTestChange() {
+        loadQuestionsForTest();
+      }
+
+      // QUICK SWITCH QUESTIONS BY SUBJECT FILTER
+      function onQuestionSubjectFilterChange() {
+        const selectedSubject = document.getElementById(
+          "filter_question_subject",
+        ).value;
+        const testSelect = document.getElementById("q_target_test_id");
+
+        if (selectedSubject) {
+          const matchedTest = allTestPapers.find(
+            (t) => t.subject === selectedSubject,
+          );
+          if (matchedTest) {
+            testSelect.value = matchedTest.test_id;
+            loadQuestionsForTest();
+            showToast(
+              `Switched to ${matchedTest.subject} (${matchedTest.test_id})`,
+              "info",
+            );
+            return;
+          }
+        }
+        applyQuestionFilters();
+      }
+
       // LOAD QUESTIONS FOR SELECTED TEST
       async function loadQuestionsForTest() {
         const testId = document.getElementById("q_target_test_id").value;
         const tbody = document.getElementById("questionsTableBody");
         const badge = document.getElementById("questions-count-badge");
 
-        // Reset Header SelectAll state and Bulk button
         const selectAllCb = document.getElementById("selectAllQuestions");
         if (selectAllCb) selectAllCb.checked = false;
         updateBulkDeleteVisibility();
 
         if (!testId) {
-          tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">Select a Test ID above to view questions.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400">Select a Test ID above to view questions.</td></tr>`;
           badge.innerText = "0 Items";
           currentTestQuestions = [];
           return;
         }
 
-        tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400"><div class="inline-flex items-center gap-2"><div class="spinner !border-indigo-600 !border-t-transparent"></div> Fetching Questions for ${testId}...</div></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400"><div class="inline-flex items-center gap-2"><div class="spinner"></div> Fetching Questions for ${testId}...</div></td></tr>`;
 
         try {
           const res = await fetch(`${QUESTION_API_URL}/test/${testId}`);
@@ -1612,62 +1598,98 @@
             const questionsList = Array.isArray(result.data)
               ? result.data
               : result.data.questions || [];
-
             currentTestQuestions = questionsList;
-            badge.innerText = `${questionsList.length} Items`;
-
-            if (questionsList.length > 0) {
-              tbody.innerHTML = questionsList
-                .map((q, idx) => {
-                  const qText =
-                    q.question_text_en ||
-                    (q.matching_pairs
-                      ? `Matching Pairs (${q.matching_pairs.length})`
-                      : "Question Item");
-                  const qJsonEscaped = JSON.stringify(q).replace(
-                    /'/g,
-                    "&apos;",
-                  );
-                  const qMongoId = q._id || q.id;
-                  const qDisplayId =
-                    q.question_id || qMongoId || `Q_${idx + 1}`;
-
-                  return `
-                  <tr class="hover:bg-slate-50 transition-all border-b border-slate-100">
-                    <td class="p-3 md:p-4 text-center">
-                      <input 
-                        type="checkbox" 
-                        class="q-row-checkbox w-4 h-4 text-indigo-600 rounded cursor-pointer border-slate-300 focus:ring-indigo-500" 
-                        value="${qMongoId}" 
-                        onchange="onRowCheckboxChange()"
-                      />
-                    </td>
-                    <td class="p-3 md:p-4 font-extrabold text-indigo-600">${q.question_no || idx + 1}</td>
-                    <td class="p-3 md:p-4 font-bold text-slate-700"><span class="px-2 py-0.5 bg-slate-100 border border-slate-200 rounded text-[10px]">${q.question_type || "mcq_single"}</span></td>
-                    <td class="p-3 md:p-4 font-extrabold text-slate-600">${qDisplayId}</td>
-                    <td class="p-3 md:p-4 font-semibold text-slate-800 max-w-xs truncate">${qText}</td>
-                    <td class="p-3 md:p-4 font-bold text-emerald-600">${q.marks || 1}</td>
-                    <td class="p-3 md:p-4 text-right space-x-1.5">
-                      <button onclick="openViewJsonModal(${idx})" class="px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-[11px] font-bold cursor-pointer">👁️ View JSON</button>
-                      <button onclick='openQuestionModal(true, ${qJsonEscaped})' class="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-lg text-[11px] font-bold cursor-pointer">✏️ Edit</button>
-                      <button onclick="deleteQuestion('${qMongoId || qDisplayId}', this)" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-[11px] font-bold cursor-pointer">🗑️ Delete</button>
-                    </td>
-                  </tr>
-                `;
-                })
-                .join("");
-            } else {
-              tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">No questions found in '${testId}'. Click "+ Add Question" to add your first question.</td></tr>`;
-            }
+            applyQuestionFilters();
           } else {
-            tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-rose-500">No questions returned for '${testId}'.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400">No questions found in this test paper.</td></tr>`;
+            badge.innerText = `0 Items`;
           }
         } catch (err) {
-          tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-rose-500">Error fetching questions from /api/test/questions. Please retry.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-rose-500">Failed to fetch questions.</td></tr>`;
+          showToast("Error loading questions", "error");
         }
       }
 
-      // CHECKBOX & BULK DELETE CONTROLS
+      // FILTER QUESTIONS IN-TABLE
+      function applyQuestionFilters() {
+        const searchVal = document
+          .getElementById("filter_question_search")
+          .value.toLowerCase()
+          .trim();
+        const typeVal = document.getElementById("filter_question_type").value;
+        const badge = document.getElementById("questions-count-badge");
+
+        const filtered = currentTestQuestions.filter((q) => {
+          const qText = (
+            q.question_text_en ||
+            q.question_text_hi ||
+            ""
+          ).toLowerCase();
+          const qId = (q.question_id || q._id || "").toLowerCase();
+
+          const matchSearch =
+            !searchVal || qText.includes(searchVal) || qId.includes(searchVal);
+          const matchType = !typeVal || q.question_type === typeVal;
+
+          return matchSearch && matchType;
+        });
+
+        badge.innerText = `${filtered.length} of ${currentTestQuestions.length} Items`;
+        renderQuestionsTable(filtered);
+      }
+
+      function renderQuestionsTable(questionsList) {
+        const tbody = document.getElementById("questionsTableBody");
+        const testId = document.getElementById("q_target_test_id").value;
+
+        if (!questionsList || questionsList.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400">No matching questions found in '${testId}'.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = questionsList
+          .map((q, idx) => {
+            const qText =
+              q.question_text_en ||
+              (q.matching_pairs
+                ? `Matching Pairs (${q.matching_pairs.length})`
+                : "Question Item");
+            const qJsonEscaped = JSON.stringify(q).replace(/'/g, "&apos;");
+            const qMongoId = q._id || q.id;
+            const qDisplayId = q.question_id || qMongoId || `Q_${idx + 1}`;
+            const formattedCreated = formatDate(q.createdAt || q.created_at);
+
+            return `
+            <tr class="hover:bg-slate-50/80 transition-colors border-b border-slate-100">
+              <td class="p-3.5 md:p-4 text-center">
+                <input
+                  type="checkbox"
+                  class="q-row-checkbox w-4 h-4 text-indigo-600 rounded cursor-pointer border-slate-300 focus:ring-indigo-500"
+                  value="${qMongoId}"
+                  onchange="onRowCheckboxChange()"
+                />
+              </td>
+              <td class="p-3.5 md:p-4 font-mono font-bold text-indigo-600">${q.question_no || idx + 1}</td>
+              <td class="p-3.5 md:p-4">
+                <span class="px-2 py-0.5 bg-slate-100 border border-slate-200 rounded-md text-[10px] font-semibold text-slate-700">${q.question_type || "mcq_single"}</span>
+              </td>
+              <td class="p-3.5 md:p-4 font-mono text-[11px] text-slate-600 font-bold">${qDisplayId}</td>
+              <td class="p-3.5 md:p-4 font-semibold text-slate-800 max-w-xs truncate">${qText}</td>
+              <td class="p-3.5 md:p-4 font-bold text-emerald-600">${q.marks || 1}</td>
+              <td class="p-3.5 md:p-4 text-[11px] text-slate-500">${formattedCreated}</td>
+              <td class="p-3.5 md:p-4 text-right space-x-1.5">
+                <button onclick="openViewJsonModal(${idx})" class="px-2.5 py-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 rounded-xl font-bold text-[11px] cursor-pointer transition-all active:scale-95">👁️ View</button>
+                <button onclick='openQuestionModal(true, ${qJsonEscaped})' class="px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 rounded-xl font-bold text-[11px] cursor-pointer transition-all active:scale-95">✏️ Edit</button>
+                <button onclick="deleteQuestion('${qMongoId || qDisplayId}', this)" class="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 rounded-xl font-bold text-[11px] cursor-pointer transition-all active:scale-95">🗑️ Delete</button>
+              </td>
+            </tr>
+          `;
+          })
+          .join("");
+        lucide.createIcons();
+      }
+
+      // CHECKBOX LOGIC
       function toggleSelectAllQuestions(masterCheckbox) {
         const checkboxes = document.querySelectorAll(".q-row-checkbox");
         checkboxes.forEach((cb) => (cb.checked = masterCheckbox.checked));
@@ -1699,17 +1721,11 @@
           bulkBtn.classList.remove("hidden");
           textSpan.innerText = `Delete Selected (${checkedBoxes.length})`;
         } else {
-          // Hide button and reset state completely
           bulkBtn.classList.add("hidden");
-          bulkBtn.disabled = false;
-          bulkBtn.classList.remove("opacity-75", "cursor-not-allowed");
-          if (bulkBtn.dataset.originalHtml) {
-            bulkBtn.innerHTML = bulkBtn.dataset.originalHtml;
-          }
         }
       }
 
-      // SUBMIT QUESTION ITEM
+      // SUBMIT QUESTION FORM
       document
         .getElementById("questionForm")
         .addEventListener("submit", async (e) => {
@@ -1724,7 +1740,7 @@
           setBtnLoading(
             submitBtn,
             true,
-            editingQuestionMongoId ? "Updating..." : "Saving Bulk...",
+            editingQuestionMongoId ? "Updating..." : "Saving...",
           );
 
           try {
@@ -1734,13 +1750,11 @@
             let method;
 
             if (editingQuestionMongoId) {
-              // Single Edit Case
               endpoint = `${QUESTION_API_URL}/${editingQuestionMongoId}`;
               method = "PUT";
               parsedPayload.test_id = testId;
               finalPayload = parsedPayload;
             } else {
-              // Bulk Create Case
               endpoint = `${QUESTION_API_URL}/bulk`;
               method = "POST";
 
@@ -1770,39 +1784,31 @@
 
             const result = await res.json();
             if (result.success) {
-              alert(
+              showToast(
                 editingQuestionMongoId
-                  ? "🎉 Question Updated!"
-                  : `🎉 ${result.message || "Questions Added Successfully!"}`,
+                  ? "Question updated successfully!"
+                  : "Questions saved successfully!",
+                "success",
               );
               closeQuestionModal();
               loadQuestionsForTest();
             } else {
-              alert("Error: " + result.message);
+              showToast(result.message || "Failed to save question", "error");
             }
           } catch (err) {
-            console.error("Submit Error:", err);
-            alert("Invalid JSON format! Please verify syntax.");
+            showToast("Invalid JSON syntax! Please verify format", "error");
           } finally {
             setBtnLoading(submitBtn, false);
           }
         });
 
-      // BULK DELETE QUESTIONS
+      // BULK DELETE
       async function bulkDeleteQuestions(btn) {
         const checkedBoxes = document.querySelectorAll(
           ".q-row-checkbox:checked",
         );
         const selectedIds = Array.from(checkedBoxes).map((cb) => cb.value);
-
         if (selectedIds.length === 0) return;
-
-        if (
-          !confirm(
-            `Are you sure you want to delete ${selectedIds.length} selected questions?`,
-          )
-        )
-          return;
 
         setBtnLoading(btn, true, "Deleting...");
 
@@ -1815,22 +1821,24 @@
 
           const result = await res.json();
           if (result.success) {
-            alert(`🎉 Successfully deleted ${selectedIds.length} questions!`);
+            showToast(
+              `Deleted ${selectedIds.length} questions successfully!`,
+              "success",
+            );
             setBtnLoading(btn, false);
             await loadQuestionsForTest();
           } else {
-            alert("Bulk Delete failed: " + (result.message || "Unknown error"));
+            showToast(result.message || "Bulk delete failed", "error");
             setBtnLoading(btn, false);
           }
         } catch (err) {
-          alert("Network error! Unable to process bulk delete.");
+          showToast("Network error during bulk delete", "error");
           setBtnLoading(btn, false);
         }
       }
 
-      // SINGLE DELETE QUESTION WITH LOADER FIX
+      // SINGLE DELETE QUESTION
       async function deleteQuestion(qMongoId, btn) {
-        if (!confirm(`Are you sure you want to delete this question?`)) return;
         setBtnLoading(btn, true, "Deleting...");
         try {
           const res = await fetch(`${QUESTION_API_URL}/${qMongoId}`, {
@@ -1838,21 +1846,20 @@
           });
           const result = await res.json();
           if (result.success) {
+            showToast("Question deleted successfully", "success");
             await loadQuestionsForTest();
           } else {
-            alert("Delete failed: " + result.message);
+            showToast(result.message || "Delete failed", "error");
           }
         } catch (err) {
-          alert("Error deleting question.");
+          showToast("Error deleting question", "error");
         } finally {
           setBtnLoading(btn, false);
         }
       }
 
-      // SINGLE DELETE TEST PAPER WITH LOADER FIX
+      // SINGLE DELETE TEST PAPER
       async function deleteTestPaper(testId, btn) {
-        if (!confirm(`Are you sure you want to delete test paper '${testId}'?`))
-          return;
         setBtnLoading(btn, true, "Deleting...");
         try {
           const res = await fetch(`${TEST_API_URL}/${testId}`, {
@@ -1860,21 +1867,22 @@
           });
           const result = await res.json();
           if (result.success) {
-            await loadTestPapers(); // Yeh automatic dropdown ko bhi sync kar lega
+            showToast(`Test paper ${testId} deleted!`, "success");
+            await loadTestPapers();
           } else {
-            alert("Delete failed: " + result.message);
+            showToast(result.message || "Failed to delete test paper", "error");
           }
         } catch (err) {
-          alert("Error deleting test paper.");
+          showToast("Network error while deleting test paper", "error");
         } finally {
           setBtnLoading(btn, false);
         }
       }
 
-      // INITIAL LOAD (DUPLICATE CALL FIXED)
+      // INIT
       document.addEventListener("DOMContentLoaded", () => {
         populateSubjects();
-        loadTestPapers(); // Ek hi call me table aur dropdown dono load ho jayेंगे
+        loadTestPapers();
         lucide.createIcons();
       });
     </script>
