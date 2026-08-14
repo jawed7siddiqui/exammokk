@@ -224,7 +224,18 @@
             <div
               class="p-4 border-b border-slate-100 font-extrabold text-xs text-slate-800 flex items-center justify-between"
             >
-              <span>Questions inside Selected Test Paper</span>
+              <div class="flex items-center gap-3">
+                <span>Questions inside Selected Test Paper</span>
+                <!-- BULK DELETE BUTTON CONTAINER -->
+                <button
+                  id="btn-bulk-delete"
+                  onclick="bulkDeleteQuestions(this)"
+                  class="hidden px-3 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-[11px] font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                >
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  <span id="bulk-delete-text">Delete Selected (0)</span>
+                </button>
+              </div>
               <span
                 id="questions-count-badge"
                 class="px-2.5 py-0.5 bg-indigo-50 text-indigo-600 rounded-full text-[11px]"
@@ -237,6 +248,14 @@
                   class="bg-slate-50 text-slate-500 uppercase font-extrabold text-[10px] tracking-wider border-b"
                 >
                   <tr>
+                    <th class="p-3 md:p-4 w-10 text-center">
+                      <input
+                        type="checkbox"
+                        id="selectAllQuestions"
+                        onchange="toggleSelectAllQuestions(this)"
+                        class="w-4 h-4 text-indigo-600 rounded cursor-pointer border-slate-300 focus:ring-indigo-500"
+                      />
+                    </th>
                     <th class="p-3 md:p-4">Q.No</th>
                     <th class="p-3 md:p-4">Type</th>
                     <th class="p-3 md:p-4">Question ID</th>
@@ -250,7 +269,7 @@
                   class="divide-y divide-slate-100 font-semibold text-slate-700"
                 >
                   <tr>
-                    <td colspan="6" class="p-6 text-center text-slate-400">
+                    <td colspan="7" class="p-6 text-center text-slate-400">
                       Select a Test ID above to view questions.
                     </td>
                   </tr>
@@ -458,7 +477,7 @@
             ></textarea>
           </div>
 
-          <!-- DEMO JSON FORMAT ACCORDIONS (EXPAND / COLLAPSE) -->
+          <!-- DEMO JSON FORMAT ACCORDIONS -->
           <div
             class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3"
           >
@@ -501,7 +520,7 @@
   "question_no": 1,
   "question_type": "matching_canvas",
   "question_text_en": "Match the correct addition pairs ➕",
-  "question_text_hi": "सही जोड़े मिलाइए ➕",
+  "question_text_hi": "सही जोड़े मिलाइए ➕",
   "matching_pairs": [
     { "pair_id": "P1", "left_id": "L1", "leftText": "3 + 2", "right_id": "R1", "rightText": "5" },
     { "pair_id": "P2", "left_id": "L2", "leftText": "4 + 4", "right_id": "R2", "rightText": "8" },
@@ -745,38 +764,356 @@
       const masterPresetData = {
         KIDS_SCHOOL: [
           {
-            id: "maths",
+            id: "k_maths",
             name: "Mathematics",
             categories: [
-              { id: "m_add", title: "Addition & Subtraction" },
-              { id: "m_mul", title: "Multiplication" },
+              { id: "km_num", title: "Numbers & Counting" },
+              { id: "km_add", title: "Addition & Subtraction" },
+              { id: "km_mul", title: "Multiplication & Division" },
+              { id: "km_shapes", title: "Shapes & Patterns" },
+              { id: "km_time", title: "Time, Money & Calendar" },
+              { id: "km_frac", title: "Basic Fractions" },
             ],
           },
           {
-            id: "english",
-            name: "English",
-            categories: [{ id: "e_vocab", title: "Vocabulary Power" }],
+            id: "k_english",
+            name: "English Language",
+            categories: [
+              { id: "ke_phonics", title: "Phonics & Alphabets" },
+              { id: "ke_vocab", title: "Vocabulary & Word Power" },
+              { id: "ke_gram", title: "Nouns, Verbs & Adjectives" },
+              { id: "ke_spell", title: "Spelling & Sight Words" },
+              { id: "ke_comp", title: "Reading & Comprehension" },
+            ],
+          },
+          {
+            id: "k_evs",
+            name: "Environmental Science (EVS)",
+            categories: [
+              { id: "ke_body", title: "Human Body & Health" },
+              { id: "ke_plants", title: "Plants & Animals" },
+              { id: "ke_family", title: "Family, Home & Community" },
+              { id: "ke_weather", title: "Seasons & Weather" },
+              { id: "ke_earth", title: "Earth & Solar System" },
+            ],
+          },
+          {
+            id: "k_hindi",
+            name: "Hindi (हिंदी)",
+            categories: [
+              { id: "kh_varn", title: "वर्णमाला एवं मात्राएँ" },
+              { id: "kh_shabd", title: "शब्द एवं वाक्य ज्ञान" },
+              { id: "kh_vyak", title: "बुनियादी व्याकरण" },
+              { id: "kh_kahani", title: "कहानी एवं बाल कविताएँ" },
+            ],
+          },
+          {
+            id: "k_gk",
+            name: "General Knowledge",
+            categories: [
+              { id: "kg_india", title: "Our Country India" },
+              { id: "kg_nature", title: "Wonders of Nature" },
+              { id: "kg_habits", title: "Good Habits & Safety Rules" },
+              { id: "kg_sports", title: "Sports & Games" },
+            ],
+          },
+          {
+            id: "k_computer",
+            name: "Computer Fundamentals",
+            categories: [
+              { id: "kc_parts", title: "Parts of Computer" },
+              { id: "kc_paint", title: "MS Paint & Drawing" },
+              { id: "kc_uses", title: "Uses of Computers" },
+            ],
           },
         ],
+
         BOARD_EXAMS: [
           {
             id: "b_maths",
             name: "Mathematics",
-            categories: [{ id: "bm_alg", title: "Algebra" }],
+            categories: [
+              { id: "bm_real", title: "Number Systems & Real Numbers" },
+              { id: "bm_alg", title: "Algebra & Polynomials" },
+              { id: "bm_eq", title: "Linear & Quadratic Equations" },
+              { id: "bm_trig", title: "Trigonometry & Applications" },
+              { id: "bm_geo", title: "Coordinate Geometry & Theorems" },
+              { id: "bm_mens", title: "Mensuration, Surface Area & Volume" },
+              { id: "bm_calc", title: "Calculus (Limits & Derivatives)" },
+              { id: "bm_stat", title: "Statistics & Probability" },
+            ],
+          },
+          {
+            id: "b_physics",
+            name: "Physics",
+            categories: [
+              { id: "bp_motion", title: "Motion & Laws of Motion" },
+              { id: "bp_grav", title: "Gravitation & Pressure" },
+              { id: "bp_work", title: "Work, Energy & Power" },
+              { id: "bp_elec", title: "Electricity & Magnetism" },
+              { id: "bp_optics", title: "Light, Reflection & Optics" },
+              { id: "bp_thermo", title: "Heat & Thermodynamics" },
+            ],
+          },
+          {
+            id: "b_chemistry",
+            name: "Chemistry",
+            categories: [
+              { id: "bc_react", title: "Chemical Reactions & Equations" },
+              { id: "bc_acids", title: "Acids, Bases & Salts" },
+              { id: "bc_metal", title: "Metals & Non-Metals" },
+              { id: "bc_carbon", title: "Carbon & Its Compounds" },
+              { id: "bc_period", title: "Periodic Classification" },
+              { id: "bc_org", title: "Organic Chemistry Basics" },
+            ],
+          },
+          {
+            id: "b_biology",
+            name: "Biology",
+            categories: [
+              { id: "bb_cell", title: "Cell Structure & Tissues" },
+              { id: "bb_life", title: "Life Processes & Nutrition" },
+              { id: "bb_control", title: "Control & Coordination" },
+              { id: "bb_repro", title: "Reproduction in Organisms" },
+              { id: "bb_genetics", title: "Heredity & Evolution" },
+              { id: "bb_eco", title: "Our Environment & Ecology" },
+            ],
+          },
+          {
+            id: "b_sst",
+            name: "Social Science",
+            categories: [
+              {
+                id: "bs_hist",
+                title: "History: Freedom Movement & Revolutions",
+              },
+              {
+                id: "bs_geog",
+                title: "Geography: Resources, Agriculture & Climate",
+              },
+              {
+                id: "bs_civics",
+                title: "Civics: Democratic Politics & Constitution",
+              },
+              { id: "bs_econ", title: "Economics: Development & Banking" },
+            ],
+          },
+          {
+            id: "b_english",
+            name: "English Literature & Grammar",
+            categories: [
+              { id: "be_gram", title: "Tenses, Voice & Reported Speech" },
+              { id: "be_write", title: "Essays, Letters & Report Writing" },
+              { id: "be_reading", title: "Reading Comprehension Passages" },
+              { id: "be_lit", title: "Prose & Poetry Analysis" },
+            ],
+          },
+          {
+            id: "b_cs",
+            name: "Computer Science & IT",
+            categories: [
+              { id: "bcs_py", title: "Python Programming" },
+              { id: "bcs_sql", title: "SQL & Relational Databases" },
+              { id: "bcs_net", title: "Computer Networks & Security" },
+              { id: "bcs_html", title: "HTML, CSS & Web Design" },
+            ],
+          },
+          {
+            id: "b_commerce",
+            name: "Commerce & Accountancy",
+            categories: [
+              { id: "bcom_acc", title: "Financial Accounting Basics" },
+              { id: "bcom_bst", title: "Business Studies & Management" },
+              { id: "bcom_eco", title: "Micro & Macro Economics" },
+            ],
           },
         ],
+
         GOVT_PSC: [
           {
-            id: "polity",
-            name: "Indian Polity",
-            categories: [{ id: "p_pream", title: "Preamble" }],
+            id: "g_polity",
+            name: "Indian Polity & Governance",
+            categories: [
+              { id: "gp_pream", title: "Preamble & Salient Features" },
+              { id: "gp_rights", title: "Fundamental Rights & Duties" },
+              {
+                id: "gp_exec",
+                title: "Union & State Executive (President, PM, CM)",
+              },
+              { id: "gp_parl", title: "Indian Parliament & State Legislature" },
+              { id: "gp_jud", title: "Judiciary: Supreme Court & High Courts" },
+              { id: "gp_local", title: "Panchayati Raj & Local Bodies" },
+              {
+                id: "gp_const",
+                title: "Constitutional & Non-Constitutional Bodies",
+              },
+            ],
+          },
+          {
+            id: "g_history",
+            name: "Indian History & Culture",
+            categories: [
+              {
+                id: "gh_anc",
+                title: "Ancient India & Indus Valley Civilization",
+              },
+              { id: "gh_med", title: "Medieval India & Empires" },
+              {
+                id: "gh_mod",
+                title: "Modern India & Freedom Struggle (1857-1947)",
+              },
+              { id: "gh_art", title: "Indian Art, Architecture & Culture" },
+            ],
+          },
+          {
+            id: "g_geography",
+            name: "Geography (India & World)",
+            categories: [
+              { id: "gg_phys", title: "Physical Geography & Geomorphology" },
+              { id: "gg_clim", title: "Climatology & Oceanography" },
+              {
+                id: "gg_ind",
+                title: "Indian Geography: Rivers, Soil & Climate",
+              },
+              { id: "gg_econ", title: "Economic & Human Geography" },
+            ],
+          },
+          {
+            id: "g_economy",
+            name: "Indian Economy",
+            categories: [
+              { id: "ge_gdp", title: "National Income, Inflation & GDP" },
+              { id: "ge_bank", title: "Banking, RBI & Monetary Policy" },
+              {
+                id: "ge_budget",
+                title: "Fiscal Policy, Tax Systems & Union Budget",
+              },
+              {
+                id: "ge_agri",
+                title: "Agriculture, Industry & Infrastructure",
+              },
+              { id: "ge_plans", title: "Economic Planning & Govt Schemes" },
+            ],
+          },
+          {
+            id: "g_science",
+            name: "General Science & Technology",
+            categories: [
+              {
+                id: "gs_phy",
+                title: "Physics Fundamentals for Competitive Exams",
+              },
+              { id: "gs_chem", title: "Everyday Chemistry" },
+              { id: "gs_bio", title: "Human Biology, Diseases & Nutrition" },
+              { id: "gs_tech", title: "Space, Defense, Biotech & IT News" },
+            ],
+          },
+          {
+            id: "g_environment",
+            name: "Environment & Ecology",
+            categories: [
+              {
+                id: "gev_bio",
+                title: "Ecosystems & Biodiversity Conservation",
+              },
+              { id: "gev_clim", title: "Climate Change & Global Warming" },
+              {
+                id: "gev_acts",
+                title: "Environmental Acts, National Parks & Sanctuaries",
+              },
+            ],
+          },
+          {
+            id: "g_quant",
+            name: "Quantitative Aptitude",
+            categories: [
+              { id: "gq_num", title: "Number System & Simplification" },
+              { id: "gq_percent", title: "Percentage, Profit & Loss" },
+              { id: "gq_ratio", title: "Ratio, Proportion & Average" },
+              { id: "gq_speed", title: "Time, Speed, Distance & Work" },
+              { id: "gq_si", title: "Simple & Compound Interest" },
+              {
+                id: "gq_di",
+                title: "Data Interpretation (Charts, Tables, Graphs)",
+              },
+            ],
+          },
+          {
+            id: "g_reasoning",
+            name: "Reasoning & Mental Ability",
+            categories: [
+              { id: "gr_ver", title: "Analogy, Series & Coding-Decoding" },
+              { id: "gr_rel", title: "Blood Relations & Direction Sense" },
+              { id: "gr_syl", title: "Syllogism & Venn Diagrams" },
+              { id: "gr_seat", title: "Seating Arrangement & Puzzles" },
+              { id: "gr_nonv", title: "Non-Verbal & Pattern Reasoning" },
+            ],
+          },
+          {
+            id: "g_english",
+            name: "General English",
+            categories: [
+              {
+                id: "gen_error",
+                title: "Spotting Errors & Sentence Correction",
+              },
+              { id: "gen_vocab", title: "Synonyms, Antonyms & Idioms" },
+              { id: "gen_rc", title: "Reading Comprehension & Cloze Test" },
+            ],
+          },
+          {
+            id: "g_current",
+            name: "Current Affairs & GK",
+            categories: [
+              { id: "gc_national", title: "National & International Events" },
+              { id: "gc_schemes", title: "Govt Schemes, Policies & Summits" },
+              { id: "gc_sports", title: "Awards, Appointments & Sports" },
+            ],
           },
         ],
+
         OTHER: [
           {
             id: "gen_apt",
-            name: "General Aptitude",
-            categories: [{ id: "ga_num", title: "Numerical Ability" }],
+            name: "General Aptitude & Logic",
+            categories: [
+              { id: "ga_num", title: "Numerical Ability & Mental Math" },
+              { id: "ga_logic", title: "Logical Deduction & Puzzles" },
+              { id: "ga_data", title: "Data Interpretation & Analysis" },
+              { id: "ga_spatial", title: "Spatial Reasoning & Shapes" },
+            ],
+          },
+          {
+            id: "coding_dev",
+            name: "Programming & Web Development",
+            categories: [
+              { id: "cd_html", title: "HTML, CSS & Responsive Design" },
+              { id: "cd_js", title: "JavaScript & Frontend Frameworks" },
+              { id: "cd_node", title: "Node.js & Backend APIs" },
+              { id: "cd_db", title: "Databases (SQL & MongoDB)" },
+              { id: "cd_dsa", title: "Data Structures & Algorithms" },
+            ],
+          },
+          {
+            id: "soft_skills",
+            name: "Communication & Professional Skills",
+            categories: [
+              { id: "sk_eng", title: "Business English & Email Etiquette" },
+              { id: "sk_inter", title: "Interview Skills & Group Discussions" },
+              {
+                id: "sk_speak",
+                title: "Public Speaking & Presentation Skills",
+              },
+            ],
+          },
+          {
+            id: "digital_marketing",
+            name: "Digital Marketing & Tech",
+            categories: [
+              { id: "dm_seo", title: "SEO (Search Engine Optimization)" },
+              { id: "dm_smm", title: "Social Media Marketing" },
+              { id: "dm_content", title: "Content Writing & Blogging" },
+            ],
           },
         ],
       };
@@ -814,7 +1151,7 @@
             question_no: nextQNo,
             question_type: "matching_canvas",
             question_text_en: "Match the correct addition pairs ➕",
-            question_text_hi: "सही जोड़े मिलाइए ➕",
+            question_text_hi: "सही जोड़े मिलाइए ➕",
             matching_pairs: [
               {
                 pair_id: "P1",
@@ -1094,7 +1431,7 @@
         alert("JSON copied to clipboard!");
       }
 
-      // FETCH ALL TEST PAPERS
+      // FETCH ALL TEST PAPERS (SINGLE API CALL FIX)
       async function loadTestPapers() {
         const tbody = document.getElementById("testPaperTableBody");
         tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400"><div class="inline-flex items-center gap-2"><div class="spinner !border-indigo-600 !border-t-transparent"></div> Loading Test Papers...</div></td></tr>`;
@@ -1129,8 +1466,12 @@
               `;
               })
               .join("");
+
+            // Ek hi API call ke Data se Dropdown bhi populate karein
+            populateTestDropdown(result.data);
           } else {
             tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No test papers found.</td></tr>`;
+            populateTestDropdown([]);
           }
         } catch (err) {
           tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-rose-500">Failed to load tests.</td></tr>`;
@@ -1194,8 +1535,7 @@
                   : `🎉 Test Container Created!\nID: ${result.test_id}`,
               );
               closeTestModal();
-              loadTestPapers();
-              populateTestDropdown();
+              loadTestPapers(); // Yeh automatic dropdown ko bhi update kar dega
             } else {
               alert("Error: " + result.message);
             }
@@ -1206,17 +1546,26 @@
           }
         });
 
-      // POPULATE TEST DROPDOWN FOR QUESTIONS
-      async function populateTestDropdown() {
+      // POPULATE TEST DROPDOWN FOR QUESTIONS (UPDATED TO ACCEPT PASSED DATA)
+      async function populateTestDropdown(data = null) {
         const select = document.getElementById("q_target_test_id");
         try {
-          const res = await fetch(`${TEST_API_URL}`);
-          const result = await res.json();
-          if (result.success && result.data) {
+          let testList = data;
+
+          // Jab tak data pass na ho, tabhi API call karo
+          if (!testList) {
+            const res = await fetch(`${TEST_API_URL}`);
+            const result = await res.json();
+            if (result.success && result.data) {
+              testList = result.data;
+            }
+          }
+
+          if (testList) {
             const selectedVal = select.value;
             select.innerHTML =
               `<option value="">-- Choose Test Paper First --</option>` +
-              result.data
+              testList
                 .map(
                   (t) =>
                     `<option value="${t.test_id}">${t.test_id} - ${t.title}</option>`,
@@ -1241,14 +1590,19 @@
         const tbody = document.getElementById("questionsTableBody");
         const badge = document.getElementById("questions-count-badge");
 
+        // Reset Header SelectAll state and Bulk button
+        const selectAllCb = document.getElementById("selectAllQuestions");
+        if (selectAllCb) selectAllCb.checked = false;
+        updateBulkDeleteVisibility();
+
         if (!testId) {
-          tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">Select a Test ID above to view questions.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">Select a Test ID above to view questions.</td></tr>`;
           badge.innerText = "0 Items";
           currentTestQuestions = [];
           return;
         }
 
-        tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400"><div class="inline-flex items-center gap-2"><div class="spinner !border-indigo-600 !border-t-transparent"></div> Fetching Questions for ${testId}...</div></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400"><div class="inline-flex items-center gap-2"><div class="spinner !border-indigo-600 !border-t-transparent"></div> Fetching Questions for ${testId}...</div></td></tr>`;
 
         try {
           const res = await fetch(`${QUESTION_API_URL}/test/${testId}`);
@@ -1280,6 +1634,14 @@
 
                   return `
                   <tr class="hover:bg-slate-50 transition-all border-b border-slate-100">
+                    <td class="p-3 md:p-4 text-center">
+                      <input 
+                        type="checkbox" 
+                        class="q-row-checkbox w-4 h-4 text-indigo-600 rounded cursor-pointer border-slate-300 focus:ring-indigo-500" 
+                        value="${qMongoId}" 
+                        onchange="onRowCheckboxChange()"
+                      />
+                    </td>
                     <td class="p-3 md:p-4 font-extrabold text-indigo-600">${q.question_no || idx + 1}</td>
                     <td class="p-3 md:p-4 font-bold text-slate-700"><span class="px-2 py-0.5 bg-slate-100 border border-slate-200 rounded text-[10px]">${q.question_type || "mcq_single"}</span></td>
                     <td class="p-3 md:p-4 font-extrabold text-slate-600">${qDisplayId}</td>
@@ -1295,13 +1657,55 @@
                 })
                 .join("");
             } else {
-              tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No questions found in '${testId}'. Click "+ Add Question" to add your first question.</td></tr>`;
+              tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">No questions found in '${testId}'. Click "+ Add Question" to add your first question.</td></tr>`;
             }
           } else {
-            tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-rose-500">No questions returned for '${testId}'.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-rose-500">No questions returned for '${testId}'.</td></tr>`;
           }
         } catch (err) {
-          tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-rose-500">Error fetching questions from /api/test/questions. Please retry.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-rose-500">Error fetching questions from /api/test/questions. Please retry.</td></tr>`;
+        }
+      }
+
+      // CHECKBOX & BULK DELETE CONTROLS
+      function toggleSelectAllQuestions(masterCheckbox) {
+        const checkboxes = document.querySelectorAll(".q-row-checkbox");
+        checkboxes.forEach((cb) => (cb.checked = masterCheckbox.checked));
+        updateBulkDeleteVisibility();
+      }
+
+      function onRowCheckboxChange() {
+        const checkboxes = document.querySelectorAll(".q-row-checkbox");
+        const checkedBoxes = document.querySelectorAll(
+          ".q-row-checkbox:checked",
+        );
+        const selectAllCb = document.getElementById("selectAllQuestions");
+
+        if (selectAllCb) {
+          selectAllCb.checked =
+            checkboxes.length > 0 && checkboxes.length === checkedBoxes.length;
+        }
+        updateBulkDeleteVisibility();
+      }
+
+      function updateBulkDeleteVisibility() {
+        const checkedBoxes = document.querySelectorAll(
+          ".q-row-checkbox:checked",
+        );
+        const bulkBtn = document.getElementById("btn-bulk-delete");
+        const textSpan = document.getElementById("bulk-delete-text");
+
+        if (checkedBoxes.length > 0) {
+          bulkBtn.classList.remove("hidden");
+          textSpan.innerText = `Delete Selected (${checkedBoxes.length})`;
+        } else {
+          // Hide button and reset state completely
+          bulkBtn.classList.add("hidden");
+          bulkBtn.disabled = false;
+          bulkBtn.classList.remove("opacity-75", "cursor-not-allowed");
+          if (bulkBtn.dataset.originalHtml) {
+            bulkBtn.innerHTML = bulkBtn.dataset.originalHtml;
+          }
         }
       }
 
@@ -1310,29 +1714,58 @@
         .getElementById("questionForm")
         .addEventListener("submit", async (e) => {
           e.preventDefault();
-          const testId = document.getElementById("q_target_test_id").value;
+          const testId = document
+            .getElementById("q_target_test_id")
+            .value.trim()
+            .toUpperCase();
           const jsonText = document.getElementById("q_json_payload").value;
           const submitBtn = document.getElementById("btn-submit-question");
 
           setBtnLoading(
             submitBtn,
             true,
-            editingQuestionMongoId ? "Updating..." : "Saving...",
+            editingQuestionMongoId ? "Updating..." : "Saving Bulk...",
           );
 
           try {
             const parsedPayload = JSON.parse(jsonText);
-            parsedPayload.test_id = testId.trim().toUpperCase();
+            let finalPayload;
+            let endpoint;
+            let method;
 
-            const endpoint = editingQuestionMongoId
-              ? `${QUESTION_API_URL}/${editingQuestionMongoId}`
-              : `${QUESTION_API_URL}`;
-            const method = editingQuestionMongoId ? "PUT" : "POST";
+            if (editingQuestionMongoId) {
+              // Single Edit Case
+              endpoint = `${QUESTION_API_URL}/${editingQuestionMongoId}`;
+              method = "PUT";
+              parsedPayload.test_id = testId;
+              finalPayload = parsedPayload;
+            } else {
+              // Bulk Create Case
+              endpoint = `${QUESTION_API_URL}/bulk`;
+              method = "POST";
+
+              let questionsArray = [];
+              if (
+                parsedPayload.questions &&
+                Array.isArray(parsedPayload.questions)
+              ) {
+                questionsArray = parsedPayload.questions;
+              } else if (Array.isArray(parsedPayload)) {
+                questionsArray = parsedPayload;
+              } else {
+                questionsArray = [parsedPayload];
+              }
+
+              finalPayload = {
+                test_id: testId || parsedPayload.test_id,
+                questions: questionsArray,
+              };
+            }
 
             const res = await fetch(endpoint, {
               method: method,
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(parsedPayload),
+              body: JSON.stringify(finalPayload),
             });
 
             const result = await res.json();
@@ -1340,7 +1773,7 @@
               alert(
                 editingQuestionMongoId
                   ? "🎉 Question Updated!"
-                  : "🎉 Question Added Successfully!",
+                  : `🎉 ${result.message || "Questions Added Successfully!"}`,
               );
               closeQuestionModal();
               loadQuestionsForTest();
@@ -1348,15 +1781,75 @@
               alert("Error: " + result.message);
             }
           } catch (err) {
-            alert(
-              "Invalid JSON format! Please verify your JSON payload syntax.",
-            );
+            console.error("Submit Error:", err);
+            alert("Invalid JSON format! Please verify syntax.");
           } finally {
             setBtnLoading(submitBtn, false);
           }
         });
 
-      // DELETE FUNCTIONS
+      // BULK DELETE QUESTIONS
+      async function bulkDeleteQuestions(btn) {
+        const checkedBoxes = document.querySelectorAll(
+          ".q-row-checkbox:checked",
+        );
+        const selectedIds = Array.from(checkedBoxes).map((cb) => cb.value);
+
+        if (selectedIds.length === 0) return;
+
+        if (
+          !confirm(
+            `Are you sure you want to delete ${selectedIds.length} selected questions?`,
+          )
+        )
+          return;
+
+        setBtnLoading(btn, true, "Deleting...");
+
+        try {
+          const res = await fetch(`${QUESTION_API_URL}/bulk`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ids: selectedIds }),
+          });
+
+          const result = await res.json();
+          if (result.success) {
+            alert(`🎉 Successfully deleted ${selectedIds.length} questions!`);
+            setBtnLoading(btn, false);
+            await loadQuestionsForTest();
+          } else {
+            alert("Bulk Delete failed: " + (result.message || "Unknown error"));
+            setBtnLoading(btn, false);
+          }
+        } catch (err) {
+          alert("Network error! Unable to process bulk delete.");
+          setBtnLoading(btn, false);
+        }
+      }
+
+      // SINGLE DELETE QUESTION WITH LOADER FIX
+      async function deleteQuestion(qMongoId, btn) {
+        if (!confirm(`Are you sure you want to delete this question?`)) return;
+        setBtnLoading(btn, true, "Deleting...");
+        try {
+          const res = await fetch(`${QUESTION_API_URL}/${qMongoId}`, {
+            method: "DELETE",
+          });
+          const result = await res.json();
+          if (result.success) {
+            await loadQuestionsForTest();
+          } else {
+            alert("Delete failed: " + result.message);
+          }
+        } catch (err) {
+          alert("Error deleting question.");
+        } finally {
+          setBtnLoading(btn, false);
+        }
+      }
+
+      // SINGLE DELETE TEST PAPER WITH LOADER FIX
       async function deleteTestPaper(testId, btn) {
         if (!confirm(`Are you sure you want to delete test paper '${testId}'?`))
           return;
@@ -1367,43 +1860,21 @@
           });
           const result = await res.json();
           if (result.success) {
-            loadTestPapers();
-            populateTestDropdown();
+            await loadTestPapers(); // Yeh automatic dropdown ko bhi sync kar lega
           } else {
             alert("Delete failed: " + result.message);
-            setBtnLoading(btn, false);
           }
         } catch (err) {
           alert("Error deleting test paper.");
+        } finally {
           setBtnLoading(btn, false);
         }
       }
 
-      async function deleteQuestion(qMongoId, btn) {
-        if (!confirm(`Are you sure you want to delete this question?`)) return;
-        setBtnLoading(btn, true, "Deleting...");
-        try {
-          const res = await fetch(`${QUESTION_API_URL}/${qMongoId}`, {
-            method: "DELETE",
-          });
-          const result = await res.json();
-          if (result.success) {
-            loadQuestionsForTest();
-          } else {
-            alert("Delete failed: " + result.message);
-            setBtnLoading(btn, false);
-          }
-        } catch (err) {
-          alert("Error deleting question.");
-          setBtnLoading(btn, false);
-        }
-      }
-
-      // INITIAL LOAD
+      // INITIAL LOAD (DUPLICATE CALL FIXED)
       document.addEventListener("DOMContentLoaded", () => {
         populateSubjects();
-        loadTestPapers();
-        populateTestDropdown();
+        loadTestPapers(); // Ek hi call me table aur dropdown dono load ho jayेंगे
         lucide.createIcons();
       });
     </script>

@@ -357,7 +357,11 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-      const TARGET_TEST_ID = "TEST_CBSE_MATHEMAT_CL1_3845";
+      // 1. Get Dynamic `test_id` from Query Params
+      const urlParams = new URLSearchParams(window.location.search);
+      const TARGET_TEST_ID =
+        urlParams.get("test_id") || "TEST_CBSE_MATHEMAT_CL1_3845";
+
       const QUESTION_API_URL =
         "https://api.jawedsiddiqui.cloud/api/test/questions";
       const SUBMIT_RESULT_API_URL =
@@ -366,10 +370,11 @@
       const VIRTUAL_WIDTH = 800;
       const VIRTUAL_HEIGHT = 1000;
 
-      const ALLOWED_X_MIN = 30;
-      const ALLOWED_X_MAX = 770;
-      const ALLOWED_Y_MIN = 130;
-      const ALLOWED_Y_MAX = 840;
+      // 1. Limit को 960 तक बढ़ाएं ताकि नीचे के कार्ड्स की लाइन डिलीट न हो
+      const ALLOWED_X_MIN = 20;
+      const ALLOWED_X_MAX = 780;
+      const ALLOWED_Y_MIN = 100;
+      const ALLOWED_Y_MAX = 960;
 
       const AUTO_PEN_COLORS = [
         "#4f46e5",
@@ -396,6 +401,7 @@
         window.addEventListener("resize", resizeAndScaleCanvas);
 
         try {
+          // Dynamic TEST_ID is now fetched here
           const res = await fetch(`${QUESTION_API_URL}/test/${TARGET_TEST_ID}`);
           const resData = await res.json();
 
@@ -416,7 +422,7 @@
                 (questionsList[0].test_name ||
                   questionsList[0].title ||
                   questionsList[0].question_text_en)) ||
-              "Class 1 Math Practice";
+              "Class 1 Practice Test";
 
             document.getElementById("test-title").innerText = extractedTitle;
 
@@ -446,7 +452,7 @@
           if (questionsList.length > 0) {
             renderQuestion(0);
           } else {
-            alert("No questions found in test!");
+            alert("No questions found for this test ID!");
           }
         } catch (err) {
           document.getElementById("loading-overlay").classList.add("hidden");
@@ -638,6 +644,7 @@
         }
       }
 
+      // 2. Updated Dynamic Evaluation Function
       function evaluateTestScore() {
         saveCurrentQuestionPaths();
 
@@ -647,58 +654,57 @@
         let totalMaxScore = 0;
         evaluatedEvaluationData = [];
 
-        const rowCenters = [210, 390, 570, 750];
-
         questionsList.forEach((q, qIdx) => {
           const matchingPairs = q.matching_pairs || [];
           const canvasObjects = q.canvas_objects || [];
           const savedPathObjs = userDrawnPathsMap[qIdx] || [];
 
-          let leftRowsMap = {};
-          let rightRowsMap = {};
+          // Left और Right items की सटीक Y-पोजीशन ऑटोमैटिक ढूंढें
+          let leftItems = [];
+          let rightItems = [];
 
-          canvasObjects.forEach((obj) => {
-            if (
-              obj.type === "text" &&
-              obj.text &&
-              !obj.text.includes("Match")
-            ) {
-              const topY = obj.props.top;
-              const leftX = obj.props.left;
+          matchingPairs.forEach((pair) => {
+            // Find matching left text object
+            const leftObj = canvasObjects.find(
+              (obj) =>
+                obj.type === "text" &&
+                obj.text &&
+                obj.text.trim().toLowerCase() ===
+                  pair.leftText.trim().toLowerCase(),
+            );
 
-              let closestRow = 0;
-              let minDiff = 9999;
-              rowCenters.forEach((rY, idx) => {
-                if (Math.abs(topY - rY) < minDiff) {
-                  minDiff = Math.abs(topY - rY);
-                  closestRow = idx;
-                }
+            // Find matching right text object
+            const rightObj = canvasObjects.find(
+              (obj) =>
+                obj.type === "text" &&
+                obj.text &&
+                obj.text.trim().toLowerCase() ===
+                  pair.rightText.trim().toLowerCase(),
+            );
+
+            if (leftObj) {
+              leftItems.push({
+                text: pair.leftText.trim(),
+                expectedRight: pair.rightText.trim(),
+                y: leftObj.props.top,
               });
+            }
 
-              if (leftX < 400) {
-                leftRowsMap[closestRow] = obj.text.trim();
-              } else {
-                rightRowsMap[closestRow] = obj.text.trim();
-              }
+            if (rightObj) {
+              rightItems.push({
+                text: pair.rightText.trim(),
+                y: rightObj.props.top,
+              });
             }
           });
 
           let pairEvaluations = [];
 
-          Object.keys(leftRowsMap).forEach((rIdxStr) => {
-            const leftRowIdx = parseInt(rIdxStr);
-            const leftText = leftRowsMap[leftRowIdx];
+          leftItems.forEach((lItem) => {
+            totalMaxScore += 1;
+            let matchedRightText = null;
 
-            const targetPair = matchingPairs.find(
-              (p) => p.leftText.trim() === leftText,
-            );
-            const expectedRightText = targetPair
-              ? targetPair.rightText.trim()
-              : null;
-
-            const leftCenterY = rowCenters[leftRowIdx];
-            let userMatchedRightRowIdx = -1;
-
+            // चेक करें कि कौन सी लाइन इस Left item से शुरू होकर किसी Right item पर खत्म हो रही है
             savedPathObjs.forEach((pathObj) => {
               if (pathObj.path && pathObj.path.length > 0) {
                 const firstCmd = pathObj.path[0];
@@ -709,45 +715,63 @@
                 const x2 = lastCmd[lastCmd.length - 2],
                   y2 = lastCmd[lastCmd.length - 1];
 
-                let startY = x1 < x2 ? y1 : y2;
-                let endY = x1 < x2 ? y2 : y1;
+                const startX = Math.min(x1, x2);
+                const startY = x1 < x2 ? y1 : y2;
+                const endX = Math.max(x1, x2);
+                const endY = x1 < x2 ? y2 : y1;
 
-                if (Math.abs(startY - leftCenterY) < 85) {
-                  rowCenters.forEach((rY, idx) => {
-                    if (Math.abs(endY - rY) < 85) {
-                      userMatchedRightRowIdx = idx;
+                // अगर लाइन Left side (X < 400) से शुरू होकर Right side (X > 400) जा रही है
+                // टॉलरेंस को 120px रखा गया है ताकि बड़े कार्ड्स भी आसानी से डिटेक्ट हों
+                if (
+                  Math.abs(startY - lItem.y) < 120 &&
+                  startX < 380 &&
+                  endX > 420
+                ) {
+                  let closestRight = null;
+                  let minDistance = 9999;
+
+                  rightItems.forEach((rItem) => {
+                    const dist = Math.abs(endY - rItem.y);
+                    if (dist < minDistance && dist < 120) {
+                      minDistance = dist;
+                      closestRight = rItem.text;
                     }
                   });
+
+                  if (closestRight) {
+                    matchedRightText = closestRight;
+                  }
                 }
               }
             });
 
-            totalMaxScore += 1;
-
-            if (userMatchedRightRowIdx !== -1) {
-              const userRightText = rightRowsMap[userMatchedRightRowIdx];
-              if (userRightText === expectedRightText) {
+            // रिजल्ट वेलिडेशन
+            if (matchedRightText) {
+              if (
+                matchedRightText.toLowerCase() ===
+                lItem.expectedRight.toLowerCase()
+              ) {
                 totalScore += 1;
                 totalCorrect += 1;
                 pairEvaluations.push({
-                  leftText,
-                  rightText: expectedRightText,
+                  leftText: lItem.text,
+                  rightText: lItem.expectedRight,
                   isCorrect: true,
                 });
               } else {
                 totalWrong += 1;
                 pairEvaluations.push({
-                  leftText,
-                  rightText: expectedRightText,
-                  userAnswer: userRightText,
+                  leftText: lItem.text,
+                  rightText: lItem.expectedRight,
+                  userAnswer: matchedRightText,
                   isCorrect: false,
                 });
               }
             } else {
               totalWrong += 1;
               pairEvaluations.push({
-                leftText,
-                rightText: expectedRightText,
+                leftText: lItem.text,
+                rightText: lItem.expectedRight,
                 userAnswer: "Not Attempted",
                 isCorrect: false,
               });
@@ -757,14 +781,13 @@
           evaluatedEvaluationData.push({
             qIndex: qIdx,
             qNo: q.question_no || qIdx + 1,
-            title: q.question_text_en || "Match the addition problems",
+            title: q.question_text_en || "Match the following",
             pairs: pairEvaluations,
           });
         });
 
         return { totalScore, totalCorrect, totalWrong, totalMaxScore };
       }
-
       function openReviewModal() {
         document.getElementById("result-oops-modal").classList.add("hidden");
         document.getElementById("result-success-modal").classList.add("hidden");
@@ -783,36 +806,36 @@
             let mistakesHtml = wrongPairs
               .map(
                 (p) => `
-              <div class="text-[11px] font-bold bg-white p-2.5 rounded-xl border border-rose-200 text-slate-800 space-y-1">
-                <div class="flex justify-between items-center">
-                  <span class="text-rose-600 font-extrabold">${p.leftText} ➔ ${p.userAnswer}</span>
-                  <span class="text-xs">❌</span>
-                </div>
-                <div id="correct-ans-${qData.qIndex}-${p.leftText.replace(/\s+/g, "")}" class="hidden text-emerald-700 font-extrabold text-[11px] bg-emerald-50 p-1.5 rounded-lg border border-emerald-200 mt-1">
-                  💡 Correct Match: ${p.leftText} ➔ ${p.rightText}
-                </div>
-              </div>
-            `,
+          <div class="text-[11px] font-bold bg-white p-2.5 rounded-xl border border-rose-200 text-slate-800 space-y-1">
+            <div class="flex justify-between items-center">
+              <span class="text-rose-600 font-extrabold">${p.leftText} ➔ ${p.userAnswer}</span>
+              <span class="text-xs">❌</span>
+            </div>
+            <div id="correct-ans-${qData.qIndex}-${p.leftText.replace(/\s+/g, "")}" class="hidden text-emerald-700 font-extrabold text-[11px] bg-emerald-50 p-1.5 rounded-lg border border-emerald-200 mt-1">
+              💡 Correct Match: ${p.leftText} ➔ ${p.rightText}
+            </div>
+          </div>
+        `,
               )
               .join("");
 
             card.innerHTML = `
-              <div class="font-extrabold text-xs text-slate-800 border-b border-rose-200 pb-1.5 flex justify-between items-center">
-                <span>Question ${qData.qNo}</span>
-                <span class="text-rose-600 text-[10px] bg-rose-100 px-2 py-0.5 rounded-full">${wrongPairs.length} Mistakes</span>
-              </div>
-              <p class="text-[11px] font-bold text-slate-600">${qData.title}</p>
-              <div class="space-y-1.5">${mistakesHtml}</div>
+          <div class="font-extrabold text-xs text-slate-800 border-b border-rose-200 pb-1.5 flex justify-between items-center">
+            <span>Question ${qData.qNo}</span>
+            <span class="text-rose-600 text-[10px] bg-rose-100 px-2 py-0.5 rounded-full">${wrongPairs.length} Mistakes</span>
+          </div>
+          <p class="text-[11px] font-bold text-slate-600">${qData.title}</p>
+          <div class="space-y-1.5">${mistakesHtml}</div>
 
-              <div class="grid grid-cols-2 gap-2 pt-1">
-                <button onclick="tryAgainQuestion(${qData.qIndex})" class="py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-[10px] uppercase rounded-xl shadow-xs cursor-pointer active:scale-95">
-                  🔁 Try Again
-                </button>
-                <button onclick="toggleRevealAnswers(${qData.qIndex})" class="py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] uppercase rounded-xl shadow-xs cursor-pointer active:scale-95">
-                  💡 Show Answer
-                </button>
-              </div>
-            `;
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button onclick="tryAgainQuestion(${qData.qIndex})" class="py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-[10px] uppercase rounded-xl shadow-xs cursor-pointer active:scale-95">
+              🔁 Try Again
+            </button>
+            <button onclick="toggleRevealAnswers(${qData.qIndex})" class="py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] uppercase rounded-xl shadow-xs cursor-pointer active:scale-95">
+              💡 Show Answer
+            </button>
+          </div>
+        `;
 
             container.appendChild(card);
           }
@@ -903,7 +926,7 @@
           exam_category: "KIDS_SCHOOL",
           class_or_exam_name:
             document.getElementById("test-title").innerText ||
-            "Class 1 Addition",
+            "Class 1 Practice",
           subject: "Mathematics",
           student_id: studentId,
           student_name: studentName,
