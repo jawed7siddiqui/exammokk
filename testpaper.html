@@ -20,8 +20,8 @@
       rel="stylesheet"
     />
 
-    <!-- Master Scripts -->
-    <script src="js/kidsSubject.js"></script>
+    <!-- Master Scripts (Updated to AllSubject.js) -->
+    <script src="js/AllSubject.js"></script>
     <script src="js/nav.js"></script>
 
     <style>
@@ -62,39 +62,7 @@
       class="w-full max-w-[430px] bg-slate-50 h-screen max-h-screen flex flex-col justify-start shadow-2xl relative overflow-hidden"
     >
       <!-- 1. FIXED TOP HEADER -->
-      <header
-        class="bg-white border-b border-slate-200 px-4 py-2.5 sticky top-0 z-30 shadow-2xs shrink-0 flex items-center justify-between w-full"
-      >
-        <div class="flex items-center gap-1.5">
-          <a href="index.html" class="flex items-center gap-1.5 no-underline">
-            <span class="text-lg">🎨</span>
-            <span
-              class="text-lg font-black tracking-wide text-indigo-600 uppercase flex items-center font-kids"
-            >
-              Kids<span class="text-pink-500">P</span
-              ><span class="text-amber-500">a</span
-              ><span class="text-emerald-500">i</span
-              ><span class="text-cyan-500">n</span
-              ><span class="text-violet-500">t</span>
-            </span>
-          </a>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <span
-            class="flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase"
-          >
-            <span>✨ Free</span>
-          </span>
-
-          <button
-            onclick="loadInitialData()"
-            class="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl active:scale-95 transition-all cursor-pointer shadow-2xs"
-          >
-            <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
-          </button>
-        </div>
-      </header>
+      <div id="top-header-placeholder"></div>
 
       <!-- 2. SCROLLABLE MAIN ARENA -->
       <main
@@ -288,7 +256,7 @@
         </div>
       </main>
 
-      <!-- 3. DYNAMIC BOTTOM NAVIGATION (RENDERED BY js/nav.js) -->
+      <!-- 3. DYNAMIC BOTTOM NAVIGATION -->
       <div id="bottom-nav-placeholder"></div>
     </div>
 
@@ -325,7 +293,7 @@
           id="modal-subjects-grid"
           class="grid grid-cols-2 gap-2 overflow-y-auto pr-1 flex-1"
         >
-          <!-- Rendered dynamically from kidsSubject.js -->
+          <!-- Rendered dynamically from AllSubject.js -->
         </div>
 
         <button
@@ -346,6 +314,7 @@
       const USER_RESULTS_API_URL =
         "https://api.jawedsiddiqui.cloud/api/test/questions/results/user";
 
+      let currentSegment = "KIDS_SCHOOL";
       let allTests = [];
       let userAttemptedMap = {};
       let selectedSubject = "ALL";
@@ -353,6 +322,31 @@
       let currentPage = 1;
       const ITEMS_PER_PAGE = 10;
       let featuredTestId = null;
+
+      // Resolver for subjects from AllSubject.js
+      function getActiveSubjectList() {
+        if (
+          typeof subjectsBySegment !== "undefined" &&
+          subjectsBySegment[currentSegment]
+        ) {
+          return subjectsBySegment[currentSegment];
+        }
+        if (typeof subjectsData !== "undefined") {
+          return subjectsData;
+        }
+        return [];
+      }
+
+      function getSubjectConfigByName(name) {
+        const list = getActiveSubjectList();
+        const found = list.find(
+          (s) =>
+            (s.apiSubject &&
+              s.apiSubject.toLowerCase() === (name || "").toLowerCase()) ||
+            (s.name && s.name.toLowerCase() === (name || "").toLowerCase()),
+        );
+        return found || { icon: "📝" };
+      }
 
       function getActiveUserId() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -460,8 +454,7 @@
       // 3. Populate Subjects Horizontal Bar
       function populateDynamicSubjects() {
         const container = document.getElementById("subject-pills-container");
-        const activeSubjects =
-          typeof subjectsData !== "undefined" ? subjectsData : [];
+        const activeSubjects = getActiveSubjectList();
 
         let pillsHtml = `
           <button
@@ -474,16 +467,17 @@
         `;
 
         activeSubjects.forEach((sub) => {
+          const subjIdentifier = sub.apiSubject || sub.id || sub.name;
           const isActive =
-            selectedSubject.toLowerCase() === sub.apiSubject.toLowerCase();
+            selectedSubject.toLowerCase() === subjIdentifier.toLowerCase();
 
           pillsHtml += `
             <button
-              onclick="selectSubjectFilter('${sub.apiSubject}')"
+              onclick="selectSubjectFilter('${subjIdentifier}')"
               class="filter-pill ${isActive ? "active bg-indigo-600 text-white shadow-xs" : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shadow-2xs"} px-2.5 py-1 rounded-xl text-[11px] font-extrabold whitespace-nowrap cursor-pointer transition-all shrink-0 flex items-center gap-1"
-              data-subject="${sub.apiSubject}"
+              data-subject="${subjIdentifier}"
             >
-              <span>${sub.icon}</span>
+              <span>${sub.icon || "📝"}</span>
               <span>${sub.shortName || sub.name}</span>
             </button>
           `;
@@ -495,26 +489,26 @@
       // 4. Populate Subjects Grid in Bottom Sheet
       function populateModalSubjectsGrid() {
         const gridContainer = document.getElementById("modal-subjects-grid");
-        const activeSubjects =
-          typeof subjectsData !== "undefined" ? subjectsData : [];
+        const activeSubjects = getActiveSubjectList();
 
         gridContainer.innerHTML = activeSubjects
           .map((sub) => {
+            const subjIdentifier = sub.apiSubject || sub.id || sub.name;
             const totalInSubj = allTests.filter(
               (t) =>
                 (t.subject || "").trim().toLowerCase() ===
-                sub.apiSubject.toLowerCase(),
+                subjIdentifier.toLowerCase(),
             ).length;
             const isCurrentActive =
-              selectedSubject.toLowerCase() === sub.apiSubject.toLowerCase();
+              selectedSubject.toLowerCase() === subjIdentifier.toLowerCase();
 
             return `
             <div
-              onclick="selectSubjectFilter('${sub.apiSubject}'); closeSubjectModal();"
+              onclick="selectSubjectFilter('${subjIdentifier}'); closeSubjectModal();"
               class="border ${isCurrentActive ? "border-indigo-600 bg-indigo-50/50 shadow-xs" : "border-slate-200 bg-white hover:border-indigo-300"} rounded-2xl p-2.5 flex flex-col justify-between cursor-pointer transition-all active:scale-95 shadow-2xs"
             >
               <div class="flex items-center justify-between">
-                <span class="text-xl">${sub.icon}</span>
+                <span class="text-xl">${sub.icon || "📝"}</span>
                 <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded-full ${isCurrentActive ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-600"}">
                   ${totalInSubj} Tests
                 </span>
@@ -583,7 +577,6 @@
           return matchSubject && matchSearch && matchStatus;
         });
 
-        // Unattempted tests on top, completed at bottom
         filtered.sort((a, b) => {
           const aDone = !!userAttemptedMap[a.test_id?.toUpperCase()];
           const bDone = !!userAttemptedMap[b.test_id?.toUpperCase()];
@@ -620,10 +613,7 @@
         container.innerHTML = pageItems
           .map((test) => {
             const subjName = test.subject || "Mathematics";
-            const style =
-              typeof getSubjectConfig === "function"
-                ? getSubjectConfig(subjName)
-                : { icon: "📝" };
+            const style = getSubjectConfigByName(subjName);
 
             const qCount = test.total_questions || test.questions?.length || 10;
             const timeMins = test.total_time_mins || 20;
@@ -639,7 +629,7 @@
               
               <div class="flex items-center gap-2.5 min-w-0 pr-2">
                 <div class="w-9 h-9 rounded-xl ${isCompleted ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-slate-50 border border-slate-200"} flex items-center justify-center text-lg shrink-0 shadow-2xs font-kids">
-                  ${isCompleted ? "🏆" : style.icon}
+                  ${isCompleted ? "🏆" : style.icon || "📝"}
                 </div>
 
                 <div class="min-w-0">

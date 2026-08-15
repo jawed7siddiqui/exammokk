@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="hi">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -16,22 +16,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Fredoka:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
     />
 
     <!-- Master Scripts -->
-    <script src="js/kidsSubject.js"></script>
+    <script src="js/AllSubject.js"></script>
     <script src="js/nav.js"></script>
 
     <style>
       body {
-        font-family: "Plus Jakarta Sans", sans-serif;
+        font-family:
+          "Plus Jakarta Sans",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
         background-color: #090d16;
         -webkit-tap-highlight-color: transparent;
       }
       .font-kids {
-        font-family: "Fredoka", sans-serif;
+        font-family: "Fredoka", cursive, sans-serif;
       }
       .no-scrollbar::-webkit-scrollbar {
         display: none;
@@ -43,7 +50,7 @@
       @keyframes fadeIn {
         from {
           opacity: 0;
-          transform: translateY(-3px);
+          transform: translateY(-4px);
         }
         to {
           opacity: 1;
@@ -60,36 +67,10 @@
     <div
       class="w-full max-w-[430px] bg-slate-50 h-screen max-h-screen flex flex-col justify-start shadow-2xl relative overflow-hidden"
     >
-      <!-- 1. FIXED TOP HEADER (NO GAP) -->
-      <header
-        class="bg-white border-b border-slate-200 shadow-2xs px-4 py-2.5 sticky top-0 z-30 shrink-0 flex items-center justify-between w-full"
-      >
-        <a href="index.html" class="flex items-center gap-1.5 no-underline">
-          <i
-            data-lucide="sparkles"
-            class="w-4 h-4 fill-current text-amber-400"
-          ></i>
-          <span
-            class="text-lg font-black tracking-wide text-indigo-600 uppercase flex items-center font-kids"
-          >
-            Kids&nbsp;<span class="text-pink-500 animate-pulse">P</span
-            ><span class="text-amber-500">a</span
-            ><span class="text-emerald-500">i</span
-            ><span class="text-cyan-500">n</span
-            ><span class="text-violet-500">t</span>
-          </span>
-        </a>
+      <!-- 1. FIXED TOP HEADER -->
+      <div id="top-header-placeholder"></div>
 
-        <button
-          onclick="handleLogout()"
-          class="flex items-center gap-1 bg-red-50 hover:bg-red-100 text-red-600 px-2.5 py-1 rounded-xl border border-red-100 text-[11px] font-extrabold transition-all active:scale-95 cursor-pointer shadow-2xs"
-        >
-          <i data-lucide="log-out" class="w-3.5 h-3.5 text-red-500"></i>
-          <span>Logout</span>
-        </button>
-      </header>
-
-      <!-- 2. MAIN SCROLLABLE CONTENT (LOCKED TO TOP) -->
+      <!-- 2. MAIN SCROLLABLE CONTENT -->
       <main
         class="flex-1 px-4 pt-3 pb-24 space-y-3 overflow-y-auto no-scrollbar"
       >
@@ -105,12 +86,19 @@
               K
             </div>
             <div class="min-w-0">
-              <h2
-                id="user-display-name"
-                class="text-xs font-extrabold text-slate-800 truncate leading-tight"
-              >
-                Student
-              </h2>
+              <div class="flex items-center gap-1.5">
+                <h2
+                  id="user-display-name"
+                  class="text-xs font-extrabold text-slate-800 truncate leading-tight"
+                >
+                  Student
+                </h2>
+                <span
+                  id="user-plan-badge"
+                  class="text-[8px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 px-1.5 py-0.2 rounded-full shrink-0"
+                  >FREE</span
+                >
+              </div>
               <p
                 id="user-display-grade"
                 class="text-[10px] text-slate-400 font-semibold mt-0.5"
@@ -120,80 +108,184 @@
             </div>
           </div>
 
-          <div
-            class="bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-xl text-right shrink-0"
-          >
-            <span class="text-[8px] font-bold text-slate-400 block uppercase"
-              >Rank</span
+          <div class="flex items-center gap-1.5 shrink-0">
+            <div
+              class="bg-amber-50 border border-amber-200/70 px-2 py-1 rounded-xl text-center"
             >
-            <span class="text-xs font-black text-indigo-600 font-kids"
-              >#12 overall</span
+              <span class="text-[7px] font-bold text-amber-600 block uppercase"
+                >Streak</span
+              >
+              <span
+                id="user-streak-count"
+                class="text-xs font-black text-amber-700 font-kids"
+                >🔥 3d</span
+              >
+            </div>
+            <div
+              class="bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-xl text-right"
             >
+              <span class="text-[7px] font-bold text-slate-400 block uppercase"
+                >Stars</span
+              >
+              <span
+                id="user-total-stars"
+                class="text-xs font-black text-indigo-600 font-kids"
+                >⭐ 0</span
+              >
+            </div>
           </div>
         </div>
 
-        <!-- SCORECARD SUMMARY BANNER -->
-        <div
-          class="bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 rounded-2xl p-3.5 text-white shadow-md shadow-indigo-600/10 relative overflow-hidden"
+        <!-- EXAM SEGMENT TABS (Kids vs Govt vs Boards) -->
+        <!-- <div
+          class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5"
         >
-          <div class="flex items-center justify-between mb-1.5">
-            <span
-              class="text-[9px] font-extrabold uppercase tracking-wider bg-white/20 backdrop-blur-md px-2 py-0.5 rounded-full text-white"
-            >
-              Last Performance
-            </span>
-            <span class="text-[10px] font-bold text-indigo-200">Recent</span>
-          </div>
-
-          <div class="grid grid-cols-3 gap-2 text-center my-2">
-            <div
-              class="bg-white/10 backdrop-blur-xs rounded-xl p-1.5 border border-white/10"
-            >
-              <p class="text-[8px] font-bold text-indigo-200 uppercase">
-                Score
-              </p>
-              <p
-                id="dash-banner-score"
-                class="text-xs font-black text-white mt-0.5 font-kids"
-              >
-                85/100
-              </p>
-            </div>
-            <div
-              class="bg-white/10 backdrop-blur-xs rounded-xl p-1.5 border border-white/10"
-            >
-              <p class="text-[8px] font-bold text-indigo-200 uppercase">
-                Accuracy
-              </p>
-              <p
-                id="dash-banner-accuracy"
-                class="text-xs font-black text-emerald-300 mt-0.5 font-kids"
-              >
-                92%
-              </p>
-            </div>
-            <div
-              class="bg-white/10 backdrop-blur-xs rounded-xl p-1.5 border border-white/10"
-            >
-              <p class="text-[8px] font-bold text-indigo-200 uppercase">
-                Grade
-              </p>
-              <p
-                id="dash-banner-grade"
-                class="text-xs font-black text-amber-300 mt-0.5 font-kids"
-              >
-                A+
-              </p>
-            </div>
-          </div>
-
           <button
-            onclick="window.location.href = 'scoreboard.html'"
-            class="w-full mt-1 py-2 bg-white text-indigo-700 rounded-xl font-extrabold text-xs flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all cursor-pointer font-kids"
+            id="tab-KIDS_SCHOOL"
+            onclick="changeSegment('KIDS_SCHOOL')"
+            class="segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-indigo-600 text-white shadow-xs"
           >
-            <span>View Scorecard &amp; Analysis</span>
-            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            🎨 Kids Zone
           </button>
+          <button
+            id="tab-GOVT_PSC"
+            onclick="changeSegment('GOVT_PSC')"
+            class="segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+          >
+            🏛️ Govt Exams
+          </button>
+          <button
+            id="tab-BOARD_EXAMS"
+            onclick="changeSegment('BOARD_EXAMS')"
+            class="segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+          >
+            📚 Board Exams
+          </button>
+          <button
+            id="tab-OTHER"
+            onclick="changeSegment('OTHER')"
+            class="segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+          >
+            ⚡ Other
+          </button>
+        </div> -->
+
+        <!-- UNIFIED COMPACT WIDGET: DAILY LIVE TEST & LAST SCORE SUMMARY -->
+        <!-- PRO BLUE DUAL WIDGET (With High-Visibility 100% FREE Badge) -->
+        <!-- PREMIUM DUAL BANNER (Clean Indigo/Blue Gradient with Zero Clutter) -->
+        <div
+          class="bg-gradient-to-br from-indigo-700 via-indigo-800 to-blue-900 rounded-3xl p-4 text-white shadow-xl shadow-indigo-950/25 border border-white/10 relative overflow-hidden"
+        >
+          <!-- Subtle Ambient Glow in background -->
+          <div
+            class="absolute -right-6 -top-6 w-24 h-24 bg-blue-400/20 rounded-full blur-2xl pointer-events-none"
+          ></div>
+
+          <!-- TOP SECTION: DAILY LIVE FREE SPRINT -->
+          <div class="flex items-start justify-between gap-3">
+            <!-- Left: Subject, Title & Dynamic Stats -->
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 mb-1">
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"
+                ></span>
+                <span
+                  id="daily-challenge-subject"
+                  class="text-[10px] font-black tracking-wider text-indigo-200 uppercase truncate"
+                >
+                  Daily Live Challenge
+                </span>
+              </div>
+
+              <h3
+                id="daily-challenge-title"
+                class="text-sm font-extrabold text-white leading-snug truncate"
+              >
+                Loading Today's Test...
+              </h3>
+
+              <!-- Dynamic Test Meta (Qs • Time • Expiry) -->
+              <div
+                class="flex items-center gap-2 mt-2 text-[10px] font-bold text-indigo-100/80 flex-wrap"
+              >
+                <span
+                  class="inline-flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-md border border-white/10"
+                >
+                  📝 <span id="daily-challenge-qs">-- Qs</span>
+                </span>
+                <span
+                  class="inline-flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-md border border-white/10"
+                >
+                  ⏱️ <span id="daily-challenge-time">-- M</span>
+                </span>
+                <span
+                  id="daily-timer"
+                  class="text-amber-300 font-mono text-[9px]"
+                >
+                  ⏳ Active Today
+                </span>
+              </div>
+            </div>
+
+            <!-- Right: High-Converting Free Badge & CTA -->
+            <div class="flex flex-col items-end gap-2 shrink-0">
+              <span
+                class="bg-emerald-400 text-slate-950 text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm"
+              >
+                100% FREE
+              </span>
+
+              <button
+                id="btn-start-daily"
+                onclick="startDailyTest()"
+                class="px-4 py-2 bg-white hover:bg-indigo-50 active:scale-95 text-indigo-900 rounded-xl font-black text-xs transition-all cursor-pointer flex items-center gap-1.5 shadow-md font-kids"
+              >
+                <span>Start</span>
+                <i
+                  data-lucide="play"
+                  class="w-3 h-3 fill-current text-indigo-700"
+                ></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- BOTTOM SECTION: LAST ATTEMPT MINI STRIP -->
+          <div
+            class="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px]"
+          >
+            <div class="flex items-center gap-1.5 min-w-0 text-indigo-200">
+              <span class="text-indigo-300/70 font-semibold shrink-0"
+                >Recent:</span
+              >
+              <span
+                id="dash-banner-title"
+                class="font-bold text-white truncate max-w-[100px]"
+                >None</span
+              >
+            </div>
+
+            <div class="flex items-center gap-2 shrink-0">
+              <div class="bg-black/20 px-2 py-0.5 rounded-md text-slate-200">
+                Score:
+                <b id="dash-banner-score" class="text-white font-black"
+                  >--/--</b
+                >
+              </div>
+              <div class="bg-black/20 px-2 py-0.5 rounded-md text-slate-200">
+                Acc:
+                <b id="dash-banner-accuracy" class="text-emerald-300 font-black"
+                  >--%</b
+                >
+              </div>
+              <button
+                onclick="window.location.href = 'scoreboard.html'"
+                class="text-indigo-200 hover:text-white font-black flex items-center gap-0.5 ml-0.5 cursor-pointer transition-colors"
+              >
+                <span>Stats</span>
+                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- SUBJECT EXPANDABLE ACCORDION SECTION -->
@@ -202,12 +294,13 @@
             <h3
               class="text-xs font-extrabold text-slate-800 uppercase tracking-wider"
             >
-              All Subjects &amp; Test Papers
+              Subjects &amp; Test Series
             </h3>
             <span
               id="total-subjects-count"
               class="text-[10px] font-extrabold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full border border-indigo-100"
-            ></span>
+              >0 Subjects</span
+            >
           </div>
 
           <!-- ACCORDION CONTAINER -->
@@ -215,18 +308,142 @@
         </div>
       </main>
 
-      <!-- 3. DYNAMIC BOTTOM NAVIGATION PLACEHOLDER (Rendered by js/nav.js) -->
+      <!-- 3. DYNAMIC BOTTOM NAVIGATION PLACEHOLDER -->
       <div id="bottom-nav-placeholder"></div>
+    </div>
+
+    <!-- 4. MONETIZATION / UNLOCK MODAL -->
+    <div
+      id="paywall-modal"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden"
+    >
+      <div
+        class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-sm p-5 space-y-4 animate-fadeIn"
+      >
+        <div
+          class="flex items-center justify-between border-b border-slate-100 pb-2.5"
+        >
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-800">
+              Unlock Premium Test
+            </h3>
+            <p class="text-[10px] text-slate-400 font-semibold">
+              Get full access to all practice questions &amp; solutions
+            </p>
+          </div>
+          <button
+            onclick="closePaywallModal()"
+            class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div
+          class="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-3 text-center"
+        >
+          <p
+            id="paywall-test-title"
+            class="text-xs font-extrabold text-indigo-900 line-clamp-1"
+          >
+            Practice Test
+          </p>
+          <div class="flex items-center justify-center gap-2 mt-1">
+            <span
+              id="paywall-test-price"
+              class="text-base font-black text-indigo-700 font-kids"
+              >₹9</span
+            >
+            <span
+              id="paywall-test-mrp"
+              class="text-[11px] text-slate-400 line-through font-bold"
+              >₹19</span
+            >
+            <span
+              class="text-[9px] font-black bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full"
+              >SAVE 50%</span
+            >
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <button
+            onclick="executeBuyTest()"
+            class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-md shadow-indigo-600/20 flex items-center justify-center gap-1.5 cursor-pointer font-kids"
+          >
+            <i data-lucide="lock-open" class="w-3.5 h-3.5"></i>
+            <span id="btn-paywall-text">Buy This Test @ ₹9</span>
+          </button>
+
+          <button
+            onclick="executeBuyPass()"
+            class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-95 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-md shadow-orange-500/20 flex items-center justify-center gap-1.5 cursor-pointer font-kids"
+          >
+            <i data-lucide="crown" class="w-3.5 h-3.5"></i>
+            <span>Get All-Access Pass @ ₹99/mo</span>
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- JAVASCRIPT ENGINE -->
     <script>
       const BASE_API_URL =
         "https://api.jawedsiddiqui.cloud/api/kidspaint/subject";
+      const SCOREBOARD_API_URL =
+        "https://api.jawedsiddiqui.cloud/api/test/questions/scoreboard";
 
+      let currentSegment = "KIDS_SCHOOL";
       let openSubjectId = null;
+      let selectedTestForPurchase = null;
+      let activeDailyTestId = null;
 
-      function loadUserProfile() {
+      // Dynamic User ID Resolver
+      function getActiveUserId() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let userId = urlParams.get("user_id") || urlParams.get("student_id");
+
+        if (!userId) {
+          try {
+            const rawUser = localStorage.getItem("kidsPaintUser");
+            if (rawUser) {
+              const userObj = JSON.parse(rawUser);
+              userId = userObj.id || userObj.student_id || userObj.userId;
+            }
+          } catch (e) {
+            console.error("Local storage error:", e);
+          }
+        }
+        return userId || "GUEST_STUDENT";
+      }
+
+      function getUserPremiumStatus() {
+        try {
+          const rawUser = localStorage.getItem("kidsPaintUser");
+          if (rawUser) {
+            const userObj = JSON.parse(rawUser);
+            return userObj.is_premium || userObj.has_pass || false;
+          }
+        } catch (e) {}
+        return false;
+      }
+
+      // Fetch User Profile & Scoreboard Performance
+      let isScoreboardFetching = false;
+
+      async function loadUserPerformance() {
+        if (isScoreboardFetching) return;
+
+        const userId = getActiveUserId();
+        const isPremium = getUserPremiumStatus();
+
+        if (isPremium) {
+          const badge = document.getElementById("user-plan-badge");
+          badge.textContent = "PRO PASS";
+          badge.className =
+            "text-[8px] font-extrabold bg-amber-100 text-amber-800 border border-amber-300 px-1.5 py-0.2 rounded-full shrink-0";
+        }
+
         try {
           const rawUser = localStorage.getItem("kidsPaintUser");
           if (rawUser) {
@@ -241,32 +458,176 @@
               .toUpperCase();
           }
         } catch (err) {
-          console.error("User Load Error:", err);
+          console.error("User Profile Local Load Error:", err);
+        }
+
+        isScoreboardFetching = true;
+
+        try {
+          const res = await fetch(
+            `${SCOREBOARD_API_URL}/${encodeURIComponent(userId)}`,
+          );
+          if (!res.ok) {
+            throw new Error(`HTTP Error status: ${res.status}`);
+          }
+          const resData = await res.json();
+
+          if (resData?.success && resData.data) {
+            const data = resData.data;
+
+            const name = data.student_name || data.user_name;
+            if (name) {
+              document.getElementById("user-display-name").textContent = name;
+              document.getElementById("user-avatar").textContent = name
+                .charAt(0)
+                .toUpperCase();
+            }
+
+            const totalStars = data.summary?.total_stars || 0;
+            document.getElementById("user-total-stars").textContent =
+              `⭐ ${totalStars}`;
+
+            const recentAttempts = data.recent_attempts || [];
+            if (recentAttempts.length > 0) {
+              const lastTest = recentAttempts[0];
+              document.getElementById("dash-banner-score").textContent =
+                `${lastTest.total_score}/${lastTest.max_score}`;
+              document.getElementById("dash-banner-accuracy").textContent =
+                `${lastTest.percentage || 0}%`;
+
+              if (lastTest.subject) {
+                document.getElementById("dash-banner-title").textContent =
+                  lastTest.subject;
+              }
+            } else if (data.summary) {
+              document.getElementById("dash-banner-score").textContent =
+                `${data.summary.total_score_obtained || 0}/${data.summary.total_max_score || 0}`;
+              document.getElementById("dash-banner-accuracy").textContent =
+                `${data.summary.overall_accuracy || 0}%`;
+            }
+          }
+        } catch (err) {
+          console.error("Scoreboard Banner Sync Error:", err);
+        } finally {
+          isScoreboardFetching = false;
         }
       }
 
+      function getCurrentSubjectList() {
+        if (
+          typeof subjectsBySegment !== "undefined" &&
+          subjectsBySegment[currentSegment]
+        ) {
+          return subjectsBySegment[currentSegment];
+        }
+        return [];
+      }
+
+      function openFirstSubjectByDefault() {
+        const activeList = getCurrentSubjectList();
+        if (activeList && activeList.length > 0) {
+          const firstSubj = activeList[0];
+          openSubjectId = firstSubj.id;
+          if (!firstSubj.loaded && !firstSubj.loading) {
+            fetchSubjectTests(firstSubj);
+          } else {
+            renderAccordion();
+          }
+        } else {
+          renderAccordion();
+        }
+      }
+
+      function changeSegment(segmentKey) {
+        currentSegment = segmentKey;
+        openSubjectId = null;
+
+        document.querySelectorAll(".segment-tab").forEach((tab) => {
+          tab.className =
+            "segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50";
+        });
+
+        const activeTab = document.getElementById(`tab-${segmentKey}`);
+        if (activeTab) {
+          activeTab.className =
+            "segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-indigo-600 text-white shadow-xs";
+        }
+
+        openFirstSubjectByDefault();
+      }
       async function fetchSubjectTests(subjObj) {
         subjObj.loading = true;
+        subjObj.hasError = false;
+        subjObj.errorMessage = "";
         renderAccordion();
 
         try {
           const res = await fetch(
-            `${BASE_API_URL}/${encodeURIComponent(subjObj.apiSubject)}`,
+            `${BASE_API_URL}/${encodeURIComponent(subjObj.apiSubject || subjObj.name)}`,
           );
+
+          if (!res.ok) {
+            throw new Error(`Failed to load tests (Error ${res.status})`);
+          }
+
           const resData = await res.json();
 
           if (resData?.success && Array.isArray(resData.data)) {
-            subjObj.categories = resData.data.map((item) => ({
-              id: item.test_id || item._id,
-              title:
-                item.title || item.test_name || `${subjObj.name} Test Paper`,
-              desc:
-                item.category_title ||
-                item.description ||
-                "Interactive Practice Module",
-              ques: item.total_questions || item.questions?.length || 10,
-              time: item.total_time_mins || item.time_limit || 20,
-            }));
+            subjObj.categories = resData.data.map((item) => {
+              // Asli questions count aur time nikalne ka accurate logic
+              const qCount =
+                Number(item.total_questions) ||
+                (Array.isArray(item.questions) ? item.questions.length : 0) ||
+                10;
+
+              const timeLimit =
+                Number(item.total_time_mins) ||
+                Number(item.time_limit) ||
+                Number(item.duration) ||
+                15;
+
+              return {
+                id: item.test_id || item._id,
+                title:
+                  item.title ||
+                  item.test_name ||
+                  `${subjObj.name} Practice Test`,
+                desc:
+                  item.category_title ||
+                  item.description ||
+                  "Interactive Practice Module",
+                ques: qCount,
+                time: timeLimit,
+                access_type: item.access_type || "free",
+                price: item.price || 0,
+                discounted_price: item.discounted_price || 0,
+                difficulty: item.difficulty_level || "medium",
+                is_daily: Boolean(item.is_daily_challenge),
+                included_in_pass: item.included_in_pass !== false,
+              };
+            });
+
+            // 🎯 DYNAMIC DAILY CARD SYNC (Priority: is_daily -> first available test)
+            let dailyItem = subjObj.categories.find((c) => c.is_daily);
+            if (!dailyItem && subjObj.categories.length > 0) {
+              dailyItem = subjObj.categories[0]; // fallback to first real test
+            }
+
+            if (dailyItem) {
+              activeDailyTestId = dailyItem.id;
+
+              const subEl = document.getElementById("daily-challenge-subject");
+              if (subEl) subEl.textContent = subjObj.name || "Daily Test";
+
+              const titleEl = document.getElementById("daily-challenge-title");
+              if (titleEl) titleEl.textContent = dailyItem.title;
+
+              const qsEl = document.getElementById("daily-challenge-qs");
+              if (qsEl) qsEl.textContent = `${dailyItem.ques} Qs`;
+
+              const timeEl = document.getElementById("daily-challenge-time");
+              if (timeEl) timeEl.textContent = `${dailyItem.time} Mins`;
+            }
           } else {
             subjObj.categories = [];
           }
@@ -276,58 +637,93 @@
             `Failed to fetch tests for ${subjObj.apiSubject}:`,
             error,
           );
+          subjObj.hasError = true;
+          subjObj.errorMessage = "Failed to load test papers.";
           subjObj.categories = [];
         } finally {
           subjObj.loading = false;
           renderAccordion();
         }
       }
-
       function renderAccordion() {
         const container = document.getElementById(
           "subjects-accordion-container",
         );
-        const activeList =
-          typeof subjectsData !== "undefined" ? subjectsData : [];
+        const activeList = getCurrentSubjectList();
+        const isUserPremium = getUserPremiumStatus();
 
         document.getElementById("total-subjects-count").textContent =
           `${activeList.length} Subjects`;
 
+        if (activeList.length === 0) {
+          container.innerHTML = `
+            <div class="py-8 text-center bg-white rounded-2xl border border-slate-200/80">
+              <p class="text-xs font-bold text-slate-400">No subjects found in this category.</p>
+            </div>
+          `;
+          if (typeof lucide !== "undefined") lucide.createIcons();
+          return;
+        }
+
         container.innerHTML = activeList
           .map((subj) => {
             const isOpen = subj.id === openSubjectId;
+            const categoryCount = subj.categories ? subj.categories.length : 0;
 
             return `
-            <div class="bg-white border ${isOpen ? "border-indigo-500 shadow-xs" : "border-slate-200/90"} rounded-2xl overflow-hidden transition-all duration-200">
-              
+            <div class="bg-white border ${
+              isOpen ? "border-indigo-500 shadow-xs" : "border-slate-200/90"
+            } rounded-2xl overflow-hidden transition-all duration-200">
+
               <!-- SUBJECT HEADER -->
               <div 
                 onclick="toggleSubject('${subj.id}')"
                 class="p-3 flex items-center justify-between cursor-pointer select-none bg-white hover:bg-slate-50 transition-all"
               >
                 <div class="flex items-center gap-2.5 min-w-0">
-                  <div class="w-9 h-9 rounded-xl ${subj.color || "bg-indigo-500"} text-white flex items-center justify-center text-lg font-black shrink-0 shadow-2xs">
+                  <div class="w-9 h-9 rounded-xl ${
+                    subj.color || "bg-indigo-500"
+                  } text-white flex items-center justify-center text-lg font-black shrink-0 shadow-2xs">
                     ${subj.icon || "📝"}
                   </div>
                   <div class="min-w-0">
                     <h4 class="font-extrabold text-slate-800 text-xs truncate">${subj.name}</h4>
                     <span class="text-[9px] font-bold text-slate-400 block">
-                      ${subj.loading ? "Loading tests..." : subj.loaded ? `${subj.categories.length} Test Papers` : "Tap to explore"}
+                      ${
+                        subj.loading
+                          ? "Loading tests..."
+                          : subj.hasError
+                            ? "Failed to load tests"
+                            : `${categoryCount} Topics / Tests`
+                      }
                     </span>
                   </div>
                 </div>
 
                 <div class="flex items-center gap-1.5 shrink-0">
-                  <span class="text-[9px] font-extrabold px-2 py-0.5 rounded-full border ${subj.badgeColor || "bg-indigo-50 text-indigo-700 border-indigo-200"}">
-                    ${subj.loading ? "⏳..." : subj.loaded ? `${subj.categories.length} Tests` : "View"}
+                  <span class="text-[9px] font-extrabold px-2 py-0.5 rounded-full border ${
+                    subj.hasError
+                      ? "bg-rose-50 text-rose-600 border-rose-200"
+                      : subj.badgeColor ||
+                        "bg-indigo-50 text-indigo-700 border-indigo-200"
+                  }">
+                    ${
+                      subj.loading
+                        ? "⏳ Loading"
+                        : subj.hasError
+                          ? "⚠️ Error"
+                          : `${categoryCount} Topics`
+                    }
                   </span>
-                  <div class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition-transform duration-200 ${isOpen ? "rotate-180 bg-indigo-50 text-indigo-600" : ""}">
+                  <div class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition-transform duration-200 ${
+                    isOpen ? "rotate-180 bg-indigo-50 text-indigo-600" : ""
+                  }">
                     <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
                   </div>
                 </div>
               </div>
 
-              <!-- EXPANDABLE TEST PAPERS LIST -->
+              <!-- EXPANDABLE CONTENT -->
               ${
                 isOpen
                   ? `
@@ -340,36 +736,88 @@
                         <p class="text-[11px] font-bold text-indigo-600">Fetching ${subj.name} Papers...</p>
                       </div>
                     `
-                      : subj.categories.length > 0
-                        ? subj.categories
-                            .map(
-                              (cat) => `
+                      : subj.hasError
+                        ? `
+                      <div class="py-4 text-center">
+                        <p class="text-[11px] font-bold text-rose-500 mb-2">${subj.errorMessage || "Unable to load test papers. Please try again."}</p>
+                        <button 
+                          onclick="event.stopPropagation(); retryFetchSubject('${subj.id}')"
+                          class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-lg text-[10px] font-bold transition-all active:scale-95 cursor-pointer"
+                        >
+                          Retry
+                        </button>
+                      </div>
+                    `
+                        : categoryCount > 0
+                          ? subj.categories
+                              .map((cat) => {
+                                const isPaid =
+                                  cat.access_type === "paid" ||
+                                  cat.access_type === "subscription_only";
+                                const isUnlocked = isUserPremium || !isPaid;
+
+                                let badgeHtml = "";
+                                if (cat.access_type === "free") {
+                                  badgeHtml = `<span class="text-[8px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200 px-1.5 py-0.5 rounded">FREE</span>`;
+                                } else if (cat.access_type === "paid") {
+                                  badgeHtml = `<span class="text-[8px] font-black bg-indigo-50 text-indigo-700 border border-indigo-200 px-1.5 py-0.5 rounded">₹${cat.discounted_price || cat.price}</span>`;
+                                } else {
+                                  badgeHtml = `<span class="text-[8px] font-black bg-amber-50 text-amber-800 border border-amber-200 px-1.5 py-0.5 rounded">🔒 PASS</span>`;
+                                }
+
+                                const catJsonEscaped = JSON.stringify(
+                                  cat,
+                                ).replace(/'/g, "&apos;");
+
+                                return `
                         <div class="bg-white border border-slate-200/80 rounded-xl p-2.5 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all">
                           <div class="pr-2 min-w-0">
-                            <h5 class="font-extrabold text-slate-800 text-xs truncate">${cat.title}</h5>
-                            <p class="text-[9px] font-semibold text-slate-400 truncate mt-0.5">${cat.desc}</p>
+                            <div class="flex items-center gap-1.5">
+                              <h5 class="font-extrabold text-slate-800 text-xs truncate">${cat.title}</h5>
+                              ${badgeHtml}
+                            </div>
+                            <p class="text-[9px] font-semibold text-slate-400 truncate mt-0.5">${
+                              cat.desc || "Interactive Practice Module"
+                            }</p>
                             <div class="flex items-center gap-1.5 mt-1">
                               <span class="text-[8px] font-bold bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded">
-                                ${cat.ques} Ques
+                                ${cat.ques || 10} Ques
                               </span>
                               <span class="text-[8px] font-bold bg-indigo-50 text-indigo-600 px-1.5 py-0.5 rounded">
-                                ⏱️ ${cat.time} M
+                                ⏱️ ${cat.time || 20} M
+                              </span>
+                              <span class="text-[8px] font-bold uppercase text-slate-400">
+                                ${cat.difficulty || "Medium"}
                               </span>
                             </div>
                           </div>
 
-                          <button 
-                            onclick="startTest('${cat.id}')"
-                            class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[11px] font-extrabold transition-all cursor-pointer shadow-2xs active:scale-95 shrink-0 flex items-center gap-1 font-kids"
-                          >
-                            <span>Start</span>
-                            <i data-lucide="play" class="w-3 h-3 fill-current"></i>
-                          </button>
+                          ${
+                            isUnlocked
+                              ? `
+                            <button 
+                              onclick="startTest('${cat.id}')"
+                              class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[11px] font-extrabold transition-all cursor-pointer shadow-2xs active:scale-95 shrink-0 flex items-center gap-1 font-kids"
+                            >
+                              <span>Start</span>
+                              <i data-lucide="play" class="w-3 h-3 fill-current"></i>
+                            </button>
+                          `
+                              : `
+                            <button 
+                              onclick='openPaywall(${catJsonEscaped})'
+                              class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-[11px] font-extrabold transition-all cursor-pointer shadow-2xs active:scale-95 shrink-0 flex items-center gap-1 font-kids"
+                            >
+                              <span>Unlock</span>
+                              <i data-lucide="lock" class="w-3 h-3"></i>
+                            </button>
+                          `
+                          }
                         </div>
-                      `,
-                            )
-                            .join("")
-                        : `
+                      `;
+                              })
+                              .join("")
+                          : `
                       <div class="py-3 text-center text-slate-400 font-bold text-[11px]">
                         📂 No test papers available right now.
                       </div>
@@ -391,37 +839,84 @@
       }
 
       function toggleSubject(id) {
-        const targetSubj = (
-          typeof subjectsData !== "undefined" ? subjectsData : []
-        ).find((s) => s.id === id);
+        const activeList = getCurrentSubjectList();
+        const targetSubj = activeList.find((s) => s.id === id);
 
         if (openSubjectId === id) {
           openSubjectId = null;
+          renderAccordion();
         } else {
           openSubjectId = id;
           if (targetSubj && !targetSubj.loaded && !targetSubj.loading) {
             fetchSubjectTests(targetSubj);
-            return;
+          } else {
+            renderAccordion();
           }
         }
-        renderAccordion();
+      }
+
+      function retryFetchSubject(id) {
+        const activeList = getCurrentSubjectList();
+        const targetSubj = activeList.find((s) => s.id === id);
+        if (targetSubj) {
+          fetchSubjectTests(targetSubj);
+        }
       }
 
       function startTest(testId) {
         window.location.href = `kids_runner.html?test_id=${encodeURIComponent(testId)}`;
       }
 
-      function handleLogout() {
-        if (confirm("Kya aap logout karna chahte hain?")) {
-          localStorage.clear();
-          sessionStorage.clear();
-          location.reload();
+      function startDailyTest() {
+        if (activeDailyTestId) {
+          startTest(activeDailyTestId);
+        } else {
+          const list = getCurrentSubjectList();
+          if (list[0]?.categories?.[0]?.id) {
+            startTest(list[0].categories[0].id);
+          } else {
+            alert("Today's Daily Challenge is updating. Try in a few moments!");
+          }
         }
       }
 
+      function openPaywall(testObj) {
+        selectedTestForPurchase = testObj;
+        document.getElementById("paywall-test-title").textContent =
+          testObj.title;
+        document.getElementById("paywall-test-price").textContent =
+          `₹${testObj.discounted_price || testObj.price || 9}`;
+        document.getElementById("paywall-test-mrp").textContent =
+          `₹${testObj.price || 19}`;
+        document.getElementById("btn-paywall-text").textContent =
+          `Buy This Test @ ₹${testObj.discounted_price || testObj.price || 9}`;
+        document.getElementById("paywall-modal").classList.remove("hidden");
+      }
+
+      function closePaywallModal() {
+        document.getElementById("paywall-modal").classList.add("hidden");
+        selectedTestForPurchase = null;
+      }
+
+      function executeBuyTest() {
+        if (!selectedTestForPurchase) return;
+        alert(
+          `Redirecting to Payment Gateway for ₹${selectedTestForPurchase.discounted_price || 9}...`,
+        );
+      }
+
+      function executeBuyPass() {
+        alert(
+          "Redirecting to Subscription Checkout for Unlimited Pass @ ₹99/month...",
+        );
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
-        loadUserProfile();
-        renderAccordion();
+        loadUserPerformance();
+        openFirstSubjectByDefault();
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
       });
     </script>
   </body>
