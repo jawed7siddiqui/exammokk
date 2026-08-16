@@ -1823,6 +1823,10 @@
           const jsonText = document.getElementById("q_json_payload").value;
           const submitBtn = document.getElementById("btn-submit-question");
 
+          // Selected Test Paper se exam_category nikalna
+          const targetTest = allTestPapers.find((t) => t.test_id === testId);
+          const examCategory = targetTest?.exam_category || "GOVT_PSC";
+
           setBtnLoading(
             submitBtn,
             true,
@@ -1839,6 +1843,7 @@
               endpoint = `${QUESTION_API_URL}/${editingQuestionMongoId}`;
               method = "PUT";
               parsedPayload.test_id = testId;
+              parsedPayload.exam_category = examCategory;
               finalPayload = parsedPayload;
             } else {
               endpoint = `${QUESTION_API_URL}/bulk`;
@@ -1857,7 +1862,11 @@
               }
 
               questionsArray = questionsArray.map((q) => {
-                const item = { ...q, test_id: testId || q.test_id };
+                const item = {
+                  ...q,
+                  test_id: testId || q.test_id,
+                  exam_category: examCategory || q.exam_category,
+                };
                 if (!editingQuestionMongoId) {
                   delete item._id;
                   delete item.__v;
@@ -1867,6 +1876,7 @@
 
               finalPayload = {
                 test_id: testId || parsedPayload.test_id,
+                exam_category: examCategory,
                 questions: questionsArray,
               };
             }
