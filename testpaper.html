@@ -13,7 +13,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Fredoka:wght@400;600;700&family=JetBrains+Mono:wght@600;700&display=swap"
@@ -321,9 +321,32 @@
       let selectedStatus = "ALL";
       let currentPage = 1;
       const ITEMS_PER_PAGE = 10;
-      let featuredTestId = null;
+      let featuredTest = null;
 
-      // Resolver for subjects from AllSubject.js
+      // Dynamic Runner Resolver
+      function getRunnerUrl(examCategory, testId) {
+        const category = (
+          examCategory ||
+          currentSegment ||
+          "KIDS_SCHOOL"
+        ).toUpperCase();
+        let runnerPage = "kids_runner.html";
+
+        switch (category) {
+          case "GOVT_PSC":
+            runnerPage = "gov_exam_runner.html";
+            break;
+          case "BOARD_EXAMS":
+          case "OTHER":
+          case "KIDS_SCHOOL":
+          default:
+            runnerPage = "kids_runner.html";
+            break;
+        }
+
+        return `${runnerPage}?test_id=${encodeURIComponent(testId)}`;
+      }
+
       function getActiveSubjectList() {
         if (
           typeof subjectsBySegment !== "undefined" &&
@@ -430,25 +453,28 @@
         const unattemptedTests = allTests.filter(
           (t) => !userAttemptedMap[t.test_id?.toUpperCase()],
         );
-        const featured =
+        featuredTest =
           unattemptedTests.length > 0 ? unattemptedTests[0] : allTests[0];
 
-        featuredTestId = featured.test_id;
         document.getElementById("today-test-title").innerText =
-          featured.title || featured.test_name || "Daily Practice Paper";
+          featuredTest.title ||
+          featuredTest.test_name ||
+          "Daily Practice Paper";
         document.getElementById("today-test-subtitle").innerText =
-          `${featured.subject || "General"} • ${featured.category_title || "Class 1 Challenge"}`;
+          `${featuredTest.subject || "General"} • ${featuredTest.category_title || "Class 1 Challenge"}`;
 
         const qCount =
-          featured.total_questions || featured.questions?.length || 10;
-        const tMins = featured.total_time_mins || 20;
+          featuredTest.total_questions || featuredTest.questions?.length || 10;
+        const tMins = featuredTest.total_time_mins || 20;
 
         document.getElementById("today-q-count").innerText = `${qCount} Ques`;
         document.getElementById("today-time-count").innerText = `⏱️ ${tMins} M`;
       }
 
       function startFeaturedTest() {
-        if (featuredTestId) startTest(featuredTestId);
+        if (featuredTest && featuredTest.test_id) {
+          startTest(featuredTest.test_id, featuredTest.exam_category);
+        }
       }
 
       // 3. Populate Subjects Horizontal Bar
@@ -623,6 +649,7 @@
 
             const pastResult = userAttemptedMap[test.test_id?.toUpperCase()];
             const isCompleted = !!pastResult;
+            const examCategory = test.exam_category || currentSegment;
 
             return `
             <div class="bg-white border ${isCompleted ? "border-emerald-200 bg-emerald-50/20" : "border-slate-200/90"} rounded-2xl p-3 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all">
@@ -674,7 +701,7 @@
                   isCompleted
                     ? `
                   <button
-                    onclick="startTest('${test.test_id}')"
+                    onclick="startTest('${test.test_id}', '${examCategory}')"
                     class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-[11px] font-extrabold flex items-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer font-kids"
                   >
                     <span>Retake</span>
@@ -683,7 +710,7 @@
                 `
                     : `
                   <button
-                    onclick="startTest('${test.test_id}')"
+                    onclick="startTest('${test.test_id}', '${examCategory}')"
                     class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[11px] font-extrabold flex items-center gap-1 shadow-2xs shadow-indigo-600/20 active:scale-95 transition-all cursor-pointer font-kids"
                   >
                     <span>Start</span>
@@ -734,8 +761,8 @@
         `;
       }
 
-      function startTest(testId) {
-        window.location.href = `kids_runner.html?test_id=${encodeURIComponent(testId)}`;
+      function startTest(testId, examCategory) {
+        window.location.href = getRunnerUrl(examCategory, testId);
       }
 
       function openSubjectModal() {

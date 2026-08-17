@@ -13,7 +13,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap"
@@ -171,19 +171,15 @@
         </div>
 
         <!-- UNIFIED COMPACT WIDGET: DAILY LIVE TEST & LAST SCORE SUMMARY -->
-        <!-- PRO BLUE DUAL WIDGET (With High-Visibility 100% FREE Badge) -->
-        <!-- PREMIUM DUAL BANNER (Clean Indigo/Blue Gradient with Zero Clutter) -->
         <div
           class="bg-gradient-to-br from-indigo-700 via-indigo-800 to-blue-900 rounded-3xl p-4 text-white shadow-xl shadow-indigo-950/25 border border-white/10 relative overflow-hidden"
         >
-          <!-- Subtle Ambient Glow in background -->
           <div
             class="absolute -right-6 -top-6 w-24 h-24 bg-blue-400/20 rounded-full blur-2xl pointer-events-none"
           ></div>
 
           <!-- TOP SECTION: DAILY LIVE FREE SPRINT -->
           <div class="flex items-start justify-between gap-3">
-            <!-- Left: Subject, Title & Dynamic Stats -->
             <div class="min-w-0 flex-1">
               <div class="flex items-center gap-1.5 mb-1">
                 <span
@@ -204,7 +200,6 @@
                 Loading Today's Test...
               </h3>
 
-              <!-- Dynamic Test Meta (Qs • Time • Expiry) -->
               <div
                 class="flex items-center gap-2 mt-2 text-[10px] font-bold text-indigo-100/80 flex-wrap"
               >
@@ -227,7 +222,6 @@
               </div>
             </div>
 
-            <!-- Right: High-Converting Free Badge & CTA -->
             <div class="flex flex-col items-end gap-2 shrink-0">
               <span
                 class="bg-emerald-400 text-slate-950 text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm"
@@ -396,9 +390,32 @@
       let currentSegment = "KIDS_SCHOOL";
       let openSubjectId = null;
       let selectedTestForPurchase = null;
-      let activeDailyTestId = null;
+      let activeDailyTest = null;
 
-      // Dynamic User ID Resolver
+      // URL Resolver based on exam_category
+      function getRunnerUrl(examCategory, testId) {
+        const category = (
+          examCategory ||
+          currentSegment ||
+          "KIDS_SCHOOL"
+        ).toUpperCase();
+        let runnerPage = "kids_runner.html";
+
+        switch (category) {
+          case "GOVT_PSC":
+            runnerPage = "gov_exam_runner.html";
+            break;
+          case "BOARD_EXAMS":
+          case "OTHER":
+          case "KIDS_SCHOOL":
+          default:
+            runnerPage = "kids_runner.html";
+            break;
+        }
+
+        return `${runnerPage}?test_id=${encodeURIComponent(testId)}`;
+      }
+
       function getActiveUserId() {
         const urlParams = new URLSearchParams(window.location.search);
         let userId = urlParams.get("user_id") || urlParams.get("student_id");
@@ -428,7 +445,6 @@
         return false;
       }
 
-      // Fetch User Profile & Scoreboard Performance
       let isScoreboardFetching = false;
 
       async function loadUserPerformance() {
@@ -555,6 +571,7 @@
 
         openFirstSubjectByDefault();
       }
+
       async function fetchSubjectTests(subjObj) {
         subjObj.loading = true;
         subjObj.hasError = false;
@@ -574,7 +591,6 @@
 
           if (resData?.success && Array.isArray(resData.data)) {
             subjObj.categories = resData.data.map((item) => {
-              // Asli questions count aur time nikalne ka accurate logic
               const qCount =
                 Number(item.total_questions) ||
                 (Array.isArray(item.questions) ? item.questions.length : 0) ||
@@ -604,17 +620,17 @@
                 difficulty: item.difficulty_level || "medium",
                 is_daily: Boolean(item.is_daily_challenge),
                 included_in_pass: item.included_in_pass !== false,
+                exam_category: item.exam_category || currentSegment,
               };
             });
 
-            // 🎯 DYNAMIC DAILY CARD SYNC (Priority: is_daily -> first available test)
             let dailyItem = subjObj.categories.find((c) => c.is_daily);
             if (!dailyItem && subjObj.categories.length > 0) {
-              dailyItem = subjObj.categories[0]; // fallback to first real test
+              dailyItem = subjObj.categories[0];
             }
 
             if (dailyItem) {
-              activeDailyTestId = dailyItem.id;
+              activeDailyTest = dailyItem;
 
               const subEl = document.getElementById("daily-challenge-subject");
               if (subEl) subEl.textContent = subjObj.name || "Daily Test";
@@ -645,6 +661,7 @@
           renderAccordion();
         }
       }
+
       function renderAccordion() {
         const container = document.getElementById(
           "subjects-accordion-container",
@@ -796,7 +813,7 @@
                             isUnlocked
                               ? `
                             <button 
-                              onclick="startTest('${cat.id}')"
+                              onclick="startTest('${cat.id}', '${cat.exam_category || currentSegment}')"
                               class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[11px] font-extrabold transition-all cursor-pointer shadow-2xs active:scale-95 shrink-0 flex items-center gap-1 font-kids"
                             >
                               <span>Start</span>
@@ -863,17 +880,18 @@
         }
       }
 
-      function startTest(testId) {
-        window.location.href = `kids_runner.html?test_id=${encodeURIComponent(testId)}`;
+      function startTest(testId, examCategory) {
+        window.location.href = getRunnerUrl(examCategory, testId);
       }
 
       function startDailyTest() {
-        if (activeDailyTestId) {
-          startTest(activeDailyTestId);
+        if (activeDailyTest) {
+          startTest(activeDailyTest.id, activeDailyTest.exam_category);
         } else {
           const list = getCurrentSubjectList();
-          if (list[0]?.categories?.[0]?.id) {
-            startTest(list[0].categories[0].id);
+          const firstCat = list[0]?.categories?.[0];
+          if (firstCat?.id) {
+            startTest(firstCat.id, firstCat.exam_category);
           } else {
             alert("Today's Daily Challenge is updating. Try in a few moments!");
           }
