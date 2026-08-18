@@ -72,8 +72,16 @@
       }
       .puzzle-piece:active {
         cursor: grabbing;
-        transform: scale(1.12);
-        z-index: 50;
+      }
+
+      /* Dragging Clone Element */
+      .dragging-active-clone {
+        position: fixed !important;
+        pointer-events: none !important;
+        z-index: 99999 !important;
+        transform: scale(1.15) !important;
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4) !important;
+        opacity: 0.95 !important;
       }
 
       /* Match Snap Pulse */
@@ -159,7 +167,7 @@
         <!-- Injected Dynamically from PUZZLE_CATEGORIES -->
       </div>
 
-      <!-- 3. MAIN PLAYING CANVAS & BOARD (Enlarged Target Drop Area) -->
+      <!-- 3. MAIN PLAYING CANVAS & BOARD -->
       <main
         class="flex-1 flex flex-col items-center justify-center p-2 sm:p-3 overflow-hidden relative min-h-0"
       >
@@ -171,7 +179,7 @@
         </div>
       </main>
 
-      <!-- 4. BOTTOM PIECES TRAY (Enlarged Drag & Fit Section) -->
+      <!-- 4. BOTTOM PIECES TRAY -->
       <div
         class="bottom-tray-safe w-full bg-slate-800/95 border-t border-slate-700/80 px-4 pt-3 shadow-2xl flex flex-col items-center gap-2.5 z-20 shrink-0"
       >
@@ -357,7 +365,6 @@
         progress.textContent = `0/${totalPieces} Done`;
       }
 
-      // --- ENLARGED JIGSAW PUZZLE BUILDER ---
       function renderJigsawMode(activeLevel, board, tray, levelText) {
         totalPieces = activeLevel.pieces.length;
         levelText.textContent = `${activeLevel.title} (Lvl ${currentLevelIndex + 1}/${PUZZLE_CATEGORIES[currentCategoryIndex].levels.length})`;
@@ -371,7 +378,7 @@
           slot.dataset.expected = p.id;
           slot.className =
             "target-slot bg-slate-900/60 border-2 border-slate-700/80 rounded-2xl flex items-center justify-center text-slate-600 text-3xl font-black transition-all";
-          slot.innerHTML = `<span class="opacity-20 text-4xl sm:text-5xl">${p.icon}</span>`;
+          slot.innerHTML = `<span class="opacity-20 text-4xl sm:text-5xl pointer-events-none">${p.icon}</span>`;
           slot.addEventListener("dragover", handleDragOver);
           slot.addEventListener("drop", handleDrop);
           board.appendChild(slot);
@@ -386,7 +393,6 @@
         });
       }
 
-      // --- ENLARGED SHADOW MATCH BUILDER ---
       function renderShadowMode(activeLevel, board, tray, levelText) {
         totalPieces = activeLevel.items.length;
         levelText.textContent = `${activeLevel.title} (Lvl ${currentLevelIndex + 1}/${PUZZLE_CATEGORIES[currentCategoryIndex].levels.length})`;
@@ -401,8 +407,8 @@
           slot.className =
             "target-slot h-16 sm:h-20 bg-slate-950/80 border-2 border-slate-800 rounded-2xl flex items-center justify-between px-4 text-slate-500 transition-all";
           slot.innerHTML = `
-            <span class="text-4xl filter grayscale brightness-0 contrast-200 opacity-30">${item.icon}</span>
-            <span class="text-xs sm:text-sm font-bold text-slate-400 uppercase font-kids tracking-wider">Drop ${item.name}</span>
+            <span class="text-4xl filter grayscale brightness-0 contrast-200 opacity-30 pointer-events-none">${item.icon}</span>
+            <span class="text-xs sm:text-sm font-bold text-slate-400 uppercase font-kids tracking-wider pointer-events-none">Drop ${item.name}</span>
           `;
           slot.addEventListener("dragover", handleDragOver);
           slot.addEventListener("drop", handleDrop);
@@ -416,7 +422,6 @@
         });
       }
 
-      // --- ENLARGED SHAPES MATCH BUILDER ---
       function renderShapesMode(activeLevel, board, tray, levelText) {
         totalPieces = activeLevel.items.length;
         levelText.textContent = `${activeLevel.title} (Lvl ${currentLevelIndex + 1}/${PUZZLE_CATEGORIES[currentCategoryIndex].levels.length})`;
@@ -430,8 +435,8 @@
           slot.dataset.expected = item.id;
           slot.className = `target-slot ${item.shapeClass} bg-slate-950/70 border-2 border-dashed border-slate-700 flex flex-col items-center justify-center text-slate-600 transition-all p-2`;
           slot.innerHTML = `
-            <span class="text-4xl opacity-25 filter grayscale">${item.icon}</span>
-            <span class="text-[10px] sm:text-xs font-bold text-slate-400 mt-1 font-kids">${item.name}</span>
+            <span class="text-4xl opacity-25 filter grayscale pointer-events-none">${item.icon}</span>
+            <span class="text-[10px] sm:text-xs font-bold text-slate-400 mt-1 font-kids pointer-events-none">${item.name}</span>
           `;
           slot.addEventListener("dragover", handleDragOver);
           slot.addEventListener("drop", handleDrop);
@@ -445,7 +450,7 @@
         });
       }
 
-      // 2. ENLARGED TOUCH & DRAG EVENT SYSTEM (w-16 h-16 / 64px - 72px)
+      // 2. TOUCH & DRAG EVENT SYSTEM (SINGLE INSTANCE CLONE FIX)
       function createDraggablePiece(id, icon, bgClass) {
         const el = document.createElement("div");
         el.id = `piece-${id}`;
@@ -465,19 +470,30 @@
       function enableMobileTouchDrag(element, pieceId) {
         let activeClone = null;
 
+        const removeExistingClone = () => {
+          if (activeClone) {
+            activeClone.remove();
+            activeClone = null;
+          }
+          element.style.opacity = "1";
+        };
+
         element.addEventListener(
           "touchstart",
           (e) => {
             const touch = e.touches[0];
 
+            // Clean any previous ghost clone
+            removeExistingClone();
+
             activeClone = element.cloneNode(true);
-            activeClone.style.position = "fixed";
-            activeClone.style.zIndex = "9999";
-            activeClone.style.opacity = "0.9";
-            activeClone.style.pointerEvents = "none";
+            activeClone.id = `active-drag-clone-${pieceId}`;
+            activeClone.className = `${element.className} dragging-active-clone`;
             activeClone.style.left = `${touch.clientX - 34}px`;
             activeClone.style.top = `${touch.clientY - 34}px`;
+
             document.body.appendChild(activeClone);
+            element.style.opacity = "0.3";
           },
           { passive: false },
         );
@@ -494,12 +510,14 @@
           { passive: false },
         );
 
-        element.addEventListener("touchend", (e) => {
+        const handleTouchEnd = (e) => {
           if (!activeClone) return;
           const touch = e.changedTouches[0];
-          activeClone.remove();
-          activeClone = null;
 
+          // Turant clone ko remove karein taaki duplicate na bane
+          removeExistingClone();
+
+          // Target slot check karein
           const dropTarget = document.elementFromPoint(
             touch.clientX,
             touch.clientY,
@@ -511,7 +529,10 @@
           if (validSlot) {
             checkAndSnapPiece(pieceId, validSlot);
           }
-        });
+        };
+
+        element.addEventListener("touchend", handleTouchEnd);
+        element.addEventListener("touchcancel", removeExistingClone);
       }
 
       function handleDragOver(e) {
@@ -538,6 +559,7 @@
             slotElement.innerHTML = piece.innerHTML;
             slotElement.className = `target-slot ${piece.className.replace("puzzle-piece", "")} animate-pop w-full h-full flex items-center justify-center text-4xl sm:text-5xl shadow-md`;
 
+            // Element permanently remove ho jayega tray se
             piece.remove();
             matchedCount++;
 
