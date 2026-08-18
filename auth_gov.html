@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>ExamIndia - Aspirant Portal</title>
+
+    <!-- Tailwind CSS & Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: radial-gradient(
+          circle at 50% 20%,
+          #1e1b4b 0%,
+          #0f172a 60%,
+          #020617 100%
+        );
+        min-height: 100dvh;
+      }
+
+      .font-heading {
+        font-family: "Outfit", sans-serif;
+      }
+
+      .font-mono-tag {
+        font-family: "Space Grotesk", monospace;
+      }
+
+      @keyframes float-subtle {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      .animate-float-subtle {
+        animation: float-subtle 4s ease-in-out infinite;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #1e293b;
+        border-radius: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body
+    class="flex items-center justify-center p-4 relative overflow-x-hidden antialiased select-none text-slate-100 min-h-screen"
+  >
+    <!-- Background Ambient Glow Elements -->
+    <div
+      class="absolute top-10 left-10 w-72 h-72 bg-indigo-600/15 rounded-full blur-3xl animate-float-subtle pointer-events-none"
+    ></div>
+    <div
+      class="absolute bottom-12 right-10 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-float-subtle pointer-events-none"
+      style="animation-delay: 2s"
+    ></div>
+
+    <!-- MAIN AUTH CARD -->
+    <main
+      class="w-full max-w-md bg-slate-900/90 rounded-3xl shadow-2xl border border-slate-800 p-6 md:p-8 relative z-10 overflow-visible backdrop-blur-xl"
+    >
+      <!-- App-Style Back Button -->
+      <div class="flex items-center justify-between mb-2 relative min-h-[36px]">
+        <button
+          id="app-back-btn"
+          onclick="handleAppBackNavigation()"
+          class="hidden items-center justify-center w-9 h-9 rounded-xl bg-slate-800 text-slate-300 hover:bg-indigo-600 hover:text-white border border-slate-700 transition-all active:scale-90 shadow-sm cursor-pointer z-20"
+          title="Back"
+        >
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        </button>
+
+        <div
+          class="ml-auto inline-flex items-center gap-1.5 bg-slate-800/80 border border-slate-700 px-3 py-1 rounded-full text-[10px] font-bold text-slate-300 font-mono-tag"
+        >
+          <span>🇮🇳</span>
+          <span>GOVT ASPIRANT</span>
+        </div>
+      </div>
+
+      <!-- Brand Header -->
+      <div class="text-center mb-6">
+        <div class="inline-flex items-center justify-center gap-2 mb-1.5">
+          <div
+            class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center shadow-md border border-indigo-400/30"
+          >
+            <i data-lucide="graduation-cap" class="w-5 h-5 text-indigo-200"></i>
+          </div>
+          <h1
+            class="text-2xl font-extrabold tracking-tight text-white font-heading uppercase"
+          >
+            <span>Exam</span><span class="text-indigo-400">India</span>
+          </h1>
+        </div>
+        <p class="text-xs font-semibold text-slate-400">
+          National Testing &amp; Mock Prep Portal
+        </p>
+      </div>
+
+      <!-- Global Alert / Error Message Box -->
+      <div
+        id="exam-india-alert-box"
+        class="hidden text-xs font-bold p-3 rounded-xl text-center mb-5 bg-rose-950/60 text-rose-300 border border-rose-800/80 animate-pulse"
+      ></div>
+
+      <!-- ========================================== -->
+      <!-- STEP 1: MOBILE ENTRY -->
+      <!-- ========================================== -->
+      <section id="step-common-login" class="auth-step-container">
+        <div class="text-center mb-5">
+          <p class="text-xs font-bold text-slate-400">
+            Sign in with your mobile number
+          </p>
+        </div>
+
+        <form onsubmit="handleCommonLoginSubmit(event)" class="space-y-4">
+          <input type="hidden" id="user-role" value="aspirant" />
+
+          <div>
+            <label
+              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1.5"
+              >Registered Mobile Number</label
+            >
+            <div class="relative">
+              <div
+                class="flex items-center w-full bg-slate-950/70 border border-slate-700 rounded-2xl transition-all focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 overflow-hidden"
+              >
+                <!-- ISD Selector Button -->
+                <button
+                  type="button"
+                  id="country-selector-btn"
+                  onclick="toggleCountryDropdown(event)"
+                  class="flex items-center gap-1.5 px-3.5 py-3 text-xs font-bold text-slate-200 bg-transparent shrink-0 cursor-pointer hover:text-indigo-400 transition-colors"
+                >
+                  <span id="selected-country-label">🇮🇳 +91</span>
+                  <i
+                    data-lucide="chevron-down"
+                    class="w-3.5 h-3.5 text-slate-400"
+                  ></i>
+                </button>
+
+                <div class="h-6 w-[1px] bg-slate-700"></div>
+
+                <!-- Input -->
+                <input
+                  type="tel"
+                  id="user-mobile"
+                  required
+                  maxlength="15"
+                  oninput="validateMobileInput(this)"
+                  placeholder="Enter 10-digit mobile"
+                  class="w-full px-3.5 py-3 font-semibold text-indigo-300 outline-none bg-transparent text-sm tracking-wider placeholder:text-slate-500"
+                />
+              </div>
+
+              <!-- Country Dropdown -->
+              <div
+                id="country-dropdown-menu"
+                class="hidden absolute top-full left-0 mt-1.5 w-72 bg-slate-900 border border-slate-700 shadow-2xl rounded-2xl p-2.5 z-[99999] transition-all"
+              >
+                <div class="relative mb-2">
+                  <i
+                    data-lucide="search"
+                    class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-3"
+                  ></i>
+                  <input
+                    type="text"
+                    id="country-search-input"
+                    oninput="filterCountryList(this.value)"
+                    placeholder="Search country or code..."
+                    class="w-full pl-8 pr-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs font-bold text-slate-200 outline-none focus:border-indigo-500"
+                  />
+                </div>
+                <div
+                  id="country-list-container"
+                  class="max-h-52 overflow-y-auto custom-scrollbar space-y-1"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3.5 mt-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 active:scale-98 text-white font-extrabold rounded-2xl text-xs uppercase tracking-wider shadow-lg shadow-indigo-950/50 transition-all cursor-pointer flex items-center justify-center gap-2 font-heading"
+          >
+            <span>Continue</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- STEP 2A: EXISTING USER - LOGIN -->
+      <!-- ========================================== -->
+      <section id="step-enter-password" class="auth-step-container hidden">
+        <div class="text-center mb-5">
+          <h2 class="text-lg font-bold text-white uppercase font-heading">
+            Welcome Back!
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">
+            Enter your access passcode to continue.
+          </p>
+        </div>
+
+        <form onsubmit="handlePasswordSubmit(event)" class="space-y-4">
+          <div>
+            <label
+              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1.5"
+              >Security PIN / Password</label
+            >
+            <input
+              type="password"
+              id="aspirant-password-input"
+              required
+              placeholder="••••••"
+              class="w-full p-3.5 border border-slate-700 rounded-2xl font-bold text-indigo-300 outline-none focus:border-indigo-500 bg-slate-950/70 text-base tracking-widest text-center transition-all"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 active:scale-98 text-white font-extrabold rounded-2xl text-xs uppercase tracking-wider shadow-lg shadow-indigo-950/50 transition-all cursor-pointer font-heading flex items-center justify-center gap-2"
+          >
+            <span>Verify &amp; Login</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- STEP 2B: NEW ASPIRANT - PROFILE SETUP -->
+      <!-- ========================================== -->
+      <section id="step-registration" class="auth-step-container hidden">
+        <div class="text-center mb-4">
+          <h2
+            id="reg-form-title"
+            class="text-base sm:text-lg font-bold text-white uppercase font-heading"
+          >
+            Aspirant Registration
+          </h2>
+          <p id="reg-form-subtitle" class="text-xs text-slate-400">
+            Set up your test prep account
+          </p>
+        </div>
+
+        <form onsubmit="handleRegistrationSubmit(event)" class="space-y-3.5">
+          <div class="space-y-3">
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >Candidate Full Name</label
+              >
+              <input
+                type="text"
+                id="reg-candidate-name"
+                required
+                placeholder="e.g. Rahul Sharma"
+                class="w-full p-3 border border-slate-700 rounded-2xl font-semibold text-slate-200 outline-none focus:border-indigo-500 bg-slate-950/70 text-xs transition-all placeholder:text-slate-600"
+              />
+            </div>
+
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >Gender</label
+              >
+              <div
+                class="flex gap-4 items-center pt-1 text-xs font-semibold text-slate-300"
+              >
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="candidate_gender"
+                    value="Male"
+                    checked
+                    class="accent-indigo-500 w-4 h-4"
+                  />
+                  Male
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="candidate_gender"
+                    value="Female"
+                    class="accent-indigo-500 w-4 h-4"
+                  />
+                  Female
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="candidate_gender"
+                    value="Other"
+                    class="accent-indigo-500 w-4 h-4"
+                  />
+                  Other
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label
+                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
+                >Target Exam Category</label
+              >
+              <select
+                id="reg-target-exam"
+                class="w-full p-3 border border-slate-700 rounded-2xl font-semibold text-slate-200 outline-none focus:border-indigo-500 bg-slate-950 text-xs transition-all cursor-pointer"
+              >
+                <option value="UPSC Civil Services">
+                  UPSC Civil Services (IAS/IPS)
+                </option>
+                <option value="State PSC Exams">
+                  State PSC (BPSC, UPPSC, MPPSC, etc.)
+                </option>
+                <option value="SSC CGL & CHSL">
+                  SSC (CGL, CHSL, CPO, MTS)
+                </option>
+                <option value="Railway RRB NTPC">
+                  Railway Recruitment (RRB NTPC, Group D)
+                </option>
+                <option value="Banking & Insurance">
+                  Banking (IBPS, SBI PO/Clerk, RBI)
+                </option>
+                <option value="Defence Exams">
+                  Defence (NDA, CDS, AFCAT, CAPF)
+                </option>
+                <option value="Teaching Exams">
+                  Teaching (CTET, State TET, DSSSB)
+                </option>
+                <option value="Other Govt Exams">
+                  Other Competitive Exams
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- TERMS -->
+          <div class="flex items-start gap-2.5 pt-1">
+            <input
+              type="checkbox"
+              id="terms-conditions-checkbox"
+              required
+              class="accent-indigo-500 w-4 h-4 rounded cursor-pointer shrink-0 mt-0.5"
+            />
+            <label
+              for="terms-conditions-checkbox"
+              class="text-[11px] font-semibold text-slate-400 leading-snug cursor-pointer select-none"
+            >
+              I agree to the
+              <a
+                href="terms.html"
+                target="_blank"
+                class="text-indigo-400 underline hover:text-indigo-300 font-bold"
+                >Terms &amp; Conditions</a
+              >
+              and
+              <a
+                href="privacy.html"
+                target="_blank"
+                class="text-indigo-400 underline hover:text-indigo-300 font-bold"
+                >Privacy Policy</a
+              >.
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3.5 mt-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 active:scale-98 text-white font-extrabold rounded-2xl text-xs uppercase tracking-wider shadow-lg shadow-indigo-950/50 transition-all cursor-pointer font-heading"
+          >
+            Create Account &amp; Proceed →
+          </button>
+        </form>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- STEP 3: SUCCESS -->
+      <!-- ========================================== -->
+      <section
+        id="step-reg-success"
+        class="auth-step-container hidden text-center"
+      >
+        <div
+          class="w-14 h-14 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3 shadow-lg"
+        >
+          ✓
+        </div>
+        <h2
+          class="text-lg font-bold text-emerald-400 uppercase mb-1 font-heading"
+        >
+          Profile Ready!
+        </h2>
+        <p class="text-xs text-slate-400 mb-4">
+          Your ExamIndia candidate account is registered.
+        </p>
+
+        <!-- PASSWORD HIGHLIGHT CARD -->
+        <div
+          class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 mb-5 text-center"
+        >
+          <p
+            class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 font-mono-tag"
+          >
+            Default Passcode
+          </p>
+          <div class="flex items-center justify-center">
+            <span
+              class="text-2xl font-black tracking-widest text-indigo-400 bg-slate-900 px-4 py-1.5 rounded-xl border border-indigo-500/30 font-mono"
+            >
+              123456
+            </span>
+          </div>
+          <p class="text-[10px] text-slate-500 mt-2 font-medium">
+            Use this default PIN for quick sign-in.
+          </p>
+        </div>
+
+        <button
+          onclick="finishAuthAndStartSession()"
+          class="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold rounded-2xl text-xs uppercase tracking-wider shadow-lg active:scale-98 transition-all cursor-pointer font-heading"
+        >
+          Enter ExamIndia Portal →
+        </button>
+      </section>
+    </main>
+
+    <!-- SCRIPT CONTROLLER -->
+    <script>
+      const API_BASE_URL = "https://api.jawedsiddiqui.cloud/api/kidspaint";
+      const API_TIMEOUT_MS = 15000;
+      const DEFAULT_PASSWORD = "123456";
+
+      const globalCountries = [
+        { code: "+91", country: "India", flag: "🇮🇳" },
+        { code: "+1", country: "United States", flag: "🇺🇸" },
+        { code: "+44", country: "United Kingdom", flag: "🇬🇧" },
+        { code: "+971", country: "United Arab Emirates", flag: "🇦🇪" },
+        { code: "+1", country: "Canada", flag: "🇨🇦" },
+        { code: "+61", country: "Australia", flag: "🇦🇺" },
+        { code: "+65", country: "Singapore", flag: "🇸🇬" },
+        { code: "+966", country: "Saudi Arabia", flag: "🇸🇦" },
+        { code: "+974", country: "Qatar", flag: "🇶🇦" },
+        { code: "+968", country: "Oman", flag: "🇴🇲" },
+        { code: "+965", country: "Kuwait", flag: "🇰🇼" },
+        { code: "+973", country: "Bahrain", flag: "🇧🇭" },
+        { code: "+60", country: "Malaysia", flag: "🇲🇾" },
+        { code: "+49", country: "Germany", flag: "🇩🇪" },
+        { code: "+33", country: "France", flag: "🇫🇷" },
+        { code: "+39", country: "Italy", flag: "🇮🇹" },
+        { code: "+34", country: "Spain", flag: "🇪🇸" },
+        { code: "+31", country: "Netherlands", flag: "🇳🇱" },
+        { code: "+81", country: "Japan", flag: "🇯🇵" },
+        { code: "+82", country: "South Korea", flag: "🇰🇷" },
+        { code: "+86", country: "China", flag: "🇨🇳" },
+        { code: "+62", country: "Indonesia", flag: "🇮🇩" },
+        { code: "+63", country: "Philippines", flag: "🇵🇭" },
+        { code: "+66", country: "Thailand", flag: "🇹🇭" },
+        { code: "+84", country: "Vietnam", flag: "🇻🇳" },
+        { code: "+880", country: "Bangladesh", flag: "🇧🇩" },
+        { code: "+92", country: "Pakistan", flag: "🇵🇰" },
+        { code: "+94", country: "Sri Lanka", flag: "🇱🇰" },
+        { code: "+977", country: "Nepal", flag: "🇳🇵" },
+        { code: "+20", country: "Egypt", flag: "🇪🇬" },
+        { code: "+234", country: "Nigeria", flag: "🇳🇬" },
+        { code: "+254", country: "Kenya", flag: "🇰🇪" },
+        { code: "+27", country: "South Africa", flag: "🇿🇦" },
+        { code: "+55", country: "Brazil", flag: "🇧🇷" },
+        { code: "+52", country: "Mexico", flag: "🇲🇽" },
+        { code: "+7", country: "Russia", flag: "🇷🇺" },
+        { code: "+90", country: "Turkey", flag: "🇹🇷" },
+      ];
+
+      let currentAuthData = {
+        role: "aspirant",
+        mobile: "",
+        countryCode: "+91",
+        countryName: "India",
+        sessionTimeSec: 1800,
+      };
+
+      let activeStepHistory = ["step-common-login"];
+
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof lucide !== "undefined") lucide.createIcons();
+        renderCountryList(globalCountries);
+
+        document.addEventListener("click", (e) => {
+          const btn = document.getElementById("country-selector-btn");
+          const dropdown = document.getElementById("country-dropdown-menu");
+          if (
+            btn &&
+            dropdown &&
+            !btn.contains(e.target) &&
+            !dropdown.contains(e.target)
+          ) {
+            dropdown.classList.add("hidden");
+          }
+        });
+      });
+
+      function validateMobileInput(input) {
+        input.value = input.value.replace(/[^0-9]/g, "");
+        if (input.value.length > 15) {
+          input.value = input.value.slice(0, 15);
+        }
+      }
+
+      function renderCountryList(list) {
+        const container = document.getElementById("country-list-container");
+        if (!container) return;
+
+        if (list.length === 0) {
+          container.innerHTML = `<p class="text-[10px] text-slate-500 font-bold text-center py-2">No country found</p>`;
+          return;
+        }
+
+        container.innerHTML = list
+          .map(
+            (c) => `
+          <button
+            type="button"
+            onclick="selectCountry('${c.code}', '${c.country}', '${c.flag}')"
+            class="w-full text-left px-2.5 py-1.5 rounded-xl hover:bg-slate-800 flex items-center justify-between text-xs font-semibold text-slate-300 transition-all cursor-pointer"
+          >
+            <span class="flex items-center gap-2">
+              <span>${c.flag}</span>
+              <span>${c.country}</span>
+            </span>
+            <span class="text-indigo-400 font-bold">${c.code}</span>
+          </button>
+        `,
+          )
+          .join("");
+      }
+
+      function toggleCountryDropdown(event) {
+        event.stopPropagation();
+        const dropdown = document.getElementById("country-dropdown-menu");
+        if (dropdown) dropdown.classList.toggle("hidden");
+      }
+
+      function filterCountryList(query) {
+        const q = query.toLowerCase().trim();
+        const filtered = globalCountries.filter(
+          (c) => c.country.toLowerCase().includes(q) || c.code.includes(q),
+        );
+        renderCountryList(filtered);
+      }
+
+      function selectCountry(code, countryName, flag) {
+        currentAuthData.countryCode = code;
+        currentAuthData.countryName = countryName;
+        document.getElementById("selected-country-label").innerText =
+          `${flag} ${code}`;
+        document
+          .getElementById("country-dropdown-menu")
+          .classList.add("hidden");
+      }
+
+      function fetchWithTimeout(url, options = {}, timeoutMs = API_TIMEOUT_MS) {
+        return Promise.race([
+          fetch(url, options),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("API_TIMEOUT")), timeoutMs),
+          ),
+        ]);
+      }
+
+      function setButtonLoading(buttonElem, isLoading, originalText) {
+        if (!buttonElem) return;
+        if (isLoading) {
+          buttonElem.disabled = true;
+          buttonElem.dataset.origText = originalText || buttonElem.innerHTML;
+          buttonElem.innerHTML = `<span class="inline-block animate-spin mr-1">⏳</span> Authenticating...`;
+          buttonElem.classList.add("opacity-75", "cursor-not-allowed");
+        } else {
+          buttonElem.disabled = false;
+          buttonElem.innerHTML = buttonElem.dataset.origText || originalText;
+          buttonElem.classList.remove("opacity-75", "cursor-not-allowed");
+        }
+      }
+
+      function switchStep(stepId, pushHistory = true) {
+        hideAlert();
+
+        if (
+          pushHistory &&
+          activeStepHistory[activeStepHistory.length - 1] !== stepId
+        ) {
+          activeStepHistory.push(stepId);
+        }
+
+        const backBtn = document.getElementById("app-back-btn");
+        if (backBtn) {
+          if (activeStepHistory.length > 1 && stepId !== "step-common-login") {
+            backBtn.classList.remove("hidden");
+            backBtn.classList.add("flex");
+          } else {
+            backBtn.classList.add("hidden");
+            backBtn.classList.remove("flex");
+          }
+        }
+
+        document
+          .querySelectorAll(".auth-step-container")
+          .forEach((el) => el.classList.add("hidden"));
+
+        const target = document.getElementById(stepId);
+        if (target) {
+          target.classList.remove("hidden");
+          if (typeof lucide !== "undefined") lucide.createIcons();
+        }
+      }
+
+      function handleAppBackNavigation() {
+        if (activeStepHistory.length > 1) {
+          activeStepHistory.pop();
+          const previousStep = activeStepHistory[activeStepHistory.length - 1];
+          switchStep(previousStep, false);
+        }
+      }
+
+      function showAlert(msg) {
+        const alertBox = document.getElementById("exam-india-alert-box");
+        if (alertBox) {
+          alertBox.innerText = msg;
+          alertBox.classList.remove("hidden");
+        }
+      }
+
+      function hideAlert() {
+        const alertBox = document.getElementById("exam-india-alert-box");
+        if (alertBox) alertBox.classList.add("hidden");
+      }
+
+      // STEP 1: CHECK MOBILE
+      async function handleCommonLoginSubmit(event) {
+        event.preventDefault();
+        hideAlert();
+
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalBtnText = "Continue →";
+
+        setButtonLoading(submitBtn, true, originalBtnText);
+
+        currentAuthData.role = "aspirant";
+        currentAuthData.mobile = document
+          .getElementById("user-mobile")
+          .value.trim();
+
+        try {
+          const response = await fetchWithTimeout(
+            `${API_BASE_URL}/check-mobile`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ mobileNumber: currentAuthData.mobile }),
+            },
+            API_TIMEOUT_MS,
+          );
+
+          const data = await response.json();
+
+          if (data.exists) {
+            switchStep("step-enter-password");
+          } else {
+            switchStep("step-registration");
+          }
+        } catch (error) {
+          console.warn("API check fallback active.", error);
+
+          const registeredParents = JSON.parse(
+            localStorage.getItem("registeredParents") || "{}",
+          );
+
+          if (registeredParents[currentAuthData.mobile]) {
+            switchStep("step-enter-password");
+          } else {
+            switchStep("step-registration");
+          }
+        } finally {
+          setButtonLoading(submitBtn, false, originalBtnText);
+        }
+      }
+
+      // STEP 2A: LOGIN SUBMIT
+      async function handlePasswordSubmit(event) {
+        event.preventDefault();
+        hideAlert();
+
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalBtnText = "Verify & Login →";
+        const pwdInput = document.getElementById(
+          "aspirant-password-input",
+        ).value;
+
+        setButtonLoading(submitBtn, true, originalBtnText);
+
+        try {
+          const response = await fetchWithTimeout(
+            `${API_BASE_URL}/login`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                mobileNumber: currentAuthData.mobile,
+                password: pwdInput,
+              }),
+            },
+            API_TIMEOUT_MS,
+          );
+
+          const data = await response.json();
+          setButtonLoading(submitBtn, false, originalBtnText);
+
+          if (response.ok && data.success) {
+            localStorage.setItem("examIndiaToken", data.token);
+            localStorage.setItem("kidsPaintToken", data.token);
+            localStorage.setItem("examIndiaUser", JSON.stringify(data.user));
+            localStorage.setItem("kidsPaintUser", JSON.stringify(data.user));
+
+            finishAuthAndStartSession();
+          } else {
+            showAlert(
+              `❌ ${data.message || "Invalid credentials! Please re-check."}`,
+            );
+          }
+        } catch (error) {
+          setButtonLoading(submitBtn, false, originalBtnText);
+          finishAuthAndStartSession();
+        }
+      }
+
+      // STEP 2B: REGISTRATION SUBMIT
+      async function handleRegistrationSubmit(event) {
+        event.preventDefault();
+        hideAlert();
+
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalBtnText = "Create Account & Proceed →";
+
+        const candidateGenderElem = document.querySelector(
+          'input[name="candidate_gender"]:checked',
+        );
+        const userDetails = {
+          studentName: document
+            .getElementById("reg-candidate-name")
+            .value.trim(),
+          gender: candidateGenderElem ? candidateGenderElem.value : "Male",
+          classGrade:
+            document.getElementById("reg-target-exam").value || "Govt Exams",
+          section: "Govt",
+          rollNo: "ASP" + Math.floor(1000 + Math.random() * 9000),
+        };
+
+        const payload = {
+          mobileNumber: currentAuthData.mobile,
+          password: DEFAULT_PASSWORD,
+          role: "aspirant",
+          country: currentAuthData.countryName,
+          schoolName: "ExamIndia National Portal",
+          ...userDetails,
+        };
+
+        setButtonLoading(submitBtn, true, originalBtnText);
+
+        try {
+          const response = await fetchWithTimeout(
+            `${API_BASE_URL}/register`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            },
+            API_TIMEOUT_MS,
+          );
+
+          const data = await response.json();
+          setButtonLoading(submitBtn, false, originalBtnText);
+
+          if (response.ok && data.success) {
+            localStorage.setItem("examIndiaToken", data.token);
+            localStorage.setItem("kidsPaintToken", data.token);
+            localStorage.setItem("examIndiaUser", JSON.stringify(data.user));
+            localStorage.setItem("kidsPaintUser", JSON.stringify(data.user));
+
+            const registeredParents = JSON.parse(
+              localStorage.getItem("registeredParents") || "{}",
+            );
+            registeredParents[currentAuthData.mobile] = DEFAULT_PASSWORD;
+            localStorage.setItem(
+              "registeredParents",
+              JSON.stringify(registeredParents),
+            );
+
+            switchStep("step-reg-success");
+          } else {
+            showAlert(`❌ ${data.message || "Registration failed."}`);
+          }
+        } catch (error) {
+          setButtonLoading(submitBtn, false, originalBtnText);
+
+          const registeredParents = JSON.parse(
+            localStorage.getItem("registeredParents") || "{}",
+          );
+          registeredParents[currentAuthData.mobile] = DEFAULT_PASSWORD;
+          localStorage.setItem(
+            "registeredParents",
+            JSON.stringify(registeredParents),
+          );
+          localStorage.setItem("examIndiaUser", JSON.stringify(payload));
+          localStorage.setItem("kidsPaintUser", JSON.stringify(payload));
+
+          switchStep("step-reg-success");
+        }
+      }
+
+      function finishAuthAndStartSession() {
+        let sessionData = {
+          date: new Date().toDateString(),
+          portal: "EXAM_INDIA",
+          timeLeft: 1800,
+          isActivated: true,
+          isPaused: false,
+        };
+
+        localStorage.setItem("examIndiaSession", JSON.stringify(sessionData));
+        localStorage.setItem("kidsPaintSession", JSON.stringify(sessionData));
+        window.location.href = "dashboard_gov_exam.html";
+      }
+    </script>
+  </body>
+</html>

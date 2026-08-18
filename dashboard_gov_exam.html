@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>ExamIndia - Govt Exam Dashboard</title>
+
+    <!-- Tailwind CSS & Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Master Scripts -->
+    <script src="/js/AllSubject.js"></script>
+    <script src="/js/nav_gov.js"></script>
+
+    <style>
+      body {
+        font-family:
+          "Plus Jakarta Sans",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        background-color: #090d16;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.2s ease-out forwards;
+      }
+    </style>
+  </head>
+  <body class="flex justify-center items-center min-h-screen bg-slate-950">
+    <!-- MOBILE CONTAINER (Phone Viewport: 430px Fit) -->
+    <div
+      class="w-full max-w-[430px] bg-slate-50 h-screen max-h-screen flex flex-col justify-start shadow-2xl relative overflow-hidden"
+    >
+      <!-- 1. FIXED TOP HEADER (ExamIndia Brand Logo + Logout Button) -->
+      <header
+        class="bg-white px-4 py-3 border-b border-slate-200/80 shrink-0 shadow-2xs z-10 flex items-center justify-between"
+      >
+        <!-- LEFT: LOGO & APP TITLE -->
+        <div class="flex items-center gap-2.5">
+          <div
+            class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-700 via-indigo-800 to-blue-900 text-white font-extrabold text-lg flex items-center justify-center shadow-xs shrink-0"
+          >
+            <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h1
+              class="text-sm font-black text-slate-900 tracking-tight leading-tight"
+            >
+              ExamIndia
+            </h1>
+            <p class="text-[10px] font-bold text-indigo-600 leading-none">
+              Govt &amp; PSC Test Prep
+            </p>
+          </div>
+        </div>
+
+        <!-- RIGHT: FULL LOGOUT BUTTON -->
+        <button
+          onclick="handleUserLogout()"
+          class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 active:bg-rose-500 active:text-white text-rose-600 border border-rose-200/80 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs active:scale-95"
+        >
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+          <span>Logout</span>
+        </button>
+      </header>
+
+      <!-- 2. MAIN SCROLLABLE CONTENT -->
+      <main
+        class="flex-1 px-4 pt-3 pb-24 space-y-3.5 overflow-y-auto no-scrollbar"
+      >
+        <!-- UNIFIED COMPACT WIDGET: DAILY LIVE TEST & LAST SCORE SUMMARY -->
+        <div
+          id="non-kids-daily-widget"
+          class="bg-gradient-to-br from-indigo-800 via-indigo-900 to-slate-900 rounded-3xl p-4 text-white shadow-xl shadow-indigo-950/25 border border-white/10 relative overflow-hidden"
+        >
+          <div
+            class="absolute -right-6 -top-6 w-24 h-24 bg-blue-400/20 rounded-full blur-2xl pointer-events-none"
+          ></div>
+
+          <!-- TOP SECTION: DAILY LIVE FREE SPRINT -->
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 mb-1">
+                <span
+                  class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"
+                ></span>
+                <span
+                  id="daily-challenge-subject"
+                  class="text-[11px] font-black tracking-wider text-indigo-200 uppercase truncate"
+                >
+                  Daily Live Challenge
+                </span>
+              </div>
+
+              <h3
+                id="daily-challenge-title"
+                class="text-sm font-extrabold text-white leading-snug truncate"
+              >
+                Loading Today's Test...
+              </h3>
+
+              <div
+                class="flex items-center gap-2 mt-2 text-xs font-bold text-indigo-100/90 flex-wrap"
+              >
+                <span
+                  class="inline-flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-md border border-white/10"
+                >
+                  📝 <span id="daily-challenge-qs">-- Qs</span>
+                </span>
+                <span
+                  class="inline-flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-md border border-white/10"
+                >
+                  ⏱️ <span id="daily-challenge-time">-- M</span>
+                </span>
+                <span
+                  id="daily-timer"
+                  class="text-amber-300 font-mono text-[10px]"
+                >
+                  ⏳ Active Today
+                </span>
+              </div>
+            </div>
+
+            <div class="flex flex-col items-end gap-2 shrink-0">
+              <span
+                class="bg-emerald-400 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs"
+              >
+                100% FREE
+              </span>
+
+              <button
+                id="btn-start-daily"
+                onclick="startDailyTest()"
+                class="px-4 py-2 bg-white hover:bg-indigo-50 active:scale-95 text-indigo-900 rounded-xl font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5 shadow-md"
+              >
+                <span>Start</span>
+                <i
+                  data-lucide="play"
+                  class="w-3.5 h-3.5 fill-current text-indigo-700"
+                ></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- BOTTOM SECTION: LAST ATTEMPT MINI STRIP -->
+          <div
+            class="mt-3.5 pt-2.5 border-t border-white/10 flex items-center justify-between text-xs"
+          >
+            <div class="flex items-center gap-1.5 min-w-0 text-indigo-200">
+              <span class="text-indigo-300 font-semibold shrink-0"
+                >Recent:</span
+              >
+              <span
+                id="dash-banner-title"
+                class="font-bold text-white truncate max-w-[90px]"
+                >None</span
+              >
+            </div>
+
+            <div class="flex items-center gap-2 shrink-0">
+              <div
+                class="bg-black/20 px-2 py-0.5 rounded-md text-slate-200 text-[11px]"
+              >
+                Score:
+                <b id="dash-banner-score" class="text-white font-black"
+                  >--/--</b
+                >
+              </div>
+              <div
+                class="bg-black/20 px-2 py-0.5 rounded-md text-slate-200 text-[11px]"
+              >
+                Acc:
+                <b id="dash-banner-accuracy" class="text-emerald-300 font-black"
+                  >--%</b
+                >
+              </div>
+              <button
+                onclick="window.location.href = 'scoreboard.html'"
+                class="text-indigo-200 hover:text-white font-bold flex items-center gap-0.5 ml-0.5 cursor-pointer transition-colors text-xs"
+              >
+                <span>Stats</span>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBJECT EXPANDABLE ACCORDION SECTION -->
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between px-1">
+            <h3
+              class="text-xs font-extrabold text-slate-800 uppercase tracking-wider"
+            >
+              Subjects &amp; Test Series
+            </h3>
+            <span
+              id="total-subjects-count"
+              class="text-[11px] font-extrabold bg-indigo-50 text-indigo-600 px-2.5 py-0.5 rounded-full border border-indigo-100"
+              >0 Subjects</span
+            >
+          </div>
+
+          <!-- ACCORDION CONTAINER -->
+          <div id="subjects-accordion-container" class="space-y-2.5"></div>
+        </div>
+      </main>
+
+      <!-- 3. DYNAMIC BOTTOM NAVIGATION PLACEHOLDER -->
+      <div id="bottom-nav-placeholder"></div>
+    </div>
+
+    <!-- 4. MONETIZATION / UNLOCK MODAL -->
+    <div
+      id="paywall-modal"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden"
+    >
+      <div
+        class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-sm p-5 space-y-4 animate-fadeIn"
+      >
+        <div
+          class="flex items-center justify-between border-b border-slate-100 pb-2.5"
+        >
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-800">
+              Unlock Mock Test Series
+            </h3>
+            <p class="text-[11px] text-slate-400 font-semibold">
+              Full access to mock questions, detailed solutions &amp; rank
+            </p>
+          </div>
+          <button
+            onclick="closePaywallModal()"
+            class="text-slate-400 hover:text-slate-600 p-1.5 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div
+          class="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-3.5 text-center"
+        >
+          <p
+            id="paywall-test-title"
+            class="text-xs font-extrabold text-indigo-900 line-clamp-1"
+          >
+            Mock Test
+          </p>
+          <div class="flex items-center justify-center gap-2 mt-1.5">
+            <span
+              id="paywall-test-price"
+              class="text-lg font-black text-indigo-700"
+              >₹9</span
+            >
+            <span
+              id="paywall-test-mrp"
+              class="text-xs text-slate-400 line-through font-bold"
+              >₹19</span
+            >
+            <span
+              class="text-[10px] font-black bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full"
+              >SAVE 50%</span
+            >
+          </div>
+        </div>
+
+        <div class="space-y-2.5">
+          <button
+            onclick="executeBuyTest()"
+            class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-md shadow-indigo-600/20 flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            <i data-lucide="lock-open" class="w-4 h-4"></i>
+            <span id="btn-paywall-text">Buy This Test @ ₹9</span>
+          </button>
+
+          <button
+            onclick="executeBuyPass()"
+            class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-95 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-md shadow-orange-500/20 flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            <i data-lucide="crown" class="w-4 h-4"></i>
+            <span>Get Exam Pass @ ₹99/mo</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT ENGINE -->
+    <script>
+      const BASE_API_URL =
+        "https://api.jawedsiddiqui.cloud/api/kidspaint/subject";
+      const SCOREBOARD_API_URL =
+        "https://api.jawedsiddiqui.cloud/api/test/questions/scoreboard";
+
+      let currentSegment = "GOVT_PSC";
+      let openSubjectId = null;
+      let selectedTestForPurchase = null;
+      let activeDailyTest = null;
+
+      function handleUserLogout() {
+        if (confirm("Are you sure you want to log out?")) {
+          try {
+            localStorage.removeItem("examIndiaUser");
+            localStorage.removeItem("token");
+            localStorage.removeItem("user_session");
+          } catch (e) {
+            console.error("Storage clear error:", e);
+          }
+          window.location.href = "login.html";
+        }
+      }
+
+      function getRunnerUrl(examCategory, testId) {
+        return `gov_exam_runner.html?test_id=${encodeURIComponent(testId)}`;
+      }
+
+      function getActiveUserId() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let userId = urlParams.get("user_id") || urlParams.get("student_id");
+
+        if (!userId) {
+          try {
+            const rawUser = localStorage.getItem("examIndiaUser");
+            if (rawUser) {
+              const userObj = JSON.parse(rawUser);
+              userId = userObj.id || userObj.student_id || userObj.userId;
+            }
+          } catch (e) {
+            console.error("Local storage error:", e);
+          }
+        }
+        return userId || "GUEST_ASPIRANT";
+      }
+
+      function getUserPremiumStatus() {
+        try {
+          const rawUser = localStorage.getItem("examIndiaUser");
+          if (rawUser) {
+            const userObj = JSON.parse(rawUser);
+            return userObj.is_premium || userObj.has_pass || false;
+          }
+        } catch (e) {}
+        return false;
+      }
+
+      let isScoreboardFetching = false;
+
+      async function loadUserPerformance() {
+        if (isScoreboardFetching) return;
+        const userId = getActiveUserId();
+
+        isScoreboardFetching = true;
+
+        try {
+          const res = await fetch(
+            `${SCOREBOARD_API_URL}/${encodeURIComponent(userId)}`,
+          );
+          if (!res.ok) {
+            throw new Error(`HTTP Error status: ${res.status}`);
+          }
+          const resData = await res.json();
+
+          if (resData?.success && resData.data) {
+            const data = resData.data;
+
+            const recentAttempts = data.recent_attempts || [];
+            if (recentAttempts.length > 0) {
+              const lastTest = recentAttempts[0];
+              const scoreEl = document.getElementById("dash-banner-score");
+              const accEl = document.getElementById("dash-banner-accuracy");
+              const titleEl = document.getElementById("dash-banner-title");
+
+              if (scoreEl)
+                scoreEl.textContent = `${lastTest.total_score}/${lastTest.max_score}`;
+              if (accEl) accEl.textContent = `${lastTest.percentage || 0}%`;
+              if (titleEl && lastTest.subject)
+                titleEl.textContent = lastTest.subject;
+            } else if (data.summary) {
+              const scoreEl = document.getElementById("dash-banner-score");
+              const accEl = document.getElementById("dash-banner-accuracy");
+              if (scoreEl)
+                scoreEl.textContent = `${data.summary.total_score_obtained || 0}/${data.summary.total_max_score || 0}`;
+              if (accEl)
+                accEl.textContent = `${data.summary.overall_accuracy || 0}%`;
+            }
+          }
+        } catch (err) {
+          console.error("Scoreboard Banner Sync Error:", err);
+        } finally {
+          isScoreboardFetching = false;
+        }
+      }
+
+      function getCurrentSubjectList() {
+        if (
+          typeof subjectsBySegment !== "undefined" &&
+          subjectsBySegment[currentSegment]
+        ) {
+          return subjectsBySegment[currentSegment];
+        }
+        return [];
+      }
+
+      function openFirstSubjectByDefault() {
+        const activeList = getCurrentSubjectList();
+        if (activeList && activeList.length > 0) {
+          const firstSubj = activeList[0];
+          openSubjectId = firstSubj.id;
+          if (!firstSubj.loaded && !firstSubj.loading) {
+            fetchSubjectTests(firstSubj);
+          } else {
+            renderAccordion();
+          }
+        } else {
+          renderAccordion();
+        }
+      }
+
+      async function fetchSubjectTests(subjObj) {
+        subjObj.loading = true;
+        subjObj.hasError = false;
+        subjObj.errorMessage = "";
+        renderAccordion();
+
+        try {
+          const res = await fetch(
+            `${BASE_API_URL}/${encodeURIComponent(subjObj.apiSubject || subjObj.name)}`,
+          );
+
+          if (!res.ok) {
+            throw new Error(`Failed to load tests (Error ${res.status})`);
+          }
+
+          const resData = await res.json();
+
+          if (resData?.success && Array.isArray(resData.data)) {
+            subjObj.categories = resData.data.map((item) => {
+              const qCount =
+                Number(item.total_questions) ||
+                (Array.isArray(item.questions) ? item.questions.length : 0) ||
+                10;
+
+              const timeLimit =
+                Number(item.total_time_mins) ||
+                Number(item.time_limit) ||
+                Number(item.duration) ||
+                15;
+
+              return {
+                id: item.test_id || item._id,
+                title:
+                  item.title || item.test_name || `${subjObj.name} Mock Test`,
+                desc:
+                  item.category_title ||
+                  item.description ||
+                  "Govt Exam Practice Set",
+                ques: qCount,
+                time: timeLimit,
+                access_type: item.access_type || "free",
+                price: item.price || 0,
+                discounted_price: item.discounted_price || 0,
+                difficulty: item.difficulty_level || "Medium",
+                is_daily: Boolean(item.is_daily_challenge),
+                included_in_pass: item.included_in_pass !== false,
+                exam_category: item.exam_category || currentSegment,
+              };
+            });
+
+            let dailyItem = subjObj.categories.find((c) => c.is_daily);
+            if (!dailyItem && subjObj.categories.length > 0) {
+              dailyItem = subjObj.categories[0];
+            }
+
+            if (dailyItem) {
+              activeDailyTest = dailyItem;
+
+              const subEl = document.getElementById("daily-challenge-subject");
+              if (subEl) subEl.textContent = subjObj.name || "Daily Test";
+
+              const titleEl = document.getElementById("daily-challenge-title");
+              if (titleEl) titleEl.textContent = dailyItem.title;
+
+              const qsEl = document.getElementById("daily-challenge-qs");
+              if (qsEl) qsEl.textContent = `${dailyItem.ques} Qs`;
+
+              const timeEl = document.getElementById("daily-challenge-time");
+              if (timeEl) timeEl.textContent = `${dailyItem.time} Mins`;
+            }
+          } else {
+            subjObj.categories = [];
+          }
+          subjObj.loaded = true;
+        } catch (error) {
+          console.error(
+            `Failed to fetch tests for ${subjObj.apiSubject}:`,
+            error,
+          );
+          subjObj.hasError = true;
+          subjObj.errorMessage = "Failed to load test papers.";
+          subjObj.categories = [];
+        } finally {
+          subjObj.loading = false;
+          renderAccordion();
+        }
+      }
+
+      function renderAccordion() {
+        const container = document.getElementById(
+          "subjects-accordion-container",
+        );
+        const activeList = getCurrentSubjectList();
+        const isUserPremium = getUserPremiumStatus();
+
+        document.getElementById("total-subjects-count").textContent =
+          `${activeList.length} Subjects`;
+
+        if (activeList.length === 0) {
+          container.innerHTML = `
+            <div class="py-8 text-center bg-white rounded-2xl border border-slate-200/80">
+              <p class="text-xs font-bold text-slate-400">No subjects found in this category.</p>
+            </div>
+          `;
+          if (typeof lucide !== "undefined") lucide.createIcons();
+          return;
+        }
+
+        container.innerHTML = activeList
+          .map((subj) => {
+            const isOpen = subj.id === openSubjectId;
+            const categoryCount = subj.categories ? subj.categories.length : 0;
+
+            return `
+            <div class="bg-white border ${
+              isOpen ? "border-indigo-500 shadow-xs" : "border-slate-200/90"
+            } rounded-2xl overflow-hidden transition-all duration-200">
+
+              <!-- SUBJECT HEADER -->
+              <div 
+                onclick="toggleSubject('${subj.id}')"
+                class="p-3.5 flex items-center justify-between cursor-pointer select-none bg-white hover:bg-slate-50 transition-all"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <div class="w-10 h-10 rounded-xl ${
+                    subj.color || "bg-indigo-600"
+                  } text-white flex items-center justify-center text-lg font-black shrink-0 shadow-xs">
+                    ${subj.icon || "📚"}
+                  </div>
+                  <div class="min-w-0">
+                    <h4 class="font-extrabold text-slate-800 text-xs truncate leading-snug">${subj.name}</h4>
+                    <span class="text-[10px] font-semibold text-slate-400 block mt-0.5">
+                      ${
+                        subj.loading
+                          ? "Loading tests..."
+                          : subj.hasError
+                            ? "Failed to load tests"
+                            : `${categoryCount} Mock Tests / Sets`
+                      }
+                    </span>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 shrink-0">
+                  <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${
+                    subj.hasError
+                      ? "bg-rose-50 text-rose-600 border-rose-200"
+                      : subj.badgeColor ||
+                        "bg-indigo-50 text-indigo-700 border-indigo-200"
+                  }">
+                    ${
+                      subj.loading
+                        ? "⏳ Loading"
+                        : subj.hasError
+                          ? "⚠️ Error"
+                          : `${categoryCount} Tests`
+                    }
+                  </span>
+                  <div class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition-transform duration-200 ${
+                    isOpen ? "rotate-180 bg-indigo-50 text-indigo-600" : ""
+                  }">
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- EXPANDABLE CONTENT -->
+              ${
+                isOpen
+                  ? `
+                <div class="bg-slate-50/80 p-3 border-t border-slate-100 space-y-2.5 animate-fadeIn">
+                  ${
+                    subj.loading
+                      ? `
+                      <div class="py-5 text-center">
+                        <div class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                        <p class="text-xs font-bold text-indigo-600">Fetching ${subj.name} Papers...</p>
+                      </div>
+                    `
+                      : subj.hasError
+                        ? `
+                      <div class="py-4 text-center">
+                        <p class="text-xs font-bold text-rose-500 mb-2">${subj.errorMessage || "Unable to load test papers. Please try again."}</p>
+                        <button 
+                          onclick="event.stopPropagation(); retryFetchSubject('${subj.id}')"
+                          class="px-3.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer"
+                        >
+                          Retry
+                        </button>
+                      </div>
+                    `
+                        : categoryCount > 0
+                          ? subj.categories
+                              .map((cat) => {
+                                const isPaid =
+                                  cat.access_type === "paid" ||
+                                  cat.access_type === "subscription_only";
+                                const isUnlocked = isUserPremium || !isPaid;
+
+                                let badgeHtml = "";
+                                if (cat.access_type === "free") {
+                                  badgeHtml = `<span class="text-[10px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded">FREE</span>`;
+                                } else if (cat.access_type === "paid") {
+                                  badgeHtml = `<span class="text-[10px] font-black bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded">₹${cat.discounted_price || cat.price}</span>`;
+                                } else {
+                                  badgeHtml = `<span class="text-[10px] font-black bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded">🔒 PASS</span>`;
+                                }
+
+                                const catJsonEscaped = JSON.stringify(
+                                  cat,
+                                ).replace(/'/g, "&apos;");
+
+                                return `
+                        <div class="bg-white border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all">
+                          <div class="pr-2 min-w-0 flex-1">
+                            <div class="flex items-center gap-2">
+                              <h5 class="font-extrabold text-slate-800 text-xs truncate">${cat.title}</h5>
+                              ${badgeHtml}
+                            </div>
+                            <p class="text-[11px] font-medium text-slate-400 truncate mt-0.5">${
+                              cat.desc || "Govt Exam Practice Set"
+                            }</p>
+                            <div class="flex items-center gap-1.5 mt-1.5">
+                              <span class="text-[10px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">
+                                ${cat.ques || 10} Qs
+                              </span>
+                              <span class="text-[10px] font-bold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded">
+                                ⏱️ ${cat.time || 20}m
+                              </span>
+                              <span class="text-[10px] font-bold uppercase text-slate-400">
+                                ${cat.difficulty || "Medium"}
+                              </span>
+                            </div>
+                          </div>
+
+                          ${
+                            isUnlocked
+                              ? `
+                            <button 
+                              onclick="startTest('${cat.id}', '${cat.exam_category || currentSegment}')"
+                              class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs shrink-0 flex items-center gap-1.5"
+                            >
+                              <span>Start</span>
+                              <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                            </button>
+                          `
+                              : `
+                            <button 
+                              onclick='openPaywall(${catJsonEscaped})'
+                              class="px-3.5 py-2 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs shrink-0 flex items-center gap-1.5"
+                            >
+                              <span>Unlock</span>
+                              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                            </button>
+                          `
+                          }
+                        </div>
+                      `;
+                              })
+                              .join("")
+                          : `
+                      <div class="py-4 text-center text-slate-400 font-bold text-xs">
+                        📂 No test papers available right now.
+                      </div>
+                    `
+                  }
+                </div>
+              `
+                  : ""
+              }
+
+            </div>
+          `;
+          })
+          .join("");
+
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+      }
+
+      function toggleSubject(id) {
+        const activeList = getCurrentSubjectList();
+        const targetSubj = activeList.find((s) => s.id === id);
+
+        if (openSubjectId === id) {
+          openSubjectId = null;
+          renderAccordion();
+        } else {
+          openSubjectId = id;
+          if (targetSubj && !targetSubj.loaded && !targetSubj.loading) {
+            fetchSubjectTests(targetSubj);
+          } else {
+            renderAccordion();
+          }
+        }
+      }
+
+      function retryFetchSubject(id) {
+        const activeList = getCurrentSubjectList();
+        const targetSubj = activeList.find((s) => s.id === id);
+        if (targetSubj) {
+          fetchSubjectTests(targetSubj);
+        }
+      }
+
+      function startTest(testId, examCategory) {
+        window.location.href = getRunnerUrl(examCategory, testId);
+      }
+
+      function startDailyTest() {
+        if (activeDailyTest) {
+          startTest(activeDailyTest.id, activeDailyTest.exam_category);
+        } else {
+          const list = getCurrentSubjectList();
+          const firstCat = list[0]?.categories?.[0];
+          if (firstCat?.id) {
+            startTest(firstCat.id, firstCat.exam_category);
+          } else {
+            alert("Today's Daily Challenge is updating. Try in a few moments!");
+          }
+        }
+      }
+
+      function openPaywall(testObj) {
+        selectedTestForPurchase = testObj;
+        document.getElementById("paywall-test-title").textContent =
+          testObj.title;
+        document.getElementById("paywall-test-price").textContent =
+          `₹${testObj.discounted_price || testObj.price || 9}`;
+        document.getElementById("paywall-test-mrp").textContent =
+          `₹${testObj.price || 19}`;
+        document.getElementById("btn-paywall-text").textContent =
+          `Buy This Test @ ₹${testObj.discounted_price || testObj.price || 9}`;
+        document.getElementById("paywall-modal").classList.remove("hidden");
+      }
+
+      function closePaywallModal() {
+        document.getElementById("paywall-modal").classList.add("hidden");
+        selectedTestForPurchase = null;
+      }
+
+      function executeBuyTest() {
+        if (!selectedTestForPurchase) return;
+        alert(
+          `Redirecting to Payment Gateway for ₹${selectedTestForPurchase.discounted_price || 9}...`,
+        );
+      }
+
+      function executeBuyPass() {
+        alert(
+          "Redirecting to Subscription Checkout for Unlimited Pass @ ₹99/month...",
+        );
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadUserPerformance();
+        openFirstSubjectByDefault();
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+      });
+    </script>
+  </body>
+</html>
