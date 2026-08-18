@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
-    <title>KidsPaint Studio - Auth</title>
+    <title>KidsPaint AI - Auth</title>
 
     <!-- Tailwind CSS & Lucide Icons -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -14,7 +14,6 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
@@ -69,7 +68,7 @@
       style="animation-delay: 2s"
     ></div>
 
-    <!-- MAIN AUTH CARD (visible overflow for overlay dropdown) -->
+    <!-- MAIN AUTH CARD -->
     <main
       class="w-full max-w-md bg-white rounded-3xl shadow-2xl border-4 border-white/80 p-6 md:p-8 relative z-10 overflow-visible backdrop-blur-md"
     >
@@ -100,11 +99,10 @@
             ><span class="text-emerald-500">i</span
             ><span class="text-cyan-500">n</span
             ><span class="text-violet-500">t</span>
+            <span class="text-pink-500 ml-1">AI</span>
           </span>
         </a>
-        <p class="text-xs font-bold text-slate-400">
-          Learning & Creativity Studio
-        </p>
+        <p class="text-xs font-bold text-slate-400">Learning & Creativity AI</p>
       </div>
 
       <!-- Global Alert / Error Message Box -->
@@ -114,49 +112,57 @@
       ></div>
 
       <!-- ========================================== -->
-      <!-- STEP 1: MOBILE & ROLE (CLEAN UI) -->
+      <!-- STEP 1: MOBILE ENTRY (SINGLE UNIFIED INPUT) -->
       <!-- ========================================== -->
       <section id="step-common-login" class="auth-step-container">
         <div class="text-center mb-5">
-          <p class="text-xs font-bold text-slate-400">Log in to continue.</p>
+          <p class="text-xs font-bold text-slate-400">Sign in to continue</p>
         </div>
 
         <form onsubmit="handleCommonLoginSubmit(event)" class="space-y-4">
-          <div>
-            <label
-              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
-              >I am a...</label
-            >
-            <select
-              id="user-role"
-              class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-slate-700 outline-none focus:border-indigo-500 bg-slate-50 text-xs transition-all cursor-pointer"
-            >
-              <option value="parent" selected>Parent</option>
-              <option value="teacher">Teacher</option>
-            </select>
-          </div>
+          <!-- Hidden Role Input to keep backend API intact -->
+          <input type="hidden" id="user-role" value="parent" />
 
           <div>
             <label
               class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
-              >Parent/Teacher Mobile Number</label
+              >Mobile Number</label
             >
-            <div class="flex items-center relative">
-              <!-- SEARCHABLE COUNTRY CODE TRIGGER BUTTON -->
-              <button
-                type="button"
-                id="country-selector-btn"
-                onclick="toggleCountryDropdown(event)"
-                class="bg-slate-100 border-2 border-r-0 border-slate-200 rounded-l-2xl px-2.5 py-3 text-xs font-black text-slate-700 outline-none hover:bg-slate-200 shrink-0 min-w-[78px] flex items-center justify-between cursor-pointer"
+            <div class="relative">
+              <!-- UNIFIED SINGLE BOX (ISD + NUMBER TOGETHER) -->
+              <div
+                class="flex items-center w-full bg-slate-50 border-2 border-slate-200 rounded-2xl transition-all focus-within:border-indigo-500 focus-within:bg-white overflow-hidden"
               >
-                <span id="selected-country-label">🇮🇳 +91</span>
-                <i
-                  data-lucide="chevron-down"
-                  class="w-3.5 h-3.5 text-slate-400"
-                ></i>
-              </button>
+                <!-- ISD Selector Button inside box -->
+                <button
+                  type="button"
+                  id="country-selector-btn"
+                  onclick="toggleCountryDropdown(event)"
+                  class="flex items-center gap-1.5 px-3 py-3 text-xs font-black text-slate-700 bg-transparent shrink-0 cursor-pointer hover:text-indigo-600 transition-colors"
+                >
+                  <span id="selected-country-label">🇮🇳 +91</span>
+                  <i
+                    data-lucide="chevron-down"
+                    class="w-3.5 h-3.5 text-slate-400"
+                  ></i>
+                </button>
 
-              <!-- SEARCHABLE COUNTRY DROPDOWN MENU (OVERLAY Z-INDEX FIX) -->
+                <!-- Thin Separator Divider Line -->
+                <div class="h-6 w-[1.5px] bg-slate-200"></div>
+
+                <!-- Native Styled Mobile Input -->
+                <input
+                  type="tel"
+                  id="user-mobile"
+                  required
+                  maxlength="15"
+                  oninput="validateMobileInput(this)"
+                  placeholder="Enter phone number"
+                  class="w-full px-3 py-3 font-bold text-indigo-600 outline-none bg-transparent text-sm tracking-wider placeholder:text-slate-400 placeholder:font-normal"
+                />
+              </div>
+
+              <!-- SEARCHABLE COUNTRY DROPDOWN MENU -->
               <div
                 id="country-dropdown-menu"
                 class="hidden absolute top-full left-0 mt-1.5 w-72 bg-white border border-slate-200 shadow-2xl rounded-2xl p-2.5 z-[99999] transition-all"
@@ -181,17 +187,6 @@
                   <!-- Dynamic Country List Items -->
                 </div>
               </div>
-
-              <!-- MOBILE INPUT (MAX 15 DIGITS, NUMBERS ONLY) -->
-              <input
-                type="tel"
-                id="user-mobile"
-                required
-                maxlength="15"
-                oninput="validateMobileInput(this)"
-                placeholder="Mobile number"
-                class="w-full p-3 border-2 border-slate-200 rounded-r-2xl font-bold text-indigo-600 outline-none focus:border-indigo-500 bg-slate-50 text-sm tracking-wider transition-all"
-              />
             </div>
           </div>
 
@@ -250,25 +245,25 @@
             id="reg-form-title"
             class="text-base sm:text-lg font-black text-slate-800 uppercase whitespace-nowrap"
           >
-            Set Up Your Child’s Profile
+            Create Your Profile
           </h2>
           <p id="reg-form-subtitle" class="text-xs font-bold text-slate-400">
-            Enter details to get started.
+            Enter your details to get started.
           </p>
         </div>
 
         <form onsubmit="handleRegistrationSubmit(event)" class="space-y-4">
-          <!-- PARENT FIELDS -->
           <div id="parent-fields-group" class="space-y-4">
             <div>
               <label
                 class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
-                >Child’s Name</label
+                >Full Name</label
               >
               <input
                 type="text"
                 id="reg-student-name"
-                placeholder="e.g. Aarav"
+                required
+                placeholder="e.g. Alex Smith"
                 class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-slate-700 outline-none focus:border-indigo-500 bg-slate-50 text-xs transition-all"
               />
             </div>
@@ -287,93 +282,6 @@
                     name="student_gender"
                     value="Male"
                     checked
-                    class="accent-indigo-600 w-4 h-4"
-                  />
-                  Boy
-                </label>
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="student_gender"
-                    value="Female"
-                    class="accent-indigo-600 w-4 h-4"
-                  />
-                  Girl
-                </label>
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="student_gender"
-                    value="Other"
-                    class="accent-indigo-600 w-4 h-4"
-                  />
-                  Other
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label
-                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
-                >Class/Grade</label
-              >
-              <select
-                id="reg-class"
-                class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-slate-700 outline-none focus:border-indigo-500 bg-slate-50 text-xs transition-all cursor-pointer"
-              >
-                <option value="">Select Class/Grade</option>
-                <option value="Grade 1">Grade 1</option>
-                <option value="Grade 2">Grade 2</option>
-                <option value="Grade 3">Grade 3</option>
-                <option value="Grade 4">Grade 4</option>
-                <option value="Grade 5">Grade 5</option>
-                <option value="Grade 6">Grade 6</option>
-                <option value="Grade 7">Grade 7</option>
-                <option value="Grade 8">Grade 8</option>
-                <option value="Grade 9">Grade 9</option>
-                <option value="Grade 10">Grade 10</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- TEACHER FIELDS -->
-          <div id="teacher-fields-group" class="space-y-4 hidden">
-            <div>
-              <label
-                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
-                >Teacher Name</label
-              >
-              <input
-                type="text"
-                id="reg-teacher-name"
-                placeholder="e.g. Mrs. Sharma"
-                class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-slate-700 outline-none focus:border-indigo-500 bg-slate-50 text-xs transition-all"
-              />
-            </div>
-
-            <div>
-              <label
-                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
-                >Gender</label
-              >
-              <div
-                class="flex gap-4 items-center pt-1 text-xs font-bold text-slate-600"
-              >
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="teacher_gender"
-                    value="Female"
-                    checked
-                    class="accent-indigo-600 w-4 h-4"
-                  />
-                  Female
-                </label>
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="teacher_gender"
-                    value="Male"
                     class="accent-indigo-600 w-4 h-4"
                   />
                   Male
@@ -381,7 +289,16 @@
                 <label class="flex items-center gap-1.5 cursor-pointer">
                   <input
                     type="radio"
-                    name="teacher_gender"
+                    name="student_gender"
+                    value="Female"
+                    class="accent-indigo-600 w-4 h-4"
+                  />
+                  Female
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="student_gender"
                     value="Other"
                     class="accent-indigo-600 w-4 h-4"
                   />
@@ -393,17 +310,73 @@
             <div>
               <label
                 class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1"
-                >Age</label
+                >Class / Grade / Level</label
               >
-              <input
-                type="number"
-                id="reg-teacher-age"
-                min="18"
-                max="80"
-                placeholder="e.g. 30"
-                class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-slate-700 outline-none focus:border-indigo-500 bg-slate-50 text-xs transition-all"
-              />
+              <select
+                id="reg-class"
+                class="w-full p-3 border-2 border-slate-200 rounded-2xl font-bold text-slate-700 outline-none focus:border-indigo-500 bg-slate-50 text-xs transition-all cursor-pointer"
+              >
+                <option value="">Select Grade / Level</option>
+                <optgroup label="Early Childhood">
+                  <option value="Playgroup">Playgroup / Pre-Nursery</option>
+                  <option value="Nursery">Nursery</option>
+                  <option value="LKG">LKG / Junior KG</option>
+                  <option value="UKG">UKG / Senior KG</option>
+                </optgroup>
+                <optgroup label="Primary School">
+                  <option value="Grade 1">Grade 1</option>
+                  <option value="Grade 2">Grade 2</option>
+                  <option value="Grade 3">Grade 3</option>
+                  <option value="Grade 4">Grade 4</option>
+                  <option value="Grade 5">Grade 5</option>
+                </optgroup>
+                <optgroup label="Middle School">
+                  <option value="Grade 6">Grade 6</option>
+                  <option value="Grade 7">Grade 7</option>
+                  <option value="Grade 8">Grade 8</option>
+                </optgroup>
+                <optgroup label="High School & Senior">
+                  <option value="Grade 9">Grade 9</option>
+                  <option value="Grade 10">Grade 10</option>
+                  <option value="Grade 11">Grade 11</option>
+                  <option value="Grade 12">Grade 12</option>
+                </optgroup>
+                <optgroup label="Higher / Other">
+                  <option value="College">College / University</option>
+                  <option value="Hobbyist">Hobbyist / Adult</option>
+                </optgroup>
+              </select>
             </div>
+          </div>
+
+          <!-- TERMS AND CONDITIONS (INLINE ALIGNED CHECKBOX & TEXT) -->
+          <!-- TERMS AND CONDITIONS (FIXED MULTILINE ALIGNMENT) -->
+          <div class="flex items-start gap-2.5 pt-2">
+            <input
+              type="checkbox"
+              id="terms-conditions-checkbox"
+              required
+              class="accent-indigo-600 w-4 h-4 rounded cursor-pointer shrink-0 mt-0.5"
+            />
+            <label
+              for="terms-conditions-checkbox"
+              class="text-[11px] font-bold text-slate-500 leading-snug cursor-pointer select-none"
+            >
+              I agree to the
+              <a
+                href="terms.html"
+                target="_blank"
+                class="text-indigo-600 underline hover:text-indigo-800 font-extrabold"
+                >Terms &amp; Conditions</a
+              >
+              and
+              <a
+                href="privacy.html"
+                target="_blank"
+                class="text-indigo-600 underline hover:text-indigo-800 font-extrabold"
+                >Privacy Policy</a
+              >.
+            </label>
           </div>
 
           <button
@@ -426,15 +399,36 @@
         <h2 class="text-xl font-black text-emerald-600 uppercase mb-1">
           Account Created!
         </h2>
-        <p class="text-xs font-bold text-slate-500 mb-6">
-          Your profile is ready!
+        <p class="text-xs font-bold text-slate-500 mb-4">
+          Your profile is ready to use.
         </p>
+
+        <!-- PASSWORD HIGHLIGHT CARD -->
+        <div
+          class="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-4 mb-5 text-center"
+        >
+          <p
+            class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1"
+          >
+            Your Default Login Password
+          </p>
+          <div class="flex items-center justify-center gap-2">
+            <span
+              class="text-2xl font-black tracking-widest text-indigo-600 bg-white px-4 py-1.5 rounded-xl border border-indigo-200 shadow-xs"
+            >
+              123456
+            </span>
+          </div>
+          <p class="text-[10px] font-bold text-slate-400 mt-2">
+            Please remember this password for your next login.
+          </p>
+        </div>
 
         <button
           onclick="finishAuthAndStartSession()"
           class="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-black rounded-2xl text-xs uppercase tracking-wider shadow-lg active:scale-95 transition-all cursor-pointer"
         >
-          Continue to KidsPaint →
+          Continue to KidsPaint AI →
         </button>
       </section>
     </main>
@@ -443,6 +437,7 @@
     <script>
       const API_BASE_URL = "https://api.jawedsiddiqui.cloud/api/kidspaint";
       const API_TIMEOUT_MS = 15000;
+      const DEFAULT_PASSWORD = "123456";
 
       const globalCountries = [
         { code: "+91", country: "India", flag: "🇮🇳" },
@@ -515,7 +510,7 @@
 
       // RESTRICT INPUT TO NUMBERS ONLY & MAX 15 DIGITS
       function validateMobileInput(input) {
-        input.value = input.value.replace(/[^0-9]/g, ""); // Remove non-numeric chars
+        input.value = input.value.replace(/[^0-9]/g, "");
         if (input.value.length > 15) {
           input.value = input.value.slice(0, 15);
         }
@@ -617,39 +612,12 @@
           }
         }
 
-        if (stepId === "step-registration") {
-          setupRegistrationFieldsByRole();
-        }
-
         document
           .querySelectorAll(".auth-step-container")
           .forEach((el) => el.classList.add("hidden"));
 
         const target = document.getElementById(stepId);
         if (target) target.classList.remove("hidden");
-      }
-
-      function setupRegistrationFieldsByRole() {
-        const isTeacher = currentAuthData.role === "teacher";
-        const parentGroup = document.getElementById("parent-fields-group");
-        const teacherGroup = document.getElementById("teacher-fields-group");
-
-        const titleElem = document.getElementById("reg-form-title");
-        const subtitleElem = document.getElementById("reg-form-subtitle");
-
-        if (isTeacher) {
-          titleElem.innerText = "Set Up Your Teacher Profile";
-          subtitleElem.innerText = "Enter your details to continue.";
-
-          parentGroup.classList.add("hidden");
-          teacherGroup.classList.remove("hidden");
-        } else {
-          titleElem.innerText = "Set Up Your Child’s Profile";
-          subtitleElem.innerText = "Enter your child’s details to get started.";
-
-          teacherGroup.classList.add("hidden");
-          parentGroup.classList.remove("hidden");
-        }
       }
 
       function handleAppBackNavigation() {
@@ -683,7 +651,8 @@
 
         setButtonLoading(submitBtn, true, originalBtnText);
 
-        currentAuthData.role = document.getElementById("user-role").value;
+        const roleInput = document.getElementById("user-role");
+        currentAuthData.role = roleInput ? roleInput.value : "parent";
         currentAuthData.mobile = document
           .getElementById("user-mobile")
           .value.trim();
@@ -767,7 +736,7 @@
         }
       }
 
-      // STEP 2B: NEW PROFILE SETUP
+      // STEP 2B: NEW PROFILE SETUP (WITH 123456 PASSWORD)
       async function handleRegistrationSubmit(event) {
         event.preventDefault();
         hideAlert();
@@ -775,43 +744,24 @@
         const submitBtn = event.target.querySelector('button[type="submit"]');
         const originalBtnText = "Create Profile & Continue →";
 
-        const isTeacher = currentAuthData.role === "teacher";
         const savedSchoolName =
           localStorage.getItem("schoolName") || "KidsPaint Partner School";
 
-        let userDetails = {};
-
-        if (isTeacher) {
-          const teacherGenderElem = document.querySelector(
-            'input[name="teacher_gender"]:checked',
-          );
-          userDetails = {
-            teacherName: document
-              .getElementById("reg-teacher-name")
-              .value.trim(),
-            gender: teacherGenderElem ? teacherGenderElem.value : "Female",
-            age: document.getElementById("reg-teacher-age").value.trim(),
-            section: "A",
-            rollNo: "0000",
-          };
-        } else {
-          const studentGenderElem = document.querySelector(
-            'input[name="student_gender"]:checked',
-          );
-          userDetails = {
-            studentName: document
-              .getElementById("reg-student-name")
-              .value.trim(),
-            gender: studentGenderElem ? studentGenderElem.value : "Male",
-            classGrade: document.getElementById("reg-class").value || "Grade 1",
-            section: "A",
-            rollNo: "0000",
-          };
-        }
+        const studentGenderElem = document.querySelector(
+          'input[name="student_gender"]:checked',
+        );
+        const userDetails = {
+          studentName: document.getElementById("reg-student-name").value.trim(),
+          gender: studentGenderElem ? studentGenderElem.value : "Male",
+          classGrade: document.getElementById("reg-class").value || "Grade 1",
+          section: "A",
+          rollNo: "0000",
+        };
 
         const payload = {
           mobileNumber: currentAuthData.mobile,
-          role: currentAuthData.role,
+          password: DEFAULT_PASSWORD,
+          role: currentAuthData.role || "parent",
           country: currentAuthData.countryName,
           schoolName: savedSchoolName,
           ...userDetails,
@@ -836,13 +786,33 @@
           if (response.ok && data.success) {
             localStorage.setItem("kidsPaintToken", data.token);
             localStorage.setItem("kidsPaintUser", JSON.stringify(data.user));
+
+            const registeredParents = JSON.parse(
+              localStorage.getItem("registeredParents") || "{}",
+            );
+            registeredParents[currentAuthData.mobile] = DEFAULT_PASSWORD;
+            localStorage.setItem(
+              "registeredParents",
+              JSON.stringify(registeredParents),
+            );
+
             switchStep("step-reg-success");
           } else {
             showAlert(`❌ ${data.message || "Registration failed."}`);
           }
         } catch (error) {
           setButtonLoading(submitBtn, false, originalBtnText);
+
+          const registeredParents = JSON.parse(
+            localStorage.getItem("registeredParents") || "{}",
+          );
+          registeredParents[currentAuthData.mobile] = DEFAULT_PASSWORD;
+          localStorage.setItem(
+            "registeredParents",
+            JSON.stringify(registeredParents),
+          );
           localStorage.setItem("kidsPaintUser", JSON.stringify(payload));
+
           switchStep("step-reg-success");
         }
       }
@@ -857,7 +827,7 @@
         };
 
         localStorage.setItem("kidsPaintSession", JSON.stringify(sessionData));
-        window.location.href = "paint_mobile.html";
+        window.location.href = "dashboard.html";
       }
     </script>
   </body>
