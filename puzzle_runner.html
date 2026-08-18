@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>Kids Puzzle Studio - Jigsaw & Brain Games</title>
+
+    <!-- External UI & Animation Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Montserrat:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- LINK EXTERNAL PUZZLE DATASET -->
+    <script src="/js/puzzleData.js"></script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        height: 100dvh;
+        overflow: hidden;
+      }
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: #090d16;
+        display: flex;
+        flex-direction: column;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+      .font-kids {
+        font-family: "Fredoka", cursive, sans-serif;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Game Piece Touch Smoothness */
+      .puzzle-piece {
+        touch-action: none;
+        cursor: grab;
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+      .puzzle-piece:active {
+        cursor: grabbing;
+        transform: scale(1.08);
+        z-index: 50;
+      }
+
+      /* Match Snap Pulse */
+      @keyframes popSuccess {
+        0% {
+          transform: scale(0.85);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scale(1.15);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .animate-pop {
+        animation: popSuccess 0.3s ease-out forwards;
+      }
+    </style>
+  </head>
+  <body class="flex items-center justify-center min-h-screen bg-slate-950">
+    <!-- MOBILE CONTAINER (Max width 430px) -->
+    <div
+      class="w-full max-w-[430px] h-full h-screen bg-slate-900 flex flex-col justify-between relative overflow-hidden shadow-2xl"
+    >
+      <!-- 1. TOP HEADER NAVIGATION -->
+      <header
+        class="bg-slate-900/90 backdrop-blur-md px-4 py-3 border-b border-slate-800 flex items-center justify-between z-20 shrink-0"
+      >
+        <div class="flex items-center gap-2.5">
+          <button
+            onclick="window.history.back()"
+            class="w-9 h-9 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 rounded-xl flex items-center justify-center cursor-pointer transition-all border border-slate-700/60"
+          >
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+          </button>
+          <div>
+            <h1
+              class="text-sm font-black text-white font-kids tracking-wide leading-none flex items-center gap-1.5"
+            >
+              <span>🧩 Kids</span><span class="text-amber-400">Puzzle</span>
+            </h1>
+            <p
+              id="level-indicator"
+              class="text-[10px] text-slate-400 font-bold mt-0.5"
+            >
+              Loading Puzzle Data...
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Stars Counter Badge -->
+          <div
+            class="flex items-center gap-1 bg-amber-500/10 border border-amber-500/30 px-2.5 py-1 rounded-xl"
+          >
+            <span class="text-xs">⭐</span>
+            <span
+              id="star-count"
+              class="text-xs font-black text-amber-400 font-kids"
+              >0</span
+            >
+          </div>
+
+          <!-- Reset Button -->
+          <button
+            onclick="resetCurrentLevel()"
+            class="w-9 h-9 bg-slate-800 hover:bg-slate-700 active:scale-95 text-rose-400 rounded-xl flex items-center justify-center cursor-pointer transition-all border border-slate-700/60"
+            title="Restart Level"
+          >
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- 2. GAME MODE CATEGORY TABS -->
+      <div
+        id="category-tabs-container"
+        class="px-4 py-2 bg-slate-900 border-b border-slate-800/80 flex items-center gap-2 overflow-x-auto no-scrollbar shrink-0"
+      >
+        <!-- Injected Dynamically from PUZZLE_CATEGORIES -->
+      </div>
+
+      <!-- 3. MAIN GAME PLAYING BOARD AREA -->
+      <main
+        class="flex-1 flex flex-col justify-between p-4 overflow-hidden relative"
+      >
+        <!-- TOP TARGET DROP BOARD -->
+        <div
+          class="w-full flex-1 flex flex-col items-center justify-center relative"
+        >
+          <div
+            id="target-board"
+            class="w-[280px] h-[280px] sm:w-[310px] sm:h-[310px] bg-slate-800/70 border-4 border-dashed border-indigo-500/40 rounded-3xl p-3 shadow-inner relative flex items-center justify-center transition-all"
+          >
+            <!-- Drop Target Slots Injected Here -->
+          </div>
+        </div>
+
+        <!-- BOTTOM PIECES TRAY (Drag-Source) -->
+        <div
+          class="w-full bg-slate-800/90 border border-slate-700/80 rounded-3xl p-3.5 shadow-xl flex flex-col items-center gap-2.5 z-10 shrink-0"
+        >
+          <div class="flex items-center justify-between w-full px-1">
+            <span
+              class="text-[10px] font-black uppercase text-slate-400 tracking-wider"
+              >Drag & Fit</span
+            >
+            <span
+              id="progress-indicator"
+              class="text-[10px] font-black text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-full border border-indigo-500/20"
+              >0/0 Done</span
+            >
+          </div>
+
+          <div
+            id="pieces-tray"
+            class="flex items-center justify-center gap-3 w-full min-h-[75px] overflow-x-auto no-scrollbar py-1"
+          >
+            <!-- Movable Piece Elements Injected Here -->
+          </div>
+        </div>
+      </main>
+
+      <!-- 4. VICTORY / LEVEL COMPLETE POPUP MODAL -->
+      <div
+        id="victory-modal"
+        class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden"
+      >
+        <div
+          class="bg-slate-900 border-2 border-amber-400/40 rounded-3xl p-6 w-full max-w-xs text-center shadow-2xl animate-pop relative overflow-hidden"
+        >
+          <div class="text-5xl mb-2 animate-bounce">🎉</div>
+          <h2 class="text-xl font-black text-white font-kids">Awesome Job!</h2>
+          <p class="text-xs font-bold text-slate-400 mt-1">
+            You solved the puzzle brilliantly!
+          </p>
+
+          <div
+            class="my-4 py-2.5 bg-amber-500/10 border border-amber-500/30 rounded-2xl flex items-center justify-center gap-2"
+          >
+            <span class="text-xl">⭐</span>
+            <span class="text-base font-black text-amber-400 font-kids"
+              >+10 Stars Added</span
+            >
+          </div>
+
+          <button
+            onclick="loadNextLevel()"
+            class="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-95 active:scale-95 text-white font-black text-sm rounded-2xl shadow-lg transition-all font-kids cursor-pointer"
+          >
+            Next Puzzle 🚀
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAME ENGINE SCRIPT WITH SOUND EFFECTS -->
+    <script>
+      let currentCategoryIndex = 0;
+      let currentLevelIndex = 0;
+      let stars = 0;
+      let matchedCount = 0;
+      let totalPieces = 0;
+
+      // 🔊 AUDIO ENGINE & SOUND EFFECTS
+      const snapAudio = new Audio("/sound/correctAnswer.mp3");
+      const winAudio = new Audio("/sound/soundCorrectWIn.mp3");
+
+      // Web Audio Fallback Synthesizer (Agar MP3 path load na ho tab bhi sound bajega)
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+      function playTone(freq, type, duration) {
+        try {
+          if (audioCtx.state === "suspended") {
+            audioCtx.resume();
+          }
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(
+            0.01,
+            audioCtx.currentTime + duration,
+          );
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + duration);
+        } catch (e) {}
+      }
+
+      function playSnapSound() {
+        snapAudio.currentTime = 0;
+        snapAudio.play().catch(() => {
+          // Play pop chord fallback
+          playTone(587.33, "sine", 0.15); // D5
+          setTimeout(() => playTone(880, "sine", 0.15), 50); // A5
+        });
+      }
+
+      function playWinSound() {
+        winAudio.currentTime = 0;
+        winAudio.play().catch(() => {
+          // Play victory fanfare fallback
+          playTone(523.25, "triangle", 0.2); // C5
+          setTimeout(() => playTone(659.25, "triangle", 0.2), 120); // E5
+          setTimeout(() => playTone(783.99, "triangle", 0.2), 240); // G5
+          setTimeout(() => playTone(1046.5, "triangle", 0.4), 360); // C6
+        });
+      }
+
+      // 1. ASYNC DATA LOADER
+      function initPuzzleWhenReady() {
+        if (
+          typeof PUZZLE_CATEGORIES !== "undefined" &&
+          Array.isArray(PUZZLE_CATEGORIES)
+        ) {
+          renderCategoryTabs();
+          loadGameLevel();
+          if (typeof lucide !== "undefined") lucide.createIcons();
+        } else {
+          setTimeout(initPuzzleWhenReady, 40);
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", initPuzzleWhenReady);
+
+      function renderCategoryTabs() {
+        const tabsContainer = document.getElementById(
+          "category-tabs-container",
+        );
+        if (!tabsContainer || typeof PUZZLE_CATEGORIES === "undefined") return;
+
+        tabsContainer.innerHTML = PUZZLE_CATEGORIES.map(
+          (cat, idx) => `
+          <button
+            onclick="switchGameCategory(${idx})"
+            class="mode-tab px-3 py-1.5 rounded-xl text-[11px] font-black font-kids whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
+              idx === currentCategoryIndex
+                ? "bg-indigo-600 text-white shadow-md"
+                : "bg-slate-800 text-slate-400 hover:bg-slate-700/60 border border-slate-700/50"
+            }"
+          >
+            <span>${cat.icon}</span>
+            <span>${cat.name}</span>
+          </button>
+        `,
+        ).join("");
+      }
+
+      function switchGameCategory(catIndex) {
+        currentCategoryIndex = catIndex;
+        currentLevelIndex = 0;
+        renderCategoryTabs();
+        loadGameLevel();
+      }
+
+      function loadGameLevel() {
+        matchedCount = 0;
+        const board = document.getElementById("target-board");
+        const tray = document.getElementById("pieces-tray");
+        const levelText = document.getElementById("level-indicator");
+        const progress = document.getElementById("progress-indicator");
+
+        if (!board || !tray || typeof PUZZLE_CATEGORIES === "undefined") return;
+
+        board.innerHTML = "";
+        tray.innerHTML = "";
+
+        const activeCategory =
+          PUZZLE_CATEGORIES[currentCategoryIndex] || PUZZLE_CATEGORIES[0];
+        const activeLevel =
+          activeCategory.levels[
+            currentLevelIndex % activeCategory.levels.length
+          ];
+
+        if (activeCategory.id === "jigsaw") {
+          renderJigsawMode(activeLevel, board, tray, levelText);
+        } else if (activeCategory.id === "shadow") {
+          renderShadowMode(activeLevel, board, tray, levelText);
+        } else if (activeCategory.id === "shapes") {
+          renderShapesMode(activeLevel, board, tray, levelText);
+        }
+
+        progress.textContent = `0/${totalPieces} Done`;
+      }
+
+      function renderJigsawMode(activeLevel, board, tray, levelText) {
+        totalPieces = activeLevel.pieces.length;
+        levelText.textContent = `${activeLevel.title} (Level ${currentLevelIndex + 1}/${PUZZLE_CATEGORIES[currentCategoryIndex].levels.length})`;
+
+        board.className =
+          "w-[280px] h-[280px] sm:w-[310px] sm:h-[310px] bg-slate-800/80 border-4 border-dashed border-indigo-500/40 rounded-3xl p-2.5 grid grid-cols-2 gap-2.5 shadow-inner relative";
+
+        activeLevel.pieces.forEach((p) => {
+          const slot = document.createElement("div");
+          slot.id = p.slot;
+          slot.dataset.expected = p.id;
+          slot.className =
+            "target-slot bg-slate-900/60 border-2 border-slate-700/80 rounded-2xl flex items-center justify-center text-slate-600 text-2xl font-black transition-all";
+          slot.innerHTML = `<span class="opacity-20 text-4xl">${p.icon}</span>`;
+          slot.addEventListener("dragover", handleDragOver);
+          slot.addEventListener("drop", handleDrop);
+          board.appendChild(slot);
+        });
+
+        const shuffled = [...activeLevel.pieces].sort(
+          () => Math.random() - 0.5,
+        );
+        shuffled.forEach((p) => {
+          const piece = createDraggablePiece(p.id, p.icon, p.bg);
+          tray.appendChild(piece);
+        });
+      }
+
+      function renderShadowMode(activeLevel, board, tray, levelText) {
+        totalPieces = activeLevel.items.length;
+        levelText.textContent = `${activeLevel.title} (Level ${currentLevelIndex + 1}/${PUZZLE_CATEGORIES[currentCategoryIndex].levels.length})`;
+
+        board.className =
+          "w-[280px] h-[280px] sm:w-[310px] sm:h-[310px] bg-slate-800/80 border-4 border-dashed border-amber-500/40 rounded-3xl p-3 flex flex-col justify-around gap-2 shadow-inner relative";
+
+        activeLevel.items.forEach((item) => {
+          const slot = document.createElement("div");
+          slot.id = `slot-${item.id}`;
+          slot.dataset.expected = item.id;
+          slot.className =
+            "target-slot h-16 bg-slate-950/80 border-2 border-slate-800 rounded-2xl flex items-center justify-between px-4 text-slate-500 transition-all";
+          slot.innerHTML = `
+            <span class="text-3xl filter grayscale brightness-0 contrast-200 opacity-30">${item.icon}</span>
+            <span class="text-xs font-bold text-slate-500 uppercase font-kids tracking-wider">Drop ${item.name}</span>
+          `;
+          slot.addEventListener("dragover", handleDragOver);
+          slot.addEventListener("drop", handleDrop);
+          board.appendChild(slot);
+        });
+
+        const shuffled = [...activeLevel.items].sort(() => Math.random() - 0.5);
+        shuffled.forEach((item) => {
+          const piece = createDraggablePiece(item.id, item.icon, item.bg);
+          tray.appendChild(piece);
+        });
+      }
+
+      function renderShapesMode(activeLevel, board, tray, levelText) {
+        totalPieces = activeLevel.items.length;
+        levelText.textContent = `${activeLevel.title} (Level ${currentLevelIndex + 1}/${PUZZLE_CATEGORIES[currentCategoryIndex].levels.length})`;
+
+        board.className =
+          "w-[280px] h-[280px] sm:w-[310px] sm:h-[310px] bg-slate-800/80 border-4 border-dashed border-pink-500/40 rounded-3xl p-3 grid grid-cols-2 gap-2.5 shadow-inner relative";
+
+        activeLevel.items.forEach((item) => {
+          const slot = document.createElement("div");
+          slot.id = `slot-${item.id}`;
+          slot.dataset.expected = item.id;
+          slot.className = `target-slot ${item.shapeClass} bg-slate-950/70 border-2 border-dashed border-slate-700 flex flex-col items-center justify-center text-slate-600 transition-all p-2`;
+          slot.innerHTML = `
+            <span class="text-3xl opacity-25 filter grayscale">${item.icon}</span>
+            <span class="text-[9px] font-bold text-slate-500 mt-1 font-kids">${item.name}</span>
+          `;
+          slot.addEventListener("dragover", handleDragOver);
+          slot.addEventListener("drop", handleDrop);
+          board.appendChild(slot);
+        });
+
+        const shuffled = [...activeLevel.items].sort(() => Math.random() - 0.5);
+        shuffled.forEach((item) => {
+          const piece = createDraggablePiece(item.id, item.icon, item.bg);
+          tray.appendChild(piece);
+        });
+      }
+
+      // 2. TOUCH & DRAG EVENT SYSTEM
+      function createDraggablePiece(id, icon, bgClass) {
+        const el = document.createElement("div");
+        el.id = `piece-${id}`;
+        el.dataset.pieceId = id;
+        el.draggable = true;
+        el.className = `puzzle-piece w-14 h-14 ${bgClass || "bg-indigo-600"} text-white rounded-2xl shadow-lg border-2 border-white/40 flex items-center justify-center text-3xl font-black active:scale-95 shrink-0 select-none`;
+        el.innerHTML = icon;
+
+        el.addEventListener("dragstart", (e) => {
+          e.dataTransfer.setData("text/plain", id);
+        });
+
+        enableMobileTouchDrag(el, id);
+        return el;
+      }
+
+      function enableMobileTouchDrag(element, pieceId) {
+        let activeClone = null;
+
+        element.addEventListener(
+          "touchstart",
+          (e) => {
+            const touch = e.touches[0];
+
+            activeClone = element.cloneNode(true);
+            activeClone.style.position = "fixed";
+            activeClone.style.zIndex = "9999";
+            activeClone.style.opacity = "0.9";
+            activeClone.style.pointerEvents = "none";
+            activeClone.style.left = `${touch.clientX - 28}px`;
+            activeClone.style.top = `${touch.clientY - 28}px`;
+            document.body.appendChild(activeClone);
+          },
+          { passive: false },
+        );
+
+        element.addEventListener(
+          "touchmove",
+          (e) => {
+            if (!activeClone) return;
+            e.preventDefault();
+            const touch = e.touches[0];
+            activeClone.style.left = `${touch.clientX - 28}px`;
+            activeClone.style.top = `${touch.clientY - 28}px`;
+          },
+          { passive: false },
+        );
+
+        element.addEventListener("touchend", (e) => {
+          if (!activeClone) return;
+          const touch = e.changedTouches[0];
+          activeClone.remove();
+          activeClone = null;
+
+          const dropTarget = document.elementFromPoint(
+            touch.clientX,
+            touch.clientY,
+          );
+          const validSlot = dropTarget
+            ? dropTarget.closest(".target-slot")
+            : null;
+
+          if (validSlot) {
+            checkAndSnapPiece(pieceId, validSlot);
+          }
+        });
+      }
+
+      function handleDragOver(e) {
+        e.preventDefault();
+      }
+
+      function handleDrop(e) {
+        e.preventDefault();
+        const pieceId = e.dataTransfer.getData("text/plain");
+        const slot = e.currentTarget;
+        checkAndSnapPiece(pieceId, slot);
+      }
+
+      function checkAndSnapPiece(pieceId, slotElement) {
+        if (
+          slotElement.dataset.expected === pieceId &&
+          !slotElement.dataset.filled
+        ) {
+          const piece = document.getElementById(`piece-${pieceId}`);
+          if (piece) {
+            // Play Snap / Match Sound
+            playSnapSound();
+
+            slotElement.dataset.filled = "true";
+            slotElement.innerHTML = piece.innerHTML;
+            slotElement.className = `target-slot ${piece.className.replace("puzzle-piece", "")} animate-pop w-full h-full flex items-center justify-center text-4xl shadow-md`;
+
+            piece.remove();
+            matchedCount++;
+
+            document.getElementById("progress-indicator").textContent =
+              `${matchedCount}/${totalPieces} Done`;
+
+            if (typeof confetti === "function") {
+              confetti({
+                particleCount: 25,
+                spread: 50,
+                origin: { y: 0.6 },
+              });
+            }
+
+            if (matchedCount === totalPieces) {
+              handleLevelVictory();
+            }
+          }
+        }
+      }
+
+      function handleLevelVictory() {
+        // Play Level Win Sound
+        playWinSound();
+
+        stars += 10;
+        document.getElementById("star-count").textContent = stars;
+
+        if (typeof confetti === "function") {
+          confetti({
+            particleCount: 90,
+            spread: 80,
+            origin: { y: 0.5 },
+          });
+        }
+
+        setTimeout(() => {
+          document.getElementById("victory-modal").classList.remove("hidden");
+        }, 400);
+      }
+
+      function loadNextLevel() {
+        document.getElementById("victory-modal").classList.add("hidden");
+        currentLevelIndex++;
+        loadGameLevel();
+      }
+
+      function resetCurrentLevel() {
+        loadGameLevel();
+      }
+    </script>
+  </body>
+</html>

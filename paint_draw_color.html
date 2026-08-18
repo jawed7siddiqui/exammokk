@@ -1,0 +1,912 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>Kids Paint Studio - Coloring Book</title>
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Montserrat:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- LINKED EXTERNAL COLORFILL DATASET -->
+    <script src="/js/colorfillTemplate.js"></script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        height: 100dvh;
+        overflow: hidden;
+      }
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: #f1f5f9;
+        display: flex;
+        flex-direction: column;
+      }
+      .font-kids {
+        font-family: "Fredoka", cursive, sans-serif;
+      }
+
+      /* MAIN LAYOUT STRUCTURE */
+      #main-layout {
+        display: flex;
+        flex: 1 1 0%;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* CANVAS CONTAINER & CENTERING */
+      #editor-container {
+        position: relative;
+        flex: 1 1 0%;
+        width: 100%;
+        height: 100%;
+        background: #cbd5e1;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 10px !important;
+        overflow: hidden !important;
+        box-sizing: border-box;
+      }
+      .canvas-holder {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: auto !important;
+        flex-shrink: 0;
+        position: relative;
+      }
+      .canvas-container {
+        box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.22) !important;
+        border-radius: 20px;
+        background: white;
+        margin: 0 auto !important;
+        overflow: hidden;
+      }
+
+      .tool-section-label {
+        font-size: 9px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: #64748b;
+        text-align: center;
+        margin-top: 2px;
+      }
+      .tool-btn-lg {
+        padding: 0.4rem;
+        border-radius: 0.75rem;
+        border: 1px solid #e2e8f0;
+        background-color: #ffffff;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #334155;
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        cursor: pointer;
+      }
+      .tool-btn-lg.active {
+        background-color: #4f46e5;
+        color: #ffffff;
+        border-color: #4f46e5;
+      }
+      .color-box.active {
+        box-shadow:
+          0 0 0 2px #fff,
+          0 0 0 4px #4f46e5;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* FLOATING CANVA-STYLE OBJECT ACTION BAR */
+      #object-action-bar {
+        position: absolute;
+        top: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+        border-radius: 9999px;
+        padding: 4px 10px;
+        display: none;
+        align-items: center;
+        gap: 6px;
+        animation: fadeIn 0.15s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translate(-50%, -6px);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, 0);
+        }
+      }
+
+      /* TEMPLATES SIDEBAR & BOTTOM STRIP */
+      #templates-sidebar {
+        width: 175px;
+        background: #ffffff;
+        border-right: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        gap: 8px;
+        flex-shrink: 0;
+        overflow-y: auto;
+      }
+      .template-card {
+        background: #f8fafc;
+        border: 2px dashed #cbd5e1;
+        border-radius: 12px;
+        padding: 6px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+      }
+      .template-card:hover,
+      .template-card.active-tpl {
+        border-color: #4f46e5;
+        background: #f5f3ff;
+        transform: translateY(-2px);
+      }
+
+      /* Mobile Specific Vertical Flow */
+      @media (max-width: 767px) {
+        #main-layout {
+          flex-direction: column !important;
+        }
+        #editor-container {
+          order: 1 !important;
+          flex: 1 1 0% !important;
+          padding: 8px !important;
+        }
+        #templates-sidebar {
+          width: 100% !important;
+          height: 110px !important;
+          min-height: 110px !important;
+          max-height: 110px !important;
+          flex-direction: column !important;
+          border-right: none;
+          border-top: 1px solid #e2e8f0;
+          order: 2;
+          overflow: hidden !important;
+          padding: 6px 8px !important;
+          gap: 6px;
+        }
+        .template-card {
+          min-width: 75px;
+          height: 56px;
+          flex-shrink: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body class="antialiased select-none">
+    <!-- HEADER TOOLBAR -->
+    <header
+      class="bg-white border-b border-slate-200 shadow-xs flex flex-col p-2 gap-1.5 shrink-0 z-50"
+    >
+      <div
+        class="flex items-center justify-between px-1 pb-1 border-b border-slate-100 w-full"
+      >
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button
+            onclick="window.history.back()"
+            class="p-1.5 text-slate-700 hover:bg-slate-100 rounded-lg cursor-pointer"
+          >
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+          </button>
+          <span
+            class="text-base sm:text-lg font-black text-indigo-600 font-kids flex items-center"
+          >
+            🎨 Color<span class="text-pink-500">Book</span>
+          </span>
+          <button
+            onclick="resetCurrentTemplate()"
+            class="ml-1 px-2.5 py-1 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-lg text-[10px] font-black flex items-center gap-1 transition-all active:scale-95 cursor-pointer border border-rose-200"
+          >
+            <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Clear
+          </button>
+        </div>
+
+        <div
+          class="flex items-center gap-1 bg-slate-50 px-1.5 py-0.5 rounded-xl border border-slate-100 shadow-inner shrink-0"
+        >
+          <button
+            onclick="undo()"
+            class="p-1 text-slate-600 hover:bg-white rounded-md transition-all cursor-pointer"
+            title="Undo"
+          >
+            <i data-lucide="undo-2" class="w-4 h-4"></i>
+          </button>
+          <button
+            onclick="redo()"
+            class="p-1 text-slate-600 hover:bg-white rounded-md transition-all cursor-pointer"
+            title="Redo"
+          >
+            <i data-lucide="redo-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- HORIZONTAL ACTION TOOLBAR -->
+      <div
+        class="flex items-stretch justify-start md:justify-center gap-3 px-1 overflow-x-auto no-scrollbar pb-1 w-full"
+      >
+        <!-- TOOLS -->
+        <div
+          class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
+        >
+          <div class="flex items-center gap-1 min-h-[38px]">
+            <button
+              id="tool-select"
+              onclick="setMode('select')"
+              class="tool-btn-lg"
+              title="Select / Move"
+            >
+              <i data-lucide="mouse-pointer-2" class="w-5 h-5"></i>
+            </button>
+            <button
+              id="tool-bucket"
+              onclick="setMode('bucket')"
+              class="tool-btn-lg active"
+              title="Color Fill Bucket"
+            >
+              <i data-lucide="paint-bucket" class="w-5 h-5"></i>
+            </button>
+            <button
+              id="tool-pen"
+              onclick="startDrawing('pen')"
+              class="tool-btn-lg"
+              title="Magic Pencil"
+            >
+              <i data-lucide="pencil" class="w-5 h-5"></i>
+            </button>
+            <button
+              id="tool-brush"
+              onclick="startDrawing('brush')"
+              class="tool-btn-lg"
+              title="Thick Brush"
+            >
+              <i data-lucide="brush" class="w-5 h-5"></i>
+            </button>
+            <button
+              id="tool-eraser"
+              onclick="startDrawing('eraser')"
+              class="tool-btn-lg"
+              title="Eraser"
+            >
+              <i data-lucide="eraser" class="w-5 h-5"></i>
+            </button>
+          </div>
+          <div class="tool-section-label">Tools</div>
+        </div>
+
+        <!-- PALETTE -->
+        <div
+          class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
+        >
+          <div class="flex items-center gap-1.5 min-h-[38px]">
+            <div
+              id="box-color1"
+              class="color-box w-7 h-7 rounded-lg bg-pink-500 cursor-pointer shadow-xs active shrink-0"
+            ></div>
+            <div
+              id="palette-colors"
+              class="grid grid-cols-6 gap-1 w-[145px] shrink-0"
+            ></div>
+            <div
+              class="relative w-6 h-6 rounded border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-xs cursor-pointer shrink-0"
+            >
+              <i
+                data-lucide="pipette"
+                class="w-3 text-slate-400 pointer-events-none"
+              ></i>
+              <input
+                type="color"
+                id="custom-color-picker"
+                oninput="selectColor(this.value)"
+                class="absolute inset-0 opacity-0 cursor-pointer"
+                value="#ec4899"
+              />
+            </div>
+          </div>
+          <div class="tool-section-label">Colors</div>
+        </div>
+
+        <!-- STICKERS -->
+        <div class="flex flex-col justify-between pr-1 shrink-0">
+          <div class="flex items-center gap-1 min-h-[38px]">
+            <button
+              onclick="addSticker('⭐')"
+              class="tool-btn-lg text-base hover:scale-110"
+              title="Add Star"
+            >
+              ⭐
+            </button>
+            <button
+              onclick="addSticker('🌸')"
+              class="tool-btn-lg text-base hover:scale-110"
+              title="Add Flower"
+            >
+              🌸
+            </button>
+            <button
+              onclick="addSticker('👑')"
+              class="tool-btn-lg text-base hover:scale-110"
+              title="Add Crown"
+            >
+              👑
+            </button>
+            <button
+              onclick="addSticker('❤️')"
+              class="tool-btn-lg text-base hover:scale-110"
+              title="Add Heart"
+            >
+              ❤️
+            </button>
+            <button
+              onclick="addSticker('🌈')"
+              class="tool-btn-lg text-base hover:scale-110"
+              title="Add Rainbow"
+            >
+              🌈
+            </button>
+          </div>
+          <div class="tool-section-label">Stickers</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CORE WORKSPACE -->
+    <div id="main-layout">
+      <!-- SIDEBAR / BOTTOM CATEGORIES & TEMPLATES -->
+      <aside id="templates-sidebar" class="select-none no-scrollbar">
+        <!-- Category Navigation Tabs -->
+        <div
+          id="category-tabs-container"
+          class="flex items-center gap-1 overflow-x-auto no-scrollbar pb-1 shrink-0"
+        ></div>
+
+        <!-- Template Items Grid -->
+        <div
+          id="template-items-container"
+          class="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto no-scrollbar flex-1"
+        ></div>
+      </aside>
+
+      <!-- CANVAS CONTAINER -->
+      <main id="editor-container">
+        <!-- CANVA-STYLE OBJECT ACTIONS (DELETE, COPY, PASTE) -->
+        <div id="object-action-bar">
+          <button
+            onclick="copySelected()"
+            class="p-1.5 hover:bg-slate-100 rounded-full text-slate-700 active:scale-95 transition-all flex items-center gap-1 text-[10px] font-black cursor-pointer"
+            title="Copy"
+          >
+            <i data-lucide="copy" class="w-3.5 h-3.5 text-indigo-600"></i>
+            <span>Copy</span>
+          </button>
+
+          <button
+            id="bar-paste-btn"
+            onclick="pasteSelected()"
+            class="p-1.5 hover:bg-slate-100 rounded-full text-slate-700 active:scale-95 transition-all flex items-center gap-1 text-[10px] font-black cursor-pointer"
+            title="Paste"
+          >
+            <i data-lucide="clipboard" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span>Paste</span>
+          </button>
+
+          <div class="w-[1px] h-3.5 bg-slate-200"></div>
+
+          <button
+            onclick="deleteSelected()"
+            class="p-1.5 hover:bg-red-50 rounded-full text-red-600 active:scale-95 transition-all flex items-center gap-1 text-[10px] font-black cursor-pointer"
+            title="Delete"
+          >
+            <i data-lucide="trash-2" class="w-3.5 h-3.5 text-red-500"></i>
+            <span>Delete</span>
+          </button>
+        </div>
+
+        <div class="canvas-holder" id="canvas-wrapper">
+          <canvas id="paintCanvas"></canvas>
+        </div>
+      </main>
+    </div>
+
+    <!-- MAIN INTERACTION SCRIPT -->
+    <script>
+      // 1. ENGINE STATE VARIABLES
+      let canvas;
+      let color1 = "#ec4899";
+      let canvasHistory = [];
+      let historyStep = -1;
+      let isStateChanging = false;
+      let activeMode = "bucket";
+      let clipboardObject = null;
+
+      let selectedCategoryIdx = 0;
+      let activeTemplateId = null;
+
+      const PAGE_WIDTH = 800;
+      const PAGE_HEIGHT = 800;
+
+      const paintPalette = [
+        "#ef4444",
+        "#f97316",
+        "#facc15",
+        "#22c55e",
+        "#06b6d4",
+        "#3b82f6",
+        "#a855f7",
+        "#ec4899",
+        "#14b8a6",
+        "#8b5cf6",
+        "#1e293b",
+        "#ffffff",
+      ];
+
+      // 🔄 CLEAN PURE ROTATE SVG ICON
+      const rotateIconSvg =
+        "data:image/svg+xml;utf8," +
+        encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+          <path d="M21 3v5h-5"/>
+        </svg>
+      `);
+
+      const rotateImg = new Image();
+      rotateImg.src = rotateIconSvg;
+
+      // 🎨 CANVA-STYLE SELECTION CONTROLS CONFIGURATION
+      fabric.Object.prototype.set({
+        transparentCorners: false,
+        cornerColor: "#ffffff",
+        cornerStrokeColor: "#4f46e5",
+        borderColor: "#4f46e5",
+        cornerSize: 8,
+        cornerStyle: "circle",
+        borderScaleFactor: 1.5,
+        borderDashArray: [4, 4],
+        hasRotatingPoint: true,
+        lockRotation: false,
+        padding: 6,
+      });
+
+      // 🛠️ CUSTOM ROTATE HANDLE RENDER FUNCTION (PURE ICON ONLY)
+      function renderRotateHandle(ctx, left, top, styleOverride, fabricObject) {
+        const size = 20;
+        ctx.save();
+        ctx.translate(left, top);
+        ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+
+        if (rotateImg.complete) {
+          ctx.drawImage(rotateImg, -size / 2, -size / 2, size, size);
+        }
+        ctx.restore();
+      }
+
+      fabric.Object.prototype.controls.mtr = new fabric.Control({
+        x: 0,
+        y: -0.5,
+        offsetY: -24,
+        cursorStyle: "grab",
+        actionHandler: fabric.controlsUtils.rotationWithSnapping,
+        actionName: "rotate",
+        render: renderRotateHandle,
+        cornerSize: 22,
+        withConnection: false,
+      });
+
+      // 2. ASYNC INITIALIZER FOR EXTERNAL SCRIPT (/js/colorfillTemplate.js)
+      function initAppWhenReady() {
+        if (
+          typeof COLORFILL_CATEGORIES !== "undefined" &&
+          Array.isArray(COLORFILL_CATEGORIES)
+        ) {
+          setupCanvas();
+          renderColorPalette();
+          renderCategories();
+
+          if (
+            COLORFILL_CATEGORIES.length > 0 &&
+            COLORFILL_CATEGORIES[0].templates.length > 0
+          ) {
+            loadTemplate(COLORFILL_CATEGORIES[0].templates[0]);
+          }
+
+          if (typeof lucide !== "undefined") lucide.createIcons();
+        } else {
+          setTimeout(initAppWhenReady, 40);
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", initAppWhenReady);
+
+      function renderColorPalette() {
+        const paletteContainer = document.getElementById("palette-colors");
+        paletteContainer.innerHTML = paintPalette
+          .map(
+            (color) =>
+              `<div onclick="selectColor('${color}')" class="w-5 h-5 rounded border border-slate-300 cursor-pointer shadow-xs hover:scale-110 shrink-0 transition-transform" style="background: ${color}"></div>`,
+          )
+          .join("");
+      }
+
+      function renderCategories() {
+        const catContainer = document.getElementById("category-tabs-container");
+        if (typeof COLORFILL_CATEGORIES === "undefined" || !catContainer)
+          return;
+
+        catContainer.innerHTML = COLORFILL_CATEGORIES.map(
+          (cat, idx) => `
+          <button 
+            onclick="switchCategory(${idx})" 
+            class="px-2.5 py-1 rounded-xl text-[10px] font-bold whitespace-nowrap cursor-pointer transition-all ${
+              idx === selectedCategoryIdx
+                ? "bg-indigo-600 text-white shadow-xs"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+            }"
+          >
+            ${cat.icon} ${cat.name}
+          </button>
+        `,
+        ).join("");
+
+        renderTemplateItems();
+      }
+
+      function switchCategory(idx) {
+        selectedCategoryIdx = idx;
+        renderCategories();
+      }
+
+      function renderTemplateItems() {
+        const container = document.getElementById("template-items-container");
+        if (typeof COLORFILL_CATEGORIES === "undefined" || !container) return;
+
+        const currentTemplates =
+          COLORFILL_CATEGORIES[selectedCategoryIdx]?.templates || [];
+
+        container.innerHTML = currentTemplates
+          .map(
+            (tpl) => `
+          <div 
+            onclick="selectTemplate('${tpl.id}')" 
+            class="template-card ${tpl.id === activeTemplateId ? "active-tpl" : ""}" 
+            id="tpl-${tpl.id}"
+          >
+            <span class="text-xl sm:text-2xl">${tpl.icon}</span>
+            <span class="text-[9px] font-black text-slate-700 truncate block mt-0.5">${tpl.title}</span>
+          </div>
+        `,
+          )
+          .join("");
+      }
+
+      function selectTemplate(templateId) {
+        const currentTemplates =
+          COLORFILL_CATEGORIES[selectedCategoryIdx]?.templates || [];
+        const target = currentTemplates.find((t) => t.id === templateId);
+        if (target) {
+          loadTemplate(target);
+        }
+      }
+
+      function setupCanvas() {
+        if (canvas) canvas.dispose();
+
+        canvas = new fabric.Canvas("paintCanvas", {
+          width: PAGE_WIDTH,
+          height: PAGE_HEIGHT,
+          backgroundColor: "#ffffff",
+          isDrawingMode: false,
+          selection: true,
+          preserveObjectStacking: true,
+        });
+
+        canvas.on("mouse:down", (options) => {
+          if (activeMode === "bucket") {
+            const target = options.target;
+            if (target) {
+              target.set("fill", color1);
+              canvas.renderAll();
+              saveCanvasHistory();
+              triggerCelebration(options.e.clientX, options.e.clientY);
+            } else {
+              canvas.setBackgroundColor(color1, canvas.renderAll.bind(canvas));
+              saveCanvasHistory();
+            }
+          }
+        });
+
+        canvas.on("selection:created", showActionBar);
+        canvas.on("selection:updated", showActionBar);
+        canvas.on("selection:cleared", hideActionBar);
+
+        canvas.on("path:created", () => saveCanvasHistory());
+        resetZoomToFit();
+      }
+
+      function showActionBar() {
+        const bar = document.getElementById("object-action-bar");
+        if (bar) {
+          bar.style.display = "flex";
+          if (typeof lucide !== "undefined") lucide.createIcons();
+        }
+      }
+
+      function hideActionBar() {
+        const bar = document.getElementById("object-action-bar");
+        if (bar) bar.style.display = "none";
+      }
+
+      function deleteSelected() {
+        const activeObjects = canvas.getActiveObjects();
+        if (activeObjects && activeObjects.length > 0) {
+          activeObjects.forEach((obj) => {
+            canvas.remove(obj);
+          });
+          canvas.discardActiveObject().renderAll();
+          hideActionBar();
+          saveCanvasHistory();
+        }
+      }
+
+      function copySelected() {
+        const activeObj = canvas.getActiveObject();
+        if (activeObj) {
+          clipboardObject = activeObj;
+          const pasteBtn = document.getElementById("bar-paste-btn");
+          if (pasteBtn) pasteBtn.classList.remove("opacity-50");
+        }
+      }
+
+      function pasteSelected() {
+        if (!clipboardObject) return;
+        clipboardObject.clone((cloned) => {
+          cloned.set({
+            left: (cloned.left || 400) + 20,
+            top: (cloned.top || 400) + 20,
+          });
+          canvas.add(cloned).setActiveObject(cloned).renderAll();
+          saveCanvasHistory();
+        });
+      }
+
+      function loadTemplate(tpl) {
+        if (!tpl) return;
+        activeTemplateId = tpl.id;
+        renderTemplateItems();
+
+        canvas.clear();
+        canvas.setBackgroundColor("#ffffff", canvas.renderAll.bind(canvas));
+
+        tpl.svgElements.forEach((el) => {
+          let shapeObj;
+          const commonProps = {
+            selectable: false,
+            evented: true,
+            hasControls: false,
+            lockMovementX: true,
+            lockMovementY: true,
+            hoverCursor: "pointer",
+          };
+
+          if (el.type === "path") {
+            shapeObj = new fabric.Path(el.path, { ...el, ...commonProps });
+          } else if (el.type === "circle") {
+            shapeObj = new fabric.Circle({ ...el, ...commonProps });
+          }
+
+          if (shapeObj) canvas.add(shapeObj);
+        });
+
+        setMode("bucket");
+        canvas.renderAll();
+        canvasHistory = [JSON.stringify(canvas.toJSON())];
+        historyStep = 0;
+        hideActionBar();
+      }
+
+      function resetCurrentTemplate() {
+        if (!confirm("Clear this drawing and start fresh?")) return;
+
+        if (typeof COLORFILL_CATEGORIES === "undefined") return;
+        const allTemplates = COLORFILL_CATEGORIES.flatMap((c) => c.templates);
+        const currentTpl = allTemplates.find((t) => t.id === activeTemplateId);
+
+        if (currentTpl) {
+          loadTemplate(currentTpl);
+        } else {
+          canvas.clear();
+          canvas.setBackgroundColor("#ffffff", canvas.renderAll.bind(canvas));
+          saveCanvasHistory();
+        }
+      }
+
+      function setMode(mode) {
+        activeMode = mode;
+        document
+          .querySelectorAll(".tool-btn-lg")
+          .forEach((b) => b.classList.remove("active"));
+        canvas.isDrawingMode = false;
+
+        const btn = document.getElementById(`tool-${mode}`);
+        if (btn) btn.classList.add("active");
+
+        if (mode === "bucket") {
+          canvas.defaultCursor = "crosshair";
+          canvas.selection = false;
+        } else if (mode === "select") {
+          canvas.defaultCursor = "default";
+          canvas.selection = true;
+        }
+      }
+
+      function startDrawing(type) {
+        setMode(type);
+        canvas.isDrawingMode = true;
+        let brush = new fabric.PencilBrush(canvas);
+
+        if (type === "brush") {
+          brush.width = 18;
+          brush.color = color1;
+        } else if (type === "pen") {
+          brush.width = 6;
+          brush.color = color1;
+        } else if (type === "eraser") {
+          brush.width = 28;
+          brush.color = "#ffffff";
+        }
+
+        canvas.freeDrawingBrush = brush;
+      }
+
+      function selectColor(hex) {
+        color1 = hex;
+        const box = document.getElementById("box-color1");
+        if (box) box.style.background = hex;
+        if (
+          canvas.isDrawingMode &&
+          canvas.freeDrawingBrush &&
+          activeMode !== "eraser"
+        ) {
+          canvas.freeDrawingBrush.color = hex;
+        }
+      }
+
+      function addSticker(emoji) {
+        const txt = new fabric.Text(emoji, {
+          left: PAGE_WIDTH / 2,
+          top: PAGE_HEIGHT / 2,
+          fontSize: 64,
+          originX: "center",
+          originY: "center",
+          selectable: true,
+          evented: true,
+          lockScalingFlip: true,
+        });
+
+        canvas.add(txt);
+        setMode("select");
+        canvas.setActiveObject(txt);
+        canvas.renderAll();
+        saveCanvasHistory();
+        showActionBar();
+      }
+
+      function triggerCelebration(x, y) {
+        if (typeof confetti === "function") {
+          confetti({
+            particleCount: 20,
+            spread: 45,
+            origin: {
+              x: x ? x / window.innerWidth : 0.5,
+              y: y ? y / window.innerHeight : 0.5,
+            },
+          });
+        }
+      }
+
+      function resetZoomToFit() {
+        const container = document.getElementById("editor-container");
+        if (!container || container.clientWidth === 0) return;
+
+        const availableW = container.clientWidth - 20;
+        const availableH = container.clientHeight - 20;
+
+        const scale = Math.min(
+          availableW / PAGE_WIDTH,
+          availableH / PAGE_HEIGHT,
+          1.0,
+        );
+
+        canvas.setZoom(scale);
+        canvas.setWidth(PAGE_WIDTH * scale);
+        canvas.setHeight(PAGE_HEIGHT * scale);
+
+        const wrapper = document.getElementById("canvas-wrapper");
+        wrapper.style.width = `${PAGE_WIDTH * scale}px`;
+        wrapper.style.height = `${PAGE_HEIGHT * scale}px`;
+      }
+
+      function saveCanvasHistory() {
+        if (isStateChanging) return;
+        const snap = JSON.stringify(canvas.toJSON());
+        if (historyStep < canvasHistory.length - 1) {
+          canvasHistory = canvasHistory.slice(0, historyStep + 1);
+        }
+        canvasHistory.push(snap);
+        historyStep++;
+      }
+
+      function undo() {
+        if (historyStep > 0) {
+          isStateChanging = true;
+          historyStep--;
+          canvas.loadFromJSON(canvasHistory[historyStep], () => {
+            canvas.renderAll();
+            isStateChanging = false;
+            hideActionBar();
+          });
+        }
+      }
+
+      function redo() {
+        if (historyStep < canvasHistory.length - 1) {
+          isStateChanging = true;
+          historyStep++;
+          canvas.loadFromJSON(canvasHistory[historyStep], () => {
+            canvas.renderAll();
+            isStateChanging = false;
+            hideActionBar();
+          });
+        }
+      }
+
+      window.addEventListener("resize", resetZoomToFit);
+    </script>
+  </body>
+</html>
