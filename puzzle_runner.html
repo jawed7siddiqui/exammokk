@@ -59,10 +59,10 @@
         max-height: 100dvh;
       }
       .bottom-tray-safe {
-        padding-bottom: max(14px, env(safe-area-inset-bottom, 14px));
+        padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
       }
 
-      /* Game Piece Touch Smoothness */
+      /* Big Puzzle Piece Touch Action */
       .puzzle-piece {
         touch-action: none;
         cursor: grab;
@@ -72,7 +72,7 @@
       }
       .puzzle-piece:active {
         cursor: grabbing;
-        transform: scale(1.08);
+        transform: scale(1.12);
         z-index: 50;
       }
 
@@ -83,7 +83,7 @@
           opacity: 0.5;
         }
         50% {
-          transform: scale(1.15);
+          transform: scale(1.18);
           opacity: 1;
         }
         100% {
@@ -130,7 +130,7 @@
         <div class="flex items-center gap-2 shrink-0">
           <!-- Stars Counter Badge -->
           <div
-            class="flex items-center gap-1 bg-amber-500/10 border border-amber-500/30 px-2 py-1 rounded-xl"
+            class="flex items-center gap-1 bg-amber-500/10 border border-amber-500/30 px-2.5 py-1 rounded-xl"
           >
             <span class="text-xs">⭐</span>
             <span
@@ -159,39 +159,39 @@
         <!-- Injected Dynamically from PUZZLE_CATEGORIES -->
       </div>
 
-      <!-- 3. MAIN PLAYING CANVAS & BOARD (Auto Scale to prevent overflow) -->
+      <!-- 3. MAIN PLAYING CANVAS & BOARD (Enlarged Target Drop Area) -->
       <main
-        class="flex-1 flex flex-col items-center justify-center p-3 overflow-hidden relative min-h-0"
+        class="flex-1 flex flex-col items-center justify-center p-2 sm:p-3 overflow-hidden relative min-h-0"
       >
         <div
           id="target-board"
-          class="w-[min(270px,36vh)] h-[min(270px,36vh)] bg-slate-800/70 border-4 border-dashed border-indigo-500/40 rounded-3xl p-2.5 shadow-inner relative flex items-center justify-center transition-all"
+          class="w-[min(320px,42vh)] h-[min(320px,42vh)] bg-slate-800/70 border-4 border-dashed border-indigo-500/40 rounded-3xl p-3 shadow-inner relative flex items-center justify-center transition-all"
         >
           <!-- Drop Target Slots Injected Here -->
         </div>
       </main>
 
-      <!-- 4. BOTTOM PIECES TRAY (Guaranteed Visible with Safe Padding) -->
+      <!-- 4. BOTTOM PIECES TRAY (Enlarged Drag & Fit Section) -->
       <div
-        class="bottom-tray-safe w-full bg-slate-800/95 border-t border-slate-700/80 px-4 pt-3 shadow-2xl flex flex-col items-center gap-2 z-20 shrink-0"
+        class="bottom-tray-safe w-full bg-slate-800/95 border-t border-slate-700/80 px-4 pt-3 shadow-2xl flex flex-col items-center gap-2.5 z-20 shrink-0"
       >
         <div class="flex items-center justify-between w-full px-1">
           <span
-            class="text-[10px] font-black uppercase text-slate-400 tracking-wider"
+            class="text-[11px] font-black uppercase text-slate-400 tracking-wider"
             >Drag & Fit Piece</span
           >
           <span
             id="progress-indicator"
-            class="text-[10px] font-black text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-full border border-indigo-500/20"
+            class="text-[11px] font-black text-indigo-400 bg-indigo-500/10 px-2.5 py-0.5 rounded-full border border-indigo-500/20"
             >0/0 Done</span
           >
         </div>
 
         <div
           id="pieces-tray"
-          class="flex items-center justify-center gap-2.5 w-full min-h-[64px] overflow-x-auto no-scrollbar py-1"
+          class="flex items-center justify-center gap-3.5 w-full min-h-[76px] overflow-x-auto no-scrollbar py-1"
         >
-          <!-- Movable Piece Elements Injected Here -->
+          <!-- Movable Big Piece Elements Injected Here -->
         </div>
       </div>
 
@@ -228,7 +228,7 @@
       </div>
     </div>
 
-    <!-- GAME ENGINE SCRIPT WITH SOUND EFFECTS -->
+    <!-- GAME ENGINE SCRIPT -->
     <script>
       let currentCategoryIndex = 0;
       let currentLevelIndex = 0;
@@ -307,7 +307,7 @@
           (cat, idx) => `
           <button
             onclick="switchGameCategory(${idx})"
-            class="mode-tab px-3 py-1.5 rounded-xl text-[11px] font-black font-kids whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
+            class="mode-tab px-3.5 py-1.5 rounded-xl text-[11px] font-black font-kids whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
               idx === currentCategoryIndex
                 ? "bg-indigo-600 text-white shadow-md"
                 : "bg-slate-800 text-slate-400 hover:bg-slate-700/60 border border-slate-700/50"
@@ -357,20 +357,21 @@
         progress.textContent = `0/${totalPieces} Done`;
       }
 
+      // --- ENLARGED JIGSAW PUZZLE BUILDER ---
       function renderJigsawMode(activeLevel, board, tray, levelText) {
         totalPieces = activeLevel.pieces.length;
         levelText.textContent = `${activeLevel.title} (Lvl ${currentLevelIndex + 1}/${PUZZLE_CATEGORIES[currentCategoryIndex].levels.length})`;
 
         board.className =
-          "w-[min(270px,36vh)] h-[min(270px,36vh)] bg-slate-800/80 border-4 border-dashed border-indigo-500/40 rounded-3xl p-2 grid grid-cols-2 gap-2 shadow-inner relative";
+          "w-[min(320px,42vh)] h-[min(320px,42vh)] bg-slate-800/80 border-4 border-dashed border-indigo-500/40 rounded-3xl p-3 grid grid-cols-2 gap-3 shadow-inner relative";
 
         activeLevel.pieces.forEach((p) => {
           const slot = document.createElement("div");
           slot.id = p.slot;
           slot.dataset.expected = p.id;
           slot.className =
-            "target-slot bg-slate-900/60 border-2 border-slate-700/80 rounded-2xl flex items-center justify-center text-slate-600 text-2xl font-black transition-all";
-          slot.innerHTML = `<span class="opacity-20 text-3xl sm:text-4xl">${p.icon}</span>`;
+            "target-slot bg-slate-900/60 border-2 border-slate-700/80 rounded-2xl flex items-center justify-center text-slate-600 text-3xl font-black transition-all";
+          slot.innerHTML = `<span class="opacity-20 text-4xl sm:text-5xl">${p.icon}</span>`;
           slot.addEventListener("dragover", handleDragOver);
           slot.addEventListener("drop", handleDrop);
           board.appendChild(slot);
@@ -385,22 +386,23 @@
         });
       }
 
+      // --- ENLARGED SHADOW MATCH BUILDER ---
       function renderShadowMode(activeLevel, board, tray, levelText) {
         totalPieces = activeLevel.items.length;
         levelText.textContent = `${activeLevel.title} (Lvl ${currentLevelIndex + 1}/${PUZZLE_CATEGORIES[currentCategoryIndex].levels.length})`;
 
         board.className =
-          "w-[min(270px,36vh)] h-[min(270px,36vh)] bg-slate-800/80 border-4 border-dashed border-amber-500/40 rounded-3xl p-2.5 flex flex-col justify-around gap-1.5 shadow-inner relative";
+          "w-[min(320px,42vh)] h-[min(320px,42vh)] bg-slate-800/80 border-4 border-dashed border-amber-500/40 rounded-3xl p-3 flex flex-col justify-around gap-2 shadow-inner relative";
 
         activeLevel.items.forEach((item) => {
           const slot = document.createElement("div");
           slot.id = `slot-${item.id}`;
           slot.dataset.expected = item.id;
           slot.className =
-            "target-slot h-14 sm:h-16 bg-slate-950/80 border-2 border-slate-800 rounded-2xl flex items-center justify-between px-3.5 text-slate-500 transition-all";
+            "target-slot h-16 sm:h-20 bg-slate-950/80 border-2 border-slate-800 rounded-2xl flex items-center justify-between px-4 text-slate-500 transition-all";
           slot.innerHTML = `
-            <span class="text-2xl sm:text-3xl filter grayscale brightness-0 contrast-200 opacity-30">${item.icon}</span>
-            <span class="text-[11px] font-bold text-slate-500 uppercase font-kids tracking-wider">Drop ${item.name}</span>
+            <span class="text-4xl filter grayscale brightness-0 contrast-200 opacity-30">${item.icon}</span>
+            <span class="text-xs sm:text-sm font-bold text-slate-400 uppercase font-kids tracking-wider">Drop ${item.name}</span>
           `;
           slot.addEventListener("dragover", handleDragOver);
           slot.addEventListener("drop", handleDrop);
@@ -414,21 +416,22 @@
         });
       }
 
+      // --- ENLARGED SHAPES MATCH BUILDER ---
       function renderShapesMode(activeLevel, board, tray, levelText) {
         totalPieces = activeLevel.items.length;
         levelText.textContent = `${activeLevel.title} (Lvl ${currentLevelIndex + 1}/${PUZZLE_CATEGORIES[currentCategoryIndex].levels.length})`;
 
         board.className =
-          "w-[min(270px,36vh)] h-[min(270px,36vh)] bg-slate-800/80 border-4 border-dashed border-pink-500/40 rounded-3xl p-2.5 grid grid-cols-2 gap-2 shadow-inner relative";
+          "w-[min(320px,42vh)] h-[min(320px,42vh)] bg-slate-800/80 border-4 border-dashed border-pink-500/40 rounded-3xl p-3 grid grid-cols-2 gap-3 shadow-inner relative";
 
         activeLevel.items.forEach((item) => {
           const slot = document.createElement("div");
           slot.id = `slot-${item.id}`;
           slot.dataset.expected = item.id;
-          slot.className = `target-slot ${item.shapeClass} bg-slate-950/70 border-2 border-dashed border-slate-700 flex flex-col items-center justify-center text-slate-600 transition-all p-1.5`;
+          slot.className = `target-slot ${item.shapeClass} bg-slate-950/70 border-2 border-dashed border-slate-700 flex flex-col items-center justify-center text-slate-600 transition-all p-2`;
           slot.innerHTML = `
-            <span class="text-2xl sm:text-3xl opacity-25 filter grayscale">${item.icon}</span>
-            <span class="text-[9px] font-bold text-slate-500 mt-0.5 font-kids">${item.name}</span>
+            <span class="text-4xl opacity-25 filter grayscale">${item.icon}</span>
+            <span class="text-[10px] sm:text-xs font-bold text-slate-400 mt-1 font-kids">${item.name}</span>
           `;
           slot.addEventListener("dragover", handleDragOver);
           slot.addEventListener("drop", handleDrop);
@@ -442,13 +445,13 @@
         });
       }
 
-      // 2. TOUCH & DRAG EVENT SYSTEM
+      // 2. ENLARGED TOUCH & DRAG EVENT SYSTEM (w-16 h-16 / 64px - 72px)
       function createDraggablePiece(id, icon, bgClass) {
         const el = document.createElement("div");
         el.id = `piece-${id}`;
         el.dataset.pieceId = id;
         el.draggable = true;
-        el.className = `puzzle-piece w-12 h-12 sm:w-13 sm:h-13 ${bgClass || "bg-indigo-600"} text-white rounded-2xl shadow-lg border-2 border-white/40 flex items-center justify-center text-2xl sm:text-3xl font-black active:scale-95 shrink-0 select-none`;
+        el.className = `puzzle-piece w-16 h-16 sm:w-18 sm:h-18 ${bgClass || "bg-indigo-600"} text-white rounded-2xl shadow-xl border-2 border-white/50 flex items-center justify-center text-3xl sm:text-4xl font-black active:scale-95 shrink-0 select-none`;
         el.innerHTML = icon;
 
         el.addEventListener("dragstart", (e) => {
@@ -472,8 +475,8 @@
             activeClone.style.zIndex = "9999";
             activeClone.style.opacity = "0.9";
             activeClone.style.pointerEvents = "none";
-            activeClone.style.left = `${touch.clientX - 26}px`;
-            activeClone.style.top = `${touch.clientY - 26}px`;
+            activeClone.style.left = `${touch.clientX - 34}px`;
+            activeClone.style.top = `${touch.clientY - 34}px`;
             document.body.appendChild(activeClone);
           },
           { passive: false },
@@ -485,8 +488,8 @@
             if (!activeClone) return;
             e.preventDefault();
             const touch = e.touches[0];
-            activeClone.style.left = `${touch.clientX - 26}px`;
-            activeClone.style.top = `${touch.clientY - 26}px`;
+            activeClone.style.left = `${touch.clientX - 34}px`;
+            activeClone.style.top = `${touch.clientY - 34}px`;
           },
           { passive: false },
         );
@@ -533,7 +536,7 @@
 
             slotElement.dataset.filled = "true";
             slotElement.innerHTML = piece.innerHTML;
-            slotElement.className = `target-slot ${piece.className.replace("puzzle-piece", "")} animate-pop w-full h-full flex items-center justify-center text-3xl sm:text-4xl shadow-md`;
+            slotElement.className = `target-slot ${piece.className.replace("puzzle-piece", "")} animate-pop w-full h-full flex items-center justify-center text-4xl sm:text-5xl shadow-md`;
 
             piece.remove();
             matchedCount++;
