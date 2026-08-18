@@ -72,16 +72,16 @@
 
       <!-- 2. MAIN SCROLLABLE CONTENT -->
       <main
-        class="flex-1 px-4 pt-3 pb-24 space-y-3 overflow-y-auto no-scrollbar"
+        class="flex-1 px-4 pt-3 pb-24 space-y-3.5 overflow-y-auto no-scrollbar"
       >
         <!-- USER PROFILE & RANK CARD -->
-        <div
-          class="flex items-center justify-between bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs"
+        <!-- <div
+          class="flex items-center justify-between bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs"
         >
-          <div class="flex items-center gap-2.5 min-w-0">
+          <div class="flex items-center gap-3 min-w-0">
             <div
               id="user-avatar"
-              class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white font-extrabold flex items-center justify-center text-sm shadow-xs uppercase shrink-0"
+              class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white font-extrabold flex items-center justify-center text-base shadow-xs uppercase shrink-0"
             >
               K
             </div>
@@ -89,30 +89,31 @@
               <div class="flex items-center gap-1.5">
                 <h2
                   id="user-display-name"
-                  class="text-xs font-extrabold text-slate-800 truncate leading-tight"
+                  class="text-sm font-extrabold text-slate-800 truncate leading-tight"
                 >
                   Student
                 </h2>
                 <span
                   id="user-plan-badge"
-                  class="text-[8px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 px-1.5 py-0.2 rounded-full shrink-0"
+                  class="text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full shrink-0"
                   >FREE</span
                 >
               </div>
               <p
                 id="user-display-grade"
-                class="text-[10px] text-slate-400 font-semibold mt-0.5"
+                class="text-[11px] text-slate-500 font-semibold mt-0.5"
               >
                 Grade 1
               </p>
             </div>
           </div>
 
-          <div class="flex items-center gap-1.5 shrink-0">
+          <div class="flex items-center gap-2 shrink-0">
             <div
-              class="bg-amber-50 border border-amber-200/70 px-2 py-1 rounded-xl text-center"
+              class="bg-amber-50 border border-amber-200/70 px-2.5 py-1 rounded-xl text-center min-w-[48px]"
             >
-              <span class="text-[7px] font-bold text-amber-600 block uppercase"
+              <span
+                class="text-[10px] font-bold text-amber-600 block uppercase leading-tight"
                 >Streak</span
               >
               <span
@@ -122,9 +123,10 @@
               >
             </div>
             <div
-              class="bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-xl text-right"
+              class="bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-xl text-center min-w-[48px]"
             >
-              <span class="text-[7px] font-bold text-slate-400 block uppercase"
+              <span
+                class="text-[10px] font-bold text-slate-400 block uppercase leading-tight"
                 >Stars</span
               >
               <span
@@ -134,37 +136,37 @@
               >
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- EXAM SEGMENT TABS (Kids vs Govt vs Boards) -->
         <div
-          class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5"
+          class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5"
         >
           <button
             id="tab-KIDS_SCHOOL"
             onclick="changeSegment('KIDS_SCHOOL')"
-            class="segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-indigo-600 text-white shadow-xs"
+            class="segment-tab px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer bg-indigo-600 text-white shadow-xs"
           >
             🎨 Kids Zone
           </button>
           <button
             id="tab-GOVT_PSC"
             onclick="changeSegment('GOVT_PSC')"
-            class="segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+            class="segment-tab px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
           >
             🏛️ Govt Exams
           </button>
           <button
             id="tab-BOARD_EXAMS"
             onclick="changeSegment('BOARD_EXAMS')"
-            class="segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+            class="segment-tab px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
           >
             📚 Board Exams
           </button>
           <button
             id="tab-OTHER"
             onclick="changeSegment('OTHER')"
-            class="segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+            class="segment-tab px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
           >
             ⚡ Other
           </button>
@@ -175,16 +177,16 @@
           <!-- CARD 1: PAINT, DRAW & COLOR -->
           <div
             onclick="window.location.href = 'paint_draw_color.html'"
-            class="bg-gradient-to-br from-pink-500 via-rose-500 to-amber-500 rounded-2xl p-3.5 text-white shadow-md cursor-pointer active:scale-95 transition-all flex flex-col justify-between min-h-[125px] relative overflow-hidden"
+            class="bg-gradient-to-br from-pink-500 via-rose-500 to-amber-500 rounded-2xl p-4 text-white shadow-md cursor-pointer active:scale-95 transition-all flex flex-col justify-between min-h-[135px] relative overflow-hidden"
           >
             <div class="flex items-center justify-between">
               <div
-                class="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-xl shadow-inner"
+                class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl shadow-inner"
               >
                 🎨
               </div>
               <span
-                class="bg-white/25 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border border-white/30"
+                class="bg-white/25 text-[11px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border border-white/30"
               >
                 Free
               </span>
@@ -194,9 +196,7 @@
               <h4 class="text-sm font-black tracking-tight leading-tight">
                 Draw &amp; Color
               </h4>
-              <p
-                class="text-[11px] text-white/90 font-semibold mt-0.5 leading-snug"
-              >
+              <p class="text-xs text-white/90 font-medium mt-1 leading-snug">
                 Color pages &amp; paint
               </p>
             </div>
@@ -205,16 +205,16 @@
           <!-- CARD 2: KIDS PUZZLE -->
           <div
             onclick="window.location.href = 'puzzle_runner.html'"
-            class="bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-600 rounded-2xl p-3.5 text-white shadow-md cursor-pointer active:scale-95 transition-all flex flex-col justify-between min-h-[125px] relative overflow-hidden"
+            class="bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-600 rounded-2xl p-4 text-white shadow-md cursor-pointer active:scale-95 transition-all flex flex-col justify-between min-h-[135px] relative overflow-hidden"
           >
             <div class="flex items-center justify-between">
               <div
-                class="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-xl shadow-inner"
+                class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl shadow-inner"
               >
                 🧩
               </div>
               <span
-                class="bg-emerald-400 text-slate-950 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs"
+                class="bg-emerald-400 text-slate-950 text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-xs"
               >
                 Fun
               </span>
@@ -224,14 +224,13 @@
               <h4 class="text-sm font-black tracking-tight leading-tight">
                 Kids Puzzle
               </h4>
-              <p
-                class="text-[11px] text-white/90 font-semibold mt-0.5 leading-snug"
-              >
+              <p class="text-xs text-white/90 font-medium mt-1 leading-snug">
                 Brain games &amp; shapes
               </p>
             </div>
           </div>
         </div>
+
         <!-- UNIFIED COMPACT WIDGET: DAILY LIVE TEST & LAST SCORE SUMMARY (For Non-Kids) -->
         <div
           id="non-kids-daily-widget"
@@ -246,11 +245,11 @@
             <div class="min-w-0 flex-1">
               <div class="flex items-center gap-1.5 mb-1">
                 <span
-                  class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"
+                  class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"
                 ></span>
                 <span
                   id="daily-challenge-subject"
-                  class="text-[10px] font-black tracking-wider text-indigo-200 uppercase truncate"
+                  class="text-[11px] font-black tracking-wider text-indigo-200 uppercase truncate"
                 >
                   Daily Live Challenge
                 </span>
@@ -264,7 +263,7 @@
               </h3>
 
               <div
-                class="flex items-center gap-2 mt-2 text-[10px] font-bold text-indigo-100/80 flex-wrap"
+                class="flex items-center gap-2 mt-2 text-xs font-bold text-indigo-100/90 flex-wrap"
               >
                 <span
                   class="inline-flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-md border border-white/10"
@@ -278,7 +277,7 @@
                 </span>
                 <span
                   id="daily-timer"
-                  class="text-amber-300 font-mono text-[9px]"
+                  class="text-amber-300 font-mono text-[10px]"
                 >
                   ⏳ Active Today
                 </span>
@@ -287,7 +286,7 @@
 
             <div class="flex flex-col items-end gap-2 shrink-0">
               <span
-                class="bg-emerald-400 text-slate-950 text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm"
+                class="bg-emerald-400 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs"
               >
                 100% FREE
               </span>
@@ -300,7 +299,7 @@
                 <span>Start</span>
                 <i
                   data-lucide="play"
-                  class="w-3 h-3 fill-current text-indigo-700"
+                  class="w-3.5 h-3.5 fill-current text-indigo-700"
                 ></i>
               </button>
             </div>
@@ -308,27 +307,31 @@
 
           <!-- BOTTOM SECTION: LAST ATTEMPT MINI STRIP -->
           <div
-            class="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px]"
+            class="mt-3.5 pt-2.5 border-t border-white/10 flex items-center justify-between text-xs"
           >
             <div class="flex items-center gap-1.5 min-w-0 text-indigo-200">
-              <span class="text-indigo-300/70 font-semibold shrink-0"
+              <span class="text-indigo-300 font-semibold shrink-0"
                 >Recent:</span
               >
               <span
                 id="dash-banner-title"
-                class="font-bold text-white truncate max-w-[100px]"
+                class="font-bold text-white truncate max-w-[90px]"
                 >None</span
               >
             </div>
 
             <div class="flex items-center gap-2 shrink-0">
-              <div class="bg-black/20 px-2 py-0.5 rounded-md text-slate-200">
+              <div
+                class="bg-black/20 px-2 py-0.5 rounded-md text-slate-200 text-[11px]"
+              >
                 Score:
                 <b id="dash-banner-score" class="text-white font-black"
                   >--/--</b
                 >
               </div>
-              <div class="bg-black/20 px-2 py-0.5 rounded-md text-slate-200">
+              <div
+                class="bg-black/20 px-2 py-0.5 rounded-md text-slate-200 text-[11px]"
+              >
                 Acc:
                 <b id="dash-banner-accuracy" class="text-emerald-300 font-black"
                   >--%</b
@@ -336,17 +339,17 @@
               </div>
               <button
                 onclick="window.location.href = 'scoreboard.html'"
-                class="text-indigo-200 hover:text-white font-black flex items-center gap-0.5 ml-0.5 cursor-pointer transition-colors"
+                class="text-indigo-200 hover:text-white font-black flex items-center gap-0.5 ml-0.5 cursor-pointer transition-colors text-xs"
               >
                 <span>Stats</span>
-                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
               </button>
             </div>
           </div>
         </div>
 
         <!-- SUBJECT EXPANDABLE ACCORDION SECTION -->
-        <div class="space-y-2">
+        <div class="space-y-2.5">
           <div class="flex items-center justify-between px-1">
             <h3
               class="text-xs font-extrabold text-slate-800 uppercase tracking-wider"
@@ -355,7 +358,7 @@
             </h3>
             <span
               id="total-subjects-count"
-              class="text-[10px] font-extrabold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full border border-indigo-100"
+              class="text-[11px] font-extrabold bg-indigo-50 text-indigo-600 px-2.5 py-0.5 rounded-full border border-indigo-100"
               >0 Subjects</span
             >
           </div>
@@ -384,20 +387,20 @@
             <h3 class="text-sm font-extrabold text-slate-800">
               Unlock Premium Test
             </h3>
-            <p class="text-[10px] text-slate-400 font-semibold">
+            <p class="text-[11px] text-slate-400 font-semibold">
               Get full access to all practice questions &amp; solutions
             </p>
           </div>
           <button
             onclick="closePaywallModal()"
-            class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+            class="text-slate-400 hover:text-slate-600 p-1.5 cursor-pointer"
           >
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
         <div
-          class="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-3 text-center"
+          class="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-3.5 text-center"
         >
           <p
             id="paywall-test-title"
@@ -405,30 +408,30 @@
           >
             Practice Test
           </p>
-          <div class="flex items-center justify-center gap-2 mt-1">
+          <div class="flex items-center justify-center gap-2 mt-1.5">
             <span
               id="paywall-test-price"
-              class="text-base font-black text-indigo-700 font-kids"
+              class="text-lg font-black text-indigo-700 font-kids"
               >₹9</span
             >
             <span
               id="paywall-test-mrp"
-              class="text-[11px] text-slate-400 line-through font-bold"
+              class="text-xs text-slate-400 line-through font-bold"
               >₹19</span
             >
             <span
-              class="text-[9px] font-black bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full"
+              class="text-[10px] font-black bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full"
               >SAVE 50%</span
             >
           </div>
         </div>
 
-        <div class="space-y-2">
+        <div class="space-y-2.5">
           <button
             onclick="executeBuyTest()"
             class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-md shadow-indigo-600/20 flex items-center justify-center gap-1.5 cursor-pointer font-kids"
           >
-            <i data-lucide="lock-open" class="w-3.5 h-3.5"></i>
+            <i data-lucide="lock-open" class="w-4 h-4"></i>
             <span id="btn-paywall-text">Buy This Test @ ₹9</span>
           </button>
 
@@ -436,7 +439,7 @@
             onclick="executeBuyPass()"
             class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-95 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-md shadow-orange-500/20 flex items-center justify-center gap-1.5 cursor-pointer font-kids"
           >
-            <i data-lucide="crown" class="w-3.5 h-3.5"></i>
+            <i data-lucide="crown" class="w-4 h-4"></i>
             <span>Get All-Access Pass @ ₹99/mo</span>
           </button>
         </div>
@@ -520,7 +523,7 @@
           const badge = document.getElementById("user-plan-badge");
           badge.textContent = "PRO PASS";
           badge.className =
-            "text-[8px] font-extrabold bg-amber-100 text-amber-800 border border-amber-300 px-1.5 py-0.2 rounded-full shrink-0";
+            "text-[10px] font-extrabold bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-full shrink-0";
         }
 
         try {
@@ -636,13 +639,13 @@
 
         document.querySelectorAll(".segment-tab").forEach((tab) => {
           tab.className =
-            "segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50";
+            "segment-tab px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50";
         });
 
         const activeTab = document.getElementById(`tab-${segmentKey}`);
         if (activeTab) {
           activeTab.className =
-            "segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-indigo-600 text-white shadow-xs";
+            "segment-tab px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer bg-indigo-600 text-white shadow-xs";
         }
 
         updateCategoryWidgets();
@@ -772,17 +775,17 @@
               <!-- SUBJECT HEADER -->
               <div 
                 onclick="toggleSubject('${subj.id}')"
-                class="p-3 flex items-center justify-between cursor-pointer select-none bg-white hover:bg-slate-50 transition-all"
+                class="p-3.5 flex items-center justify-between cursor-pointer select-none bg-white hover:bg-slate-50 transition-all"
               >
-                <div class="flex items-center gap-2.5 min-w-0">
-                  <div class="w-9 h-9 rounded-xl ${
+                <div class="flex items-center gap-3 min-w-0">
+                  <div class="w-10 h-10 rounded-xl ${
                     subj.color || "bg-indigo-500"
-                  } text-white flex items-center justify-center text-lg font-black shrink-0 shadow-2xs">
+                  } text-white flex items-center justify-center text-lg font-black shrink-0 shadow-xs">
                     ${subj.icon || "📝"}
                   </div>
                   <div class="min-w-0">
-                    <h4 class="font-extrabold text-slate-800 text-xs truncate">${subj.name}</h4>
-                    <span class="text-[9px] font-bold text-slate-400 block">
+                    <h4 class="font-extrabold text-slate-800 text-xs truncate leading-snug">${subj.name}</h4>
+                    <span class="text-[10px] font-bold text-slate-400 block mt-0.5">
                       ${
                         subj.loading
                           ? "Loading tests..."
@@ -794,8 +797,8 @@
                   </div>
                 </div>
 
-                <div class="flex items-center gap-1.5 shrink-0">
-                  <span class="text-[9px] font-extrabold px-2 py-0.5 rounded-full border ${
+                <div class="flex items-center gap-2 shrink-0">
+                  <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${
                     subj.hasError
                       ? "bg-rose-50 text-rose-600 border-rose-200"
                       : subj.badgeColor ||
@@ -809,10 +812,10 @@
                           : `${categoryCount} Topics`
                     }
                   </span>
-                  <div class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition-transform duration-200 ${
+                  <div class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition-transform duration-200 ${
                     isOpen ? "rotate-180 bg-indigo-50 text-indigo-600" : ""
                   }">
-                    <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
                   </div>
                 </div>
               </div>
@@ -821,22 +824,22 @@
               ${
                 isOpen
                   ? `
-                <div class="bg-slate-50 p-2.5 border-t border-slate-100 space-y-2 animate-fadeIn">
+                <div class="bg-slate-50/80 p-3 border-t border-slate-100 space-y-2.5 animate-fadeIn">
                   ${
                     subj.loading
                       ? `
                       <div class="py-5 text-center">
-                        <div class="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-1.5"></div>
-                        <p class="text-[11px] font-bold text-indigo-600">Fetching ${subj.name} Papers...</p>
+                        <div class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                        <p class="text-xs font-bold text-indigo-600">Fetching ${subj.name} Papers...</p>
                       </div>
                     `
                       : subj.hasError
                         ? `
                       <div class="py-4 text-center">
-                        <p class="text-[11px] font-bold text-rose-500 mb-2">${subj.errorMessage || "Unable to load test papers. Please try again."}</p>
+                        <p class="text-xs font-bold text-rose-500 mb-2">${subj.errorMessage || "Unable to load test papers. Please try again."}</p>
                         <button 
                           onclick="event.stopPropagation(); retryFetchSubject('${subj.id}')"
-                          class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-lg text-[10px] font-bold transition-all active:scale-95 cursor-pointer"
+                          class="px-3.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer"
                         >
                           Retry
                         </button>
@@ -852,11 +855,11 @@
 
                                 let badgeHtml = "";
                                 if (cat.access_type === "free") {
-                                  badgeHtml = `<span class="text-[8px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200 px-1.5 py-0.5 rounded">FREE</span>`;
+                                  badgeHtml = `<span class="text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded">FREE</span>`;
                                 } else if (cat.access_type === "paid") {
-                                  badgeHtml = `<span class="text-[8px] font-black bg-indigo-50 text-indigo-700 border border-indigo-200 px-1.5 py-0.5 rounded">₹${cat.discounted_price || cat.price}</span>`;
+                                  badgeHtml = `<span class="text-[10px] font-extrabold bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded">₹${cat.discounted_price || cat.price}</span>`;
                                 } else {
-                                  badgeHtml = `<span class="text-[8px] font-black bg-amber-50 text-amber-800 border border-amber-200 px-1.5 py-0.5 rounded">🔒 PASS</span>`;
+                                  badgeHtml = `<span class="text-[10px] font-extrabold bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded">🔒 PASS</span>`;
                                 }
 
                                 const catJsonEscaped = JSON.stringify(
@@ -864,23 +867,23 @@
                                 ).replace(/'/g, "&apos;");
 
                                 return `
-                        <div class="bg-white border border-slate-200/80 rounded-xl p-2.5 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all">
-                          <div class="pr-2 min-w-0">
-                            <div class="flex items-center gap-1.5">
+                        <div class="bg-white border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all">
+                          <div class="pr-2 min-w-0 flex-1">
+                            <div class="flex items-center gap-2">
                               <h5 class="font-extrabold text-slate-800 text-xs truncate">${cat.title}</h5>
                               ${badgeHtml}
                             </div>
-                            <p class="text-[9px] font-semibold text-slate-400 truncate mt-0.5">${
+                            <p class="text-[11px] font-medium text-slate-400 truncate mt-0.5">${
                               cat.desc || "Interactive Practice Module"
                             }</p>
-                            <div class="flex items-center gap-1.5 mt-1">
-                              <span class="text-[8px] font-bold bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded">
+                            <div class="flex items-center gap-1.5 mt-1.5">
+                              <span class="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded">
                                 ${cat.ques || 10} Ques
                               </span>
-                              <span class="text-[8px] font-bold bg-indigo-50 text-indigo-600 px-1.5 py-0.5 rounded">
-                                ⏱️ ${cat.time || 20} M
+                              <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded">
+                                ⏱️ ${cat.time || 20}m
                               </span>
-                              <span class="text-[8px] font-bold uppercase text-slate-400">
+                              <span class="text-[10px] font-bold uppercase text-slate-400">
                                 ${cat.difficulty || "Medium"}
                               </span>
                             </div>
@@ -891,19 +894,19 @@
                               ? `
                             <button 
                               onclick="startTest('${cat.id}', '${cat.exam_category || currentSegment}')"
-                              class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[11px] font-extrabold transition-all cursor-pointer shadow-2xs active:scale-95 shrink-0 flex items-center gap-1 font-kids"
+                              class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-xl text-xs font-black transition-all cursor-pointer shadow-xs shrink-0 flex items-center gap-1.5 font-kids"
                             >
                               <span>Start</span>
-                              <i data-lucide="play" class="w-3 h-3 fill-current"></i>
+                              <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
                             </button>
                           `
                               : `
                             <button 
                               onclick='openPaywall(${catJsonEscaped})'
-                              class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-[11px] font-extrabold transition-all cursor-pointer shadow-2xs active:scale-95 shrink-0 flex items-center gap-1 font-kids"
+                              class="px-3.5 py-2 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white rounded-xl text-xs font-black transition-all cursor-pointer shadow-xs shrink-0 flex items-center gap-1.5 font-kids"
                             >
                               <span>Unlock</span>
-                              <i data-lucide="lock" class="w-3 h-3"></i>
+                              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
                             </button>
                           `
                           }
@@ -912,7 +915,7 @@
                               })
                               .join("")
                           : `
-                      <div class="py-3 text-center text-slate-400 font-bold text-[11px]">
+                      <div class="py-4 text-center text-slate-400 font-bold text-xs">
                         📂 No test papers available right now.
                       </div>
                     `

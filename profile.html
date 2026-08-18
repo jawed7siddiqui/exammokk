@@ -13,7 +13,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Fredoka:wght@400;600;700&display=swap"
@@ -51,7 +51,7 @@
 
       <!-- 2. MAIN CONTENT -->
       <main
-        class="flex-1 px-4 pt-3 pb-24 space-y-3 overflow-y-auto no-scrollbar"
+        class="flex-1 px-4 pt-3 pb-24 space-y-3.5 overflow-y-auto no-scrollbar"
       >
         <!-- PROFILE HERO CARD -->
         <div
@@ -59,68 +59,71 @@
         >
           <div
             id="profile-avatar"
-            class="w-14 h-14 mx-auto rounded-2xl bg-white/20 border-2 border-white/30 text-white font-extrabold flex items-center justify-center text-xl shadow-inner uppercase font-kids mb-2"
+            class="w-14 h-14 mx-auto rounded-2xl bg-white/20 border-2 border-white/30 text-white font-extrabold flex items-center justify-center text-2xl shadow-inner uppercase font-kids mb-2.5"
           >
             K
           </div>
 
           <h2
             id="profile-name"
-            class="text-sm font-black tracking-wide font-kids"
+            class="text-base font-black tracking-wide font-kids"
           >
             Kumar
           </h2>
           <p
             id="profile-grade"
-            class="text-[11px] text-indigo-200 font-semibold mt-0.5"
+            class="text-xs text-indigo-200 font-semibold mt-0.5"
           >
             Grade 1
           </p>
-          <p class="text-[9px] text-indigo-300 font-bold mt-1">
-            ID: <span id="profile-user-id" class="text-amber-300">--</span>
+          <p class="text-[11px] text-indigo-300 font-bold mt-1">
+            ID:
+            <span id="profile-user-id" class="text-amber-300 font-mono"
+              >--</span
+            >
           </p>
         </div>
 
         <!-- QUICK 3 STATS -->
-        <div class="grid grid-cols-3 gap-2">
+        <div class="grid grid-cols-3 gap-2.5">
           <div
-            class="bg-white border border-slate-200/80 rounded-2xl p-2.5 text-center shadow-2xs"
+            class="bg-white border border-slate-200/80 rounded-2xl p-3 text-center shadow-2xs"
           >
-            <span class="text-base">📝</span>
-            <p class="text-[8px] font-bold text-slate-400 uppercase mt-0.5">
+            <span class="text-lg">📝</span>
+            <p class="text-[10px] font-bold text-slate-400 uppercase mt-1">
               Tests
             </p>
             <p
               id="stat-profile-tests"
-              class="text-xs font-black text-slate-800 font-kids mt-0.5"
+              class="text-sm font-black text-slate-800 font-kids mt-0.5"
             >
               0
             </p>
           </div>
           <div
-            class="bg-white border border-slate-200/80 rounded-2xl p-2.5 text-center shadow-2xs"
+            class="bg-white border border-slate-200/80 rounded-2xl p-3 text-center shadow-2xs"
           >
-            <span class="text-base">🎯</span>
-            <p class="text-[8px] font-bold text-slate-400 uppercase mt-0.5">
+            <span class="text-lg">🎯</span>
+            <p class="text-[10px] font-bold text-slate-400 uppercase mt-1">
               Accuracy
             </p>
             <p
               id="stat-profile-accuracy"
-              class="text-xs font-black text-emerald-600 font-kids mt-0.5"
+              class="text-sm font-black text-emerald-600 font-kids mt-0.5"
             >
               0%
             </p>
           </div>
           <div
-            class="bg-white border border-slate-200/80 rounded-2xl p-2.5 text-center shadow-2xs"
+            class="bg-white border border-slate-200/80 rounded-2xl p-3 text-center shadow-2xs"
           >
-            <span class="text-base">⭐</span>
-            <p class="text-[8px] font-bold text-slate-400 uppercase mt-0.5">
+            <span class="text-lg">⭐</span>
+            <p class="text-[10px] font-bold text-slate-400 uppercase mt-1">
               Stars
             </p>
             <p
               id="stat-profile-stars"
-              class="text-xs font-black text-amber-500 font-kids mt-0.5"
+              class="text-sm font-black text-amber-500 font-kids mt-0.5"
             >
               0
             </p>
@@ -128,43 +131,49 @@
         </div>
 
         <!-- SIMPLE ACCOUNT INFO -->
-        <div class="space-y-1">
+        <div class="space-y-1.5">
           <h3
-            class="text-[11px] font-extrabold text-slate-700 uppercase tracking-wider px-1"
+            class="text-xs font-extrabold text-slate-700 uppercase tracking-wider px-1"
           >
             Details
           </h3>
 
           <div
-            class="bg-white border border-slate-200/80 rounded-2xl p-3 space-y-2 shadow-2xs text-xs"
+            class="bg-white border border-slate-200/80 rounded-2xl p-3.5 space-y-2.5 shadow-2xs text-xs"
           >
             <div class="flex items-center justify-between">
               <span class="text-slate-400 font-semibold">Name</span>
-              <span id="detail-name" class="font-extrabold text-slate-800"
+              <span
+                id="detail-name"
+                class="font-extrabold text-slate-800 text-xs"
                 >Kumar</span
               >
             </div>
             <div
-              class="border-t border-slate-100 pt-2 flex items-center justify-between"
+              class="border-t border-slate-100 pt-2.5 flex items-center justify-between"
             >
               <span class="text-slate-400 font-semibold">Grade</span>
-              <span id="detail-grade" class="font-extrabold text-slate-800"
+              <span
+                id="detail-grade"
+                class="font-extrabold text-slate-800 text-xs"
                 >Grade 1</span
               >
             </div>
             <div
-              class="border-t border-slate-100 pt-2 flex items-center justify-between"
+              class="border-t border-slate-100 pt-2.5 flex items-center justify-between"
             >
               <span class="text-slate-400 font-semibold">Curriculum</span>
-              <span class="font-extrabold text-indigo-600">CBSE / School</span>
+              <span class="font-extrabold text-indigo-600 text-xs"
+                >CBSE / School</span
+              >
             </div>
           </div>
         </div>
 
         <!-- SIMPLE SHORTCUTS -->
-        <div class="space-y-1">
+        <div class="space-y-1.5">
           <h3
-            class="text-[11px] font-extrabold text-slate-700 uppercase tracking-wider px-1"
+            class="text-xs font-extrabold text-slate-700 uppercase tracking-wider px-1"
           >
             Shortcuts
           </h3>
@@ -174,10 +183,12 @@
           >
             <button
               onclick="window.location.href = 'scoreboard.html'"
-              class="w-full p-3 flex items-center justify-between hover:bg-slate-50 active:bg-slate-100 transition-all cursor-pointer"
+              class="w-full p-3.5 flex items-center justify-between hover:bg-slate-50 active:bg-slate-100 transition-all cursor-pointer"
             >
-              <div class="flex items-center gap-2.5 font-bold text-slate-700">
-                <span class="text-sm">📊</span>
+              <div
+                class="flex items-center gap-3 font-bold text-slate-700 text-xs"
+              >
+                <span class="text-base">📊</span>
                 <span>View Full Scoreboard</span>
               </div>
               <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
@@ -185,10 +196,12 @@
 
             <button
               onclick="window.location.href = 'testpaper.html'"
-              class="w-full p-3 flex items-center justify-between hover:bg-slate-50 active:bg-slate-100 transition-all cursor-pointer"
+              class="w-full p-3.5 flex items-center justify-between hover:bg-slate-50 active:bg-slate-100 transition-all cursor-pointer"
             >
-              <div class="flex items-center gap-2.5 font-bold text-slate-700">
-                <span class="text-sm">📝</span>
+              <div
+                class="flex items-center gap-3 font-bold text-slate-700 text-xs"
+              >
+                <span class="text-base">📝</span>
                 <span>All Practice Tests</span>
               </div>
               <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
@@ -196,12 +209,11 @@
           </div>
         </div>
 
-        <!-- LOGOUT BUTTON CARD (BOTTOM) -->
         <!-- LOGOUT BUTTON (Soft Slate Theme) -->
-        <div class="pt-1">
+        <div class="pt-1.5">
           <button
             onclick="handleLogout()"
-            class="w-full p-3 bg-white hover:bg-slate-100 border border-slate-200/90 rounded-2xl flex items-center justify-center gap-2 text-slate-600 hover:text-slate-800 font-extrabold text-xs transition-all active:scale-98 cursor-pointer shadow-2xs font-kids"
+            class="w-full py-3 bg-white hover:bg-slate-100 border border-slate-200/90 rounded-2xl flex items-center justify-center gap-2 text-slate-600 hover:text-slate-800 font-extrabold text-xs transition-all active:scale-98 cursor-pointer shadow-2xs font-kids"
           >
             <i data-lucide="log-out" class="w-4 h-4 text-slate-400"></i>
             <span>Logout Account</span>

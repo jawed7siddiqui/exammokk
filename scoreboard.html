@@ -13,7 +13,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Fredoka:wght@400;600;700&family=JetBrains+Mono:wght@600;700&display=swap"
@@ -67,49 +67,48 @@
 
       <!-- 2. MAIN SCROLLABLE CONTENT (ANCHORED TO TOP) -->
       <main
-        class="flex-1 px-4 pt-3 pb-24 space-y-3 overflow-y-auto no-scrollbar"
+        class="flex-1 px-4 pt-3 pb-24 space-y-3.5 overflow-y-auto no-scrollbar"
       >
         <!-- USER PROFILE & TOTAL STARS -->
         <div
-          class="flex items-center justify-between bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs"
+          class="flex items-center justify-between bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs"
         >
-          <div class="flex items-center gap-2.5 min-w-0">
+          <div class="flex items-center gap-3 min-w-0">
             <div
               id="user-avatar"
-              class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white font-extrabold flex items-center justify-center text-sm shadow-xs uppercase shrink-0"
+              class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white font-extrabold flex items-center justify-center text-base shadow-xs uppercase shrink-0"
             >
               K
             </div>
             <div class="min-w-0">
               <h2
                 id="user-display-name"
-                class="text-xs font-extrabold text-slate-800 leading-tight truncate"
+                class="text-sm font-extrabold text-slate-800 leading-tight truncate"
               >
                 Student
               </h2>
               <p
                 id="user-display-id"
-                class="text-[10px] text-slate-400 font-semibold mt-0.5"
+                class="text-[11px] text-slate-400 font-semibold mt-0.5"
               >
                 ID: Loading...
               </p>
             </div>
           </div>
 
-          <!-- STARS ACCUMULATED -->
-          <!-- STARS ACCUMULATED BADGE (Fixed Single-Line Pill) -->
+          <!-- STARS ACCUMULATED BADGE -->
           <div
-            class="bg-amber-50/90 border border-amber-200/80 px-2.5 py-1 rounded-xl flex items-center gap-1.5 shrink-0 select-none whitespace-nowrap shadow-2xs"
+            class="bg-amber-50/90 border border-amber-200/80 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shrink-0 select-none whitespace-nowrap shadow-2xs"
           >
-            <span class="text-sm shrink-0">⭐</span>
+            <span class="text-base shrink-0">⭐</span>
             <div class="flex items-baseline gap-1">
               <span
                 id="stat-total-stars"
-                class="text-xs font-black text-amber-700 font-kids leading-none"
+                class="text-sm font-black text-amber-700 font-kids leading-none"
                 >0</span
               >
               <span
-                class="text-[9px] font-extrabold text-amber-800/80 uppercase tracking-tight"
+                class="text-[10px] font-extrabold text-amber-800/80 uppercase tracking-tight"
                 >Stars</span
               >
             </div>
@@ -118,53 +117,53 @@
 
         <!-- LIFETIME PROGRESS BANNER -->
         <div
-          class="bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 rounded-2xl p-3.5 text-white shadow-md shadow-indigo-600/10 relative overflow-hidden"
+          class="bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 rounded-2xl p-4 text-white shadow-md shadow-indigo-600/10 relative overflow-hidden"
         >
-          <div class="flex items-center justify-between mb-1.5">
+          <div class="flex items-center justify-between mb-2">
             <span
-              class="text-[9px] font-extrabold uppercase tracking-wider bg-white/20 backdrop-blur-md px-2 py-0.5 rounded-full text-white"
+              class="text-[10px] font-extrabold uppercase tracking-wider bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-white"
             >
               Lifetime Progress Report
             </span>
-            <span class="text-[10px] font-bold text-indigo-200">Overall</span>
+            <span class="text-xs font-bold text-indigo-200">Overall</span>
           </div>
 
-          <div class="grid grid-cols-3 gap-2 text-center my-2">
+          <div class="grid grid-cols-3 gap-2 text-center my-2.5">
             <div
-              class="bg-white/10 backdrop-blur-xs rounded-xl p-1.5 border border-white/10"
+              class="bg-white/10 backdrop-blur-xs rounded-xl p-2 border border-white/10"
             >
-              <p class="text-[8px] font-bold text-indigo-200 uppercase">
+              <p class="text-[10px] font-bold text-indigo-200 uppercase">
                 Tests Taken
               </p>
               <p
                 id="stat-tests-count"
-                class="text-xs font-black text-white mt-0.5 font-kids"
+                class="text-sm font-black text-white mt-0.5 font-kids"
               >
                 0
               </p>
             </div>
             <div
-              class="bg-white/10 backdrop-blur-xs rounded-xl p-1.5 border border-white/10"
+              class="bg-white/10 backdrop-blur-xs rounded-xl p-2 border border-white/10"
             >
-              <p class="text-[8px] font-bold text-indigo-200 uppercase">
+              <p class="text-[10px] font-bold text-indigo-200 uppercase">
                 Accuracy
               </p>
               <p
                 id="stat-accuracy"
-                class="text-xs font-black text-emerald-300 mt-0.5 font-kids"
+                class="text-sm font-black text-emerald-300 mt-0.5 font-kids"
               >
                 0%
               </p>
             </div>
             <div
-              class="bg-white/10 backdrop-blur-xs rounded-xl p-1.5 border border-white/10"
+              class="bg-white/10 backdrop-blur-xs rounded-xl p-2 border border-white/10"
             >
-              <p class="text-[8px] font-bold text-indigo-200 uppercase">
+              <p class="text-[10px] font-bold text-indigo-200 uppercase">
                 Total Score
               </p>
               <p
                 id="stat-total-score"
-                class="text-xs font-black text-amber-300 mt-0.5 font-kids"
+                class="text-sm font-black text-amber-300 mt-0.5 font-kids"
               >
                 0/0
               </p>
@@ -172,7 +171,7 @@
           </div>
 
           <div
-            class="flex items-center justify-between text-[10px] text-indigo-200 font-bold mt-1.5 pt-1.5 border-t border-white/10 px-1"
+            class="flex items-center justify-between text-[11px] text-indigo-200 font-bold mt-2 pt-2 border-t border-white/10 px-1"
           >
             <span
               >Correct Matches:
@@ -186,21 +185,21 @@
         </div>
 
         <!-- SUBJECT ACCURACY FILTER STRIP (HORIZONTAL SCROLLABLE CARDS) -->
-        <div class="space-y-1.5">
+        <div class="space-y-2">
           <div class="flex items-center justify-between px-1">
             <h3
               class="text-xs font-extrabold text-slate-800 uppercase tracking-wider"
             >
               Subject Performance 📊
             </h3>
-            <span class="text-[9px] font-semibold text-slate-400">
+            <span class="text-[11px] font-semibold text-slate-400">
               Tap to filter tests
             </span>
           </div>
 
           <div
             id="subject-cards-container"
-            class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1"
+            class="flex items-center gap-2.5 overflow-x-auto no-scrollbar py-1"
           >
             <div
               class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-400"
@@ -211,9 +210,9 @@
         </div>
 
         <!-- RECENT TEST PAPERS SCOREBOARD & PAGINATION -->
-        <div class="space-y-2">
+        <div class="space-y-2.5">
           <div class="flex items-center justify-between px-1">
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-2">
               <h3
                 id="history-heading"
                 class="text-xs font-extrabold text-slate-800 uppercase tracking-wider"
@@ -223,14 +222,14 @@
               <button
                 id="btn-clear-filter"
                 onclick="filterBySubject('ALL')"
-                class="hidden text-[9px] font-bold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded cursor-pointer hover:bg-indigo-100"
+                class="hidden text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-lg cursor-pointer hover:bg-indigo-100 transition-colors"
               >
                 Reset Filter ✖
               </button>
             </div>
             <span
               id="total-attempts-badge"
-              class="text-[9px] font-extrabold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full border border-indigo-100"
+              class="text-[10px] font-extrabold bg-indigo-50 text-indigo-600 px-2.5 py-0.5 rounded-full border border-indigo-100"
             >
               0 Tests
             </span>
@@ -239,7 +238,7 @@
           <!-- INLINE LOADER -->
           <div id="history-loading" class="py-8 text-center hidden">
             <div
-              class="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-1.5"
+              class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"
             ></div>
             <p class="text-xs font-bold text-indigo-600">
               Fetching Test Records...
@@ -247,19 +246,19 @@
           </div>
 
           <!-- RECENT ATTEMPTS LIST -->
-          <div id="attempts-list-container" class="space-y-2">
+          <div id="attempts-list-container" class="space-y-2.5">
             <!-- Dynamic History List -->
           </div>
 
           <!-- PAGINATION CONTROLS (10 PER PAGE) -->
           <div
             id="pagination-controls"
-            class="hidden bg-white border border-slate-200/80 rounded-xl p-2 flex items-center justify-between shadow-2xs mt-2"
+            class="hidden bg-white border border-slate-200/80 rounded-xl p-2.5 flex items-center justify-between shadow-2xs mt-2"
           >
             <button
               id="btn-prev-page"
               onclick="prevPage()"
-              class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-lg flex items-center gap-1 active:scale-95 cursor-pointer disabled:opacity-40 disabled:pointer-events-none transition-all"
+              class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-lg flex items-center gap-1 active:scale-95 cursor-pointer disabled:opacity-40 disabled:pointer-events-none transition-all"
             >
               <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
               <span>Prev</span>
@@ -267,7 +266,7 @@
 
             <span
               id="page-indicator"
-              class="text-[11px] font-extrabold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg"
+              class="text-xs font-extrabold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-lg"
             >
               Page 1 of 1
             </span>
@@ -275,7 +274,7 @@
             <button
               id="btn-next-page"
               onclick="nextPage()"
-              class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-lg flex items-center gap-1 active:scale-95 cursor-pointer disabled:opacity-40 disabled:pointer-events-none transition-all"
+              class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-lg flex items-center gap-1 active:scale-95 cursor-pointer disabled:opacity-40 disabled:pointer-events-none transition-all"
             >
               <span>Next</span>
               <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
@@ -284,7 +283,7 @@
         </div>
       </main>
 
-      <!-- 3. DYNAMIC BOTTOM NAVIGATION PLACEHOLDER (RENDERED BY js/nav.js) -->
+      <!-- 3. DYNAMIC BOTTOM NAVIGATION PLACEHOLDER -->
       <div id="bottom-nav-placeholder"></div>
     </div>
 
@@ -296,7 +295,9 @@
       <div
         class="bg-white rounded-3xl p-5 max-w-sm w-full border border-slate-200 shadow-2xl flex flex-col max-h-[85vh] animate-fadeIn"
       >
-        <div class="flex items-center justify-between border-b pb-3 mb-3">
+        <div
+          class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3"
+        >
           <div>
             <h3
               id="modal-test-title"
@@ -306,16 +307,16 @@
             </h3>
             <p
               id="modal-test-meta"
-              class="text-[10px] font-bold text-indigo-600 mt-0.5"
+              class="text-[11px] font-bold text-indigo-600 mt-0.5"
             >
               Score: 0/0
             </p>
           </div>
           <button
             onclick="closeBreakdownModal()"
-            class="p-1 bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 cursor-pointer"
+            class="p-1.5 bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 cursor-pointer"
           >
-            <i data-lucide="x" class="w-5 h-5"></i>
+            <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
@@ -326,7 +327,7 @@
           <!-- Question Breakdown Cards -->
         </div>
 
-        <div class="pt-3 border-t mt-3">
+        <div class="pt-3 border-t border-slate-100 mt-3">
           <button
             onclick="closeBreakdownModal()"
             class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs uppercase rounded-xl active:scale-95 transition-all cursor-pointer font-kids"
@@ -428,13 +429,13 @@
             <div 
               onclick="filterBySubject('ALL')"
               id="sub-card-ALL"
-              class="sub-filter-card shrink-0 min-w-[130px] p-2.5 rounded-2xl border transition-all cursor-pointer select-none bg-indigo-600 text-white border-indigo-600 shadow-xs"
+              class="sub-filter-card shrink-0 min-w-[135px] p-3 rounded-2xl border transition-all cursor-pointer select-none bg-indigo-600 text-white border-indigo-600 shadow-xs"
             >
               <div class="flex items-center justify-between">
                 <span class="text-xs font-extrabold truncate">All Subjects</span>
-                <span class="text-[11px] font-black font-kids">${summary.overall_accuracy || 0}%</span>
+                <span class="text-xs font-black font-kids">${summary.overall_accuracy || 0}%</span>
               </div>
-              <p class="text-[9px] text-indigo-100 font-bold mt-1">${globalAttemptsData.length || summary.total_tests || 0} Total Tests</p>
+              <p class="text-[10px] text-indigo-100 font-bold mt-1">${globalAttemptsData.length || summary.total_tests || 0} Total Tests</p>
             </div>
           `;
 
@@ -445,16 +446,16 @@
               <div 
                 onclick="filterBySubject('${sub.subject}')"
                 id="sub-card-${subIdEscaped}"
-                class="sub-filter-card shrink-0 min-w-[130px] p-2.5 rounded-2xl border transition-all cursor-pointer select-none bg-white text-slate-800 border-slate-200/90 hover:border-indigo-300 shadow-2xs"
+                class="sub-filter-card shrink-0 min-w-[135px] p-3 rounded-2xl border transition-all cursor-pointer select-none bg-white text-slate-800 border-slate-200/90 hover:border-indigo-300 shadow-2xs"
               >
                 <div class="flex items-center justify-between gap-1">
                   <span class="text-xs font-extrabold truncate max-w-[85px]">${sub.subject}</span>
-                  <span class="text-[11px] font-black text-indigo-600 font-kids">${sub.accuracy}%</span>
+                  <span class="text-xs font-black text-indigo-600 font-kids">${sub.accuracy}%</span>
                 </div>
-                <div class="w-full h-1 bg-slate-100 rounded-full overflow-hidden my-1">
+                <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden my-1.5">
                   <div class="h-full bg-indigo-600 rounded-full" style="width: ${sub.accuracy}%"></div>
                 </div>
-                <p class="text-[9px] text-slate-400 font-bold truncate">${sub.tests_count} Tests • ${sub.score_obtained}/${sub.max_score} M</p>
+                <p class="text-[10px] text-slate-400 font-bold truncate">${sub.tests_count} Tests • ${sub.score_obtained}/${sub.max_score} M</p>
               </div>
             `;
             })
@@ -486,7 +487,7 @@
         // Update Card Styles
         document.querySelectorAll(".sub-filter-card").forEach((card) => {
           card.className =
-            "sub-filter-card shrink-0 min-w-[130px] p-2.5 rounded-2xl border transition-all cursor-pointer select-none bg-white text-slate-800 border-slate-200/90 hover:border-indigo-300 shadow-2xs";
+            "sub-filter-card shrink-0 min-w-[135px] p-3 rounded-2xl border transition-all cursor-pointer select-none bg-white text-slate-800 border-slate-200/90 hover:border-indigo-300 shadow-2xs";
         });
 
         const activeCardId =
@@ -496,7 +497,7 @@
         const activeCard = document.getElementById(activeCardId);
         if (activeCard) {
           activeCard.className =
-            "sub-filter-card shrink-0 min-w-[130px] p-2.5 rounded-2xl border transition-all cursor-pointer select-none bg-indigo-600 text-white border-indigo-600 shadow-xs";
+            "sub-filter-card shrink-0 min-w-[135px] p-3 rounded-2xl border transition-all cursor-pointer select-none bg-indigo-600 text-white border-indigo-600 shadow-xs";
         }
 
         // Filter Array
@@ -570,18 +571,18 @@
             return `
             <div 
               onclick="openBreakdownModal(${actualGlobalIndex})"
-              class="bg-white border border-slate-200/80 rounded-2xl p-2.5 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all cursor-pointer active:scale-98"
+              class="bg-white border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all cursor-pointer active:scale-98"
             >
-              <div class="flex items-center gap-2.5 min-w-0 pr-2">
-                <div class="w-9 h-9 rounded-xl ${isPassed ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-rose-50 text-rose-600 border border-rose-200"} flex items-center justify-center font-black text-xs shrink-0 font-kids">
+              <div class="flex items-center gap-3 min-w-0 pr-2 flex-1">
+                <div class="w-10 h-10 rounded-xl ${isPassed ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-rose-50 text-rose-600 border border-rose-200"} flex items-center justify-center font-black text-xs shrink-0 font-kids">
                   ${test.grade || (isPassed ? "A" : "F")}
                 </div>
-                <div class="min-w-0">
-                  <h4 class="font-extrabold text-slate-800 text-xs truncate">${test.class_or_exam_name || "Practice Test"}</h4>
-                  <p class="text-[9px] text-slate-400 font-semibold mt-0.5 flex items-center gap-1">
+                <div class="min-w-0 flex-1">
+                  <h4 class="font-extrabold text-slate-800 text-xs truncate leading-snug">${test.class_or_exam_name || "Practice Test"}</h4>
+                  <p class="text-[11px] text-slate-400 font-medium mt-0.5 flex items-center gap-1.5 flex-wrap">
                     <span class="text-indigo-600 font-bold">${test.subject || "General"}</span>
                     <span>•</span>
-                    <span class="text-slate-500 font-mono">${dateTimeStr}</span>
+                    <span class="text-slate-500 font-mono text-[10px]">${dateTimeStr}</span>
                   </p>
                 </div>
               </div>
@@ -590,7 +591,7 @@
                 <span class="text-xs font-black font-kids ${isPassed ? "text-emerald-600" : "text-rose-600"}">
                   ${test.total_score}/${test.max_score}
                 </span>
-                <span class="text-[9px] font-bold text-slate-400 block">${percentage}%</span>
+                <span class="text-[10px] font-bold text-slate-400 block">${percentage}%</span>
               </div>
             </div>
           `;
@@ -663,7 +664,7 @@
               <div class="bg-slate-50 border ${isPassed ? "border-emerald-200" : "border-rose-200"} rounded-2xl p-3 space-y-2">
                 <div class="flex items-center justify-between text-xs font-extrabold">
                   <span class="text-slate-800">Q.${q.question_no || qIdx + 1} (${q.marks_obtained}/${q.max_marks} Marks)</span>
-                  <span class="px-2 py-0.5 rounded-full text-[10px] ${isPassed ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"}">
+                  <span class="px-2.5 py-0.5 rounded-full text-[10px] ${isPassed ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"}">
                     ${isPassed ? "✅ Passed" : "❌ Mistakes"}
                   </span>
                 </div>
@@ -697,14 +698,14 @@
                       }
 
                       return `
-                      <div class="p-2 rounded-xl border text-[11px] font-bold ${isMatchRight ? "bg-emerald-50/70 border-emerald-200 text-emerald-800" : "bg-rose-50/70 border-rose-200 text-rose-800"}">
+                      <div class="p-2.5 rounded-xl border text-xs font-bold ${isMatchRight ? "bg-emerald-50/70 border-emerald-200 text-emerald-800" : "bg-rose-50/70 border-rose-200 text-rose-800"}">
                         <div class="flex items-center justify-between">
                           <span>${u.left} ➔ ${userChoiceText || "Not Attempted"}</span>
                           <span>${isMatchRight ? "✅" : "❌"}</span>
                         </div>
                         ${
                           !isMatchRight && matched
-                            ? `<p class="text-[10px] text-emerald-700 font-extrabold mt-0.5">
+                            ? `<p class="text-[11px] text-emerald-700 font-extrabold mt-1">
                                 💡 Correct Match: ${matched.match}
                                </p>`
                             : ""
