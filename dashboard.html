@@ -170,9 +170,57 @@
           </button>
         </div>
 
-        <!-- UNIFIED COMPACT WIDGET: DAILY LIVE TEST & LAST SCORE SUMMARY -->
+        <!-- KIDS SPECIAL 2 CARDS SECTION (Visible only in KIDS_SCHOOL segment) -->
+        <div id="kids-special-cards" class="grid grid-cols-2 gap-2.5">
+          <!-- CARD 1: PAINT, DRAW & COLOR -->
+          <div
+            onclick="window.location.href = 'paint.html'"
+            class="bg-gradient-to-br from-pink-500 via-rose-500 to-amber-500 rounded-2xl p-3 text-white shadow-md cursor-pointer active:scale-95 transition-all relative overflow-hidden flex flex-col justify-between h-28"
+          >
+            <div class="flex items-center justify-between">
+              <span class="text-xl">🎨</span>
+              <span
+                class="bg-white/20 text-[8px] font-black uppercase px-1.5 py-0.5 rounded-md border border-white/20"
+                >Free</span
+              >
+            </div>
+            <div>
+              <h4 class="text-xs font-black font-kids leading-tight">
+                Draw &amp; Color
+              </h4>
+              <p class="text-[9px] text-white/90 font-semibold mt-0.5">
+                Color pages &amp; paint
+              </p>
+            </div>
+          </div>
+
+          <!-- CARD 2: KIDS PUZZLE -->
+          <div
+            onclick="window.location.href = 'puzzle.html'"
+            class="bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-600 rounded-2xl p-3 text-white shadow-md cursor-pointer active:scale-95 transition-all relative overflow-hidden flex flex-col justify-between h-28"
+          >
+            <div class="flex items-center justify-between">
+              <span class="text-xl">🧩</span>
+              <span
+                class="bg-emerald-400 text-slate-950 text-[8px] font-black uppercase px-1.5 py-0.5 rounded-md shadow-xs"
+                >Fun</span
+              >
+            </div>
+            <div>
+              <h4 class="text-xs font-black font-kids leading-tight">
+                Kids Puzzle
+              </h4>
+              <p class="text-[9px] text-white/90 font-semibold mt-0.5">
+                Brain games &amp; shapes
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- UNIFIED COMPACT WIDGET: DAILY LIVE TEST & LAST SCORE SUMMARY (For Non-Kids) -->
         <div
-          class="bg-gradient-to-br from-indigo-700 via-indigo-800 to-blue-900 rounded-3xl p-4 text-white shadow-xl shadow-indigo-950/25 border border-white/10 relative overflow-hidden"
+          id="non-kids-daily-widget"
+          class="hidden bg-gradient-to-br from-indigo-700 via-indigo-800 to-blue-900 rounded-3xl p-4 text-white shadow-xl shadow-indigo-950/25 border border-white/10 relative overflow-hidden"
         >
           <div
             class="absolute -right-6 -top-6 w-24 h-24 bg-blue-400/20 rounded-full blur-2xl pointer-events-none"
@@ -554,6 +602,19 @@
         }
       }
 
+      function updateCategoryWidgets() {
+        const kidsCards = document.getElementById("kids-special-cards");
+        const nonKidsWidget = document.getElementById("non-kids-daily-widget");
+
+        if (currentSegment === "KIDS_SCHOOL") {
+          kidsCards.classList.remove("hidden");
+          nonKidsWidget.classList.add("hidden");
+        } else {
+          kidsCards.classList.add("hidden");
+          nonKidsWidget.classList.remove("hidden");
+        }
+      }
+
       function changeSegment(segmentKey) {
         currentSegment = segmentKey;
         openSubjectId = null;
@@ -569,6 +630,7 @@
             "segment-tab px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer bg-indigo-600 text-white shadow-xs";
         }
 
+        updateCategoryWidgets();
         openFirstSubjectByDefault();
       }
 
@@ -930,6 +992,7 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
+        updateCategoryWidgets();
         loadUserPerformance();
         openFirstSubjectByDefault();
         if (typeof lucide !== "undefined") {

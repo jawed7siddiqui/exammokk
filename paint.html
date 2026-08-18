@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <!-- Google tag (gtag.js) -->
-    <!-- Google tag (gtag.js) -->
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-C1MVKY4RWF"
@@ -13,28 +12,21 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-C1MVKY4RWF");
     </script>
 
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- PRIMARY SEO META TAGS -->
-    <!-- HIGH-RANKING SEO METATAGS WITH GAME NAMES -->
-    <title>Kids Paint Studio - Draw, Play Games & Learn Online</title>
-    <!-- HIGH-RANKING SEO METATAGS FOR GOOGLE SEARCH -->
     <title>Kids Paint Studio - Draw, Play Games & Learn Online</title>
     <meta
       name="description"
-      content="Universal cloud paint editor for school teachers, parents, and students. Draw online, build fine motor tracking, and play free educational puzzles: Letters Tracing, Coloring Pad, Connect Dots, Maze Runner, Symmetry Mirror, and Math Matrix."
+      content="Universal cloud paint editor for school teachers, parents, and students. Draw online, build fine motor tracking, and play free educational puzzles."
     />
     <meta
       name="keywords"
-      content="online paint editor, cloud paint app, free drawing tool for school, kids educational games, letters tracing app, online coloring pad, connect dots puzzle, maze runner game, symmetry mirror drawing, math matrix logic, school student workspace, digital classroom teacher tool, tracking games children, drawing tools for students"
+      content="online paint editor, cloud paint app, free drawing tool for school, kids educational games"
     />
     <meta name="author" content="Kids Paint" />
     <meta name="robots" content="index, follow" />
@@ -48,7 +40,7 @@
     />
     <meta
       property="og:description"
-      content="100% Free Worldwide Online Paint Tool for CBSE and global school students. Ideal for drawing practice across India, Dubai, and worldwide. No installation required!"
+      content="100% Free Worldwide Online Paint Tool for CBSE and global school students."
     />
     <meta property="og:image" content="/images/seo-banner.png" />
     <meta property="og:url" content="https://kidspaint.cloud" />
@@ -61,11 +53,11 @@
     />
     <meta
       name="twitter:description"
-      content="Worldwide free educational drawing tool for school students. Perfect for India, Dubai, and global art practice."
+      content="Worldwide free educational drawing tool for school students."
     />
     <meta name="twitter:image" content="/images/seo-banner.png" />
 
-    <!-- ADVANCED JSON-LD SCHEMA FOR EDTECH APPLICATION -->
+    <!-- JSON-LD SCHEMA -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -75,48 +67,24 @@
         "applicationCategory": "EducationalApplication",
         "operatingSystem": "All",
         "browserRequirements": "Requires HTML5 Canvas support. Requires JavaScript.",
-        "description": "Universal cloud paint editor and drawing tool for school teachers, parents, and students. Draw online, build fine motor tracking, and play free educational puzzles: Letters Tracing, Coloring Pad, Connect Dots, Maze Runner, Symmetry Mirror, and Math Matrix.",
-        "alternativeHeadline": "Kids Paint Studio - Draw, Play Games & Learn Online",
+        "description": "Universal cloud paint editor and drawing tool for school teachers, parents, and students.",
         "offers": {
           "@type": "Offer",
           "price": "0.00",
           "priceCurrency": "INR"
-        },
-        "audience": {
-          "@type": "Audience",
-          "audienceType": "School Students, Kids, Art Teachers, Toddlers, Elementary Schoolers"
-        },
-        "abstract": "A premium worldwide free online paint tool, browser-based cloud paint editor, and brain development suite hosting interactive drawing templates and cognitive logic games for school classrooms.",
-        "featureList": [
-          "Online Paint Editor",
-          "Cloud Paint App",
-          "Letters Tracing Game",
-          "Coloring Pad Editor",
-          "Connect the Dots Puzzle",
-          "Maze Runner Labyrinth",
-          "Symmetry Mirror Board",
-          "Math Matrix Matcher",
-          "Digital Classroom Teacher Tool"
-        ],
-        "areaServed": [
-          { "@type": "AdministrativeArea", "name": "Worldwide" },
-          { "@type": "AdministrativeArea", "name": "Delhi NCR" },
-          { "@type": "Country", "name": "India" },
-          { "@type": "Country", "name": "United States" },
-          { "@type": "Country", "name": "United Kingdom" },
-          { "@type": "Country", "name": "United Arab Emirates" }
-        ]
+        }
       }
     </script>
-    <!-- Confetti Celebration Library -->
+
+    <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- CDN SCRIPTS LOADED PROPERLY -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <link rel="stylesheet" href="/fonts/fonts.css" />
 
-    <!-- COOL GOOGLE FONTS FOR KIDS -->
+    <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -131,7 +99,6 @@
         padding: 0;
         width: 100%;
         height: 100%;
-        height: 100dvh;
         overflow: hidden;
       }
       body {
@@ -163,16 +130,19 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 12px;
+        padding: 16px;
         min-height: 0;
-        -webkit-overflow-scrolling: touch;
       }
       .canvas-holder {
-        display: block;
-        margin: auto !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
         flex-shrink: 0;
       }
       .canvas-container {
+        width: 1152px !important;
+        height: 648px !important;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
         border-radius: 16px;
         background: white;
@@ -211,15 +181,9 @@
         justify-content: center;
         color: #334155;
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        width: 42px;
-        height: 42px;
+        width: 38px;
+        height: 38px;
         flex-shrink: 0;
-      }
-      @media (min-width: 768px) {
-        .tool-btn-lg {
-          width: 38px;
-          height: 38px;
-        }
       }
       .tool-btn-lg:hover {
         background-color: #f5f3ff;
@@ -271,22 +235,9 @@
         gap: 8px;
         border-radius: 8px;
       }
-      #custom-context-menu button {
-        width: 100%;
-        padding: 8px 12px;
-        text-align: left;
-        font-size: 12px;
-        font-weight: 600;
-        color: #334155;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        border-radius: 8px;
-      }
-
-      /* TEMPLATES SIDEBAR DESIGN - UPWARD HEIGHT FOR MOBILE ADAPTIVE FIT */
+      /* UPDATED TEMPLATES SIDEBAR DESIGN FOR 2-COLUMN GRID */
       #templates-sidebar {
-        width: 165px;
+        width: 260px;
         background: #ffffff;
         border-right: 1px solid #e2e8f0;
         display: flex;
@@ -298,23 +249,40 @@
         overflow-y: auto;
       }
 
-      /* 🛠️ CUSTOM PATLA (THIN) VERTICAL SCROLLBAR */
+      .template-grid-card {
+        background: #ffffff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 8px 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+      }
+
+      .template-grid-card:hover {
+        border-color: #6366f1;
+        background: #f5f3ff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.15);
+      }
       .custom-scrollbar::-webkit-scrollbar {
-        width: 6px; /* Patla scrollbar width */
+        width: 6px;
       }
-
       .custom-scrollbar::-webkit-scrollbar-track {
-        background: #f1f5f9; /* Track background color */
+        background: #f1f5f9;
         border-radius: 10px;
       }
-
       .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #cbd5e1; /* Scrollbar thumb color */
+        background: #cbd5e1;
         border-radius: 10px;
       }
-
       .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #a5b4fc; /* Hover color */
+        background: #a5b4fc;
       }
       .template-card {
         background: #f8fafc;
@@ -330,80 +298,13 @@
         background: #f5f3ff;
         transform: translateY(-2px);
       }
-
-      @media (max-width: 767px) {
-        #main-layout {
-          display: flex !important;
-          flex-direction: column !important;
-          flex: 1 1 0% !important;
-          height: 100% !important;
-          min-height: 0 !important;
-          overflow: hidden !important;
-        }
-
-        #editor-container {
-          order: 1 !important;
-          flex: 1 1 0% !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          position: relative !important;
-          overflow: hidden !important; /* कैनवास को बाहर भागने से रोकेगा */
-          padding: 0 !important;
-          margin: 0 !important;
-          width: 100% !important;
-        }
-
-        .canvas-holder {
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          position: relative !important;
-          margin: 0 !important;
-          width: 100% !important;
-          height: 100% !important;
-          transform: translateY(-50px) !important;
-        }
-
-        /* Fabric.js Canvas Wrapper Fix */
-        .canvas-container {
-          position: relative !important;
-          margin: auto !important;
-          top: 0 !important;
-          left: 0 !important;
-          transform-origin: center center !important;
-        }
-        #templates-sidebar {
-          width: 100% !important;
-          height: auto !important;
-          min-height: 78px !important; /* Slightly bigger height so items won't cut */
-          max-height: 88px !important;
-          flex-direction: row;
-          border-right: none;
-          border-top: 1px solid #e2e8f0;
-          order: 2;
-          overflow-x: auto;
-          overflow-y: hidden;
-          padding: 6px 8px !important;
-        }
-        .template-card {
-          min-width: 100px;
-          height: 70px; /* Adjusted to fit nicely within 78px-88px sidebar height */
-          flex-shrink: 0;
-          padding: 6px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-      }
     </style>
   </head>
   <body class="antialiased select-none">
     <!-- EXPORT PROGRESS OVERLAY -->
     <div
       id="download-progress-overlay"
-      class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999999] hidden flex-col items-center justify-center gap-4 text-white"
+      class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999999] hidden flex flex-col items-center justify-center gap-4 text-white"
     >
       <div
         class="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"
@@ -452,21 +353,21 @@
       </button>
     </div>
 
-    <!-- HEADER TOOLBAR (ALL ORIGINAL TOOLS RESTORED PROPERLY) -->
+    <!-- HEADER TOOLBAR -->
     <header
       class="bg-white border-b border-slate-200 shadow-sm flex flex-col p-2 gap-1.5 shrink-0"
     >
       <div
-        class="flex items-center justify-between px-2 pb-1 border-b border-slate-100"
+        class="flex items-center justify-between px-2 pb-1 border-b border-slate-100 w-full"
       >
-        <div class="flex items-center gap-2">
-          <a href="/" class="flex items-center gap-1 no-underline">
+        <div class="flex items-center gap-1.5 shrink-0">
+          <a href="#" class="flex items-center gap-0.5 no-underline">
             <i
               data-lucide="sparkles"
-              class="w-4 h-4 fill-current text-amber-400"
+              class="w-3.5 h-3.5 fill-current text-amber-400"
             ></i>
             <span
-              class="text-xl md:text-2xl font-black tracking-wide text-indigo-600 uppercase flex items-center"
+              class="text-2xl font-black tracking-wide text-indigo-600 uppercase flex items-center"
             >
               Kids&nbsp;<span class="text-pink-500 animate-pulse">P</span
               ><span class="text-amber-500">a</span
@@ -477,25 +378,26 @@
           </a>
           <button
             onclick="handleNewCanvasClick()"
-            class="ml-1 sm:ml-3 px-2 py-0.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg text-[10px] font-black flex items-center gap-1 shadow-sm transition-all active:scale-95 shrink-0"
+            class="ml-2 px-2.5 py-1 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg text-[10px] font-black flex items-center gap-1 shadow-sm transition-all active:scale-95 shrink-0 cursor-pointer"
           >
             <i data-lucide="file-plus-2" class="w-3 h-3"></i> New
           </button>
         </div>
 
+        <!-- Right Side Icons -->
         <div
-          class="flex items-center gap-1 bg-slate-50 px-1.5 py-0.5 rounded-xl border border-slate-100 shadow-inner"
+          class="flex items-center gap-1 bg-slate-50 px-1 py-0.5 rounded-xl border border-slate-100 shadow-inner shrink-0"
         >
           <button
             onclick="undo()"
-            class="p-1 text-slate-600 hover:bg-white hover:shadow-sm rounded-md transition-all"
+            class="p-1 text-slate-600 hover:bg-white hover:shadow-sm rounded-md transition-all cursor-pointer"
             title="Undo (Ctrl+Z)"
           >
             <i data-lucide="undo-2" class="w-3.5 h-3.5"></i>
           </button>
           <button
             onclick="redo()"
-            class="p-1 text-slate-600 hover:bg-white hover:shadow-sm rounded-md transition-all"
+            class="p-1 text-slate-600 hover:bg-white hover:shadow-sm rounded-md transition-all cursor-pointer"
             title="Redo (Ctrl+Y)"
           >
             <i data-lucide="redo-2" class="w-3.5 h-3.5"></i>
@@ -503,78 +405,74 @@
           <div class="w-[1px] h-3 bg-slate-300 mx-0.5"></div>
           <button
             onclick="downloadPaint()"
-            class="bg-indigo-600 text-white w-8 h-8 rounded-lg shadow hover:bg-indigo-700 transition-all active:scale-90 flex items-center justify-center shrink-0"
+            class="bg-indigo-600 text-white w-8 h-8 rounded-lg shadow hover:bg-indigo-700 transition-all active:scale-90 flex items-center justify-center shrink-0 cursor-pointer"
             title="Export PNG"
           >
-            <i data-lucide="download" class="w-4 h-4 text-white"></i>
+            <i data-lucide="download" class="w-3.5 h-3.5 text-white"></i>
           </button>
         </div>
       </div>
 
       <div
-        class="flex items-stretch justify-start md:justify-center gap-3 px-1 overflow-x-auto no-scrollbar pb-1 w-full"
+        class="flex items-stretch justify-center gap-3 px-1 overflow-x-auto no-scrollbar pb-1 w-full"
       >
         <!-- SECTION 1: TOOLS -->
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
           <div
-            class="flex items-center gap-1 max-w-[140px] md:max-w-[125px] flex-wrap min-h-[42px] md:min-h-[80px] content-center"
+            class="flex items-center gap-1 max-w-[125px] flex-wrap min-h-[80px] content-center"
           >
             <button
               id="tool-select"
               onclick="setMode('select')"
-              class="tool-btn-lg active"
+              class="tool-btn-lg active cursor-pointer"
               title="Select (Esc)"
             >
-              <i
-                data-lucide="mouse-pointer"
-                class="w-5 h-5 md:w-[18px] md:h-[18px]"
-              ></i>
+              <i data-lucide="mouse-pointer" class="w-[18px] h-[18px]"></i>
             </button>
             <button
               id="tool-pen"
               onclick="startDrawing('pen')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
               title="Pencil"
             >
-              <i data-lucide="pencil" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="pencil" class="w-4 h-4"></i>
             </button>
             <button
               id="tool-bucket"
               onclick="setMode('bucket')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
               title="Paint Bucket"
             >
-              <i data-lucide="paint-bucket" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="paint-bucket" class="w-4 h-4"></i>
             </button>
             <button
               id="tool-text"
               onclick="setMode('text')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
               title="Add Text"
             >
-              <i data-lucide="type" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="type" class="w-4 h-4"></i>
             </button>
             <button
               id="tool-eraser"
               onclick="startDrawing('eraser')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
               title="Eraser"
             >
-              <i data-lucide="eraser" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="eraser" class="w-4 h-4"></i>
             </button>
           </div>
           <div class="tool-section-label">Tools</div>
         </div>
 
-        <!-- DYNAMIC TEXT STYLING BLOCK (B, I, U, S RESTORED FULLY) -->
+        <!-- DYNAMIC TEXT STYLING BLOCK -->
         <div
           id="text-styling-section"
           class="hidden flex-col justify-between border-r border-amber-300 bg-amber-50/50 px-2 rounded-xl transition-all duration-300 shrink-0"
         >
-          <div class="flex items-center gap-1 min-h-[42px] md:min-h-[80px]">
-            <!-- Font Family Selector with Live Style Preview -->
+          <div class="flex items-center gap-1 min-h-[80px]">
             <select
               id="text-font-family"
               onchange="applyTextFont(this.value)"
@@ -632,28 +530,28 @@
             <button
               id="btn-bold"
               onclick="toggleTextStyle('bold')"
-              class="w-8 h-8 font-black border border-slate-200 rounded-lg bg-white flex items-center justify-center hover:bg-indigo-50 text-xs shadow-sm"
+              class="w-8 h-8 font-black border border-slate-200 rounded-lg bg-white flex items-center justify-center hover:bg-indigo-50 text-xs shadow-sm cursor-pointer"
             >
               B
             </button>
             <button
               id="btn-italic"
               onclick="toggleTextStyle('italic')"
-              class="w-8 h-8 italic font-serif border border-slate-200 rounded-lg bg-white flex items-center justify-center hover:bg-indigo-50 text-xs shadow-sm"
+              class="w-8 h-8 italic font-serif border border-slate-200 rounded-lg bg-white flex items-center justify-center hover:bg-indigo-50 text-xs shadow-sm cursor-pointer"
             >
               I
             </button>
             <button
               id="btn-underline"
               onclick="toggleTextStyle('underline')"
-              class="w-8 h-8 underline border border-slate-200 rounded-lg bg-white flex items-center justify-center hover:bg-indigo-50 text-xs shadow-sm"
+              class="w-8 h-8 underline border border-slate-200 rounded-lg bg-white flex items-center justify-center hover:bg-indigo-50 text-xs shadow-sm cursor-pointer"
             >
               U
             </button>
             <button
               id="btn-strike"
               onclick="toggleTextStyle('strike')"
-              class="w-8 h-8 line-through border border-slate-200 rounded-lg bg-white flex items-center justify-center hover:bg-indigo-50 text-xs shadow-sm"
+              class="w-8 h-8 line-through border border-slate-200 rounded-lg bg-white flex items-center justify-center hover:bg-indigo-50 text-xs shadow-sm cursor-pointer"
             >
               S
             </button>
@@ -663,24 +561,22 @@
           </div>
         </div>
 
-        <!-- SECTION 2: BRUSHES -->
-
-        <!-- SECTION 3: COLORS PALETTE -->
+        <!-- SECTION 2: COLORS PALETTE -->
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
-          <div class="flex items-center gap-1 min-h-[42px] md:min-h-[80px]">
+          <div class="flex items-center gap-1 min-h-[80px]">
             <div
               class="flex gap-1.5 bg-slate-50 p-0.5 rounded-xl border border-slate-200 shrink-0"
             >
               <div
                 id="box-color1"
-                class="color-box w-6 h-6 rounded bg-black cursor-pointer shadow active"
+                class="color-box w-6 h-6 rounded bg-[#93c5fd] cursor-pointer shadow active"
               ></div>
             </div>
             <div
               id="palette-colors"
-              class="grid grid-cols-6 gap-0.5 w-[140px] md:w-[132px] shrink-0"
+              class="grid grid-cols-6 gap-0.5 w-[132px] shrink-0"
             ></div>
             <div
               class="relative w-6 h-6 rounded border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-sm cursor-pointer shrink-0"
@@ -701,97 +597,100 @@
           </div>
           <div class="tool-section-label pl-1 text-left">Colors</div>
         </div>
+
+        <!-- BRUSHES -->
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
           <div
-            class="flex items-center gap-1 max-w-[185px] md:max-w-[124px] flex-wrap min-h-[42px] md:min-h-[80px] content-center"
+            class="flex items-center gap-1 max-w-[124px] flex-wrap min-h-[80px] content-center"
           >
             <button
               id="tool-brush"
               onclick="startDrawing('brush')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
               title="Standard Brush"
             >
-              <i data-lucide="brush" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="brush" class="w-4 h-4"></i>
             </button>
             <button
               id="tool-calli1"
               onclick="startDrawing('calli1')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
               title="Calligraphy 1"
             >
-              <i data-lucide="pen-tool" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="pen-tool" class="w-4 h-4"></i>
             </button>
             <button
               id="tool-calli2"
               onclick="startDrawing('calli2')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
               title="Calligraphy 2"
             >
-              <i data-lucide="feather" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="feather" class="w-4 h-4"></i>
             </button>
             <button
               id="tool-pattern"
               onclick="startDrawing('pattern')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
               title="Pattern Brush"
             >
-              <i data-lucide="layout-grid" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="layout-grid" class="w-4 h-4"></i>
             </button>
             <button
               id="tool-spray"
               onclick="startDrawing('spray')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
               title="Spray Brush"
             >
-              <i data-lucide="sparkles" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
             </button>
           </div>
           <div class="tool-section-label">Brushes</div>
         </div>
-        <!-- SECTION 4: SHAPES (WITH DROP DOWN MENU RESTORED COMPLETELY) -->
+
+        <!-- SHAPES -->
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
           <div
-            class="flex items-center gap-1 max-w-[140px] flex-wrap min-h-[42px] md:min-h-[80px] content-center"
+            class="flex items-center gap-1 max-w-[140px] flex-wrap min-h-[80px] content-center"
           >
             <button
               id="shape-line"
               onclick="setShapeMode('line')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
             >
-              <i data-lucide="minus" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="minus" class="w-4 h-4"></i>
             </button>
             <button
               id="shape-rect"
               onclick="setShapeMode('rect')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
             >
-              <i data-lucide="square" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="square" class="w-4 h-4"></i>
             </button>
             <button
               id="shape-circle"
               onclick="setShapeMode('circle')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
             >
-              <i data-lucide="circle" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="circle" class="w-4 h-4"></i>
             </button>
             <button
               id="shape-triangle"
               onclick="setShapeMode('triangle')"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
             >
-              <i data-lucide="triangle" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="triangle" class="w-4 h-4"></i>
             </button>
             <div class="relative">
               <button
                 id="shapes-toggle-btn"
                 onclick="toggleMoreShapesMenu(event)"
-                class="tool-btn-lg bg-indigo-50 text-indigo-600 border-indigo-200 font-bold"
+                class="tool-btn-lg bg-indigo-50 text-indigo-600 border-indigo-200 font-bold cursor-pointer"
               >
-                <i data-lucide="chevron-down" class="w-5 h-5 md:w-4 md:h-4"></i>
+                <i data-lucide="chevron-down" class="w-4 h-4"></i>
               </button>
               <div
                 id="more-shapes-dropdown"
@@ -802,7 +701,7 @@
                     setShapeMode('diamond');
                     hideShapesMenu();
                   "
-                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
+                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700 cursor-pointer"
                 >
                   <i data-lucide="gem" class="w-4 h-4"></i>
                 </button>
@@ -811,7 +710,7 @@
                     setShapeMode('pentagon');
                     hideShapesMenu();
                   "
-                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
+                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700 cursor-pointer"
                 >
                   <i data-lucide="pentagon" class="w-4 h-4"></i>
                 </button>
@@ -820,7 +719,7 @@
                     setShapeMode('star');
                     hideShapesMenu();
                   "
-                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
+                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700 cursor-pointer"
                 >
                   <i data-lucide="star" class="w-4 h-4"></i>
                 </button>
@@ -829,7 +728,7 @@
                     setShapeMode('arrow');
                     hideShapesMenu();
                   "
-                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
+                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700 cursor-pointer"
                 >
                   <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </button>
@@ -838,7 +737,7 @@
                     setShapeMode('heart');
                     hideShapesMenu();
                   "
-                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
+                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700 cursor-pointer"
                 >
                   <i data-lucide="heart" class="w-4 h-4"></i>
                 </button>
@@ -847,7 +746,7 @@
                     setShapeMode('lightning');
                     hideShapesMenu();
                   "
-                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700"
+                  class="p-2 border rounded-lg hover:bg-indigo-50 flex justify-center text-slate-700 cursor-pointer"
                 >
                   <i data-lucide="zap" class="w-4 h-4"></i>
                 </button>
@@ -857,12 +756,12 @@
           <div class="tool-section-label">Shapes</div>
         </div>
 
-        <!-- SECTION 5: FORMATTING -->
+        <!-- FORMATTING -->
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
           <div
-            class="flex flex-col justify-center gap-1 w-[130px] md:w-[160px] min-h-[42px] md:min-h-[80px]"
+            class="flex flex-col justify-center gap-1 w-[160px] min-h-[80px]"
           >
             <select
               id="brush-size-select"
@@ -899,69 +798,75 @@
           <div class="tool-section-label">Formatting</div>
         </div>
 
-        <!-- SECTION 6: CLIPBOARD -->
+        <!-- CLIPBOARD -->
         <div
           class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
         >
-          <div class="flex items-center gap-1 min-h-[42px] md:min-h-[80px]">
-            <button onclick="cutSelected()" class="tool-btn-lg bg-slate-50">
-              <i data-lucide="scissors" class="w-5 h-5 md:w-4 md:h-4"></i>
+          <div class="flex items-center gap-1 min-h-[80px]">
+            <button
+              onclick="cutSelected()"
+              class="tool-btn-lg bg-slate-50 cursor-pointer"
+            >
+              <i data-lucide="scissors" class="w-4 h-4"></i>
             </button>
-            <button onclick="copySelected()" class="tool-btn-lg bg-slate-50">
-              <i data-lucide="copy" class="w-5 h-5 md:w-4 md:h-4"></i>
+            <button
+              onclick="copySelected()"
+              class="tool-btn-lg bg-slate-50 cursor-pointer"
+            >
+              <i data-lucide="copy" class="w-4 h-4"></i>
             </button>
             <button
               onclick="deleteSelected()"
-              class="tool-btn-lg text-red-500 hover:bg-red-50 border-red-100"
+              class="tool-btn-lg text-red-500 hover:bg-red-50 border-red-100 cursor-pointer"
             >
-              <i data-lucide="trash-2" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
             </button>
             <button
               onclick="pasteSelected()"
-              class="tool-btn-lg bg-emerald-50 text-emerald-600 border-emerald-200"
+              class="tool-btn-lg bg-emerald-50 text-emerald-600 border-emerald-200 cursor-pointer"
             >
-              <i data-lucide="clipboard" class="w-5 h-5 md:w-4.5 md:h-4.5"></i>
+              <i data-lucide="clipboard" class="w-4.5 h-4.5"></i>
             </button>
           </div>
           <div class="tool-section-label">Clipboard</div>
         </div>
 
-        <!-- SECTION 7: IMAGE ROTATE CLOCK & ANTI CLOCK RESTORED FULLY -->
+        <!-- IMAGE TOOLS -->
         <div class="flex flex-col justify-between pr-1 shrink-0">
           <div
-            class="flex items-center gap-1 max-w-[140px] md:max-w-[84px] flex-wrap min-h-[42px] md:min-h-[80px] content-center"
+            class="flex items-center gap-1 max-w-[84px] flex-wrap min-h-[80px] content-center"
           >
             <button
               onclick="rotateImage(30)"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
               title="Rotate Clockwise"
             >
-              <i data-lucide="rotate-cw" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="rotate-cw" class="w-4 h-4"></i>
             </button>
             <button
               onclick="rotateImage(-30)"
-              class="tool-btn-lg"
+              class="tool-btn-lg cursor-pointer"
               title="Rotate Anti-Clockwise"
             >
-              <i data-lucide="rotate-ccw" class="w-5 h-5 md:w-4 md:h-4"></i>
+              <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
             </button>
-            <button onclick="flipImage('X')" class="tool-btn-lg">
-              <i
-                data-lucide="flip-horizontal"
-                class="w-5 h-5 md:w-4 md:h-4"
-              ></i>
+            <button onclick="flipImage('X')" class="tool-btn-lg cursor-pointer">
+              <i data-lucide="flip-horizontal" class="w-4 h-4"></i>
             </button>
-            <button onclick="flipImage('Y')" class="tool-btn-lg">
-              <i data-lucide="flip-vertical" class="w-5 h-5 md:w-4 md:h-4"></i>
+            <button onclick="flipImage('Y')" class="tool-btn-lg cursor-pointer">
+              <i data-lucide="flip-vertical" class="w-4 h-4"></i>
             </button>
-            <button onclick="triggerResizeModal()" class="tool-btn-lg">
-              <i data-lucide="maximize-2" class="w-5 h-5 md:w-4 md:h-4"></i>
+            <button
+              onclick="triggerResizeModal()"
+              class="tool-btn-lg cursor-pointer"
+            >
+              <i data-lucide="maximize-2" class="w-4 h-4"></i>
             </button>
-            <div class="relative w-[42px] h-[42px] md:w-[38px] md:h-[38px]">
+            <div class="relative w-[38px] h-[38px]">
               <button
-                class="tool-btn-lg bg-indigo-50 border-indigo-200 text-indigo-600 flex items-center justify-center w-full h-full"
+                class="tool-btn-lg bg-indigo-50 border-indigo-200 text-indigo-600 flex items-center justify-center w-full h-full cursor-pointer"
               >
-                <i data-lucide="image-plus" class="w-5 h-5 md:w-4 md:h-4"></i>
+                <i data-lucide="image-plus" class="w-4 h-4"></i>
               </button>
               <input
                 type="file"
@@ -980,82 +885,41 @@
     <!-- CORE INTERFACE -->
     <div id="main-layout">
       <!-- SIDEBAR TEMPLATES -->
-      <!-- 🎨 TEMPLATES SIDEBAR (Desktop sidebar & Mobile Bottom Bar Wrapper) -->
-      <!-- 🎨 TEMPLATES SIDEBAR (Mobile Bottom Nav / Desktop Full Sidebar) -->
-      <aside id="templates-sidebar" class="select-none shrink-0">
-        <!-- Content will be rendered dynamically by JavaScript -->
-      </aside>
-      <!-- 📱 CANVA STYLE SLIDE-UP TEMPLATE DRAWER (MOBILE ONLY) -->
-      <div
-        id="mobile-template-modal"
-        class="fixed inset-x-0 bottom-0 z-50 transform translate-y-full transition-transform duration-300 ease-out bg-white rounded-t-3xl shadow-2xl border-t border-slate-200 p-4 max-h-[75vh] flex flex-col pointer-events-none md:hidden"
+      <aside
+        id="templates-sidebar"
+        class="select-none shrink-0 custom-scrollbar"
       >
-        <!-- Drawer Header & Close Button -->
-        <div
-          class="flex items-center justify-between pb-3 border-b border-slate-100"
-        >
-          <div class="flex items-center gap-2">
-            <div class="w-1.5 h-4 bg-indigo-600 rounded-full"></div>
-            <h3
-              id="mobile-modal-title"
-              class="font-black text-slate-800 text-base"
-            >
-              Templates
-            </h3>
-          </div>
-          <button
-            onclick="closeSubjectModal()"
-            class="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 font-black text-sm active:bg-slate-200"
-          >
-            ✕
-          </button>
-        </div>
+        <!-- Loaded dynamically from templates.js -->
+      </aside>
 
-        <!-- Scrollable Grid Container -->
-        <div class="flex-1 overflow-y-auto py-4 custom-scrollbar">
-          <div id="mobile-modal-grid" class="grid grid-cols-3 gap-3">
-            <!-- Templates render dynamically here -->
-          </div>
-        </div>
-      </div>
-      <!-- CANVA SYSTEM VIEWPORT -->
+      <!-- MAIN CANVAS EDITOR (Fixed 1152x648) -->
       <main id="editor-container">
         <div class="canvas-holder" id="canvas-wrapper">
-          <canvas id="paintCanvas"></canvas>
-
-          <!-- 🎯 Button ko canvas-wrapper ke andar daal diya hai -->
-          <!-- <button
-            id="btn-check-answer"
-            onclick="checkAnswer()"
-            class="absolute bottom-16 right-4 z-50 flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 active:scale-95 text-white text-xs md:text-sm font-black px-4 py-2 rounded-full shadow-xl transition-all cursor-pointer border-2 border-white/80 backdrop-blur-md"
-          >
-            <span>Check Answer</span>
-            <span class="text-base">✅</span>
-          </button>
-        </div> -->
+          <canvas id="paintCanvas" width="1152" height="648"></canvas>
+        </div>
       </main>
     </div>
 
     <!-- METADATA FOOTER -->
     <footer
-      class="hidden md:flex bg-white border-t border-slate-200 px-3 py-2 flex flex-row items-center justify-between gap-2 text-[11px] font-semibold text-slate-500 relative z-[999] w-full shrink-0"
+      class="flex bg-white border-t border-slate-200 px-4 py-2 flex-row items-center justify-between gap-2 text-[11px] font-semibold text-slate-500 relative z-[999] w-full shrink-0"
     >
       <div class="flex items-center gap-2">
-        <span id="canvas-resolution-status" class="flex items-center gap-0.5"
-          ><i data-lucide="maximize-2" class="w-3 h-3"></i> 1152×648</span
-        >
+        <span id="canvas-resolution-status" class="flex items-center gap-0.5">
+          <i data-lucide="maximize-2" class="w-3 h-3"></i> 1152×648
+        </span>
         <span class="w-[1px] h-3 bg-slate-300"></span>
-        <label class="flex items-center gap-0.5 cursor-pointer">
+        <label class="flex items-center gap-1 cursor-pointer">
           <input
             type="checkbox"
             id="view-gridlines"
             onchange="toggleGridlines(this.checked)"
-            class="rounded text-indigo-600 focus:ring-0 w-3 h-3"
+            class="rounded text-indigo-600 focus:ring-0 w-3.5 h-3.5"
           />
           Grid View
         </label>
 
-        <!-- ⏳ NEW: Integrated Timer Section -->
+        <!-- Timer Section -->
         <span class="w-[1px] h-3 bg-slate-300"></span>
         <div
           id="timer-box"
@@ -1066,13 +930,13 @@
           >
           <button
             id="timer-control-btn"
-            class="focus:outline-none transition-all transform active:scale-95 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[8px] cursor-pointer"
-            style="border: none"
+            class="focus:outline-none transition-all transform active:scale-95 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[8px] cursor-pointer border-none"
           >
             ⏸️
           </button>
         </div>
-        <!-- 🎨 NEW: Submit Drawing Button -->
+
+        <!-- Submit Drawing Button -->
         <span class="w-[1px] h-3 bg-slate-300"></span>
         <button
           id="btn-submit-drawing"
@@ -1082,21 +946,15 @@
           <span>Submit Drawing</span>
           <span>🎨</span>
         </button>
-
-        <!-- <span class="w-[1px] h-3 bg-slate-300"></span>
-        <button
-          id="btn-check-answer"
-          onclick="checkAnswer()"
-          class="flex items-center gap-1 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-black px-3 py-1 rounded-full shadow-md transition-all cursor-pointer"
-        >
-          <span>Check Answer</span>
-          <span>✅</span>
-        </button> -->
       </div>
+
       <div
-        class="hidden md:flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full border"
+        class="flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full border"
       >
-        <button onclick="changeZoom(-0.1)" class="p-0.5 hover:text-indigo-600">
+        <button
+          onclick="changeZoom(-0.1)"
+          class="p-0.5 hover:text-indigo-600 cursor-pointer"
+        >
           <i data-lucide="zoom-out" class="w-3 h-3"></i>
         </button>
         <input
@@ -1113,12 +971,15 @@
           class="text-[10px] font-black text-slate-700 w-8 text-center"
           >100%</span
         >
-        <button onclick="changeZoom(0.1)" class="p-0.5 hover:text-indigo-600">
+        <button
+          onclick="changeZoom(0.1)"
+          class="p-0.5 hover:text-indigo-600 cursor-pointer"
+        >
           <i data-lucide="zoom-in" class="w-3 h-3"></i>
         </button>
         <button
           onclick="resetZoomToFit()"
-          class="px-1 bg-white border rounded text-[9px] font-black text-slate-600"
+          class="px-1.5 py-0.5 bg-white border rounded text-[9px] font-black text-slate-600 hover:bg-slate-50 cursor-pointer"
         >
           Fit
         </button>
@@ -1131,7 +992,9 @@
       class="fixed inset-0 bg-slate-900/40 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm"
     >
       <div class="bg-white rounded-2xl p-5 w-full max-w-sm shadow-2xl">
-        <h3 class="text-xs font-black text-slate-800 uppercase mb-3">
+        <h3
+          class="text-xs font-black text-slate-800 uppercase mb-3 flex items-center gap-1"
+        >
           <i data-lucide="sliders" class="w-4 h-4 text-indigo-500"></i> Canvas
           Setup
         </h3>
@@ -1163,13 +1026,13 @@
           <div class="flex gap-2 pt-2">
             <button
               onclick="closeNewCanvasModal()"
-              class="w-1/2 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl text-xs uppercase"
+              class="w-1/2 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl text-xs uppercase cursor-pointer"
             >
               Cancel
             </button>
             <button
               onclick="createNewCanvasFromModal()"
-              class="w-1/2 py-2.5 bg-indigo-600 text-white font-black rounded-xl text-xs uppercase"
+              class="w-1/2 py-2.5 bg-indigo-600 text-white font-black rounded-xl text-xs uppercase cursor-pointer"
             >
               Create
             </button>
@@ -1205,13 +1068,13 @@
           <div class="flex gap-2 pt-1">
             <button
               onclick="closeResizeModal()"
-              class="w-1/2 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl text-xs"
+              class="w-1/2 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl text-xs cursor-pointer"
             >
               Cancel
             </button>
             <button
               onclick="applyImageResize()"
-              class="w-1/2 py-2 bg-indigo-600 text-white font-black rounded-xl text-xs shadow"
+              class="w-1/2 py-2 bg-indigo-600 text-white font-black rounded-xl text-xs shadow cursor-pointer"
             >
               Resize
             </button>
@@ -1228,7 +1091,6 @@
       <div
         class="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl border-4 border-indigo-400 transform scale-95 transition-transform relative overflow-hidden"
       >
-        <!-- Decorative Kids Shapes -->
         <div
           class="absolute -top-6 -right-6 w-16 h-16 bg-pink-400 rounded-full opacity-20 pointer-events-none"
         ></div>
@@ -1236,25 +1098,20 @@
           class="absolute -bottom-6 -left-6 w-20 h-20 bg-amber-400 rounded-full opacity-20 pointer-events-none"
         ></div>
 
-        <!-- Alert Box -->
         <div
           id="kids-paint-alert-box"
           class="hidden text-[11px] font-black p-2.5 rounded-xl text-center mb-4 bg-red-50 text-red-500 border border-red-200"
         ></div>
 
-        <!-- ========================================== -->
-        <!-- STEP 1: SCREEN 1 (COMMON LOGIN) -->
-        <!-- ========================================== -->
+        <!-- STEP 1: LOGIN -->
         <div id="step-common-login" class="auth-step-container">
           <div class="text-center mb-5 px-2">
             <h2
-              class="text-lg sm:text-2xl font-black text-indigo-600 tracking-wide uppercase whitespace-nowrap flex items-center justify-center gap-1.5"
+              class="text-2xl font-black text-indigo-600 tracking-wide uppercase flex items-center justify-center gap-1.5"
             >
               <span>🎨</span> <span>School Login</span>
             </h2>
-            <p
-              class="text-[10px] sm:text-xs font-bold text-slate-400 mt-1 max-w-xs mx-auto whitespace-normal break-words"
-            >
+            <p class="text-xs font-bold text-slate-400 mt-1 max-w-xs mx-auto">
               Enter details to start the 20-min session!
             </p>
           </div>
@@ -1271,7 +1128,6 @@
                   class="w-full p-2.5 border-2 border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:border-indigo-400 bg-slate-50 text-xs"
                 >
                   <option value="parent" selected>Parent</option>
-                  <!-- <option value="teacher">Teacher</option> -->
                 </select>
               </div>
               <div>
@@ -1289,8 +1145,6 @@
                   <option value="GB">🇬🇧 UK</option>
                   <option value="CA">🇨🇦 Canada</option>
                   <option value="AU">🇦🇺 Australia</option>
-
-                  <!-- Expansion Markets (GCC & APAC) -->
                   <option value="SG">🇸🇬 Singapore</option>
                   <option value="SA">🇸🇦 Saudi Arabia</option>
                   <option value="QA">🇶🇦 Qatar</option>
@@ -1334,15 +1188,13 @@
           </form>
         </div>
 
-        <!-- ========================================== -->
-        <!-- STEP 2A: ENTER PASSWORD (EXISTING USER) -->
-        <!-- ========================================== -->
+        <!-- STEP 2A: PASSWORD -->
         <div id="step-enter-password" class="auth-step-container hidden">
           <div class="text-center mb-5 px-2">
-            <h2 class="text-lg sm:text-xl font-black text-indigo-600 uppercase">
+            <h2 class="text-xl font-black text-indigo-600 uppercase">
               Welcome Back! 👋
             </h2>
-            <p class="text-[10px] sm:text-xs font-bold text-slate-400 mt-1">
+            <p class="text-xs font-bold text-slate-400 mt-1">
               Enter password to access session
             </p>
           </div>
@@ -1372,21 +1224,17 @@
             <button
               type="button"
               onclick="switchStep('step-common-login')"
-              class="w-full text-center text-xs font-bold text-indigo-500 hover:underline mt-2"
+              class="w-full text-center text-xs font-bold text-indigo-500 hover:underline mt-2 cursor-pointer"
             >
               ← Back to Login
             </button>
           </form>
         </div>
 
-        <!-- ========================================== -->
-        <!-- STEP 2B: PARENT REGISTRATION (NEW USER) -->
-        <!-- ========================================== -->
+        <!-- STEP 2B: REGISTRATION -->
         <div id="step-registration" class="auth-step-container hidden">
           <div class="text-center mb-4 px-2">
-            <h2
-              class="text-base sm:text-xl font-black text-indigo-600 uppercase"
-            >
+            <h2 class="text-xl font-black text-indigo-600 uppercase">
               Parent Registration
             </h2>
             <p class="text-[10px] font-bold text-slate-400">
@@ -1404,7 +1252,7 @@
                 type="text"
                 id="reg-student-name"
                 required
-                placeholder="e.g. Abraham "
+                placeholder="e.g. Abraham"
                 class="w-full p-2.5 border-2 border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:border-indigo-400 bg-slate-50 text-xs"
               />
             </div>
@@ -1417,34 +1265,34 @@
               <div
                 class="flex gap-4 items-center pt-1 text-xs font-bold text-slate-600"
               >
-                <label class="flex items-center gap-1 cursor-pointer"
-                  ><input
+                <label class="flex items-center gap-1 cursor-pointer">
+                  <input
                     type="radio"
                     name="student_gender"
                     value="Male"
                     checked
                     class="accent-indigo-600"
                   />
-                  Male</label
-                >
-                <label class="flex items-center gap-1 cursor-pointer"
-                  ><input
+                  Male
+                </label>
+                <label class="flex items-center gap-1 cursor-pointer">
+                  <input
                     type="radio"
                     name="student_gender"
                     value="Female"
                     class="accent-indigo-600"
                   />
-                  Female</label
-                >
-                <label class="flex items-center gap-1 cursor-pointer"
-                  ><input
+                  Female
+                </label>
+                <label class="flex items-center gap-1 cursor-pointer">
+                  <input
                     type="radio"
                     name="student_gender"
                     value="Other"
                     class="accent-indigo-600"
                   />
-                  Other</label
-                >
+                  Other
+                </label>
               </div>
             </div>
 
@@ -1518,9 +1366,7 @@
           </form>
         </div>
 
-        <!-- ========================================== -->
-        <!-- STEP 3: REGISTRATION SUCCESSFUL -->
-        <!-- ========================================== -->
+        <!-- STEP 3: SUCCESS -->
         <div
           id="step-reg-success"
           class="auth-step-container hidden text-center"
@@ -1550,9 +1396,6 @@
                 >123456</code
               >
             </p>
-            <!-- <p class="text-[10px] text-amber-600 font-medium pt-1">
-              ⚠️ Change password recommended after first login.
-            </p> -->
           </div>
 
           <button
@@ -1565,8 +1408,10 @@
       </div>
     </div>
 
-    <script src="js/templates_mobile.js"></script>
-    <!-- CORE SCRIPTS PIPELINES ENGINE -->
+    <!-- TEMPLATES DATABASE & LOGIC -->
+    <script src="/js/templates.js"></script>
+
+    <!-- INLINE WEB PAINT ENGINE (1152x648) -->
     <script>
       let canvas;
       let color1 = "#93c5fd";
@@ -1577,8 +1422,8 @@
       let zoomLevel = 1.0;
       let clipboardObject = null;
 
-      let PAGE_WIDTH = 1152;
-      let PAGE_HEIGHT = 648;
+      const PAGE_WIDTH = 1152;
+      const PAGE_HEIGHT = 648;
       let sizesState = { text: 36, shape: 2, brush: 16 };
 
       const paintPalette = [
@@ -1594,38 +1439,22 @@
         "#22b14c",
         "#00a2e8",
         "#3f48cc",
-        "#ff6b6b", // 1. Cute Strawberry Pink / Soft Coral
-        "#4ecdc4", // 2. Vibrant Turquoise / Magic Sky Blue
-        "#10b981", // 3. Fresh Emerald Lime / Jungle Green
-        "#f368e0", // 4. Playful Bright Magenta / Barbie Pink
-        "#ff9f43", // 5. Sunlit Neon Orange / Tangerine
-        "#ee5253", // 6. Festive Crimson Red / Bright Cherry
+        "#ff6b6b",
+        "#4ecdc4",
+        "#10b981",
+        "#f368e0",
+        "#ff9f43",
+        "#ee5253",
       ];
-
-      function checkKidsAuthStatus() {
-        // चेक करें कि क्या लोकलस्टोरेज में नाम पहले से मौजूद है
-        const savedUser = localStorage.getItem("kidspaint_username");
-
-        if (!savedUser) {
-          // अगर यूज़र नहीं है, तो मोडल को स्क्रीन पर दिखाएँ (Flex मोड में)
-          const modal = document.getElementById("kids-auth-modal");
-          if (modal) {
-            modal.classList.replace("hidden", "flex");
-          }
-        } else {
-          console.log(`✨ Welcome back artist: ${savedUser}`);
-        }
-      }
 
       let currentTemplateMeta = {
         id: "default-canvas",
         title: "Blank Canvas",
         category: "General",
-        defaultTool: "select", // (Array ki jagah string better hai agar aap ek tool active kar rahe hain)
+        defaultTool: "select",
         label: "Free Drawing",
       };
 
-      // 🛠️ 2. Helper to Update Template Metadata (Template Switch ke waqt use karein)
       function setTemplateMeta(metaData = {}) {
         currentTemplateMeta = {
           id: metaData.id || "default-canvas",
@@ -1636,18 +1465,14 @@
         };
       }
 
-      // 🛠️ 3. Fabric.js toJSON Method Override: Root Level Metadata Binding
       const originalCanvasToJSON = fabric.Canvas.prototype.toJSON;
       fabric.Canvas.prototype.toJSON = function (propertiesToInclude) {
         const json = originalCanvasToJSON.call(this, propertiesToInclude);
-
-        // Top-level properties binding (background ke sath)
         json.id = currentTemplateMeta.id;
         json.title = currentTemplateMeta.title;
         json.category = currentTemplateMeta.category;
         json.defaultTool = currentTemplateMeta.defaultTool;
         json.label = currentTemplateMeta.label;
-
         return json;
       };
 
@@ -1664,55 +1489,45 @@
 
       fabric.Object.prototype.set(baseDefaultObjectProps);
 
+      function checkMobileAndRedirect() {
+        const isMobile =
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent,
+          ) || window.innerWidth < 768;
+
+        if (isMobile) {
+          window.location.replace("paint_mobile.html");
+        }
+      }
+
+      // Check run immediately before other setup
+      checkMobileAndRedirect();
       window.onload = () => {
         document.addEventListener("click", () => {
           hideShapesMenu();
         });
 
-        // 🌟 यहाँ पर इस लाइन को जोड़ दें:
-        // checkKidsAuthStatus();
         const paletteContainer = document.getElementById("palette-colors");
-        paletteContainer.innerHTML = paintPalette
-          .map(
-            (color) =>
-              `<div onclick="selectColor('${color}')" class="w-5 h-5 rounded border border-slate-300 cursor-pointer shadow-sm hover:scale-110 shrink-0" style="background: ${color}"></div>`,
-          )
-          .join("");
-
-        // 📱 window.onload पर लाइव स्क्रीन साइज डिटेक्शन और कैनवास री-स्ट्रक्चरिंग
-        if (window.innerWidth < 768) {
-          // 📱 मोबाइल के लिए परफेक्ट वर्टिकल फ्रेम (100% फिट)
-          PAGE_WIDTH = 800;
-          PAGE_HEIGHT = 800;
-        } else if (window.innerWidth >= 768 && window.innerWidth <= 1024) {
-          // 📑 टैबलेट के लिए परफेक्ट फिट आनुपातिक साइज
-          PAGE_WIDTH = 800;
-          PAGE_HEIGHT = 600;
-        } else {
-          // 💻 डेस्कटॉप के लिए ओरिजिनल वाइडस्क्रीन साइज
-          if (localStorage.getItem("kidspaint_width"))
-            PAGE_WIDTH = parseInt(localStorage.getItem("kidspaint_width"), 10);
-          if (localStorage.getItem("kidspaint_height"))
-            PAGE_HEIGHT = parseInt(
-              localStorage.getItem("kidspaint_height"),
-              10,
-            );
+        if (paletteContainer) {
+          paletteContainer.innerHTML = paintPalette
+            .map(
+              (color) =>
+                `<div onclick="selectColor('${color}')" class="w-5 h-5 rounded border border-slate-300 cursor-pointer shadow-sm hover:scale-110 shrink-0" style="background: ${color}"></div>`,
+            )
+            .join("");
         }
 
         setupCanvas(PAGE_WIDTH, PAGE_HEIGHT, "#ffffff");
         setupKeyboardShortcuts();
         setupRightClickContextMenu();
         if (typeof lucide !== "undefined") lucide.createIcons();
-
-        document.addEventListener("click", () => {
-          hideShapesMenu();
-        });
       };
 
       function toggleMoreShapesMenu(e) {
         e.stopPropagation();
         const btn = document.getElementById("shapes-toggle-btn");
         const drop = document.getElementById("more-shapes-dropdown");
+        if (!btn || !drop) return;
         const rect = btn.getBoundingClientRect();
         drop.style.left = `${rect.left}px`;
         drop.style.top = `${rect.bottom + window.scrollY}px`;
@@ -1724,16 +1539,23 @@
         if (drop) drop.classList.add("hidden");
       }
 
-      function setupCanvas(w, h, bgColor) {
+      function setupCanvas(
+        w = PAGE_WIDTH,
+        h = PAGE_HEIGHT,
+        bgColor = "#ffffff",
+      ) {
         if (canvas) canvas.dispose();
-        PAGE_WIDTH = w;
-        PAGE_HEIGHT = h;
 
-        document.getElementById("canvas-resolution-status").innerHTML =
-          `<i data-lucide="maximize-2" class="w-3 h-3"></i> ${w}×${h}`;
+        const resStatus = document.getElementById("canvas-resolution-status");
+        if (resStatus) {
+          resStatus.innerHTML = `<i data-lucide="maximize-2" class="w-3 h-3"></i> ${w}×${h}`;
+        }
+
         const wrapper = document.getElementById("canvas-wrapper");
-        wrapper.style.width = w + "px";
-        wrapper.style.height = h + "px";
+        if (wrapper) {
+          wrapper.style.width = w + "px";
+          wrapper.style.height = h + "px";
+        }
 
         canvas = new fabric.Canvas("paintCanvas", {
           width: w,
@@ -1750,11 +1572,6 @@
           checkAnswer();
         });
 
-        // 3. Click hone par agar galti se select ho jaye to turant active selection clear kar dein
-        // canvas.on("mouse:down", function (options) {
-        //   canvas.discardActiveObject(); // Selection box clear kar dega
-        //   canvas.renderAll();
-        // });
         canvas.on("object:added", (e) => {
           if (e.target.type === "line") {
             applyExclusiveLineControls(e.target);
@@ -1770,109 +1587,94 @@
 
         canvas.on("object:scaling", (e) => {
           const obj = e.target;
-
           if (obj.type === "line") {
-            obj.scaleY = 1; // Vertical scaling allow nahi
+            obj.scaleY = 1;
           }
         });
+
         canvas.on("object:removed", () => {
           if (!isStateChanging) saveCanvasHistory();
         });
+
         canvas.on("mouse:down", handleCanvasMouseDownClick);
         canvas.on("selection:created", handleSelectionChange);
         canvas.on("selection:updated", handleSelectionChange);
         canvas.on("selection:cleared", handleSelectionCleared);
 
-        // PERSISTENCE SYNC AUTO-LOAD IMPLEMENTATION
-      // PERSISTENCE SYNC AUTO-LOAD IMPLEMENTATION
-const savedJSON = localStorage.getItem("kidspaint_canvas_data");
-if (savedJSON && savedJSON !== "{}") {
-  isStateChanging = true;
+        const savedJSON = localStorage.getItem("kidspaint_canvas_data");
+        if (savedJSON && savedJSON !== "{}") {
+          isStateChanging = true;
+          let parsedJSON = {};
+          try {
+            parsedJSON = JSON.parse(savedJSON);
+          } catch (e) {
+            console.error("Error parsing saved JSON:", e);
+          }
 
-  // 1. JSON parse करके चेक करें कि क्या Template ID या defaultTool मौजूद है
-  let parsedJSON = {};
-  try {
-    parsedJSON = JSON.parse(savedJSON);
-  } catch (e) {
-    console.error("Error parsing saved JSON:", e);
-  }
+          canvas.loadFromJSON(savedJSON, () => {
+            canvas.getObjects().forEach((obj) => {
+              if (
+                obj.role === "background_art" ||
+                obj.role === "color_segment" ||
+                obj.type === "text" ||
+                obj.type === "rect"
+              ) {
+                if (typeof applyStrictLayerLocks === "function") {
+                  applyStrictLayerLocks(obj);
+                }
+              } else if (obj.type === "line") {
+                applyExclusiveLineControls(obj);
+              } else {
+                disableObjectRotation(obj);
+              }
+            });
 
-  canvas.loadFromJSON(savedJSON, () => {
-    canvas.getObjects().forEach((obj) => {
-      if (
-        obj.role === "background_art" ||
-        obj.role === "color_segment" ||
-        obj.type === "text" ||
-        obj.type === "rect"
-      ) {
-        if (typeof applyStrictLayerLocks === "function") applyStrictLayerLocks(obj);
-      } else if (obj.type === "line") {
-        applyExclusiveLineControls(obj);
-      } else {
-        disableObjectRotation(obj);
-      }
-    });
+            const savedTool =
+              parsedJSON.defaultTool ||
+              (currentTemplateMeta && currentTemplateMeta.defaultTool);
+            const savedTemplateId =
+              parsedJSON.id || (currentTemplateMeta && currentTemplateMeta.id);
 
-    // 🎯 2. TEMPLATE META & DEFAULT TOOL RE-ACTIVATION (FIX)
-    // सबसे पहले चेक करें कि क्या JSON में defaultTool सेव हुआ था
-    const savedTool = parsedJSON.defaultTool || (currentTemplateMeta && currentTemplateMeta.defaultTool);
-    const savedTemplateId = parsedJSON.id || (currentTemplateMeta && currentTemplateMeta.id);
+            if (savedTemplateId && typeof TEMPLATES_DATABASE !== "undefined") {
+              const foundTemplate = TEMPLATES_DATABASE.find(
+                (t) => t.id === savedTemplateId,
+              );
+              if (foundTemplate) {
+                window.currentTemplate = foundTemplate;
+                if (typeof currentTemplate !== "undefined")
+                  currentTemplate = foundTemplate;
+              }
+            }
 
-    // Global state और Metadata restore करें
-    if (savedTemplateId) {
-      if (typeof TEMPLATES_DATABASE !== "undefined") {
-        const foundTemplate = TEMPLATES_DATABASE.find(t => t.id === savedTemplateId);
-        if (foundTemplate) {
-          window.currentTemplate = foundTemplate;
-          if (typeof currentTemplate !== "undefined") currentTemplate = foundTemplate;
-        }
-      }
-    }
+            if (savedTool) {
+              setTimeout(() => {
+                if (savedTool === "bucket") setMode("bucket");
+                else if (savedTool === "brush") startDrawing("brush");
+                else if (savedTool === "pen" || savedTool === "pencil")
+                  startDrawing("pen");
+                else if (savedTool === "eraser") startDrawing("eraser");
+                else setMode(savedTool);
+              }, 100);
+            } else {
+              setMode("select");
+            }
 
-    if (savedTool) {
-      // ⏱️ Small Delay ताकि Fabric Canvas पूरी तरह Render होने के बाद Pencil / Tool active हो
-      setTimeout(() => {
-        if (savedTool === "bucket") {
-          setMode("bucket");
-        } else if (savedTool === "brush") {
-          startDrawing("brush");
-        } else if (savedTool === "pen" || savedTool === "pencil") {
-          startDrawing("pen");
-        } else if (savedTool === "eraser") {
-          startDrawing("eraser");
+            setTimeout(() => {
+              resetZoomToFit();
+              canvas.renderAll();
+            }, 50);
+
+            isStateChanging = false;
+            canvasHistory = [JSON.stringify(canvas.toJSON())];
+            historyStep = 0;
+          });
         } else {
-          setMode(savedTool);
+          saveCanvasHistory();
+          setTimeout(resetZoomToFit, 100);
         }
-      }, 100);
-    } else {
-      // Default fallback
-      setMode("select");
-    }
-
-    setTimeout(() => {
-      resetZoomToFit();
-      canvas.renderAll();
-    }, 50);
-
-    isStateChanging = false;
-    canvasHistory = [JSON.stringify(canvas.toJSON())];
-    historyStep = 0;
-  });
-} else {
-  saveCanvasHistory();
-  setTimeout(resetZoomToFit, 100);
-}
 
         updateCursor();
       }
-
-      /* -------------------------------------------------------------
-         ADVANCED ADAPTIVE EDUCATIONAL TEMPLATES
-         ------------------------------------------------------------- */
-
-      /* -------------------------------------------------------------
-         CANVAS OPERATIONS CONTROLLERS
-         ------------------------------------------------------------- */
 
       function handleSelectionChange(e) {
         syncSizeDropdownFromSelection(e);
@@ -1910,15 +1712,13 @@ if (savedJSON && savedJSON !== "{}") {
           const activeObj = canvas ? canvas.getActiveObject() : null;
 
           if (e.ctrlKey && e.key.toLowerCase() === "z") {
-            e.preventDefault(); // ब्राउज़र का डिफ़ॉल्ट एक्शन रोकें
-            if (typeof undo === "function") undo();
+            e.preventDefault();
+            undo();
             return;
           }
-
-          // 2. REDO SHORTCUT (Ctrl + Y) - लाइव फ़िक्स
           if (e.ctrlKey && e.key.toLowerCase() === "y") {
-            e.preventDefault(); // ब्राउज़र का डिफ़ॉल्ट एक्शन रोकें
-            if (typeof redo === "function") redo();
+            e.preventDefault();
+            redo();
             return;
           }
           if (e.ctrlKey && e.key.toLowerCase() === "s") {
@@ -1981,14 +1781,6 @@ if (savedJSON && savedJSON !== "{}") {
             e.preventDefault();
             cutSelected();
           }
-          if (e.ctrlKey && e.key.toLowerCase() === "z") {
-            e.preventDefault();
-            undo();
-          }
-          if (e.ctrlKey && e.key.toLowerCase() === "y") {
-            e.preventDefault();
-            redo();
-          }
           if (e.key === "Delete" || e.key === "Backspace") {
             e.preventDefault();
             deleteSelected();
@@ -1998,9 +1790,11 @@ if (savedJSON && savedJSON !== "{}") {
 
       function selectColor(hex) {
         color1 = hex;
-        document.getElementById("box-color1").style.background = hex;
-        if (canvas && canvas.isDrawingMode && canvas.freeDrawingBrush)
+        const box = document.getElementById("box-color1");
+        if (box) box.style.background = hex;
+        if (canvas && canvas.isDrawingMode && canvas.freeDrawingBrush) {
           canvas.freeDrawingBrush.color = color1;
+        }
         const activeObj = canvas.getActiveObject();
         if (activeObj) {
           if (activeObj.type === "activeSelection") {
@@ -2070,11 +1864,11 @@ if (savedJSON && savedJSON !== "{}") {
       function setShapeMode(type) {
         setMode(type);
         const centerPointer = { x: PAGE_WIDTH / 2, y: PAGE_HEIGHT / 2 };
-        const fillStyle = document.getElementById("shape-fill-style").value;
+        const fillStyle =
+          document.getElementById("shape-fill-style")?.value || "transparent";
 
         let shapeObj;
         if (type === "line") {
-          // डिफ़ॉल्ट रूप से 2px मोटाई (strokeWidth: 2) सेट की गई है
           shapeObj = new fabric.Line(
             [
               centerPointer.x - 100,
@@ -2082,10 +1876,7 @@ if (savedJSON && savedJSON !== "{}") {
               centerPointer.x + 100,
               centerPointer.y,
             ],
-            {
-              stroke: color1,
-              strokeWidth: 2,
-            },
+            { stroke: color1, strokeWidth: 2 },
           );
         } else if (type === "rect") {
           shapeObj = new fabric.Rect({
@@ -2223,8 +2014,6 @@ if (savedJSON && savedJSON !== "{}") {
 
         if (activeMode === "bucket") {
           const target = options.target;
-
-          // Board value check logic
           const activeBoard =
             typeof currentTemplate !== "undefined" && currentTemplate?.board
               ? currentTemplate.board
@@ -2237,19 +2026,16 @@ if (savedJSON && savedJSON !== "{}") {
           const isCbseBoard = activeBoard === "CBSE";
 
           if (target) {
-            // 🎨 Object / Shape par color fill karein
             target.set("fill", color1);
-            if (target.type !== "textbox" && target.stroke !== "transparent")
+            if (target.type !== "textbox" && target.stroke !== "transparent") {
               target.set("stroke", color1);
+            }
           } else {
-            // 🪣 Agar Board "CBSE" NAHI hai (yaani undefined, null, ya general board hai)
-            // tabhi Canvas Background Fill hoga
             if (!isCbseBoard) {
               canvas.setBackgroundColor(color1, canvas.renderAll.bind(canvas));
             }
           }
 
-          // CBSE Board hone par active selection clear karein
           if (isCbseBoard) {
             canvas.discardActiveObject();
           }
@@ -2273,6 +2059,7 @@ if (savedJSON && savedJSON !== "{}") {
           txt.selectAll();
         }
       }
+
       function updateBrushSize(v) {
         const size = parseInt(v, 10);
         const activeObj = canvas.getActiveObject();
@@ -2306,9 +2093,10 @@ if (savedJSON && savedJSON !== "{}") {
         const obj = canvas.getActiveObject();
         if (!obj) return;
         const dropdown = document.getElementById("brush-size-select");
-        if (dropdown)
+        if (dropdown) {
           dropdown.value =
             obj.type === "textbox" ? obj.fontSize : obj.strokeWidth;
+        }
       }
 
       function disableObjectRotation(obj) {
@@ -2342,11 +2130,13 @@ if (savedJSON && savedJSON !== "{}") {
           .getElementById("image-resize-modal")
           .classList.replace("hidden", "flex");
       }
+
       function closeResizeModal() {
         document
           .getElementById("image-resize-modal")
           .classList.replace("flex", "hidden");
       }
+
       function applyImageResize() {
         const obj = canvas.getActiveObject();
         const factor =
@@ -2396,47 +2186,38 @@ if (savedJSON && savedJSON !== "{}") {
           .getElementById("editor-container")
           .classList.toggle("gridlines-active", active);
       }
+
       function changeZoom(val) {
         zoomLevel = Math.min(Math.max(0.2, zoomLevel + val), 2.0);
         applyZoomLevel();
       }
+
       function handleZoomSlider(v) {
         zoomLevel = parseFloat(v) / 100;
         applyZoomLevel();
       }
+
       function applyZoomLevel() {
         canvas.setZoom(zoomLevel);
         canvas.setWidth(PAGE_WIDTH * zoomLevel);
         canvas.setHeight(PAGE_HEIGHT * zoomLevel);
-        document.getElementById("zoom-text").innerText =
-          Math.round(zoomLevel * 100) + "%";
+        const zoomText = document.getElementById("zoom-text");
+        if (zoomText) zoomText.innerText = Math.round(zoomLevel * 100) + "%";
       }
+
       function resetZoomToFit() {
         const container = document.getElementById("editor-container");
         if (!container || container.clientWidth === 0) return;
         zoomLevel = Math.min(
-          (container.clientWidth - 24) / PAGE_WIDTH,
-          (container.clientHeight - 24) / PAGE_HEIGHT,
+          (container.clientWidth - 32) / PAGE_WIDTH,
+          (container.clientHeight - 32) / PAGE_HEIGHT,
           1.0,
         );
         applyZoomLevel();
       }
 
       function handleNewCanvasClick() {
-        // अगर मोबाइल स्क्रीन (768px से कम) है, तो बिना मोडल के सीधे नया पेज बनाएं
-        if (window.innerWidth < 768) {
-          if (
-            confirm(
-              "Do you want to create a new clean page? (Your current drawing will be removed)",
-            )
-          ) {
-            localStorage.removeItem("kidspaint_canvas_data");
-            setupCanvas(800, 800, "#ffffff"); // मोबाइल के लिए फिक्स परफेक्ट साइज
-          }
-        } else {
-          // वेब (डेस्कटॉप) के लिए आपका पुराना मोडल पॉप-अप खुल जाएगा
-          triggerNewCanvasModal();
-        }
+        triggerNewCanvasModal();
       }
 
       function triggerNewCanvasModal() {
@@ -2444,55 +2225,57 @@ if (savedJSON && savedJSON !== "{}") {
           .getElementById("new-canvas-modal")
           .classList.replace("hidden", "flex");
       }
+
       function closeNewCanvasModal() {
         document
           .getElementById("new-canvas-modal")
           .classList.replace("flex", "hidden");
       }
+
       function createNewCanvasFromModal() {
         const w =
-          parseInt(document.getElementById("canvas-width-input").value) || 1152;
+          parseInt(document.getElementById("canvas-width-input").value, 10) ||
+          1152;
         const h =
-          parseInt(document.getElementById("canvas-height-input").value) || 648;
+          parseInt(document.getElementById("canvas-height-input").value, 10) ||
+          648;
         localStorage.removeItem("kidspaint_canvas_data");
         setupCanvas(w, h, "#ffffff");
         closeNewCanvasModal();
       }
 
-      // PERSISTENCE SYNC IN STORAGE DECK
-function saveCanvasHistory() {
-  if (isStateChanging) return;
+      function saveCanvasHistory() {
+        if (isStateChanging) return;
 
-  // 🎯 toJSON में role, id, defaultTool आदि Fields जरूर include करें
-  const snap = JSON.stringify(
-    canvas.toJSON([
-      'id',
-      'title',
-      'category',
-      'defaultTool',
-      'label',
-      'role',
-      'selectable',
-      'evented',
-      'hasControls',
-      'hasBorders',
-      'lockMovementX',
-      'lockMovementY',
-      'lockRotation',
-      'hasRotatingPoint'
-    ])
-  );
+        const snap = JSON.stringify(
+          canvas.toJSON([
+            "id",
+            "title",
+            "category",
+            "defaultTool",
+            "label",
+            "role",
+            "selectable",
+            "evented",
+            "hasControls",
+            "hasBorders",
+            "lockMovementX",
+            "lockMovementY",
+            "lockRotation",
+            "hasRotatingPoint",
+          ]),
+        );
 
-  if (historyStep < canvasHistory.length - 1)
-    canvasHistory = canvasHistory.slice(0, historyStep + 1);
-  canvasHistory.push(snap);
+        if (historyStep < canvasHistory.length - 1) {
+          canvasHistory = canvasHistory.slice(0, historyStep + 1);
+        }
+        canvasHistory.push(snap);
+        historyStep++;
 
-  historyStep++;
-
-  localStorage.setItem("kidspaint_canvas_data", snap);
-  localStorage.setItem("kidspaint_width", PAGE_WIDTH);
-  localStorage.setItem("kidspaint_height", PAGE_HEIGHT);
-}
+        localStorage.setItem("kidspaint_canvas_data", snap);
+        localStorage.setItem("kidspaint_width", PAGE_WIDTH);
+        localStorage.setItem("kidspaint_height", PAGE_HEIGHT);
+      }
 
       function undo() {
         if (historyStep > 0) {
@@ -2515,6 +2298,7 @@ function saveCanvasHistory() {
           });
         }
       }
+
       function redo() {
         if (historyStep < canvasHistory.length - 1) {
           isStateChanging = true;
@@ -2537,29 +2321,80 @@ function saveCanvasHistory() {
         }
       }
 
-      function downloadPaint() {
+      async function downloadPaint() {
         const overlay = document.getElementById("download-progress-overlay");
-        overlay.classList.replace("hidden", "flex");
+        if (overlay) overlay.classList.replace("hidden", "flex");
 
-        setTimeout(() => {
-          // Original native width ke hisab se multiplier calculate karein
+        const CLOUD_NAME = "dzay0p6hc";
+        const API_KEY = "718694214558592";
+        const API_SECRET = "BWkJK-QspQciZZCBkwkssjHogyE";
+        const FOLDER = "kidspaint_temp";
+
+        try {
+          const random4Digit = Math.floor(1000 + Math.random() * 9000);
+          const customFileName = `kidspaint_${random4Digit}`;
+
           const multiplier = PAGE_WIDTH / canvas.getWidth();
-
           const dataURL = canvas.toDataURL({
             format: "png",
             quality: 1.0,
-            multiplier: multiplier, // Original 800x800 resolution maintain rakhega
+            multiplier: multiplier,
           });
 
-          const link = document.createElement("a");
-          link.href = dataURL;
-          link.download = `Kids-Paint-${Date.now()}.png`;
-          document.body.appendChild(link); // Mobile browsers compatibility fix
-          link.click();
-          document.body.removeChild(link);
+          const timestamp = Math.floor(Date.now() / 1000);
+          const uploadSignStr = `folder=${FOLDER}&timestamp=${timestamp}${API_SECRET}`;
+          const uploadSignature = CryptoJS.SHA1(uploadSignStr).toString();
 
-          overlay.classList.replace("flex", "hidden");
-        }, 800);
+          const formData = new FormData();
+          formData.append("file", dataURL);
+          formData.append("api_key", API_KEY);
+          formData.append("timestamp", timestamp);
+          formData.append("folder", FOLDER);
+          formData.append("signature", uploadSignature);
+
+          const uploadRes = await fetch(
+            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+            { method: "POST", body: formData },
+          );
+
+          const uploadData = await uploadRes.json();
+
+          if (uploadData.secure_url) {
+            const forcedDownloadUrl = uploadData.secure_url.replace(
+              "/upload/",
+              `/upload/fl_attachment:${customFileName}/`,
+            );
+
+            window.location.href = forcedDownloadUrl;
+
+            setTimeout(async () => {
+              try {
+                const delTimestamp = Math.floor(Date.now() / 1000);
+                const delSignStr = `public_id=${uploadData.public_id}&timestamp=${delTimestamp}${API_SECRET}`;
+                const delSignature = CryptoJS.SHA1(delSignStr).toString();
+
+                const delData = new FormData();
+                delData.append("public_id", uploadData.public_id);
+                delData.append("api_key", API_KEY);
+                delData.append("timestamp", delTimestamp);
+                delData.append("signature", delSignature);
+
+                await fetch(
+                  `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/destroy`,
+                  { method: "POST", body: delData },
+                );
+              } catch (e) {
+                console.error("Delete Error:", e);
+              }
+            }, 15000);
+          } else {
+            alert("Upload failed. Please try again.");
+          }
+        } catch (error) {
+          alert("Download error: " + error.message);
+        } finally {
+          if (overlay) overlay.classList.replace("flex", "hidden");
+        }
       }
 
       function deleteSelected() {
@@ -2567,13 +2402,16 @@ function saveCanvasHistory() {
         canvas.discardActiveObject().renderAll();
         saveCanvasHistory();
       }
+
       function cutSelected() {
         copySelected();
         deleteSelected();
       }
+
       function copySelected() {
         clipboardObject = canvas.getActiveObject();
       }
+
       function pasteSelected() {
         if (clipboardObject) {
           clipboardObject.clone((cloned) => {
@@ -2651,33 +2489,29 @@ function saveCanvasHistory() {
           const contextMenu = document.getElementById("custom-context-menu");
           if (!contextMenu) return;
 
-          // Direct viewport mouse coordinates (fixed position ke sath exact tip par khulega)
           contextMenu.style.left = `${e.clientX}px`;
           contextMenu.style.top = `${e.clientY}px`;
           contextMenu.style.display = "block";
 
           const pasteBtn = document.getElementById("context-paste-btn");
           if (pasteBtn) {
-            pasteBtn.style.opacity =
-              typeof clipboardObject !== "undefined" && clipboardObject
-                ? "1"
-                : "0.5";
+            pasteBtn.style.opacity = clipboardObject ? "1" : "0.5";
           }
         });
 
         document.addEventListener("click", () => {
-          if (typeof closeContextMenu === "function") {
-            closeContextMenu();
-          }
+          closeContextMenu();
         });
       }
+
       function closeContextMenu() {
-        document.getElementById("custom-context-menu").style.display = "none";
+        const menu = document.getElementById("custom-context-menu");
+        if (menu) menu.style.display = "none";
       }
+
       window.addEventListener("resize", resetZoomToFit);
 
       document.addEventListener("DOMContentLoaded", () => {
-        // 1. URL se dynamically current school name check karein
         const pathname = window.location.pathname;
         const match = pathname.match(/\/school\/([^\/]+)/);
 
@@ -2686,7 +2520,6 @@ function saveCanvasHistory() {
         }
 
         const savedSchool = localStorage.getItem("schoolName");
-
         if (!savedSchool || savedSchool.trim() === "") {
           console.warn(
             "KidsPaint Session initialization skipped: 'schoolName' not found.",
@@ -2705,7 +2538,6 @@ function saveCanvasHistory() {
           "kids-paint-alert-box",
         );
 
-        // Session Data Initialization / Reset Logic
         if (
           !sessionData ||
           sessionData.date !== today ||
@@ -2716,22 +2548,19 @@ function saveCanvasHistory() {
             school: savedSchool,
             timeLeft: 0,
             isActivated: false,
-            isPaused: false, // Explicit track for reload recovery
+            isPaused: false,
           };
           localStorage.setItem("kidsPaintSession", JSON.stringify(sessionData));
         }
 
-        // Parse parsing safeguards to prevent type mismatch
         let timeLeftParsed = parseInt(sessionData.timeLeft, 10) || 0;
 
-        // Direct routing conditions based on active structural state
         if (sessionData.isActivated && timeLeftParsed <= 0) {
           applyBlackOverlay();
           return;
         }
 
         if (sessionData.isActivated && timeLeftParsed > 0) {
-          // Reload Safe Initialization
           startTimer(timeLeftParsed, sessionData.isPaused);
           return;
         }
@@ -2752,7 +2581,7 @@ function saveCanvasHistory() {
               modal.classList.add("hidden");
             }
 
-            sessionData.timeLeft = 20; // TESTING PURPOSE: 20 seconds
+            sessionData.timeLeft = 20;
             sessionData.isActivated = true;
             sessionData.isPaused = false;
             localStorage.setItem(
@@ -2800,7 +2629,6 @@ function saveCanvasHistory() {
           let totalSeconds = parseInt(secondsLeft, 10);
           let isTimerRunning = !startAsPaused;
 
-          // Update control UI on initialize
           if (isTimerRunning) {
             controlBtn.innerText = "⏸️";
             controlBtn.style.backgroundColor = "#ff4757";
@@ -2844,7 +2672,6 @@ function saveCanvasHistory() {
             }, 1000);
           }
 
-          // Sync active state ticker loop
           if (isTimerRunning) {
             runTicker();
           }
@@ -2889,9 +2716,6 @@ function saveCanvasHistory() {
           };
 
           controlBtn.onclick = toggleState;
-          controlBtn.addEventListener("touchstart", toggleState, {
-            passive: false,
-          });
         }
 
         function applyBlackOverlay(customMessage) {
@@ -2909,15 +2733,15 @@ function saveCanvasHistory() {
             "Time's up! Today's 20-minute computer lab session has ended. See you tomorrow!";
 
           const overlayHTML = `
-        <div style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: radial-gradient(circle at center, #111827 0%, #030712 100%) !important; color: #ffffff !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; z-index: 99999999 !important; font-family: 'Inter', system-ui, -apple-system, sans-serif !important; text-align: center !important; padding: 24px !important; box-sizing: border-box !important;">
-            <div style="background: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; backdrop-filter: blur(16px) !important; -webkit-backdrop-filter: blur(16px) !important; padding: 40px 32px !important; border-radius: 32px !important; max-width: 480px !important; width: 100% !important; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important; box-sizing: border-box !important;">
-                <div style="width: 72px !important; height: 72px !important; background: rgba(239, 68, 68, 0.1) !important; border: 1px solid rgba(239, 68, 68, 0.2) !important; border-radius: 24px !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto 24px auto !important; font-size: 2rem !important; box-shadow: 0 0 20px rgba(239, 68, 68, 0.15) !important;">🔒</div>
-                <div style="color: #9ca3af !important; font-size: 0.75rem !important; font-weight: 800 !important; letter-spacing: 0.15em !important; margin-bottom: 8px !important; text-transform: uppercase !important; opacity: 0.9 !important;">${schoolDisplay}</div>
-                <h1 style="color: #ffffff !important; font-size: 2rem !important; font-weight: 900 !important; letter-spacing: -0.025em !important; margin: 0 0 4px 0 !important;">Screen Locked</h1>
-                <a href="https://kidspaint.cloud" target="_parent" style="color: #6366f1 !important; text-decoration: none !important; font-size: 0.8rem !important; font-weight: 700 !important; letter-spacing: 0.05em !important; margin-bottom: 28px !important; display: inline-block !important;">https://kidspaint.cloud</a>
-                <p style="font-size: 1.05rem !important; color: #d1d5db !important; line-height: 1.6 !important; font-weight: 500 !important; margin: 0 !important; background: rgba(255, 255, 255, 0.02) !important; padding: 16px 20px !important; border-radius: 16px !important; border: 1px solid rgba(255, 255, 255, 0.04) !important;">${msg}</p>
-            </div>
-        </div>`;
+            <div style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: radial-gradient(circle at center, #111827 0%, #030712 100%) !important; color: #ffffff !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; z-index: 99999999 !important; font-family: 'Inter', system-ui, -apple-system, sans-serif !important; text-align: center !important; padding: 24px !important; box-sizing: border-box !important;">
+                <div style="background: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; backdrop-filter: blur(16px) !important; -webkit-backdrop-filter: blur(16px) !important; padding: 40px 32px !important; border-radius: 32px !important; max-width: 480px !important; width: 100% !important; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important; box-sizing: border-box !important;">
+                    <div style="width: 72px !important; height: 72px !important; background: rgba(239, 68, 68, 0.1) !important; border: 1px solid rgba(239, 68, 68, 0.2) !important; border-radius: 24px !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto 24px auto !important; font-size: 2rem !important; box-shadow: 0 0 20px rgba(239, 68, 68, 0.15) !important;">🔒</div>
+                    <div style="color: #9ca3af !important; font-size: 0.75rem !important; font-weight: 800 !important; letter-spacing: 0.15em !important; margin-bottom: 8px !important; text-transform: uppercase !important; opacity: 0.9 !important;">${schoolDisplay}</div>
+                    <h1 style="color: #ffffff !important; font-size: 2rem !important; font-weight: 900 !important; letter-spacing: -0.025em !important; margin: 0 0 4px 0 !important;">Screen Locked</h1>
+                    <a href="https://kidspaint.cloud" target="_parent" style="color: #6366f1 !important; text-decoration: none !important; font-size: 0.8rem !important; font-weight: 700 !important; letter-spacing: 0.05em !important; margin-bottom: 28px !important; display: inline-block !important;">https://kidspaint.cloud</a>
+                    <p style="font-size: 1.05rem !important; color: #d1d5db !important; line-height: 1.6 !important; font-weight: 500 !important; margin: 0 !important; background: rgba(255, 255, 255, 0.02) !important; padding: 16px 20px !important; border-radius: 16px !important; border: 1px solid rgba(255, 255, 255, 0.04) !important;">${msg}</p>
+                </div>
+            </div>`;
 
           document.body.innerHTML = overlayHTML;
           document.body.style.setProperty("overflow", "hidden", "important");
@@ -2925,9 +2749,8 @@ function saveCanvasHistory() {
         }
       });
 
-      // HTTPS API BASE URL
       const API_BASE_URL = "https://api.jawedsiddiqui.cloud/api/kidspaint";
-      const API_TIMEOUT_MS = 15000; // 15 Seconds Threshold
+      const API_TIMEOUT_MS = 15000;
 
       let currentAuthData = {
         role: "parent",
@@ -2937,27 +2760,18 @@ function saveCanvasHistory() {
         sessionTimeSec: 1200,
       };
 
-      // ⏱️ Class-Based Dynamic Timer Calculation
       function calculateSessionTimeByClass(classGrade) {
         if (!classGrade) return 1200;
-
-        // Convert to string, trim spaces and lower case
         const gradeStr = String(classGrade).toLowerCase().trim();
-
-        // Extract number from string (e.g., "Grade 2" -> 2, "2" -> 2)
         const match = gradeStr.match(/\d+/);
         const gradeNumber = match ? parseInt(match[0], 10) : null;
 
-        // Class 1, 2, 3 ke liye 15 Minutes (900 seconds)
         if (gradeNumber !== null && gradeNumber >= 1 && gradeNumber <= 3) {
-          return 900; // 15 Mins
+          return 900;
         }
-
-        // Class 4 se 8 aur baaki ke liye 20 Minutes (1200 seconds)
-        return 1200; // 20 Mins
+        return 1200;
       }
 
-      // 🌐 Timeout Wrapper For Fetch Requests
       function fetchWithTimeout(url, options = {}, timeoutMs = API_TIMEOUT_MS) {
         return Promise.race([
           fetch(url, options),
@@ -2967,7 +2781,6 @@ function saveCanvasHistory() {
         ]);
       }
 
-      // 🔄 UI Button Loader Toggle
       function setButtonLoading(buttonElem, isLoading, originalText) {
         if (!buttonElem) return;
         if (isLoading) {
@@ -2982,7 +2795,6 @@ function saveCanvasHistory() {
         }
       }
 
-      // 🔀 Step Switch Helper Function
       function switchStep(stepId) {
         hideAlert();
         document
@@ -3005,17 +2817,13 @@ function saveCanvasHistory() {
         if (alertBox) alertBox.classList.add("hidden");
       }
 
-      // 1. Step 1 Submit: Mobile Check (With 15-Sec Fallback)
-      // 1. Step 1 Submit: Mobile Check (With Immediate Button Disable & 15-Sec Fallback)
       async function handleCommonLoginSubmit(event) {
         event.preventDefault();
         hideAlert();
 
-        // Submit button ko pakdein
         const submitBtn = event.target.querySelector('button[type="submit"]');
         const originalBtnText = "Continue 🚀";
 
-        // 🔒 IMMEDIATELY DISABLE BUTTON & SHOW LOADING
         setButtonLoading(submitBtn, true, originalBtnText);
 
         currentAuthData.role = document.getElementById("user-role").value;
@@ -3036,33 +2844,26 @@ function saveCanvasHistory() {
           );
 
           const data = await response.json();
-
           if (data.exists) {
             switchStep("step-enter-password");
           } else {
             switchStep("step-registration");
           }
         } catch (error) {
-          console.warn(
-            "Mobile Check API Failed or Timed Out (15s). Proceeding via Fallback.",
-            error,
-          );
-
-          // Fallback Local Storage Check
+          console.warn("Mobile Check API fallback triggered:", error);
           const registeredParents = JSON.parse(
             localStorage.getItem("registeredParents") || "{}",
           );
-
           if (registeredParents[currentAuthData.mobile]) {
             switchStep("step-enter-password");
           } else {
             switchStep("step-registration");
           }
         } finally {
-          // 🔓 RESPONSE AANE YA TIMEOUT HONE PAR BUTTON KO VAPAS ENABLE KAREIN
           setButtonLoading(submitBtn, false, originalBtnText);
         }
-      } // 2. Step 2A Submit: Password Login (With 15-Sec Fallback)
+      }
+
       async function handlePasswordSubmit(event) {
         event.preventDefault();
         hideAlert();
@@ -3098,18 +2899,12 @@ function saveCanvasHistory() {
 
             const studentClass = data.user?.classGrade || "";
             const classBasedTime = calculateSessionTimeByClass(studentClass);
-
             finishAuthAndStartSession(classBasedTime);
           } else {
             showAlert(`❌ ${data.message || "Invalid password! Try again."}`);
           }
         } catch (error) {
-          console.warn(
-            "Login API Failed or Timed Out (15s). Falling back to Offline Mode.",
-            error,
-          );
           setButtonLoading(submitBtn, false, originalBtnText);
-
           const registeredParents = JSON.parse(
             localStorage.getItem("registeredParents") || "{}",
           );
@@ -3125,7 +2920,6 @@ function saveCanvasHistory() {
         }
       }
 
-      // 3. Step 2B Submit: Parent Registration (With 15-Sec Fallback)
       async function handleRegistrationSubmit(event) {
         event.preventDefault();
         hideAlert();
@@ -3144,8 +2938,6 @@ function saveCanvasHistory() {
           studentName: document.getElementById("reg-student-name").value.trim(),
           gender: genderElem ? genderElem.value : "Male",
           classGrade: selectedClass,
-          section: document.getElementById("reg-section").value,
-          rollNo: document.getElementById("reg-roll-no").value.trim(),
         };
 
         const payload = {
@@ -3185,12 +2977,7 @@ function saveCanvasHistory() {
             showAlert(`❌ ${data.message || "Registration failed."}`);
           }
         } catch (error) {
-          console.warn(
-            "Registration API Failed or Timed Out (15s). Saving to LocalStorage Fallback.",
-            error,
-          );
           setButtonLoading(submitBtn, false, originalBtnText);
-
           const registeredParents = JSON.parse(
             localStorage.getItem("registeredParents") || "{}",
           );
@@ -3204,7 +2991,6 @@ function saveCanvasHistory() {
             "registeredParents",
             JSON.stringify(registeredParents),
           );
-
           localStorage.setItem("kidsPaintUser", JSON.stringify(payload));
 
           document.getElementById("disp-mobile").innerText =
@@ -3213,7 +2999,6 @@ function saveCanvasHistory() {
         }
       }
 
-      // 4. Session Start & Modal Close Function (Fixed Timer Trigger)
       function finishAuthAndStartSession(customTimeInSeconds = null) {
         const modal = document.getElementById("teacher-auth-modal");
         if (modal) {
@@ -3234,25 +3019,21 @@ function saveCanvasHistory() {
 
         localStorage.setItem("kidsPaintSession", JSON.stringify(sessionData));
 
-        // Trigger main startTimer or fallback to emergency countdown ticker
         if (typeof window.startTimer === "function") {
           window.startTimer(timeToSet, false);
         } else if (typeof startTimer === "function") {
           startTimer(timeToSet, false);
         } else {
-          // 🛑 Emergency Fallback Timer Trigger
           runEmergencyTimer(timeToSet);
         }
       }
 
-      // 5. Emergency Timer Fallback Engine (Runs if main startTimer function is not bound globally)
       function runEmergencyTimer(totalSeconds) {
         const timerBox = document.getElementById("timer-box");
         const countdownDisplay = document.getElementById("countdown");
 
         if (timerBox)
           timerBox.style.setProperty("display", "flex", "important");
-
         if (window.kidsPaintInterval) clearInterval(window.kidsPaintInterval);
 
         let currentSeconds = parseInt(totalSeconds, 10);
@@ -3283,7 +3064,6 @@ function saveCanvasHistory() {
         }, 1000);
       }
 
-      // Country Config Map (Dial Code, Length, Placeholder Pattern)
       const countryConfigs = {
         IN: { code: "+91", length: 10, placeholder: "Enter 10-digit mobile" },
         UAE: { code: "+971", length: 9, placeholder: "Enter 9-digit mobile" },
@@ -3300,7 +3080,6 @@ function saveCanvasHistory() {
         MY: { code: "+60", length: 9, placeholder: "Enter 9-digit mobile" },
       };
 
-      // Event Listener for Country Dropdown Change
       document.addEventListener("DOMContentLoaded", () => {
         const countrySelect = document.getElementById("user-country");
         const dialCodeSpan = document.getElementById("country-dial-code");
@@ -3312,24 +3091,16 @@ function saveCanvasHistory() {
             const config =
               countryConfigs[selectedCountry] || countryConfigs["IN"];
 
-            // Update Prefix Text
             dialCodeSpan.innerText = config.code;
-
-            // Update Maxlength and HTML5 Pattern Validation
             mobileInput.maxLength = config.length;
             mobileInput.pattern = `[0-9]{${config.length}}`;
             mobileInput.placeholder = config.placeholder;
-
-            // Clear previous value if length changes
             mobileInput.value = "";
           });
         }
       });
 
       async function syncLocalStorageAndSaveCanvas() {
-        const API_BASE_URL = "https://api.jawedsiddiqui.cloud/api/kidspaint";
-
-        // 1. LOCALSTORAGE SE USER & SESSION RETRIEVE KAREIN
         const localUser = JSON.parse(
           localStorage.getItem("kidsPaintUser") || "{}",
         );
@@ -3337,7 +3108,6 @@ function saveCanvasHistory() {
           localStorage.getItem("kidsPaintSession") || "{}",
         );
 
-        // User Check
         if (!localUser.mobileNumber && !localUser.studentName) {
           alert(
             "⚠️ User information missing in LocalStorage. Please login first.",
@@ -3345,7 +3115,6 @@ function saveCanvasHistory() {
           return;
         }
 
-        // 2. RAW LOCALSTORAGE CANVAS OBJECT READ KAREIN
         const canvasStorageData = localStorage.getItem("kidspaint_canvas_data");
         let parsedCanvasObject = null;
         let artworkBase64 = null;
@@ -3357,7 +3126,6 @@ function saveCanvasHistory() {
                 ? JSON.parse(canvasStorageData)
                 : canvasStorageData;
 
-            // Check if image URL already exists in object
             if (
               parsedCanvasObject.imageUrl ||
               parsedCanvasObject.image ||
@@ -3373,44 +3141,23 @@ function saveCanvasHistory() {
           }
         }
 
-        // 3. BASE64 IMAGE GENERATION FROM FABRIC / NATIVE CANVAS
         if (!artworkBase64) {
-          // Canvas element check
           const canvasElem =
-            document.getElementById("kids-canvas") ||
+            document.getElementById("paintCanvas") ||
             document.querySelector("canvas");
-
-          if (
-            window.fabricCanvas &&
-            typeof window.fabricCanvas.toDataURL === "function"
-          ) {
-            // Fabric.js Instance se High-Res Image Convert Karein
-            artworkBase64 = window.fabricCanvas.toDataURL({
-              format: "png",
-              multiplier: 1,
-            });
+          if (canvas && typeof canvas.toDataURL === "function") {
+            artworkBase64 = canvas.toDataURL({ format: "png", multiplier: 1 });
           } else if (canvasElem && typeof canvasElem.toDataURL === "function") {
-            // Native HTML5 Canvas Element se Convert Karein
             artworkBase64 = canvasElem.toDataURL("image/png");
           }
         }
 
-        // Still No Image Check
-        if (!artworkBase64) {
-          alert(
-            "⚠️ Canvas drawing image generate nahi ho saki. Kripya canvas check karein.",
-          );
-          return;
-        }
-
-        // 4. SESSION TIME CALCULATION
         const currentLeftSec =
           window.currentTimerLeftSeconds !== undefined
             ? window.currentTimerLeftSeconds
             : localSession.timeLeft || 0;
         const timeSpentSeconds = Math.max(0, 1200 - currentLeftSec);
 
-        // 5. API PAYLOAD PREPARATION
         const payload = {
           userId: localUser.id || localUser._id || null,
           mobileNumber: localUser.mobileNumber,
@@ -3422,9 +3169,8 @@ function saveCanvasHistory() {
           classGrade: localUser.classGrade,
           section: localUser.section || "A",
           title: `${localUser.studentName}'s Masterpiece`,
-          // imageUrl: artworkBase64, // PNG Base64 String
-          imageUrl: "", // PNG Base64 String
-          canvasData: parsedCanvasObject || {}, // Complete Fabric.js vector objects array
+          imageUrl: "",
+          canvasData: parsedCanvasObject || {},
           canvasWidth: 1152,
           canvasHeight: 648,
           sessionDurationSeconds: timeSpentSeconds,
@@ -3432,7 +3178,6 @@ function saveCanvasHistory() {
           isSubmittedForTalentHunt: true,
         };
 
-        // 6. BACKEND API CALL WITH BUTTON SPINNER
         const submitBtn = document.getElementById("btn-submit-drawing");
         if (submitBtn) {
           submitBtn.disabled = true;
@@ -3447,12 +3192,10 @@ function saveCanvasHistory() {
           });
 
           const data = await response.json();
-
           if (response.ok && data.success) {
             localStorage.setItem("lastSavedArtworkId", data.data.artworkId);
             alert("🎉 Canvas artwork successfully saved and submitted!");
           } else {
-            console.error("Server Response Error:", data);
             alert(`❌ Failed to save: ${data.message || "Server Error"}`);
           }
         } catch (error) {
@@ -3466,7 +3209,6 @@ function saveCanvasHistory() {
         }
       }
 
-      // 1. Line Handle Restriction Logic (Rotation Disable & Start/End Controls Only)
       function applyExclusiveLineControls(targetLine) {
         if (!targetLine) return;
         targetLine.setControlsVisibility({
@@ -3493,7 +3235,6 @@ function saveCanvasHistory() {
         });
       }
 
-      // 2. Pencil Path Start aur End Points Coordinates Calculator
       function getPathEndpoints(pathObj) {
         if (pathObj.type === "line") {
           const matrix = pathObj.calcTransformMatrix();
@@ -3541,7 +3282,6 @@ function saveCanvasHistory() {
         };
       }
 
-      // 3. Point Inside Box Checker (40px Boundary Margin Tolerance)
       function isInsideBox(x, y, box) {
         return (
           x >= box.left - 40 &&
@@ -3551,7 +3291,6 @@ function saveCanvasHistory() {
         );
       }
 
-      // 🔔 Bottom Compact Horizontal Toast Notification
       function showToast(message, type = "info") {
         const oldToast = document.getElementById("kids-paint-toast");
         if (oldToast) oldToast.remove();
@@ -3570,18 +3309,15 @@ function saveCanvasHistory() {
           icon = "❌";
         }
 
-        // Bottom Center, Pill Shape, Single-line Horizontal Layout
-        toast.className = `fixed bottom-25 left-1/2 -translate-x-1/2 z-[9999999] flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-xs sm:text-sm border shadow-xl whitespace-nowrap max-w-[90vw] transition-all duration-300 transform translate-y-6 opacity-0 active:scale-95 ${bgColor}`;
+        toast.className = `fixed bottom-20 left-1/2 -translate-x-1/2 z-[9999999] flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm border shadow-xl whitespace-nowrap transition-all duration-300 transform translate-y-6 opacity-0 ${bgColor}`;
         toast.innerHTML = `<span class="text-base">${icon}</span><span>${message}</span>`;
         document.body.appendChild(toast);
 
-        // Bottom-Up Slide Animation
         requestAnimationFrame(() => {
           toast.classList.remove("translate-y-6", "opacity-0");
           toast.classList.add("translate-y-0", "opacity-100");
         });
 
-        // Auto Hide after 2.5s
         setTimeout(() => {
           toast.classList.remove("translate-y-0", "opacity-100");
           toast.classList.add("translate-y-6", "opacity-0");
@@ -3589,28 +3325,10 @@ function saveCanvasHistory() {
         }, 2500);
       }
 
-      // 🔊 Audio Effects Setup
-      const soundCorrect = new Audio(
-        "https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3",
-      );
-      const soundWrong = new Audio(
-        "https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3",
-      );
+      const soundCorrect = new Audio("/sound/soundCorrectWIn.mp3");
+      const soundCorrectAnswer = new Audio("/sound/correctAnswer.mp3");
+      const soundWrong = new Audio("/sound/WrongAnswer.mp3");
 
-      // 🎯 Main Answer Check Engine
-      // 🎯 Line Draw Hote Hi Automatic Check Trigger Karein
-
-      // 🎯 Smart Answer Check Engine
-      // 🎯 Line Draw Hote Hi Automatic Check Trigger Karein
-      canvas.on("path:created", (e) => {
-        disableObjectRotation(e.path);
-        if (typeof saveCanvasHistory === "function") saveCanvasHistory();
-
-        // Instant Check Call
-        checkAnswer();
-      });
-
-      // 🎯 Smart Answer Check Engine
       function checkAnswer() {
         if (!canvas || !currentTemplate) return;
 
@@ -3619,9 +3337,10 @@ function saveCanvasHistory() {
             currentTemplate.subject.toLowerCase() === "art") ||
           currentTemplate.category === "coloring" ||
           currentTemplate.defaultTool === "bucket" ||
-          currentTemplate.defaultTool === "brush"; // 👈 Brush Tracing/Painting par detect nahi karega
+          currentTemplate.defaultTool === "brush";
 
         if (isFreeDrawingTemplate) return;
+
         const userLines = canvas
           .getObjects()
           .filter(
@@ -3630,10 +3349,7 @@ function saveCanvasHistory() {
               obj.role !== "background_art",
           );
 
-        if (userLines.length === 0) {
-          showToast("Draw lines first!", "warning");
-          return;
-        }
+        if (userLines.length === 0) return;
 
         const allRects = canvas
           .getObjects()
@@ -3644,10 +3360,13 @@ function saveCanvasHistory() {
         const targetAnswers = currentTemplate.correctAnswers || [];
         let correctMatches = 0;
         let hasWrongMatch = false;
-        let invalidOutsideLines = []; // Khali/Range ke bahar wali lines
+        let newlyMatched = false;
+        let invalidOutsideLines = [];
+
+        let newCorrectLines = [];
+        let newWrongLines = [];
 
         userLines.forEach((line) => {
-          // Green (pehle se correct) lines ko count karein
           if (line.stroke === "#22c55e") {
             correctMatches++;
             return;
@@ -3664,13 +3383,11 @@ function saveCanvasHistory() {
               isInsideBox(start.x, start.y, b) || isInsideBox(end.x, end.y, b),
           );
 
-          // 🔴 AGAR LINE RANGE KE BAHAR / KHALI JAGAH MEIN HAI:
           if (!matchedLeft || !matchedRight) {
             invalidOutsideLines.push(line);
             return;
           }
 
-          // 🟢 AGAR BOTH BOXES SE CONNECTED HAI:
           const leftTextObj = canvas
             .getObjects()
             .find(
@@ -3693,11 +3410,28 @@ function saveCanvasHistory() {
 
             if (isCorrect) {
               correctMatches++;
-              line.set({
-                stroke: "#22c55e",
-                strokeWidth: 6,
-                selectable: false,
-              });
+              newlyMatched = true;
+
+              const startPoint = getBoxConnectionPoint(
+                matchedLeft,
+                "right_edge",
+              );
+              const endPoint = getBoxConnectionPoint(matchedRight, "left_edge");
+
+              canvas.remove(line);
+
+              const straightLine = new fabric.Line(
+                [startPoint.x, startPoint.y, endPoint.x, endPoint.y],
+                {
+                  stroke: "#22c55e",
+                  strokeWidth: 6,
+                  strokeLineCap: "round",
+                  selectable: false,
+                },
+              );
+
+              canvas.add(straightLine);
+              newCorrectLines.push(straightLine);
             } else {
               hasWrongMatch = true;
               line.set({
@@ -3705,43 +3439,35 @@ function saveCanvasHistory() {
                 strokeWidth: 6,
                 selectable: false,
               });
+              newWrongLines.push(line);
             }
           }
         });
 
-        // 🧹 Idhar-udhar kheenchi gayi lines ko TURANT canvas se hata dein
         if (invalidOutsideLines.length > 0) {
           invalidOutsideLines.forEach((line) => canvas.remove(line));
-          showToast("Connect boxes properly!", "warning");
         }
 
         canvas.renderAll();
 
-        // 🔴 CASE 1: Galat Match
         if (hasWrongMatch) {
           soundWrong.currentTime = 0;
           soundWrong.play().catch(() => {});
 
-          showToast("Wrong match! Try again.", "error");
-
-          // ⏳ 1.2s baad Red lines auto-clear hongi
-          setTimeout(() => {
-            const redLines = canvas
-              .getObjects()
-              .filter(
-                (obj) =>
-                  (obj.type === "path" || obj.type === "line") &&
-                  obj.stroke === "#ef4444",
-              );
-            redLines.forEach((line) => canvas.remove(line));
-            canvas.renderAll();
-          }, 1200);
-
-          // 🎉 CASE 2: Saare Matches Sahi (WIN)
+          newWrongLines.forEach((line) => {
+            shakeLine(line, () => {
+              setTimeout(() => {
+                canvas.remove(line);
+                canvas.renderAll();
+              }, 500);
+            });
+          });
         } else if (
           correctMatches === targetAnswers.length &&
           targetAnswers.length > 0
         ) {
+          newCorrectLines.forEach((line) => pulseCorrectLine(line));
+
           soundCorrect.currentTime = 0;
           soundCorrect.play().catch(() => {});
 
@@ -3752,12 +3478,64 @@ function saveCanvasHistory() {
               origin: { y: 0.6 },
             });
           }
+        } else if (newlyMatched) {
+          newCorrectLines.forEach((line) => pulseCorrectLine(line));
 
-          showToast("Awesome! All Correct!", "success");
+          soundCorrectAnswer.currentTime = 0;
+          soundCorrectAnswer.play().catch(() => {});
+        }
+      }
 
-          // 👍 CASE 3: Single Valid Match Success
-        } else if (correctMatches > 0 && invalidOutsideLines.length === 0) {
-          showToast("Good match! Next one...", "success");
+      function getBoxConnectionPoint(box, edgeSide) {
+        const width = box.width * (box.scaleX || 1);
+        const height = box.height * (box.scaleY || 1);
+        const centerY = box.top + height / 2;
+
+        if (edgeSide === "right_edge") {
+          return { x: box.left + width, y: centerY };
+        } else {
+          return { x: box.left, y: centerY };
+        }
+      }
+
+      function shakeLine(line, onComplete) {
+        if (!line) return;
+        const originalLeft = line.left;
+        const shifts = [8, -8, 6, -6, 3, -3, 0];
+        let step = 0;
+
+        const interval = setInterval(() => {
+          line.set("left", originalLeft + shifts[step]);
+          canvas.renderAll();
+          step++;
+
+          if (step >= shifts.length) {
+            clearInterval(interval);
+            if (onComplete) onComplete();
+          }
+        }, 45);
+      }
+
+      function pulseCorrectLine(line) {
+        if (!line) return;
+        line.animate("strokeWidth", 10, {
+          duration: 150,
+          onChange: canvas.renderAll.bind(canvas),
+          onComplete: function () {
+            line.animate("strokeWidth", 6, {
+              duration: 150,
+              onChange: canvas.renderAll.bind(canvas),
+            });
+          },
+        });
+      }
+
+      function handleLogout() {
+        if (confirm("Kya aap logout karna chahte hain?")) {
+          localStorage.removeItem("kidsPaintUser");
+          localStorage.clear();
+          sessionStorage.clear();
+          location.reload();
         }
       }
     </script>
