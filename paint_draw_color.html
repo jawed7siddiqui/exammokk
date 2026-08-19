@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
-    <title>Kids Paint Studio - Coloring Book</title>
+    <title>ColorBook - Kids Paint Studio</title>
 
     <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -94,9 +94,9 @@
         text-align: center;
         margin-top: 2px;
       }
-      .tool-btn-lg {
-        padding: 0.4rem;
-        border-radius: 0.75rem;
+      .tool-btn-grid {
+        padding: 0.35rem;
+        border-radius: 0.65rem;
         border: 1px solid #e2e8f0;
         background-color: #ffffff;
         transition: all 0.2s;
@@ -104,12 +104,12 @@
         align-items: center;
         justify-content: center;
         color: #334155;
-        width: 38px;
-        height: 38px;
+        height: 34px;
+        min-width: 34px;
         flex-shrink: 0;
         cursor: pointer;
       }
-      .tool-btn-lg.active {
+      .tool-btn-grid.active {
         background-color: #4f46e5;
         color: #ffffff;
         border-color: #4f46e5;
@@ -196,9 +196,9 @@
         }
         #templates-sidebar {
           width: 100% !important;
-          height: 140px !important;
-          min-height: 140px !important;
-          max-height: 140px !important;
+          height: 130px !important;
+          min-height: 130px !important;
+          max-height: 130px !important;
           flex-direction: column !important;
           border-right: none;
           border-top: 1px solid #e2e8f0;
@@ -210,8 +210,8 @@
           box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
         }
         .template-card {
-          min-width: 90px;
-          height: 72px;
+          min-width: 85px;
+          height: 68px;
           flex-shrink: 0;
           display: flex;
           flex-direction: column;
@@ -223,28 +223,87 @@
     </style>
   </head>
   <body class="antialiased select-none">
+    <!-- CUSTOM ACTION / CONFIRM MODAL -->
+    <div
+      id="custom-dialog-modal"
+      class="fixed inset-0 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden"
+    >
+      <div
+        class="bg-white rounded-3xl p-5 max-w-xs w-full border-4 border-pink-300 shadow-2xl text-center space-y-3.5"
+      >
+        <div
+          id="dialog-icon-wrapper"
+          class="w-12 h-12 mx-auto rounded-2xl flex items-center justify-center text-2xl bg-pink-100"
+        >
+          <span id="dialog-emoji">🎨</span>
+        </div>
+
+        <div class="space-y-1">
+          <h3
+            id="dialog-title"
+            class="text-base font-extrabold text-slate-900 font-kids"
+          >
+            ColorBook Magic
+          </h3>
+          <p
+            id="dialog-message"
+            class="text-xs text-slate-600 font-semibold leading-relaxed"
+          >
+            Are you sure you want to perform this action?
+          </p>
+        </div>
+
+        <div id="dialog-actions" class="flex items-center gap-2 pt-1 font-kids">
+          <button
+            id="dialog-btn-cancel"
+            class="flex-1 py-2.5 bg-slate-100 active:bg-slate-200 text-slate-700 font-extrabold rounded-2xl text-xs cursor-pointer transition-all active:scale-95 border border-slate-200"
+          >
+            Cancel
+          </button>
+          <button
+            id="dialog-btn-confirm"
+            class="flex-1 py-2.5 bg-indigo-600 active:bg-indigo-700 text-white font-extrabold rounded-2xl text-xs cursor-pointer transition-all active:scale-95 shadow-md shadow-indigo-200"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- HEADER TOOLBAR -->
     <header
-      class="bg-white border-b border-slate-200 shadow-xs flex flex-col p-2 gap-1.5 shrink-0 z-50"
+      class="bg-white border-b border-slate-200 shadow-xs flex flex-col p-2 gap-2 shrink-0 z-40"
     >
+      <!-- Top Brand Row -->
       <div
         class="flex items-center justify-between px-1 pb-1 border-b border-slate-100 w-full"
       >
-        <div class="flex items-center gap-1.5 shrink-0">
+        <div class="flex items-center gap-2 shrink-0">
+          <!-- Back to Dashboard Button -->
           <button
-            onclick="window.history.back()"
-            class="p-1.5 text-slate-700 hover:bg-slate-100 rounded-lg cursor-pointer"
+            onclick="goHomeConfirm()"
+            class="p-2 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 rounded-xl transition-all cursor-pointer flex items-center justify-center active:scale-95 shadow-2xs border border-slate-200"
+            title="Go to Dashboard"
           >
-            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
           </button>
-          <span
-            class="text-base sm:text-lg font-black text-indigo-600 font-kids flex items-center"
+
+          <!-- Brand Logo: ColorBook -->
+          <div
+            class="flex items-center gap-1.5 cursor-pointer"
+            onclick="goHomeConfirm()"
           >
-            🎨 Color<span class="text-pink-500">Book</span>
-          </span>
+            <span
+              class="text-base sm:text-lg font-black text-indigo-600 font-kids flex items-center tracking-tight"
+            >
+              🎨 Color<span class="text-pink-500">Book</span>
+            </span>
+          </div>
+
+          <!-- Clear Template Button -->
           <button
             onclick="resetCurrentTemplate()"
-            class="ml-1 px-2.5 py-1 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-lg text-[10px] font-black flex items-center gap-1 transition-all active:scale-95 cursor-pointer border border-rose-200"
+            class="ml-1 px-2.5 py-1 bg-rose-50 text-rose-600 hover:bg-rose-100 active:bg-rose-200 rounded-xl text-[10px] font-black flex items-center gap-1 transition-all active:scale-95 cursor-pointer border border-rose-200 font-kids"
           >
             <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Clear
           </button>
@@ -255,14 +314,14 @@
         >
           <button
             onclick="undo()"
-            class="p-1 text-slate-600 hover:bg-white rounded-md transition-all cursor-pointer"
+            class="p-1.5 text-slate-600 hover:bg-white rounded-md transition-all cursor-pointer"
             title="Undo"
           >
             <i data-lucide="undo-2" class="w-4 h-4"></i>
           </button>
           <button
             onclick="redo()"
-            class="p-1 text-slate-600 hover:bg-white rounded-md transition-all cursor-pointer"
+            class="p-1.5 text-slate-600 hover:bg-white rounded-md transition-all cursor-pointer"
             title="Redo"
           >
             <i data-lucide="redo-2" class="w-4 h-4"></i>
@@ -270,128 +329,146 @@
         </div>
       </div>
 
-      <!-- HORIZONTAL ACTION TOOLBAR -->
+      <!-- Action & Controls Strip -->
       <div
-        class="flex items-stretch justify-start md:justify-center gap-3 px-1 overflow-x-auto no-scrollbar pb-1 w-full"
+        class="flex items-center justify-start md:justify-center gap-3 px-1 overflow-x-auto no-scrollbar pb-0.5 w-full"
       >
-        <!-- TOOLS -->
+        <!-- TOOLS SECTION (2 ROWS) -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
+          class="flex flex-col justify-center border-r border-slate-200 pr-2.5 shrink-0"
         >
-          <div class="flex items-center gap-1 min-h-[38px]">
+          <div class="grid grid-cols-3 gap-1.5">
+            <!-- Row 1 -->
             <button
               id="tool-select"
               onclick="setMode('select')"
-              class="tool-btn-lg"
+              class="tool-btn-grid"
               title="Select / Move"
             >
-              <i data-lucide="mouse-pointer-2" class="w-5 h-5"></i>
+              <i data-lucide="mouse-pointer-2" class="w-4 h-4"></i>
             </button>
             <button
               id="tool-bucket"
               onclick="setMode('bucket')"
-              class="tool-btn-lg active"
+              class="tool-btn-grid active"
               title="Color Fill Bucket"
             >
-              <i data-lucide="paint-bucket" class="w-5 h-5"></i>
+              <i data-lucide="paint-bucket" class="w-4 h-4"></i>
             </button>
             <button
               id="tool-pen"
               onclick="startDrawing('pen')"
-              class="tool-btn-lg"
+              class="tool-btn-grid"
               title="Magic Pencil"
             >
-              <i data-lucide="pencil" class="w-5 h-5"></i>
+              <i data-lucide="pencil" class="w-4 h-4"></i>
             </button>
+
+            <!-- Row 2 -->
             <button
               id="tool-brush"
               onclick="startDrawing('brush')"
-              class="tool-btn-lg"
+              class="tool-btn-grid"
               title="Thick Brush"
             >
-              <i data-lucide="brush" class="w-5 h-5"></i>
+              <i data-lucide="brush" class="w-4 h-4"></i>
             </button>
             <button
               id="tool-eraser"
               onclick="startDrawing('eraser')"
-              class="tool-btn-lg"
+              class="tool-btn-grid col-span-2"
               title="Eraser"
             >
-              <i data-lucide="eraser" class="w-5 h-5"></i>
+              <i data-lucide="eraser" class="w-4 h-4 mr-1"></i>
+              <span class="text-[10px] font-bold">Eraser</span>
             </button>
           </div>
           <div class="tool-section-label">Tools</div>
         </div>
 
-        <!-- PALETTE -->
+        <!-- PALETTE SECTION (3 ROWS × 4 LARGE BOXES) -->
         <div
-          class="flex flex-col justify-between border-r border-slate-200 pr-2 shrink-0"
+          class="flex flex-col justify-center border-r border-slate-200 pr-2.5 shrink-0"
         >
-          <div class="flex items-center gap-1.5 min-h-[38px]">
-            <div
-              id="box-color1"
-              class="color-box w-7 h-7 rounded-lg bg-pink-500 cursor-pointer shadow-xs active shrink-0"
-            ></div>
+          <div class="flex items-center gap-2">
+            <!-- Selected Active Indicator & Pipette -->
+            <div class="flex flex-col items-center gap-1 shrink-0">
+              <div
+                id="box-color1"
+                class="color-box w-8 h-8 rounded-xl bg-pink-500 cursor-pointer shadow-xs active shrink-0"
+                title="Active Selected Color"
+              ></div>
+              <div
+                class="relative w-8 h-7 rounded-lg border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-xs cursor-pointer shrink-0"
+                title="Custom Color Picker"
+              >
+                <i
+                  data-lucide="pipette"
+                  class="w-3.5 h-3.5 text-slate-500 pointer-events-none"
+                ></i>
+                <input
+                  type="color"
+                  id="custom-color-picker"
+                  oninput="selectColor(this.value)"
+                  class="absolute inset-0 opacity-0 cursor-pointer"
+                  value="#ec4899"
+                />
+              </div>
+            </div>
+
+            <!-- Big Size 3-Row Palette Grid (4 Colors per row = 12 Items) -->
             <div
               id="palette-colors"
-              class="grid grid-cols-6 gap-1 w-[145px] shrink-0"
+              class="grid grid-cols-4 gap-1.5 shrink-0"
             ></div>
-            <div
-              class="relative w-6 h-6 rounded border border-slate-200 overflow-hidden flex items-center justify-center bg-white shadow-xs cursor-pointer shrink-0"
-            >
-              <i
-                data-lucide="pipette"
-                class="w-3 text-slate-400 pointer-events-none"
-              ></i>
-              <input
-                type="color"
-                id="custom-color-picker"
-                oninput="selectColor(this.value)"
-                class="absolute inset-0 opacity-0 cursor-pointer"
-                value="#ec4899"
-              />
-            </div>
           </div>
           <div class="tool-section-label">Colors</div>
         </div>
 
-        <!-- STICKERS -->
-        <div class="flex flex-col justify-between pr-1 shrink-0">
-          <div class="flex items-center gap-1 min-h-[38px]">
+        <!-- STICKERS SECTION (2 ROWS) -->
+        <div class="flex flex-col justify-center pr-1 shrink-0">
+          <div class="grid grid-cols-3 gap-1.5">
             <button
               onclick="addSticker('⭐')"
-              class="tool-btn-lg text-base hover:scale-110"
+              class="tool-btn-grid text-base hover:scale-110"
               title="Add Star"
             >
               ⭐
             </button>
             <button
               onclick="addSticker('🌸')"
-              class="tool-btn-lg text-base hover:scale-110"
+              class="tool-btn-grid text-base hover:scale-110"
               title="Add Flower"
             >
               🌸
             </button>
             <button
               onclick="addSticker('👑')"
-              class="tool-btn-lg text-base hover:scale-110"
+              class="tool-btn-grid text-base hover:scale-110"
               title="Add Crown"
             >
               👑
             </button>
             <button
               onclick="addSticker('❤️')"
-              class="tool-btn-lg text-base hover:scale-110"
+              class="tool-btn-grid text-base hover:scale-110"
               title="Add Heart"
             >
               ❤️
             </button>
             <button
               onclick="addSticker('🌈')"
-              class="tool-btn-lg text-base hover:scale-110"
+              class="tool-btn-grid text-base hover:scale-110"
               title="Add Rainbow"
             >
               🌈
+            </button>
+            <button
+              onclick="addSticker('🎈')"
+              class="tool-btn-grid text-base hover:scale-110"
+              title="Add Balloon"
+            >
+              🎈
             </button>
           </div>
           <div class="tool-section-label">Stickers</div>
@@ -459,6 +536,8 @@
 
     <!-- MAIN INTERACTION SCRIPT -->
     <script>
+      const HOME_REDIRECT_URL = "dashboard.html";
+
       let canvas;
       let color1 = "#ec4899";
       let canvasHistory = [];
@@ -473,18 +552,22 @@
       const PAGE_WIDTH = 800;
       const PAGE_HEIGHT = 800;
 
+      // 12 Essential Vibrant Colors (3 Rows × 4 Cols)
       const paintPalette = [
+        // Row 1: Bright Primaries
         "#ef4444",
         "#f97316",
         "#facc15",
         "#22c55e",
+        // Row 2: Cool Blues & Purples
         "#06b6d4",
         "#3b82f6",
-        "#a855f7",
-        "#ec4899",
-        "#14b8a6",
         "#8b5cf6",
-        "#1e293b",
+        "#d946ef",
+        // Row 3: Pink, Brown, Dark & White
+        "#ec4899",
+        "#78350f",
+        "#0f172a",
         "#ffffff",
       ];
 
@@ -538,6 +621,74 @@
         withConnection: false,
       });
 
+      // Custom ColorBook Modal
+      function showCustomDialog({
+        title = "ColorBook Magic",
+        message = "",
+        type = "confirm",
+        emoji = "🎨",
+        confirmText = "Yes, Do It!",
+        cancelText = "Keep Drawing",
+        btnColor = "bg-indigo-600 active:bg-indigo-700 text-white",
+      }) {
+        return new Promise((resolve) => {
+          const modal = document.getElementById("custom-dialog-modal");
+          const titleEl = document.getElementById("dialog-title");
+          const msgEl = document.getElementById("dialog-message");
+          const emojiEl = document.getElementById("dialog-emoji");
+          const btnCancel = document.getElementById("dialog-btn-cancel");
+          const btnConfirm = document.getElementById("dialog-btn-confirm");
+
+          titleEl.innerText = title;
+          msgEl.innerText = message;
+          emojiEl.innerText = emoji;
+          btnConfirm.innerText = confirmText;
+          btnCancel.innerText = cancelText;
+          btnConfirm.className = `flex-1 py-2.5 ${btnColor} font-extrabold rounded-2xl text-xs cursor-pointer transition-all active:scale-95 shadow-md`;
+
+          if (type === "alert") {
+            btnCancel.classList.add("hidden");
+          } else {
+            btnCancel.classList.remove("hidden");
+          }
+
+          modal.classList.remove("hidden");
+
+          const cleanup = () => {
+            modal.classList.add("hidden");
+            btnConfirm.onclick = null;
+            btnCancel.onclick = null;
+          };
+
+          btnConfirm.onclick = () => {
+            cleanup();
+            resolve(true);
+          };
+
+          btnCancel.onclick = () => {
+            cleanup();
+            resolve(false);
+          };
+        });
+      }
+
+      async function goHomeConfirm() {
+        const leave = await showCustomDialog({
+          title: "Back to Dashboard?",
+          message:
+            "Do you want to exit coloring studio and return to Dashboard?",
+          type: "confirm",
+          emoji: "🏠",
+          confirmText: "Yes, Dashboard 🏃",
+          cancelText: "Stay & Color ✨",
+          btnColor: "bg-rose-600 active:bg-rose-700 text-white",
+        });
+
+        if (leave) {
+          window.location.href = HOME_REDIRECT_URL;
+        }
+      }
+
       function initAppWhenReady() {
         if (
           typeof COLORFILL_CATEGORIES !== "undefined" &&
@@ -567,7 +718,7 @@
         paletteContainer.innerHTML = paintPalette
           .map(
             (color) =>
-              `<div onclick="selectColor('${color}')" class="w-5 h-5 rounded border border-slate-300 cursor-pointer shadow-xs hover:scale-110 shrink-0 transition-transform" style="background: ${color}"></div>`,
+              `<div onclick="selectColor('${color}')" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl border border-slate-300 cursor-pointer shadow-xs hover:scale-110 shrink-0 transition-transform" style="background: ${color}" title="${color}"></div>`,
           )
           .join("");
       }
@@ -581,7 +732,7 @@
           (cat, idx) => `
           <button 
             onclick="switchCategory(${idx})" 
-            class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap cursor-pointer transition-all flex items-center gap-1.5 shadow-xs ${
+            class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap cursor-pointer transition-all flex items-center gap-1.5 shadow-xs font-kids ${
               idx === selectedCategoryIdx
                 ? "bg-indigo-600 text-white"
                 : "bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200"
@@ -616,7 +767,7 @@
             id="tpl-${tpl.id}"
           >
             <span class="text-2xl sm:text-3xl leading-none">${tpl.icon}</span>
-            <span class="text-[10px] font-black text-slate-700 truncate w-full block mt-1">${tpl.title}</span>
+            <span class="text-[10px] font-black text-slate-700 truncate w-full block mt-1 font-kids">${tpl.title}</span>
           </div>
         `,
           )
@@ -748,8 +899,18 @@
         hideActionBar();
       }
 
-      function resetCurrentTemplate() {
-        if (!confirm("Clear this drawing and start fresh?")) return;
+      async function resetCurrentTemplate() {
+        const clean = await showCustomDialog({
+          title: "Clear Drawing?",
+          message: "Do you want to reset this drawing and start fresh?",
+          type: "confirm",
+          emoji: "🧹",
+          confirmText: "Clear Canvas",
+          cancelText: "Cancel",
+          btnColor: "bg-rose-600 active:bg-rose-700 text-white",
+        });
+
+        if (!clean) return;
 
         if (typeof COLORFILL_CATEGORIES === "undefined") return;
         const allTemplates = COLORFILL_CATEGORIES.flatMap((c) => c.templates);
@@ -767,7 +928,7 @@
       function setMode(mode) {
         activeMode = mode;
         document
-          .querySelectorAll(".tool-btn-lg")
+          .querySelectorAll(".tool-btn-grid")
           .forEach((b) => b.classList.remove("active"));
         canvas.isDrawingMode = false;
 

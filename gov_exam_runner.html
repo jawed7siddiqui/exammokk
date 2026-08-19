@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
-    <title>CBT Exam Portal</title>
+    <title>ExamIndia CBT Portal</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Lucide Icons -->
@@ -42,6 +42,50 @@
   <body
     class="bg-slate-100 h-full flex flex-col justify-between overflow-hidden text-slate-800 antialiased"
   >
+    <!-- CUSTOM CONFIRMATION / ALERT MODAL -->
+    <div
+      id="custom-dialog-modal"
+      class="fixed inset-0 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden"
+    >
+      <div
+        class="bg-white rounded-3xl p-5 max-w-xs sm:max-w-sm w-full border border-slate-200 shadow-2xl text-center space-y-3.5"
+      >
+        <div
+          id="dialog-icon-wrapper"
+          class="w-10 h-10 mx-auto rounded-2xl flex items-center justify-center text-xl bg-amber-50 text-amber-600"
+        >
+          <i id="dialog-icon" data-lucide="help-circle" class="w-5 h-5"></i>
+        </div>
+
+        <div class="space-y-1">
+          <h3 id="dialog-title" class="text-sm font-extrabold text-slate-900">
+            Confirm Action
+          </h3>
+          <p
+            id="dialog-message"
+            class="text-xs text-slate-500 font-semibold leading-relaxed"
+          >
+            Are you sure you want to perform this action?
+          </p>
+        </div>
+
+        <div id="dialog-actions" class="flex items-center gap-2 pt-1">
+          <button
+            id="dialog-btn-cancel"
+            class="flex-1 py-2 bg-slate-100 active:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs cursor-pointer transition-all active:scale-95"
+          >
+            Cancel
+          </button>
+          <button
+            id="dialog-btn-confirm"
+            class="flex-1 py-2 bg-indigo-600 active:bg-indigo-700 text-white font-extrabold rounded-xl text-xs cursor-pointer transition-all active:scale-95 shadow-md shadow-indigo-100"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- 0. PRE-TEST EXAM MODE SELECTOR MODAL -->
     <div
       id="modal-exam-selector"
@@ -153,57 +197,84 @@
       </div>
     </div>
 
-    <!-- 1. COMPACT HEADER -->
+    <!-- 1. BRAND HEADER -->
     <header class="bg-white border-b border-slate-200 shadow-xs z-20 shrink-0">
-      <!-- TOP STRIP -->
+      <!-- TOP STRIP: BRAND & NAVIGATION -->
       <div
-        class="px-3.5 sm:px-6 py-2 flex items-center justify-between gap-2 border-b border-slate-100"
+        class="px-3.5 sm:px-6 py-2.5 flex items-center justify-between gap-3 border-b border-slate-100"
       >
-        <div class="flex items-center gap-2 shrink-0">
-          <div
-            class="w-7 h-7 bg-indigo-600 rounded-lg text-white flex items-center justify-center shadow-xs"
+        <!-- BRAND & BACK TO HOME -->
+        <div class="flex items-center gap-2.5 shrink-0">
+          <button
+            onclick="goHomeConfirm()"
+            class="p-2 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 rounded-xl transition-all cursor-pointer flex items-center justify-center active:scale-95 shadow-2xs"
+            title="Return to Home Dashboard"
           >
-            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-          </div>
-          <div class="hidden sm:block">
-            <span
-              class="font-extrabold text-[11px] tracking-tight text-slate-900 block leading-none"
-              >CBT Portal</span
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+
+          <div
+            class="flex items-center gap-2 cursor-pointer"
+            onclick="goHomeConfirm()"
+          >
+            <div
+              class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-700 via-indigo-800 to-blue-900 text-white font-extrabold text-base flex items-center justify-center shadow-xs shrink-0"
             >
-            <span class="text-[8px] text-indigo-600 font-extrabold uppercase"
-              >App Engine</span
-            >
+              <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h1
+                class="text-xs sm:text-sm font-black text-slate-900 tracking-tight leading-none"
+              >
+                ExamIndia
+              </h1>
+              <p class="text-[9px] font-bold text-indigo-600 leading-tight">
+                Govt &amp; PSC Test Prep
+              </p>
+            </div>
           </div>
         </div>
 
-        <div class="flex-1 text-center min-w-0 px-2">
-          <h1
+        <!-- CENTER: TEST TITLE -->
+        <div class="flex-1 text-center min-w-0 px-2 hidden sm:block">
+          <h2
             id="test-title"
             class="text-xs sm:text-sm font-extrabold text-slate-900 truncate"
             title="Exam Title"
           >
             Loading Examination Paper...
-          </h1>
+          </h2>
         </div>
 
+        <!-- RIGHT: BADGE, PALETTE & LOGOUT -->
         <div class="flex items-center gap-1.5 shrink-0">
           <span
             id="header-exam-badge"
-            class="px-2 py-0.5 rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 font-extrabold text-[10px] whitespace-nowrap"
+            class="px-2 py-0.5 rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 font-extrabold text-[10px] whitespace-nowrap hidden sm:inline-block"
           >
             UPSC GS
           </span>
+
           <button
             onclick="toggleMobilePalette()"
             class="md:hidden p-1.5 bg-slate-100 active:bg-slate-200 rounded-lg text-slate-700 cursor-pointer"
-            title="Toggle Palette"
+            title="Toggle Question Palette"
           >
             <i data-lucide="grid" class="w-4 h-4"></i>
+          </button>
+
+          <button
+            onclick="goHomeConfirm()"
+            class="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 active:bg-rose-500 active:text-white text-rose-600 border border-rose-200/80 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1 shadow-2xs active:scale-95"
+            title="Exit to Dashboard"
+          >
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Exit Exam</span>
           </button>
         </div>
       </div>
 
-      <!-- BOTTOM STRIP -->
+      <!-- BOTTOM STRIP: MARKS, TIMER & LANGUAGE -->
       <div
         class="px-3.5 sm:px-6 py-1.5 flex items-center justify-between gap-2 bg-slate-50/90 text-xs"
       >
@@ -255,7 +326,7 @@
       </div>
     </header>
 
-    <!-- 2. MAIN WORKSPACE (UPPER-ALIGNED & COMPACT) -->
+    <!-- 2. MAIN WORKSPACE -->
     <main class="flex-1 flex overflow-hidden relative">
       <!-- LOADING OVERLAY -->
       <div
@@ -270,7 +341,7 @@
         </p>
       </div>
 
-      <!-- LEFT: QUESTION STATEMENT & OPTIONS (Shifted Further Down) -->
+      <!-- LEFT: QUESTION STATEMENT & OPTIONS -->
       <section
         class="flex-1 flex flex-col justify-between px-3.5 sm:px-5 pt-8 sm:pt-10 pb-2 overflow-y-auto custom-scrollbar"
       >
@@ -279,7 +350,6 @@
           <div
             class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-2xs space-y-2.5"
           >
-            <!-- Card Header: Title + Timer -->
             <div
               class="flex items-center justify-between pb-1.5 border-b border-slate-100"
             >
@@ -301,7 +371,6 @@
               </div>
             </div>
 
-            <!-- Question Statement with Q.1 Inline -->
             <div
               class="text-slate-900 text-[15px] sm:text-base font-bold leading-snug flex items-start gap-2"
             >
@@ -520,13 +589,21 @@
             <i data-lucide="search" class="w-3.5 h-3.5"></i>
             <span>Review Mistakes &amp; Answers</span>
           </button>
-          <!-- FIXED CLEAN RETAKE EXAM -->
-          <button
-            onclick="retakeExamClean()"
-            class="w-full py-2.5 bg-indigo-600 active:bg-indigo-700 text-white font-extrabold rounded-xl text-xs uppercase cursor-pointer transition-all active:scale-95 shadow-md"
-          >
-            Retake Examination 🔄
-          </button>
+          <div class="grid grid-cols-2 gap-2">
+            <button
+              onclick="retakeExamClean()"
+              class="w-full py-2.5 bg-indigo-600 active:bg-indigo-700 text-white font-extrabold rounded-xl text-xs uppercase cursor-pointer transition-all active:scale-95 shadow-md"
+            >
+              Retake 🔄
+            </button>
+            <button
+              onclick="goHomeDirect()"
+              class="w-full py-2.5 bg-slate-800 active:bg-slate-900 text-white font-extrabold rounded-xl text-xs uppercase cursor-pointer transition-all active:scale-95 shadow-md flex items-center justify-center gap-1"
+            >
+              <i data-lucide="home" class="w-3.5 h-3.5"></i>
+              <span>Home</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -581,6 +658,8 @@
 
     <!-- JAVASCRIPT CBT ENGINE -->
     <script>
+      const HOME_REDIRECT_URL = "index.html"; // Dashboard/Home URL
+
       const urlParams = new URLSearchParams(window.location.search);
       const TARGET_TEST_ID =
         urlParams.get("test_id") ||
@@ -636,6 +715,89 @@
         subject: "General Studies",
         exam_category: "GOVT_PSC",
       };
+
+      function showCustomDialog({
+        title = "Notification",
+        message = "",
+        type = "alert",
+        confirmText = "OK",
+        cancelText = "Cancel",
+        icon = "info",
+        iconBg = "bg-indigo-50",
+        iconColor = "text-indigo-600",
+        btnColor = "bg-indigo-600 active:bg-indigo-700 text-white",
+      }) {
+        return new Promise((resolve) => {
+          const modal = document.getElementById("custom-dialog-modal");
+          const titleEl = document.getElementById("dialog-title");
+          const msgEl = document.getElementById("dialog-message");
+          const btnCancel = document.getElementById("dialog-btn-cancel");
+          const btnConfirm = document.getElementById("dialog-btn-confirm");
+          const iconWrap = document.getElementById("dialog-icon-wrapper");
+          const iconEl = document.getElementById("dialog-icon");
+
+          titleEl.innerText = title;
+          msgEl.innerText = message;
+          btnConfirm.innerText = confirmText;
+          btnCancel.innerText = cancelText;
+
+          iconWrap.className = `w-10 h-10 mx-auto rounded-2xl flex items-center justify-center ${iconBg} ${iconColor}`;
+          iconEl.setAttribute("data-lucide", icon);
+          btnConfirm.className = `flex-1 py-2 ${btnColor} font-extrabold rounded-xl text-xs cursor-pointer transition-all active:scale-95 shadow-md`;
+
+          if (type === "alert") {
+            btnCancel.classList.add("hidden");
+          } else {
+            btnCancel.classList.remove("hidden");
+          }
+
+          if (window.lucide) lucide.createIcons();
+          modal.classList.remove("hidden");
+
+          const cleanup = () => {
+            modal.classList.add("hidden");
+            btnConfirm.onclick = null;
+            btnCancel.onclick = null;
+          };
+
+          btnConfirm.onclick = () => {
+            cleanup();
+            resolve(true);
+          };
+
+          btnCancel.onclick = () => {
+            cleanup();
+            resolve(false);
+          };
+        });
+      }
+
+      async function goHomeConfirm() {
+        const leave = await showCustomDialog({
+          title: "Exit Examination?",
+          message:
+            "Your current progress will be lost if you leave before submitting.",
+          type: "confirm",
+          confirmText: "Yes, Exit",
+          cancelText: "Stay on Test",
+          icon: "alert-triangle",
+          iconBg: "bg-rose-50",
+          iconColor: "text-rose-600",
+          btnColor: "bg-rose-600 active:bg-rose-700 text-white",
+        });
+
+        if (leave) {
+          goHomeDirect();
+        }
+      }
+
+      function goHomeDirect() {
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          window.location.href = HOME_REDIRECT_URL;
+        }
+      }
 
       function normalizeQuestionData(rawQ, idx) {
         if (!rawQ || typeof rawQ !== "object") return null;
@@ -890,7 +1052,6 @@
         buildQuestionPalette();
       }
 
-      // SEAMLESS RETAKE HANDLER
       function retakeExamClean() {
         document.getElementById("result-modal").classList.add("hidden");
         document.getElementById("review-modal").classList.add("hidden");
@@ -1133,11 +1294,21 @@
         clearInterval(mainTimerInterval);
         const timerEl = document.getElementById("timer-display");
 
-        mainTimerInterval = setInterval(() => {
+        mainTimerInterval = setInterval(async () => {
           if (remainingSeconds <= 0) {
             clearInterval(mainTimerInterval);
             clearInterval(qTimerInterval);
-            alert("Time is up! Auto-submitting your test paper...");
+            await showCustomDialog({
+              title: "Time is Up!",
+              message:
+                "Your exam duration has ended. Auto-submitting your paper now.",
+              type: "alert",
+              confirmText: "View Scorecard",
+              icon: "alarm-clock-off",
+              iconBg: "bg-rose-50",
+              iconColor: "text-rose-600",
+              btnColor: "bg-rose-600 active:bg-rose-700 text-white",
+            });
             submitTestFinal();
             return;
           }
@@ -1148,13 +1319,21 @@
         }, 1000);
       }
 
-      function submitTestConfirmation() {
+      async function submitTestConfirmation() {
         const attempted = Object.keys(userAnswers).length;
-        if (
-          confirm(
-            `You have answered ${attempted} of ${questionsList.length} questions.\nAre you sure you want to finish and submit?`,
-          )
-        ) {
+        const confirmed = await showCustomDialog({
+          title: "Finish & Submit Exam?",
+          message: `You have answered ${attempted} of ${questionsList.length} questions. Are you sure you want to finish?`,
+          type: "confirm",
+          confirmText: "Submit Now",
+          cancelText: "Resume Test",
+          icon: "send",
+          iconBg: "bg-emerald-50",
+          iconColor: "text-emerald-600",
+          btnColor: "bg-emerald-600 active:bg-emerald-700 text-white",
+        });
+
+        if (confirmed) {
           submitTestFinal();
         }
       }

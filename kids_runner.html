@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>Kids Math Addition Runner</title>
+    <title>KidsPaint - Math Addition Runner</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Lucide Icons -->
@@ -48,70 +48,142 @@
   <body
     class="bg-amber-50 h-full flex flex-col justify-between overflow-hidden"
   >
+    <!-- CUSTOM KIDS DIALOG MODAL (REPLACES ALERT & CONFIRM) -->
+    <div
+      id="custom-dialog-modal"
+      class="fixed inset-0 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden"
+    >
+      <div
+        class="bg-white rounded-3xl p-5 max-w-xs w-full border-4 border-amber-300 shadow-2xl text-center space-y-3.5"
+      >
+        <div
+          id="dialog-icon-wrapper"
+          class="w-12 h-12 mx-auto rounded-2xl flex items-center justify-center text-2xl bg-amber-100"
+        >
+          <span id="dialog-emoji">🎨</span>
+        </div>
+
+        <div class="space-y-1">
+          <h3 id="dialog-title" class="text-base font-extrabold text-slate-900">
+            Hey Champion!
+          </h3>
+          <p
+            id="dialog-message"
+            class="text-xs text-slate-600 font-bold leading-relaxed"
+          >
+            Are you sure you want to go back?
+          </p>
+        </div>
+
+        <div id="dialog-actions" class="flex items-center gap-2 pt-1">
+          <button
+            id="dialog-btn-cancel"
+            class="flex-1 py-2.5 bg-slate-100 active:bg-slate-200 text-slate-700 font-extrabold rounded-2xl text-xs cursor-pointer transition-all active:scale-95 border-2 border-slate-200"
+          >
+            Stay Here 😊
+          </button>
+          <button
+            id="dialog-btn-confirm"
+            class="flex-1 py-2.5 bg-indigo-600 active:bg-indigo-700 text-white font-extrabold rounded-2xl text-xs cursor-pointer transition-all active:scale-95 shadow-md shadow-indigo-200"
+          >
+            Yes 🚀
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- 1. TOP HEADER BAR -->
     <header
-      class="bg-white border-b-4 border-amber-200 px-3 sm:px-4 py-2.5 flex items-center justify-between shadow-xs z-20 gap-2"
+      class="bg-white border-b-4 border-amber-200 px-3 sm:px-4 py-2 flex flex-col gap-1.5 shadow-xs z-20"
     >
-      <!-- Left: Avatar & Title / Progress Area -->
-      <div class="flex items-center gap-2.5 min-w-0 flex-1">
-        <div
-          class="w-10 h-10 rounded-2xl bg-indigo-500 text-white flex items-center justify-center font-extrabold text-lg shadow-xs shrink-0"
-        >
-          🧒
-        </div>
-        <div class="min-w-0 flex-1">
-          <h1
-            id="test-title"
-            class="text-xs sm:text-sm font-extrabold text-slate-800 truncate"
+      <!-- Top Row: Brand, Back Button & Stats Badges -->
+      <div class="flex items-center justify-between gap-2">
+        <!-- Left: Back Button & KidsPaint Brand -->
+        <div class="flex items-center gap-2 shrink-0">
+          <button
+            onclick="goHomeConfirm()"
+            class="p-2 bg-amber-100 hover:bg-amber-200 active:bg-amber-300 text-amber-900 rounded-2xl transition-all cursor-pointer flex items-center justify-center active:scale-95 shadow-2xs border border-amber-200"
+            title="Go to Home"
           >
-            Class 1 Math Practice
-          </h1>
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
 
           <div
-            class="flex items-center gap-1.5 mt-1 max-w-[130px] sm:max-w-[170px]"
+            class="flex items-center gap-2 cursor-pointer"
+            onclick="goHomeConfirm()"
           >
             <div
-              class="flex-1 h-2 bg-slate-100 rounded-full border border-slate-200 overflow-hidden min-w-[35px]"
+              class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-amber-400 via-orange-500 to-rose-500 text-white flex items-center justify-center font-extrabold text-base shadow-xs shrink-0"
             >
-              <div
-                id="progress-bar-fill"
-                class="bg-indigo-500 h-full rounded-full transition-all duration-300 w-1/4"
-              ></div>
+              🎨
             </div>
-            <span
-              id="question-indicator"
-              class="text-[10px] font-extrabold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100 shrink-0 whitespace-nowrap"
+            <div>
+              <h1
+                class="text-sm font-black text-slate-900 tracking-tight leading-none"
+              >
+                KidsPaint
+              </h1>
+              <p class="text-[9px] font-bold text-amber-600 leading-tight">
+                Fun Math &amp; Learning
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Badges Row -->
+        <div class="flex items-center gap-1.5 shrink-0">
+          <div
+            class="flex items-center gap-1 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-200 text-indigo-700 font-extrabold text-[10px] sm:text-xs whitespace-nowrap shadow-2xs"
+          >
+            <span>🎯</span>
+            <span id="total-marks-badge">8 Marks</span>
+          </div>
+
+          <div
+            class="flex items-center gap-1 bg-amber-100/90 px-2 py-0.5 rounded-full border border-amber-300 text-amber-900 font-extrabold text-[10px] sm:text-xs whitespace-nowrap shadow-2xs"
+          >
+            <span>⏱</span>
+            <span id="timer-display">12:00</span>
+            <span class="text-[10px] text-amber-700 font-bold"
+              >/ <span id="total-time-badge">20min</span></span
             >
-              1 of 4
-            </span>
           </div>
         </div>
       </div>
 
-      <!-- Right: Vertical Stacked Badges -->
-      <div class="flex flex-col items-end gap-1 shrink-0">
-        <!-- Top: Total Marks Badge -->
-        <div
-          class="flex items-center gap-1 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200 text-indigo-700 font-extrabold text-[10px] sm:text-xs whitespace-nowrap shadow-2xs"
-        >
-          <span>🎯</span>
-          <span id="total-marks-badge">8 Marks</span>
+      <!-- Bottom Row: Test Title & Progress Bar -->
+      <div
+        class="flex items-center justify-between gap-2 pt-0.5 border-t border-slate-100"
+      >
+        <div class="min-w-0 flex-1">
+          <h2
+            id="test-title"
+            class="text-xs font-extrabold text-slate-700 truncate"
+          >
+            Class 1 Math Practice
+          </h2>
         </div>
 
-        <!-- Bottom: Timer & Duration Badge -->
-        <div
-          class="flex items-center gap-1 bg-amber-100/90 px-2.5 py-0.5 rounded-full border border-amber-300 text-amber-900 font-extrabold text-[10px] sm:text-xs whitespace-nowrap shadow-2xs"
-        >
-          <span>⏱</span>
-          <span id="timer-display">12:00</span>
-          <span class="text-[10px] text-amber-700 font-bold"
-            >/ <span id="total-time-badge">20min</span></span
+        <div class="flex items-center gap-1.5 shrink-0">
+          <div
+            class="w-20 sm:w-28 h-2 bg-slate-100 rounded-full border border-slate-200 overflow-hidden"
           >
+            <div
+              id="progress-bar-fill"
+              class="bg-indigo-500 h-full rounded-full transition-all duration-300 w-1/4"
+            ></div>
+          </div>
+          <span
+            id="question-indicator"
+            class="text-[10px] font-extrabold text-indigo-600 bg-indigo-50 px-2 py-0.2 rounded-full border border-indigo-100 shrink-0 whitespace-nowrap"
+          >
+            1 of 4
+          </span>
         </div>
       </div>
     </header>
 
-    <!-- 2. MAIN WORKSPACE / CANVAS AREA (800 x 1000 Resolution) -->
+    <!-- 2. MAIN WORKSPACE / CANVAS AREA -->
     <main
       class="flex-1 relative flex flex-col items-center justify-center p-2 overflow-hidden"
     >
@@ -153,7 +225,7 @@
     <footer
       class="bg-white border-t-4 border-amber-200 p-2.5 flex flex-col gap-2 z-20 shadow-lg"
     >
-      <!-- DYNAMIC SUBMIT BUTTON ("Submit 🚀") -->
+      <!-- DYNAMIC SUBMIT BUTTON -->
       <div id="submit-wrapper" class="hidden max-w-sm mx-auto w-full px-2">
         <button
           onclick="submitTest()"
@@ -244,12 +316,21 @@
           </div>
         </div>
 
-        <button
-          onclick="location.reload()"
-          class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase rounded-xl shadow-lg cursor-pointer active:scale-95"
-        >
-          Play Again 🔄
-        </button>
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button
+            onclick="location.reload()"
+            class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase rounded-xl shadow-lg cursor-pointer active:scale-95"
+          >
+            Play Again 🔄
+          </button>
+          <button
+            onclick="goHomeDirect()"
+            class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-extrabold text-xs uppercase rounded-xl shadow-lg cursor-pointer active:scale-95 flex items-center justify-center gap-1"
+          >
+            <i data-lucide="home" class="w-3.5 h-3.5"></i>
+            <span>Home</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -304,12 +385,21 @@
           >
             🔍 Review Mistakes
           </button>
-          <button
-            onclick="location.reload()"
-            class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs uppercase rounded-xl shadow-lg cursor-pointer active:scale-95"
-          >
-            Play Again 🔄
-          </button>
+          <div class="grid grid-cols-2 gap-2">
+            <button
+              onclick="location.reload()"
+              class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs uppercase rounded-xl shadow-lg cursor-pointer active:scale-95"
+            >
+              Play Again 🔄
+            </button>
+            <button
+              onclick="goHomeDirect()"
+              class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-extrabold text-xs uppercase rounded-xl shadow-lg cursor-pointer active:scale-95 flex items-center justify-center gap-1"
+            >
+              <i data-lucide="home" class="w-3.5 h-3.5"></i>
+              <span>Home</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -357,7 +447,8 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-      // 1. Get Dynamic `test_id` from Query Params
+      const HOME_REDIRECT_URL = "dashboard.html";
+
       const urlParams = new URLSearchParams(window.location.search);
       const TARGET_TEST_ID =
         urlParams.get("test_id") || "TEST_CBSE_MATHEMAT_CL1_3845";
@@ -370,7 +461,6 @@
       const VIRTUAL_WIDTH = 800;
       const VIRTUAL_HEIGHT = 1000;
 
-      // 1. Limit को 960 तक बढ़ाएं ताकि नीचे के कार्ड्स की लाइन डिलीट न हो
       const ALLOWED_X_MIN = 20;
       const ALLOWED_X_MAX = 780;
       const ALLOWED_Y_MIN = 100;
@@ -397,24 +487,96 @@
       let userDrawnPathsMap = {};
       let evaluatedEvaluationData = [];
 
+      // Custom Kids Friendly Dialog
+      function showCustomDialog({
+        title = "Hey Champion!",
+        message = "",
+        type = "alert",
+        emoji = "🎨",
+        confirmText = "OK",
+        cancelText = "Cancel",
+        btnColor = "bg-indigo-600 active:bg-indigo-700 text-white",
+      }) {
+        return new Promise((resolve) => {
+          const modal = document.getElementById("custom-dialog-modal");
+          const titleEl = document.getElementById("dialog-title");
+          const msgEl = document.getElementById("dialog-message");
+          const emojiEl = document.getElementById("dialog-emoji");
+          const btnCancel = document.getElementById("dialog-btn-cancel");
+          const btnConfirm = document.getElementById("dialog-btn-confirm");
+
+          titleEl.innerText = title;
+          msgEl.innerText = message;
+          emojiEl.innerText = emoji;
+          btnConfirm.innerText = confirmText;
+          btnCancel.innerText = cancelText;
+          btnConfirm.className = `flex-1 py-2.5 ${btnColor} font-extrabold rounded-2xl text-xs cursor-pointer transition-all active:scale-95 shadow-md`;
+
+          if (type === "alert") {
+            btnCancel.classList.add("hidden");
+          } else {
+            btnCancel.classList.remove("hidden");
+          }
+
+          modal.classList.remove("hidden");
+
+          const cleanup = () => {
+            modal.classList.add("hidden");
+            btnConfirm.onclick = null;
+            btnCancel.onclick = null;
+          };
+
+          btnConfirm.onclick = () => {
+            cleanup();
+            resolve(true);
+          };
+
+          btnCancel.onclick = () => {
+            cleanup();
+            resolve(false);
+          };
+        });
+      }
+
+      async function goHomeConfirm() {
+        const leave = await showCustomDialog({
+          title: "Leave Activity?",
+          message: "Do you want to quit this practice and go to Home?",
+          type: "confirm",
+          emoji: "🏠",
+          confirmText: "Yes, Go Home 🏃",
+          cancelText: "Keep Playing ✨",
+          btnColor: "bg-rose-600 active:bg-rose-700 text-white",
+        });
+
+        if (leave) {
+          goHomeDirect();
+        }
+      }
+
+      function goHomeDirect() {
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          window.location.href = HOME_REDIRECT_URL;
+        }
+      }
+
       async function initRunner() {
         initFabricCanvas();
         window.addEventListener("resize", resizeAndScaleCanvas);
 
         try {
-          // Dynamic TEST_ID is now fetched here
           const res = await fetch(`${QUESTION_API_URL}/test/${TARGET_TEST_ID}`);
           const resData = await res.json();
 
           if (resData?.success && resData.data) {
             const apiData = resData.data;
 
-            // 1. Extract Questions
             questionsList = Array.isArray(apiData)
               ? apiData
               : apiData.questions || [];
 
-            // 2. Title Extraction
             const extractedTitle =
               apiData.title ||
               apiData.test_title ||
@@ -432,7 +594,7 @@
               (questionsList.length > 0 &&
                 (questionsList[0].subject || questionsList[0].subject_name)) ||
               "Mathematics";
-            // 3. Time Limit Extraction
+
             totalTimeMins =
               apiData.total_time_mins ||
               apiData.time_limit ||
@@ -444,7 +606,6 @@
               `${totalTimeMins}min`;
             startTimer();
 
-            // 4. Total Score Calculation
             calculatedTotalMaxScore = questionsList.reduce((sum, q) => {
               return sum + (q.marks || q.matching_pairs?.length || 4);
             }, 0);
@@ -458,12 +619,23 @@
           if (questionsList.length > 0) {
             renderQuestion(0);
           } else {
-            alert("No questions found for this test ID!");
+            showCustomDialog({
+              title: "Oops!",
+              message: "No questions found for this test paper.",
+              emoji: "🔍",
+              confirmText: "Back to Home",
+            }).then(() => goHomeDirect());
           }
         } catch (err) {
           document.getElementById("loading-overlay").classList.add("hidden");
           console.error("Single fetch error:", err);
-          alert("Error loading test data.");
+          showCustomDialog({
+            title: "Network Issue",
+            message:
+              "Failed to load test questions. Please check your connection.",
+            emoji: "⚠️",
+            confirmText: "Retry",
+          });
         }
       }
 
@@ -664,12 +836,10 @@
           const canvasObjects = q.canvas_objects || [];
           const savedPathObjs = userDrawnPathsMap[qIdx] || [];
 
-          // Left और Right items की सटीक Y-पोजीशन ऑटोमैटिक ढूंढें
           let leftItems = [];
           let rightItems = [];
 
           matchingPairs.forEach((pair) => {
-            // Find matching left text object
             const leftObj = canvasObjects.find(
               (obj) =>
                 obj.type === "text" &&
@@ -678,7 +848,6 @@
                   pair.leftText.trim().toLowerCase(),
             );
 
-            // Find matching right text object
             const rightObj = canvasObjects.find(
               (obj) =>
                 obj.type === "text" &&
@@ -709,7 +878,6 @@
             totalMaxScore += 1;
             let matchedRightText = null;
 
-            // चेक करें कि कौन सी लाइन इस Left item से शुरू होकर किसी Right item पर खत्म हो रही है
             savedPathObjs.forEach((pathObj) => {
               if (pathObj.path && pathObj.path.length > 0) {
                 const firstCmd = pathObj.path[0];
@@ -725,7 +893,6 @@
                 const endX = Math.max(x1, x2);
                 const endY = x1 < x2 ? y2 : y1;
 
-                // लाइन Left side (X < 380) से शुरू होकर Right side (X > 420) जा रही है
                 if (
                   Math.abs(startY - lItem.y) < 120 &&
                   startX < 380 &&
@@ -749,7 +916,6 @@
               }
             });
 
-            // रिजल्ट वेलिडेशन
             if (matchedRightText) {
               if (
                 matchedRightText.toLowerCase() ===
@@ -760,7 +926,7 @@
                 pairEvaluations.push({
                   leftText: lItem.text,
                   rightText: lItem.expectedRight,
-                  userAnswer: matchedRightText, // 👈 FIX: सही उत्तर होने पर भी यूजर का आंसर भेजा जाएगा
+                  userAnswer: matchedRightText,
                   isCorrect: true,
                 });
               } else {
@@ -793,6 +959,7 @@
 
         return { totalScore, totalCorrect, totalWrong, totalMaxScore };
       }
+
       function openReviewModal() {
         document.getElementById("result-oops-modal").classList.add("hidden");
         document.getElementById("result-success-modal").classList.add("hidden");
@@ -901,16 +1068,13 @@
       async function submitTest() {
         clearInterval(timerInterval);
 
-        // 1. Show Rocket Checking Overlay
         document.getElementById("checking-overlay").classList.remove("hidden");
 
-        // 2. Local Score Evaluation
         const { totalScore, totalCorrect, totalWrong, totalMaxScore } =
           evaluateTestScore();
         const scorePercent = Math.round((totalScore / totalMaxScore) * 100);
         const timeTakenSeconds = totalTimeMins * 60 - timeRemainingSeconds;
 
-        // 3. Extract User Info from LocalStorage ('kidsPaintUser')
         let studentId = "GUEST_STUDENT";
         let studentName = "Student";
 
@@ -925,7 +1089,6 @@
           console.error("Error reading kidsPaintUser from localStorage:", e);
         }
 
-        // 4. Prepare Payload with LocalStorage Values
         const payload = {
           test_id: TARGET_TEST_ID,
           exam_category: "KIDS_SCHOOL",
@@ -960,7 +1123,6 @@
           })),
         };
 
-        // 5. Silent Background API Call (`/api/test/questions/submit`)
         try {
           fetch(SUBMIT_RESULT_API_URL, {
             method: "POST",
@@ -971,7 +1133,6 @@
           console.error("Silent Submit Error:", e);
         }
 
-        // 6. Present Scorecard UI
         setTimeout(() => {
           document.getElementById("checking-overlay").classList.add("hidden");
 
