@@ -316,6 +316,50 @@
       </div>
     </div>
 
+    <!-- 5. REUSABLE CUSTOM ALERT & CONFIRM MODAL -->
+    <div
+      id="custom-dialog-modal"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden"
+    >
+      <div
+        class="bg-white rounded-3xl w-full max-w-xs p-5 space-y-4 animate-fadeIn shadow-2xl text-center"
+      >
+        <div
+          id="dialog-icon-container"
+          class="w-12 h-12 mx-auto rounded-2xl flex items-center justify-center text-xl bg-indigo-50 text-indigo-600"
+        >
+          <i id="dialog-icon" data-lucide="info" class="w-6 h-6"></i>
+        </div>
+
+        <div class="space-y-1">
+          <h3 id="dialog-title" class="text-sm font-extrabold text-slate-900">
+            Notification
+          </h3>
+          <p
+            id="dialog-message"
+            class="text-xs font-semibold text-slate-500 leading-relaxed"
+          >
+            Message details go here.
+          </p>
+        </div>
+
+        <div id="dialog-actions" class="flex gap-2 pt-1">
+          <button
+            id="dialog-btn-cancel"
+            class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all cursor-pointer hidden"
+          >
+            Cancel
+          </button>
+          <button
+            id="dialog-btn-confirm"
+            class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-md shadow-indigo-600/20"
+          >
+            Okay
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- JAVASCRIPT ENGINE -->
     <script>
       const BASE_API_URL =
@@ -328,17 +372,91 @@
       let selectedTestForPurchase = null;
       let activeDailyTest = null;
 
-      function handleUserLogout() {
-        if (confirm("Are you sure you want to log out?")) {
-          try {
-            localStorage.removeItem("examIndiaUser");
-            localStorage.removeItem("token");
-            localStorage.removeItem("user_session");
-          } catch (e) {
-            console.error("Storage clear error:", e);
-          }
-          window.location.href = "auth_gov.html";
+      // Custom Dialog Trigger Helper (Replaces alert() and confirm())
+      function showCustomDialog({
+        title = "Notice",
+        message = "",
+        type = "info",
+        showCancel = false,
+        confirmText = "Okay",
+        cancelText = "Cancel",
+        onConfirm = null,
+      }) {
+        const modal = document.getElementById("custom-dialog-modal");
+        const titleEl = document.getElementById("dialog-title");
+        const msgEl = document.getElementById("dialog-message");
+        const iconCont = document.getElementById("dialog-icon-container");
+        const iconEl = document.getElementById("dialog-icon");
+        const btnCancel = document.getElementById("dialog-btn-cancel");
+        const btnConfirm = document.getElementById("dialog-btn-confirm");
+
+        titleEl.textContent = title;
+        msgEl.textContent = message;
+        btnConfirm.textContent = confirmText;
+        btnCancel.textContent = cancelText;
+
+        // Styling based on type
+        if (type === "danger") {
+          iconCont.className =
+            "w-12 h-12 mx-auto rounded-2xl flex items-center justify-center bg-rose-50 text-rose-600";
+          iconEl.setAttribute("data-lucide", "alert-circle");
+          btnConfirm.className =
+            "flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-md shadow-rose-600/20";
+        } else if (type === "warning") {
+          iconCont.className =
+            "w-12 h-12 mx-auto rounded-2xl flex items-center justify-center bg-amber-50 text-amber-600";
+          iconEl.setAttribute("data-lucide", "alert-triangle");
+          btnConfirm.className =
+            "flex-1 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-md shadow-amber-500/20";
+        } else {
+          iconCont.className =
+            "w-12 h-12 mx-auto rounded-2xl flex items-center justify-center bg-indigo-50 text-indigo-600";
+          iconEl.setAttribute("data-lucide", "info");
+          btnConfirm.className =
+            "flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-md shadow-indigo-600/20";
         }
+
+        if (showCancel) {
+          btnCancel.classList.remove("hidden");
+        } else {
+          btnCancel.classList.add("hidden");
+        }
+
+        modal.classList.remove("hidden");
+        if (typeof lucide !== "undefined") lucide.createIcons();
+
+        btnCancel.onclick = () => {
+          modal.classList.add("hidden");
+        };
+
+        btnConfirm.onclick = () => {
+          modal.classList.add("hidden");
+          if (typeof onConfirm === "function") {
+            onConfirm();
+          }
+        };
+      }
+
+      function handleUserLogout() {
+        showCustomDialog({
+          title: "Logout Confirmation",
+          message:
+            "Are you sure you want to log out of your ExamIndia account?",
+          type: "danger",
+          showCancel: true,
+          confirmText: "Logout",
+          cancelText: "Cancel",
+          onConfirm: () => {
+            try {
+              localStorage.removeItem("examIndiaUser");
+              localStorage.removeItem("token");
+              localStorage.removeItem("user_session");
+            } catch (e) {
+              console.error("Storage clear error:", e);
+            }
+            window.location.href = "auth_gov.html";
+          },
+        });
       }
 
       function getRunnerUrl(examCategory, testId) {
@@ -766,7 +884,13 @@
           if (firstCat?.id) {
             startTest(firstCat.id, firstCat.exam_category);
           } else {
-            alert("Today's Daily Challenge is updating. Try in a few moments!");
+            showCustomDialog({
+              title: "Updating Challenge",
+              message:
+                "Today's Daily Challenge is currently updating. Please try again in a few moments!",
+              type: "warning",
+              confirmText: "Understood",
+            });
           }
         }
       }
@@ -791,15 +915,24 @@
 
       function executeBuyTest() {
         if (!selectedTestForPurchase) return;
-        alert(
-          `Redirecting to Payment Gateway for ₹${selectedTestForPurchase.discounted_price || 9}...`,
-        );
+        closePaywallModal();
+        showCustomDialog({
+          title: "Payment Gateway",
+          message: `Redirecting to payment gateway for ₹${selectedTestForPurchase.discounted_price || 9}...`,
+          type: "info",
+          confirmText: "Proceed",
+        });
       }
 
       function executeBuyPass() {
-        alert(
-          "Redirecting to Subscription Checkout for Unlimited Pass @ ₹99/month...",
-        );
+        closePaywallModal();
+        showCustomDialog({
+          title: "Exam Pass Subscription",
+          message:
+            "Redirecting to subscription checkout for Unlimited Pass @ ₹99/month...",
+          type: "info",
+          confirmText: "Proceed",
+        });
       }
 
       document.addEventListener("DOMContentLoaded", () => {

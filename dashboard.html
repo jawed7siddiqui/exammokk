@@ -74,40 +74,6 @@
       <main
         class="flex-1 px-4 pt-3 pb-24 space-y-3.5 overflow-y-auto no-scrollbar"
       >
-        <!-- EXAM SEGMENT TABS (Kids vs Govt vs Boards) -->
-        <!-- <div
-          class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5"
-        >
-          <button
-            id="tab-KIDS_SCHOOL"
-            onclick="changeSegment('KIDS_SCHOOL')"
-            class="segment-tab px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer bg-indigo-600 text-white shadow-xs"
-          >
-            🎨 Kids Zone
-          </button>
-          <button
-            id="tab-GOVT_PSC"
-            onclick="changeSegment('GOVT_PSC')"
-            class="segment-tab px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
-          >
-            🏛️ Govt Exams
-          </button>
-          <button
-            id="tab-BOARD_EXAMS"
-            onclick="changeSegment('BOARD_EXAMS')"
-            class="segment-tab px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
-          >
-            📚 Board Exams
-          </button>
-          <button
-            id="tab-OTHER"
-            onclick="changeSegment('OTHER')"
-            class="segment-tab px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
-          >
-            ⚡ Other
-          </button>
-        </div> -->
-
         <!-- KIDS SPECIAL 2 CARDS SECTION (Visible only in KIDS_SCHOOL segment) -->
         <div id="kids-special-cards" class="grid grid-cols-2 gap-3 w-full">
           <!-- CARD 1: PAINT, DRAW & COLOR -->
@@ -382,6 +348,53 @@
       </div>
     </div>
 
+    <!-- 5. REUSABLE CUSTOM ALERT MODAL -->
+    <div
+      id="custom-dialog-modal"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden"
+    >
+      <div
+        class="bg-white rounded-3xl w-full max-w-xs p-5 space-y-4 animate-fadeIn shadow-2xl text-center"
+      >
+        <div
+          id="dialog-icon-container"
+          class="w-12 h-12 mx-auto rounded-2xl flex items-center justify-center text-xl bg-indigo-50 text-indigo-600"
+        >
+          <i id="dialog-icon" data-lucide="info" class="w-6 h-6"></i>
+        </div>
+
+        <div class="space-y-1">
+          <h3
+            id="dialog-title"
+            class="text-sm font-extrabold text-slate-900 font-kids"
+          >
+            Notification
+          </h3>
+          <p
+            id="dialog-message"
+            class="text-xs font-semibold text-slate-500 leading-relaxed"
+          >
+            Message details go here.
+          </p>
+        </div>
+
+        <div id="dialog-actions" class="flex gap-2 pt-1">
+          <button
+            id="dialog-btn-cancel"
+            class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all cursor-pointer hidden font-kids"
+          >
+            Cancel
+          </button>
+          <button
+            id="dialog-btn-confirm"
+            class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-md shadow-indigo-600/20 font-kids"
+          >
+            Okay!
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- JAVASCRIPT ENGINE -->
     <script>
       const BASE_API_URL =
@@ -393,6 +406,70 @@
       let openSubjectId = null;
       let selectedTestForPurchase = null;
       let activeDailyTest = null;
+
+      // Custom Dialog Modal Handler
+      function showCustomDialog({
+        title = "Notice",
+        message = "",
+        type = "info",
+        showCancel = false,
+        confirmText = "Okay!",
+        cancelText = "Cancel",
+        onConfirm = null,
+      }) {
+        const modal = document.getElementById("custom-dialog-modal");
+        const titleEl = document.getElementById("dialog-title");
+        const msgEl = document.getElementById("dialog-message");
+        const iconCont = document.getElementById("dialog-icon-container");
+        const iconEl = document.getElementById("dialog-icon");
+        const btnCancel = document.getElementById("dialog-btn-cancel");
+        const btnConfirm = document.getElementById("dialog-btn-confirm");
+
+        titleEl.textContent = title;
+        msgEl.textContent = message;
+        btnConfirm.textContent = confirmText;
+        btnCancel.textContent = cancelText;
+
+        if (type === "warning") {
+          iconCont.className =
+            "w-12 h-12 mx-auto rounded-2xl flex items-center justify-center bg-amber-50 text-amber-600";
+          iconEl.setAttribute("data-lucide", "alert-circle");
+          btnConfirm.className =
+            "flex-1 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-md shadow-amber-500/20 font-kids";
+        } else if (type === "danger") {
+          iconCont.className =
+            "w-12 h-12 mx-auto rounded-2xl flex items-center justify-center bg-rose-50 text-rose-600";
+          iconEl.setAttribute("data-lucide", "alert-triangle");
+          btnConfirm.className =
+            "flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-md shadow-rose-600/20 font-kids";
+        } else {
+          iconCont.className =
+            "w-12 h-12 mx-auto rounded-2xl flex items-center justify-center bg-indigo-50 text-indigo-600";
+          iconEl.setAttribute("data-lucide", "sparkles");
+          btnConfirm.className =
+            "flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-md shadow-indigo-600/20 font-kids";
+        }
+
+        if (showCancel) {
+          btnCancel.classList.remove("hidden");
+        } else {
+          btnCancel.classList.add("hidden");
+        }
+
+        modal.classList.remove("hidden");
+        if (typeof lucide !== "undefined") lucide.createIcons();
+
+        btnCancel.onclick = () => {
+          modal.classList.add("hidden");
+        };
+
+        btnConfirm.onclick = () => {
+          modal.classList.add("hidden");
+          if (typeof onConfirm === "function") {
+            onConfirm();
+          }
+        };
+      }
 
       // URL Resolver based on exam_category
       function getRunnerUrl(examCategory, testId) {
@@ -457,9 +534,11 @@
 
         if (isPremium) {
           const badge = document.getElementById("user-plan-badge");
-          badge.textContent = "PRO PASS";
-          badge.className =
-            "text-[10px] font-extrabold bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-full shrink-0";
+          if (badge) {
+            badge.textContent = "PRO PASS";
+            badge.className =
+              "text-[10px] font-extrabold bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-full shrink-0";
+          }
         }
 
         try {
@@ -469,11 +548,13 @@
             const name = userObj.studentName || userObj.name || "Student";
             const grade = userObj.classGrade || "Grade 1";
 
-            document.getElementById("user-display-name").textContent = name;
-            document.getElementById("user-display-grade").textContent = grade;
-            document.getElementById("user-avatar").textContent = name
-              .charAt(0)
-              .toUpperCase();
+            const nameEl = document.getElementById("user-display-name");
+            const gradeEl = document.getElementById("user-display-grade");
+            const avatarEl = document.getElementById("user-avatar");
+
+            if (nameEl) nameEl.textContent = name;
+            if (gradeEl) gradeEl.textContent = grade;
+            if (avatarEl) avatarEl.textContent = name.charAt(0).toUpperCase();
           }
         } catch (err) {
           console.error("User Profile Local Load Error:", err);
@@ -494,34 +575,34 @@
             const data = resData.data;
 
             const name = data.student_name || data.user_name;
-            if (name) {
-              document.getElementById("user-display-name").textContent = name;
-              document.getElementById("user-avatar").textContent = name
-                .charAt(0)
-                .toUpperCase();
-            }
+            const nameEl = document.getElementById("user-display-name");
+            const avatarEl = document.getElementById("user-avatar");
+            const starsEl = document.getElementById("user-total-stars");
+
+            if (name && nameEl) nameEl.textContent = name;
+            if (name && avatarEl)
+              avatarEl.textContent = name.charAt(0).toUpperCase();
 
             const totalStars = data.summary?.total_stars || 0;
-            document.getElementById("user-total-stars").textContent =
-              `⭐ ${totalStars}`;
+            if (starsEl) starsEl.textContent = `⭐ ${totalStars}`;
 
             const recentAttempts = data.recent_attempts || [];
+            const scoreEl = document.getElementById("dash-banner-score");
+            const accEl = document.getElementById("dash-banner-accuracy");
+            const titleEl = document.getElementById("dash-banner-title");
+
             if (recentAttempts.length > 0) {
               const lastTest = recentAttempts[0];
-              document.getElementById("dash-banner-score").textContent =
-                `${lastTest.total_score}/${lastTest.max_score}`;
-              document.getElementById("dash-banner-accuracy").textContent =
-                `${lastTest.percentage || 0}%`;
-
-              if (lastTest.subject) {
-                document.getElementById("dash-banner-title").textContent =
-                  lastTest.subject;
-              }
+              if (scoreEl)
+                scoreEl.textContent = `${lastTest.total_score}/${lastTest.max_score}`;
+              if (accEl) accEl.textContent = `${lastTest.percentage || 0}%`;
+              if (titleEl && lastTest.subject)
+                titleEl.textContent = lastTest.subject;
             } else if (data.summary) {
-              document.getElementById("dash-banner-score").textContent =
-                `${data.summary.total_score_obtained || 0}/${data.summary.total_max_score || 0}`;
-              document.getElementById("dash-banner-accuracy").textContent =
-                `${data.summary.overall_accuracy || 0}%`;
+              if (scoreEl)
+                scoreEl.textContent = `${data.summary.total_score_obtained || 0}/${data.summary.total_max_score || 0}`;
+              if (accEl)
+                accEl.textContent = `${data.summary.overall_accuracy || 0}%`;
             }
           }
         } catch (err) {
@@ -561,11 +642,11 @@
         const nonKidsWidget = document.getElementById("non-kids-daily-widget");
 
         if (currentSegment === "KIDS_SCHOOL") {
-          kidsCards.classList.remove("hidden");
-          nonKidsWidget.classList.add("hidden");
+          if (kidsCards) kidsCards.classList.remove("hidden");
+          if (nonKidsWidget) nonKidsWidget.classList.add("hidden");
         } else {
-          kidsCards.classList.add("hidden");
-          nonKidsWidget.classList.remove("hidden");
+          if (kidsCards) kidsCards.classList.add("hidden");
+          if (nonKidsWidget) nonKidsWidget.classList.remove("hidden");
         }
       }
 
@@ -775,7 +856,7 @@
                         <p class="text-xs font-bold text-rose-500 mb-2">${subj.errorMessage || "Unable to load test papers. Please try again."}</p>
                         <button 
                           onclick="event.stopPropagation(); retryFetchSubject('${subj.id}')"
-                          class="px-3.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer"
+                          class="px-3.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer font-kids"
                         >
                           Retry
                         </button>
@@ -909,7 +990,13 @@
           if (firstCat?.id) {
             startTest(firstCat.id, firstCat.exam_category);
           } else {
-            alert("Today's Daily Challenge is updating. Try in a few moments!");
+            showCustomDialog({
+              title: "Updating Challenge ⏳",
+              message:
+                "Today's Daily Challenge is getting ready! Please try again in a moment.",
+              type: "warning",
+              confirmText: "Got it!",
+            });
           }
         }
       }
@@ -934,15 +1021,24 @@
 
       function executeBuyTest() {
         if (!selectedTestForPurchase) return;
-        alert(
-          `Redirecting to Payment Gateway for ₹${selectedTestForPurchase.discounted_price || 9}...`,
-        );
+        closePaywallModal();
+        showCustomDialog({
+          title: "Payment Gateway 💳",
+          message: `Redirecting to payment checkout for ₹${selectedTestForPurchase.discounted_price || 9}...`,
+          type: "info",
+          confirmText: "Proceed",
+        });
       }
 
       function executeBuyPass() {
-        alert(
-          "Redirecting to Subscription Checkout for Unlimited Pass @ ₹99/month...",
-        );
+        closePaywallModal();
+        showCustomDialog({
+          title: "All-Access Pass 👑",
+          message:
+            "Redirecting to subscription checkout for Unlimited Pass @ ₹99/month...",
+          type: "info",
+          confirmText: "Proceed",
+        });
       }
 
       document.addEventListener("DOMContentLoaded", () => {
