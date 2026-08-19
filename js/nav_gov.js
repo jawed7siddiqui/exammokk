@@ -92,7 +92,7 @@ function handleUserLogout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user_session");
     sessionStorage.clear();
-    window.location.href = "login_gov.html";
+    window.location.href = "auth_gov.html";
   }
 }
 

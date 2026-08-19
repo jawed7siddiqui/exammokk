@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
-    <title>ExamIndia CBT Portal - UPSC / State PSC</title>
+    <title>ExamIndia CBT Portal</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Lucide Icons -->
@@ -86,6 +86,117 @@
       </div>
     </div>
 
+    <!-- 0. PRE-TEST EXAM MODE SELECTOR MODAL -->
+    <div
+      id="modal-exam-selector"
+      class="fixed inset-0 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4 z-50"
+    >
+      <div
+        class="bg-white p-5 md:p-8 rounded-3xl shadow-2xl max-w-lg w-full border border-slate-200 space-y-4"
+      >
+        <div class="text-center space-y-1">
+          <div
+            class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 text-indigo-700 text-[10px] font-extrabold rounded-full uppercase tracking-wider border border-indigo-100"
+          >
+            <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+            <span>Adaptive CBT Engine</span>
+          </div>
+          <h3 class="text-lg font-extrabold text-slate-900">
+            Select Exam Marking Scheme
+          </h3>
+          <p class="text-[11px] text-slate-500 font-medium">
+            Question marks and penalty ratios will adapt automatically.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <label
+            class="flex items-center justify-between p-3.5 rounded-2xl border-2 border-slate-200 hover:border-indigo-600 cursor-pointer bg-slate-50/50 has-checked:border-indigo-600 has-checked:bg-indigo-50/30 transition-all active:scale-[0.99]"
+          >
+            <div class="flex items-center gap-2.5">
+              <input
+                type="radio"
+                name="exam_mode"
+                value="UPSC_PSC"
+                checked
+                class="w-4 h-4 text-indigo-600"
+              />
+              <div>
+                <div class="font-extrabold text-xs text-slate-900">
+                  UPSC / State PSC (GS Pattern)
+                </div>
+                <div class="text-[10px] text-slate-500 font-semibold">
+                  +2.00 Marks • -0.66 Negative (1/3rd)
+                </div>
+              </div>
+            </div>
+            <span
+              class="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 text-[10px] font-black shrink-0"
+              >+2 / -0.66</span
+            >
+          </label>
+
+          <label
+            class="flex items-center justify-between p-3.5 rounded-2xl border-2 border-slate-200 hover:border-blue-600 cursor-pointer bg-slate-50/50 has-checked:border-blue-600 has-checked:bg-blue-50/30 transition-all active:scale-[0.99]"
+          >
+            <div class="flex items-center gap-2.5">
+              <input
+                type="radio"
+                name="exam_mode"
+                value="SSC_CGL"
+                class="w-4 h-4 text-blue-600"
+              />
+              <div>
+                <div class="font-extrabold text-xs text-slate-900">
+                  SSC CGL / CPO (Tier-1 Pattern)
+                </div>
+                <div class="text-[10px] text-slate-500 font-semibold">
+                  +2.00 Marks • -0.50 Negative (1/4th)
+                </div>
+              </div>
+            </div>
+            <span
+              class="px-2 py-0.5 rounded-md bg-blue-100 text-blue-800 text-[10px] font-black shrink-0"
+              >+2 / -0.50</span
+            >
+          </label>
+
+          <label
+            class="flex items-center justify-between p-3.5 rounded-2xl border-2 border-slate-200 hover:border-emerald-600 cursor-pointer bg-slate-50/50 has-checked:border-emerald-600 has-checked:bg-emerald-50/30 transition-all active:scale-[0.99]"
+          >
+            <div class="flex items-center gap-2.5">
+              <input
+                type="radio"
+                name="exam_mode"
+                value="RAILWAY_RRB"
+                class="w-4 h-4 text-emerald-600"
+              />
+              <div>
+                <div class="font-extrabold text-xs text-slate-900">
+                  Railway RRB / One-Day Exam
+                </div>
+                <div class="text-[10px] text-slate-500 font-semibold">
+                  +1.00 Mark • -0.33 Negative (1/3rd)
+                </div>
+              </div>
+            </div>
+            <span
+              class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-black shrink-0"
+              >+1 / -0.33</span
+            >
+          </label>
+        </div>
+
+        <button
+          onclick="confirmAndLaunchExam()"
+          class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-95 transition-all"
+        >
+          <span>Start Examination</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
     <!-- 1. BRAND HEADER -->
     <header class="bg-white border-b border-slate-200 shadow-xs z-20 shrink-0">
       <!-- TOP STRIP: BRAND & NAVIGATION -->
@@ -118,7 +229,7 @@
                 ExamIndia
               </h1>
               <p class="text-[9px] font-bold text-indigo-600 leading-tight">
-                UPSC &amp; State PSC Test Prep
+                Govt &amp; PSC Test Prep
               </p>
             </div>
           </div>
@@ -141,7 +252,7 @@
             id="header-exam-badge"
             class="px-2 py-0.5 rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 font-extrabold text-[10px] whitespace-nowrap hidden sm:inline-block"
           >
-            UPSC / State PSC
+            UPSC GS
           </span>
 
           <button
@@ -402,7 +513,7 @@
             id="res-exam-profile-badge"
             class="text-[11px] text-indigo-600 font-bold"
           >
-            UPSC / State PSC Pattern (+2.00 / -0.66)
+            UPSC / State PSC Pattern
           </p>
         </div>
 
@@ -560,14 +671,28 @@
       const SUBMIT_RESULT_API_URL =
         "https://api.jawedsiddiqui.cloud/api/test/questions/submit";
 
-      // DEFAULT EXAM PATTERN: UPSC / State PSC
-      const activePreset = {
-        id: "UPSC_PSC",
-        title: "UPSC / State PSC",
-        marks: 2.0,
-        negative: 0.66,
+      const EXAM_PRESETS = {
+        UPSC_PSC: {
+          id: "UPSC_PSC",
+          title: "UPSC / State PSC",
+          marks: 2.0,
+          negative: 0.66,
+        },
+        SSC_CGL: {
+          id: "SSC_CGL",
+          title: "SSC CGL (Tier-1)",
+          marks: 2.0,
+          negative: 0.5,
+        },
+        RAILWAY_RRB: {
+          id: "RAILWAY_RRB",
+          title: "Railway RRB",
+          marks: 1.0,
+          negative: 0.33,
+        },
       };
 
+      let activePreset = EXAM_PRESETS.UPSC_PSC;
       let questionsList = [];
       let currentQIndex = 0;
       let selectedLang = "en";
@@ -587,7 +712,7 @@
       let qTimerInterval = null;
 
       let testMeta = {
-        title: "UPSC GS Mock Test",
+        title: "General Studies Mock Test",
         subject: "General Studies",
         exam_category: "GOVT_PSC",
       };
@@ -899,26 +1024,33 @@
 
           document.getElementById("test-title").innerText = testMeta.title;
           document.getElementById("test-title").title = testMeta.title;
-          document.getElementById("header-exam-badge").innerText =
-            activePreset.title;
-          document.getElementById("badge-positive-mark").innerText =
-            `+${activePreset.marks.toFixed(2)}`;
-          document.getElementById("badge-negative-mark").innerText =
-            `-${activePreset.negative.toFixed(2)}`;
-
           document.getElementById("timer-display").innerText =
             `${String(totalDurationMins).padStart(2, "0")}:00`;
           document.getElementById("question-indicator").innerText =
             `Q. 1 of ${questionsList.length}`;
 
           document.getElementById("loading-overlay").classList.add("hidden");
-
-          // DIRECT LAUNCH WITHOUT MODAL
-          startMainTimer();
-          startPerQuestionTimer();
-          renderQuestion(0);
-          buildQuestionPalette();
         }
+      }
+
+      function confirmAndLaunchExam() {
+        const selectedKey = document.querySelector(
+          'input[name="exam_mode"]:checked',
+        ).value;
+        activePreset = EXAM_PRESETS[selectedKey];
+
+        document.getElementById("modal-exam-selector").classList.add("hidden");
+        document.getElementById("header-exam-badge").innerText =
+          activePreset.title;
+        document.getElementById("badge-positive-mark").innerText =
+          `+${activePreset.marks.toFixed(2)}`;
+        document.getElementById("badge-negative-mark").innerText =
+          `-${activePreset.negative.toFixed(2)}`;
+
+        startMainTimer();
+        startPerQuestionTimer();
+        renderQuestion(0);
+        buildQuestionPalette();
       }
 
       function retakeExamClean() {
@@ -1347,7 +1479,7 @@
         } catch (e) {}
 
         document.getElementById("res-exam-profile-badge").innerText =
-          `${activePreset.title} (+${activePreset.marks.toFixed(2)} / -${activePreset.negative.toFixed(2)})`;
+          `${activePreset.title} (+${activePreset.marks} / -${activePreset.negative})`;
         document.getElementById("res-score-text").innerText =
           `${netScore} / ${maxScore}`;
         document.getElementById("res-correct").innerText = correctCount;
