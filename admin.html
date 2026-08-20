@@ -2028,7 +2028,7 @@
 
                   <div class="py-1">
                     <button
-                      onclick="deleteTestPaper('${test.test_id}')"
+                     onclick="deleteTestPaper('${testMongoId}', '${test.test_id}')"
                       class="w-full px-3.5 py-2 text-rose-600 hover:bg-rose-50 flex items-center gap-2.5 transition-colors cursor-pointer"
                     >
                       <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
@@ -2448,16 +2448,22 @@
         }
       }
 
-      async function deleteTestPaper(testId) {
+      async function deleteTestPaper(mongoId, testId) {
         closeAllDropdowns();
-        if (!confirm(`Are you sure you want to delete test ${testId}?`)) return;
+        const identifier = mongoId || testId;
+        const displayName = testId || mongoId;
+
+        if (!confirm(`Are you sure you want to delete test '${displayName}'?`))
+          return;
+
         try {
-          const res = await fetch(`${TEST_API_URL}/${testId}`, {
+          const res = await fetch(`${TEST_API_URL}/${identifier}`, {
             method: "DELETE",
           });
           const result = await res.json();
+
           if (result.success || res.ok) {
-            showToast(`Test paper ${testId} deleted!`, "success");
+            showToast(`Test paper deleted successfully!`, "success");
             await loadTestPapers();
           } else {
             showToast(result.message || "Failed to delete test paper", "error");
@@ -2466,7 +2472,6 @@
           showToast("Network error while deleting test paper", "error");
         }
       }
-
       // INIT
       document.addEventListener("DOMContentLoaded", () => {
         handleCategoryChange("1");

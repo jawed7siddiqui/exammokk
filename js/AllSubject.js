@@ -6,42 +6,34 @@ const subjectsBySegment = {
     {
       id: "k_gk",
       apiSubject: "General Knowledge",
-      name: "General Knowledge (GK)",
+      name: "General Knowledge",
       icon: "🌍",
       color: "bg-warning",
       badgeColor:
         "badge bg-warning-subtle text-warning-emphasis border border-warning-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
         "Class 1",
         "Class 2",
         "Class 3",
-        "IGKO (GK Olympiad)",
-        "Our India",
-        "World & Nature",
-        "Moral Values",
+        "Class 4",
+        "Class 5",
+        "IGKO",
+        "GK",
       ],
       categories: [
-        {
-          id: "kgk_india_symbols",
-          title: "Our Country India & National Symbols",
-        },
-        { id: "kgk_animals_world", title: "Amazing Animals & Nature Facts" },
-        {
-          id: "kgk_festivals_culture",
-          title: "Important Festivals & Celebrations",
-        },
-        {
-          id: "kgk_sports_games",
-          title: "Famous Sports, Games & Personalities",
-        },
-        {
-          id: "kgk_world_wonders",
-          title: "Basic World Facts & Famous Monuments",
-        },
-        {
-          id: "kgk_manners_etiquette",
-          title: "Good Manners, Habits & Life Skills",
-        },
+        { id: "kgk_india_symbols", title: "National Symbols" },
+        { id: "kgk_states_capitals", title: "Indian States" },
+        { id: "kgk_leaders", title: "Great Leaders" },
+        { id: "kgk_monuments", title: "Monuments" },
+        { id: "kgk_geography", title: "World Geography" },
+        { id: "kgk_sports", title: "Sports" },
+        { id: "kgk_festivals", title: "Festivals" },
+        { id: "kgk_inventions", title: "Inventions" },
+        { id: "kgk_space", title: "Space" },
+        { id: "kgk_life_skills", title: "Life Skills" },
+        { id: "kgk_current_affairs", title: "Current Affairs" },
       ],
       loaded: false,
       loading: false,
@@ -54,21 +46,31 @@ const subjectsBySegment = {
       color: "bg-primary",
       badgeColor:
         "badge bg-primary-subtle text-primary border border-primary-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
         "Class 1",
         "Class 2",
         "Class 3",
-        "IMO (Math Olympiad)",
+        "Class 4",
+        "Class 5",
+        "IMO",
         "Mental Maths",
-        "Abacus",
       ],
       categories: [
-        { id: "km_num", title: "Numbers & Counting (1-100)" },
-        { id: "km_add_sub", title: "Addition & Subtraction" },
-        { id: "km_shapes", title: "Shapes & Patterns" },
-        { id: "km_tables", title: "Multiplication Tables (2-10)" },
-        { id: "km_time_money", title: "Time, Clock & Money Basics" },
-        { id: "km_measurement", title: "Basic Measurement & Sizes" },
+        { id: "km_numbers", title: "Numbers" },
+        { id: "km_addition", title: "Addition" },
+        { id: "km_subtraction", title: "Subtraction" },
+        { id: "km_multiplication", title: "Multiplication" },
+        { id: "km_division", title: "Division" },
+        { id: "km_fractions", title: "Fractions" },
+        { id: "km_decimals", title: "Decimals" },
+        { id: "km_shapes", title: "Shapes" },
+        { id: "km_patterns", title: "Patterns" },
+        { id: "km_time", title: "Time" },
+        { id: "km_money", title: "Money" },
+        { id: "km_measurement", title: "Measurement" },
+        { id: "km_data_handling", title: "Data Handling" },
       ],
       loaded: false,
       loading: false,
@@ -76,55 +78,75 @@ const subjectsBySegment = {
     {
       id: "k_english",
       apiSubject: "English",
-      name: "English Phonics & Words",
+      name: "English & Grammar",
       icon: "🔤",
       color: "bg-success",
       badgeColor:
         "badge bg-success-subtle text-success border border-success-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
         "Class 1",
         "Class 2",
         "Class 3",
-        "IEO (English Olympiad)",
-        "Phonics",
-        "SpellBee",
-        "Sight Words",
+        "Class 4",
+        "Class 5",
+        "IEO",
+        "Grammar",
       ],
       categories: [
-        { id: "ke_alphabet_phonics", title: "Alphabet Sounds & Phonics" },
-        { id: "ke_sight_words", title: "Sight Words & 3-Letter Words" },
-        { id: "ke_nouns_verbs", title: "Naming Words & Action Words" },
-        { id: "ke_rhymes_opposites", title: "Rhyming Words & Opposites" },
-        { id: "ke_spelling_vocab", title: "Spellings & Picture Vocabulary" },
-        { id: "ke_reading", title: "Short Stories & Sentence Tracing" },
+        { id: "ke_phonics", title: "Phonics" },
+        { id: "ke_sight_words", title: "Sight Words" },
+        { id: "ke_nouns", title: "Nouns" },
+        { id: "ke_pronouns", title: "Pronouns" },
+        { id: "ke_verbs", title: "Verbs" },
+        { id: "ke_adjectives", title: "Adjectives" },
+        { id: "ke_prepositions", title: "Prepositions" },
+        { id: "ke_tenses", title: "Tenses" },
+        { id: "ke_opposites", title: "Opposites" },
+        { id: "ke_synonyms", title: "Synonyms" },
+        { id: "ke_spellings", title: "Spellings" },
+        { id: "ke_punctuation", title: "Punctuation" },
+        { id: "ke_comprehension", title: "Comprehension" },
+        { id: "ke_composition", title: "Composition" },
       ],
       loaded: false,
       loading: false,
     },
     {
-      id: "k_evs",
-      apiSubject: "EVS",
-      name: "EVS & Environmental Science",
+      id: "k_evs_science",
+      apiSubject: "EVS & Science",
+      name: "EVS & Science",
       icon: "🌱",
       color: "bg-info",
       badgeColor:
         "badge bg-info-subtle text-info-emphasis border border-info-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
         "Class 1",
         "Class 2",
         "Class 3",
-        "NSO (Science Olympiad)",
-        "My Body",
-        "Plants & Animals",
-        "Community",
+        "Class 4",
+        "Class 5",
+        "NSO",
+        "EVS",
       ],
       categories: [
-        { id: "kevs_body_senses", title: "My Body & 5 Senses" },
-        { id: "kevs_plants", title: "Plants, Flowers & Trees" },
-        { id: "kevs_animals", title: "Animals, Birds & Their Homes" },
-        { id: "kevs_family_community", title: "My Family & Community Helpers" },
-        { id: "kevs_seasons_weather", title: "Seasons, Weather & Sky" },
-        { id: "kevs_safety_habits", title: "Good Habits & Safety Rules" },
+        { id: "kevs_human_body", title: "Human Body" },
+        { id: "kevs_food", title: "Food" },
+        { id: "kevs_plants", title: "Plants" },
+        { id: "kevs_animals", title: "Animals" },
+        { id: "kevs_family", title: "Family" },
+        { id: "kevs_helpers", title: "Community Helpers" },
+        { id: "kevs_water", title: "Water" },
+        { id: "kevs_weather", title: "Weather" },
+        { id: "kevs_seasons", title: "Seasons" },
+        { id: "kevs_solar_system", title: "Solar System" },
+        { id: "kevs_matter", title: "Matter" },
+        { id: "kevs_machines", title: "Simple Machines" },
+        { id: "kevs_safety", title: "Safety Rules" },
+        { id: "kevs_environment", title: "Environment" },
       ],
       loaded: false,
       loading: false,
@@ -132,61 +154,87 @@ const subjectsBySegment = {
     {
       id: "k_hindi",
       apiSubject: "Hindi",
-      name: "Hindi Varnamala",
+      name: "हिन्दी व्याकरण",
       icon: "📚",
       color: "bg-danger",
       badgeColor:
         "badge bg-danger-subtle text-danger border border-danger-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
         "Class 1",
         "Class 2",
         "Class 3",
-        "Swar & Vyanjan",
-        "Matrayen",
-        "Hindi Reading",
+        "Class 4",
+        "Class 5",
+        "Grammar",
+        "Varnamala",
       ],
       categories: [
-        { id: "kh_swar_vyanjan", title: "Swar aur Vyanjan (Varnamala)" },
-        {
-          id: "kh_two_three_words",
-          title: "Bina Matra Wale Shabd (2-3 Akshar)",
-        },
-        { id: "kh_matra_gyan", title: "Matra Gyan (Aa, Ee, Oo Matrayen)" },
-        { id: "kh_vilom_paryay", title: "Vilom Shabd aur Samanarthi" },
-        { id: "kh_counting", title: "Hindi Ginti (1-20)" },
-        { id: "kh_stories", title: "Bal Kavitayein aur Kahaniyan" },
+        { id: "kh_varnamala", title: "वर्णमाला" },
+        { id: "kh_bina_matra", title: "बिना मात्रा" },
+        { id: "kh_matra_gyan", title: "मात्रा ज्ञान" },
+        { id: "kh_sanyukt_akshar", title: "संयुक्त अक्षर" },
+        { id: "kh_sangya", title: "संज्ञा" },
+        { id: "kh_sarvanam", title: "सर्वनाम" },
+        { id: "kh_visheshan", title: "विशेषण" },
+        { id: "kh_kriya", title: "क्रिया" },
+        { id: "kh_kaal", title: "काल" },
+        { id: "kh_ling", title: "लिंग" },
+        { id: "kh_vachan", title: "वचन" },
+        { id: "kh_vilom", title: "विलोम शब्द" },
+        { id: "kh_paryayvachi", title: "पर्यायवाची" },
+        { id: "kh_anek_shabd", title: "अनेक शब्द" },
+        { id: "kh_shuddh_ashuddh", title: "शुद्ध-अशुद्ध" },
+        { id: "kh_muhavare", title: "मुहावरे" },
+        { id: "kh_ginti", title: "गिनती" },
+        { id: "kh_kahani", title: "कहानियां" },
+        { id: "kh_kavita", title: "कविताएं" },
+        { id: "kh_gadyansh", title: "गद्यांश" },
+        { id: "kh_patra_nibandh", title: "पत्र लेखन" },
       ],
       loaded: false,
       loading: false,
     },
     {
       id: "k_art_paint",
-      apiSubject: "Drawing",
-      name: "Drawing & Color Fill",
+      apiSubject: "Drawing & Art",
+      name: "Drawing & Art",
       icon: "🎨",
       color: "bg-secondary",
       badgeColor:
         "badge bg-secondary-subtle text-secondary-emphasis border border-secondary-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
-        "Tracing",
-        "Color by Numbers",
-        "Shape Drawing",
-        "Pattern Fill",
-        "Creative Canvas",
+        "Class 1",
+        "Class 2",
+        "Class 3",
+        "Class 4",
+        "Class 5",
+        "Art",
+        "Craft",
       ],
       categories: [
-        { id: "ka_line_shapes", title: "Line Tracing & Basic Shapes" },
-        { id: "ka_color_by_numbers", title: "Color by Numbers & Math Art" },
-        { id: "ka_animal_draw", title: "Animals & Cartoon Outlines" },
-        { id: "ka_objects_nature", title: "Fruits, Vehicles & Nature Fill" },
-        { id: "ka_freehand", title: "Freehand Blank Canvas" },
+        { id: "ka_tracing", title: "Line Tracing" },
+        { id: "ka_shapes", title: "Basic Shapes" },
+        { id: "ka_color_fill", title: "Color Fill" },
+        { id: "ka_doodling", title: "Doodling" },
+        { id: "ka_patterns", title: "Pattern Art" },
+        { id: "ka_animals", title: "Animals" },
+        { id: "ka_birds", title: "Birds" },
+        { id: "ka_scenery", title: "Scenery" },
+        { id: "ka_festivals", title: "Festivals" },
+        { id: "ka_craft", title: "Paper Craft" },
+        { id: "ka_origami", title: "Origami" },
+        { id: "ka_freehand", title: "Blank Canvas" },
       ],
       loaded: false,
       loading: false,
     },
   ],
 
-  // 2. 📚 Board Exams (Class 4-12 - All India & State Boards)
+  // 2. 📚 Board Exams (Class 4-12)
   BOARD_EXAMS: [
     {
       id: "b_maths",
@@ -196,6 +244,8 @@ const subjectsBySegment = {
       color: "bg-primary",
       badgeColor:
         "badge bg-primary-subtle text-primary border border-primary-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
         "CBSE",
         "ICSE",
@@ -235,6 +285,8 @@ const subjectsBySegment = {
       color: "bg-info",
       badgeColor:
         "badge bg-info-subtle text-info-emphasis border border-info-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
         "CBSE",
         "ICSE",
@@ -278,6 +330,8 @@ const subjectsBySegment = {
       color: "bg-warning",
       badgeColor:
         "badge bg-warning-subtle text-warning-emphasis border border-warning-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
         "CBSE",
         "ICSE",
@@ -314,6 +368,8 @@ const subjectsBySegment = {
       color: "bg-dark",
       badgeColor:
         "badge bg-secondary-subtle text-dark border border-secondary-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
         "Class 11",
         "Class 12",
@@ -356,6 +412,8 @@ const subjectsBySegment = {
       color: "bg-danger",
       badgeColor:
         "badge bg-danger-subtle text-danger border border-danger-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
         "Class 11",
         "Class 12",
@@ -399,6 +457,8 @@ const subjectsBySegment = {
       color: "bg-success",
       badgeColor:
         "badge bg-success-subtle text-success border border-success-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
         "Class 11",
         "Class 12",
@@ -439,6 +499,8 @@ const subjectsBySegment = {
       color: "bg-primary",
       badgeColor:
         "badge bg-primary-subtle text-primary border border-primary-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
       tags: [
         "Class 11",
         "Class 12",
@@ -475,7 +537,7 @@ const subjectsBySegment = {
     },
   ],
 
-  // 3. 🏛️ Govt PSC / UPSC / All State PSC Exams
+  // 3. 🏛️ Govt PSC / UPSC / All State PSC
   GOVT_PSC: [
     {
       id: "p_polity",
@@ -485,6 +547,8 @@ const subjectsBySegment = {
       color: "bg-primary",
       badgeColor:
         "badge bg-primary-subtle text-primary border border-primary-subtle",
+      marksPerCorrect: 2,
+      negativeMarks: 0.66,
       tags: [
         "UPSC CSE (IAS/IPS)",
         "UPPSC (UP PCS)",
@@ -532,6 +596,8 @@ const subjectsBySegment = {
       color: "bg-warning",
       badgeColor:
         "badge bg-warning-subtle text-warning-emphasis border border-warning-subtle",
+      marksPerCorrect: 2,
+      negativeMarks: 0.66,
       tags: [
         "Ancient India",
         "Medieval India",
@@ -581,6 +647,8 @@ const subjectsBySegment = {
       color: "bg-success",
       badgeColor:
         "badge bg-success-subtle text-success border border-success-subtle",
+      marksPerCorrect: 2,
+      negativeMarks: 0.66,
       tags: [
         "Physical Geography",
         "Indian Geography",
@@ -629,6 +697,8 @@ const subjectsBySegment = {
       color: "bg-info",
       badgeColor:
         "badge bg-info-subtle text-info-emphasis border border-info-subtle",
+      marksPerCorrect: 2,
+      negativeMarks: 0.66,
       tags: [
         "Union Budget",
         "Economic Survey",
@@ -674,6 +744,8 @@ const subjectsBySegment = {
       color: "bg-warning",
       badgeColor:
         "badge bg-warning-subtle text-warning-emphasis border border-warning-subtle",
+      marksPerCorrect: 2,
+      negativeMarks: 0.66,
       tags: [
         "Daily Current Affairs",
         "Monthly Roundups",
@@ -716,6 +788,8 @@ const subjectsBySegment = {
       color: "bg-secondary",
       badgeColor:
         "badge bg-secondary-subtle text-secondary-emphasis border border-secondary-subtle",
+      marksPerCorrect: 2.5,
+      negativeMarks: 0.83,
       tags: [
         "UPSC CSAT (Paper 2)",
         "UPPSC Paper 2",
@@ -749,291 +823,479 @@ const subjectsBySegment = {
     },
   ],
 
-  // 4. ⚡ Other Competitive Exams (Central, Defence, Banking, SSC, Entrance)
-  OTHER: [
+  // 4. ⚡ SSC Exams (Direct Stream)
+  SSC: [
     {
-      id: "o_jee_neet",
-      apiSubject: "Engineering & Medical",
-      name: "JEE & NEET (PCM / PCB)",
-      icon: "🧬",
+      id: "ssc_quant",
+      apiSubject: "Quantitative Aptitude",
+      name: "Quantitative Aptitude",
+      icon: "🔢",
       color: "bg-primary",
       badgeColor:
         "badge bg-primary-subtle text-primary border border-primary-subtle",
-      tags: [
-        "JEE Main",
-        "JEE Advanced",
-        "NEET UG",
-        "BITSAT",
-        "MHT CET",
-        "WBJEE",
-        "KCET",
-        "CUET UG (Science)",
-        "AIIMS Nursing",
-      ],
+      marksPerCorrect: 2,
+      negativeMarks: 0.5,
+      tags: ["SSC CGL", "SSC CHSL", "SSC MTS", "SSC CPO", "SSC GD Constable"],
       categories: [
-        {
-          id: "on_physics_mechanics_electro",
-          title: "NEET/JEE Physics: Mechanics & Electrodynamics",
-        },
-        {
-          id: "on_chemistry_physical_organic",
-          title: "NEET/JEE Chemistry: Physical, Organic & Inorganic",
-        },
-        {
-          id: "on_biology_physiology_genetics",
-          title: "NEET Biology: Botany, Zoology, Physiology & Genetics",
-        },
-        {
-          id: "on_maths_calculus_algebra",
-          title: "JEE Mathematics: Calculus, Algebra, Coordinate & Vectors",
-        },
-        {
-          id: "on_full_mock_tests",
-          title: "Full Syllabus Mock Test Papers (NTA Pattern)",
-        },
+        { id: "ssc_arithmetic", title: "Arithmetic Math Practice" },
+        { id: "ssc_algebra", title: "Algebra Linear Equations" },
+        { id: "ssc_geometry", title: "Geometry Mensuration 3D" },
+        { id: "ssc_trigonometry", title: "Trigonometry Heights Distances" },
+        { id: "ssc_number_system", title: "Number System HCF" },
       ],
       loaded: false,
       loading: false,
     },
     {
-      id: "o_ssc",
-      apiSubject: "Staff Selection Commission",
-      name: "SSC Exams (CGL, CHSL, GD, CPO)",
-      icon: "⚡",
+      id: "ssc_reasoning",
+      apiSubject: "General Intelligence & Reasoning",
+      name: "Reasoning Ability",
+      icon: "🧠",
       color: "bg-dark",
       badgeColor: "badge bg-dark-subtle text-dark border border-dark-subtle",
-      tags: [
-        "SSC CGL",
-        "SSC CHSL",
-        "SSC MTS",
-        "SSC CPO (Delhi Police)",
-        "SSC GD Constable",
-        "SSC Stenographer",
-        "SSC Selection Post",
-      ],
+      marksPerCorrect: 2,
+      negativeMarks: 0.5,
+      tags: ["SSC CGL", "SSC CHSL", "SSC MTS", "SSC CPO", "SSC GD"],
       categories: [
-        {
-          id: "ossc_quant_advance",
-          title: "Quantitative Aptitude (Arithmetic & Advanced Mathematics)",
-        },
-        {
-          id: "ossc_reasoning_general",
-          title: "General Intelligence & Reasoning",
-        },
-        {
-          id: "ossc_english_comprehension",
-          title: "English Language, Grammar & Comprehension",
-        },
-        {
-          id: "ossc_general_awareness",
-          title: "General Awareness & Static GK",
-        },
-        {
-          id: "ossc_computer_aptitude",
-          title: "Computer Knowledge & Typing Module",
-        },
+        { id: "ssc_analogy", title: "Analogy Classification Sets" },
+        { id: "ssc_series", title: "Number Series Patterns" },
+        { id: "ssc_blood_relations", title: "Blood Relations Directions" },
+        { id: "ssc_syllogism", title: "Syllogism Logical Venn" },
+        { id: "ssc_coding", title: "Coding Decoding Logic" },
       ],
       loaded: false,
       loading: false,
     },
     {
-      id: "o_banking",
-      apiSubject: "Banking & Insurance",
-      name: "Banking & Insurance (IBPS, SBI, RBI)",
-      icon: "🏦",
+      id: "ssc_english",
+      apiSubject: "English Language & Comprehension",
+      name: "English Language",
+      icon: "🔤",
       color: "bg-success",
       badgeColor:
         "badge bg-success-subtle text-success border border-success-subtle",
-      tags: [
-        "SBI PO / Clerk",
-        "IBPS PO / Clerk",
-        "IBPS RRB (Gramin Bank)",
-        "RBI Grade B / Assistant",
-        "LIC AAO / ADO",
-        "NABARD",
-        "SEBI Grade A",
-      ],
+      marksPerCorrect: 2,
+      negativeMarks: 0.5,
+      tags: ["SSC CGL", "SSC CHSL", "SSC MTS", "SSC CPO"],
       categories: [
-        {
-          id: "obk_puzzles_reasoning",
-          title: "High Level Puzzles & Seating Arrangements",
-        },
-        {
-          id: "obk_quant_data_interpretation",
-          title:
-            "Data Interpretation & Speed Mathematics (Simplification/Series)",
-        },
-        {
-          id: "obk_english_cloze_rc",
-          title: "Reading Comprehension, Error Detection & Cloze Test",
-        },
-        {
-          id: "obk_banking_financial_awareness",
-          title: "Banking, Financial Terms & Economic Awareness",
-        },
-        {
-          id: "obk_descriptive_test",
-          title: "Descriptive Writing (Essay & Letter Practice)",
-        },
+        { id: "ssc_grammar", title: "Grammar Error Spotting" },
+        { id: "ssc_vocab", title: "Synonyms Antonyms Idioms" },
+        { id: "ssc_cloze", title: "Cloze Test Passage" },
+        { id: "ssc_rc", title: "Reading Comprehension RC" },
+        { id: "ssc_para_jumble", title: "Sentence Rearrangement Jumble" },
       ],
       loaded: false,
       loading: false,
     },
     {
-      id: "o_railways",
-      apiSubject: "Railways",
-      name: "Railway Exams (RRB NTPC, Group D, ALP)",
+      id: "ssc_gk",
+      apiSubject: "General Awareness",
+      name: "General Awareness & GK",
+      icon: "📰",
+      color: "bg-warning",
+      badgeColor:
+        "badge bg-warning-subtle text-warning-emphasis border border-warning-subtle",
+      marksPerCorrect: 2,
+      negativeMarks: 0.5,
+      tags: ["SSC CGL", "SSC CHSL", "SSC MTS", "SSC CPO", "Static GK"],
+      categories: [
+        { id: "ssc_static_gk", title: "Static GK Monuments" },
+        { id: "ssc_history_geo", title: "History Geography Polity" },
+        { id: "ssc_science", title: "General Science Physics" },
+        { id: "ssc_current", title: "Current Affairs Indexes" },
+        { id: "ssc_computer", title: "Computer Knowledge Basics" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+  ],
+
+  // 5. 🚆 Railway Exams (Direct Stream)
+  RAILWAYS: [
+    {
+      id: "rrb_science",
+      apiSubject: "General Science",
+      name: "Railway General Science",
+      icon: "🔬",
+      color: "bg-info",
+      badgeColor:
+        "badge bg-info-subtle text-info-emphasis border border-info-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0.33,
+      tags: ["RRB NTPC", "RRB Group D", "RRB ALP", "RRB Technician"],
+      categories: [
+        { id: "rrb_physics", title: "NCERT Physics Railway" },
+        { id: "rrb_chemistry", title: "NCERT Chemistry Railway" },
+        { id: "rrb_biology", title: "NCERT Biology Life" },
+        { id: "rrb_engineering", title: "Basic Science Engineering" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+    {
+      id: "rrb_maths",
+      apiSubject: "Mathematics",
+      name: "Railway Mathematics",
+      icon: "🔢",
+      color: "bg-primary",
+      badgeColor:
+        "badge bg-primary-subtle text-primary border border-primary-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0.33,
+      tags: ["RRB NTPC", "RRB Group D", "RRB ALP"],
+      categories: [
+        { id: "rrb_arithmetic", title: "Arithmetic Speed Math" },
+        { id: "rrb_algebra_trig", title: "Algebra Geometry Trig" },
+        { id: "rrb_stats", title: "Statistics Data Interpretation" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+    {
+      id: "rrb_reasoning",
+      apiSubject: "General Intelligence & Reasoning",
+      name: "Railway Reasoning",
+      icon: "🧠",
+      color: "bg-secondary",
+      badgeColor:
+        "badge bg-secondary-subtle text-secondary-emphasis border border-secondary-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0.33,
+      tags: ["RRB NTPC", "RRB Group D", "RPF SI Constable"],
+      categories: [
+        { id: "rrb_analogy_coding", title: "Analogy Coding Classification" },
+        { id: "rrb_puzzles_direction", title: "Puzzles Seating Directions" },
+        { id: "rrb_syllogism_venn", title: "Syllogism Venn Diagrams" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+    {
+      id: "rrb_gk",
+      apiSubject: "General Awareness",
+      name: "Railway Awareness & GK",
       icon: "🚆",
       color: "bg-danger",
       badgeColor:
         "badge bg-danger-subtle text-danger border border-danger-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0.33,
+      tags: ["RRB NTPC", "RRB Group D", "RPF SI"],
+      categories: [
+        { id: "rrb_railway_gk", title: "Indian Railways History" },
+        { id: "rrb_current_affairs", title: "National Events Current" },
+        { id: "rrb_static_gk", title: "Static GK Culture" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+  ],
+
+  // 6. 🏦 Banking & Insurance (Direct Stream)
+  BANKING: [
+    {
+      id: "bk_reasoning",
+      apiSubject: "Reasoning Ability",
+      name: "Reasoning & Puzzles",
+      icon: "🧠",
+      color: "bg-dark",
+      badgeColor: "badge bg-dark-subtle text-dark border border-dark-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0.25,
       tags: [
-        "RRB NTPC (Graduate & 12th Level)",
-        "RRB Group D",
-        "RRB ALP (Assistant Loco Pilot)",
-        "RRB Technician",
-        "RRB JE",
-        "RPF SI & Constable",
+        "SBI PO",
+        "SBI Clerk",
+        "IBPS PO",
+        "IBPS Clerk",
+        "IBPS RRB",
+        "RBI Grade B",
       ],
       categories: [
-        {
-          id: "orrb_general_science",
-          title: "General Science (NCERT 10th Level Physics, Chem, Bio)",
-        },
-        {
-          id: "orrb_mathematics",
-          title: "Mathematics (Basic Arithmetic & Algebra)",
-        },
-        { id: "orrb_reasoning", title: "General Intelligence & Reasoning" },
-        {
-          id: "orrb_general_awareness",
-          title: "General Awareness & Railway Static GK",
-        },
-        {
-          id: "orrb_technical_trade",
-          title: "Basic Science & Engineering (For ALP/Technician)",
-        },
+        { id: "bk_seating_puzzles", title: "Puzzles Seating Arrangements" },
+        { id: "bk_syllogism_inequality", title: "Syllogism Inequality Logic" },
+        { id: "bk_coding_input", title: "Input Output Coding" },
+        { id: "bk_critical_reasoning", title: "Critical Logical Reasoning" },
       ],
       loaded: false,
       loading: false,
     },
     {
-      id: "o_defence",
-      apiSubject: "Defence",
-      name: "Defence & Police Exams (NDA, CDS, Police SI)",
+      id: "bk_quant",
+      apiSubject: "Quantitative Aptitude",
+      name: "Quantitative Aptitude & DI",
+      icon: "📈",
+      color: "bg-primary",
+      badgeColor:
+        "badge bg-primary-subtle text-primary border border-primary-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0.25,
+      tags: ["SBI PO", "IBPS PO", "RBI Assistant", "LIC AAO"],
+      categories: [
+        { id: "bk_data_interpretation", title: "Data Interpretation Math" },
+        { id: "bk_simplification", title: "Simplification Series Quadratic" },
+        { id: "bk_arithmetic_word", title: "Arithmetic Word Problems" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+    {
+      id: "bk_english",
+      apiSubject: "English Language",
+      name: "English Language",
+      icon: "🔤",
+      color: "bg-success",
+      badgeColor:
+        "badge bg-success-subtle text-success border border-success-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0.25,
+      tags: ["SBI PO", "IBPS PO", "RBI Grade B"],
+      categories: [
+        { id: "bk_rc_cloze", title: "Reading Comprehension English" },
+        { id: "bk_error_detection", title: "Error Detection Fillers" },
+        { id: "bk_para_jumbles", title: "Para Jumbles Connectors" },
+        { id: "bk_descriptive", title: "Descriptive Writing Practice" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+    {
+      id: "bk_financial_awareness",
+      apiSubject: "General & Banking Awareness",
+      name: "Banking & Financial GK",
+      icon: "🏦",
+      color: "bg-info",
+      badgeColor:
+        "badge bg-info-subtle text-info-emphasis border border-info-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0.25,
+      tags: ["SBI PO", "IBPS PO", "RBI Grade B", "SEBI Grade A", "NABARD"],
+      categories: [
+        { id: "bk_rbi_monetary", title: "RBI Monetary Terms" },
+        { id: "bk_banking_awareness", title: "Banking Financial Awareness" },
+        { id: "bk_current_economic", title: "Economic Survey Budget" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+  ],
+
+  // 7. 🧬 JEE & NEET Entrance (Direct Stream)
+  JEE_NEET: [
+    {
+      id: "jn_physics",
+      apiSubject: "Physics",
+      name: "Physics (NEET / JEE)",
+      icon: "⚡",
+      color: "bg-dark",
+      badgeColor: "badge bg-dark-subtle text-dark border border-dark-subtle",
+      marksPerCorrect: 4,
+      negativeMarks: 1,
+      tags: ["NEET UG", "JEE Main", "JEE Advanced", "BITSAT"],
+      categories: [
+        { id: "jn_mechanics", title: "Physics Mechanics Electrodynamics" },
+        { id: "jn_thermo_optics", title: "Thermodynamics Wave Optics" },
+        { id: "jn_modern_physics", title: "Modern Physics Semiconductor" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+    {
+      id: "jn_chemistry",
+      apiSubject: "Chemistry",
+      name: "Chemistry (NEET / JEE)",
+      icon: "🧪",
+      color: "bg-danger",
+      badgeColor:
+        "badge bg-danger-subtle text-danger border border-danger-subtle",
+      marksPerCorrect: 4,
+      negativeMarks: 1,
+      tags: ["NEET UG", "JEE Main", "BITSAT"],
+      categories: [
+        { id: "jn_physical_chem", title: "Physical Organic Chemistry" },
+        { id: "jn_inorganic_chem", title: "Inorganic Coordination Blocks" },
+        { id: "jn_organic_reactions", title: "Organic Carbonyl Haloalkanes" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+    {
+      id: "jn_biology",
+      apiSubject: "Biology",
+      name: "Biology (NEET UG)",
+      icon: "🧬",
+      color: "bg-success",
+      badgeColor:
+        "badge bg-success-subtle text-success border border-success-subtle",
+      marksPerCorrect: 4,
+      negativeMarks: 1,
+      tags: ["NEET UG", "AIIMS Nursing", "CUET UG"],
+      categories: [
+        { id: "jn_botany", title: "Botany Physiology Plants" },
+        { id: "jn_zoology_genetics", title: "Zoology Genetics Evolution" },
+        { id: "jn_human_physiology", title: "Human Physiology Reproduction" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+    {
+      id: "jn_maths",
+      apiSubject: "Mathematics",
+      name: "Mathematics (JEE Main & Adv)",
+      icon: "🔢",
+      color: "bg-primary",
+      badgeColor:
+        "badge bg-primary-subtle text-primary border border-primary-subtle",
+      marksPerCorrect: 4,
+      negativeMarks: 1,
+      tags: ["JEE Main", "JEE Advanced", "BITSAT", "WBJEE"],
+      categories: [
+        { id: "jn_calculus_algebra", title: "Calculus Algebra Vectors" },
+        { id: "jn_coordinate_trig", title: "Coordinate Geometry Conics" },
+        { id: "jn_full_mock", title: "Full Syllabus Mock" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+  ],
+
+  // 8. 🎖️ Defence & Police Exams (Direct Stream)
+  DEFENCE: [
+    {
+      id: "def_maths",
+      apiSubject: "Mathematics",
+      name: "NDA Mathematics",
+      icon: "🔢",
+      color: "bg-primary",
+      badgeColor:
+        "badge bg-primary-subtle text-primary border border-primary-subtle",
+      marksPerCorrect: 2.5,
+      negativeMarks: 0.83,
+      tags: ["NDA & NA", "CDS (IMA)", "Airforce Group X"],
+      categories: [
+        { id: "def_nda_maths_1", title: "NDA Mathematics Higher" },
+        { id: "def_trig_algebra", title: "Calculus Matrices Determinants" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+    {
+      id: "def_gat",
+      apiSubject: "General Ability Test (GAT)",
+      name: "General Ability Test (GAT)",
       icon: "🎖️",
       color: "bg-secondary",
       badgeColor:
         "badge bg-secondary-subtle text-secondary-emphasis border border-secondary-subtle",
-      tags: [
-        "NDA & NA",
-        "CDS (IMA/OTA)",
-        "AFCAT",
-        "CAPF (Assistant Commandant)",
-        "Agniveer (Army/Navy/Airforce)",
-        "UP Police SI/Constable",
-        "Bihar Police SI/Constable",
-        "Delhi Police",
-      ],
+      marksPerCorrect: 4,
+      negativeMarks: 1.33,
+      tags: ["NDA GAT", "CDS OTA", "AFCAT", "CAPF"],
       categories: [
-        { id: "odef_nda_maths", title: "NDA Mathematics (11th & 12th Level)" },
-        {
-          id: "odef_gat_english",
-          title: "General Ability Test (GAT) - English",
-        },
-        {
-          id: "odef_gat_general_science",
-          title: "GAT - General Science & Defence GK",
-        },
-        {
-          id: "odef_police_moolvidhi",
-          title: "Mool Vidhi (Basic Law) & Constitution (Police SI)",
-        },
-        {
-          id: "odef_police_hindi",
-          title: "General Hindi (UP/Bihar Police SI & Constable)",
-        },
+        { id: "def_gat_english", title: "GAT English Language" },
+        { id: "def_gat_science_gk", title: "Science Defence GK" },
       ],
       loaded: false,
       loading: false,
     },
     {
-      id: "o_teaching",
-      apiSubject: "Teaching Exams",
-      name: "Teaching & TET (CTET, State TET, KVS)",
-      icon: "👨‍🏫",
+      id: "def_police_special",
+      apiSubject: "Police & Law Studies",
+      name: "Police SI & Constable",
+      icon: "👮",
+      color: "bg-dark",
+      badgeColor: "badge bg-dark-subtle text-dark border border-dark-subtle",
+      marksPerCorrect: 2.5,
+      negativeMarks: 0.5,
+      tags: ["UP Police SI", "Bihar Police SI", "Delhi Police", "Constable"],
+      categories: [
+        { id: "def_moolvidhi", title: "Mool Vidhi Constitution" },
+        { id: "def_general_hindi", title: "General Hindi Police" },
+        { id: "def_reasoning_math", title: "Mental Aptitude Reasoning" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+  ],
+
+  // 9. 👨‍🏫 Teaching & TET Exams (Direct Stream)
+  TEACHING: [
+    {
+      id: "tch_cdp",
+      apiSubject: "Child Development & Pedagogy",
+      name: "Child Development (CDP)",
+      icon: "👶",
       color: "bg-info",
       badgeColor:
         "badge bg-info-subtle text-info-emphasis border border-info-subtle",
-      tags: [
-        "CTET (Central TET Paper 1 & 2)",
-        "UPTET",
-        "BTET / Bihar STET",
-        "REET (Rajasthan)",
-        "KVS (Kendriya Vidyalaya)",
-        "NVS (Navodaya)",
-        "DSSSB (Delhi)",
-        "Super TET",
-      ],
+      marksPerCorrect: 1,
+      negativeMarks: 0,
+      tags: ["CTET Paper 1", "CTET Paper 2", "UPTET", "BTET", "REET", "KVS"],
       categories: [
-        { id: "ot_cdp_pedagogy", title: "Child Development & Pedagogy (CDP)" },
-        {
-          id: "ot_maths_pedagogy",
-          title: "Mathematics & Mathematics Pedagogy",
-        },
-        {
-          id: "ot_evs_pedagogy",
-          title: "Environmental Studies (EVS) & Pedagogy",
-        },
-        {
-          id: "ot_language_hindi_english",
-          title: "Language 1 & 2 Pedagogy (Hindi / English)",
-        },
-        {
-          id: "ot_social_science_pedagogy",
-          title: "Social Science / Science Content & Pedagogy (Paper 2)",
-        },
+        { id: "tch_cdp_pedagogy", title: "Child Development Pedagogy" },
+        { id: "tch_learning_theories", title: "Piaget Vygotsky Theories" },
       ],
       loaded: false,
       loading: false,
     },
     {
-      id: "o_entrance",
-      apiSubject: "Aptitude & Entrance",
-      name: "CUET, Law & Management (CLAT, IPMAT)",
+      id: "tch_subjects_pedagogy",
+      apiSubject: "Content & Subject Pedagogy",
+      name: "Subject Pedagogy (Maths/EVS/SST)",
+      icon: "👨‍🏫",
+      color: "bg-success",
+      badgeColor:
+        "badge bg-success-subtle text-success border border-success-subtle",
+      marksPerCorrect: 1,
+      negativeMarks: 0,
+      tags: ["CTET", "KVS", "DSSSB", "Super TET"],
+      categories: [
+        { id: "tch_maths_pedagogy", title: "Mathematics Content Pedagogy" },
+        { id: "tch_evs_pedagogy", title: "Environmental Studies Pedagogy" },
+        { id: "tch_languages_pedagogy", title: "Hindi English Pedagogy" },
+        { id: "tch_sst_science_pedagogy", title: "Social Science Pedagogy" },
+      ],
+      loaded: false,
+      loading: false,
+    },
+  ],
+
+  // 10. ⚖️ CUET, Law & Management Entrance (Direct Stream)
+  ENTRANCE: [
+    {
+      id: "ent_legal_clat",
+      apiSubject: "Legal & Critical Reasoning",
+      name: "CLAT & Law Reasoning",
       icon: "⚖️",
       color: "bg-primary",
       badgeColor:
         "badge bg-primary-subtle text-primary border border-primary-subtle",
-      tags: [
-        "CUET UG / PG",
-        "CLAT (Common Law Admission Test)",
-        "AILET",
-        "IPMAT (IIM Indore/Rohtak)",
-        "CAT / MBA CET",
-        "NIFT / NID Entrance",
-      ],
+      marksPerCorrect: 1,
+      negativeMarks: 0.25,
+      tags: ["CLAT", "AILET", "SLAT"],
       categories: [
+        { id: "ent_legal_reasoning", title: "Legal Aptitude Reasoning" },
         {
-          id: "oent_legal_reasoning",
-          title: "Legal Aptitude & Legal Reasoning (CLAT)",
+          id: "ent_critical_reasoning",
+          title: "Critical Analytical Reasoning",
         },
-        {
-          id: "oent_critical_reasoning",
-          title: "Critical Reasoning & Analytical Ability",
-        },
-        {
-          id: "oent_cuet_general_test",
-          title: "CUET General Test (Quantitative Aptitude, Reasoning, GK)",
-        },
-        {
-          id: "oent_verbal_ability",
-          title: "Verbal Ability & Advanced Reading Comprehension",
-        },
-        {
-          id: "oent_data_interpretation",
-          title: "Quantitative Techniques & Data Interpretation",
-        },
+      ],
+      loaded: false,
+      loading: false,
+    },
+    {
+      id: "ent_cuet_aptitude",
+      apiSubject: "CUET General Test",
+      name: "CUET General Test",
+      icon: "🎓",
+      color: "bg-warning",
+      badgeColor:
+        "badge bg-warning-subtle text-warning-emphasis border border-warning-subtle",
+      marksPerCorrect: 5,
+      negativeMarks: 1,
+      tags: ["CUET UG", "CUET PG", "IPMAT"],
+      categories: [
+        { id: "ent_cuet_general", title: "CUET General Aptitude" },
+        { id: "ent_verbal_reading", title: "Verbal Reading Ability" },
+        { id: "ent_data_quant", title: "Quantitative Data Techniques" },
       ],
       loaded: false,
       loading: false,
@@ -1041,12 +1303,14 @@ const subjectsBySegment = {
   ],
 };
 
-// Window object me attach kar rahe hain taaki pure JS script se access ho sake
+// Window object attachment and helpers
 window.subjectsBySegment = subjectsBySegment;
 window.allSubjects = Object.values(subjectsBySegment).flat();
 
 window.getSubjectsBySegment = function (segmentKey) {
-  return subjectsBySegment[segmentKey] || [];
+  if (!segmentKey) return [];
+  const normalizedKey = String(segmentKey).trim().toUpperCase();
+  return subjectsBySegment[normalizedKey] || [];
 };
 
 window.getSubjectById = function (id) {
@@ -1055,4 +1319,20 @@ window.getSubjectById = function (id) {
       return subject.id === id;
     }) || null
   );
+};
+
+// Helper function to calculate test score easily
+window.calculateScore = function (subjectId, correctCount, incorrectCount) {
+  const subject = window.getSubjectById(subjectId);
+  if (!subject) return { totalScore: 0, positive: 0, negative: 0 };
+
+  const positive = correctCount * (subject.marksPerCorrect || 1);
+  const negative = incorrectCount * (subject.negativeMarks || 0);
+  const totalScore = parseFloat((positive - negative).toFixed(2));
+
+  return {
+    totalScore: Math.max(0, totalScore),
+    positiveMarksEarned: positive,
+    negativeMarksDeducted: negative,
+  };
 };

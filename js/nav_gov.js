@@ -14,7 +14,7 @@ function renderTopHeader(options = {}) {
   const isHomePage = [
     "index_gov.html",
     "",
-    "dashboard_gov_exam.html",
+    "home_gov.html",
     "home_gov.html",
   ].some((m) => page.toLowerCase() === m.toLowerCase());
 
@@ -108,13 +108,8 @@ function renderBottomNav(activeTabName = null) {
       id: "home",
       name: "Home",
       icon: "home",
-      url: "dashboard_gov_exam.html",
-      activeMatch: [
-        "index_gov.html",
-        "",
-        "dashboard_gov_exam.html",
-        "home_gov.html",
-      ],
+      url: "home_gov.html",
+      activeMatch: ["index_gov.html", "", "home_gov.html", "home_gov.html"],
     },
     {
       id: "tests",

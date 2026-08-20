@@ -1,0 +1,1239 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Test Generator Admin — AllSubject Synced</title>
+
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&family=Fredoka:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- MASTER SUBJECTS DATA SOURCE -->
+    <script src="/js/AllSubject.js"></script>
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+      code,
+      pre,
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .spinner-border {
+        border: 2px solid rgba(79, 70, 229, 0.2);
+        border-top-color: #4f46e5;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white"
+  >
+    <!-- TOAST CONTAINER -->
+    <div
+      id="toast-container"
+      class="fixed top-5 right-5 z-[9999] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"
+    ></div>
+
+    <!-- 1. TOP HEADER NAVIGATION -->
+    <header
+      class="bg-white border-b border-slate-200 px-5 py-3.5 flex items-center justify-between sticky top-0 z-40 shadow-xs"
+    >
+      <div class="flex items-center gap-3">
+        <div
+          class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-600/20 shrink-0"
+        >
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1
+              class="text-sm md:text-base font-black tracking-tight text-slate-900"
+            >
+              AI Auto-Test Engine &amp; Generator
+            </h1>
+            <span
+              class="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-md text-[10px] font-extrabold uppercase tracking-wider"
+              >Direct Stream Synced</span
+            >
+          </div>
+          <p
+            class="text-[11px] text-slate-500 font-semibold font-mono truncate max-w-xs sm:max-w-none"
+          >
+            POST /api/upsc/generate-ai-test
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="flex items-center gap-2 px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-xl text-xs"
+      >
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+        <span class="text-slate-700 font-bold text-[11px] hidden sm:inline"
+          >Auto-Mapped Engine</span
+        >
+      </div>
+    </header>
+
+    <!-- 2. MAIN SPLIT INTERFACE -->
+    <main
+      class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5 p-4 md:p-6 max-w-[1700px] mx-auto w-full"
+    >
+      <!-- LEFT PANEL: CONFIG & CONTROLS -->
+      <section class="lg:col-span-5 space-y-4">
+        <div
+          class="bg-white border border-slate-200/80 rounded-3xl p-5 space-y-4 shadow-sm"
+        >
+          <div
+            class="flex items-center justify-between border-b border-slate-100 pb-3"
+          >
+            <div
+              class="flex items-center gap-2 text-indigo-600 font-extrabold text-xs uppercase tracking-wider"
+            >
+              <i data-lucide="sliders" class="w-4 h-4"></i>
+              <span>Blueprint Parameters</span>
+            </div>
+            <span
+              id="badge-total-qs"
+              class="text-[10px] text-slate-600 font-bold bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200 font-mono"
+            >
+              15 Questions / Mock
+            </span>
+          </div>
+
+          <!-- 1. EXAM STREAM SELECTION (DYNAMIC FROM ALLSUBJECT.JS) & STATUS -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="sm:col-span-2">
+              <label
+                class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1"
+              >
+                Target Exam Stream
+              </label>
+              <select
+                id="cfg_exam_stream"
+                onchange="handleExamStreamChange()"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 focus:border-indigo-500 rounded-xl text-xs font-bold text-slate-800 outline-none cursor-pointer transition-all"
+              >
+                <!-- Populated dynamically via JavaScript -->
+              </select>
+            </div>
+            <div>
+              <label
+                class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1"
+              >
+                Publish Status
+              </label>
+              <select
+                id="cfg_status"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 focus:border-indigo-500 rounded-xl text-xs font-bold text-emerald-600 outline-none cursor-pointer"
+              >
+                <option value="published" selected>🟢 Published</option>
+                <option value="draft">🟡 Draft</option>
+                <option value="pending">🟣 Pending</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 2. BOARD & CLASS/STAGE -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label
+                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >Board / Exam Agency</label
+              >
+              <input
+                type="text"
+                id="cfg_board"
+                value="SSC"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
+              />
+            </div>
+            <div id="cfg_class_stage_container">
+              <label
+                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >Tier / Level / Grade</label
+              >
+              <input
+                type="text"
+                id="cfg_class_stage"
+                value="Tier 1"
+                placeholder="e.g. Tier 1"
+                oninput="updateTestTitlePreview()"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
+              />
+            </div>
+          </div>
+
+          <!-- TEST TITLE PREVIEW -->
+          <div>
+            <label
+              class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+              >Test Title (Auto-Populated)</label
+            >
+            <input
+              type="text"
+              id="cfg_test_title_preview"
+              placeholder="Will auto-populate from selected topics"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-indigo-700 outline-none focus:border-indigo-500"
+            />
+          </div>
+
+          <!-- 3. ENGINE MODE, DURATION, QUESTIONS & MARKS -->
+          <div class="grid grid-cols-4 gap-2">
+            <div>
+              <label
+                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >Mode</label
+              >
+              <select
+                id="cfg_mode"
+                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-indigo-600 outline-none"
+              >
+                <option value="mcq_single" selected>MCQ Single</option>
+                <option value="matching_canvas">Canvas</option>
+                <option value="cbt_exam">CBT Exam</option>
+              </select>
+            </div>
+            <div>
+              <label
+                id="lbl_duration"
+                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >Time (M)</label
+              >
+              <input
+                type="number"
+                id="cfg_duration"
+                value="15"
+                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-slate-800 outline-none"
+              />
+            </div>
+            <div>
+              <label
+                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >Total Qs</label
+              >
+              <input
+                type="number"
+                id="cfg_total_questions"
+                value="15"
+                oninput="onQuestionsCountChange()"
+                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-indigo-600 outline-none"
+              />
+            </div>
+            <div>
+              <label
+                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >+Marks/-Neg</label
+              >
+              <div class="flex items-center gap-1">
+                <input
+                  type="number"
+                  step="0.1"
+                  id="cfg_marks"
+                  value="2"
+                  title="Marks for correct"
+                  class="w-1/2 p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-emerald-600 outline-none text-center"
+                />
+                <input
+                  type="number"
+                  step="0.01"
+                  id="cfg_negative_marks"
+                  value="0.5"
+                  title="Negative Marks deducted"
+                  class="w-1/2 p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-rose-600 outline-none text-center"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. MONETIZATION -->
+          <div
+            class="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-2.5"
+          >
+            <div class="flex items-center justify-between">
+              <span
+                class="text-[10px] font-extrabold text-indigo-600 uppercase tracking-wider"
+              >
+                💰 Monetization &amp; Access
+              </span>
+              <label
+                class="inline-flex items-center gap-1.5 text-[11px] font-bold text-slate-700 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  id="cfg_included_in_pass"
+                  checked
+                  class="w-3.5 h-3.5 text-indigo-600 rounded bg-white border-slate-300"
+                />
+                <span>Include in Pass</span>
+              </label>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2">
+              <div>
+                <label
+                  class="block text-[9px] font-bold text-slate-500 uppercase mb-1"
+                  >Access Type</label
+                >
+                <select
+                  id="cfg_access_type"
+                  onchange="togglePriceFields()"
+                  class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none cursor-pointer"
+                >
+                  <option value="free" selected>Free</option>
+                  <option value="paid">Paid</option>
+                  <option value="subscription_only">Pass Only</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-[9px] font-bold text-slate-500 uppercase mb-1"
+                  >MRP Price (₹)</label
+                >
+                <input
+                  type="number"
+                  id="cfg_price"
+                  value="0"
+                  disabled
+                  class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none disabled:opacity-50"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-[9px] font-bold text-slate-500 uppercase mb-1"
+                  >Selling (₹)</label
+                >
+                <input
+                  type="number"
+                  id="cfg_discounted_price"
+                  value="0"
+                  disabled
+                  class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none disabled:opacity-50"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. DIFFICULTY & TAGS -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label
+                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >Difficulty</label
+              >
+              <select
+                id="cfg_difficulty"
+                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none"
+              >
+                <option value="easy" selected>🟢 Easy</option>
+                <option value="medium">🟡 Medium</option>
+                <option value="hard">🔴 Hard</option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >Target Tags</label
+              >
+              <input
+                type="text"
+                id="cfg_tags"
+                value="SSC CGL, CHSL, MTS, Tier-1"
+                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBJECT & CATEGORY TREE ACCORDION CARD -->
+        <div
+          class="bg-white border border-slate-200/80 rounded-3xl p-5 space-y-3.5 shadow-sm flex flex-col"
+        >
+          <div
+            class="flex items-center justify-between border-b border-slate-100 pb-3"
+          >
+            <div>
+              <h3
+                class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2"
+              >
+                <i data-lucide="layers" class="w-4 h-4 text-indigo-600"></i>
+                <span>Available Chapters (AllSubject.js)</span>
+              </h3>
+              <p class="text-[11px] text-slate-500 font-semibold mt-0.5">
+                Select chapters to generate test series
+              </p>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button
+                type="button"
+                onclick="toggleSelectAllTopics(true)"
+                class="text-[10px] font-bold text-indigo-600 hover:text-indigo-700 cursor-pointer transition-colors"
+              >
+                All
+              </button>
+              <span class="text-slate-300">|</span>
+              <button
+                type="button"
+                onclick="toggleSelectAllTopics(false)"
+                class="text-[10px] font-bold text-slate-500 hover:text-slate-700 cursor-pointer transition-colors"
+              >
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <div
+            id="subject-category-tree"
+            class="space-y-2.5 max-h-[360px] overflow-y-auto no-scrollbar pr-1"
+          ></div>
+
+          <div class="pt-2">
+            <button
+              id="btn-trigger-generation"
+              onclick="startAutomatedBatchGeneration()"
+              class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-98 text-white font-extrabold rounded-2xl text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 cursor-pointer shadow-lg shadow-indigo-600/20 transition-all"
+            >
+              <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
+              <span id="btn-trigger-text"
+                >Generate Tests For (0) Selected Topics</span
+              >
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANEL: CONSOLE & OUTPUT PREVIEW -->
+      <section class="lg:col-span-7 space-y-4 flex flex-col">
+        <div
+          class="bg-white border border-slate-200/80 rounded-3xl p-5 shadow-sm space-y-3"
+        >
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span
+                id="queue-status-dot"
+                class="w-2.5 h-2.5 rounded-full bg-slate-300"
+              ></span>
+              <h3
+                id="queue-status-title"
+                class="text-xs font-black text-slate-800 uppercase tracking-wider"
+              >
+                Engine: Idle
+              </h3>
+            </div>
+            <span
+              id="queue-progress-count"
+              class="text-[11px] font-mono font-bold bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200 text-indigo-600"
+            >
+              0 / 0 Completed
+            </span>
+          </div>
+
+          <div
+            class="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200/80"
+          >
+            <div
+              id="queue-progress-bar"
+              class="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 transition-all duration-300 w-0"
+            ></div>
+          </div>
+        </div>
+
+        <div
+          class="bg-white border border-slate-200/80 rounded-3xl p-5 shadow-sm flex-1 flex flex-col space-y-3"
+        >
+          <div
+            class="flex items-center justify-between border-b border-slate-100 pb-3 flex-wrap gap-2"
+          >
+            <div class="flex items-center gap-2">
+              <i data-lucide="database" class="w-4 h-4 text-emerald-600"></i>
+              <span
+                class="text-xs font-black text-slate-800 uppercase tracking-wide"
+              >
+                Database Payload Output
+              </span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button
+                onclick="copyActiveJsonToClipboard()"
+                class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>Copy JSON</span>
+              </button>
+              <button
+                onclick="clearPayloadConsole()"
+                class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1"
+              >
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                <span>Clear</span>
+              </button>
+            </div>
+          </div>
+
+          <div
+            id="generated-subject-tabs"
+            class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1"
+          >
+            <span class="text-[11px] font-semibold text-slate-400 italic">
+              No tests generated in this session yet.
+            </span>
+          </div>
+
+          <div
+            class="flex-1 bg-slate-900 rounded-2xl p-4 border border-slate-800 flex flex-col relative overflow-hidden min-h-[460px]"
+          >
+            <div
+              class="flex items-center justify-between pb-2 border-b border-slate-800 text-[10px] font-mono text-slate-400"
+            >
+              <span id="console-header-label">Terminal / Ready</span>
+              <span
+                id="active-test-meta-badge"
+                class="text-indigo-400 font-bold"
+                >Waiting for action...</span
+              >
+            </div>
+
+            <pre
+              id="ai-console-output"
+              class="flex-1 font-mono text-xs text-emerald-400 overflow-y-auto no-scrollbar p-2 mt-2 leading-relaxed whitespace-pre-wrap select-text"
+            >
+Select chapters from the left panel and click "Generate Tests" to start.</pre
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- JAVASCRIPT SYSTEM ENGINE -->
+    <script>
+      const API_GENERATE_AI_TEST =
+        "https://api.jawedsiddiqui.cloud/api/upsc/generate-ai-test";
+
+      let generatedTestsStore = [];
+      let activeTabTopicKey = null;
+      let isBatchRunning = false;
+
+      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      function showToast(message, type = "success") {
+        const container = document.getElementById("toast-container");
+        const toast = document.createElement("div");
+
+        const icons = {
+          success: `<i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0"></i>`,
+          error: `<i data-lucide="alert-circle" class="w-5 h-5 text-rose-600 shrink-0"></i>`,
+          info: `<i data-lucide="info" class="w-5 h-5 text-indigo-600 shrink-0"></i>`,
+        };
+
+        const bgStyles = {
+          success:
+            "bg-white border-emerald-300 text-slate-800 shadow-xl shadow-emerald-500/10",
+          error:
+            "bg-white border-rose-300 text-slate-800 shadow-xl shadow-rose-500/10",
+          info: "bg-white border-indigo-300 text-slate-800 shadow-xl shadow-indigo-500/10",
+        };
+
+        toast.className = `flex items-center gap-3 px-4 py-3 rounded-2xl border ${bgStyles[type] || bgStyles.info} text-xs font-bold transition-all duration-300`;
+        toast.innerHTML = `
+          ${icons[type] || icons.info}
+          <div class="flex-1 leading-snug">${message}</div>
+          <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        `;
+
+        container.appendChild(toast);
+        if (window.lucide) lucide.createIcons();
+
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          toast.style.transform = "translateX(100%)";
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      }
+
+      function getSubjectsData() {
+        if (typeof subjectsBySegment !== "undefined") return subjectsBySegment;
+        if (typeof window.subjectsBySegment !== "undefined")
+          return window.subjectsBySegment;
+        return {};
+      }
+
+      // Stream Human Labels
+      const STREAM_LABELS = {
+        SSC: "⚡ SSC Exams (CGL, CHSL, GD, CPO)",
+        RAILWAYS: "🚆 Railway Exams (RRB NTPC, Group D, ALP)",
+        BANKING: "🏦 Banking & Insurance (IBPS, SBI, RBI)",
+        JEE_NEET: "🧬 JEE & NEET (PCM / PCB)",
+        DEFENCE: "🎖️ Defence & Police (NDA, CDS, Police SI)",
+        TEACHING: "👨‍🏫 Teaching & TET (CTET, State TET, KVS)",
+        ENTRANCE: "⚖️ CUET, Law & Management (CLAT, IPMAT)",
+        GOVT_PSC: "🏛️ Govt PSC / UPSC / All State PCS",
+        BOARD_EXAMS: "📚 Board Exams (Class 4-12)",
+        KIDS_SCHOOL: "🎨 Kids School (Class 1-3)",
+      };
+
+      // 1. POPULATE DROPDOWN DYNAMICALLY FROM ALLSUBJECT.JS
+      function populateExamStreamDropdown() {
+        const selectEl = document.getElementById("cfg_exam_stream");
+        const allData = getSubjectsData();
+
+        if (!allData || Object.keys(allData).length === 0) return;
+
+        let html = "";
+
+        // Direct Competitive Streams
+        const competitiveKeys = [
+          "SSC",
+          "RAILWAYS",
+          "BANKING",
+          "JEE_NEET",
+          "DEFENCE",
+          "TEACHING",
+          "ENTRANCE",
+        ];
+        html += `<optgroup label="⚡ Competitive Exams">`;
+        competitiveKeys.forEach((key) => {
+          if (allData[key]) {
+            html += `<option value="${key}">${STREAM_LABELS[key] || key}</option>`;
+          }
+        });
+        html += `</optgroup>`;
+
+        // Govt PSC
+        if (allData.GOVT_PSC) {
+          html += `
+            <optgroup label="🏛️ Civil Services">
+              <option value="GOVT_PSC">${STREAM_LABELS.GOVT_PSC}</option>
+            </optgroup>
+          `;
+        }
+
+        // School Education
+        if (allData.BOARD_EXAMS || allData.KIDS_SCHOOL) {
+          html += `<optgroup label="📚 School Education">`;
+          if (allData.BOARD_EXAMS)
+            html += `<option value="BOARD_EXAMS">${STREAM_LABELS.BOARD_EXAMS}</option>`;
+          if (allData.KIDS_SCHOOL)
+            html += `<option value="KIDS_SCHOOL">${STREAM_LABELS.KIDS_SCHOOL}</option>`;
+          html += `</optgroup>`;
+        }
+
+        selectEl.innerHTML = html;
+      }
+
+      // 2. HANDLE STREAM CHANGE (AUTO-POPULATE ATTRIBUTES FROM ALLSUBJECT.JS)
+      function handleExamStreamChange() {
+        const streamKey = document.getElementById("cfg_exam_stream").value;
+        const allData = getSubjectsData();
+        const subjectsList = allData[streamKey] || [];
+        const firstSubject = subjectsList[0] || {};
+
+        // Extract Board Name & Default Tags
+        let defaultBoard = firstSubject.tags?.[0] || streamKey;
+        if (streamKey === "SSC") defaultBoard = "SSC";
+        else if (streamKey === "RAILWAYS") defaultBoard = "RRB";
+        else if (streamKey === "BANKING") defaultBoard = "IBPS / SBI";
+        else if (streamKey === "JEE_NEET") defaultBoard = "NTA";
+        else if (streamKey === "GOVT_PSC") defaultBoard = "UPSC / State PSC";
+        else if (streamKey === "BOARD_EXAMS" || streamKey === "KIDS_SCHOOL")
+          defaultBoard = "CBSE";
+
+        const defaultTags = (firstSubject.tags || []).join(", ");
+        const posMarks =
+          firstSubject.marksPerCorrect !== undefined
+            ? firstSubject.marksPerCorrect
+            : streamKey === "GOVT_PSC"
+              ? 2
+              : 1;
+        const negMarks =
+          firstSubject.negativeMarks !== undefined
+            ? firstSubject.negativeMarks
+            : 0;
+
+        document.getElementById("cfg_board").value = defaultBoard;
+        document.getElementById("cfg_tags").value = defaultTags;
+        document.getElementById("cfg_marks").value = posMarks;
+        document.getElementById("cfg_negative_marks").value = negMarks;
+
+        const isKids = streamKey === "KIDS_SCHOOL";
+        document.getElementById("cfg_mode").value = isKids
+          ? "matching_canvas"
+          : "mcq_single";
+        document.getElementById("cfg_duration").value = isKids ? 10 : 15;
+        document.getElementById("cfg_total_questions").value = isKids ? 5 : 15;
+
+        const durationLabel = document.getElementById("lbl_duration");
+        if (durationLabel) {
+          durationLabel.textContent = isKids ? "Time (S)" : "Time (M)";
+        }
+
+        const badgeTotalQs = document.getElementById("badge-total-qs");
+        if (badgeTotalQs) {
+          badgeTotalQs.textContent = `${isKids ? 5 : 15} Questions / Mock`;
+        }
+
+        let stageVal = "Tier 1";
+        if (isKids) stageVal = "1";
+        else if (streamKey === "BOARD_EXAMS") stageVal = "10";
+        else if (streamKey === "GOVT_PSC") stageVal = "Prelims";
+        else if (streamKey === "BANKING") stageVal = "Prelims";
+        else if (streamKey === "RAILWAYS") stageVal = "CBT 1";
+        else if (streamKey === "JEE_NEET") stageVal = "UG";
+
+        const stageContainer = document.getElementById(
+          "cfg_class_stage_container",
+        );
+        stageContainer.innerHTML = `
+          <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+            ${isKids ? "Class / Grade" : streamKey === "BOARD_EXAMS" ? "Class" : "Tier / Stage"}
+          </label>
+          <input
+            type="text"
+            id="cfg_class_stage"
+            value="${stageVal}"
+            oninput="updateTestTitlePreview()"
+            class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
+          />
+        `;
+
+        renderSubjectCategoryTree();
+      }
+
+      function toggleSubjectAccordion(subId) {
+        const content = document.getElementById(`sub-content-${subId}`);
+        const icon = document.getElementById(`sub-arrow-${subId}`);
+        if (content) {
+          const isHidden = content.classList.contains("hidden");
+          if (isHidden) {
+            content.classList.remove("hidden");
+            if (icon) icon.classList.add("rotate-180");
+          } else {
+            content.classList.add("hidden");
+            if (icon) icon.classList.remove("rotate-180");
+          }
+        }
+      }
+
+      function renderSubjectCategoryTree() {
+        const streamKey = document.getElementById("cfg_exam_stream").value;
+        const allData = getSubjectsData();
+        const subjects = allData[streamKey] || [];
+        const container = document.getElementById("subject-category-tree");
+        const totalQs =
+          document.getElementById("cfg_total_questions").value || 15;
+
+        if (subjects.length === 0) {
+          container.innerHTML = `
+            <div class="p-6 text-center text-slate-400 text-xs font-bold">
+              No subjects mapped in AllSubject.js for ${streamKey}.
+            </div>
+          `;
+          updateSelectedCount();
+          return;
+        }
+
+        container.innerHTML = subjects
+          .map((subj, sIdx) => {
+            const categories = subj.categories || [];
+            const subId = subj.id;
+            const subName = subj.name;
+            const apiSubjName = subj.apiSubject || subj.name;
+            const subIcon = subj.icon || "📚";
+
+            const categoryItemsHtml = categories
+              .map((c, cIdx) => {
+                const isFirstSub = sIdx === 0 && cIdx === 0;
+                return `
+                <label class="flex items-center justify-between p-2.5 pl-3 rounded-xl bg-slate-50 hover:bg-slate-100/80 border border-slate-200/80 cursor-pointer transition-all text-xs">
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <input
+                      type="checkbox"
+                      class="topic-item-checkbox sub-group-${subId} w-3.5 h-3.5 text-indigo-600 rounded bg-white border-slate-300 focus:ring-indigo-500 cursor-pointer"
+                      data-subject-id="${subId}"
+                      data-subject-name="${subName}"
+                      data-api-subject="${apiSubjName}"
+                      data-category-id="${c.id}"
+                      data-category-title="${c.title}"
+                      data-pos-marks="${subj.marksPerCorrect !== undefined ? subj.marksPerCorrect : 1}"
+                      data-neg-marks="${subj.negativeMarks !== undefined ? subj.negativeMarks : 0}"
+                      onchange="onTopicCheckChanged('${subId}')"
+                      ${isFirstSub ? "checked" : ""}
+                    />
+                    <div class="min-w-0">
+                      <span class="font-bold text-slate-800 truncate block">${c.title}</span>
+                      <span class="text-[9px] font-mono text-slate-400 block">ID: ${c.id}</span>
+                    </div>
+                  </div>
+                  <span class="text-[9px] font-extrabold px-2 py-0.5 bg-white text-indigo-600 rounded-md border border-slate-200 shrink-0">
+                    ${totalQs} Qs
+                  </span>
+                </label>
+              `;
+              })
+              .join("");
+
+            return `
+              <div class="bg-white border border-slate-200/90 rounded-2xl overflow-hidden transition-all shadow-xs">
+                <div class="p-3 bg-slate-100/60 flex items-center justify-between border-b border-slate-200/80 cursor-pointer select-none hover:bg-slate-100" onclick="toggleSubjectAccordion('${subId}')">
+                  <div class="flex items-center gap-2.5 min-w-0" onclick="event.stopPropagation()">
+                    <input
+                      type="checkbox"
+                      id="master-sub-${subId}"
+                      onchange="toggleSubjectAllTopics('${subId}', this.checked)"
+                      class="w-4 h-4 text-indigo-600 rounded bg-white border-slate-300 focus:ring-indigo-500 cursor-pointer"
+                    />
+                    <div class="text-sm shrink-0">${subIcon}</div>
+                    <div class="min-w-0">
+                      <h4 class="text-xs font-black text-slate-900 truncate">${subName}</h4>
+                      <span class="text-[10px] text-slate-500 font-semibold">${categories.length} Chapters Available</span>
+                    </div>
+                  </div>
+                  <button type="button" class="text-slate-400 hover:text-indigo-600 p-1 transition-transform duration-200 rotate-180" id="sub-arrow-${subId}">
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                  </button>
+                </div>
+                <div id="sub-content-${subId}" class="p-2 space-y-1.5 bg-white">
+                  ${categoryItemsHtml}
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+
+        subjects.forEach((s) => syncSubjectMasterCheckbox(s.id));
+        updateSelectedCount();
+        updateTestTitlePreview();
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function toggleSubjectAllTopics(subId, isChecked) {
+        const checkboxes = document.querySelectorAll(`.sub-group-${subId}`);
+        checkboxes.forEach((cb) => (cb.checked = isChecked));
+
+        const content = document.getElementById(`sub-content-${subId}`);
+        const icon = document.getElementById(`sub-arrow-${subId}`);
+        if (content && content.classList.contains("hidden")) {
+          content.classList.remove("hidden");
+          if (icon) icon.classList.add("rotate-180");
+        }
+
+        updateSelectedCount();
+        updateTestTitlePreview();
+      }
+
+      function onTopicCheckChanged(subId) {
+        syncSubjectMasterCheckbox(subId);
+        updateSelectedCount();
+        updateTestTitlePreview();
+      }
+
+      function syncSubjectMasterCheckbox(subId) {
+        const checkboxes = document.querySelectorAll(`.sub-group-${subId}`);
+        const checked = document.querySelectorAll(
+          `.sub-group-${subId}:checked`,
+        );
+        const master = document.getElementById(`master-sub-${subId}`);
+        if (master) {
+          master.checked =
+            checkboxes.length > 0 && checkboxes.length === checked.length;
+          master.indeterminate =
+            checked.length > 0 && checked.length < checkboxes.length;
+        }
+      }
+
+      function toggleSelectAllTopics(shouldSelect) {
+        const boxes = document.querySelectorAll(".topic-item-checkbox");
+        boxes.forEach((box) => (box.checked = shouldSelect));
+
+        const streamKey = document.getElementById("cfg_exam_stream").value;
+        const allData = getSubjectsData();
+        const subjects = allData[streamKey] || [];
+        subjects.forEach((s) => syncSubjectMasterCheckbox(s.id));
+
+        updateSelectedCount();
+        updateTestTitlePreview();
+      }
+
+      function updateSelectedCount() {
+        const checked = document.querySelectorAll(
+          ".topic-item-checkbox:checked",
+        );
+        const btnText = document.getElementById("btn-trigger-text");
+        if (btnText) {
+          btnText.textContent = `Generate Tests For (${checked.length}) Selected Topics`;
+        }
+      }
+
+      function updateTestTitlePreview() {
+        const checked = document.querySelectorAll(
+          ".topic-item-checkbox:checked",
+        );
+        const titleInput = document.getElementById("cfg_test_title_preview");
+        const stageEl = document.getElementById("cfg_class_stage");
+        const stage = stageEl ? stageEl.value : "Tier 1";
+
+        if (checked.length === 1) {
+          const categoryTitle = checked[0].dataset.categoryTitle;
+          titleInput.value = `${categoryTitle} – Level ${stage}`;
+
+          if (checked[0].dataset.posMarks) {
+            document.getElementById("cfg_marks").value =
+              checked[0].dataset.posMarks;
+            document.getElementById("cfg_negative_marks").value =
+              checked[0].dataset.negMarks;
+          }
+        } else if (checked.length > 1) {
+          const firstCat = checked[0].dataset.categoryTitle;
+          titleInput.value = `${firstCat} & ${checked.length - 1} other chapters`;
+        } else {
+          titleInput.value = "";
+          titleInput.placeholder = "Select a chapter to set title";
+        }
+      }
+
+      function togglePriceFields() {
+        const type = document.getElementById("cfg_access_type").value;
+        const isFree = type === "free";
+        const pInput = document.getElementById("cfg_price");
+        const dInput = document.getElementById("cfg_discounted_price");
+
+        pInput.disabled = isFree;
+        dInput.disabled = isFree;
+        if (isFree) {
+          pInput.value = 0;
+          dInput.value = 0;
+        }
+      }
+
+      function onQuestionsCountChange() {
+        const count =
+          document.getElementById("cfg_total_questions").value || 15;
+        document.getElementById("badge-total-qs").textContent =
+          `${count} Questions / Mock`;
+        renderSubjectCategoryTree();
+      }
+
+      // ================= BATCH GENERATOR EXECUTION =================
+      async function startAutomatedBatchGeneration() {
+        if (isBatchRunning) return;
+
+        const checkedBoxes = Array.from(
+          document.querySelectorAll(".topic-item-checkbox:checked"),
+        );
+        if (checkedBoxes.length === 0) {
+          return showToast(
+            "Please select at least 1 chapter to generate!",
+            "error",
+          );
+        }
+
+        const streamKey = document.getElementById("cfg_exam_stream").value;
+
+        // Backend Schema Compatibility (Enum mapping)
+        let examCategory = streamKey;
+        if (
+          [
+            "SSC",
+            "RAILWAYS",
+            "BANKING",
+            "JEE_NEET",
+            "DEFENCE",
+            "TEACHING",
+            "ENTRANCE",
+          ].includes(streamKey)
+        ) {
+          examCategory = "OTHER";
+        }
+
+        const status = document.getElementById("cfg_status").value;
+        const board = document.getElementById("cfg_board").value.trim();
+        const stage = document.getElementById("cfg_class_stage").value.trim();
+        const mode = document.getElementById("cfg_mode").value;
+        const duration =
+          Number(document.getElementById("cfg_duration").value) || 15;
+        const totalQuestions =
+          Number(document.getElementById("cfg_total_questions").value) || 15;
+        const accessType = document.getElementById("cfg_access_type").value;
+        const price = Number(document.getElementById("cfg_price").value) || 0;
+        const discountedPrice =
+          Number(document.getElementById("cfg_discounted_price").value) || 0;
+        const includedInPass = document.getElementById(
+          "cfg_included_in_pass",
+        ).checked;
+        const difficulty = document.getElementById("cfg_difficulty").value;
+        const tags = document.getElementById("cfg_tags").value.trim();
+
+        isBatchRunning = true;
+        updateBatchControls(true);
+
+        const total = checkedBoxes.length;
+        let completed = 0;
+        updateProgress(0, total, "Starting Backend AI Generation...");
+
+        try {
+          for (let i = 0; i < total; i++) {
+            const checkbox = checkedBoxes[i];
+            const subjectId = checkbox.dataset.subjectId;
+            const subjectName = checkbox.dataset.subjectName;
+            const apiSubject = checkbox.dataset.apiSubject || subjectName;
+            const categoryId = checkbox.dataset.categoryId;
+            const categoryTitle = checkbox.dataset.categoryTitle;
+
+            const posMarks =
+              Number(checkbox.dataset.posMarks) ||
+              Number(document.getElementById("cfg_marks").value) ||
+              1;
+            const negMarks =
+              Number(checkbox.dataset.negMarks) ||
+              Number(document.getElementById("cfg_negative_marks").value) ||
+              0;
+
+            const topicKey = `${subjectId}_${categoryId}`;
+            const dynamicTestTitle = `${categoryTitle} – Level ${stage}`;
+
+            updateProgress(
+              completed,
+              total,
+              `Generating [${i + 1}/${total}]: ${categoryTitle}...`,
+            );
+            logToConsole(
+              `\n[TASK ${i + 1}/${total}] Stream: [${streamKey}] | Board: [${board}] | Chapter: [${categoryTitle}]...`,
+            );
+
+            const payload = {
+              title: dynamicTestTitle,
+              test_name: dynamicTestTitle,
+              subject: apiSubject,
+              subject_id: subjectId,
+              category: categoryTitle,
+              category_id: categoryId,
+              category_title: categoryTitle,
+              exam_category: examCategory,
+              exam_stream: streamKey, // Direct stream passed
+              status: status,
+              board_or_exam: board,
+              classGrade: stage,
+              config_mode: mode,
+              question_type: mode,
+              generation_format: mode,
+              duration: duration,
+              total_time_mins: duration,
+              total_questions: totalQuestions,
+              total_marks: totalQuestions * posMarks,
+              marks: posMarks,
+              negative_marks: negMarks,
+              access_type: accessType,
+              price: price,
+              discounted_price: discountedPrice,
+              included_in_pass: includedInPass,
+              difficulty_level: difficulty,
+              target_tags: tags,
+            };
+
+            try {
+              logToConsole(`-> Calling: POST ${API_GENERATE_AI_TEST}`);
+
+              const res = await fetch(API_GENERATE_AI_TEST, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+              });
+
+              let result;
+              if (res.ok) {
+                result = await res.json();
+              } else {
+                const errText = await res.text();
+                throw new Error(`HTTP Error ${res.status}: ${errText}`);
+              }
+
+              const testId =
+                result.test_id ||
+                result.data?.test_id ||
+                `TEST_${board}_${subjectId.toUpperCase()}`;
+              logToConsole(`-> [OK] Test Created: ${testId} for ${board}`);
+
+              generatedTestsStore.push({
+                topicKey,
+                subjectId,
+                subjectName,
+                categoryTitle,
+                testId: testId,
+                payload: result,
+              });
+
+              renderGeneratedTabs();
+              selectActiveTab(topicKey);
+
+              completed++;
+              updateProgress(completed, total, `Completed: ${categoryTitle}!`);
+              showToast(`Created & Saved: ${categoryTitle}`, "success");
+
+              if (i < total - 1) {
+                logToConsole(`-> ⏳ Cooldown 3.5s for API safety...`);
+                await sleep(3500);
+              }
+            } catch (err) {
+              logToConsole(`-> ❌ ERROR on [${categoryTitle}]: ${err.message}`);
+              showToast(`Failed on ${categoryTitle}: ${err.message}`, "error");
+            }
+          }
+
+          updateProgress(
+            total,
+            total,
+            "All selected tests generated successfully!",
+          );
+        } finally {
+          isBatchRunning = false;
+          updateBatchControls(false);
+        }
+      }
+
+      function updateProgress(done, total, statusText) {
+        const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+        document.getElementById("queue-progress-bar").style.width =
+          `${percent}%`;
+        document.getElementById("queue-progress-count").textContent =
+          `${done} / ${total} Completed`;
+        document.getElementById("queue-status-title").textContent = statusText;
+
+        const dot = document.getElementById("queue-status-dot");
+        if (done === total && total > 0) {
+          dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
+        } else if (isBatchRunning) {
+          dot.className = "w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping";
+        } else {
+          dot.className = "w-2.5 h-2.5 rounded-full bg-slate-300";
+        }
+      }
+
+      function updateBatchControls(running) {
+        const btn = document.getElementById("btn-trigger-generation");
+        if (running) {
+          btn.disabled = true;
+          btn.classList.add("opacity-50", "cursor-not-allowed");
+          btn.innerHTML = `<div class="spinner-border w-4 h-4"></div><span>Generating via Backend...</span>`;
+        } else {
+          btn.disabled = false;
+          btn.classList.remove("opacity-50", "cursor-not-allowed");
+          const checkedCount = document.querySelectorAll(
+            ".topic-item-checkbox:checked",
+          ).length;
+          btn.innerHTML = `
+            <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
+            <span id="btn-trigger-text">Generate Tests For (${checkedCount}) Selected Topics</span>
+          `;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+
+      function logToConsole(text) {
+        const consoleEl = document.getElementById("ai-console-output");
+        consoleEl.textContent += `\n${text}`;
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+      }
+
+      function renderGeneratedTabs() {
+        const tabsContainer = document.getElementById("generated-subject-tabs");
+        if (generatedTestsStore.length === 0) {
+          tabsContainer.innerHTML = `<span class="text-[11px] font-semibold text-slate-400 italic">No tests generated yet.</span>`;
+          return;
+        }
+
+        tabsContainer.innerHTML = generatedTestsStore
+          .map((item) => {
+            const isActive = item.topicKey === activeTabTopicKey;
+            return `
+            <button
+              onclick="selectActiveTab('${item.topicKey}')"
+              class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
+                isActive
+                  ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/30"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }"
+            >
+              <span>${item.categoryTitle}</span>
+              <span class="text-[10px] bg-black/10 px-1.5 py-0.2 rounded font-mono">Live</span>
+            </button>
+          `;
+          })
+          .join("");
+      }
+
+      function selectActiveTab(topicKey) {
+        activeTabTopicKey = topicKey;
+        renderGeneratedTabs();
+
+        const activeItem = generatedTestsStore.find(
+          (t) => t.topicKey === topicKey,
+        );
+        if (activeItem) {
+          document.getElementById("console-header-label").textContent =
+            `Viewing: ${activeItem.subjectName} — ${activeItem.categoryTitle}`;
+          document.getElementById("active-test-meta-badge").textContent =
+            `ID: ${activeItem.testId}`;
+          document.getElementById("ai-console-output").textContent =
+            JSON.stringify(activeItem.payload, null, 2);
+        }
+      }
+
+      function clearPayloadConsole() {
+        generatedTestsStore = [];
+        activeTabTopicKey = null;
+        renderGeneratedTabs();
+        document.getElementById("ai-console-output").textContent =
+          "Console cleared. Select chapters and run generation.";
+        document.getElementById("console-header-label").textContent =
+          "Terminal / Idle";
+        document.getElementById("active-test-meta-badge").textContent =
+          "Waiting for action...";
+        updateProgress(0, 0, "Engine: Idle");
+        showToast("Console cleared", "info");
+      }
+
+      function copyActiveJsonToClipboard() {
+        const text = document.getElementById("ai-console-output").textContent;
+        if (!text || text.startsWith("Select chapters")) {
+          return showToast("No generated JSON available to copy!", "error");
+        }
+        navigator.clipboard.writeText(text);
+        showToast("JSON Payload copied to clipboard!", "success");
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        populateExamStreamDropdown();
+        handleExamStreamChange();
+        togglePriceFields();
+        if (window.lucide) lucide.createIcons();
+      });
+    </script>
+  </body>
+</html>

@@ -471,7 +471,6 @@
         };
       }
 
-      // URL Resolver based on exam_category
       function getRunnerUrl(examCategory, testId) {
         const category = (
           examCategory ||
@@ -622,6 +621,7 @@
         return [];
       }
 
+      // Page Load aur Category change par pehla subject automatically fetch aur expand karega
       function openFirstSubjectByDefault() {
         const activeList = getCurrentSubjectList();
         if (activeList && activeList.length > 0) {
@@ -808,7 +808,9 @@
                           ? "Loading tests..."
                           : subj.hasError
                             ? "Failed to load tests"
-                            : `${categoryCount} Topics / Tests`
+                            : subj.loaded
+                              ? `${categoryCount} Topics / Tests`
+                              : `Click to load tests`
                       }
                     </span>
                   </div>
@@ -826,7 +828,9 @@
                         ? "⏳ Loading"
                         : subj.hasError
                           ? "⚠️ Error"
-                          : `${categoryCount} Topics`
+                          : subj.loaded
+                            ? `${categoryCount} Topics`
+                            : "Explore"
                     }
                   </span>
                   <div class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition-transform duration-200 ${
