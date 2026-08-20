@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="hi">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -21,7 +21,7 @@
     />
 
     <!-- Dynamic Bottom Navigation Component -->
-    <script src="js/nav_gov.js"></script>
+    <script src="/js/nav_gov.js"></script>
 
     <style>
       body {
@@ -54,11 +54,43 @@
       class="w-full max-w-[430px] bg-slate-50 h-screen max-h-screen flex flex-col justify-start shadow-2xl relative overflow-hidden"
     >
       <!-- 1. TOP FIXED HEADER -->
-      <div id="top-header-placeholder"></div>
+      <header
+        class="bg-white px-4 py-3.5 border-b border-slate-200/80 shrink-0 shadow-2xs z-20 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-2.5">
+          <button
+            onclick="window.location.href = 'home_gov.html'"
+            class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 flex items-center justify-center transition-all cursor-pointer shrink-0"
+            title="Back to Home"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+          <div>
+            <h1
+              class="text-sm font-black text-slate-900 tracking-tight leading-tight"
+            >
+              Aspirant Profile
+            </h1>
+            <p
+              class="text-[10px] font-bold text-indigo-600 leading-none mt-0.5"
+            >
+              Account &amp; Study Stats
+            </p>
+          </div>
+        </div>
+
+        <button
+          onclick="loadProfileData()"
+          class="w-9 h-9 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-600 flex items-center justify-center transition-all cursor-pointer active:scale-95"
+          title="Refresh Profile"
+        >
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+        </button>
+      </header>
 
       <!-- 2. MAIN CONTENT -->
       <main
-        class="flex-1 px-4 pt-3 pb-24 space-y-3.5 overflow-y-auto no-scrollbar"
+        class="flex-1 px-4 pt-3.5 pb-24 space-y-3.5 overflow-y-auto no-scrollbar"
       >
         <!-- PROFILE HERO CARD -->
         <div
@@ -78,7 +110,7 @@
             id="profile-grade"
             class="text-xs text-indigo-200 font-semibold mt-0.5"
           >
-            UPSC / State PSC Aspirant
+            All India Competitive Exams
           </p>
           <p class="text-[11px] text-indigo-300 font-bold mt-1">
             Roll / ID:
@@ -156,11 +188,11 @@
             <div
               class="border-t border-slate-100 pt-2.5 flex items-center justify-between"
             >
-              <span class="text-slate-400 font-semibold">Target Exam</span>
+              <span class="text-slate-400 font-semibold">Target Stream</span>
               <span
                 id="detail-grade"
                 class="font-extrabold text-slate-800 text-xs"
-                >Govt &amp; PSC Exams</span
+                >SSC &amp; Competitive</span
               >
             </div>
             <div
@@ -253,13 +285,13 @@
             console.error("Local storage error:", e);
           }
         }
-        return userId || "GUEST_ASPIRANT";
+        return userId || "GUEST_STUDENT";
       }
 
       function loadProfileData() {
         const userId = getActiveUserId();
         let userName = "Aspirant";
-        let targetExam = "Govt & PSC Exams";
+        let targetExam = "SSC & Competitive Exams";
 
         try {
           const rawUser = localStorage.getItem("examIndiaUser");
@@ -271,7 +303,10 @@
               userObj.user_name ||
               "Aspirant";
             targetExam =
-              userObj.targetExam || userObj.classGrade || "Govt & PSC Exams";
+              userObj.targetExam ||
+              userObj.stream ||
+              userObj.classGrade ||
+              "SSC & Competitive Exams";
           }
         } catch (e) {}
 
@@ -290,7 +325,7 @@
       async function fetchUserStats(userId) {
         try {
           const res = await fetch(
-            `${SCOREBOARD_API_URL}/${encodeURIComponent(userId)}`,
+            `${SCOREBOARD_API_URL}?student_id=${encodeURIComponent(userId)}`,
           );
           const resData = await res.json();
 
@@ -301,7 +336,7 @@
             document.getElementById("stat-profile-accuracy").innerText =
               `${summary.overall_accuracy || 0}%`;
             document.getElementById("stat-profile-stars").innerText =
-              summary.total_stars || summary.total_points || 0;
+              summary.total_stars || 0;
           }
         } catch (err) {
           console.error("Profile Stats Fetch Error:", err);
@@ -309,7 +344,7 @@
       }
 
       function handleLogout() {
-        if (confirm("Kya aap logout karna chahte hain?")) {
+        if (confirm("Are you sure you want to log out?")) {
           localStorage.removeItem("examIndiaUser");
           localStorage.removeItem("token");
           localStorage.removeItem("user_session");

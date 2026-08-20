@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
-    <title>ExamIndia CBT Portal - UPSC / State PSC</title>
+    <title id="page-browser-title">ExamIndia CBT Portal</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Lucide Icons -->
@@ -97,7 +97,7 @@
           <button
             onclick="goHomeConfirm()"
             class="p-2 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 rounded-xl transition-all cursor-pointer flex items-center justify-center active:scale-95 shadow-2xs"
-            title="Return to Home Dashboard"
+            title="Return to Dashboard"
           >
             <i data-lucide="arrow-left" class="w-4 h-4"></i>
           </button>
@@ -117,8 +117,11 @@
               >
                 ExamIndia
               </h1>
-              <p class="text-[9px] font-bold text-indigo-600 leading-tight">
-                UPSC &amp; State PSC Test Prep
+              <p
+                id="brand-header-subtitle"
+                class="text-[9px] font-bold text-indigo-600 leading-tight"
+              >
+                All India CBT Portal
               </p>
             </div>
           </div>
@@ -141,7 +144,7 @@
             id="header-exam-badge"
             class="px-2 py-0.5 rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 font-extrabold text-[10px] whitespace-nowrap hidden sm:inline-block"
           >
-            UPSC / State PSC
+            National Mock
           </span>
 
           <button
@@ -176,12 +179,12 @@
           <span
             id="badge-positive-mark"
             class="text-emerald-700 bg-emerald-100/90 px-1.5 py-0.5 rounded border border-emerald-200 text-[10px]"
-            >+2.00</span
+            >+1.00</span
           >
           <span
             id="badge-negative-mark"
             class="text-rose-700 bg-rose-100/90 px-1.5 py-0.5 rounded border border-rose-200 text-[10px]"
-            >-0.66</span
+            >-0.25</span
           >
         </div>
 
@@ -269,7 +272,10 @@
               >
                 Q.1
               </span>
-              <span id="question-text" class="flex-1 leading-snug"></span>
+              <span
+                id="question-text"
+                class="flex-1 leading-snug whitespace-pre-line"
+              ></span>
             </div>
           </div>
 
@@ -402,7 +408,7 @@
             id="res-exam-profile-badge"
             class="text-[11px] text-indigo-600 font-bold"
           >
-            UPSC / State PSC Pattern (+2.00 / -0.66)
+            Exam Pattern Score Summary
           </p>
         </div>
 
@@ -490,7 +496,7 @@
               class="w-full py-2.5 bg-slate-800 active:bg-slate-900 text-white font-extrabold rounded-xl text-xs uppercase cursor-pointer transition-all active:scale-95 shadow-md flex items-center justify-center gap-1"
             >
               <i data-lucide="home" class="w-3.5 h-3.5"></i>
-              <span>Home</span>
+              <span>Dashboard</span>
             </button>
           </div>
         </div>
@@ -537,7 +543,7 @@
         <div class="pt-3 border-t border-slate-100 mt-3 shrink-0">
           <button
             onclick="closeReviewModal()"
-            class="w-full py-2.5 bg-slate-800 active:bg-slate-900 text-white font-extrabold text-xs uppercase rounded-xl shadow-md cursor-pointer active:scale-95"
+            class="w-full py-2.5 bg-slate-900 active:bg-slate-900 text-white font-extrabold text-xs uppercase rounded-xl shadow-md cursor-pointer active:scale-95"
           >
             Back to Scorecard
           </button>
@@ -547,26 +553,111 @@
 
     <!-- JAVASCRIPT CBT ENGINE -->
     <script>
-      const HOME_REDIRECT_URL = "index.html"; // Dashboard/Home URL
       const PASS_PERCENTAGE_THRESHOLD = 40; // Passing Criteria: 40% Marks
 
       const urlParams = new URLSearchParams(window.location.search);
-      const TARGET_TEST_ID =
-        urlParams.get("test_id") ||
-        "TEST_ALL_EXAMS_GENERAL_AWARENESS_(GA)_POLITY_CL0_4599";
+      const TARGET_TEST_ID = urlParams.get("test_id") || "TEST_SAMPLE_MOCK_01";
+      const rawSegmentParam = (
+        urlParams.get("segment") ||
+        urlParams.get("type") ||
+        urlParams.get("stream") ||
+        "SSC"
+      )
+        .toUpperCase()
+        .trim();
 
       const QUESTION_API_URL =
         "https://api.jawedsiddiqui.cloud/api/test/questions";
       const SUBMIT_RESULT_API_URL =
         "https://api.jawedsiddiqui.cloud/api/test/questions/submit";
 
-      // DEFAULT EXAM PATTERN: UPSC / State PSC
-      const activePreset = {
-        id: "UPSC_PSC",
-        title: "UPSC / State PSC",
-        marks: 2.0,
-        negative: 0.66,
+      // 1. STREAM SPECIFIC MARKING & METADATA RULES
+      const EXAM_PRESETS = {
+        BANKING: {
+          id: "BANKING",
+          title: "Banking & Insurance",
+          subtitle: "IBPS, SBI PO/Clerk & RBI",
+          marks: 1.0,
+          negative: 0.25,
+          aliases: ["BANKING", "BANK", "IBPS", "SBI", "RBI"],
+        },
+        SSC: {
+          id: "SSC",
+          title: "SSC Exams",
+          subtitle: "CGL, CHSL, MTS & GD",
+          marks: 2.0,
+          negative: 0.5,
+          aliases: ["SSC", "CGL", "CHSL", "MTS", "GD"],
+        },
+        RAILWAYS: {
+          id: "RAILWAYS",
+          title: "Railway Exams",
+          subtitle: "RRB NTPC, Group D & ALP",
+          marks: 1.0,
+          negative: 0.33,
+          aliases: ["RAILWAYS", "RAILWAY", "RRB", "NTPC"],
+        },
+        JEE_NEET: {
+          id: "JEE_NEET",
+          title: "JEE & NEET UG",
+          subtitle: "NTA National Pattern",
+          marks: 4.0,
+          negative: 1.0,
+          aliases: ["JEE_NEET", "JEE", "NEET", "NTA"],
+        },
+        DEFENCE: {
+          id: "DEFENCE",
+          title: "Defence & Police",
+          subtitle: "NDA, CDS, Police SI",
+          marks: 2.5,
+          negative: 0.83,
+          aliases: ["DEFENCE", "NDA", "CDS", "POLICE"],
+        },
+        TEACHING: {
+          id: "TEACHING",
+          title: "Teaching & TET",
+          subtitle: "CTET, State TET & KVS",
+          marks: 1.0,
+          negative: 0.0,
+          aliases: ["TEACHING", "TET", "CTET", "KVS"],
+        },
+        ENTRANCE: {
+          id: "ENTRANCE",
+          title: "CUET & Entrance",
+          subtitle: "CUET UG/PG, CLAT & Law",
+          marks: 5.0,
+          negative: 1.0,
+          aliases: ["ENTRANCE", "CUET", "CLAT", "IPMAT"],
+        },
+        GOVT_PSC: {
+          id: "GOVT_PSC",
+          title: "Govt PSC & UPSC",
+          subtitle: "Civil Services & State PCS",
+          marks: 2.0,
+          negative: 0.66,
+          aliases: [
+            "GOVT_PSC",
+            "GOV_PSC",
+            "UPSC",
+            "PSC",
+            "BPSC",
+            "UPPSC",
+            "RAS",
+          ],
+        },
       };
+
+      function resolvePreset(key) {
+        if (EXAM_PRESETS[key]) return EXAM_PRESETS[key];
+        for (const [pKey, preset] of Object.entries(EXAM_PRESETS)) {
+          if (preset.aliases && preset.aliases.includes(key)) {
+            return preset;
+          }
+        }
+        return EXAM_PRESETS.SSC;
+      }
+
+      let activePreset = resolvePreset(rawSegmentParam);
 
       let questionsList = [];
       let currentQIndex = 0;
@@ -587,9 +678,9 @@
       let qTimerInterval = null;
 
       let testMeta = {
-        title: "UPSC GS Mock Test",
+        title: "Competitive Mock Test",
         subject: "General Studies",
-        exam_category: "GOVT_PSC",
+        exam_category: activePreset.id,
       };
 
       function showCustomDialog({
@@ -652,7 +743,7 @@
         const leave = await showCustomDialog({
           title: "Exit Examination?",
           message:
-            "Your current progress will be lost if you leave before submitting.",
+            "Your current test progress will be lost if you leave without submitting.",
           type: "confirm",
           confirmText: "Yes, Exit",
           cancelText: "Stay on Test",
@@ -668,10 +759,11 @@
       }
 
       function goHomeDirect() {
+        const returnUrl = `dashboard_gov_exam.html?type=${encodeURIComponent(activePreset.id)}`;
         if (window.history.length > 1) {
           window.history.back();
         } else {
-          window.location.href = HOME_REDIRECT_URL;
+          window.location.href = returnUrl;
         }
       }
 
@@ -750,7 +842,7 @@
           if (typeof rawQ.correct_answer === "number")
             correctIdx = rawQ.correct_answer;
           else if (
-            ["A", "B", "C", "D"].includes(
+            ["A", "B", "C", "D", "E"].includes(
               String(rawQ.correct_answer).toUpperCase(),
             )
           ) {
@@ -774,6 +866,8 @@
               ? finalOptsHi
               : ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"],
           correct_option_index: isNaN(correctIdx) ? 0 : correctIdx,
+          marks: Number(rawQ.marks) || activePreset.marks,
+          negative_marks: Number(rawQ.negative_marks) || activePreset.negative,
           explanation_en:
             rawQ.explanation_en ||
             rawQ.explanation ||
@@ -815,27 +909,32 @@
           }
 
           if (rawQuestions.length > 0) {
+            const metaSource = resData.data || resData;
+
+            // Stream re-sync from backend metadata if available
+            const backendCategory =
+              metaSource.exam_category ||
+              rawQuestions[0]?.exam_category ||
+              rawSegmentParam;
+
+            activePreset = resolvePreset(backendCategory);
+
             questionsList = rawQuestions
               .map((q, idx) => normalizeQuestionData(q, idx))
               .filter(Boolean);
-
-            const metaSource = resData.data || resData;
 
             testMeta.title =
               metaSource.title ||
               metaSource.test_name ||
               rawQuestions[0]?.test_name ||
-              "General Studies Mock Paper";
+              `${activePreset.title} Practice Paper`;
 
             testMeta.subject =
               metaSource.subject ||
               rawQuestions[0]?.subject ||
               "General Studies";
 
-            testMeta.exam_category =
-              metaSource.exam_category ||
-              rawQuestions[0]?.exam_category ||
-              "GOVT_PSC";
+            testMeta.exam_category = activePreset.id;
 
             totalDurationMins = Number(
               metaSource.total_time_mins || metaSource.duration || 20,
@@ -850,55 +949,41 @@
               question_id: "Q_1",
               question_no: 1,
               question_text_en:
-                "Which Article of the Indian Constitution deals with the Right to Equality before Law?",
-              question_text_hi:
-                "भारतीय संविधान का कौन सा अनुच्छेद कानून के समक्ष समानता के अधिकार से संबंधित है?",
+                "Standard sample question statement for testing CBT interface.",
+              question_text_hi: "CBT इंटरफेस के परीक्षण के लिए मानक प्रश्न।",
               options_en: [
-                "Article 14",
-                "Article 19",
-                "Article 21",
-                "Article 32",
+                "Option A",
+                "Option B",
+                "Option C",
+                "Option D",
+                "Option E",
               ],
               options_hi: [
-                "अनुच्छेद 14",
-                "अनुच्छेद 19",
-                "अनुच्छेद 21",
-                "अनुच्छेद 32",
+                "विकल्प A",
+                "विकल्प B",
+                "विकल्प C",
+                "विकल्प D",
+                "विकल्प E",
               ],
               correct_option_index: 0,
-              explanation_en:
-                "Article 14 guarantees equality before law and equal protection of laws.",
-              explanation_hi:
-                "अनुच्छेद 14 कानून के समक्ष समानता और कानूनों के समान संरक्षण की गारंटी देता है।",
-            },
-            {
-              question_id: "Q_2",
-              question_no: 2,
-              question_text_en:
-                "The concept of 'Directive Principles of State Policy' (DPSP) was borrowed from which country's constitution?",
-              question_text_hi:
-                "भारतीय संविधान में 'राज्य के नीति निर्देशक तत्व' (DPSP) किस देश के संविधान से लिए गए हैं?",
-              options_en: ["USA", "Ireland", "United Kingdom", "Canada"],
-              options_hi: [
-                "संयुक्त राज्य अमेरिका",
-                "आयरलैंड",
-                "यूनाइटेड किंगडम",
-                "कनाडा",
-              ],
-              correct_option_index: 1,
-              explanation_en:
-                "Directive Principles of State Policy are enumerated in Part IV and borrowed from Ireland.",
-              explanation_hi:
-                "नीति निर्देशक तत्व भाग IV में उल्लिखित हैं और आयरलैंड से लिए गए हैं।",
+              marks: activePreset.marks,
+              negative_marks: activePreset.negative,
+              explanation_en: "Correct option is A.",
+              explanation_hi: "सही विकल्प A है।",
             },
           ];
-          testMeta.title = "General Awareness & Indian Polity Mock";
+          testMeta.title = `${activePreset.title} Mock Test`;
         } finally {
           totalDurationSeconds = totalDurationMins * 60;
           remainingSeconds = totalDurationSeconds;
 
+          // Header and page titles update
           document.getElementById("test-title").innerText = testMeta.title;
           document.getElementById("test-title").title = testMeta.title;
+          document.getElementById("page-browser-title").innerText =
+            `${testMeta.title} - ExamIndia`;
+          document.getElementById("brand-header-subtitle").innerText =
+            activePreset.subtitle;
           document.getElementById("header-exam-badge").innerText =
             activePreset.title;
           document.getElementById("badge-positive-mark").innerText =
@@ -913,7 +998,6 @@
 
           document.getElementById("loading-overlay").classList.add("hidden");
 
-          // DIRECT LAUNCH WITHOUT MODAL
           startMainTimer();
           startPerQuestionTimer();
           renderQuestion(0);
@@ -1192,7 +1276,7 @@
         const attempted = Object.keys(userAnswers).length;
         const confirmed = await showCustomDialog({
           title: "Finish & Submit Exam?",
-          message: `You have answered ${attempted} of ${questionsList.length} questions. Are you sure you want to finish?`,
+          message: `You have answered ${attempted} of ${questionsList.length} questions. Are you sure you want to submit?`,
           type: "confirm",
           confirmText: "Submit Now",
           cancelText: "Resume Test",
@@ -1243,7 +1327,8 @@
           const breakdownItem = {
             question_id: q.question_id || `Q_${idx + 1}`,
             question_no: q.question_no || idx + 1,
-            question_type: q.question_type || "mcq_single",
+            question_type: "mcq_single",
+            question_text: q.question_text_en || "",
             marks_obtained: Number(marksObtained.toFixed(2)),
             max_marks: activePreset.marks,
             time_spent_seconds: timeSpentOnQ,
@@ -1251,6 +1336,7 @@
             is_correct: isCorrect,
             user_response: isAttempted ? userChoice : null,
             correct_response: q.correct_option_index,
+            explanation: q.explanation_en || "",
           };
 
           breakdown.push(breakdownItem);
@@ -1298,24 +1384,27 @@
             : 0;
         const totalTimeTakenSeconds = totalDurationSeconds - remainingSeconds;
 
-        // Calculate score percentage
         const scorePercentage = maxScore > 0 ? (netScore / maxScore) * 100 : 0;
         const isCandidatePassed =
           scorePercentage >= PASS_PERCENTAGE_THRESHOLD && netScore > 0;
 
         let studentId = "GUEST_STUDENT";
-        let studentName = "Candidate";
+        let studentName = "Aspirant";
         try {
           const localUser = JSON.parse(
-            localStorage.getItem("kidsPaintUser") || "{}",
+            localStorage.getItem("examIndiaUser") || "{}",
           );
-          if (localUser.id) studentId = localUser.id;
-          if (localUser.studentName) studentName = localUser.studentName;
+          if (localUser.id || localUser.student_id) {
+            studentId = localUser.id || localUser.student_id;
+          }
+          if (localUser.name || localUser.userName) {
+            studentName = localUser.name || localUser.userName;
+          }
         } catch (e) {}
 
         const payload = {
           test_id: TARGET_TEST_ID,
-          exam_category: testMeta.exam_category,
+          exam_category: activePreset.id,
           class_or_exam_name: testMeta.title,
           subject: testMeta.subject,
           student_id: studentId,
@@ -1332,6 +1421,7 @@
           total_correct: correctCount,
           total_wrong: wrongCount,
           total_unattempted: unattemptedCount,
+          percentage: Number(scorePercentage.toFixed(2)),
           accuracy: accuracy,
           time_taken_seconds: totalTimeTakenSeconds,
           total_time_mins: totalDurationMins,
@@ -1363,13 +1453,11 @@
         document.getElementById("res-time-taken").innerText =
           `${mins}m ${secs}s`;
 
-        // Update Header Icon based on Pass / Fail
         const statusIconEl = document.getElementById("res-status-icon");
         if (statusIconEl) {
           statusIconEl.innerText = isCandidatePassed ? "🎉" : "📊";
         }
 
-        // Trigger celebration only when passing criteria is met and score > 0
         if (isCandidatePassed && typeof confetti === "function") {
           confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
         }
@@ -1428,7 +1516,7 @@
                 </span>
               </div>
 
-              <p class="text-xs sm:text-sm font-bold text-slate-800 leading-snug">${qTitle}</p>
+              <p class="text-xs sm:text-sm font-bold text-slate-800 leading-snug whitespace-pre-line">${qTitle}</p>
 
               <div class="space-y-1 text-xs font-bold pt-0.5">
                 <div class="p-2 rounded-lg border border-rose-200 bg-rose-50 text-rose-800 flex items-start gap-1.5">

@@ -21,8 +21,8 @@
     />
 
     <!-- Master Scripts -->
-    <script src="js/AllSubject.js"></script>
-    <script src="js/nav_gov.js"></script>
+    <script src="/js/AllSubject.js"></script>
+    <script src="/js/nav_gov.js"></script>
 
     <style>
       body {
@@ -66,13 +66,47 @@
       class="w-full max-w-[430px] bg-slate-50 h-screen max-h-screen flex flex-col justify-start shadow-2xl relative overflow-hidden"
     >
       <!-- 1. FIXED TOP HEADER -->
-      <div id="top-header-placeholder"></div>
+      <header
+        class="bg-white px-4 py-3.5 border-b border-slate-200/80 shrink-0 shadow-2xs z-20 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-2.5">
+          <button
+            onclick="window.location.href = 'home_gov.html'"
+            class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 flex items-center justify-center transition-all cursor-pointer shrink-0"
+            title="Back to Home"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+          <div>
+            <h1
+              id="top-header-stream-title"
+              class="text-sm font-black text-slate-900 tracking-tight leading-tight"
+            >
+              Mock Test Papers
+            </h1>
+            <p
+              id="top-header-stream-sub"
+              class="text-[10px] font-bold text-indigo-600 leading-none mt-0.5"
+            >
+              All India Practice Series
+            </p>
+          </div>
+        </div>
+
+        <button
+          onclick="loadInitialData()"
+          class="w-9 h-9 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-600 flex items-center justify-center transition-all cursor-pointer active:scale-95"
+          title="Refresh Tests"
+        >
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+        </button>
+      </header>
 
       <!-- 2. SCROLLABLE MAIN ARENA -->
       <main
-        class="flex-1 px-4 pt-3 pb-24 space-y-3.5 overflow-y-auto no-scrollbar"
+        class="flex-1 px-4 pt-3.5 pb-24 space-y-3.5 overflow-y-auto no-scrollbar"
       >
-        <!-- 🔥 TODAY'S FRESH TEST BLOCK -->
+        <!-- 🔥 TODAY'S FEATURED / DAILY CHALLENGE BLOCK -->
         <div
           id="today-featured-block"
           class="bg-gradient-to-br from-indigo-700 via-indigo-800 to-slate-900 rounded-2xl p-4 text-white shadow-md shadow-indigo-950/20 relative overflow-hidden"
@@ -260,7 +294,7 @@
         </div>
       </main>
 
-      <!-- 3. DYNAMIC BOTTOM NAVIGATION -->
+      <!-- 3. DYNAMIC BOTTOM NAVIGATION PLACEHOLDER -->
       <div id="bottom-nav-placeholder"></div>
     </div>
 
@@ -272,7 +306,6 @@
       <div
         class="w-full max-w-[430px] bg-white rounded-t-3xl p-4 border-t border-slate-200 shadow-2xl space-y-3.5 animate-slide-up max-h-[80vh] flex flex-col"
       >
-        <!-- MODAL HEADER -->
         <div
           class="flex items-center justify-between border-b border-slate-100 pb-2.5"
         >
@@ -290,7 +323,6 @@
           </button>
         </div>
 
-        <!-- SUBJECTS GRID CARDS -->
         <div
           id="modal-subjects-grid"
           class="grid grid-cols-2 gap-2.5 overflow-y-auto pr-1 flex-1"
@@ -310,13 +342,51 @@
       </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT ENGINE -->
     <script>
       const TEST_API_URL = "https://api.jawedsiddiqui.cloud/api/kidspaint";
       const USER_RESULTS_API_URL =
         "https://api.jawedsiddiqui.cloud/api/test/questions/results/user";
 
-      let currentSegment = "GOVT_PSC";
+      // 1. Resolve Direct Stream from URL Parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const rawStream = (
+        urlParams.get("type") ||
+        urlParams.get("stream") ||
+        "SSC"
+      ).toUpperCase();
+
+      const STREAM_CONFIGS = {
+        SSC: { name: "SSC Exams", desc: "CGL, CHSL, MTS & GD Constable" },
+        RAILWAYS: {
+          name: "Railway Exams",
+          desc: "RRB NTPC, Group D, ALP & RPF",
+        },
+        BANKING: {
+          name: "Banking & Insurance",
+          desc: "SBI PO, IBPS Clerk & RBI Grade B",
+        },
+        JEE_NEET: {
+          name: "JEE & NEET UG",
+          desc: "Physics, Chemistry, Maths & Bio",
+        },
+        DEFENCE: {
+          name: "Defence & Police",
+          desc: "NDA, CDS, Police SI & Constable",
+        },
+        TEACHING: {
+          name: "Teaching & TET",
+          desc: "CTET Paper 1 & 2, State TET & KVS",
+        },
+        ENTRANCE: { name: "CUET & Entrance", desc: "CUET UG/PG, CLAT & IPMAT" },
+        GOVT_PSC: {
+          name: "Govt PSC & UPSC",
+          desc: "Civil Services & State PCS",
+        },
+      };
+
+      const currentSegment = STREAM_CONFIGS[rawStream] ? rawStream : "SSC";
+
       let allTests = [];
       let userAttemptedMap = {};
       let selectedSubject = "ALL";
@@ -325,20 +395,12 @@
       const ITEMS_PER_PAGE = 10;
       let featuredTest = null;
 
-      // Dynamic Runner Resolver
-      function getRunnerUrl(examCategory, testId) {
-        return `gov_exam_runner.html?test_id=${encodeURIComponent(testId)}`;
-      }
-
       function getActiveSubjectList() {
         if (
           typeof subjectsBySegment !== "undefined" &&
           subjectsBySegment[currentSegment]
         ) {
           return subjectsBySegment[currentSegment];
-        }
-        if (typeof subjectsData !== "undefined") {
-          return subjectsData;
         }
         return [];
       }
@@ -349,13 +411,13 @@
           (s) =>
             (s.apiSubject &&
               s.apiSubject.toLowerCase() === (name || "").toLowerCase()) ||
-            (s.name && s.name.toLowerCase() === (name || "").toLowerCase()),
+            (s.name && s.name.toLowerCase() === (name || "").toLowerCase()) ||
+            (s.id && s.id.toLowerCase() === (name || "").toLowerCase()),
         );
         return found || { icon: "📚" };
       }
 
       function getActiveUserId() {
-        const urlParams = new URLSearchParams(window.location.search);
         let userId = urlParams.get("user_id") || urlParams.get("student_id");
         if (!userId) {
           try {
@@ -366,14 +428,21 @@
             }
           } catch (e) {}
         }
-        return userId || "GUEST_ASPIRANT";
+        return userId || "GUEST_STUDENT";
       }
 
-      // 1. Initial Data Fetcher
+      // 2. Initial Data Fetcher
       async function loadInitialData() {
         const loadingEl = document.getElementById("test-loading");
         loadingEl.classList.remove("hidden");
         document.getElementById("test-list-container").innerHTML = "";
+
+        // Header Title Sync
+        const streamInfo = STREAM_CONFIGS[currentSegment];
+        document.getElementById("top-header-stream-title").textContent =
+          streamInfo.name;
+        document.getElementById("top-header-stream-sub").textContent =
+          streamInfo.desc;
 
         const userId = getActiveUserId();
 
@@ -390,7 +459,17 @@
             testsRes.value?.success &&
             Array.isArray(testsRes.value.data)
           ) {
-            allTests = testsRes.value.data;
+            // Filter tests matching the active stream
+            allTests = testsRes.value.data.filter(
+              (t) =>
+                (t.exam_category || "").toUpperCase() === currentSegment ||
+                (t.applied_exam_profile || "").toUpperCase() === currentSegment,
+            );
+
+            // If empty for this stream, use all returned
+            if (allTests.length === 0) {
+              allTests = testsRes.value.data;
+            }
           } else {
             allTests = [];
           }
@@ -421,7 +500,7 @@
         }
       }
 
-      // 2. Render Featured Test Card
+      // 3. Render Featured Test Card
       function renderTodayFeaturedTest() {
         if (allTests.length === 0) {
           document
@@ -444,11 +523,11 @@
           featuredTest.test_name ||
           "Daily Live Mock Test";
         document.getElementById("today-test-subtitle").innerText =
-          `${featuredTest.subject || "General Studies"} • ${featuredTest.category_title || "PSC & Govt Series"}`;
+          `${featuredTest.subject || "General Studies"} • ${featuredTest.category_title || "Official Pattern"}`;
 
         const qCount =
-          featuredTest.total_questions || featuredTest.questions?.length || 10;
-        const tMins = featuredTest.total_time_mins || 20;
+          featuredTest.total_questions || featuredTest.questions?.length || 15;
+        const tMins = featuredTest.total_time_mins || 15;
 
         document.getElementById("today-q-count").innerText = `${qCount} Ques`;
         document.getElementById("today-time-count").innerText = `⏱️ ${tMins} M`;
@@ -460,7 +539,7 @@
         }
       }
 
-      // 3. Populate Subjects Horizontal Bar
+      // 4. Populate Subjects Horizontal Bar
       function populateDynamicSubjects() {
         const container = document.getElementById("subject-pills-container");
         const activeSubjects = getActiveSubjectList();
@@ -476,9 +555,10 @@
         `;
 
         activeSubjects.forEach((sub) => {
-          const subjIdentifier = sub.apiSubject || sub.id || sub.name;
+          const subjIdentifier = sub.apiSubject || sub.name;
           const isActive =
-            selectedSubject.toLowerCase() === subjIdentifier.toLowerCase();
+            selectedSubject.toLowerCase() === subjIdentifier.toLowerCase() ||
+            selectedSubject.toLowerCase() === sub.id.toLowerCase();
 
           pillsHtml += `
             <button
@@ -487,7 +567,7 @@
               data-subject="${subjIdentifier}"
             >
               <span>${sub.icon || "📚"}</span>
-              <span>${sub.shortName || sub.name}</span>
+              <span>${sub.name}</span>
             </button>
           `;
         });
@@ -495,21 +575,24 @@
         container.innerHTML = pillsHtml;
       }
 
-      // 4. Populate Subjects Grid in Bottom Sheet
+      // 5. Populate Subjects Grid in Bottom Sheet
       function populateModalSubjectsGrid() {
         const gridContainer = document.getElementById("modal-subjects-grid");
         const activeSubjects = getActiveSubjectList();
 
         gridContainer.innerHTML = activeSubjects
           .map((sub) => {
-            const subjIdentifier = sub.apiSubject || sub.id || sub.name;
+            const subjIdentifier = sub.apiSubject || sub.name;
             const totalInSubj = allTests.filter(
               (t) =>
                 (t.subject || "").trim().toLowerCase() ===
-                subjIdentifier.toLowerCase(),
+                  subjIdentifier.toLowerCase() ||
+                (t.subject_id || "").trim().toLowerCase() ===
+                  sub.id.toLowerCase(),
             ).length;
             const isCurrentActive =
-              selectedSubject.toLowerCase() === subjIdentifier.toLowerCase();
+              selectedSubject.toLowerCase() === subjIdentifier.toLowerCase() ||
+              selectedSubject.toLowerCase() === sub.id.toLowerCase();
 
             return `
             <div
@@ -553,7 +636,7 @@
         applyFilters();
       }
 
-      // 5. Combined Filter and Sorting
+      // 6. Combined Filter and Sorting
       function applyFilters() {
         const searchVal = document
           .getElementById("test-search-input")
@@ -564,11 +647,13 @@
           const title = (test.title || test.test_name || "").toLowerCase();
           const testId = (test.test_id || "").toLowerCase();
           const subject = (test.subject || "").toLowerCase();
+          const subjectId = (test.subject_id || "").toLowerCase();
           const category = (test.category_title || "").toLowerCase();
 
           const matchSubject =
             selectedSubject === "ALL" ||
-            subject === selectedSubject.toLowerCase();
+            subject === selectedSubject.toLowerCase() ||
+            subjectId === selectedSubject.toLowerCase();
 
           const matchSearch =
             !searchVal ||
@@ -599,7 +684,7 @@
         renderPaginatedList(filtered);
       }
 
-      // 6. Render Paginated Cards
+      // 7. Render Paginated Cards
       function renderPaginatedList(testList) {
         const container = document.getElementById("test-list-container");
         const paginationControls = document.getElementById(
@@ -624,8 +709,8 @@
             const subjName = test.subject || "General Studies";
             const style = getSubjectConfigByName(subjName);
 
-            const qCount = test.total_questions || test.questions?.length || 10;
-            const timeMins = test.total_time_mins || 20;
+            const qCount = test.total_questions || test.questions?.length || 15;
+            const timeMins = test.total_time_mins || 15;
 
             const pastResult = userAttemptedMap[test.test_id?.toUpperCase()];
             const isCompleted = !!pastResult;
@@ -661,7 +746,7 @@
                   </h4>
                   
                   <p class="text-[11px] font-medium text-slate-400 truncate mt-0.5">
-                    ${test.category_title || subjName} • Govt Exam Mock
+                    ${test.category_title || subjName} • ${examCategory} Mock
                   </p>
 
                   <div class="flex items-center gap-1.5 mt-1.5">
@@ -742,7 +827,7 @@
       }
 
       function startTest(testId, examCategory) {
-        window.location.href = getRunnerUrl(examCategory, testId);
+        window.location.href = `gov_exam_runner.html?test_id=${encodeURIComponent(testId)}&segment=${encodeURIComponent(examCategory || currentSegment)}`;
       }
 
       function openSubjectModal() {
