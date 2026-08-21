@@ -2,612 +2,269 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
+    <title>EXAM NEXT — Practice Today. Succeed Tomorrow.</title>
 
-    <title>ExamIndia — UPSC Civil Services</title>
-
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS & Lucide Icons -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap"
       rel="stylesheet"
     />
 
     <style>
-      :root {
-        --navy-950: #07111f;
-        --navy-900: #0b1728;
-        --navy-800: #10233b;
-        --saffron: #f59e0b;
-        --saffron-light: #fbbf24;
-        --cream: #fffaf0;
-        --muted: #9aa9bb;
-      }
-
       * {
         -webkit-tap-highlight-color: transparent;
+        font-family:
+          "Plus Jakarta Sans",
+          system-ui,
+          -apple-system,
+          sans-serif;
       }
-
-      body {
-        margin: 0;
-        min-height: 100dvh;
-        font-family: "Plus Jakarta Sans", sans-serif;
-        background:
-          radial-gradient(
-            circle at 50% 0%,
-            rgba(30, 64, 175, 0.22),
-            transparent 34%
-          ),
-          linear-gradient(145deg, #07111f 0%, #0a1727 45%, #06101c 100%);
-        color: white;
-        overflow: hidden;
-      }
-
-      .font-heading {
-        font-family: "Outfit", sans-serif;
-      }
-
-      .font-serif {
-        font-family: "DM Serif Display", serif;
-      }
-
-      .font-mono {
+      .font-mono-code {
         font-family: "Space Grotesk", monospace;
       }
-
-      /* Ambient background */
-      @keyframes ambient {
+      .bg-dots {
+        background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px);
+        background-size: 16px 16px;
+      }
+      @keyframes floatSlow {
         0%,
         100% {
-          transform: translate3d(0, 0, 0) scale(1);
+          transform: translateY(0px);
         }
-
         50% {
-          transform: translate3d(0, -12px, 0) scale(1.03);
+          transform: translateY(-6px);
         }
       }
-
-      .ambient {
-        animation: ambient 7s ease-in-out infinite;
-      }
-
-      /* Premium seal */
-      @keyframes seal-breathe {
-        0%,
-        100% {
-          transform: scale(1);
-          box-shadow:
-            0 12px 40px rgba(0, 0, 0, 0.3),
-            0 0 0 1px rgba(245, 158, 11, 0.18);
-        }
-
-        50% {
-          transform: scale(1.015);
-          box-shadow:
-            0 18px 50px rgba(0, 0, 0, 0.38),
-            0 0 35px rgba(245, 158, 11, 0.12);
-        }
-      }
-
-      .seal-animation {
-        animation: seal-breathe 4s ease-in-out infinite;
-      }
-
-      /* Floating icons */
-      @keyframes float-icon {
-        0%,
-        100% {
-          transform: translateY(0);
-          opacity: 0.16;
-        }
-
-        50% {
-          transform: translateY(-8px);
-          opacity: 0.28;
-        }
-      }
-
-      .float-icon {
-        animation: float-icon 5s ease-in-out infinite;
-      }
-
-      /* Progress shimmer */
-      @keyframes shimmer {
-        0% {
-          transform: translateX(-120%);
-        }
-
-        100% {
-          transform: translateX(120%);
-        }
-      }
-
-      .progress-shimmer::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 45%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.35),
-          transparent
-        );
-        animation: shimmer 1.5s linear infinite;
-      }
-
-      /* Ashoka-inspired wheel */
-      .wheel {
-        width: 54px;
-        height: 54px;
-        border: 2px solid rgba(245, 158, 11, 0.55);
-        border-radius: 50%;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .wheel::before {
-        content: "";
-        width: 7px;
-        height: 7px;
-        background: #f59e0b;
-        border-radius: 50%;
-        position: absolute;
-      }
-
-      .wheel::after {
-        content: "";
-        width: 42px;
-        height: 42px;
-        border: 1px dashed rgba(245, 158, 11, 0.4);
-        border-radius: 50%;
-        position: absolute;
-      }
-
-      /* Tricolor */
-      .tricolor-line {
-        height: 3px;
-        background: linear-gradient(
-          90deg,
-          #f59e0b 0%,
-          #f59e0b 33%,
-          #f8fafc 33%,
-          #f8fafc 66%,
-          #16a34a 66%,
-          #16a34a 100%
-        );
+      .animate-float {
+        animation: floatSlow 3.5s ease-in-out infinite;
       }
     </style>
   </head>
 
   <body
-    class="relative flex flex-col items-center justify-between px-6 py-5 select-none"
+    class="flex justify-center items-center min-h-screen bg-slate-950 select-none"
   >
-    <!-- =====================================
-         BACKGROUND
-    ====================================== -->
-
+    <!-- MOBILE CONTAINER (430px Viewport) -->
     <div
-      class="ambient pointer-events-none absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-blue-700/10 blur-3xl"
-    ></div>
-
-    <div
-      class="ambient pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-amber-500/5 blur-3xl"
-      style="animation-delay: 1.5s"
-    ></div>
-
-    <div
-      class="pointer-events-none absolute top-1/2 -right-32 h-72 w-72 rounded-full bg-blue-500/5 blur-3xl"
-    ></div>
-
-    <!-- =====================================
-         DECORATIVE UPSC ICONS
-    ====================================== -->
-
-    <i
-      data-lucide="landmark"
-      class="float-icon pointer-events-none absolute right-8 top-24 h-9 w-9 text-amber-300"
-    ></i>
-
-    <i
-      data-lucide="scale"
-      class="float-icon pointer-events-none absolute bottom-32 left-7 h-10 w-10 text-blue-300"
-      style="animation-delay: 1.2s"
-    ></i>
-
-    <i
-      data-lucide="book-open"
-      class="float-icon pointer-events-none absolute left-8 top-[42%] h-8 w-8 text-slate-300"
-      style="animation-delay: 2s"
-    ></i>
-
-    <i
-      data-lucide="award"
-      class="float-icon pointer-events-none absolute bottom-[30%] right-8 h-9 w-9 text-amber-300"
-      style="animation-delay: 2.7s"
-    ></i>
-
-    <!-- =====================================
-         HEADER
-    ====================================== -->
-
-    <header class="relative z-10 pt-3">
-      <div
-        class="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 backdrop-blur-md"
-      >
-        <span class="text-base">🇮🇳</span>
-
-        <span
-          class="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-slate-300"
-        >
-          Civil Services Preparation
-        </span>
-
-        <span class="ml-1 h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-      </div>
-    </header>
-
-    <!-- =====================================
-         MAIN HERO
-    ====================================== -->
-
-    <main
-      class="relative z-10 my-auto flex w-full max-w-sm flex-col items-center text-center"
+      class="w-full max-w-[430px] h-screen max-h-screen bg-white relative overflow-hidden flex flex-col justify-between p-6 shadow-2xl"
     >
-      <!-- Premium Seal -->
+      <!-- SUBTLE BACKGROUND ACCENTS -->
+      <div
+        class="absolute inset-0 bg-dots opacity-40 pointer-events-none"
+      ></div>
+      <div
+        class="absolute -top-20 -right-20 w-60 h-60 bg-indigo-100/60 rounded-full blur-3xl pointer-events-none"
+      ></div>
+      <div
+        class="absolute -bottom-20 -left-20 w-60 h-60 bg-blue-50 rounded-full blur-3xl pointer-events-none"
+      ></div>
 
-      <div class="relative mb-7">
+      <!-- 1. TOP BAR -->
+      <header class="relative z-10 flex items-center justify-between pt-1">
         <div
-          class="seal-animation relative flex h-32 w-32 items-center justify-center rounded-[34px] border border-amber-400/20 bg-gradient-to-br from-[#122945] via-[#0c1d31] to-[#07111f]"
+          class="flex items-center gap-2 bg-slate-50 border border-slate-200/90 rounded-full px-3.5 py-1.5 shadow-2xs"
         >
-          <div
-            class="absolute inset-2 rounded-[28px] border border-white/[0.06]"
-          ></div>
-
-          <!-- Ashoka inspired wheel -->
-
-          <div class="wheel">
-            <div class="absolute h-[1px] w-10 rotate-0 bg-amber-400/40"></div>
-
-            <div class="absolute h-[1px] w-10 rotate-45 bg-amber-400/40"></div>
-
-            <div class="absolute h-[1px] w-10 -rotate-45 bg-amber-400/40"></div>
-
-            <div class="absolute h-[1px] w-10 rotate-90 bg-amber-400/40"></div>
-
-            <div
-              class="absolute h-[1px] w-10 rotate-[135deg] bg-amber-400/40"
-            ></div>
-
-            <div
-              class="absolute h-[1px] w-10 rotate-[22deg] bg-amber-400/30"
-            ></div>
-
-            <div
-              class="absolute h-[1px] w-10 -rotate-[22deg] bg-amber-400/30"
-            ></div>
-
-            <div
-              class="absolute h-[1px] w-10 rotate-[67deg] bg-amber-400/30"
-            ></div>
-          </div>
-
-          <div
-            class="absolute bottom-3 rounded-md border border-white/10 bg-black/20 px-2 py-0.5"
+          <span class="text-sm">🇮🇳</span>
+          <span
+            class="text-[10px] font-extrabold tracking-wider text-slate-700 uppercase"
           >
-            <span
-              class="font-mono text-[7px] font-bold tracking-[0.2em] text-slate-400"
+            All Government Exams
+          </span>
+        </div>
+
+        <div
+          class="flex items-center gap-1.5 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full"
+        >
+          <span
+            class="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse"
+          ></span>
+          <span
+            class="text-[9px] font-black text-indigo-700 font-mono-code uppercase"
+            >Smart Engine</span
+          >
+        </div>
+      </header>
+
+      <!-- 2. MAIN CENTER HERO -->
+      <main
+        class="relative z-10 flex flex-col items-center text-center my-auto"
+      >
+        <!-- Logo Mascot -->
+        <div class="relative mb-5 animate-float">
+          <div
+            class="w-24 h-24 rounded-3xl bg-slate-900 text-white flex items-center justify-center shadow-xl border-4 border-white"
+          >
+            <div
+              class="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-inner"
             >
-              INDIA
-            </span>
+              <i data-lucide="zap" class="w-7 h-7 fill-current"></i>
+            </div>
+          </div>
+          <div
+            class="absolute -bottom-1 -right-1 bg-amber-400 text-slate-950 px-2 py-0.5 rounded-md text-[9px] font-black tracking-wide border border-white shadow-xs"
+          >
+            NEXT
           </div>
         </div>
 
-        <!-- Shield badge -->
+        <!-- Master Title -->
+        <h1
+          class="text-3xl font-black text-slate-950 tracking-tight flex items-center gap-1"
+        >
+          EXAM <span class="text-indigo-600">NEXT</span>
+        </h1>
+
+        <!-- Slogan -->
+        <p class="text-sm font-bold text-slate-700 mt-1">
+          Practice Today. Succeed Tomorrow.
+        </p>
+
+        <!-- Minimal Sub-Pill -->
+        <div
+          class="mt-3 inline-flex items-center gap-1.5 bg-slate-100 border border-slate-200/80 px-3.5 py-1 rounded-full"
+        >
+          <span class="text-[11px] font-bold text-slate-500">
+            Mock Tests • Practice Sets • Smart Analytics
+          </span>
+        </div>
+
+        <!-- Universal 3-Step Roadmap -->
+        <div class="grid grid-cols-3 gap-2.5 w-full mt-8">
+          <div
+            class="bg-slate-50/90 border border-slate-200/80 rounded-2xl p-3 flex flex-col items-center shadow-2xs"
+          >
+            <div
+              class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-1.5"
+            >
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[11px] font-black text-slate-800">Learn</span>
+            <span class="text-[9px] font-semibold text-slate-400 mt-0.5"
+              >Concepts</span
+            >
+          </div>
+
+          <div
+            class="bg-slate-50/90 border border-slate-200/80 rounded-2xl p-3 flex flex-col items-center shadow-2xs"
+          >
+            <div
+              class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-1.5"
+            >
+              <i data-lucide="target" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[11px] font-black text-slate-800">Practice</span>
+            <span class="text-[9px] font-semibold text-slate-400 mt-0.5"
+              >Real Mocks</span
+            >
+          </div>
+
+          <div
+            class="bg-slate-50/90 border border-slate-200/80 rounded-2xl p-3 flex flex-col items-center shadow-2xs"
+          >
+            <div
+              class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-1.5"
+            >
+              <i data-lucide="trophy" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[11px] font-black text-slate-800">Succeed</span>
+            <span class="text-[9px] font-semibold text-slate-400 mt-0.5"
+              >Top AIR</span
+            >
+          </div>
+        </div>
+      </main>
+
+      <!-- 3. FOOTER WITH 4-SEC TIMER -->
+      <footer class="relative z-10 w-full space-y-2.5 pb-2">
+        <!-- Progress Bar -->
+        <div
+          class="h-2 w-full overflow-hidden rounded-full bg-slate-100 border border-slate-200 p-0.5"
+        >
+          <div
+            id="splash-progress-bar"
+            class="h-full rounded-full bg-slate-900 transition-all duration-75 ease-linear"
+            style="width: 0%"
+          ></div>
+        </div>
+
+        <div class="flex w-full items-center justify-between px-0.5">
+          <span id="loading-text" class="text-[10px] font-bold text-slate-500">
+            Initializing your practice workspace...
+          </span>
+          <span
+            id="progress-percentage"
+            class="text-[11px] font-black text-indigo-700 font-mono-code"
+          >
+            0%
+          </span>
+        </div>
 
         <div
-          class="absolute -right-2 -top-2 flex h-9 w-9 items-center justify-center rounded-xl border border-amber-300/30 bg-amber-500 shadow-lg shadow-amber-500/10"
+          class="flex items-center justify-center gap-1.5 pt-1 text-[10px] font-bold text-slate-400 border-t border-slate-100"
         >
           <i
             data-lucide="shield-check"
-            class="h-4 w-4 text-[#07111f] stroke-[2.5]"
+            class="w-3.5 h-3.5 text-emerald-600"
           ></i>
+          <span>Your Complete Exam Preparation Partner</span>
         </div>
-      </div>
+      </footer>
+    </div>
 
-      <!-- Brand -->
-
-      <div class="mb-1 flex items-center justify-center gap-1">
-        <span
-          class="font-heading text-[40px] font-extrabold tracking-[-0.04em] text-white"
-        >
-          Exam
-        </span>
-
-        <span
-          class="font-heading text-[40px] font-extrabold tracking-[-0.04em] text-amber-400"
-        >
-          India
-        </span>
-      </div>
-
-      <!-- UPSC -->
-
-      <div class="mb-3 flex items-center gap-3">
-        <span class="h-px w-8 bg-amber-400/40"></span>
-
-        <span
-          class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-amber-300"
-        >
-          UPSC
-        </span>
-
-        <span class="h-px w-8 bg-amber-400/40"></span>
-      </div>
-
-      <!-- Main title -->
-
-      <h2 class="font-serif text-[22px] leading-tight text-slate-100">
-        Civil Services Examination
-      </h2>
-
-      <p
-        class="mt-3 max-w-[310px] text-[11px] font-medium leading-relaxed tracking-wide text-slate-400"
-      >
-        Focused preparation for India's premier administrative services — from
-        Prelims to Mains to Interview.
-      </p>
-
-      <!-- =====================================
-           SERVICES
-      ====================================== -->
-
-      <div class="mt-6 grid w-full grid-cols-4 gap-2">
-        <!-- IAS -->
-
-        <div
-          class="rounded-xl border border-white/[0.07] bg-white/[0.035] px-2 py-2.5 backdrop-blur-sm"
-        >
-          <div
-            class="mx-auto mb-1 flex h-6 w-6 items-center justify-center rounded-lg bg-amber-500/10"
-          >
-            <i data-lucide="landmark" class="h-3.5 w-3.5 text-amber-400"></i>
-          </div>
-
-          <div class="font-heading text-[10px] font-bold text-slate-200">
-            IAS
-          </div>
-        </div>
-
-        <!-- IPS -->
-
-        <div
-          class="rounded-xl border border-white/[0.07] bg-white/[0.035] px-2 py-2.5 backdrop-blur-sm"
-        >
-          <div
-            class="mx-auto mb-1 flex h-6 w-6 items-center justify-center rounded-lg bg-blue-500/10"
-          >
-            <i data-lucide="shield" class="h-3.5 w-3.5 text-blue-400"></i>
-          </div>
-
-          <div class="font-heading text-[10px] font-bold text-slate-200">
-            IPS
-          </div>
-        </div>
-
-        <!-- IFS -->
-
-        <div
-          class="rounded-xl border border-white/[0.07] bg-white/[0.035] px-2 py-2.5 backdrop-blur-sm"
-        >
-          <div
-            class="mx-auto mb-1 flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-500/10"
-          >
-            <i data-lucide="globe-2" class="h-3.5 w-3.5 text-emerald-400"></i>
-          </div>
-
-          <div class="font-heading text-[10px] font-bold text-slate-200">
-            IFS
-          </div>
-        </div>
-
-        <!-- IRS -->
-
-        <div
-          class="rounded-xl border border-white/[0.07] bg-white/[0.035] px-2 py-2.5 backdrop-blur-sm"
-        >
-          <div
-            class="mx-auto mb-1 flex h-6 w-6 items-center justify-center rounded-lg bg-purple-500/10"
-          >
-            <i
-              data-lucide="briefcase-business"
-              class="h-3.5 w-3.5 text-purple-400"
-            ></i>
-          </div>
-
-          <div class="font-heading text-[10px] font-bold text-slate-200">
-            IRS
-          </div>
-        </div>
-      </div>
-
-      <!-- Preparation Path -->
-
-      <div class="mt-5 flex items-center gap-2">
-        <span
-          class="rounded-full border border-white/10 bg-white/[0.035] px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-slate-400"
-        >
-          Prelims
-        </span>
-
-        <span class="text-slate-600">→</span>
-
-        <span
-          class="rounded-full border border-white/10 bg-white/[0.035] px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-slate-400"
-        >
-          Mains
-        </span>
-
-        <span class="text-slate-600">→</span>
-
-        <span
-          class="rounded-full border border-amber-400/20 bg-amber-400/[0.06] px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-amber-300"
-        >
-          Interview
-        </span>
-      </div>
-    </main>
-
-    <!-- =====================================
-         FOOTER
-    ====================================== -->
-
-    <footer class="relative z-10 w-full max-w-xs pb-4">
-      <!-- Tricolor -->
-
-      <div class="tricolor-line mb-4 w-full rounded-full opacity-70"></div>
-
-      <!-- Progress -->
-
-      <div
-        class="progress-shimmer relative h-1.5 w-full overflow-hidden rounded-full bg-white/[0.08]"
-      >
-        <div
-          id="splash-progress-bar"
-          class="h-full rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-emerald-500 transition-all duration-200 ease-linear"
-          style="width: 0%"
-        ></div>
-      </div>
-
-      <!-- Status -->
-
-      <div class="mt-2 flex w-full items-center justify-between px-0.5">
-        <span
-          id="loading-text"
-          class="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500"
-        >
-          Initializing UPSC Engine...
-        </span>
-
-        <span
-          id="progress-percentage"
-          class="font-mono text-[9px] font-bold text-slate-400"
-        >
-          0%
-        </span>
-      </div>
-
-      <!-- Footer -->
-
-      <div class="mt-3 text-center">
-        <span
-          class="font-mono text-[7px] font-semibold uppercase tracking-[0.18em] text-slate-600"
-        >
-          Prepare • Perform • Serve
-        </span>
-      </div>
-    </footer>
-
-    <!-- =====================================
-         SCRIPT
-         6 SECOND SPLASH
-    ====================================== -->
-
+    <!-- JAVASCRIPT: EXACT 4-SECOND ENGINE (100 STEPS × 40ms = 4,000ms) -->
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        // Initialize Lucide icons
         if (typeof lucide !== "undefined") {
           lucide.createIcons();
         }
 
         const progressBar = document.getElementById("splash-progress-bar");
-
         const percentText = document.getElementById("progress-percentage");
-
         const loadingText = document.getElementById("loading-text");
 
         let progress = 0;
 
-        /*
-          5% every 300ms
-          20 steps × 300ms
-          = 6000ms
-          = 6 seconds
-        */
-
+        // 100 steps * 40ms = 4000ms (4 Seconds)
         const interval = setInterval(() => {
-          progress += 5;
+          progress += 1;
 
-          // Progress bar
-          if (progressBar) {
-            progressBar.style.width = `${progress}%`;
+          if (progressBar) progressBar.style.width = `${progress}%`;
+          if (percentText) percentText.textContent = `${progress}%`;
+
+          // Dynamic updates over 4 seconds
+          if (progress === 25) {
+            loadingText.textContent = "Setting up smart mock test engine...";
+          }
+          if (progress === 50) {
+            loadingText.textContent = "Loading performance tracker...";
+          }
+          if (progress === 75) {
+            loadingText.textContent = "Syncing All-India ranking system...";
+          }
+          if (progress === 95) {
+            loadingText.textContent = "Your workspace is ready!";
           }
 
-          // Percentage
-          if (percentText) {
-            percentText.textContent = `${progress}%`;
-          }
-
-          // Loading messages
-          if (progress >= 5 && progress < 25) {
-            loadingText.textContent = "Initializing UPSC Engine...";
-          }
-
-          if (progress >= 25 && progress < 45) {
-            loadingText.textContent = "Loading UPSC Syllabus...";
-          }
-
-          if (progress >= 45 && progress < 65) {
-            loadingText.textContent = "Preparing Question Bank...";
-          }
-
-          if (progress >= 65 && progress < 85) {
-            loadingText.textContent = "Loading Mock Tests...";
-          }
-
-          if (progress >= 85 && progress < 100) {
-            loadingText.textContent = "Preparing Your Dashboard...";
-          }
-
-          // Complete
           if (progress >= 100) {
             clearInterval(interval);
-
-            progressBar.style.width = "100%";
-            percentText.textContent = "100%";
-
-            loadingText.textContent = "Ready for Civil Services";
-
-            setTimeout(() => {
-              redirectUser();
-            }, 100);
+            redirectUser();
           }
-        }, 300);
-
-        // ===================================
-        // REDIRECT
-        // ===================================
+        }, 40);
 
         function redirectUser() {
           const session =
             localStorage.getItem("examIndiaSession") ||
             localStorage.getItem("kidsPaintSession");
-
           const user =
             localStorage.getItem("examIndiaUser") ||
             localStorage.getItem("kidsPaintUser");

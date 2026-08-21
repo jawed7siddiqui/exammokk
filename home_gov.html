@@ -60,15 +60,14 @@
     </style>
   </head>
   <body class="flex justify-center items-center min-h-screen bg-slate-950">
-    <!-- MOBILE CONTAINER (Phone Viewport: 430px Fit) -->
+    <!-- MOBILE CONTAINER -->
     <div
       class="w-full max-w-[430px] bg-slate-50 h-screen max-h-screen flex flex-col justify-start shadow-2xl relative overflow-hidden"
     >
-      <!-- 1. CLEAN FIXED TOP HEADER -->
+      <!-- 1. HEADER -->
       <header
         class="bg-white px-4 py-3.5 border-b border-slate-200 shrink-0 shadow-2xs z-20 flex items-center justify-between"
       >
-        <!-- LEFT: BRAND LOGO & TITLE -->
         <div class="flex items-center gap-2.5">
           <div
             class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-700 via-indigo-800 to-blue-900 text-white font-extrabold text-lg flex items-center justify-center shadow-xs shrink-0"
@@ -91,7 +90,6 @@
           </div>
         </div>
 
-        <!-- RIGHT: SEARCH & LOGOUT BUTTONS -->
         <div class="flex items-center gap-1.5">
           <button
             onclick="openSearchModal()"
@@ -116,9 +114,9 @@
       >
         <!-- HERO / LIVE BANNER -->
         <div
-          class="relative bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-900 rounded-2xl p-4 text-white shadow-lg border border-white/10 overflow-hidden"
+          class="relative bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-900 rounded-2xl p-4 text-white shadow-lg border border-white/10 overflow-hidden text-center flex flex-col items-center"
         >
-          <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center justify-center gap-2 mb-2">
             <span
               class="inline-flex items-center gap-1.5 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider"
             >
@@ -154,25 +152,25 @@
           </span>
         </div>
 
-        <!-- ALL EXAM CARDS GRID (DIRECT STREAM MAPPED) -->
+        <!-- ALL EXAM CARDS GRID (TAG AT TOP-MOST EDGE) -->
         <div class="grid grid-cols-2 gap-3">
           <!-- 1. GOVT PSC & UPSC -->
           <div
             onclick="navigateToCategory('GOVT_PSC')"
-            class="group bg-white border border-slate-200/90 hover:border-indigo-600 rounded-2xl p-3.5 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between active:scale-97"
+            class="group relative bg-white border border-slate-200/90 hover:border-indigo-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
           >
-            <div>
-              <div class="flex items-start justify-between mb-2.5">
-                <div
-                  class="w-11 h-11 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-xl shadow-xs"
-                >
-                  ⚖️
-                </div>
-                <span
-                  class="text-[10px] font-black bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-100"
-                >
-                  UPSC/PSC
-                </span>
+            <!-- TOP-RIGHT EDGE BADGE -->
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-bl-lg border-b border-l border-indigo-100 uppercase"
+            >
+              UPSC/PSC
+            </span>
+
+            <div class="flex flex-col items-center w-full">
+              <div
+                class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-lg shadow-xs mb-2"
+              >
+                ⚖️
               </div>
               <h4
                 class="text-xs font-black text-slate-900 leading-snug group-hover:text-indigo-600 transition-colors"
@@ -186,7 +184,7 @@
               </p>
             </div>
             <div
-              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]"
+              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-center gap-1.5 text-[11px] w-full"
             >
               <span class="font-extrabold text-indigo-700"
                 >+2 / -0.66 Mark</span
@@ -201,20 +199,20 @@
           <!-- 2. SSC EXAMS -->
           <div
             onclick="navigateToCategory('SSC')"
-            class="group bg-white border border-slate-200/90 hover:border-slate-800 rounded-2xl p-3.5 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between active:scale-97"
+            class="group relative bg-white border border-slate-200/90 hover:border-slate-800 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
           >
-            <div>
-              <div class="flex items-start justify-between mb-2.5">
-                <div
-                  class="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center text-xl shadow-xs"
-                >
-                  ⚡
-                </div>
-                <span
-                  class="text-[10px] font-black bg-amber-50 text-amber-800 px-2 py-0.5 rounded-md border border-amber-200"
-                >
-                  POPULAR
-                </span>
+            <!-- TOP-RIGHT EDGE BADGE -->
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-amber-50 text-amber-800 px-2 py-0.5 rounded-bl-lg border-b border-l border-amber-200 uppercase"
+            >
+              POPULAR
+            </span>
+
+            <div class="flex flex-col items-center w-full">
+              <div
+                class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center text-lg shadow-xs mb-2"
+              >
+                ⚡
               </div>
               <h4
                 class="text-xs font-black text-slate-900 leading-snug group-hover:text-indigo-600 transition-colors"
@@ -228,7 +226,7 @@
               </p>
             </div>
             <div
-              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]"
+              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-center gap-1.5 text-[11px] w-full"
             >
               <span class="font-extrabold text-slate-800">+2 / -0.5 Mark</span>
               <i
@@ -241,20 +239,20 @@
           <!-- 3. RAILWAYS (RRB) -->
           <div
             onclick="navigateToCategory('RAILWAYS')"
-            class="group bg-white border border-slate-200/90 hover:border-rose-600 rounded-2xl p-3.5 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between active:scale-97"
+            class="group relative bg-white border border-slate-200/90 hover:border-rose-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
           >
-            <div>
-              <div class="flex items-start justify-between mb-2.5">
-                <div
-                  class="w-11 h-11 rounded-xl bg-rose-600 text-white flex items-center justify-center text-xl shadow-xs"
-                >
-                  🚆
-                </div>
-                <span
-                  class="text-[10px] font-black bg-rose-50 text-rose-700 px-2 py-0.5 rounded-md border border-rose-200"
-                >
-                  RRB VACANCY
-                </span>
+            <!-- TOP-RIGHT EDGE BADGE -->
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-rose-50 text-rose-700 px-2 py-0.5 rounded-bl-lg border-b border-l border-rose-200 uppercase"
+            >
+              RRB VACANCY
+            </span>
+
+            <div class="flex flex-col items-center w-full">
+              <div
+                class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center text-lg shadow-xs mb-2"
+              >
+                🚆
               </div>
               <h4
                 class="text-xs font-black text-slate-900 leading-snug group-hover:text-rose-600 transition-colors"
@@ -268,7 +266,7 @@
               </p>
             </div>
             <div
-              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]"
+              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-center gap-1.5 text-[11px] w-full"
             >
               <span class="font-extrabold text-rose-700">1/3rd Negative</span>
               <i
@@ -281,20 +279,20 @@
           <!-- 4. BANKING & INSURANCE -->
           <div
             onclick="navigateToCategory('BANKING')"
-            class="group bg-white border border-slate-200/90 hover:border-emerald-600 rounded-2xl p-3.5 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between active:scale-97"
+            class="group relative bg-white border border-slate-200/90 hover:border-emerald-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
           >
-            <div>
-              <div class="flex items-start justify-between mb-2.5">
-                <div
-                  class="w-11 h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl shadow-xs"
-                >
-                  🏦
-                </div>
-                <span
-                  class="text-[10px] font-black bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded-md border border-emerald-200"
-                >
-                  IBPS/SBI
-                </span>
+            <!-- TOP-RIGHT EDGE BADGE -->
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded-bl-lg border-b border-l border-emerald-200 uppercase"
+            >
+              IBPS/SBI
+            </span>
+
+            <div class="flex flex-col items-center w-full">
+              <div
+                class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg shadow-xs mb-2"
+              >
+                🏦
               </div>
               <h4
                 class="text-xs font-black text-slate-900 leading-snug group-hover:text-emerald-600 transition-colors"
@@ -308,7 +306,7 @@
               </p>
             </div>
             <div
-              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]"
+              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-center gap-1.5 text-[11px] w-full"
             >
               <span class="font-extrabold text-emerald-700">Speed Tests</span>
               <i
@@ -321,20 +319,20 @@
           <!-- 5. DEFENCE & POLICE -->
           <div
             onclick="navigateToCategory('DEFENCE')"
-            class="group bg-white border border-slate-200/90 hover:border-slate-700 rounded-2xl p-3.5 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between active:scale-97"
+            class="group relative bg-white border border-slate-200/90 hover:border-slate-700 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
           >
-            <div>
-              <div class="flex items-start justify-between mb-2.5">
-                <div
-                  class="w-11 h-11 rounded-xl bg-slate-700 text-white flex items-center justify-center text-xl shadow-xs"
-                >
-                  🎖️
-                </div>
-                <span
-                  class="text-[10px] font-black bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md"
-                >
-                  DEFENCE
-                </span>
+            <!-- TOP-RIGHT EDGE BADGE -->
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-slate-100 text-slate-700 px-2 py-0.5 rounded-bl-lg border-b border-l border-slate-200 uppercase"
+            >
+              DEFENCE
+            </span>
+
+            <div class="flex flex-col items-center w-full">
+              <div
+                class="w-10 h-10 rounded-xl bg-slate-700 text-white flex items-center justify-center text-lg shadow-xs mb-2"
+              >
+                🎖️
               </div>
               <h4
                 class="text-xs font-black text-slate-900 leading-snug group-hover:text-indigo-600 transition-colors"
@@ -348,7 +346,7 @@
               </p>
             </div>
             <div
-              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]"
+              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-center gap-1.5 text-[11px] w-full"
             >
               <span class="font-extrabold text-slate-700"
                 >Mool Vidhi / GAT</span
@@ -363,20 +361,20 @@
           <!-- 6. JEE & NEET UG -->
           <div
             onclick="navigateToCategory('JEE_NEET')"
-            class="group bg-white border border-slate-200/90 hover:border-blue-600 rounded-2xl p-3.5 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between active:scale-97"
+            class="group relative bg-white border border-slate-200/90 hover:border-blue-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
           >
-            <div>
-              <div class="flex items-start justify-between mb-2.5">
-                <div
-                  class="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl shadow-xs"
-                >
-                  🧬
-                </div>
-                <span
-                  class="text-[10px] font-black bg-blue-50 text-blue-800 px-2 py-0.5 rounded-md border border-blue-200"
-                >
-                  NTA EXAM
-                </span>
+            <!-- TOP-RIGHT EDGE BADGE -->
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-blue-50 text-blue-800 px-2 py-0.5 rounded-bl-lg border-b border-l border-blue-200 uppercase"
+            >
+              NTA EXAM
+            </span>
+
+            <div class="flex flex-col items-center w-full">
+              <div
+                class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg shadow-xs mb-2"
+              >
+                🧬
               </div>
               <h4
                 class="text-xs font-black text-slate-900 leading-snug group-hover:text-blue-600 transition-colors"
@@ -390,7 +388,7 @@
               </p>
             </div>
             <div
-              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]"
+              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-center gap-1.5 text-[11px] w-full"
             >
               <span class="font-extrabold text-blue-700">+4 / -1 Mark</span>
               <i
@@ -403,20 +401,20 @@
           <!-- 7. TEACHING & TET -->
           <div
             onclick="navigateToCategory('TEACHING')"
-            class="group bg-white border border-slate-200/90 hover:border-cyan-600 rounded-2xl p-3.5 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between active:scale-97"
+            class="group relative bg-white border border-slate-200/90 hover:border-cyan-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
           >
-            <div>
-              <div class="flex items-start justify-between mb-2.5">
-                <div
-                  class="w-11 h-11 rounded-xl bg-cyan-600 text-white flex items-center justify-center text-xl shadow-xs"
-                >
-                  👨‍🏫
-                </div>
-                <span
-                  class="text-[10px] font-black bg-cyan-50 text-cyan-800 px-2 py-0.5 rounded-md border border-cyan-200"
-                >
-                  TEACHING
-                </span>
+            <!-- TOP-RIGHT EDGE BADGE -->
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-cyan-50 text-cyan-800 px-2 py-0.5 rounded-bl-lg border-b border-l border-cyan-200 uppercase"
+            >
+              TEACHING
+            </span>
+
+            <div class="flex flex-col items-center w-full">
+              <div
+                class="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center text-lg shadow-xs mb-2"
+              >
+                👨‍🏫
               </div>
               <h4
                 class="text-xs font-black text-slate-900 leading-snug group-hover:text-cyan-700 transition-colors"
@@ -430,7 +428,7 @@
               </p>
             </div>
             <div
-              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]"
+              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-center gap-1.5 text-[11px] w-full"
             >
               <span class="font-extrabold text-cyan-800">No Negative</span>
               <i
@@ -440,23 +438,23 @@
             </div>
           </div>
 
-          <!-- 8. ENTRANCE & CUET (Replaced Board Exams) -->
+          <!-- 8. ENTRANCE & CUET -->
           <div
             onclick="navigateToCategory('ENTRANCE')"
-            class="group bg-white border border-slate-200/90 hover:border-purple-600 rounded-2xl p-3.5 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between active:scale-97"
+            class="group relative bg-white border border-slate-200/90 hover:border-purple-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
           >
-            <div>
-              <div class="flex items-start justify-between mb-2.5">
-                <div
-                  class="w-11 h-11 rounded-xl bg-purple-600 text-white flex items-center justify-center text-xl shadow-xs"
-                >
-                  ⚖️
-                </div>
-                <span
-                  class="text-[10px] font-black bg-purple-50 text-purple-700 px-2 py-0.5 rounded-md border border-purple-100"
-                >
-                  CUET / LAW
-                </span>
+            <!-- TOP-RIGHT EDGE BADGE -->
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-purple-50 text-purple-700 px-2 py-0.5 rounded-bl-lg border-b border-l border-purple-100 uppercase"
+            >
+              CUET / LAW
+            </span>
+
+            <div class="flex flex-col items-center w-full">
+              <div
+                class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center text-xl shadow-xs mb-2"
+              >
+                ⚖️
               </div>
               <h4
                 class="text-xs font-black text-slate-900 leading-snug group-hover:text-purple-600 transition-colors"
@@ -470,7 +468,7 @@
               </p>
             </div>
             <div
-              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]"
+              class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-center gap-1.5 text-[11px] w-full"
             >
               <span class="font-extrabold text-purple-700">+5 / -1 Mark</span>
               <i
@@ -549,12 +547,10 @@
 
     <!-- JAVASCRIPT ENGINE -->
     <script>
-      // 1. UPDATED: Direct Stream Routing (No more 'other' or sub variables needed)
       function navigateToCategory(streamKey) {
         window.location.href = `dashboard_gov_exam.html?type=${encodeURIComponent(streamKey)}`;
       }
 
-      // Search Modal Handlers
       function openSearchModal() {
         document.getElementById("search-modal").classList.remove("hidden");
         document.getElementById("search-input").focus();
@@ -565,7 +561,6 @@
         document.getElementById("search-input").value = "";
       }
 
-      // 2. UPDATED SEARCH ARRAY (Mapped directly to Streams)
       const searchableExams = [
         { name: "Govt PSC & UPSC Civil Services", type: "GOVT_PSC" },
         { name: "SSC CGL / CHSL / MTS / GD", type: "SSC" },
