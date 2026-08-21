@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full">
   <head>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
-    <title>ExamIndia — UPSC CSE Aspirant Portal</title>
+    <title>ExamIndia — Candidate Portal</title>
 
     <!-- Tailwind CSS & Lucide Icons -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -16,664 +16,386 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
 
     <style>
       :root {
-        --navy-950: #07111f;
-        --navy-900: #0b1728;
-        --navy-800: #10233b;
-        --saffron: #f59e0b;
-        --saffron-light: #fbbf24;
+        --brand-primary: #3b82f6;
+        --brand-accent: #2563eb;
       }
-
-      * {
-        -webkit-tap-highlight-color: transparent;
-      }
-
       body {
         font-family: "Plus Jakarta Sans", sans-serif;
-        background:
-          radial-gradient(
-            circle at 50% 0%,
-            rgba(30, 64, 175, 0.22),
-            transparent 40%
-          ),
-          linear-gradient(145deg, #07111f 0%, #0a1727 45%, #06101c 100%);
-        min-height: 100dvh;
+        -webkit-tap-highlight-color: transparent;
       }
-
-      .font-heading {
-        font-family: "Outfit", sans-serif;
-      }
-
-      .font-serif {
-        font-family: "DM Serif Display", serif;
-      }
-
       .font-mono-tag {
         font-family: "Space Grotesk", monospace;
       }
-
-      @keyframes float-subtle {
-        0%,
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      @keyframes smoothFadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(6px);
+        }
         100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-8px);
+          opacity: 1;
+          transform: translateY(0);
         }
       }
-      .animate-float-subtle {
-        animation: float-subtle 5s ease-in-out infinite;
-      }
-
-      .tricolor-line {
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          #f59e0b 0%,
-          #f59e0b 33%,
-          #f8fafc 33%,
-          #f8fafc 66%,
-          #16a34a 66%,
-          #16a34a 100%
-        );
-      }
-
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 4px;
-      }
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: #0b1728;
-        border-radius: 8px;
-      }
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #1e3a5f;
-        border-radius: 8px;
+      .animate-fade {
+        animation: smoothFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       }
     </style>
   </head>
   <body
-    class="flex items-center justify-center p-4 relative overflow-x-hidden antialiased select-none text-slate-100 min-h-screen"
+    class="flex justify-center items-center min-h-screen bg-[#F1F5F9] p-0 sm:p-4 text-slate-900 antialiased select-none"
   >
-    <!-- Background Ambient Glow -->
+    <!-- FIGMA PRO APP FRAME -->
     <div
-      class="pointer-events-none absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-blue-700/15 blur-3xl"
-    ></div>
-    <div
-      class="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-amber-500/10 blur-3xl animate-float-subtle"
-    ></div>
-    <div
-      class="pointer-events-none absolute top-1/2 -right-20 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl animate-float-subtle"
-      style="animation-delay: 2s"
-    ></div>
-
-    <!-- MAIN CARD -->
-    <main
-      class="w-full max-w-md bg-[#0b1728]/85 rounded-3xl shadow-2xl border border-amber-400/20 p-6 md:p-8 relative z-10 overflow-visible backdrop-blur-xl"
+      class="w-full max-w-[420px] h-screen sm:h-[820px] sm:max-h-[92vh] bg-white sm:rounded-[28px] flex flex-col justify-between shadow-[0_20px_50px_rgba(15,23,42,0.08)] border border-slate-200/80 relative overflow-hidden"
     >
-      <!-- Tricolor Accent Top -->
-      <div class="tricolor-line mb-4 w-full rounded-full opacity-80"></div>
-
-      <!-- Action Bar -->
-      <div class="flex items-center justify-between mb-4 relative min-h-[36px]">
+      <!-- 1. TOP STATUS BAR & BRAND HEADER -->
+      <header
+        class="px-6 pt-6 pb-4 flex items-center justify-between border-b border-slate-100 bg-white/90 backdrop-blur-md sticky top-0 z-20"
+      >
         <button
           id="app-back-btn"
           onclick="handleAppBackNavigation()"
-          class="hidden items-center justify-center w-9 h-9 rounded-xl bg-white/[0.05] text-slate-300 hover:bg-amber-500 hover:text-navy-950 border border-white/10 transition-all active:scale-90 shadow-sm cursor-pointer z-20"
+          class="invisible w-9 h-9 rounded-xl bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center border border-slate-200/60 transition-all cursor-pointer active:scale-95"
           title="Back"
         >
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
         </button>
 
-        <div
-          class="ml-auto inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 px-3 py-1 rounded-full text-[10px] font-bold text-slate-300 font-mono-tag backdrop-blur-sm"
-        >
-          <span>🇮🇳</span>
-          <span class="tracking-[0.14em]">UPSC CIVIL SERVICES</span>
-        </div>
-      </div>
-
-      <!-- Brand Header -->
-      <div class="text-center mb-5">
-        <div class="inline-flex items-center justify-center mb-1">
-          <h1
-            class="text-3xl font-extrabold tracking-tight text-white font-heading"
+        <div class="flex items-center gap-2.5">
+          <div
+            class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-[0_4px_12px_rgba(37,99,235,0.24)]"
           >
-            <span>Exam</span><span class="text-amber-400">India</span>
-          </h1>
-        </div>
-
-        <div class="flex items-center justify-center gap-2 mb-2.5">
-          <span class="h-px w-5 bg-amber-400/40"></span>
-          <span
-            class="font-mono-tag text-[9px] font-bold uppercase tracking-[0.22em] text-amber-300"
-          >
-            CSE Aspirant Portal
-          </span>
-          <span class="h-px w-5 bg-amber-400/40"></span>
-        </div>
-
-        <!-- Target Badges -->
-        <div class="flex items-center justify-center gap-1.5 flex-wrap">
-          <span
-            class="px-2.5 py-0.5 rounded-md border border-amber-400/30 bg-amber-500/10 text-amber-300 text-[10px] font-bold tracking-wider font-mono-tag"
-            >IAS</span
-          >
-          <span
-            class="px-2.5 py-0.5 rounded-md border border-blue-400/30 bg-blue-500/10 text-blue-300 text-[10px] font-bold tracking-wider font-mono-tag"
-            >IPS</span
-          >
-          <span
-            class="px-2.5 py-0.5 rounded-md border border-emerald-400/30 bg-emerald-500/10 text-emerald-300 text-[10px] font-bold tracking-wider font-mono-tag"
-            >IFS</span
-          >
-          <span
-            class="px-2.5 py-0.5 rounded-md border border-purple-400/30 bg-purple-500/10 text-purple-300 text-[10px] font-bold tracking-wider font-mono-tag"
-            >IRS</span
-          >
-        </div>
-      </div>
-
-      <!-- Alert Box -->
-      <div
-        id="exam-india-alert-box"
-        class="hidden text-xs font-bold p-3 rounded-xl text-center mb-5 bg-rose-950/70 text-rose-300 border border-rose-700/60 animate-pulse"
-      ></div>
-
-      <!-- ========================================== -->
-      <!-- STEP 1: MOBILE ENTRY -->
-      <!-- ========================================== -->
-      <section id="step-common-login" class="auth-step-container">
-        <form onsubmit="handleCommonLoginSubmit(event)" class="space-y-4">
-          <input type="hidden" id="user-role" value="aspirant" />
-
-          <div>
-            <label
-              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1.5 font-mono-tag"
-              >Registered Mobile Number</label
+            EI
+          </div>
+          <div class="flex flex-col">
+            <h1
+              class="text-base font-extrabold tracking-tight text-slate-900 leading-none"
             >
-            <div class="relative">
-              <div
-                class="flex items-center w-full bg-[#07111f]/90 border border-white/10 rounded-2xl transition-all focus-within:border-amber-400/80 focus-within:ring-1 focus-within:ring-amber-400/50 overflow-hidden"
+              Exam<span class="text-blue-600">India</span>
+            </h1>
+            <span
+              class="text-[10px] font-semibold text-slate-400 font-mono-tag tracking-wider uppercase mt-0.5"
+            >
+              Candidate Portal
+            </span>
+          </div>
+        </div>
+
+        <div
+          class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200/60 text-emerald-700 text-[10px] font-bold font-mono-tag"
+        >
+          <span
+            class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"
+          ></span>
+          <span>2026 LIVE</span>
+        </div>
+      </header>
+
+      <!-- 2. MAIN SCROLLABLE FORM BODY -->
+      <main
+        class="flex-1 px-6 py-6 overflow-y-auto no-scrollbar flex flex-col justify-between"
+      >
+        <!-- TOP BRAND HERO BANNER -->
+        <div class="pt-2 flex flex-col items-center text-center">
+          <div class="relative w-20 h-20 flex items-center justify-center mb-3">
+            <div class="absolute inset-0 bg-blue-50 rounded-2xl rotate-3"></div>
+            <div
+              class="absolute inset-0 bg-indigo-50/80 rounded-2xl -rotate-3"
+            ></div>
+            <div
+              class="relative w-16 h-16 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center"
+            >
+              <svg
+                class="w-10 h-10"
+                viewBox="0 0 48 48"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <!-- Country Dropdown Button -->
-                <button
-                  type="button"
-                  id="country-selector-btn"
-                  onclick="toggleCountryDropdown(event)"
-                  class="flex items-center gap-1.5 px-3.5 py-3 text-xs font-bold text-slate-200 bg-transparent shrink-0 cursor-pointer hover:text-amber-400 transition-colors"
+                <rect
+                  x="8"
+                  y="6"
+                  width="32"
+                  height="36"
+                  rx="6"
+                  fill="#F8FAFC"
+                  stroke="#CBD5E1"
+                  stroke-width="2"
+                />
+                <rect
+                  x="14"
+                  y="13"
+                  width="20"
+                  height="2.5"
+                  rx="1.25"
+                  fill="#3B82F6"
+                />
+                <rect
+                  x="14"
+                  y="20"
+                  width="14"
+                  height="2.5"
+                  rx="1.25"
+                  fill="#94A3B8"
+                />
+                <rect
+                  x="14"
+                  y="27"
+                  width="16"
+                  height="2.5"
+                  rx="1.25"
+                  fill="#94A3B8"
+                />
+                <circle cx="33" cy="33" r="5.5" fill="#10B981" />
+                <path
+                  d="M31 33L32.5 34.5L35.5 31.5"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <h2 class="text-lg font-bold text-slate-900 tracking-tight">
+            Candidate Authentication
+          </h2>
+          <p class="text-xs text-slate-500 mt-1 max-w-[260px] leading-relaxed">
+            Instant mobile sign-in for mock test sessions and rank analytics.
+          </p>
+        </div>
+
+        <!-- FORM INTERACTION WRAPPER -->
+        <div class="my-auto py-4 space-y-4">
+          <!-- Modern Error Notification -->
+          <div
+            id="exam-alert-box"
+            class="hidden text-xs font-semibold p-3.5 rounded-xl text-center bg-rose-50 text-rose-700 border border-rose-200/80 animate-fade"
+          ></div>
+
+          <!-- STEP 1: MOBILE ENTRY (DEFAULT) -->
+          <section
+            id="step-common-login"
+            class="auth-step-container animate-fade space-y-4"
+          >
+            <form onsubmit="handleCommonLoginSubmit(event)" class="space-y-4">
+              <div>
+                <label
+                  class="text-[11px] font-bold text-slate-700 block mb-1.5"
                 >
-                  <span id="selected-country-label">🇮🇳 +91</span>
-                  <i
-                    data-lucide="chevron-down"
-                    class="w-3.5 h-3.5 text-slate-400"
-                  ></i>
-                </button>
+                  Mobile Number
+                </label>
+                <div
+                  class="flex items-center w-full bg-slate-50/70 border border-slate-200 rounded-xl overflow-hidden focus-within:border-blue-600 focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-50 transition-all duration-200"
+                >
+                  <span
+                    class="px-3.5 py-3 text-xs font-bold text-slate-600 bg-slate-100/60 border-r border-slate-200 shrink-0 font-mono-tag"
+                    >🇮🇳 +91</span
+                  >
+                  <input
+                    type="tel"
+                    id="user-mobile"
+                    required
+                    maxlength="10"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                    placeholder="Enter 10-digit mobile"
+                    class="w-full px-3.5 py-3 font-semibold text-slate-900 outline-none bg-transparent text-sm tracking-wider placeholder:text-slate-400"
+                  />
+                </div>
+              </div>
 
-                <div class="h-6 w-[1px] bg-white/10"></div>
+              <button
+                type="submit"
+                id="btn-mobile-submit"
+                class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 active:scale-[0.99] text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(37,99,235,0.25)]"
+              >
+                <span>Continue</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </form>
+          </section>
 
-                <!-- Input Field -->
+          <!-- STEP 2A: PASSWORD (EXISTING USER) -->
+          <section
+            id="step-enter-password"
+            class="auth-step-container hidden animate-fade space-y-4"
+          >
+            <form onsubmit="handlePasswordSubmit(event)" class="space-y-4">
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label class="text-[11px] font-bold text-slate-700">
+                    Account Password
+                  </label>
+                  <span class="text-[10px] font-semibold text-slate-400"
+                    >Default: 123456</span
+                  >
+                </div>
+                <div class="relative flex items-center">
+                  <input
+                    type="password"
+                    id="user-password-input"
+                    required
+                    minlength="4"
+                    placeholder="Enter your password"
+                    class="w-full p-3.5 border border-slate-200 rounded-xl font-mono-tag font-semibold text-slate-900 outline-none focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-50 bg-slate-50/70 text-sm transition-all"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                id="btn-password-submit"
+                class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 active:scale-[0.99] text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(37,99,235,0.25)]"
+              >
+                <span>Verify &amp; Sign In</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </form>
+          </section>
+
+          <!-- STEP 2B: QUICK SIGNUP -->
+          <section
+            id="step-registration"
+            class="auth-step-container hidden animate-fade space-y-4"
+          >
+            <form
+              onsubmit="handleRegistrationSubmit(event)"
+              class="space-y-3.5"
+            >
+              <div>
+                <label class="text-[11px] font-bold text-slate-700 block mb-1">
+                  Candidate Full Name
+                </label>
                 <input
-                  type="tel"
-                  id="user-mobile"
+                  type="text"
+                  id="reg-candidate-name"
                   required
-                  maxlength="15"
-                  oninput="validateMobileInput(this)"
-                  placeholder="Enter 10-digit mobile"
-                  class="w-full px-3.5 py-3 font-semibold text-amber-300 outline-none bg-transparent text-sm tracking-wider placeholder:text-slate-600"
+                  placeholder="e.g. Rahul Sharma"
+                  class="w-full px-3.5 py-3 bg-slate-50/70 border border-slate-200 rounded-xl font-semibold text-slate-900 text-xs outline-none focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-50 transition-all placeholder:text-slate-400"
                 />
               </div>
 
-              <!-- Country Dropdown -->
-              <div
-                id="country-dropdown-menu"
-                class="hidden absolute top-full left-0 mt-1.5 w-72 bg-[#0b1728] border border-amber-400/20 shadow-2xl rounded-2xl p-2.5 z-[99999] transition-all"
-              >
-                <div class="relative mb-2">
-                  <i
-                    data-lucide="search"
-                    class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-3"
-                  ></i>
-                  <input
-                    type="text"
-                    id="country-search-input"
-                    oninput="filterCountryList(this.value)"
-                    placeholder="Search country..."
-                    class="w-full pl-8 pr-3 py-2 bg-[#07111f] border border-white/10 rounded-xl text-xs font-bold text-slate-200 outline-none focus:border-amber-400"
-                  />
-                </div>
-                <div
-                  id="country-list-container"
-                  class="max-h-52 overflow-y-auto custom-scrollbar space-y-1"
-                ></div>
+              <div>
+                <label class="text-[11px] font-bold text-slate-700 block mb-1">
+                  Create Password
+                  <span class="text-[10px] text-slate-400 font-normal"
+                    >(Min. 4 characters)</span
+                  >
+                </label>
+                <input
+                  type="password"
+                  id="reg-password"
+                  required
+                  minlength="4"
+                  placeholder="Create your password"
+                  class="w-full px-3.5 py-3 bg-slate-50/70 border border-slate-200 rounded-xl font-semibold text-slate-900 text-xs outline-none focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-50 transition-all placeholder:text-slate-400"
+                />
               </div>
-            </div>
-          </div>
 
-          <button
-            type="submit"
-            class="w-full py-3.5 mt-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-98 text-[#07111f] font-extrabold rounded-2xl text-xs uppercase tracking-wider shadow-lg shadow-amber-500/10 transition-all cursor-pointer flex items-center justify-center gap-2 font-heading"
+              <div class="flex items-start gap-2 pt-0.5">
+                <input
+                  type="checkbox"
+                  id="terms-checkbox"
+                  required
+                  class="accent-blue-600 w-4 h-4 rounded border-slate-300 cursor-pointer mt-0.5"
+                />
+                <label
+                  for="terms-checkbox"
+                  class="text-[11px] text-slate-500 leading-snug cursor-pointer select-none"
+                >
+                  I agree to the
+                  <a
+                    href="terms_gov.html"
+                    target="_blank"
+                    class="text-blue-600 font-semibold hover:underline"
+                    >Terms</a
+                  >
+                  &amp;
+                  <a
+                    href="privacy_gov.html"
+                    target="_blank"
+                    class="text-blue-600 font-semibold hover:underline"
+                    >Privacy Policy</a
+                  >.
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                id="btn-reg-submit"
+                class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 active:scale-[0.99] text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(37,99,235,0.25)]"
+              >
+                <span>Create Candidate Profile</span>
+                <i data-lucide="user-plus" class="w-4 h-4"></i>
+              </button>
+            </form>
+          </section>
+
+          <!-- STEP 3: SUCCESS CONFIRMATION -->
+          <section
+            id="step-reg-success"
+            class="auth-step-container hidden text-center space-y-4 animate-fade py-2"
           >
-            <span>Continue</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
-        </form>
-      </section>
+            <div
+              class="w-14 h-14 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-2xl mx-auto flex items-center justify-center text-xl shadow-xs"
+            >
+              <i data-lucide="check" class="w-7 h-7 stroke-[2.5]"></i>
+            </div>
+            <div>
+              <h2 class="text-base font-bold text-slate-900">
+                Profile Activated
+              </h2>
+              <p class="text-xs text-slate-500 mt-1">
+                Your testing workspace is configured and ready.
+              </p>
+            </div>
 
-      <!-- ========================================== -->
-      <!-- STEP 2A: EXISTING ASPIRANT LOGIN -->
-      <!-- ========================================== -->
-      <section id="step-enter-password" class="auth-step-container hidden">
-        <div class="text-center mb-5">
-          <h2 class="text-lg font-bold text-white uppercase font-heading">
-            Welcome Back!
-          </h2>
-          <p class="text-xs text-slate-400 mt-0.5">
-            Enter your passcode to access your UPSC dashboard.
-          </p>
+            <button
+              onclick="finishAuthAndGoHome()"
+              class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-[0_4px_14px_rgba(16,185,129,0.25)] transition-all"
+            >
+              Access Test Portal →
+            </button>
+          </section>
         </div>
 
-        <form onsubmit="handlePasswordSubmit(event)" class="space-y-4">
-          <div>
-            <label
-              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1.5 font-mono-tag"
-              >Security PIN / Password</label
-            >
-            <input
-              type="password"
-              id="aspirant-password-input"
-              required
-              placeholder="••••••"
-              class="w-full p-3.5 border border-white/10 rounded-2xl font-bold text-amber-400 outline-none focus:border-amber-400 bg-[#07111f]/90 text-base tracking-widest text-center transition-all"
-            />
-          </div>
+        <div></div>
+      </main>
 
-          <button
-            type="submit"
-            class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-98 text-[#07111f] font-extrabold rounded-2xl text-xs uppercase tracking-wider shadow-lg shadow-amber-500/10 transition-all cursor-pointer font-heading flex items-center justify-center gap-2"
-          >
-            <span>Verify &amp; Access Dashboard</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
-        </form>
-      </section>
-
-      <!-- ========================================== -->
-      <!-- STEP 2B: UPSC REGISTRATION -->
-      <!-- ========================================== -->
-      <section id="step-registration" class="auth-step-container hidden">
-        <div class="text-center mb-4">
-          <h2
-            class="text-base sm:text-lg font-bold text-white uppercase font-heading"
-          >
-            Aspirant Profile Setup
-          </h2>
-          <p class="text-xs text-slate-400">
-            Configure your Civil Services study path
-          </p>
-        </div>
-
-        <form onsubmit="handleRegistrationSubmit(event)" class="space-y-3">
-          <!-- Hidden Identifiers -->
-          <input type="hidden" id="reg-exam-category" value="upsc" />
-
-          <!-- Candidate Full Name -->
-          <div>
-            <label
-              class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1 font-mono-tag"
-              >Candidate Full Name</label
-            >
-            <input
-              type="text"
-              id="reg-candidate-name"
-              required
-              placeholder="e.g. Ananya Roy"
-              class="w-full p-2.5 border border-white/10 rounded-xl font-semibold text-slate-200 outline-none focus:border-amber-400 bg-[#07111f]/90 text-xs transition-all placeholder:text-slate-600"
-            />
-          </div>
-
-          <!-- Target Attempt & Primary Service -->
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label
-                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1 font-mono-tag"
-                >Target Attempt</label
-              >
-              <select
-                id="reg-target-year"
-                class="w-full p-2.5 border border-white/10 rounded-xl font-semibold text-slate-200 outline-none focus:border-amber-400 bg-[#07111f] text-xs cursor-pointer"
-              >
-                <option value="UPSC CSE 2026">UPSC 2026</option>
-                <option value="UPSC CSE 2027">UPSC 2027</option>
-                <option value="UPSC CSE 2028">UPSC 2028</option>
-              </select>
-            </div>
-
-            <div>
-              <label
-                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1 font-mono-tag"
-                >Primary Service</label
-              >
-              <select
-                id="reg-service-pref"
-                class="w-full p-2.5 border border-white/10 rounded-xl font-semibold text-slate-200 outline-none focus:border-amber-400 bg-[#07111f] text-xs cursor-pointer"
-              >
-                <option value="All Civil Services (IAS/IPS/IFS/IRS)" selected>
-                  All Services (CSE)
-                </option>
-                <option value="IAS Preference">IAS (Administrative)</option>
-                <option value="IPS Preference">IPS (Police)</option>
-                <option value="IFS Preference">IFS (Foreign)</option>
-                <option value="IRS Preference">IRS (Revenue)</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Medium & Gender -->
-          <div class="grid grid-cols-2 gap-2 pt-0.5">
-            <div>
-              <label
-                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1 font-mono-tag"
-                >Exam Medium</label
-              >
-              <div
-                class="flex gap-3 items-center pt-1 text-xs font-semibold text-slate-300"
-              >
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="candidate_medium"
-                    value="English"
-                    checked
-                    class="accent-amber-500 w-3.5 h-3.5 cursor-pointer"
-                  />
-                  English
-                </label>
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="candidate_medium"
-                    value="Hindi"
-                    class="accent-amber-500 w-3.5 h-3.5 cursor-pointer"
-                  />
-                  Hindi
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label
-                class="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1 font-mono-tag"
-                >Gender</label
-              >
-              <div
-                class="flex gap-2.5 items-center pt-1 text-xs font-semibold text-slate-300"
-              >
-                <label class="flex items-center gap-1 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="candidate_gender"
-                    value="Male"
-                    checked
-                    class="accent-amber-500 w-3.5 h-3.5 cursor-pointer"
-                  />
-                  Male
-                </label>
-                <label class="flex items-center gap-1 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="candidate_gender"
-                    value="Female"
-                    class="accent-amber-500 w-3.5 h-3.5 cursor-pointer"
-                  />
-                  Female
-                </label>
-                <label class="flex items-center gap-1 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="candidate_gender"
-                    value="Other"
-                    class="accent-amber-500 w-3.5 h-3.5 cursor-pointer"
-                  />
-                  Other
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <!-- Terms & Privacy (terms_gov.html & privacy_gov.html) -->
-          <div class="flex items-start gap-2.5 pt-2">
-            <input
-              type="checkbox"
-              id="terms-conditions-checkbox"
-              required
-              class="accent-amber-500 w-4 h-4 rounded cursor-pointer shrink-0 mt-0.5"
-            />
-            <label
-              for="terms-conditions-checkbox"
-              class="text-[11px] font-medium text-slate-300 leading-snug cursor-pointer select-none"
-            >
-              I agree to the
-              <a
-                href="terms_gov.html"
-                target="_blank"
-                class="text-amber-400 underline font-semibold hover:text-amber-300"
-                >Terms &amp; Conditions</a
-              >
-              and
-              <a
-                href="privacy_gov.html"
-                target="_blank"
-                class="text-amber-400 underline font-semibold hover:text-amber-300"
-                >Privacy Policy</a
-              >.
-            </label>
-          </div>
-
-          <button
-            type="submit"
-            class="w-full py-3.5 mt-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-98 text-[#07111f] font-extrabold rounded-2xl text-xs uppercase tracking-wider shadow-lg shadow-amber-500/10 transition-all cursor-pointer font-heading"
-          >
-            Create UPSC Profile →
-          </button>
-        </form>
-      </section>
-
-      <!-- ========================================== -->
-      <!-- STEP 3: REGISTRATION SUCCESS -->
-      <!-- ========================================== -->
-      <section
-        id="step-reg-success"
-        class="auth-step-container hidden text-center"
+      <!-- 3. FIGMA STYLE CLEAN APP FOOTER -->
+      <footer
+        class="py-3 px-6 text-center border-t border-slate-100 bg-slate-50/60 shrink-0"
       >
-        <div
-          class="w-14 h-14 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3 shadow-lg"
+        <p
+          class="text-[10px] font-semibold text-slate-400 font-mono-tag tracking-wider uppercase"
         >
-          ✓
-        </div>
-        <h2
-          class="text-lg font-bold text-emerald-400 uppercase mb-1 font-heading"
-        >
-          Profile Configured!
-        </h2>
-        <p class="text-xs text-slate-400 mb-4">
-          Your Civil Services preparation dashboard is ready.
+          ExamIndia Candidate Services • Encrypted
         </p>
-
-        <!-- Default Passcode Box -->
-        <div
-          class="bg-[#07111f]/90 border border-amber-400/20 rounded-2xl p-4 mb-5 text-center"
-        >
-          <p
-            class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 font-mono-tag"
-          >
-            Default Passcode
-          </p>
-          <div class="flex items-center justify-center">
-            <span
-              class="text-2xl font-black tracking-widest text-amber-400 bg-black/30 px-4 py-1.5 rounded-xl border border-amber-400/30 font-mono-tag"
-            >
-              123456
-            </span>
-          </div>
-          <p class="text-[10px] text-slate-500 mt-2 font-medium">
-            Use this default PIN for direct sign-in.
-          </p>
-        </div>
-
-        <button
-          onclick="finishAuthAndStartSession()"
-          class="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold rounded-2xl text-xs uppercase tracking-wider shadow-lg active:scale-98 transition-all cursor-pointer font-heading"
-        >
-          Enter UPSC Dashboard →
-        </button>
-      </section>
-    </main>
+      </footer>
+    </div>
 
     <!-- SCRIPT CONTROLLER -->
     <script>
-      const API_BASE_URL = "https://api.jawedsiddiqui.cloud/api/kidspaint";
-      const API_TIMEOUT_MS = 15000;
-      const DEFAULT_PASSWORD = "123456";
-
-      const globalCountries = [
-        { code: "+91", country: "India", flag: "🇮🇳" },
-        { code: "+1", country: "United States", flag: "🇺🇸" },
-        { code: "+44", country: "United Kingdom", flag: "🇬🇧" },
-        { code: "+971", country: "United Arab Emirates", flag: "🇦🇪" },
-        { code: "+1", country: "Canada", flag: "🇨🇦" },
-        { code: "+61", country: "Australia", flag: "🇦🇺" },
-        { code: "+65", country: "Singapore", flag: "🇸🇬" },
-        { code: "+966", country: "Saudi Arabia", flag: "🇸🇦" },
-        { code: "+974", country: "Qatar", flag: "🇶🇦" },
-        { code: "+968", country: "Oman", flag: "🇴🇲" },
-        { code: "+965", country: "Kuwait", flag: "🇰🇼" },
-        { code: "+973", country: "Bahrain", flag: "🇧🇭" },
-        { code: "+60", country: "Malaysia", flag: "🇲🇾" },
-        { code: "+49", country: "Germany", flag: "🇩🇪" },
-        { code: "+33", country: "France", flag: "🇫🇷" },
-        { code: "+81", country: "Japan", flag: "🇯🇵" },
-        { code: "+880", country: "Bangladesh", flag: "🇧🇩" },
-        { code: "+977", country: "Nepal", flag: "🇳🇵" },
-      ];
-
-      let currentAuthData = {
-        role: "aspirant",
-        mobile: "",
-        countryCode: "+91",
-        countryName: "India",
-        sessionTimeSec: 1800,
-      };
+      const API_BASE_URL = "https://exam-api.jawedsiddiqui.cloud/api/kidspaint";
 
       let activeStepHistory = ["step-common-login"];
-
-      document.addEventListener("DOMContentLoaded", () => {
-        if (typeof lucide !== "undefined") lucide.createIcons();
-        renderCountryList(globalCountries);
-
-        document.addEventListener("click", (e) => {
-          const btn = document.getElementById("country-selector-btn");
-          const dropdown = document.getElementById("country-dropdown-menu");
-          if (
-            btn &&
-            dropdown &&
-            !btn.contains(e.target) &&
-            !dropdown.contains(e.target)
-          ) {
-            dropdown.classList.add("hidden");
-          }
-        });
-      });
-
-      function validateMobileInput(input) {
-        input.value = input.value.replace(/[^0-9]/g, "");
-        if (input.value.length > 15) {
-          input.value = input.value.slice(0, 15);
-        }
-      }
-
-      function renderCountryList(list) {
-        const container = document.getElementById("country-list-container");
-        if (!container) return;
-
-        if (list.length === 0) {
-          container.innerHTML = `<p class="text-[10px] text-slate-500 font-bold text-center py-2">No country found</p>`;
-          return;
-        }
-
-        container.innerHTML = list
-          .map(
-            (c) => `
-          <button
-            type="button"
-            onclick="selectCountry('${c.code}', '${c.country}', '${c.flag}')"
-            class="w-full text-left px-2.5 py-1.5 rounded-xl hover:bg-white/[0.06] flex items-center justify-between text-xs font-semibold text-slate-300 transition-all cursor-pointer"
-          >
-            <span class="flex items-center gap-2">
-              <span>${c.flag}</span>
-              <span>${c.country}</span>
-            </span>
-            <span class="text-amber-400 font-bold font-mono-tag">${c.code}</span>
-          </button>
-        `,
-          )
-          .join("");
-      }
-
-      function toggleCountryDropdown(event) {
-        event.stopPropagation();
-        const dropdown = document.getElementById("country-dropdown-menu");
-        if (dropdown) dropdown.classList.toggle("hidden");
-      }
-
-      function filterCountryList(query) {
-        const q = query.toLowerCase().trim();
-        const filtered = globalCountries.filter(
-          (c) => c.country.toLowerCase().includes(q) || c.code.includes(q),
-        );
-        renderCountryList(filtered);
-      }
-
-      function selectCountry(code, countryName, flag) {
-        currentAuthData.countryCode = code;
-        currentAuthData.countryName = countryName;
-        document.getElementById("selected-country-label").innerText =
-          `${flag} ${code}`;
-        document
-          .getElementById("country-dropdown-menu")
-          .classList.add("hidden");
-      }
-
-      function fetchWithTimeout(url, options = {}, timeoutMs = API_TIMEOUT_MS) {
-        return Promise.race([
-          fetch(url, options),
-          new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("API_TIMEOUT")), timeoutMs),
-          ),
-        ]);
-      }
-
-      function setButtonLoading(buttonElem, isLoading, originalText) {
-        if (!buttonElem) return;
-        if (isLoading) {
-          buttonElem.disabled = true;
-          buttonElem.dataset.origText = originalText || buttonElem.innerHTML;
-          buttonElem.innerHTML = `<span class="inline-block animate-spin mr-1">⏳</span> Authenticating...`;
-          buttonElem.classList.add("opacity-75", "cursor-not-allowed");
-        } else {
-          buttonElem.disabled = false;
-          buttonElem.innerHTML = buttonElem.dataset.origText || originalText;
-          buttonElem.classList.remove("opacity-75", "cursor-not-allowed");
-        }
-      }
+      let mobileNumber = "";
 
       function switchStep(stepId, pushHistory = true) {
         hideAlert();
-
         if (
           pushHistory &&
           activeStepHistory[activeStepHistory.length - 1] !== stepId
@@ -682,254 +404,175 @@
         }
 
         const backBtn = document.getElementById("app-back-btn");
-        if (backBtn) {
-          if (activeStepHistory.length > 1 && stepId !== "step-common-login") {
-            backBtn.classList.remove("hidden");
-            backBtn.classList.add("flex");
-          } else {
-            backBtn.classList.add("hidden");
-            backBtn.classList.remove("flex");
-          }
+        if (activeStepHistory.length > 1 && stepId !== "step-common-login") {
+          backBtn.classList.remove("invisible");
+        } else {
+          backBtn.classList.add("invisible");
         }
 
         document
           .querySelectorAll(".auth-step-container")
           .forEach((el) => el.classList.add("hidden"));
-
         const target = document.getElementById(stepId);
-        if (target) {
-          target.classList.remove("hidden");
-          if (typeof lucide !== "undefined") lucide.createIcons();
-        }
+        if (target) target.classList.remove("hidden");
+        if (typeof lucide !== "undefined") lucide.createIcons();
       }
 
       function handleAppBackNavigation() {
         if (activeStepHistory.length > 1) {
           activeStepHistory.pop();
-          const previousStep = activeStepHistory[activeStepHistory.length - 1];
-          switchStep(previousStep, false);
+          const prev = activeStepHistory[activeStepHistory.length - 1];
+          switchStep(prev, false);
         }
       }
 
       function showAlert(msg) {
-        const alertBox = document.getElementById("exam-india-alert-box");
-        if (alertBox) {
-          alertBox.innerText = msg;
-          alertBox.classList.remove("hidden");
+        const box = document.getElementById("exam-alert-box");
+        if (box) {
+          box.innerText = msg;
+          box.classList.remove("hidden");
         }
       }
 
       function hideAlert() {
-        const alertBox = document.getElementById("exam-india-alert-box");
-        if (alertBox) alertBox.classList.add("hidden");
+        const box = document.getElementById("exam-alert-box");
+        if (box) box.classList.add("hidden");
       }
 
-      // STEP 1: CHECK MOBILE
-      async function handleCommonLoginSubmit(event) {
-        event.preventDefault();
+      // 1. Mobile Check
+      async function handleCommonLoginSubmit(e) {
+        e.preventDefault();
         hideAlert();
 
-        const submitBtn = event.target.querySelector('button[type="submit"]');
-        const originalBtnText = "Continue →";
+        const btn = document.getElementById("btn-mobile-submit");
+        btn.disabled = true;
+        btn.innerText = "Checking...";
 
-        setButtonLoading(submitBtn, true, originalBtnText);
-
-        currentAuthData.role = "aspirant";
-        currentAuthData.mobile = document
-          .getElementById("user-mobile")
-          .value.trim();
+        mobileNumber = document.getElementById("user-mobile").value.trim();
 
         try {
-          const response = await fetchWithTimeout(
-            `${API_BASE_URL}/check-mobile`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ mobileNumber: currentAuthData.mobile }),
-            },
-            API_TIMEOUT_MS,
-          );
-
-          const data = await response.json();
-
+          const res = await fetch(`${API_BASE_URL}/check-mobile`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mobileNumber }),
+          });
+          const data = await res.json();
           if (data.exists) {
             switchStep("step-enter-password");
           } else {
             switchStep("step-registration");
           }
-        } catch (error) {
-          console.warn("API check fallback active.", error);
-
-          const registeredParents = JSON.parse(
-            localStorage.getItem("registeredParents") || "{}",
-          );
-
-          if (registeredParents[currentAuthData.mobile]) {
-            switchStep("step-enter-password");
-          } else {
-            switchStep("step-registration");
-          }
+        } catch (err) {
+          switchStep("step-registration");
         } finally {
-          setButtonLoading(submitBtn, false, originalBtnText);
+          btn.disabled = false;
+          btn.innerHTML = `<span>Continue</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+          if (typeof lucide !== "undefined") lucide.createIcons();
         }
       }
 
-      // STEP 2A: LOGIN SUBMIT
-      async function handlePasswordSubmit(event) {
-        event.preventDefault();
+      // 2. Password Login
+      async function handlePasswordSubmit(e) {
+        e.preventDefault();
         hideAlert();
 
-        const submitBtn = event.target.querySelector('button[type="submit"]');
-        const originalBtnText = "Verify & Access Dashboard →";
-        const pwdInput = document.getElementById(
-          "aspirant-password-input",
-        ).value;
+        const btn = document.getElementById("btn-password-submit");
+        btn.disabled = true;
+        btn.innerText = "Signing in...";
 
-        setButtonLoading(submitBtn, true, originalBtnText);
+        const password = document.getElementById("user-password-input").value;
 
         try {
-          const response = await fetchWithTimeout(
-            `${API_BASE_URL}/login`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                mobileNumber: currentAuthData.mobile,
-                password: pwdInput,
-              }),
-            },
-            API_TIMEOUT_MS,
-          );
+          const res = await fetch(`${API_BASE_URL}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mobileNumber, password }),
+          });
+          const data = await res.json();
 
-          const data = await response.json();
-          setButtonLoading(submitBtn, false, originalBtnText);
-
-          if (response.ok && data.success) {
+          if (res.ok && data.success) {
             localStorage.setItem("examIndiaToken", data.token);
-            localStorage.setItem("kidsPaintToken", data.token);
             localStorage.setItem("examIndiaUser", JSON.stringify(data.user));
-            localStorage.setItem("kidsPaintUser", JSON.stringify(data.user));
-
-            finishAuthAndStartSession();
+            finishAuthAndGoHome();
           } else {
             showAlert(
-              `❌ ${data.message || "Invalid credentials! Please re-check."}`,
+              `❌ ${data.message || "Invalid credentials! Try again."}`,
             );
           }
-        } catch (error) {
-          setButtonLoading(submitBtn, false, originalBtnText);
-          finishAuthAndStartSession();
+        } catch (err) {
+          finishAuthAndGoHome();
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = `<span>Verify & Sign In</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+          if (typeof lucide !== "undefined") lucide.createIcons();
         }
       }
 
-      // STEP 2B: UPSC REGISTRATION SUBMIT
-      async function handleRegistrationSubmit(event) {
-        event.preventDefault();
+      // 3. Quick Register
+      async function handleRegistrationSubmit(e) {
+        e.preventDefault();
         hideAlert();
 
-        const submitBtn = event.target.querySelector('button[type="submit"]');
-        const originalBtnText = "Create UPSC Profile →";
+        const btn = document.getElementById("btn-reg-submit");
+        btn.disabled = true;
+        btn.innerText = "Creating account...";
 
-        const candidateGender =
-          document.querySelector('input[name="candidate_gender"]:checked')
-            ?.value || "Male";
-        const candidateMedium =
-          document.querySelector('input[name="candidate_medium"]:checked')
-            ?.value || "English";
-        const targetYear =
-          document.getElementById("reg-target-year")?.value || "UPSC CSE 2026";
-        const servicePref =
-          document.getElementById("reg-service-pref")?.value ||
-          "All Civil Services (IAS/IPS/IFS/IRS)";
         const candidateName = document
           .getElementById("reg-candidate-name")
           .value.trim();
+        const userPassword = document.getElementById("reg-password").value;
 
-        // UPSC Backend-compliant payload
         const payload = {
-          examCategory: "upsc",
           role: "aspirant",
-          mobileNumber: currentAuthData.mobile,
-          password: DEFAULT_PASSWORD,
+          mobileNumber: mobileNumber,
+          password: userPassword,
           candidateName: candidateName,
           studentName: candidateName,
-          gender: candidateGender,
-          classGrade: targetYear,
-          section: servicePref,
-          targetYear: targetYear,
-          servicePreference: servicePref,
-          medium: candidateMedium,
-          country: currentAuthData.countryName,
-          schoolName: "ExamIndia UPSC Academy",
-          rollNo: "UPSC" + Math.floor(1000 + Math.random() * 9000),
+          schoolName: "ExamIndia Aspirant Hub",
+          rollNo: "EXAM" + Math.floor(1000 + Math.random() * 9000),
         };
 
-        setButtonLoading(submitBtn, true, originalBtnText);
-
         try {
-          const response = await fetchWithTimeout(
-            `${API_BASE_URL}/register`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-            },
-            API_TIMEOUT_MS,
-          );
+          const res = await fetch(`${API_BASE_URL}/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
 
-          const data = await response.json();
-          setButtonLoading(submitBtn, false, originalBtnText);
-
-          if (response.ok && data.success) {
+          if (res.ok && data.success) {
             localStorage.setItem("examIndiaToken", data.token);
-            localStorage.setItem("kidsPaintToken", data.token);
             localStorage.setItem("examIndiaUser", JSON.stringify(data.user));
-            localStorage.setItem("kidsPaintUser", JSON.stringify(data.user));
-
-            const registeredParents = JSON.parse(
-              localStorage.getItem("registeredParents") || "{}",
-            );
-            registeredParents[currentAuthData.mobile] = DEFAULT_PASSWORD;
-            localStorage.setItem(
-              "registeredParents",
-              JSON.stringify(registeredParents),
-            );
-
             switchStep("step-reg-success");
           } else {
-            showAlert(`❌ ${data.message || "Registration failed."}`);
+            showAlert(
+              `❌ ${data.message || "Registration failed. Try again."}`,
+            );
           }
-        } catch (error) {
-          setButtonLoading(submitBtn, false, originalBtnText);
-
-          const registeredParents = JSON.parse(
-            localStorage.getItem("registeredParents") || "{}",
-          );
-          registeredParents[currentAuthData.mobile] = DEFAULT_PASSWORD;
-          localStorage.setItem(
-            "registeredParents",
-            JSON.stringify(registeredParents),
-          );
+        } catch (err) {
           localStorage.setItem("examIndiaUser", JSON.stringify(payload));
-          localStorage.setItem("kidsPaintUser", JSON.stringify(payload));
-
           switchStep("step-reg-success");
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = `<span>Create Candidate Profile</span> <i data-lucide="user-plus" class="w-4 h-4"></i>`;
+          if (typeof lucide !== "undefined") lucide.createIcons();
         }
       }
 
-      function finishAuthAndStartSession() {
-        let sessionData = {
+      function finishAuthAndGoHome() {
+        const sessionData = {
           date: new Date().toDateString(),
-          portal: "UPSC_CIVIL_SERVICES",
+          portal: "ALL_EXAMS",
           timeLeft: 1800,
           isActivated: true,
-          isPaused: false,
         };
-
         localStorage.setItem("examIndiaSession", JSON.stringify(sessionData));
-        localStorage.setItem("kidsPaintSession", JSON.stringify(sessionData));
-        window.location.href = "dashboard_gov_exam.html";
+        window.location.href = "home_gov.html";
       }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      });
     </script>
   </body>
 </html>
