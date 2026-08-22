@@ -6,20 +6,25 @@
 
     <!-- PRIMARY SEO META TAGS -->
     <title>
-      ExamMokk - 100% Free Online Mock Tests for Indian Govt & Entrance Exams
+      ExamMokk - 100% Free Online Mock Tests for Indian Govt &amp; Entrance
+      Exams
     </title>
     <meta
       name="description"
-      content="Prepare for SSC CGL, IBPS Bank PO, RRB NTPC, State PSC, JEE Main, NEET, Defence (NDA/CDS), and Teaching exams with real-time test simulations and precise official negative marking algorithms."
+      content="Prepare for SSC CGL, IBPS Bank PO, RRB NTPC, State PSC, UPSC, JEE Main, NEET, Defence (NDA/CDS), and Teaching exams with real-time test simulations."
     />
     <meta
       name="keywords"
-      content="online mock test india, ssc cgl mock test series, bank po test practice, rrb ntpc free mock test, upsc prelims test, jee main test series, neet mock test, ctet practice questions, negative marking calculator india"
+      content="online mock test india, ssc cgl mock test series, bank po test practice, rrb ntpc free mock test, upsc prelims test, jee main test series, neet mock test, ctet practice questions"
     />
-    <meta name="robots" content="index, follow" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
     <link rel="canonical" href="https://exammokk.cloud/" />
 
-    <!-- OPEN GRAPH / FACEBOOK -->
+    <!-- OPEN GRAPH / SOCIAL -->
+    <meta property="og:locale" content="en_IN" />
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
@@ -27,336 +32,437 @@
     />
     <meta
       property="og:description"
-      content="Official pattern mock tests with exact time-per-question limits, accurate negative marking penalties, and real-time performance analytics."
+      content="Official pattern mock tests, subject-wise quizzes, and real-time performance analytics."
     />
     <meta property="og:url" content="https://exammokk.cloud/" />
+    <meta property="og:site_name" content="ExamMokk Cloud" />
     <meta
       property="og:image"
       content="https://exammokk.cloud/assets/og-image.png"
     />
 
-    <!-- STRUCTURED DATA: JSON-LD FOR EDTECH PLATFORM -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "ExamMokk Cloud",
-        "url": "https://exammokk.cloud/",
-        "applicationCategory": "EducationalApplication",
-        "operatingSystem": "All",
-        "inLanguage": "en-IN",
-        "description": "Online mock test platform for Indian competitive examinations with authentic marking criteria and negative evaluation.",
-        "areaServed": {
-          "@type": "Country",
-          "name": "India"
-        }
-      }
-    </script>
-
-    <!-- Tailwind CSS, Google Fonts & Lucide Icons -->
+    <!-- Tailwind CSS, Lucide Icons & Fonts -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
 
     <style>
       body {
         font-family: "Plus Jakarta Sans", sans-serif;
-        background-color: #0b1120;
-        color: #e2e8f0;
+        background-color: #f8fafc;
+        color: #0f172a;
       }
       .exam-card {
         transition:
-          transform 0.2s ease,
-          border-color 0.2s ease,
-          box-shadow 0.2s ease;
+          transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.2s ease,
+          border-color 0.2s ease;
       }
       .exam-card:hover {
         transform: translateY(-4px);
-        border-color: #3b82f6;
-        box-shadow: 0 12px 24px -10px rgba(59, 130, 246, 0.2);
+        box-shadow: 0 16px 30px -8px rgba(79, 70, 229, 0.12);
+        border-color: #6366f1;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.2s ease-out forwards;
       }
     </style>
   </head>
-  <body class="flex flex-col min-h-screen">
-    <!-- REUSABLE HEADER PLACEHOLDER -->
+  <body
+    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white"
+  >
+    <!-- REUSABLE HEADER -->
     <div id="global-header"></div>
 
     <main class="flex-grow">
-      <!-- HERO SECTION -->
+      <!-- HERO BANNER -->
       <section
-        class="relative pt-16 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800"
+        class="relative pt-12 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-white via-indigo-50/40 to-slate-50 border-b border-slate-200/80"
       >
-        <div class="max-w-5xl mx-auto text-center space-y-6">
+        <div class="max-w-5xl mx-auto text-center space-y-5">
           <div
-            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider"
+            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-black uppercase tracking-wider shadow-xs"
           >
-            <span>🎯 100% Real Exam Simulation Engine</span>
+            <span
+              class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"
+            ></span>
+            <span>Live Test Series 2026 • Real Exam Pattern</span>
           </div>
 
           <h1
-            class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight"
+            class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight"
           >
-            Master Competitive Exams with <br />
+            Choose Your Exam &amp; <br />
             <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-cyan-400"
+              class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-800"
             >
-              Exact Negative Marking & Timers
+              Start Testing Instantly
             </span>
           </h1>
 
           <p
-            class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed"
+            class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed font-medium"
           >
-            Practice mock tests built on standardized patterns of SSC, Banking,
-            Railways, UPSC/State PSCs, JEE, NEET, and Defence exams across
-            India.
+            Sectional tests and full syllabus mock series curated for SSC,
+            Banking, Railways, UPSC, JEE, NEET, and Defence examinations.
           </p>
 
-          <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <button
-              onclick="startExamCategory('SSC')"
-              class="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 transition flex items-center gap-2 text-base cursor-pointer active:scale-95"
+          <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <a
+              href="/ssc"
+              class="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-2xl shadow-lg shadow-indigo-200 transition flex items-center gap-2 text-sm"
             >
               <i
                 data-lucide="zap"
-                class="w-5 h-5 text-yellow-300 fill-current"
+                class="w-4 h-4 text-amber-300 fill-current"
               ></i>
-              Start Instant Test
-            </button>
-            <a
-              href="#marking-matrix"
-              class="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl border border-slate-700 transition flex items-center gap-2 text-base"
-            >
-              View Marking Schemes
+              <span>Start SSC CGL Mock</span>
             </a>
+            <button
+              onclick="openSearchModal()"
+              class="px-7 py-3.5 bg-white hover:bg-slate-100 text-slate-700 font-bold rounded-2xl border border-slate-300 transition flex items-center gap-2 text-sm shadow-xs cursor-pointer"
+            >
+              <i data-lucide="search" class="w-4 h-4 text-slate-500"></i>
+              <span>Search All Exams</span>
+            </button>
           </div>
         </div>
       </section>
 
-      <!-- TEST CATEGORIES & MARKING RULES MATRIX -->
+      <!-- EXAM CARDS GRID SECTION -->
       <section
-        id="marking-matrix"
-        class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
+        id="exam-grid-section"
+        class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
       >
-        <div class="text-center space-y-3 mb-12">
-          <h2
-            class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight"
+        <div
+          class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-3"
+        >
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <h2
+                class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight"
+              >
+                All Competitive Exams
+              </h2>
+              <span
+                class="text-[11px] font-black bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full border border-indigo-100"
+              >
+                8 Streams
+              </span>
+            </div>
+            <p class="text-xs text-slate-500 font-medium">
+              Select your category to start full mock tests and subject
+              practice.
+            </p>
+          </div>
+        </div>
+
+        <!-- SKELETON LOADER -->
+        <div id="grid-loader" class="text-center py-16">
+          <div
+            class="inline-block w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"
+          ></div>
+          <p
+            class="mt-3 text-xs text-slate-500 font-bold uppercase tracking-wider"
           >
-            Choose Your Exam Category
-          </h2>
-          <p class="text-slate-400 text-sm max-w-lg mx-auto">
-            Configured strictly according to the latest official examination
-            notification parameters.
+            Loading active examination streams...
           </p>
         </div>
 
+        <!-- DYNAMIC EXAM CARDS GRID -->
         <div
           id="exam-grid"
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
-          <!-- Dynamic exam cards injected by JS -->
-        </div>
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 hidden"
+        ></div>
       </section>
 
-      <!-- PERFORMANCE FEATURES -->
-      <section
-        class="py-16 px-4 sm:px-6 lg:px-8 bg-slate-900/50 border-t border-slate-800"
-      >
+      <!-- ALL INDIA PASS BANNER -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
         <div
-          class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-left"
+          class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-white/20"
         >
           <div
-            class="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3"
+            class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row"
           >
             <div
-              class="w-10 h-10 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center"
+              class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0 border border-white/30"
             >
-              <i data-lucide="calculator" class="w-5 h-5"></i>
+              <i data-lucide="crown" class="w-7 h-7 text-yellow-200"></i>
             </div>
-            <h3 class="text-lg font-bold text-white">
-              Negative Marking Engine
-            </h3>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              Eliminate exam surprises. Automatic deduction calculations
-              strictly matching 0.25, 0.33, 0.5, 0.66, or 1.0 penalties per
-              question.
-            </p>
+            <div>
+              <span
+                class="bg-black/20 text-yellow-200 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider"
+                >Unlimited Access</span
+              >
+              <h3 class="text-lg sm:text-xl font-black mt-0.5">
+                All-India Exam Mock Pass
+              </h3>
+              <p class="text-xs text-amber-100 font-medium">
+                Unlock full-length mock tests, sectional speed drills &amp;
+                national percentile ranking @ ₹99/month.
+              </p>
+            </div>
           </div>
-
-          <div
-            class="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3"
+          <button
+            onclick="openPassModal()"
+            class="px-7 py-3 bg-white text-slate-900 hover:bg-amber-50 active:scale-95 text-xs font-black rounded-2xl shadow-lg transition-all cursor-pointer whitespace-nowrap"
           >
-            <div
-              class="w-10 h-10 rounded-lg bg-emerald-600/20 text-emerald-400 flex items-center justify-center"
-            >
-              <i data-lucide="timer" class="w-5 h-5"></i>
-            </div>
-            <h3 class="text-lg font-bold text-white">
-              Targeted Time-Per-Question
-            </h3>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              Track your speed metrics dynamically. Visual indicators alert you
-              when you spend more than the ideal 1.0 to 1.5 minutes per item.
-            </p>
-          </div>
-
-          <div
-            class="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3"
-          >
-            <div
-              class="w-10 h-10 rounded-lg bg-indigo-600/20 text-indigo-400 flex items-center justify-center"
-            >
-              <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
-            </div>
-            <h3 class="text-lg font-bold text-white">
-              All India Percentile Rank
-            </h3>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              Compare your accuracy, attempt rate, and section-wise cut-off
-              scores against real aspirants across India.
-            </p>
-          </div>
+            Get Pass (₹99/mo)
+          </button>
         </div>
       </section>
     </main>
 
-    <!-- REUSABLE FOOTER PLACEHOLDER -->
+    <!-- REUSABLE FOOTER -->
     <div id="global-footer"></div>
 
-    <!-- REUSABLE LAYOUT SCRIPT -->
+    <!-- QUICK SEARCH MODAL -->
+    <div
+      id="search-modal"
+      class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-50 flex items-start justify-center p-4 pt-20 hidden"
+    >
+      <div
+        class="bg-white border border-slate-200 rounded-3xl w-full max-w-lg p-5 space-y-4 shadow-2xl animate-fadeIn"
+      >
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+          <i data-lucide="search" class="w-5 h-5 text-indigo-600"></i>
+          <input
+            id="search-input"
+            type="text"
+            placeholder="Search exam (e.g., SSC CGL, BPSC, RRB NTPC, NEET)..."
+            oninput="handleSearch(this.value)"
+            class="w-full text-sm font-bold text-slate-900 placeholder-slate-400 outline-none bg-transparent"
+          />
+          <button
+            onclick="closeSearchModal()"
+            class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div
+          id="search-results"
+          class="max-h-72 overflow-y-auto space-y-2 text-xs"
+        >
+          <p class="text-[11px] text-slate-400 font-semibold text-center py-4">
+            Type exam name to quickly launch mock test...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAYOUT ENGINE SCRIPT -->
     <script src="/js/layout.js"></script>
 
-    <!-- EXAM CONFIGURATION ENGINE -->
+    <!-- DATA BINDING & APP ENGINE -->
     <script>
-      const EXAM_MARKING_RULES = {
-        GOVT_PSC: {
-          name: "State PSC / Civil Services",
-          marks: 2,
-          neg: 0.66,
-          timePerQ: 1.3,
-          badge: "UPSC / BPSC / UPPSC",
-          icon: "landmark",
+      let EXAM_DATA = {};
+
+      const THEME_STYLES = {
+        indigo: {
+          iconBg: "bg-indigo-600",
+          badgeBg: "bg-indigo-50 text-indigo-700 border-indigo-100",
+          btn: "bg-indigo-50 group-hover:bg-indigo-600 text-indigo-700 group-hover:text-white border-indigo-200",
         },
-        SSC: {
-          name: "Staff Selection Commission",
-          marks: 2,
-          neg: 0.5,
-          timePerQ: 1.0,
-          badge: "CGL / CHSL / CPO",
-          icon: "shield",
+        amber: {
+          iconBg: "bg-slate-900",
+          badgeBg: "bg-amber-50 text-amber-800 border-amber-200",
+          btn: "bg-amber-50 group-hover:bg-slate-900 text-slate-900 group-hover:text-white border-amber-200",
         },
-        RAILWAYS: {
-          name: "Railway Recruitment Board",
-          marks: 1,
-          neg: 0.33,
-          timePerQ: 1.0,
-          badge: "RRB NTPC / Group D",
-          icon: "train",
+        rose: {
+          iconBg: "bg-rose-600",
+          badgeBg: "bg-rose-50 text-rose-700 border-rose-200",
+          btn: "bg-rose-50 group-hover:bg-rose-600 text-rose-700 group-hover:text-white border-rose-200",
         },
-        BANKING: {
-          name: "Banking & Financial Exams",
-          marks: 1,
-          neg: 0.25,
-          timePerQ: 1.0,
-          badge: "IBPS / SBI / RBI",
-          icon: "building-2",
+        emerald: {
+          iconBg: "bg-emerald-600",
+          badgeBg: "bg-emerald-50 text-emerald-800 border-emerald-200",
+          btn: "bg-emerald-50 group-hover:bg-emerald-600 text-emerald-700 group-hover:text-white border-emerald-200",
         },
-        JEE_NEET: {
-          name: "Engineering & Medical",
-          marks: 4,
-          neg: 1.0,
-          timePerQ: 1.5,
-          badge: "NTA JEE / NEET UG",
-          icon: "atom",
+        slate: {
+          iconBg: "bg-slate-700",
+          badgeBg: "bg-slate-100 text-slate-700 border-slate-200",
+          btn: "bg-slate-100 group-hover:bg-slate-800 text-slate-700 group-hover:text-white border-slate-200",
         },
-        DEFENCE: {
-          name: "Defence & Armed Forces",
-          marks: 2.5,
-          neg: 0.83,
-          timePerQ: 1.3,
-          badge: "NDA / CDS / AFCAT",
-          icon: "crosshair",
+        blue: {
+          iconBg: "bg-blue-600",
+          badgeBg: "bg-blue-50 text-blue-800 border-blue-200",
+          btn: "bg-blue-50 group-hover:bg-blue-600 text-blue-700 group-hover:text-white border-blue-200",
         },
-        TEACHING: {
-          name: "Teaching Eligibility",
-          marks: 1,
-          neg: 0,
-          timePerQ: 1.0,
-          badge: "CTET / STET / KVS",
-          icon: "book-open",
+        cyan: {
+          iconBg: "bg-cyan-600",
+          badgeBg: "bg-cyan-50 text-cyan-800 border-cyan-200",
+          btn: "bg-cyan-50 group-hover:bg-cyan-600 text-cyan-800 group-hover:text-white border-cyan-200",
         },
-        ENTRANCE: {
-          name: "University Entrances",
-          marks: 5,
-          neg: 1.0,
-          timePerQ: 1.2,
-          badge: "CUET / Law / Mgmt",
-          icon: "graduation-cap",
+        purple: {
+          iconBg: "bg-purple-600",
+          badgeBg: "bg-purple-50 text-purple-700 border-purple-100",
+          btn: "bg-purple-50 group-hover:bg-purple-600 text-purple-700 group-hover:text-white border-purple-100",
         },
       };
 
-      function renderExamCards() {
+      async function loadAndRenderExams() {
         const grid = document.getElementById("exam-grid");
-        if (!grid) return;
+        const loader = document.getElementById("grid-loader");
 
-        grid.innerHTML = Object.entries(EXAM_MARKING_RULES)
-          .map(
-            ([key, item]) => `
-            <div class="exam-card bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between">
-              <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="text-[10px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-md uppercase">
+        try {
+          const res = await fetch("/data/exams.json");
+          EXAM_DATA = await res.json();
+
+          grid.innerHTML = Object.entries(EXAM_DATA)
+            .map(([key, item]) => {
+              const theme =
+                THEME_STYLES[item.badgeColor] || THEME_STYLES.indigo;
+              const subTitles = (item.subjects || [])
+                .map((s) => s.name)
+                .slice(0, 3)
+                .join(", ");
+
+              return `
+                <div
+                  onclick="navigateToExam('${item.slug}')"
+                  class="exam-card group relative bg-white border border-slate-200/90 rounded-2xl p-4 pt-5 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+                >
+                  <!-- TOP-RIGHT EDGE BADGE -->
+                  <span class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight ${theme.badgeBg} px-2.5 py-0.5 rounded-bl-lg border-b border-l uppercase">
                     ${item.badge}
                   </span>
-                  <i data-lucide="${item.icon}" class="w-5 h-5 text-slate-400"></i>
+
+                  <!-- CARD MAIN CONTENT -->
+                  <div class="flex flex-col items-center w-full mt-1">
+                    <div class="w-11 h-11 rounded-xl ${theme.iconBg} text-white flex items-center justify-center text-xl shadow-xs mb-2.5 group-hover:scale-105 transition-transform">
+                      ${item.emoji}
+                    </div>
+
+                    <h3 class="text-xs sm:text-sm font-black text-slate-900 leading-snug group-hover:text-indigo-600 transition-colors">
+                      ${item.title.split(" 2026")[0]}
+                    </h3>
+
+                    <p class="text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight">
+                      ${subTitles || item.tagline}
+                    </p>
+                  </div>
+
+                  <!-- START TEST ACTION BUTTON -->
+                  <div class="mt-4 pt-2.5 border-t border-slate-100 w-full">
+                    <button
+                      class="w-full py-2 ${theme.btn} border font-extrabold rounded-xl text-xs transition duration-150 flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Start Test</span>
+                      <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
                 </div>
-                <h3 class="text-base font-bold text-white">${item.name}</h3>
-                <div class="bg-slate-950 rounded-xl p-3 border border-slate-800/80 space-y-1 text-xs">
-                  <div class="flex justify-between text-slate-400">
-                    <span>Correct Mark:</span>
-                    <span class="font-bold text-emerald-400">+${item.marks}</span>
-                  </div>
-                  <div class="flex justify-between text-slate-400">
-                    <span>Negative Mark:</span>
-                    <span class="font-bold text-rose-400">-${item.neg}</span>
-                  </div>
-                  <div class="flex justify-between text-slate-400">
-                    <span>Ideal Speed:</span>
-                    <span class="font-bold text-slate-200">${item.timePerQ} min/Q</span>
-                  </div>
-                </div>
+              `;
+            })
+            .join("");
+
+          loader.classList.add("hidden");
+          grid.classList.remove("hidden");
+
+          if (window.lucide) lucide.createIcons();
+        } catch (err) {
+          console.error("Failed to load /data/exams.json:", err);
+          loader.innerHTML = `
+            <p class="text-xs text-rose-500 font-bold">Failed to load exam data. Please verify /data/exams.json.</p>
+          `;
+        }
+      }
+
+      function navigateToExam(slug) {
+        window.location.href = `/${slug}`;
+      }
+
+      function openSearchModal() {
+        document.getElementById("search-modal").classList.remove("hidden");
+        document.getElementById("search-input").focus();
+      }
+
+      function closeSearchModal() {
+        document.getElementById("search-modal").classList.add("hidden");
+        document.getElementById("search-input").value = "";
+      }
+
+      window.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+          e.preventDefault();
+          openSearchModal();
+        }
+        if (e.key === "Escape") {
+          closeSearchModal();
+        }
+      });
+
+      function handleSearch(query) {
+        const resultsCont = document.getElementById("search-results");
+        if (!query.trim()) {
+          resultsCont.innerHTML = `
+            <p class="text-[11px] text-slate-400 font-semibold text-center py-4">
+              Type exam name to quickly launch mock test...
+            </p>
+          `;
+          return;
+        }
+
+        const q = query.toLowerCase();
+        const filtered = Object.entries(EXAM_DATA).filter(
+          ([key, val]) =>
+            val.title.toLowerCase().includes(q) ||
+            val.slug.toLowerCase().includes(q),
+        );
+
+        if (filtered.length === 0) {
+          resultsCont.innerHTML = `
+            <p class="text-[11px] text-slate-400 font-semibold text-center py-4">
+              No matching examination stream found.
+            </p>
+          `;
+          return;
+        }
+
+        resultsCont.innerHTML = filtered
+          .map(
+            ([key, item]) => `
+            <div 
+              onclick="navigateToExam('${item.slug}')"
+              class="p-3 bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 rounded-xl flex items-center justify-between cursor-pointer transition text-slate-800 font-bold"
+            >
+              <div class="flex items-center gap-2.5">
+                <span>${item.emoji}</span>
+                <span>${item.title.split(" 2026")[0]}</span>
+                <span class="text-[10px] bg-slate-100 border px-2 py-0.5 rounded font-bold">${item.badge}</span>
               </div>
-              <button 
-                onclick="startExamCategory('${key}')"
-                class="mt-4 w-full py-2.5 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 font-bold rounded-xl text-xs transition duration-150 flex items-center justify-center gap-1.5 cursor-pointer"
-              >
-                <span>Take Mock Test</span>
-                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-              </button>
+              <i data-lucide="chevron-right" class="w-4 h-4 text-indigo-600"></i>
             </div>
           `,
           )
           .join("");
+
+        if (window.lucide) lucide.createIcons();
       }
 
-      function startExamCategory(categoryKey) {
-        const config = EXAM_MARKING_RULES[categoryKey];
-        if (config) {
-          localStorage.setItem(
-            "selectedExam",
-            JSON.stringify({ category: categoryKey, ...config }),
-          );
-          window.location.href = `/test-screen.html?category=${categoryKey.toLowerCase()}`;
-        }
+      function openPassModal() {
+        alert("Redirecting to All-Access Exam Pass checkout @ ₹99/month...");
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        renderExamCards();
+        loadAndRenderExams();
       });
     </script>
   </body>

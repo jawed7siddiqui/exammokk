@@ -1,20 +1,68 @@
+# ==============================================================================
+# ExamMokk Cloud - Production .htaccess Configuration
+# ==============================================================================
+
+Options -Indexes +FollowSymLinks
 RewriteEngine On
+RewriteBase /
 
-# 1. Map /about-us to about-us.html
+# ------------------------------------------------------------------------------
+# 1. SECURITY & HTTPS (Optional: enable if SSL is configured)
+# ------------------------------------------------------------------------------
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Prevent direct access to hidden files/folders (e.g. .git, .env)
+RewriteRule ^\.(.*)$ - [F]
+
+# ------------------------------------------------------------------------------
+# 2. REAL FILES & DIRECTORIES PASSTHROUGH
+# ------------------------------------------------------------------------------
+# Real static files (CSS, JS, Images, JSON data) aur direct folders ko bypass karein
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ------------------------------------------------------------------------------
+# 3. STATIC WEBPAGES ROUTING (Clean URLs)
+# ------------------------------------------------------------------------------
 RewriteRule ^about-us/?$ about-us.html [L,QSA]
-
-# 2. Map /contact-us to contact-us.html
 RewriteRule ^contact-us/?$ contact-us.html [L,QSA]
-RewriteRule ^guide/?$ guide.html [L,QSA]
-RewriteRule ^coloring-pages/?$ coloring-pages.html [L,QSA]
+RewriteRule ^privacy-policy/?$ privacy-policy.html [L,QSA]
+RewriteRule ^terms/?$ terms.html [L,QSA]
+RewriteRule ^pricing/?$ pricing.html [L,QSA]
+RewriteRule ^tests/?$ tests.html [L,QSA]
+RewriteRule ^dashboard/?$ dashboard_gov_exam.html [L,QSA]
 
-RewriteRule ^ar/?$ ar.html [L,QSA]
-RewriteRule ^es/?$ es.html [L,QSA]
-
-RewriteRule ^school/([^/]+)/?$ index.html [L,QSA]
-
+# ------------------------------------------------------------------------------
+# 4. BLOGS ROUTING
+# ------------------------------------------------------------------------------
 RewriteRule ^blogs/?$ blogs.html [L,QSA]
+RewriteRule ^blogs/([^/]+)/?$ blog-detail.html?slug=$1 [L,QSA]
 
-# Map /blogs/slug-name to blog-detail.html (Single Blog Detail)
-RewriteRule ^blogs/([^/]+)/?$ blog-detail.html [L,QSA]
-RewriteRule ^math-games/?$ math-games.html [L,QSA]
+# ------------------------------------------------------------------------------
+# 5. DYNAMIC EXAM ROUTING (E.g. /upsc, /ssc, /banking, /jee-neet)
+# ------------------------------------------------------------------------------
+# Kisi bhi single slug ko dynamic exam template par send karega
+RewriteRule ^([a-zA-Z0-9_-]+)/?$ exam-detail.html?exam=$1 [L,QSA]
+
+# ------------------------------------------------------------------------------
+# 6. PERFORMANCE & BROWSER CACHING (Fast Core Web Vitals)
+# ------------------------------------------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# ------------------------------------------------------------------------------
+# 7. GZIP / DEFLATE COMPRESSION
+# ------------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json
+</IfModule>

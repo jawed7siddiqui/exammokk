@@ -1,14 +1,7 @@
 {
-  "cleanUrls": false,
+  "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/editor/(.*)",
-      "destination": "/editor.html"
-    },
-    {
-      "source": "/coloring-pages",
-      "destination": "/coloring-pages.html"
-    },
     {
       "source": "/about-us",
       "destination": "/about-us.html"
@@ -18,20 +11,24 @@
       "destination": "/contact-us.html"
     },
     {
-      "source": "/guide",
-      "destination": "/guide.html"
+      "source": "/privacy-policy",
+      "destination": "/privacy-policy.html"
     },
     {
-      "source": "/ar",
-      "destination": "ar.html"
+      "source": "/terms",
+      "destination": "/terms.html"
     },
     {
-      "source": "/es",
-      "destination": "es.html"
+      "source": "/pricing",
+      "destination": "/pricing.html"
     },
     {
-      "source": "/school/:schoolname",
-      "destination": "/index.html"
+      "source": "/tests",
+      "destination": "/tests.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/dashboard_gov_exam.html"
     },
     {
       "source": "/blogs",
@@ -39,11 +36,39 @@
     },
     {
       "source": "/blogs/:slug",
-      "destination": "/blog-detail.html"
+      "destination": "/blog-detail.html?slug=:slug"
     },
     {
-      "source": "/math-games",
-      "destination": "/math-games.html"
+      "source": "/:exam",
+      "destination": "/exam-detail.html?exam=:exam"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/data/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
     }
   ]
 }

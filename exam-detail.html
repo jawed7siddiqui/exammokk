@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO META TAGS (Dynamically populated by JS & Crawlable by bots) -->
+    <title id="meta-title">
+      Free Online Mock Tests &amp; Test Series 2026 | ExamMokk
+    </title>
+    <meta
+      id="meta-description"
+      name="description"
+      content="Attempt free all India competitive online mock test series for SSC, Banking, Railways, UPSC, JEE, NEET, and Defence."
+    />
+    <meta
+      id="meta-keywords"
+      name="keywords"
+      content="online mock test, competitive exam series, india test engine"
+    />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <link id="canonical-url" rel="canonical" href="https://exammokk.cloud/" />
+
+    <!-- OPEN GRAPH / FACEBOOK SOCIAL -->
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:type" content="website" />
+    <meta
+      id="og-title"
+      property="og:title"
+      content="ExamMokk - All India Test Series Engine"
+    />
+    <meta
+      id="og-description"
+      property="og:description"
+      content="Free Online Mock Tests with official negative marking and real timers."
+    />
+    <meta id="og-url" property="og:url" content="https://exammokk.cloud/" />
+    <meta property="og:site_name" content="ExamMokk Cloud" />
+    <meta
+      property="og:image"
+      content="https://exammokk.cloud/assets/og-image.png"
+    />
+
+    <!-- TWITTER CARDS -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      id="twitter-title"
+      name="twitter:title"
+      content="ExamMokk - Online Mock Tests"
+    />
+    <meta
+      id="twitter-description"
+      name="twitter:description"
+      content="Free mock tests for competitive exams in India."
+    />
+
+    <!-- DYNAMIC SCHEMA SCRIPT (JSON-LD) -->
+    <script id="schema-structured-data" type="application/ld+json"></script>
+
+    <!-- Tailwind CSS, Lucide Icons & Fonts -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
+      }
+      .faq-details[open] summary svg {
+        transform: rotate(180deg);
+      }
+    </style>
+  </head>
+  <body
+    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white"
+  >
+    <!-- REUSABLE HEADER -->
+    <div id="global-header"></div>
+
+    <main
+      class="flex-grow py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full"
+    >
+      <!-- BREADCRUMB (Crucial for SEO Crawlers) -->
+      <nav aria-label="Breadcrumb" class="mb-6">
+        <ol
+          class="flex items-center space-x-2 text-xs font-semibold text-slate-500"
+        >
+          <li>
+            <a
+              href="/"
+              class="hover:text-indigo-600 transition flex items-center gap-1"
+            >
+              <i data-lucide="home" class="w-3.5 h-3.5"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <li><span>/</span></li>
+          <li>
+            <a
+              href="/#exam-grid-section"
+              class="hover:text-indigo-600 transition"
+              >Exams</a
+            >
+          </li>
+          <li><span>/</span></li>
+          <li
+            id="breadcrumb-current"
+            class="text-slate-900 font-bold"
+            aria-current="page"
+          >
+            Loading...
+          </li>
+        </ol>
+      </nav>
+
+      <!-- SKELETON / LOADING SPINNER -->
+      <div
+        id="loading-state"
+        class="text-center py-20 bg-white border border-slate-200 rounded-3xl p-8"
+      >
+        <div
+          class="inline-block w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"
+        ></div>
+        <p
+          class="mt-3 text-xs text-slate-500 font-bold uppercase tracking-wider"
+        >
+          Loading authentic syllabus &amp; test details...
+        </p>
+      </div>
+
+      <!-- MAIN EXAM CONTENT WRAPPER -->
+      <article id="exam-content" class="hidden space-y-10">
+        <!-- 1. HERO SECTION -->
+        <section
+          class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+        >
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <span id="exam-emoji" class="text-4xl"></span>
+              <span
+                id="exam-badge"
+                class="text-xs font-black px-3 py-1 rounded-full uppercase border"
+              ></span>
+              <span
+                class="text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-md uppercase"
+                >2026 Updated</span
+              >
+            </div>
+            <h1
+              id="exam-title"
+              class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight"
+            ></h1>
+            <p
+              id="exam-tagline"
+              class="text-sm sm:text-base text-slate-500 font-medium max-w-2xl leading-relaxed"
+            ></p>
+          </div>
+
+          <div class="shrink-0 w-full md:w-auto">
+            <button
+              id="launch-test-btn"
+              class="w-full md:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-2xl shadow-lg shadow-indigo-100 flex items-center justify-center gap-2.5 text-base transition cursor-pointer"
+            >
+              <i data-lucide="play-circle" class="w-5 h-5 text-yellow-300"></i>
+              <span>Launch Mock Test</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- 2. EXAM OVERVIEW (Keyword Rich Paragraph) -->
+        <section
+          class="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-6"
+        >
+          <h2
+            class="text-sm font-black uppercase tracking-wider text-indigo-900 mb-2"
+          >
+            Examination Architecture &amp; Strategy
+          </h2>
+          <p
+            id="exam-overview"
+            class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium"
+          ></p>
+        </section>
+
+        <!-- 3. SYLLABUS & HIGHLIGHTS GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Left 2 Cols: Subjects & Syllabus -->
+          <section class="lg:col-span-2 space-y-4">
+            <div class="flex items-center justify-between">
+              <h2
+                class="text-lg font-black text-slate-900 flex items-center gap-2"
+              >
+                <i data-lucide="book-open" class="w-5 h-5 text-indigo-600"></i>
+                <span>Syllabus &amp; Subjects Covered</span>
+              </h2>
+              <span class="text-[11px] font-bold text-slate-400 uppercase"
+                >Chapter-Wise Tests</span
+              >
+            </div>
+            <div
+              id="subjects-container"
+              class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+            ></div>
+          </section>
+
+          <!-- Right 1 Col: Test Highlights -->
+          <section class="space-y-4">
+            <h2
+              class="text-lg font-black text-slate-900 flex items-center gap-2"
+            >
+              <i
+                data-lucide="check-circle-2"
+                class="w-5 h-5 text-emerald-600"
+              ></i>
+              <span>Test Series Features</span>
+            </h2>
+            <div
+              id="highlights-container"
+              class="bg-white border border-slate-200/90 rounded-2xl p-5 space-y-3.5 shadow-2xs"
+            ></div>
+          </section>
+        </div>
+
+        <!-- 4. FREQUENTLY ASKED QUESTIONS (FAQ SCHEMA) -->
+        <section class="space-y-4 pt-4 border-t border-slate-200">
+          <div class="space-y-1">
+            <h2
+              class="text-xl font-black text-slate-900 flex items-center gap-2"
+            >
+              <i data-lucide="help-circle" class="w-5 h-5 text-indigo-600"></i>
+              <span>Frequently Asked Questions</span>
+            </h2>
+            <p class="text-xs text-slate-500 font-medium">
+              Clear your doubts regarding examination format, timing, and
+              negative marking.
+            </p>
+          </div>
+          <div id="faqs-container" class="space-y-3"></div>
+        </section>
+      </article>
+    </main>
+
+    <!-- REUSABLE FOOTER -->
+    <div id="global-footer"></div>
+
+    <!-- REUSABLE LAYOUT SCRIPT -->
+    <script src="/js/layout.js"></script>
+
+    <!-- SEO & DATA INJECTION ENGINE -->
+    <script>
+      async function initializeExamSEOPage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let slug = urlParams.get("exam");
+
+        if (!slug) {
+          const pathParts = window.location.pathname.split("/").filter(Boolean);
+          slug = pathParts[pathParts.length - 1];
+        }
+
+        if (!slug) {
+          slug = "upsc"; // Fallback default
+        }
+
+        try {
+          const res = await fetch("/data/exams.json");
+          const allExams = await res.json();
+          const exam = allExams[slug.toLowerCase()];
+
+          if (!exam) {
+            document.getElementById("loading-state").innerHTML = `
+              <div class="py-10 space-y-3">
+                <h2 class="text-xl font-bold text-slate-800">Examination Stream Not Found</h2>
+                <p class="text-xs text-slate-500">The page you requested is not currently configured.</p>
+                <a href="/" class="inline-block px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold">Explore All Mock Tests</a>
+              </div>
+            `;
+            return;
+          }
+
+          // 1. DYNAMIC META INJECTION (FOR SEO BOTS & BROWSERS)
+          const canonicalUrl = `https://exammokk.cloud/${exam.slug}`;
+          document.title = exam.metaTitle;
+          document.getElementById("meta-title").innerText = exam.metaTitle;
+          document
+            .getElementById("meta-description")
+            .setAttribute("content", exam.metaDesc);
+          document
+            .getElementById("meta-keywords")
+            .setAttribute("content", exam.metaKeywords);
+          document
+            .getElementById("canonical-url")
+            .setAttribute("href", canonicalUrl);
+
+          document
+            .getElementById("og-title")
+            .setAttribute("content", exam.metaTitle);
+          document
+            .getElementById("og-description")
+            .setAttribute("content", exam.metaDesc);
+          document
+            .getElementById("og-url")
+            .setAttribute("content", canonicalUrl);
+          document
+            .getElementById("twitter-title")
+            .setAttribute("content", exam.metaTitle);
+          document
+            .getElementById("twitter-description")
+            .setAttribute("content", exam.metaDesc);
+
+          document.getElementById("breadcrumb-current").innerText = exam.title;
+
+          // 2. INJECT GOOGLE STRUCTURED DATA (JSON-LD)
+          const schemaData = {
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Course",
+                name: exam.title,
+                description: exam.metaDesc,
+                provider: {
+                  "@type": "Organization",
+                  name: "ExamMokk Cloud",
+                  sameAs: "https://exammokk.cloud",
+                },
+                isAccessibleForFree: true,
+                inLanguage: ["en", "hi"],
+              },
+              {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: "https://exammokk.cloud/",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: "Exams",
+                    item: "https://exammokk.cloud/#exam-grid-section",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 3,
+                    name: exam.title,
+                    item: canonicalUrl,
+                  },
+                ],
+              },
+              {
+                "@type": "FAQPage",
+                mainEntity: (exam.faqs || []).map((faq) => ({
+                  "@type": "Question",
+                  name: faq.q,
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: faq.a,
+                  },
+                })),
+              },
+            ],
+          };
+          document.getElementById("schema-structured-data").textContent =
+            JSON.stringify(schemaData);
+
+          // 3. RENDER VISUAL CONTENT
+          document.getElementById("exam-emoji").innerText = exam.emoji;
+          document.getElementById("exam-title").innerText = exam.title;
+          document.getElementById("exam-tagline").innerText = exam.tagline;
+          document.getElementById("exam-overview").innerText =
+            exam.overview || exam.metaDesc;
+
+          const badgeEl = document.getElementById("exam-badge");
+          badgeEl.innerText = exam.badge;
+          badgeEl.className = `text-xs font-black px-3 py-1 rounded-full uppercase border bg-${exam.badgeColor}-50 text-${exam.badgeColor}-700 border-${exam.badgeColor}-200`;
+
+          // Launch Action
+          document.getElementById("launch-test-btn").onclick = () => {
+            window.location.href = `/dashboard_gov_exam.html?type=${encodeURIComponent(exam.id)}`;
+          };
+
+          // Render Subjects Grid
+          const subjContainer = document.getElementById("subjects-container");
+          subjContainer.innerHTML = exam.subjects
+            .map(
+              (s) => `
+              <div class="bg-white border border-slate-200/90 p-4 rounded-2xl shadow-2xs space-y-1">
+                <h3 class="text-sm font-bold text-slate-900">${s.name}</h3>
+                <p class="text-xs text-slate-500 font-medium leading-relaxed">${s.topics}</p>
+              </div>
+            `,
+            )
+            .join("");
+
+          // Render Highlights
+          const hlContainer = document.getElementById("highlights-container");
+          hlContainer.innerHTML = exam.highlights
+            .map(
+              (h) => `
+              <div class="flex items-start gap-2.5 text-xs font-semibold text-slate-700">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
+                <span class="leading-tight">${h}</span>
+              </div>
+            `,
+            )
+            .join("");
+
+          // Render FAQ Accordions
+          const faqContainer = document.getElementById("faqs-container");
+          if (exam.faqs && exam.faqs.length > 0) {
+            faqContainer.innerHTML = exam.faqs
+              .map(
+                (f) => `
+                <details class="faq-details group bg-white border border-slate-200/90 rounded-2xl p-4 shadow-2xs cursor-pointer transition">
+                  <summary class="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-900 list-none">
+                    <span>${f.q}</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform duration-200"></i>
+                  </summary>
+                  <p class="text-xs text-slate-600 font-medium mt-2.5 pt-2.5 border-t border-slate-100 leading-relaxed">
+                    ${f.a}
+                  </p>
+                </details>
+              `,
+              )
+              .join("");
+          }
+
+          // Show Content
+          document.getElementById("loading-state").classList.add("hidden");
+          document.getElementById("exam-content").classList.remove("hidden");
+
+          if (window.lucide) lucide.createIcons();
+        } catch (err) {
+          console.error("SEO page initialization failed:", err);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeExamSEOPage);
+    </script>
+  </body>
+</html>
