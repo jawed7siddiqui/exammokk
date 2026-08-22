@@ -72,6 +72,18 @@
       .animate-pulse {
         animation: pulseSlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
       }
+      @keyframes fadeInOut {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+      .animate-fade {
+        animation: fadeInOut 2.5s ease-in-out infinite;
+      }
     </style>
   </head>
 
@@ -191,7 +203,6 @@
           margin: auto 0;
         "
       >
-        <!-- Logo Mascot (Clean Indigo Box without FREE badge) -->
         <div
           class="animate-float"
           style="position: relative; margin-bottom: 20px"
@@ -208,7 +219,6 @@
               box-shadow: 0 12px 24px -4px rgba(79, 70, 229, 0.4);
             "
           >
-            <!-- Graduation Cap SVG -->
             <svg
               width="44"
               height="44"
@@ -455,6 +465,26 @@
           gap: 10px;
         "
       >
+        <!-- Made in India (Elevated with extra spacing above loader) -->
+        <div
+          class="animate-fade"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #475569;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+          "
+        >
+          <span>Made in India</span>
+          <span style="font-size: 13px">🇮🇳</span>
+        </div>
+
         <!-- Progress Bar -->
         <div
           style="
@@ -501,35 +531,6 @@
           >
             0%
           </span>
-        </div>
-
-        <div
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding-top: 4px;
-            font-size: 10px;
-            font-weight: 700;
-            color: #94a3b8;
-            border-top: 1px solid #f1f5f9;
-          "
-        >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#059669"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            <path d="m9 12 2 2 4-4"></path>
-          </svg>
-          <span>Your Complete Exam Preparation Partner</span>
         </div>
       </footer>
     </div>
