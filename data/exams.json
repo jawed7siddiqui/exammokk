@@ -1,24 +1,75 @@
 {
+  "ssc": {
+    "id": "SSC",
+    "slug": "ssc",
+    "title": "SSC CGL, CHSL, MTS & GD 2026 Free Govt Prep App & Mock Test Series",
+    "metaTitle": "SSC CGL Free Mock Test App 2026 | SSC CHSL & MTS TCS Pattern Tests",
+    "metaDesc": "Free SSC Govt Exam Prep App & online test series based on authentic TCS iON pattern. Practice SSC CGL Tier 1 & 2 Quantitative Aptitude, Reasoning, English, and GK with All-India Rank.",
+    "metaKeywords": "ssc govt prep app, ssc cgl mock test 2026, ssc cgl free test series, ssc chsl online mock test, ssc mts practice app, tcs ion ssc pattern mock test, ssc reasoning practice app",
+    "badge": "Staff Selection Commission",
+    "badgeColor": "amber",
+    "emoji": "⚡",
+    "tagline": "TCS iON Examination Engine with 15-Minute Sectional Speed Drills & Step-by-Step Solutions",
+    "overview": "ExamMokk's SSC Govt Prep App replicates the authentic TCS iON online examination interface. Designed for SSC CGL Tier 1 (100 Questions, 200 Marks) and Tier 2 (Math, Reasoning, English & GA), with accurate +2 / -0.5 negative evaluation and live All-India Rank.",
+    "subjects": [
+      {
+        "name": "Quantitative Aptitude & Advanced Math",
+        "topics": "Arithmetic, Trigonometry, Geometry, Mensuration, Algebra & DI"
+      },
+      {
+        "name": "General Intelligence & Reasoning",
+        "topics": "Syllogism, Coding-Decoding, Blood Relations, Analogies & Venn Diagrams"
+      },
+      {
+        "name": "English Language & Comprehension",
+        "topics": "Cloze Test, Spotting Errors, Active-Passive, Idioms & Reading Passages"
+      },
+      {
+        "name": "General Awareness & Current Affairs",
+        "topics": "Static GK, General Science (Physics, Chem, Bio), Indian Polity & Economy"
+      }
+    ],
+    "highlights": [
+      "Exact Replica of TCS iON Online Examination Screen",
+      "+2 Marks for Correct & -0.5 Negative Marking Evaluation",
+      "Real-Time Speed vs. Accuracy Efficiency Matrix",
+      "Bilingual Question Sets (English & Hindi Medium)"
+    ],
+    "faqs": [
+      {
+        "q": "Is the SSC CGL mock test based on the latest 2026 syllabus?",
+        "a": "Yes, every test adheres to the updated SSC Tier-1 and Tier-2 syllabus covering Quantitative Aptitude, Reasoning, English, and General Awareness."
+      },
+      {
+        "q": "What is the negative marking scheme applied in SSC tests?",
+        "a": "For Tier-1 tests, 2 marks are awarded for correct answers and 0.5 marks are deducted for every incorrect attempt."
+      },
+      {
+        "q": "Can I use ExamMokk as a mobile prep app?",
+        "a": "Yes, ExamMokk is fully optimized for mobile devices and can be installed directly as a Progressive Web App (PWA) with zero storage cost."
+      }
+    ]
+  },
   "upsc": {
     "id": "GOVT_PSC",
     "slug": "upsc",
-    "title": "UPSC Civil Services & State PSC Online Mock Test Series 2026",
-    "metaTitle": "UPSC Civil Services Mock Test 2026 | Free IAS & State PSC Test Series",
-    "metaDesc": "Attempt free UPSC IAS Prelims GS Paper 1 & CSAT mock tests. Chapter-wise tests for Polity, History, Economy, Geography with All-India rank & detailed solutions.",
-    "metaKeywords": "upsc mock test 2026, ias prelims free test series, bpsc mock test, uppsc online test, csat paper 2 practice",
+    "title": "UPSC Civil Services (IAS) & State PSC 2026 Free Prep App & Test Series",
+    "metaTitle": "UPSC Prelims Mock Test App 2026 | Free IAS GS Paper 1 & CSAT Test Series",
+    "metaDesc": "Practice UPSC CSE Prelims GS-1 & CSAT Paper-2 online mock tests on India's top free govt prep app. NCERT Polity, History, Economy with 1/3rd negative marking & AIR leaderboard.",
+    "metaKeywords": "upsc prep app, upsc prelims mock test 2026, ias gs paper 1 test series, free upsc csat mock test, bpsc mock test app, uppsc prelims practice test, state psc prep app",
     "badge": "Civil Services Exam",
     "badgeColor": "indigo",
     "emoji": "⚖️",
-    "tagline": "All India Prelims & Mains Standard Mock Test Series with In-Depth Explanations",
-    "overview": "ExamMokk's UPSC Civil Services test series is designed by top educators adhering strictly to the latest UPSC CSE and State PSC question patterns. Prepare comprehensively for General Studies (GS Paper-I) and Civil Services Aptitude Test (CSAT).",
+    "tagline": "NCERT-Aligned Statement Matching & CSAT Logical Aptitude Simulator",
+    "overview": "Master UPSC CSE Prelims and State PSC examinations with rigorous statement-based questions. Features complete coverage of GS Paper-I (100 Questions, 200 Marks) and CSAT Paper-II with strict 1/3rd (-0.66) negative marking and detailed analytical explanations.",
     "subjects": [
       {
-        "name": "Indian Polity & Constitution",
-        "topics": "Preamble, Fundamental Rights, Parliament, Judiciary & Constitutional Bodies"
+        "name": "Indian Polity & Governance",
+        "topics": "Preamble, Fundamental Rights, Parliament, Supreme Court & Constitutional Bodies"
       },
       {
         "name": "Modern Indian History & Art-Culture",
-        "topics": "Freedom Struggle (1857-1947), Socio-Religious Movements, Temple Architecture"
+        "topics": "Freedom Struggle (1857-1947), Temple Architecture, Bhakti Movement"
       },
       {
         "name": "Geography & Environmental Ecology",
@@ -26,176 +77,126 @@
       },
       {
         "name": "Indian Economy & Budget",
-        "topics": "Monetary Policy, Fiscal Deficit, Banking Reforms & Economic Survey"
+        "topics": "Monetary Policy, Fiscal Deficit, Banking Reforms & Economic Trends"
       },
       {
-        "name": "CSAT (Paper-II)",
-        "topics": "Reading Comprehension, Logical Deduction, Data Sufficiency & Quantitative Aptitude"
+        "name": "CSAT (Paper-II Aptitude)",
+        "topics": "Reading Comprehension, Syllogisms, Data Sufficiency & Quantitative Aptitude"
       }
     ],
     "highlights": [
-      "100% NCERT and Standard Reference Book Alignment",
-      "Real Exam Interface with Dual Language Support (Hindi & English)",
-      "Instant National Percentile & Cutoff Readiness Analytics",
-      "Detailed Step-by-Step Question Explanations"
+      "Strict Pair-Matching & Statement-Based UPSC Questions",
+      "Authentic 1/3rd (-0.66 mark) Negative Marking Engine",
+      "Instant National Percentile & Cutoff Readiness Index",
+      "Comprehensive Hindi & English Explanations"
     ],
     "faqs": [
       {
-        "q": "Are these UPSC mock tests based on the latest 2026 syllabus?",
-        "a": "Yes, every mock test adheres to the updated UPSC CSE format, covering analytical statement-based questions and pair-matching patterns."
+        "q": "How does the UPSC Prelims scoring calculator work?",
+        "a": "GS Paper 1 allocates +2 marks for correct answers and deducts 0.66 marks for wrong answers."
       },
       {
-        "q": "Can I attempt the test in Hindi medium?",
-        "a": "Yes, all question sets and solution explanations are available in both English and Hindi."
-      },
-      {
-        "q": "Is there negative marking in this test series?",
-        "a": "Yes, accurate 1/3rd negative marking (-0.66 per wrong answer) is enforced exactly like the real UPSC Prelims examination."
-      }
-    ]
-  },
-  "ssc": {
-    "id": "SSC",
-    "slug": "ssc",
-    "title": "SSC CGL, CHSL, MTS & GD Constable 2026 Free Mock Test Series",
-    "metaTitle": "SSC CGL & CHSL Free Mock Test Series 2026 | TCS Pattern Tests",
-    "metaDesc": "Practice 100% free SSC CGL Tier 1 & 2 mock tests based on exact TCS pattern. Quantitative Aptitude, Reasoning, English, and General Awareness practice papers.",
-    "metaKeywords": "ssc cgl mock test free, ssc chsl test series 2026, ssc mts practice test, tcs ion ssc pattern, ssc online exam engine",
-    "badge": "Staff Selection Commission",
-    "badgeColor": "amber",
-    "emoji": "⚡",
-    "tagline": "TCS Pattern Test Simulator with Sectional Speed Drills and Detailed Analytics",
-    "overview": "Crack SSC CGL, CHSL, CPO, and MTS exams with ExamMokk. Our test series replicates the authentic TCS iON testing software, helping you master speed, negative marking management, and accurate time allocation.",
-    "subjects": [
-      {
-        "name": "Quantitative Aptitude",
-        "topics": "Percentage, Profit & Loss, Trigonometry, Geometry, Mensuration & Algebra"
-      },
-      {
-        "name": "General Intelligence & Reasoning",
-        "topics": "Syllogism, Blood Relations, Coding-Decoding, Mirror Images & Series"
-      },
-      {
-        "name": "English Language & Comprehension",
-        "topics": "Grammar Rules, Error Spotting, Cloze Tests, Idioms & Reading Passages"
-      },
-      {
-        "name": "General Awareness & Current Affairs",
-        "topics": "Static GK, General Science (Physics, Chemistry, Bio), Indian History & Polity"
-      }
-    ],
-    "highlights": [
-      "Exact Replica of TCS iON Online Examination Screen",
-      "Speed Enhancement Modules (15-Minute Topic Drills)",
-      "Shift-Wise Normalization Score Predictor",
-      "Full Length Tier 1 & Tier 2 Comprehensive Tests"
-    ],
-    "faqs": [
-      {
-        "q": "How does the negative marking calculation work for SSC?",
-        "a": "SSC tests apply an exact 0.5 mark deduction per wrong answer for Tier 1 and 1 mark deduction for Tier 2."
-      },
-      {
-        "q": "Are the questions updated with 2025-2026 TCS question patterns?",
-        "a": "Yes, all question banks are updated with recent shift questions and high-frequency concepts."
+        "q": "Are Previous Year Questions (PYQs) included?",
+        "a": "Yes, high-yield PYQ concept patterns from 2015 to 2025 are integrated into the question bank."
       }
     ]
   },
   "banking": {
     "id": "BANKING",
     "slug": "banking",
-    "title": "Bank PO & Clerk 2026 Online Mock Tests | IBPS, SBI & RBI",
-    "metaTitle": "Bank PO & Clerk Free Mock Tests 2026 | SBI, IBPS & RBI Test Series",
-    "metaDesc": "Free online mock tests for SBI PO, IBPS PO, RRB & Clerk exams with strict 20-minute sectional timers, latest puzzle patterns, and Data Interpretation.",
-    "metaKeywords": "bank po mock test free, sbi po prelims test series, ibps clerk test series 2026, banking awareness questions, high level reasoning puzzles",
+    "title": "Bank PO & Clerk 2026 Free Prep App | IBPS, SBI, RRB & RBI Mock Tests",
+    "metaTitle": "Bank PO & Clerk Free Mock Tests App 2026 | SBI PO, IBPS Clerk Test Series",
+    "metaDesc": "Free Bank Exam Prep App for SBI PO, IBPS PO, RRB & Clerk Prelims mock tests. Practice high-level seating arrangement puzzles and Data Interpretation with 20-min sectional timers.",
+    "metaKeywords": "bank prep app, bank po mock test free, sbi po prelims test series 2026, ibps clerk mock test app, banking reasoning puzzles, data interpretation mock test bank",
     "badge": "Banking & Insurance",
     "badgeColor": "emerald",
     "emoji": "🏦",
-    "tagline": "High-Difficulty Puzzles, Advanced DI, and Strict 20-Minute Sectional Timer Simulator",
-    "overview": "Master banking competitive exams including SBI PO, IBPS PO, IBPS RRB Scale-I, and RBI Assistant. Focus heavily on sectional speed, accuracy under pressure, and advanced seating arrangements.",
+    "tagline": "20-Minute Sectional Switch Simulator with High-Difficulty Puzzles & Caselet DI",
+    "overview": "Engineered for IBPS PO, SBI PO, IBPS RRB Scale-I, and RBI Assistant aspirants. Experience strict 20-minute sectional countdowns, speed calculation drills, and multi-variable seating arrangements.",
     "subjects": [
       {
-        "name": "Quantitative Aptitude & Data Interpretation",
-        "topics": "Missing DI, Caselets, Quadratic Equations, Approximation & Arithmetic"
+        "name": "Quantitative Aptitude & Caselet DI",
+        "topics": "Missing & Caselet DI, Quadratic Equations, Approximation, Arithmetic Word Problems"
       },
       {
-        "name": "Reasoning Ability & Puzzles",
-        "topics": "Floor & Flat Puzzles, Box Seating, Parallel Rows, Syllogisms & Inequalities"
+        "name": "Reasoning Ability & High-Level Puzzles",
+        "topics": "Floor & Flat Puzzles, Box Arrays, Parallel Rows, Syllogisms, Inequalities"
       },
       {
         "name": "English Language",
-        "topics": "Reading Comprehension, Parajumbles, Phrase Replacement & Fillers"
+        "topics": "Reading Comprehension, Parajumbles, Phrase Replacement, Cloze Tests"
       },
       {
         "name": "Banking & Financial Awareness",
-        "topics": "Monetary Policy, Basel Norms, Banking Terminology & Current Economic News"
+        "topics": "Monetary Policy, RBI Guidelines, Basel Norms, Banking Terms & Current Affairs"
       }
     ],
     "highlights": [
-      "Strict Sectional Timer Implementation (20 Minutes/Section)",
-      "High-Difficulty Mains Level Caselet DI & Multi-Variable Puzzles",
-      "Real-Time Accuracy vs. Speed Performance Matrix"
+      "Strict 20-Minute Sectional Timers per Subject",
+      "Exact -0.25 Mark Negative Marking Computation",
+      "Time-per-Question Speed & Efficiency Analytics"
     ],
     "faqs": [
       {
-        "q": "Does ExamMokk support 20-minute sectional switching?",
-        "a": "Yes, just like real IBPS and SBI exams, each section locks after 20 minutes automatically."
+        "q": "Does the test auto-switch sections after 20 minutes?",
+        "a": "Yes, just like the actual IBPS/SBI examination, each section locks automatically when 20 minutes expire."
       }
     ]
   },
   "railways": {
     "id": "RAILWAYS",
     "slug": "railways",
-    "title": "RRB NTPC, Group D, ALP & Technician 2026 Mock Test Series",
-    "metaTitle": "RRB NTPC & Group D Free Mock Test Series 2026 | Railway Exams",
-    "metaDesc": "Attempt free RRB NTPC Stage 1 & 2 mock tests. High-weightage General Science, Math, and Reasoning questions in Hindi and English.",
-    "metaKeywords": "rrb ntpc mock test free, rrb group d test series 2026, railway alp online mock, general science mcq railway",
+    "title": "RRB NTPC, Group D, ALP & Technician 2026 Free Railway Exam Prep App",
+    "metaTitle": "RRB NTPC & Group D Free Mock Test App 2026 | Railway Online Exam",
+    "metaDesc": "Attempt free RRB NTPC Stage 1 & 2 mock tests. High-scoring General Science (NCERT 9th & 10th), Mathematics, and Reasoning sets in Hindi & English.",
+    "metaKeywords": "railway prep app, rrb ntpc mock test free, rrb group d online test app 2026, railway alp mock test, general science mcq railway ntpc",
     "badge": "Railway Recruitment",
     "badgeColor": "rose",
     "emoji": "🚆",
-    "tagline": "CBT-1 & CBT-2 Focused Modules with Extensive General Science Practice",
-    "overview": "Comprehensive preparation hub for Railway Recruitment Board (RRB) exams including NTPC, Group D, Assistant Loco Pilot (ALP), and RPF SI.",
+    "tagline": "CBT-1 & CBT-2 Practice Simulator with In-Depth General Science Question Banks",
+    "overview": "Complete test series for Railway Recruitment Board (RRB) exams including NTPC, Group D, Assistant Loco Pilot (ALP), and RPF SI with 1/3rd penalty calculation.",
     "subjects": [
       {
         "name": "General Science (Physics, Chem, Bio)",
-        "topics": "NCERT Class 9th & 10th Standard Science Questions"
+        "topics": "NCERT Class 9th & 10th Standard Core Concepts and Daily Science"
       },
       {
         "name": "Mathematics",
-        "topics": "BODMAS, Decimals, Fractions, LCM-HCF, Ratio, SI-CI & Mensuration"
+        "topics": "BODMAS, Fractions, Decimals, LCM-HCF, SI-CI, Ratio, Time-Work, Mensuration"
       },
       {
         "name": "General Intelligence & Reasoning",
-        "topics": "Venn Diagrams, Coding-Decoding, Conclusions & Analytical Reasoning"
+        "topics": "Venn Diagrams, Analogies, Coding-Decoding, Direction Sense & Statements"
       }
     ],
     "highlights": [
-      "Bilingual Content (English & Hindi)",
-      "1/3rd Negative Marking Evaluator"
+      "Bilingual Practice Sets (Hindi & English)",
+      "Accurate 1/3rd Negative Marking Evaluation",
+      "Chapter-Wise Science Speed Quizzes"
     ],
     "faqs": [
       {
-        "q": "Are tests available for both CBT-1 and CBT-2?",
-        "a": "Yes, sectional and full-length tests for both stages are included."
+        "q": "Are the questions available in Hindi?",
+        "a": "Yes, Railway test modules support full Hindi and English bilingual questions and explanations."
       }
     ]
   },
   "jee-neet": {
     "id": "JEE_NEET",
     "slug": "jee-neet",
-    "title": "NTA JEE Main & NEET UG 2026 Free Chapter-wise Mock Tests",
-    "metaTitle": "JEE Main & NEET UG Free Online Mock Tests 2026 | NTA Simulator",
-    "metaDesc": "Master Physics, Chemistry, Biology, and Mathematics with NTA standard online mock tests. Detailed step-by-step numerical solutions.",
-    "metaKeywords": "jee main mock test 2026, neet ug free test series, nta pattern mock test, physics chemistry biology mcq",
+    "title": "NTA JEE Main & NEET UG 2026 Free Chapter-wise CBT Mock Test App",
+    "metaTitle": "JEE Main & NEET UG Free Online Mock Tests App 2026 | NTA CBT Simulator",
+    "metaDesc": "Attempt NTA pattern JEE Main & NEET mock tests. Detailed step-by-step numerical solutions for Physics, Chemistry, Biology, and Mathematics with +4/-1 scoring.",
+    "metaKeywords": "jee neet prep app, jee main mock test 2026, neet ug free mock test app, nta cbt simulator, physics chemistry biology mcq practice",
     "badge": "Engineering & Medical",
     "badgeColor": "blue",
     "emoji": "🧬",
-    "tagline": "Standard NTA Scoring & Numerical Value Question Interface",
-    "overview": "Rigorous full-length 3-hour tests and topic-wise practice modules for IIT JEE Main and NEET UG aspirants.",
+    "tagline": "NTA Standard +4 / -1 Marking Simulator with Numerical Value Input Questions",
+    "overview": "Rigorous full-length 3-hour tests and topic-wise practice modules for IIT JEE Main and NEET UG aspirants adhering strictly to NCERT and NTA question standards.",
     "subjects": [
       {
         "name": "Physics",
-        "topics": "Kinematics, Thermodynamics, Electromagnetism, Modern Physics"
+        "topics": "Kinematics, Thermodynamics, Electromagnetism, Optics, Modern Physics"
       },
       {
         "name": "Chemistry",
@@ -203,114 +204,117 @@
       },
       {
         "name": "Mathematics / Biology",
-        "topics": "Calculus, Vectors, Botany, Zoology & Human Physiology"
+        "topics": "Calculus, Vectors, Genetics, Botany, Zoology & Human Physiology"
       }
     ],
     "highlights": [
-      "+4/-1 Strict Evaluation",
-      "Numerical Value Question Support"
+      "Strict +4 for Correct and -1 for Incorrect Marking",
+      "Numerical Answer Type (NAT) Input Support",
+      "Instant Sectional Speed & Accuracy Breakdown"
     ],
     "faqs": [
       {
-        "q": "Are NCERT diagrams and figures included?",
-        "a": "Yes, biology and chemistry question sets are completely NCERT curriculum aligned."
+        "q": "Does it support NTA numerical input question format?",
+        "a": "Yes, integer-type numerical questions are fully supported with exact decimal precision scoring."
       }
     ]
   },
   "defence": {
     "id": "DEFENCE",
     "slug": "defence",
-    "title": "Defence & Police Exams 2026 | NDA, CDS, Police SI Free Mocks",
-    "metaTitle": "NDA, CDS & State Police SI Free Mock Tests 2026 | ExamMokk",
-    "metaDesc": "Prepare for NDA, CDS, UP Police SI, Bihar Police, and Agniveer exams with dedicated GAT, Math, and Law tests.",
-    "metaKeywords": "nda mock test 2026, cds gat test series, up police si mock test, mool vidhi questions",
+    "title": "NDA, CDS, Police SI & Defence Exams 2026 Free Prep App",
+    "metaTitle": "NDA, CDS & State Police SI Free Mock Tests App 2026 | ExamMokk",
+    "metaDesc": "Prepare for NDA GAT & Maths, CDS, UP Police SI, Bihar Police, and Agniveer exams with dedicated time-bound test series and legal constitutional modules.",
+    "metaKeywords": "defence exam prep app, nda mock test 2026, cds online test series, up police si mock test app, mool vidhi online practice, agniveer test app",
     "badge": "Defence & Police",
     "badgeColor": "slate",
     "emoji": "🎖️",
-    "tagline": "GAT, Mool Vidhi & Advanced Mathematics Mock Series",
-    "overview": "Structured test series for armed forces and police recruitment exams across India.",
+    "tagline": "GAT, Mool Vidhi & Advanced Mathematics Mock Series with Cutoff Predictor",
+    "overview": "Comprehensive preparation hub for armed forces and state police recruitment exams across India with detailed sectional scoring and national ranking.",
     "subjects": [
       {
         "name": "General Ability Test (GAT)",
-        "topics": "English Grammar, World History, Geography, General Science"
+        "topics": "English Grammar, World & Indian History, Geography, General Science"
       },
       {
         "name": "Mathematics",
-        "topics": "Algebra, Trigonometry, Calculus (12th level for NDA)"
+        "topics": "Algebra, Trigonometry, Calculus, Vectors & Matrices (11th-12th Level)"
       },
       {
-        "name": "Police Law & Constitution",
-        "topics": "IPC, CrPC, Traffic Rules & Constitutional Rights"
+        "name": "Police Law & Constitution (Mool Vidhi)",
+        "topics": "Indian Penal Code, CrPC, Traffic Rules & Constitutional Rights"
       }
     ],
     "highlights": [
-      "Timer-controlled Sectional Modules",
-      "Complete Answer Explanations"
+      "NDA & CDS Standard Mathematics & GAT Sets",
+      "Mool Vidhi Legal MCQs for State Police Exams",
+      "Timer-controlled Sectional Modules"
     ],
     "faqs": [
       {
-        "q": "Are Police Mool Vidhi questions updated?",
-        "a": "Yes, updated legal provisions and constitutional articles are covered."
+        "q": "Are UP Police Mool Vidhi questions updated?",
+        "a": "Yes, updated legal provisions and constitutional articles are covered in the state police module."
       }
     ]
   },
   "teaching": {
     "id": "TEACHING",
     "slug": "teaching",
-    "title": "CTET, State TET & KVS 2026 Free Online Mock Tests",
-    "metaTitle": "CTET & State TET Free Mock Test Series 2026 | Paper 1 & 2",
-    "metaDesc": "Attempt free CTET Paper 1 and Paper 2 mock tests with Child Development & Pedagogy (CDP), EVS, Mathematics, and Languages.",
-    "metaKeywords": "ctet mock test 2026, ctet paper 1 online test, cdp questions for tet, kvs prt practice test",
+    "title": "CTET, State TET & KVS 2026 Free Teaching Exam Prep App",
+    "metaTitle": "CTET & State TET Free Mock Test Series App 2026 | Paper 1 & 2 CDP Tests",
+    "metaDesc": "Attempt free CTET Paper 1 and Paper 2 online mock tests. Master Child Development & Pedagogy (CDP), EVS, Mathematics, and Language Pedagogy.",
+    "metaKeywords": "teaching exam prep app, ctet mock test 2026, ctet paper 1 online test, cdp questions for ctet, kvs prt practice app, state tet mock test",
     "badge": "Teaching & TET",
     "badgeColor": "cyan",
     "emoji": "👨‍🏫",
-    "tagline": "NEP 2020 Aligned Child Pedagogy & Domain Practice Sets",
-    "overview": "Comprehensive preparation portal for Teacher Eligibility Tests (CTET, UPTET, REET, BTET) and KVS/DSSSB recruitment exams.",
+    "tagline": "NEP 2020 Aligned Child Pedagogy & Domain Practice Sets with Zero Negative Marking",
+    "overview": "Practice portal for Teacher Eligibility Tests (CTET, UPTET, REET, BTET) and KVS/DSSSB recruitment exams designed to strengthen pedagogical reasoning.",
     "subjects": [
       {
         "name": "Child Development & Pedagogy (CDP)",
-        "topics": "Piaget, Vygotsky, Kohlberg Theories, Inclusive Education"
+        "topics": "Piaget, Vygotsky, Kohlberg Theories, Inclusive Education & NEP 2020"
       },
       {
         "name": "Language I & II (Hindi / English)",
-        "topics": "Grammar, Reading Comprehension, Language Pedagogy"
+        "topics": "Grammar, Reading Passages & Language Teaching Pedagogy"
       },
       {
-        "name": "EVS & Mathematics",
-        "topics": "Environmental Concepts, Basic Arithmetic & Pedagogy"
+        "name": "EVS & Mathematics Pedagogy",
+        "topics": "Environmental Concepts, Primary Mathematics & Pedagogical Issues"
       }
     ],
     "highlights": [
-      "Zero Negative Marking Simulation",
-      "Bilingual Language Support"
+      "Zero Negative Marking Exam Simulation",
+      "Bilingual Language Support (Hindi & English)",
+      "Pedagogy Concept-Wise Clarifications"
     ],
     "faqs": [
       {
-        "q": "Are these tests suitable for State TETs?",
-        "a": "Yes, the core CDP and pedagogy syllabus is identical and highly beneficial."
+        "q": "Are these tests useful for state-level TETs?",
+        "a": "Yes, the core CDP and pedagogy syllabus is identical and highly beneficial for UPTET, REET, and other State TETs."
       }
     ]
   },
   "entrance": {
     "id": "ENTRANCE",
     "slug": "entrance",
-    "title": "CUET UG/PG, CLAT & Law Entrances 2026 Mock Series",
-    "metaTitle": "CUET UG & CLAT Free Online Mock Tests 2026 | ExamMokk",
-    "metaDesc": "Prepare for CUET General Test, Domain Subjects, and CLAT Legal Reasoning with authentic NTA-standard online mock tests.",
-    "metaKeywords": "cuet mock test 2026, clat online test series, cuet general test practice, cuet domain subjects",
+    "title": "CUET UG/PG, CLAT & Law Entrances 2026 Online Mock Test App",
+    "metaTitle": "CUET UG & CLAT Free Online Mock Tests App 2026 | NTA Standard Tests",
+    "metaDesc": "Prepare for CUET General Test, Domain Subjects, and CLAT Legal Reasoning with authentic NTA-standard online mock tests. Instant percentile rank.",
+    "metaKeywords": "cuet prep app, cuet mock test 2026, clat online test series, cuet general test practice app, cuet domain subjects mock test",
     "badge": "University Entrance",
     "badgeColor": "purple",
     "emoji": "🎓",
     "tagline": "Domain-Specific MCQs, Legal Reasoning & Reading Comprehension Sets",
-    "overview": "Target top central universities and national law schools with our specialized entrance exam mock modules.",
+    "overview": "Target top central universities and national law schools with our specialized entrance exam mock modules featuring +5 / -1 evaluation.",
     "subjects": [
       {
         "name": "Section I: Language & Comprehension",
         "topics": "Vocabulary, Idioms, Passages & Literary Aptitude"
       },
       {
-        "name": "Section II: Domain Subjects",
-        "topics": "Class 12th NCERT Syllabus MCQs"
+        "name": "Section II: NCERT Domain Subjects",
+        "topics": "Class 12th NCERT Core MCQs (Science, Commerce, Humanities)"
       },
       {
         "name": "Section III: General Test",
@@ -318,13 +322,14 @@
       }
     ],
     "highlights": [
-      "NTA Standard Examination Timer",
-      "Sectional Choice & Attempt Rules"
+      "NTA Standard Interface with +5 / -1 Scoring",
+      "Subject-Wise Time Management Drills",
+      "Legal Reasoning Case-Based Passages"
     ],
     "faqs": [
       {
         "q": "Does CUET test series include negative marking?",
-        "a": "Yes, +5 for correct and -1 for wrong answers are strictly computed."
+        "a": "Yes, +5 for correct and -1 for wrong answers are strictly computed as per NTA guidelines."
       }
     ]
   }

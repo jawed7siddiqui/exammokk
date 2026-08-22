@@ -71,7 +71,7 @@
         <!-- LEFT: BACK BUTTON & DYNAMIC CATEGORY TITLE -->
         <div class="flex items-center gap-2.5">
           <button
-            onclick="window.location.href = 'home_gov.html'"
+            onclick="window.location.href = '/'"
             class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 flex items-center justify-center transition-all cursor-pointer shrink-0"
             title="Back to Home"
           >
@@ -336,8 +336,12 @@
       const urlParams = new URLSearchParams(window.location.search);
       const rawType = (urlParams.get("type") || "SSC").toUpperCase();
 
-      // Normalize stream key with AllSubject.js
+      // Normalize stream key with AllSubject.js & Include DAILY_GK
       const STREAM_TITLES = {
+        DAILY_GK: {
+          title: "Daily GK & Current Affairs",
+          sub: "Today's Live Speed Drill & Static GK",
+        },
         SSC: { title: "SSC Exams", sub: "CGL, CHSL, MTS & GD Constable" },
         RAILWAYS: {
           title: "Railway Exams",
@@ -375,12 +379,21 @@
       // 2. GET CURRENT SUBJECT LIST DIRECTLY FROM ALLSUBJECT.JS
       function getCurrentSubjectList() {
         if (
-          typeof subjectsBySegment === "undefined" ||
-          !subjectsBySegment[currentSegment]
+          typeof subjectsBySegment !== "undefined" &&
+          subjectsBySegment[currentSegment]
         ) {
-          return [];
+          return subjectsBySegment[currentSegment];
         }
-        return subjectsBySegment[currentSegment];
+
+        // Direct window fallback for arrays
+        if (
+          currentSegment === "DAILY_GK" &&
+          (window.DAILY_GK || typeof DAILY_GK !== "undefined")
+        ) {
+          return window.DAILY_GK || DAILY_GK;
+        }
+
+        return [];
       }
 
       // 3. DYNAMIC HEADER TITLE UPDATE
@@ -426,6 +439,8 @@
 
       // 5. FETCH SUBJECT TESTS
       async function fetchSubjectTests(subjObj) {
+        if (!subjObj) return;
+
         subjObj.loading = true;
         subjObj.hasError = false;
         renderAccordion();
@@ -534,15 +549,9 @@
 
         if (activeList.length === 0) {
           container.innerHTML = `
-<<<<<<< HEAD
-            <div class="py-8 text-center bg-white rounded-2xl border border-slate-200/80">
-              <p class="text-xs font-bold text-slate-400">No tests available for this stream.</p>
-              <button onclick="window.location.href='home_gov.html'" class="mt-3 px-3.5 py-1.5 bg-indigo-50 text-indigo-600 font-bold text-xs rounded-xl">
-=======
             <div class="py-8 text-center bg-white rounded-2xl border border-slate-200/80 p-4">
               <p class="text-xs font-bold text-slate-400">No subjects configured for this stream.</p>
-              <button onclick="window.location.href='home_gov.html'" class="mt-3 px-3.5 py-1.5 bg-indigo-50 text-indigo-600 font-bold text-xs rounded-xl cursor-pointer">
->>>>>>> 8e458be (fix: update gov exam dashboard and runners)
+              <button onclick="window.location.href='/'" class="mt-3 px-3.5 py-1.5 bg-indigo-50 text-indigo-600 font-bold text-xs rounded-xl cursor-pointer">
                 Back to All Exams
               </button>
             </div>
@@ -626,11 +635,7 @@
                         ? `
                       <div class="py-4 text-center">
                         <p class="text-xs font-bold text-rose-500 mb-2">${subj.errorMessage || "Failed to load tests."}</p>
-<<<<<<< HEAD
-                        <button onclick="event.stopPropagation(); fetchSubjectTests(window.getSubjectById('${subj.id}'))" class="px-3.5 py-1.5 bg-rose-50 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold">
-=======
-                        <button onclick="event.stopPropagation(); fetchSubjectTests(window.getSubjectById ? window.getSubjectById('${subj.id}') : { id: '${subj.id}', name: '${subj.name}' })" class="px-3.5 py-1.5 bg-rose-50 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold cursor-pointer">
->>>>>>> 8e458be (fix: update gov exam dashboard and runners)
+                        <button onclick="event.stopPropagation(); fetchSubjectTests(window.getSubjectById ? window.getSubjectById('${subj.id}') : { id: '${subj.id}', name: '${subj.name}', apiSubject: '${subj.apiSubject || subj.name}' })" class="px-3.5 py-1.5 bg-rose-50 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold cursor-pointer">
                           Retry
                         </button>
                       </div>

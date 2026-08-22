@@ -2,21 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-    <!-- SEO META TAGS (Dynamically populated by JS & Crawlable by bots) -->
+    <!-- BASE META TAGS (Updated dynamically on page load) -->
     <title id="meta-title">
-      Free Online Mock Tests &amp; Test Series 2026 | ExamMokk
+      Free Govt Exam Mock Test &amp; Prep App | ExamMokk
     </title>
     <meta
       id="meta-description"
       name="description"
-      content="Attempt free all India competitive online mock test series for SSC, Banking, Railways, UPSC, JEE, NEET, and Defence."
+      content="Attempt free all-India competitive online mock test series for SSC, Banking, Railways, UPSC, JEE, NEET, and Defence."
     />
     <meta
       id="meta-keywords"
       name="keywords"
-      content="online mock test, competitive exam series, india test engine"
+      content="govt prep app, online mock test, competitive exam series, india test engine"
     />
     <meta
       name="robots"
@@ -24,18 +27,25 @@
     />
     <link id="canonical-url" rel="canonical" href="https://exammokk.cloud/" />
 
-    <!-- OPEN GRAPH / FACEBOOK SOCIAL -->
+    <!-- MOBILE PWA & WEB APP CAPABILITY -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="theme-color" content="#4f46e5" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- OPEN GRAPH / SOCIAL -->
     <meta property="og:locale" content="en_IN" />
     <meta property="og:type" content="website" />
     <meta
       id="og-title"
       property="og:title"
-      content="ExamMokk - All India Test Series Engine"
+      content="ExamMokk - Govt Exam Test Engine"
     />
     <meta
       id="og-description"
       property="og:description"
-      content="Free Online Mock Tests with official negative marking and real timers."
+      content="Free online mock tests with authentic negative marking and timers."
     />
     <meta id="og-url" property="og:url" content="https://exammokk.cloud/" />
     <meta property="og:site_name" content="ExamMokk Cloud" />
@@ -49,7 +59,7 @@
     <meta
       id="twitter-title"
       name="twitter:title"
-      content="ExamMokk - Online Mock Tests"
+      content="ExamMokk - Govt Prep App"
     />
     <meta
       id="twitter-description"
@@ -57,8 +67,8 @@
       content="Free mock tests for competitive exams in India."
     />
 
-    <!-- DYNAMIC SCHEMA SCRIPT (JSON-LD) -->
-    <script id="schema-structured-data" type="application/ld+json"></script>
+    <!-- DYNAMIC SCHEMA SCRIPT TARGET (JSON-LD) -->
+    <script id="dynamic-exam-schema" type="application/ld+json"></script>
 
     <!-- Tailwind CSS, Lucide Icons & Fonts -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -76,188 +86,316 @@
         background-color: #f8fafc;
         color: #0f172a;
       }
+
+      /* Ultra-Smooth Keyframe Animations */
+      @keyframes heroFadeUp {
+        0% {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes cardPopIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.97) translateY(8px);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+      @keyframes floatSoft {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+      }
+      @keyframes pulseGlow {
+        0%,
+        100% {
+          opacity: 0.4;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scale(1.05);
+        }
+      }
+
+      .anim-hero {
+        animation: heroFadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .anim-card {
+        animation: cardPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .anim-float {
+        animation: floatSoft 4s ease-in-out infinite;
+      }
+      .anim-glow {
+        animation: pulseGlow 3s ease-in-out infinite;
+      }
+
+      .card-interactive {
+        transition:
+          transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.2s ease,
+          border-color 0.2s ease;
+      }
+      .card-interactive:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 28px -6px rgba(79, 70, 229, 0.09);
+        border-color: #6366f1;
+      }
+
+      /* Custom Accordion Chevron Flip */
+      .faq-details summary::-webkit-details-marker {
+        display: none;
+      }
       .faq-details[open] summary svg {
         transform: rotate(180deg);
+      }
+      .faq-details[open] {
+        border-color: #c7d2fe;
+        background-color: #ffffff;
       }
     </style>
   </head>
   <body
-    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white"
+    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white antialiased"
   >
-    <!-- REUSABLE HEADER -->
+    <!-- REUSABLE GLOBAL HEADER -->
     <div id="global-header"></div>
 
     <main
-      class="flex-grow py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full"
+      class="flex-grow py-6 sm:py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full"
     >
-      <!-- BREADCRUMB (Crucial for SEO Crawlers) -->
-      <nav aria-label="Breadcrumb" class="mb-6">
+      <!-- BREADCRUMB LIST -->
+      <nav aria-label="Breadcrumb" class="mb-5">
         <ol
           class="flex items-center space-x-2 text-xs font-semibold text-slate-500"
         >
           <li>
             <a
               href="/"
-              class="hover:text-indigo-600 transition flex items-center gap-1"
+              class="hover:text-indigo-600 transition flex items-center gap-1.5 no-underline"
             >
               <i data-lucide="home" class="w-3.5 h-3.5"></i>
               <span>Home</span>
             </a>
           </li>
-          <li><span>/</span></li>
+          <li class="text-slate-300">/</li>
           <li>
             <a
               href="/#exam-grid-section"
-              class="hover:text-indigo-600 transition"
+              class="hover:text-indigo-600 transition no-underline"
               >Exams</a
             >
           </li>
-          <li><span>/</span></li>
+          <li class="text-slate-300">/</li>
           <li
             id="breadcrumb-current"
             class="text-slate-900 font-bold"
             aria-current="page"
           >
-            Loading...
+            Loading Stream...
           </li>
         </ol>
       </nav>
 
-      <!-- SKELETON / LOADING SPINNER -->
+      <!-- SKELETON / LOADING STATE -->
       <div
         id="loading-state"
-        class="text-center py-20 bg-white border border-slate-200 rounded-3xl p-8"
+        class="text-center py-20 bg-white border border-slate-200/90 rounded-3xl p-8 shadow-2xs"
       >
         <div
-          class="inline-block w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"
+          class="inline-block w-9 h-9 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"
         ></div>
         <p
-          class="mt-3 text-xs text-slate-500 font-bold uppercase tracking-wider"
+          class="mt-4 text-xs text-slate-500 font-bold uppercase tracking-wider"
         >
-          Loading authentic syllabus &amp; test details...
+          Loading Exam Simulation &amp; Syllabus...
         </p>
       </div>
 
       <!-- MAIN EXAM CONTENT WRAPPER -->
-      <article id="exam-content" class="hidden space-y-10">
-        <!-- 1. HERO SECTION -->
+      <article id="exam-content" class="hidden space-y-8 anim-hero">
+        <!-- 1. HERO BANNER WITH GLASSMORPHIC ACCENT -->
         <section
-          class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+          class="relative bg-gradient-to-br from-white via-indigo-50/25 to-slate-50 border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-xs overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
         >
-          <div class="space-y-3">
-            <div class="flex items-center gap-3">
-              <span id="exam-emoji" class="text-4xl"></span>
+          <!-- Background Ambient Glow -->
+          <div
+            class="absolute -right-16 -top-16 w-64 h-64 bg-indigo-200/40 rounded-full blur-3xl pointer-events-none anim-glow"
+          ></div>
+          <div
+            class="absolute -left-16 -bottom-16 w-48 h-48 bg-blue-200/30 rounded-full blur-2xl pointer-events-none"
+          ></div>
+
+          <div class="space-y-3.5 relative z-10">
+            <div class="flex flex-wrap items-center gap-2.5">
+              <span id="exam-emoji" class="text-3xl anim-float"></span>
               <span
                 id="exam-badge"
-                class="text-xs font-black px-3 py-1 rounded-full uppercase border"
+                class="text-[10px] font-black px-3 py-1 rounded-full uppercase border tracking-wider shadow-2xs"
               ></span>
               <span
-                class="text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-md uppercase"
-                >2026 Updated</span
+                class="inline-flex items-center gap-1 text-[10px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 rounded-full uppercase tracking-wider"
               >
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"
+                ></span>
+                <span>2026 Updated Pattern</span>
+              </span>
             </div>
+
             <h1
               id="exam-title"
               class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight"
             ></h1>
+
             <p
               id="exam-tagline"
-              class="text-sm sm:text-base text-slate-500 font-medium max-w-2xl leading-relaxed"
+              class="text-xs sm:text-sm text-slate-600 font-semibold max-w-2xl leading-relaxed"
             ></p>
           </div>
 
-          <div class="shrink-0 w-full md:w-auto">
+          <!-- PRIMARY ACTION BUTTONS -->
+          <div class="shrink-0 w-full md:w-auto space-y-2.5 relative z-10">
             <button
               id="launch-test-btn"
-              class="w-full md:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-2xl shadow-lg shadow-indigo-100 flex items-center justify-center gap-2.5 text-base transition cursor-pointer"
+              class="w-full md:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold rounded-2xl shadow-lg shadow-indigo-200 flex items-center justify-center gap-2.5 text-sm sm:text-base transition cursor-pointer group"
             >
-              <i data-lucide="play-circle" class="w-5 h-5 text-yellow-300"></i>
+              <i
+                data-lucide="play-circle"
+                class="w-5 h-5 text-amber-300 group-hover:scale-110 transition-transform"
+              ></i>
               <span>Launch Mock Test</span>
             </button>
+            <div
+              class="flex items-center justify-center gap-1.5 text-[11px] font-bold text-slate-500"
+            >
+              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>100% Free • Real Exam Simulator</span>
+            </div>
           </div>
         </section>
 
-        <!-- 2. EXAM OVERVIEW (Keyword Rich Paragraph) -->
+        <!-- 2. EXAM OVERVIEW & MARKING RULES -->
         <section
-          class="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-6"
+          class="bg-indigo-50/40 border border-indigo-100 rounded-2xl p-5 sm:p-6 space-y-2"
         >
-          <h2
-            class="text-sm font-black uppercase tracking-wider text-indigo-900 mb-2"
+          <div
+            class="flex items-center gap-2 text-indigo-950 font-black text-xs uppercase tracking-wider"
           >
-            Examination Architecture &amp; Strategy
-          </h2>
+            <i data-lucide="info" class="w-4 h-4 text-indigo-600"></i>
+            <span>Examination Architecture &amp; Strategy</span>
+          </div>
           <p
             id="exam-overview"
             class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium"
           ></p>
         </section>
 
-        <!-- 3. SYLLABUS & HIGHLIGHTS GRID -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <!-- Left 2 Cols: Subjects & Syllabus -->
+        <!-- 3. SYLLABUS & FEATURES GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Left 2 Columns: Subjects & Syllabus -->
           <section class="lg:col-span-2 space-y-4">
             <div class="flex items-center justify-between">
               <h2
-                class="text-lg font-black text-slate-900 flex items-center gap-2"
+                class="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2"
               >
                 <i data-lucide="book-open" class="w-5 h-5 text-indigo-600"></i>
-                <span>Syllabus &amp; Subjects Covered</span>
+                <span>Syllabus &amp; Chapter Coverage</span>
               </h2>
-              <span class="text-[11px] font-bold text-slate-400 uppercase"
-                >Chapter-Wise Tests</span
+              <span
+                class="text-[10px] font-black bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md border border-slate-200 uppercase"
               >
+                Sectional Mocks
+              </span>
             </div>
+
             <div
               id="subjects-container"
-              class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+              class="grid grid-cols-1 sm:grid-cols-2 gap-3.5"
             ></div>
           </section>
 
-          <!-- Right 1 Col: Test Highlights -->
+          <!-- Right 1 Column: Highlights & App Capabilities -->
           <section class="space-y-4">
             <h2
-              class="text-lg font-black text-slate-900 flex items-center gap-2"
+              class="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2"
             >
               <i
-                data-lucide="check-circle-2"
+                data-lucide="shield-check"
                 class="w-5 h-5 text-emerald-600"
               ></i>
-              <span>Test Series Features</span>
+              <span>Simulator Engine Features</span>
             </h2>
+
             <div
-              id="highlights-container"
               class="bg-white border border-slate-200/90 rounded-2xl p-5 space-y-3.5 shadow-2xs"
-            ></div>
+            >
+              <div id="highlights-container" class="space-y-3"></div>
+
+              <div class="pt-3 border-t border-slate-100">
+                <a
+                  href="/pricing"
+                  class="w-full py-2.5 bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 text-indigo-700 font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 no-underline"
+                >
+                  <i data-lucide="crown" class="w-3.5 h-3.5 text-amber-500"></i>
+                  <span>Claim Free All-India Pass</span>
+                </a>
+              </div>
+            </div>
           </section>
         </div>
 
-        <!-- 4. FREQUENTLY ASKED QUESTIONS (FAQ SCHEMA) -->
+        <!-- 4. FREQUENTLY ASKED QUESTIONS -->
         <section class="space-y-4 pt-4 border-t border-slate-200">
           <div class="space-y-1">
             <h2
-              class="text-xl font-black text-slate-900 flex items-center gap-2"
+              class="text-lg sm:text-xl font-black text-slate-900 flex items-center gap-2"
             >
               <i data-lucide="help-circle" class="w-5 h-5 text-indigo-600"></i>
               <span>Frequently Asked Questions</span>
             </h2>
             <p class="text-xs text-slate-500 font-medium">
-              Clear your doubts regarding examination format, timing, and
-              negative marking.
+              Clear your doubts regarding timing rules, negative deductions, and
+              attempt guidelines.
             </p>
           </div>
-          <div id="faqs-container" class="space-y-3"></div>
+
+          <div id="faqs-container" class="space-y-2.5"></div>
         </section>
       </article>
     </main>
 
-    <!-- REUSABLE FOOTER -->
+    <!-- REUSABLE GLOBAL FOOTER -->
     <div id="global-footer"></div>
 
     <!-- REUSABLE LAYOUT SCRIPT -->
     <script src="/js/layout.js"></script>
 
-    <!-- SEO & DATA INJECTION ENGINE -->
+    <!-- DYNAMIC SCHEMA & DATA BINDING ENGINE -->
     <script>
+      const BADGE_THEMES = {
+        indigo: "bg-indigo-50 text-indigo-700 border-indigo-200",
+        amber: "bg-amber-50 text-amber-800 border-amber-200",
+        rose: "bg-rose-50 text-rose-700 border-rose-200",
+        emerald: "bg-emerald-50 text-emerald-700 border-emerald-200",
+        slate: "bg-slate-100 text-slate-700 border-slate-200",
+        blue: "bg-blue-50 text-blue-700 border-blue-200",
+        cyan: "bg-cyan-50 text-cyan-700 border-cyan-200",
+        purple: "bg-purple-50 text-purple-700 border-purple-200",
+      };
+
       async function initializeExamSEOPage() {
         const urlParams = new URLSearchParams(window.location.search);
         let slug = urlParams.get("exam");
@@ -268,7 +406,7 @@
         }
 
         if (!slug) {
-          slug = "upsc"; // Fallback default
+          slug = "ssc"; // Default fast fallback
         }
 
         try {
@@ -279,54 +417,60 @@
           if (!exam) {
             document.getElementById("loading-state").innerHTML = `
               <div class="py-10 space-y-3">
-                <h2 class="text-xl font-bold text-slate-800">Examination Stream Not Found</h2>
-                <p class="text-xs text-slate-500">The page you requested is not currently configured.</p>
-                <a href="/" class="inline-block px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold">Explore All Mock Tests</a>
+                <h2 class="text-lg font-bold text-slate-800">Examination Stream Not Found</h2>
+                <p class="text-xs text-slate-500 font-medium">The requested examination stream is not configured or has been updated.</p>
+                <a href="/" class="inline-block px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold no-underline">Explore All Active Exams</a>
               </div>
             `;
             return;
           }
 
-          // 1. DYNAMIC META INJECTION (FOR SEO BOTS & BROWSERS)
+          // 1. DYNAMIC META & SOCIAL TAGS INJECTION
           const canonicalUrl = `https://exammokk.cloud/${exam.slug}`;
-          document.title = exam.metaTitle;
-          document.getElementById("meta-title").innerText = exam.metaTitle;
+          document.title = exam.metaTitle || exam.title;
+          document.getElementById("meta-title").innerText =
+            exam.metaTitle || exam.title;
           document
             .getElementById("meta-description")
-            .setAttribute("content", exam.metaDesc);
+            .setAttribute("content", exam.metaDesc || exam.overview);
           document
             .getElementById("meta-keywords")
-            .setAttribute("content", exam.metaKeywords);
+            .setAttribute(
+              "content",
+              exam.metaKeywords || "govt prep app, mock test series",
+            );
           document
             .getElementById("canonical-url")
             .setAttribute("href", canonicalUrl);
 
           document
             .getElementById("og-title")
-            .setAttribute("content", exam.metaTitle);
+            .setAttribute("content", exam.metaTitle || exam.title);
           document
             .getElementById("og-description")
-            .setAttribute("content", exam.metaDesc);
+            .setAttribute("content", exam.metaDesc || exam.overview);
           document
             .getElementById("og-url")
             .setAttribute("content", canonicalUrl);
           document
             .getElementById("twitter-title")
-            .setAttribute("content", exam.metaTitle);
+            .setAttribute("content", exam.metaTitle || exam.title);
           document
             .getElementById("twitter-description")
-            .setAttribute("content", exam.metaDesc);
+            .setAttribute("content", exam.metaDesc || exam.overview);
 
-          document.getElementById("breadcrumb-current").innerText = exam.title;
+          document.getElementById("breadcrumb-current").innerText = exam.badge;
 
-          // 2. INJECT GOOGLE STRUCTURED DATA (JSON-LD)
+          // 2. DYNAMIC GOOGLE SCHEMA INJECTION (Course + SoftwareApplication + Breadcrumbs + FAQs)
           const schemaData = {
             "@context": "https://schema.org",
             "@graph": [
               {
                 "@type": "Course",
+                "@id": `${canonicalUrl}#course`,
                 name: exam.title,
                 description: exam.metaDesc,
+                url: canonicalUrl,
                 provider: {
                   "@type": "Organization",
                   name: "ExamMokk Cloud",
@@ -334,9 +478,14 @@
                 },
                 isAccessibleForFree: true,
                 inLanguage: ["en", "hi"],
+                hasCourseInstance: {
+                  "@type": "CourseInstance",
+                  courseMode: "online",
+                },
               },
               {
                 "@type": "BreadcrumbList",
+                "@id": `${canonicalUrl}#breadcrumb`,
                 itemListElement: [
                   {
                     "@type": "ListItem",
@@ -353,13 +502,14 @@
                   {
                     "@type": "ListItem",
                     position: 3,
-                    name: exam.title,
+                    name: exam.badge,
                     item: canonicalUrl,
                   },
                 ],
               },
               {
                 "@type": "FAQPage",
+                "@id": `${canonicalUrl}#faq`,
                 mainEntity: (exam.faqs || []).map((faq) => ({
                   "@type": "Question",
                   name: faq.q,
@@ -371,11 +521,11 @@
               },
             ],
           };
-          document.getElementById("schema-structured-data").textContent =
+          document.getElementById("dynamic-exam-schema").textContent =
             JSON.stringify(schemaData);
 
           // 3. RENDER VISUAL CONTENT
-          document.getElementById("exam-emoji").innerText = exam.emoji;
+          document.getElementById("exam-emoji").innerText = exam.emoji || "⚡";
           document.getElementById("exam-title").innerText = exam.title;
           document.getElementById("exam-tagline").innerText = exam.tagline;
           document.getElementById("exam-overview").innerText =
@@ -383,7 +533,7 @@
 
           const badgeEl = document.getElementById("exam-badge");
           badgeEl.innerText = exam.badge;
-          badgeEl.className = `text-xs font-black px-3 py-1 rounded-full uppercase border bg-${exam.badgeColor}-50 text-${exam.badgeColor}-700 border-${exam.badgeColor}-200`;
+          badgeEl.className = `text-[10px] font-black px-3 py-1 rounded-full uppercase border tracking-wider ${BADGE_THEMES[exam.badgeColor] || BADGE_THEMES.indigo}`;
 
           // Launch Action
           document.getElementById("launch-test-btn").onclick = () => {
@@ -392,24 +542,33 @@
 
           // Render Subjects Grid
           const subjContainer = document.getElementById("subjects-container");
-          subjContainer.innerHTML = exam.subjects
+          subjContainer.innerHTML = (exam.subjects || [])
             .map(
               (s) => `
-              <div class="bg-white border border-slate-200/90 p-4 rounded-2xl shadow-2xs space-y-1">
-                <h3 class="text-sm font-bold text-slate-900">${s.name}</h3>
-                <p class="text-xs text-slate-500 font-medium leading-relaxed">${s.topics}</p>
+              <div class="card-interactive bg-white border border-slate-200/90 p-4 rounded-2xl shadow-2xs space-y-1.5 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
+                    <h3 class="text-xs sm:text-sm font-bold text-slate-900">${s.name}</h3>
+                  </div>
+                  <p class="text-[11px] sm:text-xs text-slate-500 font-medium leading-relaxed">${s.topics}</p>
+                </div>
+                <div class="pt-2 flex items-center justify-between text-[10px] font-bold text-indigo-600">
+                  <span>Topic Drill Ready</span>
+                  <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                </div>
               </div>
             `,
             )
             .join("");
 
-          // Render Highlights
+          // Render Simulator Engine Highlights
           const hlContainer = document.getElementById("highlights-container");
-          hlContainer.innerHTML = exam.highlights
+          hlContainer.innerHTML = (exam.highlights || [])
             .map(
               (h) => `
               <div class="flex items-start gap-2.5 text-xs font-semibold text-slate-700">
-                <i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
                 <span class="leading-tight">${h}</span>
               </div>
             `,
@@ -436,13 +595,16 @@
               .join("");
           }
 
-          // Show Content
+          // Reveal Layout & Initialize Icons
           document.getElementById("loading-state").classList.add("hidden");
           document.getElementById("exam-content").classList.remove("hidden");
 
           if (window.lucide) lucide.createIcons();
         } catch (err) {
-          console.error("SEO page initialization failed:", err);
+          console.error("Failed to initialize exam detail page:", err);
+          document.getElementById("loading-state").innerHTML = `
+            <p class="text-xs text-rose-500 font-bold">Failed to load examination details. Please verify your connection.</p>
+          `;
         }
       }
 

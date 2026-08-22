@@ -2,20 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-    <!-- PRIMARY SEO META TAGS -->
+    <!-- PRIMARY SEO & GOVT PREP APP KEYWORDS -->
     <title>
-      ExamMokk - 100% Free Online Mock Tests for Indian Govt &amp; Entrance
-      Exams
+      ExamMokk - Free Govt Exam Prep App &amp; Online Mock Test Series 2026
     </title>
     <meta
       name="description"
-      content="Prepare for SSC CGL, IBPS Bank PO, RRB NTPC, State PSC, UPSC, JEE Main, NEET, Defence (NDA/CDS), and Teaching exams with real-time test simulations."
+      content="ExamMokk is India's 100% free govt exam preparation app & online mock test engine. Practice Daily GK drills, SSC CGL, Bank PO/Clerk, RRB NTPC, UPSC Prelims, and Defence tests with official negative marking."
     />
     <meta
       name="keywords"
-      content="online mock test india, ssc cgl mock test series, bank po test practice, rrb ntpc free mock test, upsc prelims test, jee main test series, neet mock test, ctet practice questions"
+      content="daily gk quiz, free govt exam preparation app, sarkari exam test app, ssc cgl mock test app, bank po test series app, rrb ntpc online test app, online test engine india"
     />
     <meta
       name="robots"
@@ -23,23 +25,68 @@
     />
     <link rel="canonical" href="https://exammokk.cloud/" />
 
-    <!-- OPEN GRAPH / SOCIAL -->
+    <!-- MOBILE PWA & WEB APP CAPABILITY -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="ExamMokk Prep App" />
+    <meta name="theme-color" content="#4f46e5" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- OPEN GRAPH -->
     <meta property="og:locale" content="en_IN" />
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="ExamMokk - India's Online Competitive Mock Test Engine"
+      content="ExamMokk - Free Govt Exam Preparation Web App"
     />
     <meta
       property="og:description"
-      content="Official pattern mock tests, subject-wise quizzes, and real-time performance analytics."
+      content="Free online mock tests, daily GK quizzes & practice app with real TCS-iON and NTA examination engine."
     />
     <meta property="og:url" content="https://exammokk.cloud/" />
-    <meta property="og:site_name" content="ExamMokk Cloud" />
+    <meta property="og:site_name" content="ExamMokk Prep App" />
     <meta
       property="og:image"
       content="https://exammokk.cloud/assets/og-image.png"
     />
+
+    <!-- TWITTER CARDS -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ExamMokk - Govt Exam Prep App" />
+    <meta
+      name="twitter:description"
+      content="100% Free practice tests & Daily GK quizzes for SSC, Banking, Railways &amp; UPSC."
+    />
+
+    <!-- STRUCTURED DATA (SoftwareApplication + WebSite) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "ExamMokk - Govt Exam Prep App",
+            "operatingSystem": "Android, iOS, Web",
+            "applicationCategory": "EducationalApplication",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "INR"
+            },
+            "description": "Free Indian government competitive examination preparation application for SSC, Banking, Railways, UPSC, JEE, NEET and Daily GK.",
+            "url": "https://exammokk.cloud/"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://exammokk.cloud/#website",
+            "url": "https://exammokk.cloud/",
+            "name": "ExamMokk",
+            "inLanguage": "en-IN"
+          }
+        ]
+      }
+    </script>
 
     <!-- Tailwind CSS, Lucide Icons & Fonts -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -68,19 +115,6 @@
         box-shadow: 0 16px 30px -8px rgba(79, 70, 229, 0.12);
         border-color: #6366f1;
       }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(6px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .animate-fadeIn {
-        animation: fadeIn 0.2s ease-out forwards;
-      }
     </style>
   </head>
   <body
@@ -92,59 +126,91 @@
     <main class="flex-grow">
       <!-- HERO BANNER -->
       <section
-        class="relative pt-12 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-white via-indigo-50/40 to-slate-50 border-b border-slate-200/80"
+        class="relative pt-10 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-white via-indigo-50/40 to-slate-50 border-b border-slate-200/80"
       >
-        <div class="max-w-5xl mx-auto text-center space-y-5">
+        <div class="max-w-5xl mx-auto text-center space-y-4">
           <div
-            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-black uppercase tracking-wider shadow-xs"
+            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-black uppercase tracking-wider shadow-xs"
           >
             <span
-              class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"
+              class="w-2 h-2 rounded-full bg-indigo-600 animate-ping"
             ></span>
-            <span>Live Test Series 2026 • Real Exam Pattern</span>
+            <span>📱 100% Free Govt Exam Prep App &amp; Test Simulator</span>
           </div>
 
           <h1
             class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight"
           >
-            Choose Your Exam &amp; <br />
+            India's #1 Free Online <br />
             <span
               class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-800"
             >
-              Start Testing Instantly
+              Govt Exam Preparation App
             </span>
           </h1>
 
           <p
             class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed font-medium"
           >
-            Sectional tests and full syllabus mock series curated for SSC,
-            Banking, Railways, UPSC, JEE, NEET, and Defence examinations.
+            Practice real CBT exam patterns for SSC CGL, Banking (SBI/IBPS),
+            Railways RRB, UPSC Prelims, JEE &amp; NEET with official negative
+            marking, daily speed drills, and all-India ranking.
           </p>
 
           <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
             <a
-              href="/ssc"
-              class="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-2xl shadow-lg shadow-indigo-200 transition flex items-center gap-2 text-sm"
+              href="#exam-grid-section"
+              class="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-2xl shadow-lg shadow-indigo-200 transition flex items-center gap-2 text-sm no-underline cursor-pointer"
             >
               <i
                 data-lucide="zap"
                 class="w-4 h-4 text-amber-300 fill-current"
               ></i>
-              <span>Start SSC CGL Mock</span>
+              <span>Start Free Mock Test</span>
             </a>
-            <button
-              onclick="openSearchModal()"
-              class="px-7 py-3.5 bg-white hover:bg-slate-100 text-slate-700 font-bold rounded-2xl border border-slate-300 transition flex items-center gap-2 text-sm shadow-xs cursor-pointer"
+
+            <!-- DIRECT RUNNER LINK FOR DAILY GK -->
+            <a
+              href="/gov_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK"
+              class="px-7 py-3.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold rounded-2xl shadow-lg shadow-emerald-100 transition flex items-center gap-2 text-sm no-underline cursor-pointer"
             >
-              <i data-lucide="search" class="w-4 h-4 text-slate-500"></i>
-              <span>Search All Exams</span>
+              <span class="text-base">🌍</span>
+              <span>Daily GK Drill (Free)</span>
+            </a>
+
+            <button
+              id="install-pwa-btn"
+              onclick="installPrepApp()"
+              class="px-7 py-3.5 bg-white hover:bg-slate-100 text-slate-800 font-bold rounded-2xl border border-slate-300 transition flex items-center gap-2 text-sm shadow-xs cursor-pointer"
+            >
+              <i data-lucide="download" class="w-4 h-4 text-indigo-600"></i>
+              <span>Install Free App</span>
             </button>
           </div>
         </div>
       </section>
 
-      <!-- EXAM CARDS GRID SECTION -->
+      <!-- MOBILE APP ADVANTAGE STRIP -->
+      <section class="bg-indigo-900 text-white py-3.5 px-4">
+        <div
+          class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-6 sm:gap-12 text-xs font-bold text-indigo-100"
+        >
+          <div class="flex items-center gap-2">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+            <span>100% Free Forever</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="timer" class="w-4 h-4 text-amber-300"></i>
+            <span>Real Exam Countdown Timers</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="bar-chart-2" class="w-4 h-4 text-cyan-300"></i>
+            <span>All India Percentile Analytics</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXAM STREAMS GRID -->
       <section
         id="exam-grid-section"
         class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
@@ -166,8 +232,8 @@
               </span>
             </div>
             <p class="text-xs text-slate-500 font-medium">
-              Select your category to start full mock tests and subject
-              practice.
+              Choose your target competitive exam to launch full mock tests and
+              subject quizzes.
             </p>
           </div>
         </div>
@@ -191,39 +257,50 @@
         ></div>
       </section>
 
-      <!-- ALL INDIA PASS BANNER -->
+      <!-- 100% FREE DAILY GK & CURRENT AFFAIRS CARD (DIRECT TO RUNNER) -->
       <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
         <div
-          class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-white/20"
+          class="bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10"
         >
           <div
             class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row"
           >
             <div
-              class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0 border border-white/30"
+              class="w-16 h-16 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-3xl shrink-0 border border-white/20"
             >
-              <i data-lucide="crown" class="w-7 h-7 text-yellow-200"></i>
+              🌍
             </div>
             <div>
-              <span
-                class="bg-black/20 text-yellow-200 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider"
-                >Unlimited Access</span
+              <div
+                class="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1"
               >
-              <h3 class="text-lg sm:text-xl font-black mt-0.5">
-                All-India Exam Mock Pass
+                <span
+                  class="bg-black/20 text-emerald-200 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider"
+                  >100% Free Daily Quiz</span
+                >
+                <span
+                  class="bg-white/20 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase"
+                  >SSC • Banking • Railways • UPSC</span
+                >
+              </div>
+              <h3 class="text-lg sm:text-2xl font-black">
+                Daily GK &amp; Current Affairs Speed Drill
               </h3>
-              <p class="text-xs text-amber-100 font-medium">
-                Unlock full-length mock tests, sectional speed drills &amp;
-                national percentile ranking @ ₹99/month.
+              <p class="text-xs text-emerald-50 font-medium max-w-xl mt-1">
+                Practice high-yield Daily Current Affairs, Indian Polity &amp;
+                Static GK topics with timer, instant explanation &amp; official
+                negative marking.
               </p>
             </div>
           </div>
-          <button
-            onclick="openPassModal()"
-            class="px-7 py-3 bg-white text-slate-900 hover:bg-amber-50 active:scale-95 text-xs font-black rounded-2xl shadow-lg transition-all cursor-pointer whitespace-nowrap"
+          <!-- DIRECT RUNNER LINK -->
+          <a
+            href="/gov_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK"
+            class="px-8 py-3.5 bg-white text-emerald-800 hover:bg-emerald-50 active:scale-95 text-xs font-black rounded-2xl shadow-lg transition-all whitespace-nowrap no-underline flex items-center gap-2 cursor-pointer"
           >
-            Get Pass (₹99/mo)
-          </button>
+            <span>Start Daily GK Drill</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
         </div>
       </section>
     </main>
@@ -231,48 +308,37 @@
     <!-- REUSABLE FOOTER -->
     <div id="global-footer"></div>
 
-    <!-- QUICK SEARCH MODAL -->
-    <div
-      id="search-modal"
-      class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-50 flex items-start justify-center p-4 pt-20 hidden"
-    >
-      <div
-        class="bg-white border border-slate-200 rounded-3xl w-full max-w-lg p-5 space-y-4 shadow-2xl animate-fadeIn"
-      >
-        <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
-          <i data-lucide="search" class="w-5 h-5 text-indigo-600"></i>
-          <input
-            id="search-input"
-            type="text"
-            placeholder="Search exam (e.g., SSC CGL, BPSC, RRB NTPC, NEET)..."
-            oninput="handleSearch(this.value)"
-            class="w-full text-sm font-bold text-slate-900 placeholder-slate-400 outline-none bg-transparent"
-          />
-          <button
-            onclick="closeSearchModal()"
-            class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
-          >
-            <i data-lucide="x" class="w-5 h-5"></i>
-          </button>
-        </div>
-
-        <div
-          id="search-results"
-          class="max-h-72 overflow-y-auto space-y-2 text-xs"
-        >
-          <p class="text-[11px] text-slate-400 font-semibold text-center py-4">
-            Type exam name to quickly launch mock test...
-          </p>
-        </div>
-      </div>
-    </div>
-
     <!-- LAYOUT ENGINE SCRIPT -->
     <script src="/js/layout.js"></script>
 
-    <!-- DATA BINDING & APP ENGINE -->
+    <!-- DATA & PWA ENGINE -->
     <script>
       let EXAM_DATA = {};
+      let deferredPrompt = null;
+
+      // PWA Install Event Handler
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const installBtn = document.getElementById("install-pwa-btn");
+        if (installBtn) installBtn.classList.remove("hidden");
+      });
+
+      function installPrepApp() {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === "accepted") {
+              console.log("User installed the ExamMokk Govt Prep App");
+            }
+            deferredPrompt = null;
+          });
+        } else {
+          alert(
+            "To install ExamMokk on Mobile: Tap the 3 dots in Chrome/Safari and select 'Add to Home Screen'.",
+          );
+        }
+      }
 
       const THEME_STYLES = {
         indigo: {
@@ -302,7 +368,7 @@
         },
         blue: {
           iconBg: "bg-blue-600",
-          badgeBg: "bg-blue-50 text-blue-800 border-blue-200",
+          badgeBg: "bg-blue-50 text-blue-700 border-blue-200",
           btn: "bg-blue-50 group-hover:bg-blue-600 text-blue-700 group-hover:text-white border-blue-200",
         },
         cyan: {
@@ -339,12 +405,10 @@
                   onclick="navigateToExam('${item.slug}')"
                   class="exam-card group relative bg-white border border-slate-200/90 rounded-2xl p-4 pt-5 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
                 >
-                  <!-- TOP-RIGHT EDGE BADGE -->
                   <span class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight ${theme.badgeBg} px-2.5 py-0.5 rounded-bl-lg border-b border-l uppercase">
                     ${item.badge}
                   </span>
 
-                  <!-- CARD MAIN CONTENT -->
                   <div class="flex flex-col items-center w-full mt-1">
                     <div class="w-11 h-11 rounded-xl ${theme.iconBg} text-white flex items-center justify-center text-xl shadow-xs mb-2.5 group-hover:scale-105 transition-transform">
                       ${item.emoji}
@@ -359,7 +423,6 @@
                     </p>
                   </div>
 
-                  <!-- START TEST ACTION BUTTON -->
                   <div class="mt-4 pt-2.5 border-t border-slate-100 w-full">
                     <button
                       class="w-full py-2 ${theme.btn} border font-extrabold rounded-xl text-xs transition duration-150 flex items-center justify-center gap-1.5 cursor-pointer"
@@ -387,78 +450,6 @@
 
       function navigateToExam(slug) {
         window.location.href = `/${slug}`;
-      }
-
-      function openSearchModal() {
-        document.getElementById("search-modal").classList.remove("hidden");
-        document.getElementById("search-input").focus();
-      }
-
-      function closeSearchModal() {
-        document.getElementById("search-modal").classList.add("hidden");
-        document.getElementById("search-input").value = "";
-      }
-
-      window.addEventListener("keydown", (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
-          e.preventDefault();
-          openSearchModal();
-        }
-        if (e.key === "Escape") {
-          closeSearchModal();
-        }
-      });
-
-      function handleSearch(query) {
-        const resultsCont = document.getElementById("search-results");
-        if (!query.trim()) {
-          resultsCont.innerHTML = `
-            <p class="text-[11px] text-slate-400 font-semibold text-center py-4">
-              Type exam name to quickly launch mock test...
-            </p>
-          `;
-          return;
-        }
-
-        const q = query.toLowerCase();
-        const filtered = Object.entries(EXAM_DATA).filter(
-          ([key, val]) =>
-            val.title.toLowerCase().includes(q) ||
-            val.slug.toLowerCase().includes(q),
-        );
-
-        if (filtered.length === 0) {
-          resultsCont.innerHTML = `
-            <p class="text-[11px] text-slate-400 font-semibold text-center py-4">
-              No matching examination stream found.
-            </p>
-          `;
-          return;
-        }
-
-        resultsCont.innerHTML = filtered
-          .map(
-            ([key, item]) => `
-            <div 
-              onclick="navigateToExam('${item.slug}')"
-              class="p-3 bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 rounded-xl flex items-center justify-between cursor-pointer transition text-slate-800 font-bold"
-            >
-              <div class="flex items-center gap-2.5">
-                <span>${item.emoji}</span>
-                <span>${item.title.split(" 2026")[0]}</span>
-                <span class="text-[10px] bg-slate-100 border px-2 py-0.5 rounded font-bold">${item.badge}</span>
-              </div>
-              <i data-lucide="chevron-right" class="w-4 h-4 text-indigo-600"></i>
-            </div>
-          `,
-          )
-          .join("");
-
-        if (window.lucide) lucide.createIcons();
-      }
-
-      function openPassModal() {
-        alert("Redirecting to All-Access Exam Pass checkout @ ₹99/month...");
       }
 
       document.addEventListener("DOMContentLoaded", () => {

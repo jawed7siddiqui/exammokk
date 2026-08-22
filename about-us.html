@@ -1,503 +1,289 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-C1MVKY4RWF"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-C1MVKY4RWF");
-    </script>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- SEO META TAGS -->
-    <title>About Us - Kids Paint | 100% Free Online Drawing Platform</title>
+    <title>
+      About Us - ExamMokk | India's Online Competitive Mock Test Platform
+    </title>
     <meta
       name="description"
-      content="Learn more about Kids Paint, a 100% free global online paint and cloud paint workspace built to enhance digital creativity and computer skills for school students."
+      content="Learn about ExamMokk, an authentic online mock test engine built to provide standardized testing environments with official negative marking and real exam simulation for Indian students."
     />
-    <meta name="author" content="Kids Paint" />
+    <meta
+      name="keywords"
+      content="about exammokk, competitive test series india, ssc cgl mock tests, banking exam prep, upsc test engine"
+    />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://kidspaint.cloud/about-us.html" />
+    <link rel="canonical" href="https://exammokk.cloud/about-us" />
 
-    <!-- TAILWIND, ANIMATE.CSS & LUCIDE ICONS -->
+    <!-- OPEN GRAPH -->
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="About ExamMokk - India's Mock Test Engine"
+    />
+    <meta
+      property="og:description"
+      content="Empowering Indian competitive exam aspirants with accurate negative marking calculations and real-time national ranking."
+    />
+    <meta property="og:url" content="https://exammokk.cloud/about-us" />
+    <meta
+      property="og:image"
+      content="https://exammokk.cloud/assets/og-image.png"
+    />
+
+    <!-- Tailwind CSS, Lucide Icons & Fonts -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
 
     <style>
       body {
-        font-family: "Fredoka", sans-serif;
-        background: #fffdf0;
-        color: #1e293b;
-        margin: 0;
-        overflow-x: hidden;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
       }
-
-      @keyframes floatSlow {
-        0%,
-        100% {
-          transform: translateY(0px) rotate(0deg);
-        }
-        50% {
-          transform: translateY(-15px) rotate(4deg);
-        }
+      .card-hover {
+        transition:
+          transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.2s ease,
+          border-color 0.2s ease;
       }
-      @keyframes bounceSlow {
-        0%,
-        100% {
-          transform: translateY(0) rotate(-1.5deg);
-        }
-        50% {
-          transform: translateY(-10px) rotate(1.5deg);
-        }
-      }
-
-      .floating-element {
-        animation: floatSlow 6s ease-in-out infinite;
-      }
-      .animate-badge-bounce {
-        animation: bounceSlow 3s ease-in-out infinite;
-      }
-
-      /* Hard Retro Kids Style Shadow */
-      .kids-shadow {
-        box-shadow: 0 8px 0px #e2e8f0;
-      }
-      .kids-shadow-pink {
-        box-shadow: 0 6px 0px #db2777;
-      }
-      .kids-shadow-cyan {
-        box-shadow: 0 6px 0px #0891b2;
-      }
-      .kids-shadow-amber {
-        box-shadow: 0 6px 0px #d97706;
-      }
-      .kids-shadow-emerald {
-        box-shadow: 0 6px 0px #059669;
-      }
-
-      .kids-shadow-btn {
-        box-shadow: 0 8px 0px #312e81;
-      }
-      .kids-shadow-btn:active {
-        transform: translateY(6px);
-        box-shadow: 0 2px 0px #312e81;
-      }
-      .kids-shadow-btn-yellow {
-        box-shadow: 0 6px 0px #78350f;
-      }
-      .kids-shadow-btn-yellow:active {
-        transform: translateY(4px);
-        box-shadow: 0 2px 0px #78350f;
-      }
-
-      .card-pop {
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      }
-      .card-pop:hover {
-        transform: translateY(-8px) scale(1.02);
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 30px -8px rgba(79, 70, 229, 0.1);
+        border-color: #6366f1;
       }
     </style>
   </head>
-  <body class="antialiased flex flex-col min-h-screen pb-24 md:pb-0">
-    <!-- 1. HEADER -->
-    <header
-      class="bg-white sticky top-0 z-50 px-4 py-3.5 md:px-8 md:py-4 flex items-center justify-between border-b-4 border-yellow-400 shadow-md"
-    >
-      <div class="flex items-center gap-8">
-        <div
-          onclick="window.location.href = '/'"
-          class="flex items-center gap-2.5 cursor-pointer transform active:scale-95 transition-transform group"
-        >
-          <div
-            class="w-10 h-10 md:w-12 md:h-12 bg-amber-400 rounded-xl md:rounded-2xl flex items-center justify-center shadow-md border-2 border-white rotate-[-3deg] group-hover:rotate-[12deg] transition-transform duration-300"
-          >
-            <i
-              data-lucide="palette"
-              class="w-6 h-6 md:w-7 md:h-7 text-white fill-amber-100"
-            ></i>
-          </div>
-          <span
-            class="text-xl md:text-2xl font-black tracking-wide text-indigo-600 uppercase flex items-center"
-          >
-            Kids&nbsp;<span class="text-pink-500">P</span
-            ><span class="text-amber-500">a</span
-            ><span class="text-emerald-500">i</span
-            ><span class="text-cyan-500">n</span
-            ><span class="text-violet-500">t</span>
-          </span>
-        </div>
-      </div>
+  <body
+    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white"
+  >
+    <!-- REUSABLE HEADER -->
+    <div id="global-header"></div>
 
-      <!-- DESKTOP MENU (HIDDEN ON MOBILE) -->
-      <div class="hidden md:flex items-center gap-6">
-        <a
-          href="/"
-          class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors uppercase decoration-none"
-          >Home</a
-        >
-        <a
-          href="/coloring-pages"
-          class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors uppercase decoration-none"
-          >Coloring Pages</a
-        >
-        <a
-          href="/about-us"
-          class="text-sm font-bold text-indigo-600 transition-colors uppercase decoration-none"
-          >About Us</a
-        >
-        <a
-          href="/contact-us"
-          class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors uppercase decoration-none"
-          >Contact Us</a
-        >
-        <button
-          onclick="redirectToPaintApp()"
-          class="kids-shadow-btn-yellow flex items-center justify-center gap-2 whitespace-nowrap px-6 py-3 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all cursor-pointer"
-        >
-          <i
-            class="sparkles text-yellow-200 fill-current w-4 h-4 flex-shrink-0"
-            data-lucide="sparkles"
-          ></i>
-          <span>LAUNCH PAINT & PLAY</span>
-        </button>
-      </div>
-
-      <!-- MOBILE HAMBURGER BUTTON -->
-      <button
-        onclick="toggleMobileMenu()"
-        class="md:hidden p-2 text-slate-600 hover:text-indigo-600 focus:outline-none cursor-pointer"
-      >
-        <i id="menu-icon" data-lucide="menu" class="w-7 h-7"></i>
-      </button>
-    </header>
-
-    <!-- MOBILE DROPDOWN MENU CONTAINER -->
-    <div
-      id="mobile-menu"
-      class="hidden md:hidden fixed top-[72px] left-0 right-0 bg-white border-b-4 border-yellow-400 shadow-xl z-40 flex flex-col p-4 gap-4 animate__animated animate__fadeInDown animate__faster"
-    >
-      <a
-        href="/"
-        class="text-base font-bold text-slate-700 hover:text-indigo-600 p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase"
-        >Home</a
-      >
-      <a
-        href="/coloring-pages"
-        class="text-base font-bold text-slate-700 hover:text-indigo-600 p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase"
-        >Coloring Pages</a
-      >
-      <a
-        href="/about-us"
-        class="text-base font-bold text-indigo-600 p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase"
-        >About Us</a
-      >
-      <a
-        href="/contact-us"
-        class="text-base font-bold text-slate-700 hover:text-indigo-600 p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase"
-        >Contact Us</a
-      >
-    </div>
-
-    <!-- MOBILE STICKY FOOTER BAR -->
-    <div
-      class="fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg px-4 py-3.5 border-t-4 border-pink-500 shadow-[0_-10px_30px_rgba(236,72,153,0.15)] flex items-center justify-center md:hidden"
-    >
-      <button
-        onclick="redirectToPaintApp()"
-        class="w-full kids-shadow-btn py-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-black text-lg rounded-2xl border-2 border-white transition-all flex items-center justify-center gap-3 active:scale-95 cursor-pointer"
-      >
-        <span>LAUNCH PAINT & PLAY 🎨</span>
-        <i data-lucide="zap" class="w-5 h-5 text-yellow-300 fill-current"></i>
-      </button>
-    </div>
-
-    <!-- 2. HERO SECTION -->
-    <main class="flex-grow flex flex-col">
+    <main class="flex-grow">
+      <!-- HERO BANNER -->
       <section
-        class="relative bg-gradient-to-b from-indigo-700 via-indigo-800 to-violet-900 text-white py-16 md:py-24 px-4 overflow-hidden border-b-8 border-emerald-400 text-center"
+        class="relative pt-12 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-white via-indigo-50/40 to-slate-50 border-b border-slate-200/80"
       >
-        <div
-          class="absolute top-6 right-10 opacity-20 floating-element text-pink-400"
-        >
-          <i data-lucide="heart" class="w-16 h-16 fill-current"></i>
-        </div>
-        <div
-          class="absolute bottom-6 left-8 opacity-20 floating-element text-cyan-300"
-          style="animation-delay: 2s"
-        >
-          <i data-lucide="smile" class="w-12 h-12"></i>
-        </div>
+        <div class="max-w-4xl mx-auto text-center space-y-4">
+          <div
+            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-black uppercase tracking-wider shadow-xs"
+          >
+            <span>🎯 Mission &amp; Vision</span>
+          </div>
 
-        <div
-          class="max-w-3xl mx-auto flex flex-col items-center gap-4 z-10 animate__animated animate__fadeIn"
-        >
-          <span
-            class="px-4 py-1.5 bg-yellow-400 text-indigo-950 font-bold text-xs rounded-full uppercase tracking-widest shadow-md border-2 border-white animate-badge-bounce inline-block"
-          >
-            ✨ Our Story & Mission
-          </span>
           <h1
-            class="text-4xl md:text-6xl font-black uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-amber-300 to-pink-400"
+            class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight"
           >
-            About Kids Paint
+            About
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-800"
+              >ExamMokk</span
+            >
           </h1>
+
           <p
-            class="text-indigo-100 text-xs md:text-lg font-medium max-w-xl opacity-90 leading-relaxed"
+            class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed font-medium"
           >
-            Empowering digital literacy worldwide and providing school students
-            with a free, seamless canvas to unleash their absolute creative
-            potential.
+            Building India's authentic, high-speed test practice ecosystem. We
+            eliminate exam surprises through strict official negative marking,
+            timed interfaces, and comprehensive syllabus coverage.
           </p>
         </div>
       </section>
 
-      <!-- 3. MISSION & VISION GRID -->
-      <section class="py-16 px-4 md:px-8 max-w-5xl mx-auto w-full">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- MISSION & VISION GRID -->
+      <section class="py-14 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Our Vision -->
           <div
-            class="bg-white p-6 md:p-8 rounded-3xl border-3 border-pink-400 kids-shadow-pink card-pop flex flex-col gap-3"
+            class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs card-hover flex flex-col justify-between space-y-4"
           >
-            <div class="flex items-center gap-3">
+            <div class="space-y-3">
               <div
-                class="w-10 h-10 bg-pink-500 text-white rounded-xl flex items-center justify-center border-2 border-white shadow-sm"
+                class="w-12 h-12 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center shadow-xs"
               >
-                <i data-lucide="eye" class="w-5 h-5"></i>
+                <i data-lucide="eye" class="w-6 h-6"></i>
               </div>
-              <h2 class="text-xl font-black text-indigo-950 uppercase">
+              <h2 class="text-xl font-black text-slate-900 tracking-tight">
                 Our Vision
               </h2>
+              <p
+                class="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium"
+              >
+                To democratize quality competitive exam preparation across
+                India. We ensure that every aspirant—whether preparing from
+                metro cities or remote towns—has access to national-standard
+                examination environments without inflated test fees.
+              </p>
             </div>
-            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
-              We envision a world where education and creativity have no
-              economic barriers. Through Kids Paint, we aim to provide children
-              globally—from Delhi NCR to international hubs—with a secure
-              digital workspace that promotes logical and artistic thinking.
-            </p>
+            <div
+              class="flex items-center gap-2 text-xs font-bold text-indigo-600 pt-2"
+            >
+              <i
+                data-lucide="check-circle"
+                class="w-4 h-4 text-emerald-600"
+              ></i>
+              <span>National Standard Test Architecture</span>
+            </div>
           </div>
 
           <!-- Our Mission -->
           <div
-            class="bg-white p-6 md:p-8 rounded-3xl border-3 border-cyan-400 kids-shadow-cyan card-pop flex flex-col gap-3"
+            class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs card-hover flex flex-col justify-between space-y-4"
           >
-            <div class="flex items-center gap-3">
+            <div class="space-y-3">
               <div
-                class="w-10 h-10 bg-cyan-500 text-white rounded-xl flex items-center justify-center border-2 border-white shadow-sm"
+                class="w-12 h-12 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center shadow-xs"
               >
-                <i data-lucide="target" class="w-5 h-5"></i>
+                <i data-lucide="target" class="w-6 h-6"></i>
               </div>
-              <h2 class="text-xl font-black text-indigo-950 uppercase">
+              <h2 class="text-xl font-black text-slate-900 tracking-tight">
                 Our Mission
               </h2>
+              <p
+                class="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium"
+              >
+                To provide test simulators configured with exact NTA, TCS-iON,
+                IBPS, and UPSC parameters. We focus on real-time question
+                timers, precise penalty deduction calculations, and instant
+                percentile insights.
+              </p>
             </div>
-            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
-              To introduce school students to vector canvases, mouse
-              coordination, and essential computer tools. Completely free of
-              cost with zero subscriptions, zero ads, or registration
-              barriers—empowering continuous learning everywhere.
-            </p>
+            <div
+              class="flex items-center gap-2 text-xs font-bold text-indigo-600 pt-2"
+            >
+              <i
+                data-lucide="check-circle"
+                class="w-4 h-4 text-emerald-600"
+              ></i>
+              <span>Precision Scoring &amp; Timers</span>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- 4. CORE VALUES / WHY US -->
+      <!-- CORE PILLARS / WHY EXAMMOKK -->
       <section
-        class="bg-amber-50/50 py-16 px-4 md:px-8 border-t-4 border-dashed border-amber-300"
+        class="bg-white py-14 px-4 sm:px-6 lg:px-8 border-y border-slate-200"
       >
-        <div class="max-w-4xl mx-auto text-center space-y-3 mb-12">
-          <h2 class="text-2xl md:text-4xl font-black text-indigo-950 uppercase">
-            Why Choose Us? 🚀
-          </h2>
-          <p class="text-xs md:text-sm text-slate-500 font-medium">
-            Kids Paint is purposefully structured for enhanced cognitive
-            development and user-friendly interaction.
-          </p>
+        <div class="max-w-6xl mx-auto space-y-10">
+          <div class="text-center space-y-2 max-w-xl mx-auto">
+            <h2
+              class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight"
+            >
+              Why Choose ExamMokk?
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-500 font-medium">
+              Built from the ground up for serious competitive test practice.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div
+              class="bg-slate-50 border border-slate-200/80 p-6 rounded-2xl space-y-3 shadow-2xs"
+            >
+              <div
+                class="w-10 h-10 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center border border-indigo-200"
+              >
+                <i data-lucide="calculator" class="w-5 h-5"></i>
+              </div>
+              <h3 class="text-base font-bold text-slate-900">
+                Exact Marking Formulas
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-medium">
+                No generalized grading. Every mock accurately applies official
+                penalties like -0.25 (Bank), -0.33 (Railways), -0.5 (SSC), -0.66
+                (PSC), and -1.0 (JEE/NEET).
+              </p>
+            </div>
+
+            <div
+              class="bg-slate-50 border border-slate-200/80 p-6 rounded-2xl space-y-3 shadow-2xs"
+            >
+              <div
+                class="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center border border-emerald-200"
+              >
+                <i data-lucide="timer" class="w-5 h-5"></i>
+              </div>
+              <h3 class="text-base font-bold text-slate-900">
+                Speed &amp; Pace Metrics
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-medium">
+                Sectional countdown timers and individual question pacing alerts
+                teach you how to attempt the highest number of questions
+                accurately within the deadline.
+              </p>
+            </div>
+
+            <div
+              class="bg-slate-50 border border-slate-200/80 p-6 rounded-2xl space-y-3 shadow-2xs"
+            >
+              <div
+                class="w-10 h-10 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center border border-blue-200"
+              >
+                <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+              </div>
+              <h3 class="text-base font-bold text-slate-900">
+                All India Percentile
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-medium">
+                Evaluate your strong and weak subject areas against thousands of
+                real test attempts across India with automated cutoff
+                predictions.
+              </p>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div
-            class="bg-white p-5 rounded-2xl border-2 border-amber-400 kids-shadow-amber text-center flex flex-col items-center gap-2"
+      <!-- CTA SECTION -->
+      <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto text-center">
+        <div
+          class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-blue-700 rounded-3xl p-8 sm:p-12 text-white shadow-xl space-y-6"
+        >
+          <h2 class="text-2xl sm:text-4xl font-black tracking-tight">
+            Ready to Test Your Preparation?
+          </h2>
+          <p
+            class="text-xs sm:text-sm text-indigo-100 max-w-xl mx-auto font-medium leading-relaxed"
           >
-            <div
-              class="w-10 h-10 bg-amber-500 text-white rounded-lg flex items-center justify-center"
+            Choose your target exam stream and start practicing with live mock
+            test series right now.
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <a
+              href="/"
+              class="px-8 py-3.5 bg-white text-indigo-700 hover:bg-indigo-50 active:scale-95 font-bold rounded-2xl text-xs uppercase tracking-wider shadow-lg transition"
             >
-              <i data-lucide="shield-check" class="w-5 h-5"></i>
-            </div>
-            <h3
-              class="font-extrabold text-indigo-950 uppercase text-sm md:text-base"
+              Explore All Exams
+            </a>
+            <a
+              href="/ssc"
+              class="px-8 py-3.5 bg-indigo-500/40 hover:bg-indigo-500/60 border border-white/20 text-white font-bold rounded-2xl text-xs uppercase tracking-wider transition"
             >
-              100% Safe & Private
-            </h3>
-            <p class="text-xs text-slate-500">
-              Zero data collection. A completely secure, ad-free environment
-              tailored for young minds.
-            </p>
-          </div>
-
-          <div
-            class="bg-white p-5 rounded-2xl border-2 border-emerald-400 kids-shadow-emerald text-center flex flex-col items-center gap-2"
-          >
-            <div
-              class="w-10 h-10 bg-emerald-500 text-white rounded-lg flex items-center justify-center"
-            >
-              <i data-lucide="gauge" class="w-5 h-5"></i>
-            </div>
-            <h3
-              class="font-extrabold text-indigo-950 uppercase text-sm md:text-base"
-            >
-              Cloud-Powered Speed
-            </h3>
-            <p class="text-xs text-slate-500">
-              No heavy downloads needed. Instant, highly optimized browser
-              performance with a single click.
-            </p>
-          </div>
-
-          <div
-            class="bg-white p-5 rounded-2xl border-2 border-indigo-400 kids-shadow text-center flex flex-col items-center gap-2"
-          >
-            <div
-              class="w-10 h-10 bg-indigo-500 text-white rounded-lg flex items-center justify-center"
-            >
-              <i data-lucide="globe" class="w-5 h-5"></i>
-            </div>
-            <h3
-              class="font-extrabold text-indigo-950 uppercase text-sm md:text-base"
-            >
-              Global Access
-            </h3>
-            <p class="text-xs text-slate-500">
-              Uniform accessibility across academic structures in India (NCR),
-              UAE, UK, and US.
-            </p>
+              Start Free SSC Mock
+            </a>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- 5. FOOTER -->
-    <footer
-      class="bg-slate-950 text-slate-400 py-16 px-4 md:px-8 border-t-8 border-pink-500 relative"
-    >
-      <div class="max-w-6xl mx-auto flex flex-col gap-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-          <!-- Left Column: Brand & Features -->
-          <div class="flex flex-col gap-4">
-            <div class="flex items-center gap-2">
-              <div
-                class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold border-2 border-slate-700 shadow-sm"
-              >
-                <i data-lucide="palette" class="w-4 h-4 text-yellow-300"></i>
-              </div>
-              <span
-                class="text-white text-lg font-bold tracking-wider uppercase"
-                >KidsPaint AI India</span
-              >
-            </div>
-            <p
-              class="text-[11px] md:text-xs text-slate-400 max-w-sm leading-relaxed"
-            >
-              KidsPaint delivers a high-speed, secure online paint studio and
-              comprehensive brain growth sandbox environment worldwide. We train
-              children globally through interactive modules like Letters
-              Tracing, Coloring Pad, Connect Dots, Maze Runner, Symmetry Mirror,
-              and Math Matrix.
-            </p>
-          </div>
+    <!-- REUSABLE FOOTER -->
+    <div id="global-footer"></div>
 
-          <!-- Right Column: Global Vision & India Sub-Brand Launch -->
-          <div
-            class="text-[11px] md:text-xs text-slate-400 space-y-3 border-l-0 md:border-l border-slate-800 pl-0 md:pl-8"
-          >
-            <h4
-              class="font-bold uppercase text-slate-200 tracking-wider text-xs flex items-center gap-1"
-            >
-              <span>🌐</span> Universal Art & IQ Literacy Infrastructure
-            </h4>
-            <p class="leading-relaxed">
-              Designed for international scalability, our open-access
-              application builds a balanced cognitive ecosystem for children
-              worldwide. Through our regional chapter,
-              <strong>KidsPaint AI India</strong>, we are proudly launching
-              operations by supporting premium early-education networks across
-              Delhi NCR, Noida, Ghaziabad, and Gurgaon.
-            </p>
-            <p class="leading-relaxed text-slate-500 font-medium">
-              🚀 Powered by KidsPaint AI India — a dedicated local initiative by
-              Farha AI Kids Education, scaling effortlessly across elite
-              preschool networks with zero software dependencies.
-            </p>
-          </div>
-        </div>
-
-        <!-- Divider -->
-        <div class="h-[1px] bg-slate-800 w-full"></div>
-
-        <!-- Footer Bottom -->
-        <div
-          class="flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-semibold text-slate-500 text-center"
-        >
-          <div>
-            &copy; 2026 Farha AI Kids Education. All Rights Reserved Worldwide.
-          </div>
-          <div
-            class="bg-slate-900/40 px-3.5 py-2 rounded-xl border border-slate-800/80"
-          >
-            Proudly <span class="text-[#FF9933]">Made</span> In
-            <span class="text-white">India</span>
-            <span class="text-[#128807]">🇮🇳</span> for Free Universal Brain
-            Development & Digital Literacy.
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <script>
-      window.onload = () => {
-        lucide.createIcons();
-      };
-
-      function redirectToPaintApp() {
-        window.location.href = "/paint";
-      }
-
-      function toggleMobileMenu() {
-        const menu = document.getElementById("mobile-menu");
-        const icon = document.getElementById("menu-icon");
-
-        if (menu.classList.contains("hidden")) {
-          menu.classList.remove("hidden");
-          icon.setAttribute("data-lucide", "x");
-        } else {
-          menu.classList.add("hidden");
-          icon.setAttribute("data-lucide", "menu");
-        }
-
-        // Lucide icons को दोबारा रेंडर करें ताकि आइकॉन बदल सके
-        lucide.createIcons();
-      }
-    </script>
+    <!-- REUSABLE LAYOUT SCRIPT -->
+    <script src="/js/layout.js"></script>
   </body>
 </html>

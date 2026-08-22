@@ -1,5 +1,5 @@
 /**
- * ExamMokk Cloud - Web Header & Footer (White Theme)
+ * ExamMokk Cloud - Global Navigation & Layout Component
  */
 
 function renderHeader() {
@@ -10,7 +10,8 @@ function renderHeader() {
     <header class="bg-white/95 border-b border-slate-200 sticky top-0 z-50 backdrop-blur-md shadow-xs">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-          <!-- Brand Logo -->
+          
+          <!-- BRAND LOGO -->
           <a href="/" class="flex items-center gap-3 group">
             <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-md shadow-indigo-200 group-hover:scale-105 transition-transform">
               <i data-lucide="graduation-cap" class="w-5 h-5 text-white"></i>
@@ -20,43 +21,132 @@ function renderHeader() {
                 <span class="text-lg font-black tracking-tight text-slate-900 uppercase">Exam<span class="text-indigo-600">Mokk</span></span>
                 <span class="bg-indigo-50 text-indigo-700 border border-indigo-200 text-[9px] font-black px-1.5 py-0.2 rounded-full uppercase">PRO</span>
               </div>
-              <span class="text-[10px] font-semibold text-slate-500 tracking-wider uppercase -mt-0.5">All India Test Engine</span>
+              <span class="text-[10px] font-semibold text-slate-500 tracking-wider uppercase -mt-0.5">Govt Prep App &amp; Test Engine</span>
             </div>
           </a>
 
-          <!-- Desktop Navigation -->
-          <nav class="hidden md:flex items-center gap-7">
-            <a href="/" class="text-sm font-bold text-indigo-600 transition">Home</a>
-            <a href="#exam-grid-section" class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition">Mock Streams</a>
-            <a href="#marking-schemes" class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition">Marking Matrix</a>
-            <button onclick="openSearchModal()" class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border border-slate-200 text-xs font-semibold cursor-pointer transition">
-              <i data-lucide="search" class="w-3.5 h-3.5"></i>
-              <span>Quick Search (Ctrl + K)</span>
-            </button>
-            <button onclick="openPassModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-rose-600 hover:from-amber-600 hover:to-rose-700 text-white font-bold text-xs shadow-md shadow-rose-100 transition active:scale-95 cursor-pointer">
-              <i data-lucide="crown" class="w-4 h-4 text-yellow-200"></i>
-              <span>Exam Pass ₹99</span>
-            </button>
+          <!-- DESKTOP NAVIGATION -->
+          <nav class="hidden md:flex items-center gap-8">
+            <a href="/" class="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition">Home</a>
+            
+            <!-- ALL EXAMS MEGA DROPDOWN -->
+            <div class="relative group">
+              <button class="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition py-2 cursor-pointer focus:outline-none">
+                <span>All Exams</span>
+                <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform group-hover:rotate-180"></i>
+              </button>
+              
+              <div class="absolute left-0 top-full hidden group-hover:grid grid-cols-2 gap-1.5 w-96 bg-white border border-slate-200 rounded-2xl shadow-xl p-3 z-50 animate-fadeIn">
+                <a href="/ssc" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition">
+                  <span class="text-base">⚡</span>
+                  <div>
+                    <div class="text-xs font-bold text-slate-900">SSC Exams</div>
+                    <div class="text-[10px] text-slate-500 font-medium">CGL, CHSL, MTS, GD</div>
+                  </div>
+                </a>
+                <a href="/upsc" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition">
+                  <span class="text-base">⚖️</span>
+                  <div>
+                    <div class="text-xs font-bold text-slate-900">Govt PSC &amp; UPSC</div>
+                    <div class="text-[10px] text-slate-500 font-medium">IAS, BPSC, UPPSC</div>
+                  </div>
+                </a>
+                <a href="/banking" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition">
+                  <span class="text-base">🏦</span>
+                  <div>
+                    <div class="text-xs font-bold text-slate-900">Banking</div>
+                    <div class="text-[10px] text-slate-500 font-medium">SBI, IBPS PO &amp; Clerk</div>
+                  </div>
+                </a>
+                <a href="/railways" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition">
+                  <span class="text-base">🚆</span>
+                  <div>
+                    <div class="text-xs font-bold text-slate-900">Railways</div>
+                    <div class="text-[10px] text-slate-500 font-medium">RRB NTPC, Group D</div>
+                  </div>
+                </a>
+                <a href="/jee-neet" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition">
+                  <span class="text-base">🧬</span>
+                  <div>
+                    <div class="text-xs font-bold text-slate-900">JEE &amp; NEET UG</div>
+                    <div class="text-[10px] text-slate-500 font-medium">Physics, Chem, Bio</div>
+                  </div>
+                </a>
+                <a href="/defence" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition">
+                  <span class="text-base">🎖️</span>
+                  <div>
+                    <div class="text-xs font-bold text-slate-900">Defence</div>
+                    <div class="text-[10px] text-slate-500 font-medium">NDA, CDS, Police SI</div>
+                  </div>
+                </a>
+                <a href="/teaching" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition">
+                  <span class="text-base">👨‍🏫</span>
+                  <div>
+                    <div class="text-xs font-bold text-slate-900">Teaching</div>
+                    <div class="text-[10px] text-slate-500 font-medium">CTET, State TET</div>
+                  </div>
+                </a>
+                <a href="/entrance" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition">
+                  <span class="text-base">🎓</span>
+                  <div>
+                    <div class="text-xs font-bold text-slate-900">CUET &amp; Law</div>
+                    <div class="text-[10px] text-slate-500 font-medium">CUET UG, CLAT</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <a href="/gov_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 transition">
+              <span class="text-sm">🌍</span>
+              <span>Daily GK Drill</span>
+            </a>
+
+            <a href="/about-us" class="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition">About</a>
+
+            <!-- CTA BUTTON (Scrolls to All Competitive Exams) -->
+            <a href="/#exam-grid-section" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-100 transition active:scale-95 cursor-pointer no-underline">
+              <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-300 fill-current"></i>
+              <span>Start Free Test</span>
+            </a>
           </nav>
 
-          <!-- Mobile Hamburger -->
-          <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-700 hover:text-indigo-600 focus:outline-none" aria-label="Menu">
+          <!-- MOBILE MENU BUTTON -->
+          <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-700 hover:text-indigo-600 focus:outline-none cursor-pointer" aria-label="Menu">
             <i id="menu-icon" data-lucide="menu" class="w-6 h-6"></i>
           </button>
         </div>
       </div>
 
-      <!-- Mobile Dropdown -->
-      <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3">
+      <!-- MOBILE DROPDOWN -->
+      <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3 max-h-[85vh] overflow-y-auto">
         <a href="/" class="block px-3 py-2 rounded-lg text-sm font-bold text-indigo-600 bg-indigo-50">Home</a>
-        <a href="#exam-grid-section" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Mock Streams</a>
-        <a href="#marking-schemes" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Marking Schemes</a>
-        <button onclick="openSearchModal()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-          <i data-lucide="search" class="w-4 h-4 text-slate-500"></i> Search Exams
-        </button>
-        <button onclick="openPassModal()" class="w-full py-3 bg-gradient-to-r from-amber-500 to-rose-600 text-white font-bold rounded-xl text-xs uppercase flex items-center justify-center gap-2">
-          <i data-lucide="crown" class="w-4 h-4"></i> Get Exam Pass @ ₹99
-        </button>
+        
+        <a href="/gov_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200">
+          <span class="text-base">🌍</span>
+          <span>Daily GK &amp; Current Affairs Drill (Free)</span>
+        </a>
+
+        <div class="px-3 pt-2 text-[10px] font-black uppercase tracking-wider text-slate-400">All Exam Categories</div>
+        <div class="grid grid-cols-2 gap-2">
+          <a href="/ssc" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5"><span>⚡</span> SSC</a>
+          <a href="/upsc" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5"><span>⚖️</span> UPSC/PSC</a>
+          <a href="/banking" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5"><span>🏦</span> Banking</a>
+          <a href="/railways" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5"><span>🚆</span> Railways</a>
+          <a href="/jee-neet" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5"><span>🧬</span> JEE/NEET</a>
+          <a href="/defence" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5"><span>🎖️</span> Defence</a>
+          <a href="/teaching" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5"><span>👨‍🏫</span> Teaching</a>
+          <a href="/entrance" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5"><span>🎓</span> CUET/Law</a>
+        </div>
+
+        <div class="pt-2 border-t border-slate-100 flex flex-col gap-1 text-xs font-bold text-slate-700">
+          <a href="/about-us" class="px-3 py-2 hover:bg-slate-50 rounded-lg">About Us</a>
+        </div>
+
+        <!-- MOBILE CTA -->
+        <a href="/#exam-grid-section" onclick="toggleMobileMenu()" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl text-xs uppercase flex items-center justify-center gap-2 shadow-md no-underline">
+          <i data-lucide="zap" class="w-4 h-4 text-amber-300 fill-current"></i>
+          <span>Start Free Test</span>
+        </a>
       </div>
     </header>
   `;
@@ -70,6 +160,7 @@ function renderFooter() {
     <footer class="bg-white text-slate-600 pt-16 pb-12 border-t border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-100">
+          
           <div class="space-y-4 md:col-span-1">
             <div class="flex items-center gap-2.5">
               <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
@@ -83,22 +174,22 @@ function renderFooter() {
           </div>
 
           <div>
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-4">Govt & Career Exams</h4>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-4">Govt &amp; Career Exams</h4>
             <ul class="space-y-2 text-xs font-semibold">
-              <li><a href="javascript:void(0)" onclick="navigateToCategory('GOVT_PSC')" class="hover:text-indigo-600 transition">UPSC Civil Services & State PSC</a></li>
-              <li><a href="javascript:void(0)" onclick="navigateToCategory('SSC')" class="hover:text-indigo-600 transition">SSC CGL, CHSL, MTS, CPO</a></li>
-              <li><a href="javascript:void(0)" onclick="navigateToCategory('RAILWAYS')" class="hover:text-indigo-600 transition">Railway RRB NTPC & Group D</a></li>
-              <li><a href="javascript:void(0)" onclick="navigateToCategory('BANKING')" class="hover:text-indigo-600 transition">IBPS, SBI PO & Clerk</a></li>
+              <li><a href="/upsc" class="hover:text-indigo-600 transition">UPSC Civil Services &amp; State PSC</a></li>
+              <li><a href="/ssc" class="hover:text-indigo-600 transition">SSC CGL, CHSL, MTS, CPO</a></li>
+              <li><a href="/railways" class="hover:text-indigo-600 transition">Railway RRB NTPC &amp; Group D</a></li>
+              <li><a href="/banking" class="hover:text-indigo-600 transition">IBPS, SBI PO &amp; Clerk</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-4">Entrances & Defence</h4>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-4">Entrances &amp; Practice</h4>
             <ul class="space-y-2 text-xs font-semibold">
-              <li><a href="javascript:void(0)" onclick="navigateToCategory('JEE_NEET')" class="hover:text-indigo-600 transition">NTA JEE Main & NEET UG</a></li>
-              <li><a href="javascript:void(0)" onclick="navigateToCategory('DEFENCE')" class="hover:text-indigo-600 transition">NDA, CDS, Police SI, Agniveer</a></li>
-              <li><a href="javascript:void(0)" onclick="navigateToCategory('TEACHING')" class="hover:text-indigo-600 transition">CTET, State TET & KVS</a></li>
-              <li><a href="javascript:void(0)" onclick="navigateToCategory('ENTRANCE')" class="hover:text-indigo-600 transition">CUET UG/PG, CLAT & Law</a></li>
+              <li><a href="/gov_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="text-emerald-700 font-bold hover:text-emerald-800 transition">Daily GK &amp; Current Affairs Drill</a></li>
+              <li><a href="/jee-neet" class="hover:text-indigo-600 transition">NTA JEE Main &amp; NEET UG</a></li>
+              <li><a href="/defence" class="hover:text-indigo-600 transition">NDA, CDS, Police SI, Agniveer</a></li>
+              <li><a href="/teaching" class="hover:text-indigo-600 transition">CTET, State TET &amp; KVS</a></li>
             </ul>
           </div>
 
@@ -116,9 +207,9 @@ function renderFooter() {
         <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
           <div>&copy; 2026 ExamMokk Cloud. All Rights Reserved.</div>
           <div class="flex gap-6">
-            <a href="/privacy" class="hover:text-slate-900 transition">Privacy Policy</a>
+            <a href="/privacy-policy" class="hover:text-slate-900 transition">Privacy Policy</a>
             <a href="/terms" class="hover:text-slate-900 transition">Terms of Service</a>
-            <a href="/contact" class="hover:text-slate-900 transition">Contact & Help</a>
+            <a href="/contact-us" class="hover:text-slate-900 transition">Contact &amp; Help</a>
           </div>
         </div>
       </div>
