@@ -1,20 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-C1MVKY4RWF"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-C1MVKY4RWF");
-    </script>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
@@ -22,450 +8,259 @@
     />
 
     <!-- SEO META TAGS -->
-    <title>
-      Contact Us - Kids Paint | Software Setup & Pro Configuration Enquiry
-    </title>
+    <title>Contact &amp; Support - ExamMokk | Online Mock Test Engine</title>
     <meta
       name="description"
-      content="Get in touch with Farha AI Kids Education. Submit your enquiry for KidsPaint software setup and premium tools configuration."
+      content="Get in touch with ExamMokk Cloud Support. Contact us for test series queries, score reporting issues, or institutional collaboration."
     />
-    <meta name="author" content="Kids Paint" />
+    <meta
+      name="keywords"
+      content="contact exammokk, exam preparation support, mock test helpdesk, test series enquiry"
+    />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://kidspaint.cloud/contact-us.html" />
+    <link rel="canonical" href="https://exammokk.cloud/contact-us" />
 
-    <!-- BOOTSTRAP 5, TAILWIND & LUCIDE ICONS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
+    <!-- OPEN GRAPH -->
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Contact &amp; Support - ExamMokk Cloud"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    <meta
+      property="og:description"
+      content="Reach out to ExamMokk support for platform queries, test feedback, and institutional setups."
     />
+    <meta property="og:url" content="https://exammokk.cloud/contact-us" />
+
+    <!-- Tailwind CSS, Lucide Icons & Fonts -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
 
     <style>
       body {
-        font-family: "Fredoka", sans-serif;
-        background: #fffdf0;
-        color: #1e293b;
-        margin: 0;
-        overflow-x: hidden;
-      }
-
-      /* BOOTSTRAP BLUE & UNDERLINE OVERRIDE RESET */
-      header a,
-      #mobile-menu a {
-        color: #475569 !important; /* text-slate-600 */
-        text-decoration: none !important;
-      }
-      header a:hover,
-      #mobile-menu a:hover {
-        color: #4f46e5 !important; /* text-indigo-600 */
-      }
-      header a.active-link,
-      #mobile-menu a.active-link {
-        color: #4f46e5 !important; /* Active Contact Link stays Blue */
-      }
-
-      @keyframes floatSlow {
-        0%,
-        100% {
-          transform: translateY(0px) rotate(0deg);
-        }
-        50% {
-          transform: translateY(-15px) rotate(4deg);
-        }
-      }
-      @keyframes bounceSlow {
-        0%,
-        100% {
-          transform: translateY(0) rotate(-1.5deg);
-        }
-        50% {
-          transform: translateY(-10px) rotate(1.5deg);
-        }
-      }
-
-      .floating-element {
-        animation: floatSlow 6s ease-in-out infinite;
-      }
-      .animate-badge-bounce {
-        animation: bounceSlow 3s ease-in-out infinite;
-      }
-
-      /* Hard Retro Kids Style Shadow Matching About Page Layout */
-      .kids-shadow {
-        box-shadow: 0 8px 0px #e2e8f0;
-      }
-
-      .kids-shadow-btn {
-        box-shadow: 0 8px 0px #312e81;
-      }
-      .kids-shadow-btn:active {
-        transform: translateY(6px);
-        box-shadow: 0 2px 0px #312e81;
-      }
-      .kids-shadow-btn-yellow {
-        box-shadow: 0 6px 0px #78350f;
-      }
-      .kids-shadow-btn-yellow:active {
-        transform: translateY(4px);
-        box-shadow: 0 2px 0px #78350f;
-      }
-      .kids-shadow-pink {
-        box-shadow: 0 6px 0px #db2777;
-      }
-      .kids-shadow-cyan {
-        box-shadow: 0 6px 0px #0891b2;
-      }
-      .kids-shadow-amber {
-        box-shadow: 0 6px 0px #d97706;
-      }
-      .kids-shadow-emerald {
-        box-shadow: 0 6px 0px #059669;
-      }
-
-      /* Custom Contact Form Matching Dark Styling Constraints */
-      .contact-card {
-        background: #0f172a !important;
-        color: white !important;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      }
-
-      .contact-card .form-control {
-        background: #1e293b !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        color: white !important;
-      }
-
-      .contact-card .form-control::placeholder {
-        color: #64748b !important;
-      }
-
-      .contact-card .text-info {
-        color: #22d3ee !important;
-      }
-
-      .contact-card .btn-main {
-        background: #22d3ee;
-        color: #0b0f19;
-        border: none;
-        font-weight: 700;
-        border-radius: 50px;
-        padding: 12px;
-        transition: all 0.3s ease;
-      }
-
-      .contact-card .btn-main:hover {
-        background: #0ea5e9;
-        color: white;
-      }
-
-      .text-dim {
-        color: #94a3b8;
-      }
-
-      .hover-white:hover {
-        color: #ffffff !important;
-        transition: 0.3s ease-in-out;
-      }
-
-      .text-white-50 {
-        color: rgba(255, 255, 255, 0.5);
-      }
-
-      .card-pop {
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      }
-      .card-pop:hover {
-        transform: translateY(-8px) scale(1.02);
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
       }
     </style>
   </head>
-  <body class="antialiased flex flex-col min-h-screen pb-24 md:pb-0">
-    <!-- 1. HEADER -->
-    <header
-      class="bg-white sticky top-0 z-50 px-4 py-3.5 md:px-8 md:py-4 flex items-center justify-between border-b-4 border-yellow-400 shadow-md"
-    >
-      <div class="flex items-center gap-8">
-        <div
-          onclick="window.location.href = '/'"
-          class="flex items-center gap-2.5 cursor-pointer transform active:scale-95 transition-transform group text-decoration-none"
-        >
-          <div
-            class="w-10 h-10 md:w-12 md:h-12 bg-amber-400 rounded-xl md:rounded-2xl flex items-center justify-center shadow-md border-2 border-white rotate-[-3deg] group-hover:rotate-[12deg] transition-transform duration-300"
-          >
-            <i
-              data-lucide="palette"
-              class="w-6 h-6 md:w-7 md:h-7 text-white fill-amber-100"
-            ></i>
-          </div>
-          <span
-            class="text-xl md:text-2xl font-black tracking-wide text-indigo-600 uppercase flex items-center text-decoration-none"
-          >
-            Kids&nbsp;<span class="text-pink-500">P</span
-            ><span class="text-amber-500">a</span
-            ><span class="text-emerald-500">i</span
-            ><span class="text-cyan-500">n</span
-            ><span class="text-violet-500">t</span>
-          </span>
-        </div>
-      </div>
+  <body
+    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white antialiased"
+  >
+    <!-- REUSABLE GLOBAL HEADER -->
+    <div id="global-header"></div>
 
-      <!-- DESKTOP MENU (HIDDEN ON MOBILE) -->
-      <div class="hidden md:flex items-center gap-6">
-        <a href="/" class="text-sm font-bold uppercase text-decoration-none"
-          >Home</a
-        >
-        <a
-          href="/coloring-pages"
-          class="text-sm font-bold uppercase text-decoration-none"
-          >Coloring Pages</a
-        >
-        <a
-          href="/about-us"
-          class="text-sm font-bold uppercase text-decoration-none"
-          >About Us</a
-        >
-        <a
-          href="/contact-us"
-          class="text-sm font-bold active-link uppercase text-decoration-none"
-          >Contact Us</a
-        >
-        <button
-          onclick="redirectToPaintApp()"
-          style="border-radius: 42px; height: 46px"
-          class="kids-shadow-btn-yellow flex items-center justify-center gap-2 whitespace-nowrap px-6 py-3 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all cursor-pointer"
-        >
-          <i
-            class="sparkles text-yellow-200 fill-current w-4 h-4 flex-shrink-0"
-            data-lucide="sparkles"
-          ></i>
-          <span>LAUNCH PAINT & PLAY</span>
-        </button>
-      </div>
-
-      <!-- MOBILE HAMBURGER BUTTON -->
-      <button
-        onclick="toggleMobileMenu()"
-        class="md:hidden p-2 text-slate-600 hover:text-indigo-600 focus:outline-none cursor-pointer border-0 bg-transparent"
-      >
-        <i id="menu-icon" data-lucide="menu" class="w-7 h-7"></i>
-      </button>
-    </header>
-
-    <!-- MOBILE DROPDOWN MENU CONTAINER -->
-    <div
-      id="mobile-menu"
-      class="hidden md:hidden fixed top-[72px] left-0 right-0 bg-white border-b-4 border-yellow-400 shadow-xl z-40 flex flex-col p-4 gap-4 animate__animated animate__fadeInDown animate__faster"
-    >
-      <a
-        href="/"
-        class="text-base font-bold p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase text-decoration-none"
-        >Home</a
-      >
-      <a
-        href="/coloring-pages"
-        class="text-base font-bold p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase text-decoration-none"
-        >Coloring Pages</a
-      >
-      <a
-        href="/about-us"
-        class="text-base font-bold p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase text-decoration-none"
-        >About Us</a
-      >
-      <a
-        href="/contact-us"
-        class="text-base font-bold active-link p-2 rounded-lg hover:bg-slate-50 transition-colors uppercase text-decoration-none"
-        >Contact Us</a
-      >
-    </div>
-
-    <!-- MOBILE STICKY FOOTER BAR -->
-    <div
-      class="fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg px-4 py-3.5 border-t-4 border-pink-500 shadow-[0_-10px_30px_rgba(236,72,153,0.15)] flex items-center justify-center md:hidden"
-    >
-      <button
-        onclick="redirectToPaintApp()"
-        class="kids-shadow-btn-yellow flex items-center justify-center gap-2 whitespace-nowrap px-6 py-3 bg-amber-500 text-white font-bold text-sm rounded-xl border-2 border-amber-600 hover:bg-amber-400 transition-all cursor-pointer"
-      >
-        <i
-          class="sparkles text-yellow-200 fill-current w-4 h-4 flex-shrink-0"
-          data-lucide="sparkles"
-        ></i>
-        <span>LAUNCH PAINT & PLAY</span>
-      </button>
-    </div>
-
-    <!-- 2. HERO SECTION -->
-    <main class="flex-grow flex flex-col">
+    <main class="flex-grow">
+      <!-- HERO BANNER -->
       <section
-        class="relative bg-gradient-to-b from-indigo-700 via-indigo-800 to-violet-900 text-white py-16 md:py-24 px-4 overflow-hidden border-b-8 border-emerald-400 text-center"
+        class="relative pt-10 pb-14 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-indigo-50/30 to-slate-50 border-b border-slate-200/80 text-center"
       >
-        <div
-          class="absolute top-6 right-10 opacity-20 floating-element text-pink-400"
-        >
-          <i data-lucide="palette" class="w-16 h-16"></i>
-        </div>
-        <div
-          class="absolute bottom-6 left-8 opacity-20 floating-element text-cyan-300"
-          style="animation-delay: 2s"
-        >
-          <i data-lucide="mail" class="w-12 h-12"></i>
-        </div>
-
-        <div
-          class="max-w-3xl mx-auto flex flex-col items-center gap-4 z-10 animate__animated animate__fadeIn"
-        >
-          <span
-            class="px-4 py-1.5 bg-yellow-400 text-indigo-950 font-bold text-xs rounded-full uppercase tracking-widest shadow-md border-2 border-white animate-badge-bounce inline-block"
+        <div class="max-w-4xl mx-auto space-y-3.5">
+          <div
+            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-black uppercase tracking-wider"
           >
-            🎨 KidsPaint Institutional Partnerships
-          </span>
+            <span
+              class="w-2 h-2 rounded-full bg-indigo-600 animate-ping"
+            ></span>
+            <span>Support &amp; Candidate Helpdesk</span>
+          </div>
           <h1
-            class="text-4xl md:text-6xl font-black uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-amber-300 to-pink-400"
+            class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight"
           >
-            Contact & Collaboration
+            Get in Touch with <br class="hidden sm:inline" />
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-800"
+            >
+              ExamMokk Support
+            </span>
           </h1>
           <p
-            class="text-indigo-100 text-xs md:text-lg font-medium max-w-xl opacity-90 leading-relaxed"
+            class="text-slate-600 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed font-medium"
           >
-            Bring the joy of digital creativity to your institution. Submit your
-            infrastructure deployment requirements for school labs, NGO
-            programs, or online platforms.
+            Have questions regarding our test simulator, question
+            clarifications, or platform feedback? Send us a message and our team
+            will get back to you.
           </p>
         </div>
       </section>
 
-      <!-- 3. MISSION & VISION GRID SECTION SHAPE -->
-      <section class="py-16 px-4 md:px-8 max-w-6xl mx-auto w-full flex-grow">
-        <div class="row g-4 align-items-stretch">
-          <!-- Left Content Panel Box Grid Layout -->
-          <div class="col-lg-6 flex flex-col gap-4 justify-content-between">
-            <!-- School Partnership Setup Box Panel -->
+      <!-- MAIN CONTACT GRID -->
+      <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <!-- LEFT COLUMN: SUPPORT DETAILS & DIRECT CHANNELS (5 COLS) -->
+          <div class="lg:col-span-5 space-y-4">
             <div
-              class="bg-white p-6 md:p-8 rounded-3xl border-3 border-pink-400 kids-shadow-pink card-pop flex flex-col gap-3 h-100"
+              class="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-2xs space-y-4"
             >
-              <div class="flex items-center gap-3">
+              <h2 class="text-base font-extrabold text-slate-900">
+                Direct Support Channels
+              </h2>
+
+              <div class="space-y-3.5">
                 <div
-                  class="w-10 h-10 bg-pink-500 text-white rounded-xl flex items-center justify-center border-2 border-white shadow-sm"
+                  class="flex items-start gap-3 p-3.5 bg-slate-50 border border-slate-200/80 rounded-2xl"
                 >
-                  <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                  <div
+                    class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center shrink-0"
+                  >
+                    <i data-lucide="mail" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <span
+                      class="text-[10px] font-black uppercase text-slate-400 block tracking-wider"
+                      >Email Address</span
+                    >
+                    <a
+                      href="mailto:support@jawedsiddiqui.cloud"
+                      class="text-xs sm:text-sm font-bold text-slate-800 hover:text-indigo-600 transition"
+                    >
+                      support@jawedsiddiqui.cloud
+                    </a>
+                  </div>
                 </div>
-                <h2 class="text-xl font-black text-indigo-950 uppercase">
-                  School Partnerships
-                </h2>
+
+                <div
+                  class="flex items-start gap-3 p-3.5 bg-slate-50 border border-slate-200/80 rounded-2xl"
+                >
+                  <div
+                    class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center shrink-0"
+                  >
+                    <i data-lucide="clock" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <span
+                      class="text-[10px] font-black uppercase text-slate-400 block tracking-wider"
+                      >Response Window</span
+                    >
+                    <p class="text-xs sm:text-sm font-bold text-slate-800">
+                      Within 24 - 48 Business Hours
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  class="flex items-start gap-3 p-3.5 bg-slate-50 border border-slate-200/80 rounded-2xl"
+                >
+                  <div
+                    class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 text-amber-700 flex items-center justify-center shrink-0"
+                  >
+                    <i data-lucide="shield-check" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <span
+                      class="text-[10px] font-black uppercase text-slate-400 block tracking-wider"
+                      >Evaluation Verification</span
+                    >
+                    <p class="text-xs sm:text-sm font-bold text-slate-800">
+                      NTA, TCS-iON &amp; UPSC Pattern Match
+                    </p>
+                  </div>
+                </div>
               </div>
-              <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
-                Engineered to deploy instantly across server setups, local
-                classroom domains, and multi-user computer lab configurations.
-                Perfect for integrating digital art into your standard K-12
-                school curriculum without reliance on complex operating
-                infrastructure parameters.
-              </p>
             </div>
 
-            <!-- NGO & Online Education Box Panel -->
+            <!-- QUICK TIP CARD -->
             <div
-              class="bg-white p-6 md:p-8 rounded-3xl border-3 border-cyan-400 kids-shadow-cyan card-pop flex flex-col gap-3 h-100"
+              class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-3xl p-6 shadow-md space-y-2"
             >
-              <div class="flex items-center gap-3">
-                <div
-                  class="w-10 h-10 bg-cyan-500 text-white rounded-xl flex items-center justify-center border-2 border-white shadow-sm"
+              <div class="flex items-center gap-2">
+                <span class="text-lg">💡</span>
+                <h3
+                  class="text-xs font-black uppercase tracking-wider text-indigo-200"
                 >
-                  <i data-lucide="heart-handshake" class="w-5 h-5"></i>
-                </div>
-                <h2 class="text-xl font-black text-indigo-950 uppercase">
-                  NGO & EdTech Alliances
-                </h2>
+                  Test Feedback Tip
+                </h3>
               </div>
-              <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
-                Custom integration workflows comfortably accommodate digital
-                vector canvas architectures for non-profit foundations, rural
-                community scaling, and local matrix tools deployment grids for
-                online distance education systems.
+              <p class="text-xs text-slate-300 leading-relaxed font-medium">
+                If you are reporting a specific question error, please include
+                the Exam Stream (e.g. SSC, Banking) and the Question ID or Title
+                in your message.
               </p>
             </div>
           </div>
 
-          <!-- Right Content Panel Form Card (Original Inputs Preserved Explicitly) -->
-          <div class="col-lg-6">
+          <!-- RIGHT COLUMN: ENQUIRY / CONTACT FORM (7 COLS) -->
+          <div class="lg:col-span-7">
             <div
-              class="contact-card p-6 md:p-8 h-100 flex flex-col justify-content-center"
+              class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs"
             >
-              <h3 class="fw-bold mb-1 text-xl">Enquiry</h3>
-              <p class="text-dim text-xs mb-4">
-                Provide details regarding your desired integration architecture
-                configuration.
-              </p>
+              <div class="mb-5 space-y-1">
+                <h2 class="text-lg sm:text-xl font-black text-slate-900">
+                  Send an Enquiry
+                </h2>
+                <p class="text-xs text-slate-500 font-medium">
+                  Fill in the form below and we will get back to you shortly.
+                </p>
+              </div>
 
-              <form id="contactForm">
-                <div id="formFields">
-                  <div class="mb-3">
-                    <label class="small fw-bold text-info mb-2 block"
+              <form id="contactForm" class="space-y-4">
+                <div id="formFields" class="space-y-4">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5"
                       >Full Name</label
                     >
                     <input
                       type="text"
                       name="name"
-                      class="form-control"
-                      placeholder="Enter full name"
+                      class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs sm:text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-indigo-500 focus:outline-none transition"
+                      placeholder="Enter your full name"
                       required
                     />
                   </div>
 
-                  <div class="mb-3">
-                    <label class="small fw-bold text-info mb-2 block"
-                      >Email Address</label
-                    >
-                    <input
-                      type="email"
-                      name="email"
-                      class="form-control"
-                      placeholder="name@example.com"
-                      required
-                    />
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        class="block text-xs font-bold text-slate-700 mb-1.5"
+                        >Email Address</label
+                      >
+                      <input
+                        type="email"
+                        name="email"
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs sm:text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-indigo-500 focus:outline-none transition"
+                        placeholder="name@example.com"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label
+                        class="block text-xs font-bold text-slate-700 mb-1.5"
+                        >WhatsApp / Phone</label
+                      >
+                      <input
+                        type="tel"
+                        name="phone"
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs sm:text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-indigo-500 focus:outline-none transition"
+                        placeholder="+91 XXXXX XXXXX"
+                        required
+                      />
+                    </div>
                   </div>
 
-                  <div class="mb-3">
-                    <label class="small fw-bold text-info mb-2 block"
-                      >WhatsApp / Phone Number</label
-                    >
-                    <input
-                      type="tel"
-                      name="phone"
-                      class="form-control"
-                      placeholder="+91 XXXXX XXXXX"
-                      required
-                    />
-                  </div>
+                  <!-- Hidden Context Identifier -->
+                  <input
+                    type="hidden"
+                    id="hiddenProject"
+                    name="project"
+                    value="from ExamMokk"
+                  />
 
-                  <!-- Hidden project context element framework -->
-                  <input type="hidden" id="hiddenProject" name="project" />
-
-                  <div class="mb-4">
-                    <label class="small fw-bold text-info mb-2 block"
-                      >Software Requirement Client</label
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5"
+                      >Message / Issue Details</label
                     >
                     <textarea
                       name="message"
-                      class="form-control"
-                      rows="3"
-                      placeholder="Tell us about your infrastructure criteria, current setup challenges, or specific goals..."
+                      rows="4"
+                      class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs sm:text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-indigo-500 focus:outline-none transition"
+                      placeholder="Describe your question, issue or feedback here..."
                       required
                     ></textarea>
                   </div>
@@ -473,27 +268,31 @@
                   <button
                     type="submit"
                     id="submitBtn"
-                    class="btn btn-main w-100 uppercase tracking-wider text-sm"
+                    class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold text-xs uppercase tracking-wider rounded-2xl shadow-lg shadow-indigo-100 transition cursor-pointer flex items-center justify-center gap-2"
                   >
-                    Submit Enquiry
+                    <span>Submit Message</span>
+                    <i data-lucide="send" class="w-4 h-4"></i>
                   </button>
                 </div>
 
-                <!-- AJAX Response Component Integration -->
+                <!-- SUCCESS MESSAGE WRAPPER -->
                 <div
                   id="successMsg"
-                  class="text-center py-4 d-none animate__animated animate__fadeIn"
+                  class="hidden text-center py-8 space-y-3 animate-fadeIn"
                 >
-                  <i
-                    class="bi bi-check-circle-fill text-success"
-                    style="font-size: 3.5rem"
-                  ></i>
-                  <h4 class="mt-3 fw-bold text-white text-lg">
-                    Enquiry Submitted Successfully!
-                  </h4>
-                  <p class="text-dim text-xs mt-1">
-                    Our technical configuration architect will get in touch with
-                    you shortly.
+                  <div
+                    class="w-14 h-14 bg-emerald-50 border border-emerald-200 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl"
+                  >
+                    <i data-lucide="check-circle-2" class="w-8 h-8"></i>
+                  </div>
+                  <h3 class="text-base font-black text-slate-900">
+                    Message Submitted Successfully!
+                  </h3>
+                  <p
+                    class="text-xs text-slate-500 max-w-sm mx-auto font-medium"
+                  >
+                    Thank you for reaching out. Our support team will review
+                    your query and respond shortly.
                   </p>
                 </div>
               </form>
@@ -501,165 +300,19 @@
           </div>
         </div>
       </section>
-
-      <!-- 4. CORE TECHNICAL CREDENTIAL VALUES PANEL -->
-      <section
-        class="bg-amber-50/50 py-16 px-4 md:px-8 border-t-4 border-dashed border-amber-300"
-      >
-        <div class="max-w-4xl mx-auto text-center space-y-3 mb-12">
-          <h2 class="text-2xl md:text-4xl font-black text-indigo-950 uppercase">
-            Reliable Global Delivery 🚀
-          </h2>
-          <p class="text-xs md:text-sm text-slate-500 font-medium">
-            Providing uniform high-performance support without operational
-            constraints.
-          </p>
-        </div>
-
-        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div
-            class="bg-white p-5 rounded-2xl border-2 border-amber-400 kids-shadow-amber text-center flex flex-col items-center gap-2"
-          >
-            <div
-              class="w-10 h-10 bg-amber-500 text-white rounded-lg flex items-center justify-center"
-            >
-              <i data-lucide="shield-check" class="w-5 h-5"></i>
-            </div>
-            <h3
-              class="font-extrabold text-indigo-950 uppercase text-sm md:text-base"
-            >
-              100% Safe & Private
-            </h3>
-            <p class="text-xs text-slate-500">
-              Zero data collection. A completely secure, ad-free environment
-              tailored for young minds.
-            </p>
-          </div>
-
-          <div
-            class="bg-white p-5 rounded-2xl border-2 border-emerald-400 kids-shadow-emerald text-center flex flex-col items-center gap-2"
-          >
-            <div
-              class="w-10 h-10 bg-emerald-500 text-white rounded-lg flex items-center justify-center"
-            >
-              <i data-lucide="gauge" class="w-5 h-5"></i>
-            </div>
-            <h3
-              class="font-extrabold text-indigo-950 uppercase text-sm md:text-base"
-            >
-              Cloud-Powered Speed
-            </h3>
-            <p class="text-xs text-slate-500">
-              No heavy downloads needed. Instant, highly optimized browser
-              performance with a single click.
-            </p>
-          </div>
-
-          <div
-            class="bg-white p-5 rounded-2xl border-2 border-indigo-400 kids-shadow text-center flex flex-col items-center gap-2"
-          >
-            <div
-              class="w-10 h-10 bg-indigo-500 text-white rounded-lg flex items-center justify-center"
-            >
-              <i data-lucide="globe" class="w-5 h-5"></i>
-            </div>
-            <h3
-              class="font-extrabold text-indigo-950 uppercase text-sm md:text-base"
-            >
-              Global Access
-            </h3>
-            <p class="text-xs text-slate-500">
-              Uniform accessibility across academic structures in India (NCR),
-              UAE, UK, and US.
-            </p>
-          </div>
-        </div>
-      </section>
     </main>
 
-    <!-- 5. FOOTER SECTION -->
-    <footer
-      class="bg-slate-950 text-slate-400 py-16 px-4 md:px-8 border-t-8 border-pink-500 relative"
-    >
-      <div class="max-w-6xl mx-auto flex flex-col gap-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-          <!-- Left Column: Brand & Features -->
-          <div class="flex flex-col gap-4">
-            <div class="flex items-center gap-2">
-              <div
-                class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold border-2 border-slate-700 shadow-sm"
-              >
-                <i data-lucide="palette" class="w-4 h-4 text-yellow-300"></i>
-              </div>
-              <span
-                class="text-white text-lg font-bold tracking-wider uppercase"
-                >KidsPaint AI India</span
-              >
-            </div>
-            <p
-              class="text-[11px] md:text-xs text-slate-400 max-w-sm leading-relaxed"
-            >
-              KidsPaint delivers a high-speed, secure online paint studio and
-              comprehensive brain growth sandbox environment worldwide. We train
-              children globally through interactive modules like Letters
-              Tracing, Coloring Pad, Connect Dots, Maze Runner, Symmetry Mirror,
-              and Math Matrix.
-            </p>
-          </div>
+    <!-- REUSABLE GLOBAL FOOTER -->
+    <div id="global-footer"></div>
 
-          <!-- Right Column: Global Vision & India Sub-Brand Launch -->
-          <div
-            class="text-[11px] md:text-xs text-slate-400 space-y-3 border-l-0 md:border-l border-slate-800 pl-0 md:pl-8"
-          >
-            <h4
-              class="font-bold uppercase text-slate-200 tracking-wider text-xs flex items-center gap-1"
-            >
-              <span>🌐</span> Universal Art & IQ Literacy Infrastructure
-            </h4>
-            <p class="leading-relaxed">
-              Designed for international scalability, our open-access
-              application builds a balanced cognitive ecosystem for children
-              worldwide. Through our regional chapter,
-              <strong>KidsPaint AI India</strong>, we are proudly launching
-              operations by supporting premium early-education networks across
-              Delhi NCR, Noida, Ghaziabad, and Gurgaon.
-            </p>
-            <p class="leading-relaxed text-slate-500 font-medium">
-              🚀 Powered by KidsPaint AI India — a dedicated local initiative by
-              Farha AI Kids Education, scaling effortlessly across elite
-              preschool networks with zero software dependencies.
-            </p>
-          </div>
-        </div>
+    <!-- LAYOUT ENGINE SCRIPT -->
+    <script src="/js/layout.js"></script>
 
-        <!-- Divider -->
-        <div class="h-[1px] bg-slate-800 w-full"></div>
-
-        <!-- Footer Bottom -->
-        <div
-          class="flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-semibold text-slate-500 text-center"
-        >
-          <div>
-            &copy; 2026 Farha AI Kids Education. All Rights Reserved Worldwide.
-          </div>
-          <div
-            class="bg-slate-900/40 px-3.5 py-2 rounded-xl border border-slate-800/80"
-          >
-            Proudly <span class="text-[#FF9933]">Made</span> In
-            <span class="text-white">India</span>
-            <span class="text-[#128807]">🇮🇳</span> for Free Universal Brain
-            Development & Digital Literacy.
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!-- 6. DATA POST INJECTION PROCESSING SCRIPT -->
+    <!-- FORM SUBMISSION HANDLER -->
     <script>
-      window.onload = () => {
-        lucide.createIcons();
+      document.addEventListener("DOMContentLoaded", () => {
         initContactForm();
-      };
+      });
 
       function initContactForm() {
         const form = document.getElementById("contactForm");
@@ -673,11 +326,10 @@
           const btn = document.getElementById("submitBtn");
           const hiddenProject = document.getElementById("hiddenProject");
 
-          hiddenProject.value = "from KidsPaint";
+          hiddenProject.value = "from ExamMokk";
 
           btn.disabled = true;
-          btn.innerHTML =
-            '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+          btn.innerHTML = `<span>Processing...</span>`;
 
           try {
             await fetch(scriptURL, {
@@ -686,39 +338,27 @@
               mode: "no-cors",
             });
 
-            document.getElementById("formFields").classList.add("d-none");
-            document.getElementById("successMsg").classList.remove("d-none");
+            document.getElementById("formFields").classList.add("hidden");
+            document.getElementById("successMsg").classList.remove("hidden");
+
+            if (window.lucide) lucide.createIcons();
 
             setTimeout(() => {
               form.reset();
-              document.getElementById("formFields").classList.remove("d-none");
-              document.getElementById("successMsg").classList.add("d-none");
+              document.getElementById("formFields").classList.remove("hidden");
+              document.getElementById("successMsg").classList.add("hidden");
               btn.disabled = false;
-              btn.innerHTML = "Submit Enquiry";
+              btn.innerHTML = `<span>Submit Message</span><i data-lucide="send" class="w-4 h-4"></i>`;
+              if (window.lucide) lucide.createIcons();
             }, 4000);
           } catch (error) {
             btn.disabled = false;
-            btn.innerHTML = "Submit Enquiry";
-            alert("❌ Failed to send request. Check your connection.");
+            btn.innerHTML = `<span>Submit Message</span><i data-lucide="send" class="w-4 h-4"></i>`;
+            alert("❌ Failed to send request. Check your internet connection.");
             console.error("Submission Error:", error);
+            if (window.lucide) lucide.createIcons();
           }
         });
-      }
-
-      function toggleMobileMenu() {
-        const menu = document.getElementById("mobile-menu");
-        const icon = document.getElementById("menu-icon");
-
-        if (menu.classList.contains("hidden")) {
-          menu.classList.remove("hidden");
-          icon.setAttribute("data-lucide", "x");
-        } else {
-          menu.classList.add("hidden");
-          icon.setAttribute("data-lucide", "menu");
-        }
-
-        // Lucide icons को दोबारा रेंडर करें ताकि आइकॉन बदल सके
-        lucide.createIcons();
       }
     </script>
   </body>

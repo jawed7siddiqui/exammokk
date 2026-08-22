@@ -1,0 +1,1672 @@
+<!doctype html>
+<html lang="en" class="h-full select-none">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title id="page-browser-title">
+      ExamMokk CBT Online Examination Simulator
+    </title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f1f5f9;
+        color: #0f172a;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f8fafc;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 9999px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+      .opt-card-hover {
+        transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .opt-card-hover:hover {
+        border-color: #6366f1;
+        background-color: #f5f3ff;
+      }
+    </style>
+  </head>
+  <body
+    class="h-full flex flex-col justify-between overflow-hidden antialiased"
+  >
+    <!-- CONFIRMATION / ALERT DIALOG MODAL -->
+    <div
+      id="custom-dialog-modal"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden"
+    >
+      <div
+        class="bg-white rounded-3xl p-6 max-w-sm w-full border border-slate-200 shadow-2xl text-center space-y-4 animate-fadeIn"
+      >
+        <div
+          id="dialog-icon-wrapper"
+          class="w-12 h-12 mx-auto rounded-2xl flex items-center justify-center text-2xl bg-amber-50 text-amber-600 border border-amber-200"
+        >
+          <i id="dialog-icon" data-lucide="help-circle" class="w-6 h-6"></i>
+        </div>
+
+        <div class="space-y-1">
+          <h3 id="dialog-title" class="text-base font-black text-slate-900">
+            Confirm Action
+          </h3>
+          <p
+            id="dialog-message"
+            class="text-xs text-slate-500 font-semibold leading-relaxed"
+          >
+            Are you sure you want to proceed?
+          </p>
+        </div>
+
+        <div id="dialog-actions" class="flex items-center gap-2.5 pt-1">
+          <button
+            id="dialog-btn-cancel"
+            class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs cursor-pointer transition-all active:scale-95"
+          >
+            Cancel
+          </button>
+          <button
+            id="dialog-btn-confirm"
+            class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-xl text-xs cursor-pointer transition-all active:scale-95 shadow-md shadow-indigo-100"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1. DESKTOP WEB CBT TOP HEADER -->
+    <header
+      class="bg-white border-b border-slate-200/90 shadow-xs z-30 shrink-0"
+    >
+      <!-- TOP STRIP: BRAND, PAPER INFO & CANDIDATE PROFILE -->
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4"
+      >
+        <!-- LEFT: LOGO & BACK BUTTON -->
+        <div class="flex items-center gap-3 shrink-0">
+          <button
+            onclick="goHomeConfirm()"
+            class="p-2 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 rounded-xl transition cursor-pointer flex items-center justify-center active:scale-95"
+            title="Return to Dashboard"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+
+          <a href="/" class="flex items-center gap-2.5 no-underline">
+            <div
+              class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-base shadow-xs font-black"
+            >
+              <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5 leading-none">
+                <span class="text-sm font-black text-slate-900 uppercase"
+                  >Exam<span class="text-indigo-600">Mokk</span></span
+                >
+                <span
+                  class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[8px] font-black px-1.5 py-0.2 rounded-full uppercase"
+                  >CBT LIVE</span
+                >
+              </div>
+              <p
+                id="brand-header-subtitle"
+                class="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-0.5"
+              >
+                All India Examination Simulator
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <!-- CENTER: ACTIVE TEST TITLE & SECTION BADGE -->
+        <div
+          class="hidden md:flex flex-col items-center justify-center flex-1 max-w-xl text-center px-4"
+        >
+          <h1
+            id="test-title"
+            class="text-xs sm:text-sm font-black text-slate-800 truncate w-full"
+            title="Examination Title"
+          >
+            Loading Examination Paper...
+          </h1>
+          <div
+            class="flex items-center gap-2 text-[10px] font-bold text-slate-400 mt-0.5"
+          >
+            <span
+              id="header-exam-badge"
+              class="text-indigo-600 font-extrabold uppercase tracking-wide"
+              >National Level Test</span
+            >
+            <span>•</span>
+            <span class="text-slate-500">TCS iON Standard Evaluation</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: CANDIDATE INFO, EXIT & PALETTE TOGGLE (MOBILE) -->
+        <div class="flex items-center gap-2 shrink-0">
+          <div
+            class="hidden lg:flex items-center gap-2 px-3 py-1 bg-slate-50 border border-slate-200 rounded-xl"
+          >
+            <div
+              class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-[10px] font-bold"
+            >
+              👤
+            </div>
+            <div class="text-left">
+              <span
+                id="user-display-name"
+                class="text-[11px] font-extrabold text-slate-800 block leading-tight"
+                >Aspirant Candidate</span
+              >
+              <span
+                class="text-[9px] font-semibold text-emerald-600 block leading-none"
+                >Connected Live</span
+              >
+            </div>
+          </div>
+
+          <button
+            onclick="toggleMobilePalette()"
+            class="md:hidden p-2 bg-slate-100 active:bg-slate-200 rounded-xl text-slate-700 cursor-pointer"
+            title="Question Palette"
+          >
+            <i data-lucide="grid" class="w-4 h-4"></i>
+          </button>
+
+          <button
+            onclick="goHomeConfirm()"
+            class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-2xs"
+            title="Exit Exam"
+          >
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Exit Exam</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- BOTTOM CONTROL BAR: MARKS CRITERIA, TIMER, AND LANGUAGE SWITCH -->
+      <div class="bg-slate-50 border-t border-slate-200/80 px-4 sm:px-6 py-2">
+        <div
+          class="max-w-7xl mx-auto flex items-center justify-between gap-3 text-xs"
+        >
+          <!-- MARKS BREAKDOWN -->
+          <div class="flex items-center gap-2 font-black text-[11px]">
+            <span
+              id="question-indicator"
+              class="text-slate-700 bg-white border border-slate-200 px-2.5 py-1 rounded-lg"
+            >
+              Question 1 of 0
+            </span>
+            <span
+              id="badge-positive-mark"
+              class="text-emerald-700 bg-emerald-100/80 border border-emerald-200 px-2 py-1 rounded-lg"
+            >
+              +1.00 Marks
+            </span>
+            <span
+              id="badge-negative-mark"
+              class="text-rose-700 bg-rose-100/80 border border-rose-200 px-2 py-1 rounded-lg"
+            >
+              -0.25 Negative
+            </span>
+          </div>
+
+          <!-- COUNTDOWN TIMER & LANGUAGE TOGGLE -->
+          <div class="flex items-center gap-3">
+            <div
+              class="flex items-center gap-2 bg-amber-100/90 border border-amber-300 px-3 py-1 rounded-xl text-amber-950 font-mono font-extrabold shadow-2xs"
+            >
+              <i
+                data-lucide="clock"
+                class="w-4 h-4 text-amber-800 animate-pulse"
+              ></i>
+              <span
+                class="text-[10px] uppercase font-bold text-amber-800 hidden sm:inline"
+                >Time Left:</span
+              >
+              <span id="timer-display" class="text-xs sm:text-sm tracking-wider"
+                >20:00</span
+              >
+            </div>
+
+            <!-- DUAL LANGUAGE TOGGLE (EN / HI) -->
+            <div
+              class="flex bg-white p-0.5 rounded-xl border border-slate-200 text-xs font-black shadow-2xs"
+            >
+              <button
+                id="lang-en"
+                onclick="setLanguage('en')"
+                class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white cursor-pointer transition active:scale-95"
+              >
+                English
+              </button>
+              <button
+                id="lang-hi"
+                onclick="setLanguage('hi')"
+                class="px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer transition active:scale-95"
+              >
+                हिंदी
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. MAIN SPLIT DESKTOP WORKSPACE -->
+    <main class="flex-1 flex overflow-hidden relative max-w-7xl mx-auto w-full">
+      <!-- LOADING OVERLAY -->
+      <div
+        id="loading-overlay"
+        class="absolute inset-0 bg-slate-50/95 backdrop-blur-xs flex flex-col items-center justify-center z-40"
+      >
+        <div
+          class="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mb-3"
+        ></div>
+        <p class="font-extrabold text-indigo-900 text-sm tracking-wide">
+          Syncing Standard Question Paper with CBT Engine...
+        </p>
+      </div>
+
+      <!-- LEFT 8 COLS: QUESTION STATEMENT & INTERACTIVE OPTIONS -->
+      <section
+        class="flex-1 flex flex-col justify-between p-4 sm:p-6 lg:p-8 overflow-y-auto custom-scrollbar"
+      >
+        <div class="max-w-4xl w-full mx-auto space-y-4">
+          <!-- QUESTION CONTAINER CARD -->
+          <div
+            class="bg-white p-5 sm:p-7 rounded-3xl border border-slate-200/90 shadow-xs space-y-4"
+          >
+            <div
+              class="flex items-center justify-between border-b border-slate-100 pb-3"
+            >
+              <div class="flex items-center gap-2">
+                <span
+                  id="q-no-badge"
+                  class="px-2.5 py-1 bg-slate-900 text-white rounded-lg text-xs font-black uppercase tracking-wider"
+                >
+                  Question 1
+                </span>
+                <span class="text-xs font-bold text-slate-400"
+                  >Single Choice Objective (MCQ)</span
+                >
+              </div>
+
+              <div
+                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-mono font-bold"
+              >
+                <i data-lucide="timer" class="w-3.5 h-3.5 text-indigo-600"></i>
+                <span
+                  >Spent:
+                  <strong id="q-time-counter" class="text-indigo-950 font-black"
+                    >00:00</strong
+                  ></span
+                >
+              </div>
+            </div>
+
+            <!-- QUESTION TEXT -->
+            <div
+              class="text-slate-900 text-base sm:text-lg font-bold leading-relaxed whitespace-pre-line"
+            >
+              <span id="question-text">Loading question text statement...</span>
+            </div>
+          </div>
+
+          <!-- INTERACTIVE OPTIONS LIST -->
+          <div id="options-container" class="grid grid-cols-1 gap-3 pt-1"></div>
+        </div>
+
+        <!-- FOOTER CONTROLS / TOOLBAR -->
+        <div
+          class="max-w-4xl w-full mx-auto pt-6 border-t border-slate-200 mt-6 flex items-center justify-between gap-3"
+        >
+          <div class="flex items-center gap-2">
+            <button
+              onclick="toggleMarkForReview()"
+              id="btn-review"
+              class="px-4 py-2.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl font-extrabold text-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition shadow-2xs"
+            >
+              <i data-lucide="bookmark" class="w-4 h-4"></i>
+              <span>Mark for Review &amp; Next</span>
+            </button>
+            <button
+              onclick="clearCurrentResponse()"
+              class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-bold text-xs cursor-pointer active:scale-95 transition"
+            >
+              Clear Response
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <button
+              onclick="prevQuestion()"
+              id="btn-prev"
+              class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-xl disabled:opacity-40 cursor-pointer active:scale-95 transition flex items-center gap-1.5"
+            >
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+              <span>Previous</span>
+            </button>
+            <button
+              onclick="saveAndNext()"
+              id="btn-next"
+              class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-black text-xs rounded-xl shadow-lg shadow-indigo-200 transition cursor-pointer flex items-center gap-2"
+            >
+              <span>Save &amp; Next</span>
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT 4 COLS: STICKY QUESTION PALETTE SIDEBAR -->
+      <aside
+        id="palette-sidebar"
+        class="w-80 bg-white border-l border-slate-200/90 p-5 flex flex-col justify-between fixed md:static inset-y-0 right-0 z-50 transform translate-x-full md:translate-x-0 transition-transform duration-200 shadow-2xl md:shadow-none shrink-0"
+      >
+        <div class="space-y-4">
+          <div
+            class="flex items-center justify-between border-b border-slate-100 pb-3"
+          >
+            <div class="flex items-center gap-2">
+              <i data-lucide="layout-grid" class="w-4 h-4 text-indigo-600"></i>
+              <h2
+                class="font-black text-xs text-slate-900 uppercase tracking-wider"
+              >
+                Question Status Matrix
+              </h2>
+            </div>
+            <button
+              onclick="toggleMobilePalette()"
+              class="md:hidden text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+            >
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- NTA / TCS STANDARD COLOR LEGEND -->
+          <div
+            class="grid grid-cols-2 gap-2 text-[10px] font-bold text-slate-600 bg-slate-50 p-3 rounded-2xl border border-slate-200/80"
+          >
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-md bg-emerald-500 shadow-xs"></span>
+              <span
+                >Answered (<b id="count-answered" class="text-slate-900">0</b
+                >)</span
+              >
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-md bg-purple-500 shadow-xs"></span>
+              <span
+                >Marked (<b id="count-marked" class="text-slate-900">0</b
+                >)</span
+              >
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-md bg-rose-500 shadow-xs"></span>
+              <span
+                >Not Answered (<b id="count-not-answered" class="text-slate-900"
+                  >0</b
+                >)</span
+              >
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span
+                class="w-3 h-3 rounded-md bg-slate-200 border border-slate-300"
+              ></span>
+              <span
+                >Not Visited (<b id="count-not-visited" class="text-slate-900"
+                  >0</b
+                >)</span
+              >
+            </div>
+          </div>
+
+          <!-- NUMBERS GRID (SCROLLABLE MATRIX) -->
+          <div class="space-y-1.5">
+            <span
+              class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block"
+              >Choose a Question:</span
+            >
+            <div
+              id="palette-grid"
+              class="grid grid-cols-5 gap-2 max-h-[46vh] overflow-y-auto custom-scrollbar p-1"
+            ></div>
+          </div>
+        </div>
+
+        <!-- SUBMIT EXAMINATION BUTTON -->
+        <div class="pt-4 border-t border-slate-100">
+          <button
+            onclick="submitTestConfirmation()"
+            class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-black rounded-2xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-emerald-100 transition"
+          >
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>Submit Entire Test</span>
+          </button>
+        </div>
+      </aside>
+    </main>
+
+    <!-- 3. SCORECARD RESULT MODAL -->
+    <div
+      id="result-modal"
+      class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden overflow-y-auto"
+    >
+      <div
+        class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-slate-200 shadow-2xl space-y-5 my-auto animate-fadeIn"
+      >
+        <div class="text-center space-y-1">
+          <div id="res-status-icon" class="text-4xl">📊</div>
+          <h2 class="text-xl font-black text-slate-900">
+            Candidate Performance Scorecard
+          </h2>
+          <p
+            id="res-exam-profile-badge"
+            class="text-xs text-indigo-600 font-extrabold uppercase tracking-wide"
+          >
+            Exam Pattern Evaluation Summary
+          </p>
+        </div>
+
+        <!-- SCORE METRICS GRID -->
+        <div
+          class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-4"
+        >
+          <div
+            class="flex justify-between items-center pb-3 border-b border-slate-200"
+          >
+            <span
+              class="text-xs font-bold text-slate-600 uppercase tracking-wider"
+              >Normalized Final Score:</span
+            >
+            <span
+              id="res-score-text"
+              class="text-2xl font-black text-indigo-600"
+              >0 / 0</span
+            >
+          </div>
+
+          <div class="grid grid-cols-3 gap-3 text-center">
+            <div
+              class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-emerald-800"
+            >
+              <div id="res-correct" class="text-lg font-black">0</div>
+              <div class="text-[10px] font-bold uppercase tracking-wider">
+                Correct
+              </div>
+            </div>
+            <div
+              class="bg-rose-50 border border-rose-200 p-3 rounded-xl text-rose-800"
+            >
+              <div id="res-wrong" class="text-lg font-black">0</div>
+              <div class="text-[10px] font-bold uppercase tracking-wider">
+                Wrong
+              </div>
+            </div>
+            <div
+              class="bg-slate-100 border border-slate-200 p-3 rounded-xl text-slate-800"
+            >
+              <div id="res-accuracy" class="text-lg font-black">0%</div>
+              <div class="text-[10px] font-bold uppercase tracking-wider">
+                Accuracy
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="space-y-1.5 text-xs font-semibold text-slate-600 pt-2 border-t border-slate-200"
+          >
+            <div class="flex justify-between">
+              <span>Gross Positive Marks (+):</span>
+              <span id="res-gained" class="text-emerald-600 font-black"
+                >+0.00</span
+              >
+            </div>
+            <div class="flex justify-between">
+              <span>Negative Deductions (-):</span>
+              <span id="res-deducted" class="text-rose-600 font-black"
+                >-0.00</span
+              >
+            </div>
+            <div class="flex justify-between">
+              <span>Total Time Taken:</span>
+              <span
+                id="res-time-taken"
+                class="text-slate-800 font-mono font-bold"
+                >00:00</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="space-y-2.5 pt-1">
+          <button
+            id="btn-open-review"
+            onclick="openReviewModal()"
+            class="w-full py-3 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white font-black rounded-xl text-xs uppercase tracking-wider cursor-pointer transition shadow-md flex items-center justify-center gap-2"
+          >
+            <i data-lucide="search" class="w-4 h-4"></i>
+            <span>Review Question Mistakes &amp; Solutions</span>
+          </button>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <button
+              onclick="retakeExamClean()"
+              class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-black rounded-xl text-xs uppercase tracking-wider cursor-pointer transition shadow-md"
+            >
+              Retake Test 🔄
+            </button>
+            <button
+              onclick="goHomeDirect()"
+              class="w-full py-3 bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-black rounded-xl text-xs uppercase tracking-wider cursor-pointer transition shadow-md flex items-center justify-center gap-1.5"
+            >
+              <i data-lucide="home" class="w-4 h-4"></i>
+              <span>Dashboard</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. DETAILED REVIEW & EXPLANATIONS MODAL -->
+    <div
+      id="review-modal"
+      class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden overflow-y-auto"
+    >
+      <div
+        class="bg-white rounded-3xl p-6 max-w-3xl w-full border border-slate-200 shadow-2xl flex flex-col max-h-[90vh] my-auto animate-fadeIn"
+      >
+        <div
+          class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4 shrink-0"
+        >
+          <div class="flex items-center gap-2.5">
+            <div
+              class="p-2 bg-rose-50 text-rose-600 rounded-xl border border-rose-200"
+            >
+              <i data-lucide="alert-circle" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-black text-slate-900">
+                Detailed Question Analysis &amp; Keys
+              </h3>
+              <p class="text-xs font-semibold text-slate-500">
+                Compare your selected choice against the official solution key
+              </p>
+            </div>
+          </div>
+          <button
+            onclick="closeReviewModal()"
+            class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center cursor-pointer transition"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div
+          id="review-list-container"
+          class="flex-1 overflow-y-auto space-y-4 pr-1.5 custom-scrollbar"
+        ></div>
+
+        <div class="pt-4 border-t border-slate-100 mt-4 shrink-0">
+          <button
+            onclick="closeReviewModal()"
+            class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-md cursor-pointer active:scale-95 transition"
+          >
+            Back to Final Scorecard
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT CBT ENGINE -->
+    <script>
+      const PASS_PERCENTAGE_THRESHOLD = 40; // 40% Minimum Passing Criteria
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const TARGET_TEST_ID = urlParams.get("test_id") || "TEST_SAMPLE_MOCK_01";
+      const rawSegmentParam = (
+        urlParams.get("segment") ||
+        urlParams.get("type") ||
+        urlParams.get("stream") ||
+        "SSC"
+      )
+        .toUpperCase()
+        .trim();
+
+      const QUESTION_API_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/test/questions";
+      const SUBMIT_RESULT_API_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/test/questions/submit";
+
+      // 1. STREAM SPECIFIC MARKING SCHEMES
+      const EXAM_PRESETS = {
+        DAILY_GK: {
+          id: "DAILY_GK",
+          title: "Daily GK & Current Affairs",
+          subtitle: "Daily Live 5-Minute Speed Quiz",
+          marks: 2.0,
+          negative: 0.5,
+          aliases: ["DAILY_GK", "DAILYGK", "GK", "CURRENT_AFFAIRS"],
+        },
+        BANKING: {
+          id: "BANKING",
+          title: "Banking & Insurance",
+          subtitle: "IBPS, SBI PO/Clerk & RBI",
+          marks: 1.0,
+          negative: 0.25,
+          aliases: ["BANKING", "BANK", "IBPS", "SBI", "RBI"],
+        },
+        SSC: {
+          id: "SSC",
+          title: "SSC Exams",
+          subtitle: "CGL, CHSL, MTS & GD Constable",
+          marks: 2.0,
+          negative: 0.5,
+          aliases: ["SSC", "CGL", "CHSL", "MTS", "GD"],
+        },
+        RAILWAYS: {
+          id: "RAILWAYS",
+          title: "Railway Exams",
+          subtitle: "RRB NTPC, Group D & ALP",
+          marks: 1.0,
+          negative: 0.33,
+          aliases: ["RAILWAYS", "RAILWAY", "RRB", "NTPC"],
+        },
+        JEE_NEET: {
+          id: "JEE_NEET",
+          title: "JEE & NEET UG",
+          subtitle: "NTA National Pattern",
+          marks: 4.0,
+          negative: 1.0,
+          aliases: ["JEE_NEET", "JEE", "NEET", "NTA"],
+        },
+        DEFENCE: {
+          id: "DEFENCE",
+          title: "Defence & Police",
+          subtitle: "NDA, CDS, Police SI",
+          marks: 2.5,
+          negative: 0.83,
+          aliases: ["DEFENCE", "NDA", "CDS", "POLICE"],
+        },
+        TEACHING: {
+          id: "TEACHING",
+          title: "Teaching & TET",
+          subtitle: "CTET, State TET & KVS",
+          marks: 1.0,
+          negative: 0.0,
+          aliases: ["TEACHING", "TET", "CTET", "KVS"],
+        },
+        ENTRANCE: {
+          id: "ENTRANCE",
+          title: "CUET & Entrance",
+          subtitle: "CUET UG/PG, CLAT & Law",
+          marks: 5.0,
+          negative: 1.0,
+          aliases: ["ENTRANCE", "CUET", "CLAT", "IPMAT"],
+        },
+        GOVT_PSC: {
+          id: "GOVT_PSC",
+          title: "Govt PSC & UPSC",
+          subtitle: "Civil Services & State PCS",
+          marks: 2.0,
+          negative: 0.66,
+          aliases: [
+            "GOVT_PSC",
+            "GOV_PSC",
+            "UPSC",
+            "PSC",
+            "BPSC",
+            "UPPSC",
+            "RAS",
+          ],
+        },
+      };
+
+      function resolvePreset(key) {
+        if (EXAM_PRESETS[key]) return EXAM_PRESETS[key];
+        for (const [pKey, preset] of Object.entries(EXAM_PRESETS)) {
+          if (preset.aliases && preset.aliases.includes(key)) {
+            return preset;
+          }
+        }
+        return EXAM_PRESETS.SSC;
+      }
+
+      let activePreset = resolvePreset(rawSegmentParam);
+
+      let questionsList = [];
+      let currentQIndex = 0;
+      let selectedLang = "en";
+
+      let userAnswers = {};
+      let markedForReview = new Set();
+      let visitedQuestions = new Set();
+
+      let questionTimeSpent = {};
+      let activeQuestionEnteredTimestamp = Date.now();
+      let evaluatedReviewData = [];
+
+      let totalDurationMins = 20;
+      let totalDurationSeconds = 1200;
+      let remainingSeconds = 1200;
+      let mainTimerInterval = null;
+      let qTimerInterval = null;
+
+      let testMeta = {
+        title: "Competitive Mock Test",
+        subject: "General Studies",
+        exam_category: activePreset.id,
+      };
+
+      function showCustomDialog({
+        title = "Notification",
+        message = "",
+        type = "alert",
+        confirmText = "OK",
+        cancelText = "Cancel",
+        icon = "info",
+        iconBg = "bg-indigo-50",
+        iconColor = "text-indigo-600",
+        btnColor = "bg-indigo-600 hover:bg-indigo-700 text-white",
+      }) {
+        return new Promise((resolve) => {
+          const modal = document.getElementById("custom-dialog-modal");
+          const titleEl = document.getElementById("dialog-title");
+          const msgEl = document.getElementById("dialog-message");
+          const btnCancel = document.getElementById("dialog-btn-cancel");
+          const btnConfirm = document.getElementById("dialog-btn-confirm");
+          const iconWrap = document.getElementById("dialog-icon-wrapper");
+          const iconEl = document.getElementById("dialog-icon");
+
+          titleEl.innerText = title;
+          msgEl.innerText = message;
+          btnConfirm.innerText = confirmText;
+          btnCancel.innerText = cancelText;
+
+          iconWrap.className = `w-12 h-12 mx-auto rounded-2xl flex items-center justify-center ${iconBg} ${iconColor}`;
+          iconEl.setAttribute("data-lucide", icon);
+          btnConfirm.className = `flex-1 py-2.5 ${btnColor} font-black rounded-xl text-xs cursor-pointer transition-all active:scale-95 shadow-md`;
+
+          if (type === "alert") {
+            btnCancel.classList.add("hidden");
+          } else {
+            btnCancel.classList.remove("hidden");
+          }
+
+          if (window.lucide) lucide.createIcons();
+          modal.classList.remove("hidden");
+
+          const cleanup = () => {
+            modal.classList.add("hidden");
+            btnConfirm.onclick = null;
+            btnCancel.onclick = null;
+          };
+
+          btnConfirm.onclick = () => {
+            cleanup();
+            resolve(true);
+          };
+
+          btnCancel.onclick = () => {
+            cleanup();
+            resolve(false);
+          };
+        });
+      }
+
+      async function goHomeConfirm() {
+        const leave = await showCustomDialog({
+          title: "Exit Examination Session?",
+          message:
+            "Your ongoing answer selections and timer will be cancelled if you leave now.",
+          type: "confirm",
+          confirmText: "Exit to Dashboard",
+          cancelText: "Stay on Test",
+          icon: "alert-triangle",
+          iconBg: "bg-rose-50 border border-rose-200",
+          iconColor: "text-rose-600",
+          btnColor: "bg-rose-600 hover:bg-rose-700 text-white",
+        });
+
+        if (leave) {
+          goHomeDirect();
+        }
+      }
+
+      function goHomeDirect() {
+        const isMobile = window.innerWidth <= 768;
+        const targetDashboard = isMobile
+          ? "dashboard_gov_exam.html"
+          : "dashboard_web.html";
+        window.location.href = `/${targetDashboard}?type=${encodeURIComponent(activePreset.id)}`;
+      }
+
+      function normalizeQuestionData(rawQ, idx) {
+        if (!rawQ || typeof rawQ !== "object") return null;
+
+        const textEn =
+          rawQ.question_text_en ||
+          rawQ.question_en ||
+          rawQ.question_text ||
+          rawQ.question ||
+          rawQ.title ||
+          rawQ.statement ||
+          "";
+
+        const textHi =
+          rawQ.question_text_hi ||
+          rawQ.question_hi ||
+          rawQ.question_hindi ||
+          textEn ||
+          "";
+
+        let optsEnRaw =
+          rawQ.options_en || rawQ.options || rawQ.choices || rawQ.answers || [];
+
+        let optsHiRaw =
+          rawQ.options_hi || rawQ.options_hindi || optsEnRaw || [];
+
+        if (typeof optsEnRaw === "string") {
+          try {
+            optsEnRaw = JSON.parse(optsEnRaw);
+          } catch (e) {
+            optsEnRaw = optsEnRaw.split(",");
+          }
+        }
+        if (typeof optsHiRaw === "string") {
+          try {
+            optsHiRaw = JSON.parse(optsHiRaw);
+          } catch (e) {
+            optsHiRaw = optsHiRaw.split(",");
+          }
+        }
+
+        const parseOptItem = (item) => {
+          if (typeof item === "object" && item !== null) {
+            return (
+              item.option_text ||
+              item.text ||
+              item.title ||
+              JSON.stringify(item)
+            );
+          }
+          return String(item || "");
+        };
+
+        const finalOptsEn = Array.isArray(optsEnRaw)
+          ? optsEnRaw.map(parseOptItem)
+          : [];
+        const finalOptsHi = Array.isArray(optsHiRaw)
+          ? optsHiRaw.map(parseOptItem)
+          : finalOptsEn;
+
+        let correctIdx = 0;
+        if (rawQ.correct_option_index !== undefined)
+          correctIdx = Number(rawQ.correct_option_index);
+        else if (rawQ.correct_index !== undefined)
+          correctIdx = Number(rawQ.correct_index);
+        else if (rawQ.correct_answer !== undefined) {
+          if (typeof rawQ.correct_answer === "number")
+            correctIdx = rawQ.correct_answer;
+          else if (
+            ["A", "B", "C", "D", "E"].includes(
+              String(rawQ.correct_answer).toUpperCase(),
+            )
+          ) {
+            correctIdx =
+              String(rawQ.correct_answer).toUpperCase().charCodeAt(0) - 65;
+          }
+        }
+
+        return {
+          question_id:
+            rawQ.question_id || rawQ.id || rawQ._id || `Q_${idx + 1}`,
+          question_no: rawQ.question_no || idx + 1,
+          question_text_en: textEn || `Question Statement ${idx + 1}`,
+          question_text_hi: textHi || textEn || `प्रश्न विवरण ${idx + 1}`,
+          options_en:
+            finalOptsEn.length > 0
+              ? finalOptsEn
+              : ["Option A", "Option B", "Option C", "Option D"],
+          options_hi:
+            finalOptsHi.length > 0
+              ? finalOptsHi
+              : ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"],
+          correct_option_index: isNaN(correctIdx) ? 0 : correctIdx,
+          marks: Number(rawQ.marks) || activePreset.marks,
+          negative_marks: Number(rawQ.negative_marks) || activePreset.negative,
+          explanation_en:
+            rawQ.explanation_en ||
+            rawQ.explanation ||
+            "No detailed explanation provided.",
+          explanation_hi:
+            rawQ.explanation_hi ||
+            rawQ.explanation ||
+            "कोई विस्तृत व्याख्या उपलब्ध नहीं है.",
+        };
+      }
+
+      async function initRunner() {
+        try {
+          const cleanTestId = encodeURIComponent(TARGET_TEST_ID.trim());
+          const endpoint = `${QUESTION_API_URL}/test/${cleanTestId}`;
+
+          const res = await fetch(endpoint, {
+            method: "GET",
+            headers: { Accept: "application/json" },
+          });
+
+          if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+          const resData = await res.json();
+
+          let rawQuestions = [];
+          if (Array.isArray(resData)) {
+            rawQuestions = resData;
+          } else if (resData?.data && Array.isArray(resData.data)) {
+            rawQuestions = resData.data;
+          } else if (
+            resData?.data?.questions &&
+            Array.isArray(resData.data.questions)
+          ) {
+            rawQuestions = resData.data.questions;
+          } else if (resData?.questions && Array.isArray(resData.questions)) {
+            rawQuestions = resData.questions;
+          }
+
+          if (rawQuestions.length > 0) {
+            const metaSource = resData.data || resData;
+
+            const backendCategory =
+              metaSource.exam_category ||
+              rawQuestions[0]?.exam_category ||
+              rawSegmentParam;
+            activePreset = resolvePreset(backendCategory);
+
+            questionsList = rawQuestions
+              .map((q, idx) => normalizeQuestionData(q, idx))
+              .filter(Boolean);
+
+            testMeta.title =
+              metaSource.title ||
+              metaSource.test_name ||
+              rawQuestions[0]?.test_name ||
+              `${activePreset.title} CBT Paper`;
+            testMeta.subject =
+              metaSource.subject ||
+              rawQuestions[0]?.subject ||
+              "General Studies";
+            testMeta.exam_category = activePreset.id;
+
+            totalDurationMins = Number(
+              metaSource.total_time_mins || metaSource.duration || 20,
+            );
+          } else {
+            throw new Error("Questions array empty");
+          }
+        } catch (err) {
+          console.warn("Backend questions fetch fallback initiated:", err);
+          questionsList = [
+            {
+              question_id: "Q_1",
+              question_no: 1,
+              question_text_en:
+                "Which of the following bodies is responsible for conducting civil services examinations in India?",
+              question_text_hi:
+                "भारत में सिविल सेवा परीक्षा आयोजित करने के लिए निम्नलिखित में से कौन सा निकाय उत्तरदायी है?",
+              options_en: [
+                "Union Public Service Commission (UPSC)",
+                "Staff Selection Commission (SSC)",
+                "NITI Aayog",
+                "Election Commission of India",
+              ],
+              options_hi: [
+                "संघ लोक सेवा आयोग (UPSC)",
+                "कर्मचारी चयन आयोग (SSC)",
+                "नीति आयोग",
+                "भारत निर्वाचन आयोग",
+              ],
+              correct_option_index: 0,
+              marks: activePreset.marks,
+              negative_marks: activePreset.negative,
+              explanation_en:
+                "Article 315-323 of the Constitution deals with the Union Public Service Commission.",
+              explanation_hi:
+                "संविधान के अनुच्छेद 315-323 संघ लोक सेवा आयोग से संबंधित हैं।",
+            },
+          ];
+          testMeta.title = `${activePreset.title} Mock CBT`;
+        } finally {
+          totalDurationSeconds = totalDurationMins * 60;
+          remainingSeconds = totalDurationSeconds;
+
+          document.getElementById("test-title").innerText = testMeta.title;
+          document.getElementById("test-title").title = testMeta.title;
+          document.getElementById("page-browser-title").innerText =
+            `${testMeta.title} - ExamMokk CBT`;
+          document.getElementById("brand-header-subtitle").innerText =
+            activePreset.subtitle;
+          document.getElementById("header-exam-badge").innerText =
+            activePreset.title;
+          document.getElementById("badge-positive-mark").innerText =
+            `+${activePreset.marks.toFixed(2)} Marks`;
+          document.getElementById("badge-negative-mark").innerText =
+            `-${activePreset.negative.toFixed(2)} Negative`;
+
+          document.getElementById("timer-display").innerText =
+            `${String(totalDurationMins).padStart(2, "0")}:00`;
+          document.getElementById("question-indicator").innerText =
+            `Question 1 of ${questionsList.length}`;
+
+          document.getElementById("loading-overlay").classList.add("hidden");
+
+          startMainTimer();
+          startPerQuestionTimer();
+          renderQuestion(0);
+          buildQuestionPalette();
+        }
+      }
+
+      function retakeExamClean() {
+        document.getElementById("result-modal").classList.add("hidden");
+        document.getElementById("review-modal").classList.add("hidden");
+
+        userAnswers = {};
+        markedForReview.clear();
+        visitedQuestions.clear();
+        questionTimeSpent = {};
+        evaluatedReviewData = [];
+
+        remainingSeconds = totalDurationSeconds;
+        activeQuestionEnteredTimestamp = Date.now();
+
+        startMainTimer();
+        startPerQuestionTimer();
+        renderQuestion(0);
+        buildQuestionPalette();
+      }
+
+      function recordCurrentQuestionTime() {
+        const now = Date.now();
+        const spent = Math.floor((now - activeQuestionEnteredTimestamp) / 1000);
+        questionTimeSpent[currentQIndex] =
+          (questionTimeSpent[currentQIndex] || 0) + spent;
+        activeQuestionEnteredTimestamp = now;
+      }
+
+      function renderQuestion(index) {
+        if (!questionsList || questionsList.length === 0) return;
+        if (index < 0 || index >= questionsList.length) return;
+
+        recordCurrentQuestionTime();
+        currentQIndex = index;
+        visitedQuestions.add(index);
+        activeQuestionEnteredTimestamp = Date.now();
+
+        const q = questionsList[index];
+
+        document.getElementById("q-no-badge").innerText =
+          `Question ${index + 1}`;
+        document.getElementById("question-indicator").innerText =
+          `Question ${index + 1} of ${questionsList.length}`;
+        document.getElementById("btn-prev").disabled = index === 0;
+
+        const qText =
+          selectedLang === "hi"
+            ? q.question_text_hi || q.question_text_en
+            : q.question_text_en || q.question_text_hi;
+        document.getElementById("question-text").innerText =
+          qText || "No question statement available.";
+
+        const optionsContainer = document.getElementById("options-container");
+        optionsContainer.innerHTML = "";
+
+        const options =
+          selectedLang === "hi"
+            ? q.options_hi || q.options_en || []
+            : q.options_en || q.options_hi || [];
+
+        options.forEach((optText, optIdx) => {
+          const isSelected = userAnswers[currentQIndex] === optIdx;
+          const optCard = document.createElement("label");
+
+          optCard.className = `opt-card-hover min-h-[52px] flex items-center gap-3.5 px-4 py-3 rounded-2xl border-2 cursor-pointer transition shadow-2xs ${
+            isSelected
+              ? "border-indigo-600 bg-indigo-50/80 ring-2 ring-indigo-500/20 text-indigo-950 font-bold"
+              : "border-slate-200 bg-white hover:border-slate-300 text-slate-800 font-semibold"
+          }`;
+
+          optCard.innerHTML = `
+            <input type="radio" name="opt_choice" value="${optIdx}" ${isSelected ? "checked" : ""} class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 shrink-0">
+            <span class="font-mono font-black text-xs text-slate-500 shrink-0 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+              ${String.fromCharCode(65 + optIdx)}
+            </span>
+            <span class="text-sm leading-snug flex-1">${optText}</span>
+          `;
+
+          optCard.onclick = () => {
+            userAnswers[currentQIndex] = optIdx;
+            renderQuestion(currentQIndex);
+            updatePaletteStatus();
+          };
+
+          optionsContainer.appendChild(optCard);
+        });
+
+        const btnReview = document.getElementById("btn-review");
+        if (markedForReview.has(currentQIndex)) {
+          btnReview.className =
+            "px-4 py-2.5 bg-purple-600 text-white rounded-xl font-extrabold text-xs flex items-center gap-1.5 cursor-pointer shadow-md active:scale-95 transition";
+        } else {
+          btnReview.className =
+            "px-4 py-2.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl font-extrabold text-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition shadow-2xs";
+        }
+
+        updatePaletteStatus();
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function startPerQuestionTimer() {
+        clearInterval(qTimerInterval);
+        const timerBadge = document.getElementById("q-time-counter");
+
+        qTimerInterval = setInterval(() => {
+          const totalSpent =
+            (questionTimeSpent[currentQIndex] || 0) +
+            Math.floor((Date.now() - activeQuestionEnteredTimestamp) / 1000);
+          const mins = Math.floor(totalSpent / 60);
+          const secs = totalSpent % 60;
+          if (timerBadge) {
+            timerBadge.innerText = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+          }
+        }, 1000);
+      }
+
+      function buildQuestionPalette() {
+        const grid = document.getElementById("palette-grid");
+        grid.innerHTML = "";
+
+        questionsList.forEach((_, idx) => {
+          const btn = document.createElement("button");
+          btn.id = `palette-btn-${idx}`;
+          btn.innerText = idx + 1;
+          btn.className =
+            "h-9 w-full rounded-xl font-black text-xs transition flex items-center justify-center cursor-pointer border border-slate-200 bg-slate-100 text-slate-600 hover:border-slate-400 active:scale-95";
+          btn.onclick = () => {
+            renderQuestion(idx);
+            if (window.innerWidth < 768) toggleMobilePalette();
+          };
+          grid.appendChild(btn);
+        });
+
+        updatePaletteStatus();
+      }
+
+      function updatePaletteStatus() {
+        let answered = 0;
+        let marked = 0;
+        let notAnswered = 0;
+        let notVisited = 0;
+
+        questionsList.forEach((_, idx) => {
+          const btn = document.getElementById(`palette-btn-${idx}`);
+          if (!btn) return;
+
+          const isAnswered = userAnswers[idx] !== undefined;
+          const isMarked = markedForReview.has(idx);
+          const isVisited = visitedQuestions.has(idx);
+
+          btn.className =
+            "h-9 w-full rounded-xl font-black text-xs transition flex items-center justify-center cursor-pointer border ";
+
+          if (isMarked) {
+            btn.classList.add(
+              "bg-purple-500",
+              "text-white",
+              "border-purple-600",
+              "shadow-xs",
+            );
+            marked++;
+          } else if (isAnswered) {
+            btn.classList.add(
+              "bg-emerald-500",
+              "text-white",
+              "border-emerald-600",
+              "shadow-xs",
+            );
+            answered++;
+          } else if (isVisited) {
+            btn.classList.add(
+              "bg-rose-500",
+              "text-white",
+              "border-rose-600",
+              "shadow-xs",
+            );
+            notAnswered++;
+          } else {
+            btn.classList.add(
+              "bg-slate-100",
+              "text-slate-600",
+              "border-slate-200",
+            );
+            notVisited++;
+          }
+
+          if (idx === currentQIndex) {
+            btn.classList.add(
+              "ring-4",
+              "ring-indigo-600",
+              "ring-offset-2",
+              "scale-105",
+              "shadow-md",
+              "z-10",
+            );
+          }
+        });
+
+        document.getElementById("count-answered").innerText = answered;
+        document.getElementById("count-marked").innerText = marked;
+        document.getElementById("count-not-answered").innerText = notAnswered;
+        document.getElementById("count-not-visited").innerText = notVisited;
+      }
+
+      function saveAndNext() {
+        if (currentQIndex < questionsList.length - 1) {
+          renderQuestion(currentQIndex + 1);
+        } else {
+          submitTestConfirmation();
+        }
+      }
+
+      function prevQuestion() {
+        if (currentQIndex > 0) renderQuestion(currentQIndex - 1);
+      }
+
+      function clearCurrentResponse() {
+        delete userAnswers[currentQIndex];
+        renderQuestion(currentQIndex);
+      }
+
+      function toggleMarkForReview() {
+        if (markedForReview.has(currentQIndex)) {
+          markedForReview.delete(currentQIndex);
+        } else {
+          markedForReview.add(currentQIndex);
+        }
+        saveAndNext();
+      }
+
+      function setLanguage(lang) {
+        selectedLang = lang;
+        document.getElementById("lang-en").className =
+          lang === "en"
+            ? "px-2.5 py-1 rounded-lg bg-indigo-600 text-white cursor-pointer active:scale-95"
+            : "px-2.5 py-1 rounded-lg text-slate-600 cursor-pointer active:scale-95";
+        document.getElementById("lang-hi").className =
+          lang === "hi"
+            ? "px-2.5 py-1 rounded-lg bg-indigo-600 text-white cursor-pointer active:scale-95"
+            : "px-2.5 py-1 rounded-lg text-slate-600 cursor-pointer active:scale-95";
+        renderQuestion(currentQIndex);
+      }
+
+      function toggleMobilePalette() {
+        document
+          .getElementById("palette-sidebar")
+          .classList.toggle("translate-x-full");
+      }
+
+      function startMainTimer() {
+        clearInterval(mainTimerInterval);
+        const timerEl = document.getElementById("timer-display");
+
+        mainTimerInterval = setInterval(async () => {
+          if (remainingSeconds <= 0) {
+            clearInterval(mainTimerInterval);
+            clearInterval(qTimerInterval);
+            await showCustomDialog({
+              title: "Time Over!",
+              message:
+                "The examination countdown has expired. Submitting your responses automatically.",
+              type: "alert",
+              confirmText: "View Scorecard",
+              icon: "alarm-clock-off",
+              iconBg: "bg-rose-50",
+              iconColor: "text-rose-600",
+              btnColor: "bg-rose-600 hover:bg-rose-700 text-white",
+            });
+            submitTestFinal();
+            return;
+          }
+          remainingSeconds--;
+          const mins = Math.floor(remainingSeconds / 60);
+          const secs = remainingSeconds % 60;
+          timerEl.innerText = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+        }, 1000);
+      }
+
+      async function submitTestConfirmation() {
+        const attempted = Object.keys(userAnswers).length;
+        const confirmed = await showCustomDialog({
+          title: "Submit Examination Paper?",
+          message: `You have attempted ${attempted} out of ${questionsList.length} questions. Are you sure you want to finish the test?`,
+          type: "confirm",
+          confirmText: "Yes, Submit Test",
+          cancelText: "Resume Examination",
+          icon: "send",
+          iconBg: "bg-emerald-50 border border-emerald-200",
+          iconColor: "text-emerald-600",
+          btnColor: "bg-emerald-600 hover:bg-emerald-700 text-white",
+        });
+
+        if (confirmed) {
+          submitTestFinal();
+        }
+      }
+
+      async function submitTestFinal() {
+        clearInterval(mainTimerInterval);
+        clearInterval(qTimerInterval);
+        recordCurrentQuestionTime();
+
+        let correctCount = 0;
+        let wrongCount = 0;
+        let unattemptedCount = 0;
+        const breakdown = [];
+        evaluatedReviewData = [];
+
+        questionsList.forEach((q, idx) => {
+          const userChoice = userAnswers[idx];
+          const isAttempted = userChoice !== undefined && userChoice !== null;
+          const isCorrect =
+            isAttempted && userChoice === q.correct_option_index;
+          const timeSpentOnQ = questionTimeSpent[idx] || 0;
+
+          let marksObtained = 0;
+
+          if (!isAttempted) {
+            unattemptedCount++;
+          } else if (isCorrect) {
+            correctCount++;
+            marksObtained = activePreset.marks;
+          } else {
+            wrongCount++;
+            marksObtained = -activePreset.negative;
+          }
+
+          const qOptionsEn = q.options_en || [];
+          const qOptionsHi = q.options_hi || q.options_en || [];
+
+          const breakdownItem = {
+            question_id: q.question_id || `Q_${idx + 1}`,
+            question_no: q.question_no || idx + 1,
+            question_type: "mcq_single",
+            question_text: q.question_text_en || "",
+            marks_obtained: Number(marksObtained.toFixed(2)),
+            max_marks: activePreset.marks,
+            time_spent_seconds: timeSpentOnQ,
+            is_attempted: isAttempted,
+            is_correct: isCorrect,
+            user_response: isAttempted ? userChoice : null,
+            correct_response: q.correct_option_index,
+            explanation: q.explanation_en || "",
+          };
+
+          breakdown.push(breakdownItem);
+
+          evaluatedReviewData.push({
+            ...breakdownItem,
+            qIndex: idx,
+            text_en: q.question_text_en || "",
+            text_hi: q.question_text_hi || "",
+            options_en: qOptionsEn,
+            options_hi: qOptionsHi,
+            userChoiceTextEn: isAttempted
+              ? qOptionsEn[userChoice] ||
+                `Option ${String.fromCharCode(65 + userChoice)}`
+              : "Not Attempted",
+            userChoiceTextHi: isAttempted
+              ? qOptionsHi[userChoice] ||
+                `विकल्प ${String.fromCharCode(65 + userChoice)}`
+              : "प्रयास नहीं किया",
+            correctChoiceTextEn:
+              qOptionsEn[q.correct_option_index] ||
+              `Option ${String.fromCharCode(65 + q.correct_option_index)}`,
+            correctChoiceTextHi:
+              qOptionsHi[q.correct_option_index] ||
+              `विकल्प ${String.fromCharCode(65 + q.correct_option_index)}`,
+            explanation_en:
+              q.explanation_en || "No English explanation provided.",
+            explanation_hi:
+              q.explanation_hi || "कोई हिंदी व्याख्या उपलब्ध नहीं है.",
+          });
+        });
+
+        const positiveGained = correctCount * activePreset.marks;
+        const negativeDeducted = wrongCount * activePreset.negative;
+        const netScore = Math.max(
+          0,
+          Number((positiveGained - negativeDeducted).toFixed(2)),
+        );
+        const maxScore = questionsList.length * activePreset.marks;
+        const accuracy =
+          correctCount + wrongCount > 0
+            ? Number(
+                ((correctCount / (correctCount + wrongCount)) * 100).toFixed(1),
+              )
+            : 0;
+        const totalTimeTakenSeconds = totalDurationSeconds - remainingSeconds;
+
+        const scorePercentage = maxScore > 0 ? (netScore / maxScore) * 100 : 0;
+        const isCandidatePassed =
+          scorePercentage >= PASS_PERCENTAGE_THRESHOLD && netScore > 0;
+
+        let studentId = "GUEST_STUDENT";
+        let studentName = "Aspirant";
+        try {
+          const localUser = JSON.parse(
+            localStorage.getItem("examIndiaUser") || "{}",
+          );
+          if (localUser.id || localUser.student_id) {
+            studentId = localUser.id || localUser.student_id;
+          }
+          if (localUser.name || localUser.userName) {
+            studentName = localUser.name || localUser.userName;
+          }
+        } catch (e) {}
+
+        const payload = {
+          test_id: TARGET_TEST_ID,
+          exam_category: activePreset.id,
+          class_or_exam_name: testMeta.title,
+          subject: testMeta.subject,
+          student_id: studentId,
+          student_name: studentName,
+          applied_exam_profile: activePreset.id,
+          marking_scheme_applied: {
+            marks_per_question: activePreset.marks,
+            negative_marks_per_wrong: activePreset.negative,
+          },
+          total_score: netScore,
+          max_score: maxScore,
+          positive_marks_gained: Number(positiveGained.toFixed(2)),
+          negative_marks_deducted: Number(negativeDeducted.toFixed(2)),
+          total_correct: correctCount,
+          total_wrong: wrongCount,
+          total_unattempted: unattemptedCount,
+          percentage: Number(scorePercentage.toFixed(2)),
+          accuracy: accuracy,
+          time_taken_seconds: totalTimeTakenSeconds,
+          total_time_mins: totalDurationMins,
+          question_breakdown: breakdown,
+        };
+
+        try {
+          fetch(SUBMIT_RESULT_API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }).catch((err) => console.error("Submit error:", err));
+        } catch (e) {}
+
+        document.getElementById("res-exam-profile-badge").innerText =
+          `${activePreset.title} (+${activePreset.marks.toFixed(2)} / -${activePreset.negative.toFixed(2)})`;
+        document.getElementById("res-score-text").innerText =
+          `${netScore} / ${maxScore}`;
+        document.getElementById("res-correct").innerText = correctCount;
+        document.getElementById("res-wrong").innerText = wrongCount;
+        document.getElementById("res-accuracy").innerText = `${accuracy}%`;
+        document.getElementById("res-gained").innerText =
+          `+${positiveGained.toFixed(2)}`;
+        document.getElementById("res-deducted").innerText =
+          `-${negativeDeducted.toFixed(2)}`;
+
+        const mins = Math.floor(totalTimeTakenSeconds / 60);
+        const secs = totalTimeTakenSeconds % 60;
+        document.getElementById("res-time-taken").innerText =
+          `${mins}m ${secs}s`;
+
+        const statusIconEl = document.getElementById("res-status-icon");
+        if (statusIconEl) {
+          statusIconEl.innerText = isCandidatePassed ? "🎉" : "📊";
+        }
+
+        if (isCandidatePassed && typeof confetti === "function") {
+          confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+        }
+
+        document.getElementById("result-modal").classList.remove("hidden");
+      }
+
+      function openReviewModal() {
+        document.getElementById("result-modal").classList.add("hidden");
+        const container = document.getElementById("review-list-container");
+        container.innerHTML = "";
+
+        const mistakes = evaluatedReviewData.filter((q) => !q.is_correct);
+
+        if (mistakes.length === 0) {
+          container.innerHTML = `
+            <div class="p-8 text-center bg-emerald-50 rounded-2xl border border-emerald-200 space-y-2">
+              <div class="text-4xl">🌟</div>
+              <h4 class="text-base font-black text-emerald-800">100% Flawless Accuracy!</h4>
+              <p class="text-xs font-semibold text-emerald-600">All attempted questions were solved correctly.</p>
+            </div>
+          `;
+        } else {
+          mistakes.forEach((item) => {
+            const card = document.createElement("div");
+            card.className =
+              "bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3 shadow-2xs";
+
+            const qTitle =
+              selectedLang === "hi"
+                ? item.text_hi || item.text_en
+                : item.text_en || item.text_hi;
+            const userChoiceText =
+              selectedLang === "hi"
+                ? item.userChoiceTextHi
+                : item.userChoiceTextEn;
+            const correctChoiceText =
+              selectedLang === "hi"
+                ? item.correctChoiceTextHi
+                : item.correctChoiceTextEn;
+            const explanationText =
+              selectedLang === "hi"
+                ? item.explanation_hi || item.explanation_en
+                : item.explanation_en || item.explanation_hi;
+
+            card.innerHTML = `
+              <div class="flex items-center justify-between border-b border-slate-200 pb-2 flex-wrap gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 bg-slate-900 text-white rounded-lg text-xs font-black">Q.${item.question_no}</span>
+                  <span class="text-[10px] font-black px-2 py-0.5 rounded-md ${item.is_attempted ? "bg-rose-100 text-rose-800" : "bg-amber-100 text-amber-900"}">
+                    ${item.is_attempted ? "❌ Wrong Attempt" : "⚠️ Unattempted"}
+                  </span>
+                </div>
+                <span class="text-xs font-mono font-bold text-slate-500">
+                  ⏱ Spent: ${item.time_spent_seconds}s
+                </span>
+              </div>
+
+              <p class="text-xs sm:text-sm font-bold text-slate-800 leading-relaxed whitespace-pre-line">${qTitle}</p>
+
+              <div class="space-y-1.5 text-xs font-bold pt-1">
+                <div class="p-2.5 rounded-xl border border-rose-200 bg-rose-50 text-rose-800 flex items-start gap-2">
+                  <span class="shrink-0 font-extrabold">Your Selection:</span>
+                  <span class="flex-1 font-semibold">${userChoiceText}</span>
+                </div>
+                <div class="p-2.5 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 flex items-start gap-2">
+                  <span class="shrink-0 font-extrabold">Correct Answer:</span>
+                  <span class="flex-1 font-semibold">${correctChoiceText}</span>
+                </div>
+              </div>
+
+              <div class="pt-1.5">
+                <button onclick="toggleExplanation('exp-${item.qIndex}')" class="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-black flex items-center gap-1.5 cursor-pointer transition active:scale-95">
+                  <span>💡 View Step-by-Step Explanation</span>
+                  <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                </button>
+                
+                <div id="exp-${item.qIndex}" class="hidden mt-2.5 p-3.5 bg-indigo-50/70 border border-indigo-100 rounded-xl text-xs font-medium text-slate-700 leading-relaxed space-y-1">
+                  <span class="block font-black text-indigo-950 text-[10px] uppercase tracking-wider">Solution Key:</span>
+                  <p>${explanationText}</p>
+                </div>
+              </div>
+            `;
+
+            container.appendChild(card);
+          });
+        }
+
+        if (window.lucide) lucide.createIcons();
+        document.getElementById("review-modal").classList.remove("hidden");
+      }
+
+      function toggleExplanation(expId) {
+        const el = document.getElementById(expId);
+        if (el) el.classList.toggle("hidden");
+      }
+
+      function closeReviewModal() {
+        document.getElementById("review-modal").classList.add("hidden");
+        document.getElementById("result-modal").classList.remove("hidden");
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initRunner();
+        if (window.lucide) lucide.createIcons();
+      });
+    </script>
+  </body>
+</html>
