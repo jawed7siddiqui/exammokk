@@ -11,12 +11,9 @@ function renderTopHeader(options = {}) {
   const page = path.split("/").pop() || "index_gov.html";
 
   // Page detection for default Back button behavior
-  const isHomePage = [
-    "index_gov.html",
-    "",
-    "home_gov.html",
-    "home_gov.html",
-  ].some((m) => page.toLowerCase() === m.toLowerCase());
+  const isHomePage = ["index_gov.html", "", "home.html", "home.html"].some(
+    (m) => page.toLowerCase() === m.toLowerCase(),
+  );
 
   const showBack =
     options.showBack !== undefined ? options.showBack : !isHomePage;
@@ -92,7 +89,7 @@ function handleUserLogout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user_session");
     sessionStorage.clear();
-    window.location.href = "auth_gov.html";
+    window.location.href = "auth.html";
   }
 }
 
@@ -108,8 +105,8 @@ function renderBottomNav(activeTabName = null) {
       id: "home",
       name: "Home",
       icon: "home",
-      url: "home_gov.html",
-      activeMatch: ["index_gov.html", "", "home_gov.html", "home_gov.html"],
+      url: "home.html",
+      activeMatch: ["index_gov.html", "", "home.html", "home.html"],
     },
     {
       id: "tests",
