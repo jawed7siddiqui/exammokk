@@ -85,24 +85,27 @@ const subjectsBySegment = {
       categories: [
         {
           id: "pp_preamble_fr_dpsp",
-          title: "Preamble, Fundamental Rights & DPSP",
+          title: "Preamble & Rights",
         },
         {
           id: "pp_union_executive",
-          title: "President, PM & Council of Ministers",
+          title: "Union Executive",
         },
-        { id: "pp_parliament", title: "Parliament, State Legislature & Bills" },
+        {
+          id: "pp_parliament",
+          title: "Parliament & Legislature",
+        },
         {
           id: "pp_judiciary",
-          title: "Supreme Court, High Courts & Subordinate Courts",
+          title: "Indian Judiciary",
         },
         {
           id: "pp_panchayati_raj",
-          title: "Panchayati Raj & Local Self Governance",
+          title: "Local Self Governance",
         },
         {
           id: "pp_constitutional_bodies",
-          title: "Election Commission, CAG, UPSC & Bodies",
+          title: "Constitutional Bodies",
         },
       ],
       loaded: false,
@@ -133,27 +136,27 @@ const subjectsBySegment = {
       categories: [
         {
           id: "ph_ancient",
-          title: "Indus Valley, Vedic Age, Maurya & Gupta Period",
+          title: "Ancient India",
         },
         {
           id: "ph_medieval",
-          title: "Delhi Sultanate, Mughals & Bhakti-Sufi Movements",
+          title: "Medieval India",
         },
         {
           id: "ph_freedom_struggle",
-          title: "1857 Revolt, Indian National Congress & Gandhi Era",
+          title: "Freedom Struggle",
         },
         {
           id: "ph_post_independence",
-          title: "Post-Independence Consolidation & Reorganization",
+          title: "Post Independence",
         },
         {
           id: "ph_art_culture",
-          title: "Indian Architecture, Paintings, Classical Dances & Music",
+          title: "Art & Culture",
         },
         {
           id: "ph_state_history",
-          title: "State-Specific History & Freedom Movements",
+          title: "State History",
         },
       ],
       loaded: false,
@@ -183,27 +186,27 @@ const subjectsBySegment = {
       categories: [
         {
           id: "pg_physical",
-          title: "Geomorphology, Climatology & Oceanography",
+          title: "Physical Geography",
         },
         {
           id: "pg_indian_drainage",
-          title: "Physiography of India & River Systems",
+          title: "Indian Drainage",
         },
         {
           id: "pg_climate_soil",
-          title: "Monsoon, Climate Zones, Soils & Vegetation",
+          title: "Climate & Soils",
         },
         {
           id: "pg_minerals_agri",
-          title: "Agriculture, Mineral Resources & Industries",
+          title: "Agriculture & Minerals",
         },
         {
           id: "pg_environment_ecology",
-          title: "Biodiversity, National Parks & Climate Change",
+          title: "Ecology & Biodiversity",
         },
         {
           id: "pg_map_locations",
-          title: "World & India Map Locations & Straits",
+          title: "Map Locations",
         },
       ],
       loaded: false,
@@ -230,27 +233,27 @@ const subjectsBySegment = {
       categories: [
         {
           id: "pe_national_income",
-          title: "National Income, GDP & Economic Growth",
+          title: "National Income",
         },
         {
           id: "pe_banking_rbi",
-          title: "RBI, Monetary Policy, Inflation & Banking Sector",
+          title: "Banking & RBI",
         },
         {
           id: "pe_budget_taxation",
-          title: "Union Budget, Fiscal Policy & GST",
+          title: "Budget & Taxation",
         },
         {
           id: "pe_poverty_schemes",
-          title: "Poverty, Unemployment & Govt Welfare Schemes",
+          title: "Poverty & Schemes",
         },
         {
           id: "pe_foreign_trade",
-          title: "Balance of Payments, WTO & Forex Reserves",
+          title: "Foreign Trade",
         },
         {
           id: "pe_state_economy",
-          title: "State Economic Survey & Local Budget",
+          title: "State Economy",
         },
       ],
       loaded: false,
@@ -278,23 +281,23 @@ const subjectsBySegment = {
       categories: [
         {
           id: "pca_national_international",
-          title: "National Events, Summits & Bilateral Pacts",
+          title: "National & International",
         },
         {
           id: "pca_science_defence",
-          title: "Science & Tech, Defence Drills & Space Missions",
+          title: "Science & Defence",
         },
         {
           id: "pca_awards_sports",
-          title: "Awards, Appointments, Indexes & Sports",
+          title: "Awards & Sports",
         },
         {
           id: "pca_state_special_gk",
-          title: "State Special GK (Bihar / UP / MP / Raj / Maha)",
+          title: "State Special GK",
         },
         {
           id: "pca_monthly_roundup",
-          title: "Monthly Current Affairs Mock Tests",
+          title: "Monthly Current Affairs",
         },
       ],
       loaded: false,
@@ -320,29 +323,31 @@ const subjectsBySegment = {
         "State Civil Services Qualifying Paper",
       ],
       categories: [
-        { id: "pcsat_comprehension", title: "Reading Comprehension Passages" },
+        {
+          id: "pcsat_comprehension",
+          title: "Reading Comprehension",
+        },
         {
           id: "pcsat_logical_reasoning",
-          title: "Syllogism, Blood Relations & Directions",
+          title: "Logical Reasoning",
         },
         {
           id: "pcsat_quant_arithmetic",
-          title: "Basic Numeracy, Percentages & Time-Work",
+          title: "Quantitative Aptitude",
         },
         {
           id: "pcsat_di_charts",
-          title: "Data Interpretation (Pie Charts, Bar Graphs, Tables)",
+          title: "Data Interpretation",
         },
         {
           id: "pcsat_decision_making",
-          title: "Decision Making & Analytical Ability",
+          title: "Decision Making",
         },
       ],
       loaded: false,
       loading: false,
     },
   ],
-
   // 4. ⚡ SSC Exams (Direct Stream)
   SSC: [
     {
