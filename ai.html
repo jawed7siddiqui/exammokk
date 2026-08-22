@@ -587,6 +587,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
 
       // Stream Human Labels
       const STREAM_LABELS = {
+        DAILY_GK: "🌍 Daily GK & Current Affairs",
         SSC: "⚡ SSC Exams (CGL, CHSL, GD, CPO)",
         RAILWAYS: "🚆 Railway Exams (RRB NTPC, Group D, ALP)",
         BANKING: "🏦 Banking & Insurance (IBPS, SBI, RBI)",
@@ -608,7 +609,16 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
 
         let html = "";
 
-        // Direct Competitive Streams
+        // 1. Daily GK & Quizzes (Top Priority)
+        if (allData.DAILY_GK) {
+          html += `
+      <optgroup label="🌍 Live Drill & GK">
+        <option value="DAILY_GK">${STREAM_LABELS.DAILY_GK || "Daily GK & Current Affairs"}</option>
+      </optgroup>
+    `;
+        }
+
+        // 2. Direct Competitive Streams
         const competitiveKeys = [
           "SSC",
           "RAILWAYS",
@@ -626,16 +636,16 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         });
         html += `</optgroup>`;
 
-        // Govt PSC
+        // 3. Govt PSC
         if (allData.GOVT_PSC) {
           html += `
-            <optgroup label="🏛️ Civil Services">
-              <option value="GOVT_PSC">${STREAM_LABELS.GOVT_PSC}</option>
-            </optgroup>
-          `;
+      <optgroup label="🏛️ Civil Services">
+        <option value="GOVT_PSC">${STREAM_LABELS.GOVT_PSC}</option>
+      </optgroup>
+    `;
         }
 
-        // School Education
+        // 4. School Education
         if (allData.BOARD_EXAMS || allData.KIDS_SCHOOL) {
           html += `<optgroup label="📚 School Education">`;
           if (allData.BOARD_EXAMS)
@@ -647,7 +657,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
 
         selectEl.innerHTML = html;
       }
-
       // 2. HANDLE STREAM CHANGE (AUTO-POPULATE ATTRIBUTES FROM ALLSUBJECT.JS)
       function handleExamStreamChange() {
         const streamKey = document.getElementById("cfg_exam_stream").value;
@@ -655,77 +664,160 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         const subjectsList = allData[streamKey] || [];
         const firstSubject = subjectsList[0] || {};
 
-        // Extract Board Name & Default Tags
+        const isDailyGK = streamKey === "DAILY_GK";
+
+        // 1. Board / Agency Defaults
         let defaultBoard = firstSubject.tags?.[0] || streamKey;
-        if (streamKey === "SSC") defaultBoard = "SSC";
+        if (isDailyGK) defaultBoard = "Daily Quiz / Open";
+        else if (streamKey === "SSC") defaultBoard = "SSC";
         else if (streamKey === "RAILWAYS") defaultBoard = "RRB";
         else if (streamKey === "BANKING") defaultBoard = "IBPS / SBI";
         else if (streamKey === "JEE_NEET") defaultBoard = "NTA";
+        else if (streamKey === "DEFENCE") defaultBoard = "UPSC / State Police";
+        else if (streamKey === "TEACHING") defaultBoard = "CBSE / State Board";
+        else if (streamKey === "ENTRANCE") defaultBoard = "NTA / Consortium";
         else if (streamKey === "GOVT_PSC") defaultBoard = "UPSC / State PSC";
-        else if (streamKey === "BOARD_EXAMS" || streamKey === "KIDS_SCHOOL")
-          defaultBoard = "CBSE";
 
-        const defaultTags = (firstSubject.tags || []).join(", ");
-        const posMarks =
-          firstSubject.marksPerCorrect !== undefined
-            ? firstSubject.marksPerCorrect
-            : streamKey === "GOVT_PSC"
-              ? 2
-              : 1;
-        const negMarks =
-          firstSubject.negativeMarks !== undefined
-            ? firstSubject.negativeMarks
-            : 0;
+        // 2. Exam-Wise Standard Time & Marking Schemes
+        let defaultTotalQs = 15;
+        let defaultDuration = 15;
+        let defaultMode = "mcq_single";
+        let posMarks = 1.0;
+        let negMarks = 0.25;
 
+        switch (streamKey) {
+          case "DAILY_GK":
+            defaultTotalQs = 10; // 10 Questions Daily Drill
+            defaultDuration = 5; // 5 Mins Rapid Speed
+            posMarks = 2.0;
+            negMarks = 0.5; // 25% Negative
+            break;
+
+          case "SSC":
+            defaultTotalQs = 15;
+            defaultDuration = 10; // 10 Mins (CGL/CHSL Speed)
+            posMarks = 2.0;
+            negMarks = 0.5; // 25% Negative
+            break;
+
+          case "RAILWAYS":
+            defaultTotalQs = 15;
+            defaultDuration = 12; // 12 Mins (RRB NTPC/Group D)
+            posMarks = 1.0;
+            negMarks = 0.33; // 33.33% (1/3rd) Negative
+            break;
+
+          case "BANKING":
+            defaultTotalQs = 15;
+            defaultDuration = 10; // 10 Mins Speed Drill
+            posMarks = 1.0;
+            negMarks = 0.25; // 25% (1/4th) Negative
+            break;
+
+          case "JEE_NEET":
+            defaultTotalQs = 15;
+            defaultDuration = 20; // 20 Mins (Concept & Calculation)
+            posMarks = 4.0;
+            negMarks = 1.0; // 25% (1/4th) Negative
+            break;
+
+          case "DEFENCE":
+            defaultTotalQs = 15;
+            defaultDuration = 15; // 15 Mins (NDA/CDS)
+            posMarks = 2.5;
+            negMarks = 0.83; // 33.33% (1/3rd) Negative
+            break;
+
+          case "TEACHING":
+            defaultTotalQs = 15;
+            defaultDuration = 15; // 15 Mins (CTET/STET)
+            posMarks = 1.0;
+            negMarks = 0.0; // No Negative Marking
+            break;
+
+          case "ENTRANCE":
+            defaultTotalQs = 15;
+            defaultDuration = 15; // 15 Mins (CUET/CLAT)
+            posMarks = 5.0;
+            negMarks = 1.0; // 20% (1/5th) Negative
+            break;
+
+          case "GOVT_PSC":
+            defaultTotalQs = 15;
+            defaultDuration = 15; // 15 Mins (UPSC / State PCS)
+            posMarks = 2.0;
+            negMarks = 0.66; // 33.33% (1/3rd) Negative
+            break;
+
+          default:
+            defaultTotalQs = 15;
+            defaultDuration = 15;
+            posMarks = 1.0;
+            negMarks = 0.25;
+            break;
+        }
+
+        // Subject-level override agar custom marks maujood hon
+        if (firstSubject.marksPerCorrect !== undefined && !isDailyGK) {
+          posMarks = firstSubject.marksPerCorrect;
+        }
+        if (firstSubject.negativeMarks !== undefined && !isDailyGK) {
+          negMarks = firstSubject.negativeMarks;
+        }
+
+        // 3. Set Input Values in UI
         document.getElementById("cfg_board").value = defaultBoard;
-        document.getElementById("cfg_tags").value = defaultTags;
+        document.getElementById("cfg_tags").value = (
+          firstSubject.tags || []
+        ).join(", ");
+        document.getElementById("cfg_mode").value = defaultMode;
+        document.getElementById("cfg_duration").value = defaultDuration;
+        document.getElementById("cfg_total_questions").value = defaultTotalQs;
         document.getElementById("cfg_marks").value = posMarks;
         document.getElementById("cfg_negative_marks").value = negMarks;
 
-        const isKids = streamKey === "KIDS_SCHOOL";
-        document.getElementById("cfg_mode").value = isKids
-          ? "matching_canvas"
-          : "mcq_single";
-        document.getElementById("cfg_duration").value = isKids ? 10 : 15;
-        document.getElementById("cfg_total_questions").value = isKids ? 5 : 15;
-
+        // 4. Update UI Labels & Badges
         const durationLabel = document.getElementById("lbl_duration");
         if (durationLabel) {
-          durationLabel.textContent = isKids ? "Time (S)" : "Time (M)";
+          durationLabel.textContent = "Time (M)";
         }
 
         const badgeTotalQs = document.getElementById("badge-total-qs");
         if (badgeTotalQs) {
-          badgeTotalQs.textContent = `${isKids ? 5 : 15} Questions / Mock`;
+          badgeTotalQs.textContent = `${defaultTotalQs} Questions / Mock`;
         }
 
+        // 5. Stage / Tier Defaults
         let stageVal = "Tier 1";
-        if (isKids) stageVal = "1";
-        else if (streamKey === "BOARD_EXAMS") stageVal = "10";
-        else if (streamKey === "GOVT_PSC") stageVal = "Prelims";
-        else if (streamKey === "BANKING") stageVal = "Prelims";
+        if (isDailyGK) stageVal = "Daily Drill";
+        else if (streamKey === "GOVT_PSC" || streamKey === "BANKING")
+          stageVal = "Prelims";
         else if (streamKey === "RAILWAYS") stageVal = "CBT 1";
         else if (streamKey === "JEE_NEET") stageVal = "UG";
+        else if (streamKey === "DEFENCE") stageVal = "Written Exam";
+        else if (streamKey === "TEACHING") stageVal = "Paper 1";
+        else if (streamKey === "ENTRANCE") stageVal = "UG / Entrance";
 
         const stageContainer = document.getElementById(
           "cfg_class_stage_container",
         );
-        stageContainer.innerHTML = `
-          <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">
-            ${isKids ? "Class / Grade" : streamKey === "BOARD_EXAMS" ? "Class" : "Tier / Stage"}
-          </label>
-          <input
-            type="text"
-            id="cfg_class_stage"
-            value="${stageVal}"
-            oninput="updateTestTitlePreview()"
-            class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
-          />
-        `;
+        if (stageContainer) {
+          stageContainer.innerHTML = `
+      <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+        ${isDailyGK ? "Drill Type" : "Tier / Stage"}
+      </label>
+      <input
+        type="text"
+        id="cfg_class_stage"
+        value="${stageVal}"
+        oninput="updateTestTitlePreview()"
+        class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
+      />
+    `;
+        }
 
         renderSubjectCategoryTree();
       }
-
       function toggleSubjectAccordion(subId) {
         const content = document.getElementById(`sub-content-${subId}`);
         const icon = document.getElementById(`sub-arrow-${subId}`);

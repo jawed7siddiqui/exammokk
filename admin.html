@@ -160,7 +160,7 @@
           </span>
         </div>
         <p class="text-[10px] text-slate-400 font-mono truncate">
-          api.jawedsiddiqui.cloud
+          exam-api.jawedsiddiqui.cloud
         </p>
       </div>
     </aside>
@@ -192,6 +192,15 @@
         </div>
 
         <div class="flex items-center gap-2.5 self-end md:self-auto">
+          <!-- AI GENERATE LINK BUTTON -->
+          <a
+            href="ai.html"
+            class="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-xs rounded-xl flex items-center gap-2 cursor-pointer transition-all active:scale-95 shadow-2xs"
+          >
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-600"></i>
+            <span>Generate</span>
+          </a>
+
           <button
             onclick="refreshCurrentTab(this)"
             class="px-3.5 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs rounded-xl flex items-center gap-2 cursor-pointer transition-all active:scale-95 shadow-2xs"
@@ -245,13 +254,10 @@
               <select
                 id="filter_test_category"
                 onchange="applyTestPaperFilters()"
-                class="w-full sm:w-40 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
+                class="w-full sm:w-48 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
               >
                 <option value="">All Categories</option>
-                <option value="KIDS_SCHOOL">🎨 Kids School</option>
-                <option value="BOARD_EXAMS">📚 Board Exams</option>
-                <option value="GOVT_PSC">🏛️ Govt PSC</option>
-                <option value="OTHER">⚡ Other</option>
+                <!-- Populated dynamically via JS -->
               </select>
 
               <select
@@ -376,9 +382,7 @@
                 class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
               >
                 <option value="">All Question Types</option>
-                <option value="mcq_single">
-                  🔘 Single MCQ (UPSC / State PSC)
-                </option>
+                <option value="mcq_single">🔘 Single MCQ</option>
                 <option value="matching_canvas">
                   🎨 Matching Canvas (Kids)
                 </option>
@@ -484,13 +488,13 @@
         </div>
 
         <form id="testPaperForm" class="space-y-4">
-          <!-- 1. CATEGORY & STATUS -->
+          <!-- 1. CATEGORY / STREAM & STATUS -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div class="sm:col-span-2">
               <label
                 class="block text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-1.5"
               >
-                Select Exam Category
+                Select Exam Category / Stream
               </label>
               <select
                 id="m_exam_category"
@@ -498,12 +502,7 @@
                 class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white transition-all cursor-pointer"
                 required
               >
-                <option value="KIDS_SCHOOL">🎨 Kids School (Class 1-3)</option>
-                <option value="BOARD_EXAMS">📚 Board Exams (Class 4-12)</option>
-                <option value="GOVT_PSC">
-                  🏛️ Govt PSC / UPSC / State Exams
-                </option>
-                <option value="OTHER">⚡ Other Competitive Exams</option>
+                <!-- Populated dynamically via JS -->
               </select>
             </div>
             <div>
@@ -547,7 +546,7 @@
                 type="text"
                 id="m_class"
                 value="1"
-                placeholder="e.g. 1, 10, Graduate"
+                placeholder="e.g. 1, 10, Tier 1, Prelims"
                 class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white transition-all"
               />
             </div>
@@ -600,8 +599,8 @@
                 id="m_mode"
                 class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white transition-all cursor-pointer"
               >
-                <option value="canvas_matching">Line Matching</option>
                 <option value="standard_mcq">Standard MCQ</option>
+                <option value="canvas_matching">Line Matching Canvas</option>
                 <option value="cbt_exam">CBT Exam Mode</option>
               </select>
             </div>
@@ -876,7 +875,7 @@
             </div>
 
             <div class="space-y-3 overflow-y-auto max-h-[460px] pr-1">
-              <!-- TEMPLATE 1: GOVT PSC / UPSC CSAT MCQ -->
+              <!-- TEMPLATE 1: GOVT PSC / COMPETITIVE MCQ -->
               <div
                 class="border border-indigo-200 bg-white rounded-xl overflow-hidden shadow-2xs"
               >
@@ -887,7 +886,7 @@
                 >
                   <div class="flex items-center gap-2">
                     <span class="text-sm">🏛️</span>
-                    <span>1. Govt PSC / UPSC CSAT MCQ</span>
+                    <span>1. Standard MCQ (Single Answer)</span>
                   </div>
                   <i
                     data-lucide="chevron-down"
@@ -903,7 +902,7 @@
                     class="flex items-center justify-between text-[10px] text-slate-400 font-mono"
                   >
                     <span>Type: mcq_single</span>
-                    <span>12 CSAT Questions</span>
+                    <span>Standard MCQ format</span>
                   </div>
                   <pre
                     id="preview-govt-mcq"
@@ -915,7 +914,7 @@
                     class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold text-[10px] uppercase rounded-lg cursor-pointer flex items-center justify-center gap-1.5 shadow-sm transition-all"
                   >
                     <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                    <span>Insert Govt PSC Sample</span>
+                    <span>Insert MCQ Sample</span>
                   </button>
                 </div>
               </div>
@@ -947,7 +946,7 @@
                     class="flex items-center justify-between text-[10px] text-slate-400 font-mono"
                   >
                     <span>Type: matching_canvas</span>
-                    <span>5 Addition Sets</span>
+                    <span>Pairs Matching</span>
                   </div>
                   <pre
                     id="preview-kids-canvas"
@@ -959,7 +958,7 @@
                     class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-extrabold text-[10px] uppercase rounded-lg cursor-pointer flex items-center justify-center gap-1.5 shadow-sm transition-all"
                   >
                     <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                    <span>Insert Kids Matching Sample</span>
+                    <span>Insert Matching Sample</span>
                   </button>
                 </div>
               </div>
@@ -1024,16 +1023,109 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-      const TEST_API_URL = "https://api.jawedsiddiqui.cloud/api/kidspaint";
+      const TEST_API_URL = "https://exam-api.jawedsiddiqui.cloud/api/kidspaint";
       const QUESTION_API_URL =
-        "https://api.jawedsiddiqui.cloud/api/test/questions";
+        "https://exam-api.jawedsiddiqui.cloud/api/test/questions";
 
       let allTestPapers = [];
       let currentTestQuestions = [];
       let editingTestId = null;
       let editingQuestionMongoId = null;
 
-      // Safe helper to extract status
+      // Master Stream Labels
+      const STREAM_LABELS = {
+        DAILY_GK: "🌍 Daily GK & Current Affairs",
+        SSC: "⚡ SSC Exams (CGL, CHSL, GD, CPO)",
+        RAILWAYS: "🚆 Railway Exams (RRB NTPC, Group D, ALP)",
+        BANKING: "🏦 Banking & Insurance (IBPS, SBI, RBI)",
+        JEE_NEET: "🧬 JEE & NEET (PCM / PCB)",
+        DEFENCE: "🎖️ Defence & Police (NDA, CDS, Police SI)",
+        TEACHING: "👨‍🏫 Teaching & TET (CTET, State TET, KVS)",
+        ENTRANCE: "⚖️ CUET, Law & Management (CLAT, IPMAT)",
+        GOVT_PSC: "🏛️ Govt PSC / UPSC / All State PCS",
+        BOARD_EXAMS: "📚 Board Exams (Class 4-12)",
+        KIDS_SCHOOL: "🎨 Kids School (Class 1-3)",
+      };
+
+      function getActiveSubjectsData() {
+        if (typeof subjectsBySegment !== "undefined") return subjectsBySegment;
+        if (typeof window.subjectsBySegment !== "undefined")
+          return window.subjectsBySegment;
+        return {};
+      }
+
+      function populateAllExamCategoryDropdowns() {
+        const allData = getActiveSubjectsData();
+        const availableKeys = Object.keys(allData);
+        if (availableKeys.length === 0) return;
+
+        let optionsHtml = "";
+
+        // Group 1: Daily
+        if (allData.DAILY_GK) {
+          optionsHtml += `<optgroup label="🌍 Live Drill & GK"><option value="DAILY_GK">${STREAM_LABELS.DAILY_GK}</option></optgroup>`;
+        }
+
+        // Group 2: Competitive Exams
+        const compKeys = [
+          "SSC",
+          "RAILWAYS",
+          "BANKING",
+          "JEE_NEET",
+          "DEFENCE",
+          "TEACHING",
+          "ENTRANCE",
+        ];
+        optionsHtml += `<optgroup label="⚡ Competitive Exams">`;
+        compKeys.forEach((k) => {
+          if (allData[k])
+            optionsHtml += `<option value="${k}">${STREAM_LABELS[k] || k}</option>`;
+        });
+        optionsHtml += `</optgroup>`;
+
+        // Group 3: Civil Services
+        if (allData.GOVT_PSC) {
+          optionsHtml += `<optgroup label="🏛️ Civil Services"><option value="GOVT_PSC">${STREAM_LABELS.GOVT_PSC}</option></optgroup>`;
+        }
+
+        // Group 4: School Education
+        if (allData.BOARD_EXAMS || allData.KIDS_SCHOOL) {
+          optionsHtml += `<optgroup label="📚 School Education">`;
+          if (allData.BOARD_EXAMS)
+            optionsHtml += `<option value="BOARD_EXAMS">${STREAM_LABELS.BOARD_EXAMS}</option>`;
+          if (allData.KIDS_SCHOOL)
+            optionsHtml += `<option value="KIDS_SCHOOL">${STREAM_LABELS.KIDS_SCHOOL}</option>`;
+          optionsHtml += `</optgroup>`;
+        }
+
+        // Add any remaining keys
+        availableKeys.forEach((k) => {
+          if (
+            !STREAM_LABELS[k] &&
+            ![
+              "DAILY_GK",
+              "GOVT_PSC",
+              "BOARD_EXAMS",
+              "KIDS_SCHOOL",
+              ...compKeys,
+            ].includes(k)
+          ) {
+            optionsHtml += `<option value="${k}">${k}</option>`;
+          }
+        });
+
+        // Set in Modal Category Dropdown
+        const modalCatSelect = document.getElementById("m_exam_category");
+        if (modalCatSelect) modalCatSelect.innerHTML = optionsHtml;
+
+        // Set in Filter Category Dropdown
+        const filterCatSelect = document.getElementById("filter_test_category");
+        if (filterCatSelect) {
+          filterCatSelect.innerHTML =
+            `<option value="">All Categories</option>` + optionsHtml;
+        }
+      }
+
       function extractTestStatus(test) {
         if (!test) return "published";
         const raw =
@@ -1045,7 +1137,6 @@
         return String(raw).toLowerCase().trim();
       }
 
-      // Safe helper to extract document MongoDB _id
       function extractTestMongoId(test) {
         if (!test) return "";
         return (
@@ -1056,7 +1147,6 @@
         );
       }
 
-      // Dropdown Management
       function toggleActionDropdown(event, dropdownId) {
         event.stopPropagation();
         const dropdown = document.getElementById(dropdownId);
@@ -1075,36 +1165,23 @@
       const GOVT_PSC_TEMPLATE = {
         questions: [
           {
-            test_id: "TEST_UPSC_CSAT_CLPRELIMS_GS_PAPER-2_9401",
-            test_name: "CSAT Logical Reasoning Mock",
-            exam_category: "GOVT_PSC",
-            question_id: "Q_UPSC_CSAT_001",
+            test_id: "TEST_SAMPLE_ID_001",
+            test_name: "Mock Practice Paper",
+            exam_category: "SSC",
+            question_id: "Q_001",
             question_no: 1,
             question_type: "mcq_single",
             question_text_en:
-              "Statements:\n1. All IAS officers are administrators.\n2. Some administrators are authors.\n\nConclusions:\nI. Some IAS officers are authors.\nII. All administrators are IAS officers.\n\nWhich of the conclusion(s) logically follow(s)?",
-            question_text_hi:
-              "कथन:\n1. सभी IAS अधिकारी प्रशासक हैं।\n2. कुछ प्रशासक लेखक हैं।\n\nनिष्कर्ष:\nI. कुछ IAS अधिकारी लेखक हैं।\nII. सभी प्रशासक IAS अधिकारी हैं।\n\nकौन सा/से निष्कर्ष तार्किक रूप से निकलता/निकलते है/हैं?",
+              "Which of the following represents the correct statement?",
+            question_text_hi: "निम्नलिखित में से कौन सा सही कथन है?",
             statements: [],
-            options_en: [
-              "Only conclusion I follows",
-              "Only conclusion II follows",
-              "Both I and II follow",
-              "Neither I nor II follows",
-            ],
-            options_hi: [
-              "केवल निष्कर्ष I निकलता है",
-              "केवल निष्कर्ष II निकलता है",
-              "I और II दोनों निकलते हैं",
-              "न तो I और न ही II निकलता है",
-            ],
-            correct_option_index: 3,
-            marks: 2.5,
-            negative_marks: 0.83,
-            explanation_en:
-              "Since there is no direct definite overlap given between IAS officers and authors, conclusion I is not definite. Also, 'All IAS are administrators' does not imply 'All administrators are IAS'. Hence, neither follows.",
-            explanation_hi:
-              "IAS अधिकारियों और लेखकों के बीच कोई सीधा निश्चित संबंध नहीं दिया गया है, इसलिए निष्कर्ष I निश्चित नहीं है। अतः कोई भी निष्कर्ष नहीं निकलता।",
+            options_en: ["Option A", "Option B", "Option C", "Option D"],
+            options_hi: ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"],
+            correct_option_index: 0,
+            marks: 2.0,
+            negative_marks: 0.5,
+            explanation_en: "Detailed explanation here.",
+            explanation_hi: "विस्तृत विवरण यहाँ दिया गया है।",
             matching_pairs: [],
           },
         ],
@@ -1141,21 +1218,7 @@
                 rightText: "8",
               },
             ],
-            canvas_objects: [
-              {
-                type: "text",
-                text: "Match the Addition ➕",
-                props: {
-                  left: 400,
-                  top: 40,
-                  originX: "center",
-                  fontSize: 36,
-                  fontFamily: "Fredoka",
-                  fill: "#0f766e",
-                  fontWeight: "bold",
-                },
-              },
-            ],
+            canvas_objects: [],
             marks: 4,
             negative_marks: 0,
             explanation_en: "2+3=5, 4+4=8.",
@@ -1165,49 +1228,85 @@
       };
 
       function handleCategoryChange(existingVal = "") {
-        const cat = getCategory();
+        const streamKey = getCategory();
         const boardInput = document.getElementById("m_board");
         const container = document.getElementById("class_grade_container");
+        const allData = getActiveSubjectsData();
+        const subjectsList = allData[streamKey] || [];
+        const firstSubject = subjectsList[0] || {};
 
-        if (cat === "GOVT_PSC") {
-          if (!boardInput.value || boardInput.value === "CBSE")
-            boardInput.value = "UPSC";
+        const isKids = streamKey === "KIDS_SCHOOL";
+        const isDailyGK = streamKey === "DAILY_GK";
+
+        // Board mapping
+        if (!existingVal) {
+          if (isDailyGK) boardInput.value = "Daily Drill";
+          else if (streamKey === "SSC") boardInput.value = "SSC";
+          else if (streamKey === "RAILWAYS") boardInput.value = "RRB";
+          else if (streamKey === "BANKING") boardInput.value = "IBPS / SBI";
+          else if (streamKey === "JEE_NEET") boardInput.value = "NTA";
+          else if (streamKey === "GOVT_PSC") boardInput.value = "UPSC";
+          else if (streamKey === "BOARD_EXAMS" || isKids)
+            boardInput.value = "CBSE";
+          else boardInput.value = firstSubject.tags?.[0] || streamKey;
+
+          // Default mode & questions
+          document.getElementById("m_mode").value = isKids
+            ? "canvas_matching"
+            : "standard_mcq";
+          document.getElementById("m_questions").value = isDailyGK
+            ? 10
+            : isKids
+              ? 5
+              : 20;
+          document.getElementById("m_duration").value = isDailyGK
+            ? 7
+            : isKids
+              ? 10
+              : 20;
+        }
+
+        // Stage Input Render
+        if (streamKey === "GOVT_PSC") {
           container.innerHTML = `
             <label class="block text-[11px] font-bold text-slate-600 mb-1">Exam Paper / Stage</label>
             <select 
               id="m_class" 
               class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-indigo-600 cursor-pointer"
             >
-              <option value="">-- Select Exam Paper / Stage --</option>
-              <optgroup label="Prelims Exam (Objective MCQ)">
-                <option value="PRELIMS_GS_1">Prelims GS Paper-1 (General Studies)</option>
-                <option value="PRELIMS_CSAT">Prelims GS Paper-2 (CSAT / Aptitude)</option>
-              </optgroup>
-              <optgroup label="Mains Exam (Descriptive / Test Series)">
-                <option value="MAINS_ESSAY">Mains Essay Paper</option>
-                <option value="MAINS_GS_1">Mains GS Paper-1 (History & Geography)</option>
-                <option value="MAINS_GS_2">Mains GS Paper-2 (Polity & Governance)</option>
-                <option value="MAINS_GS_3">Mains GS Paper-3 (Economy, Env & Sci-Tech)</option>
-                <option value="MAINS_GS_4">Mains GS Paper-4 (Ethics & Integrity)</option>
-                <option value="MAINS_OPTIONAL">Mains Optional Subject</option>
-              </optgroup>
+              <option value="PRELIMS_GS_1">Prelims GS Paper-1</option>
+              <option value="PRELIMS_CSAT">Prelims GS Paper-2 (CSAT)</option>
+              <option value="MAINS_GS_1">Mains GS Paper-1</option>
+              <option value="MAINS_GS_2">Mains GS Paper-2</option>
+              <option value="MAINS_GS_3">Mains GS Paper-3</option>
+              <option value="MAINS_GS_4">Mains GS Paper-4</option>
             </select>
           `;
           document.getElementById("m_class").value =
             existingVal || "PRELIMS_GS_1";
         } else {
-          if (boardInput.value === "UPSC") boardInput.value = "CBSE";
+          let placeholder = "e.g. 1, 10, Tier 1, Prelims";
+          let defStage = "Tier 1";
+          if (isDailyGK) defStage = "Daily Drill";
+          else if (isKids) defStage = "1";
+          else if (streamKey === "BOARD_EXAMS") defStage = "10";
+          else if (streamKey === "BANKING") defStage = "Prelims";
+          else if (streamKey === "RAILWAYS") defStage = "CBT 1";
+
           container.innerHTML = `
-            <label class="block text-[11px] font-bold text-slate-600 mb-1">Class / Grade (Optional)</label>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">
+              ${isKids ? "Class / Grade" : streamKey === "BOARD_EXAMS" ? "Class" : isDailyGK ? "Drill Type" : "Tier / Stage"}
+            </label>
             <input
               type="text"
               id="m_class"
-              value="${existingVal || (cat === "KIDS_SCHOOL" ? "1" : "10")}"
-              placeholder="e.g. 1, 10, Graduate"
+              value="${existingVal || defStage}"
+              placeholder="${placeholder}"
               class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white transition-all"
             />
           `;
         }
+
         populateSubjects();
       }
 
@@ -1229,13 +1328,6 @@
         if (isDaily && !dateInput.value) {
           dateInput.value = new Date().toISOString().split("T")[0];
         }
-      }
-
-      function getActiveSubjectsData() {
-        if (typeof subjectsBySegment !== "undefined") return subjectsBySegment;
-        if (typeof window.subjectsBySegment !== "undefined")
-          return window.subjectsBySegment;
-        return {};
       }
 
       function showToast(message, type = "success") {
@@ -1326,10 +1418,7 @@
           null,
           2,
         );
-        showToast(
-          `${type === "govt_psc" ? "Govt PSC CSAT" : "Kids School"} template loaded!`,
-          "info",
-        );
+        showToast(`Template loaded!`, "info");
       }
 
       function setBtnLoading(button, isLoading, loadingText = "Processing...") {
@@ -1397,7 +1486,7 @@
       }
 
       function getCategory() {
-        return document.getElementById("m_exam_category").value;
+        return document.getElementById("m_exam_category").value || "SSC";
       }
 
       function populateSubjects() {
@@ -1453,8 +1542,8 @@
           : "Step 1 — Create Test Paper";
 
         if (isEdit && testData) {
-          document.getElementById("m_exam_category").value =
-            testData.exam_category || "KIDS_SCHOOL";
+          const cat = testData.exam_stream || testData.exam_category || "SSC";
+          document.getElementById("m_exam_category").value = cat;
 
           const safeStatus = extractTestStatus(testData);
           document.getElementById("m_status").value = safeStatus;
@@ -1478,8 +1567,8 @@
           });
 
           if (matchedSubOption) subSel.value = matchedSubOption.value;
-
           populateCategories();
+
           const catSel = document.getElementById("m_category");
           const targetCatId = testData.category_id;
           const targetCatTitle = testData.category_title || testData.category;
@@ -1499,7 +1588,10 @@
           document.getElementById("m_title").value =
             testData.title || testData.test_name || "";
           document.getElementById("m_mode").value =
-            testData.config?.mode || testData.mode || "canvas_matching";
+            testData.config_mode ||
+            testData.config?.mode ||
+            testData.mode ||
+            "standard_mcq";
           document.getElementById("m_duration").value =
             testData.total_time_mins || testData.duration || 20;
           document.getElementById("m_questions").value =
@@ -1536,12 +1628,9 @@
             : testData.target_tags || "";
         } else {
           document.getElementById("testPaperForm").reset();
-          document.getElementById("m_exam_category").value = "KIDS_SCHOOL";
+          document.getElementById("m_exam_category").value = "SSC";
           document.getElementById("m_status").value = "published";
-          handleCategoryChange("1");
-          document.getElementById("m_board").value = "CBSE";
-          document.getElementById("m_duration").value = "20";
-          document.getElementById("m_questions").value = "20";
+          handleCategoryChange("");
           document.getElementById("m_access_type").value = "free";
           document.getElementById("m_price").value = "0";
           document.getElementById("m_discounted_price").value = "0";
@@ -1565,16 +1654,12 @@
         editingTestId = null;
       }
 
-      // ================= STATUS UPDATE VIA MONGO _ID ================= //
       async function updateTestStatusByMongoId(mongoId, testId, newStatus) {
         closeAllDropdowns();
         const normalizedStatus = String(newStatus).toLowerCase().trim();
-
-        // Target identification (Mongo _id preferred, fallback to testId)
         const targetIdentifier = mongoId || testId;
 
         try {
-          // Status route using Mongo _id: /api/test/questions/status/:id
           const res = await fetch(
             `${QUESTION_API_URL}/status/${targetIdentifier}`,
             {
@@ -1590,8 +1675,6 @@
               `Status updated to ${normalizedStatus.toUpperCase()}!`,
               "success",
             );
-
-            // Immediate local sync
             const target = allTestPapers.find(
               (t) => extractTestMongoId(t) === mongoId || t.test_id === testId,
             );
@@ -1600,8 +1683,6 @@
               if (target.paper) target.paper.status = normalizedStatus;
             }
             applyTestPaperFilters();
-
-            // Background sync
             loadTestPapers();
           } else {
             showToast(result.message || "Failed to update status", "error");
@@ -1611,7 +1692,6 @@
         }
       }
 
-      // ================= CLONE TEST PAPER ================= //
       async function cloneTestPaper(testId) {
         closeAllDropdowns();
         try {
@@ -1622,7 +1702,6 @@
           );
 
           if (newTitle === null) return;
-
           showToast("Cloning test paper...", "info");
 
           const res = await fetch(`${QUESTION_API_URL}/${testId}/clone`, {
@@ -1670,9 +1749,28 @@
             .getElementById("m_status")
             .value.toLowerCase()
             .trim();
+          const stream = getCategory();
+
+          // Enum safety
+          let examCatEnum = stream;
+          if (
+            [
+              "SSC",
+              "RAILWAYS",
+              "BANKING",
+              "JEE_NEET",
+              "DEFENCE",
+              "TEACHING",
+              "ENTRANCE",
+              "DAILY_GK",
+            ].includes(stream)
+          ) {
+            examCatEnum = "OTHER";
+          }
 
           const payload = {
-            exam_category: getCategory(),
+            exam_category: examCatEnum,
+            exam_stream: stream,
             status: formStatus,
             board_or_exam: document.getElementById("m_board").value.trim(),
             classGrade: document.getElementById("m_class").value.trim(),
@@ -1753,7 +1851,11 @@
           );
         } else {
           const targetTest = allTestPapers.find((t) => t.test_id === targetId);
-          if (targetTest && targetTest.exam_category === "KIDS_SCHOOL") {
+          if (
+            targetTest &&
+            (targetTest.exam_category === "KIDS_SCHOOL" ||
+              targetTest.exam_stream === "KIDS_SCHOOL")
+          ) {
             applyTemplate("kids_school");
           } else {
             applyTemplate("govt_psc");
@@ -1801,23 +1903,16 @@
           const result = await res.json();
 
           let list = [];
-          if (Array.isArray(result)) {
-            list = result;
-          } else if (result && Array.isArray(result.data)) {
-            list = result.data;
-          } else if (
-            result &&
-            result.data &&
-            Array.isArray(result.data.tests)
-          ) {
+          if (Array.isArray(result)) list = result;
+          else if (result && Array.isArray(result.data)) list = result.data;
+          else if (result && result.data && Array.isArray(result.data.tests))
             list = result.data.tests;
-          } else if (
+          else if (
             result &&
             result.data &&
             Array.isArray(result.data.testPapers)
-          ) {
+          )
             list = result.data.testPapers;
-          }
 
           if (list && list.length > 0) {
             allTestPapers = list;
@@ -1875,7 +1970,9 @@
 
           const matchSubject = !subjectVal || test.subject === subjectVal;
           const matchCategory =
-            !categoryVal || test.exam_category === categoryVal;
+            !categoryVal ||
+            test.exam_stream === categoryVal ||
+            test.exam_category === categoryVal;
 
           const currentItemStatus = extractTestStatus(test);
           const matchStatus = !statusVal || currentItemStatus === statusVal;
@@ -1928,6 +2025,7 @@
 
             const dropdownId = `test-actions-menu-${index}`;
             const testMongoId = extractTestMongoId(test);
+            const displayCat = test.exam_stream || test.exam_category || "-";
 
             return `
             <tr class="hover:bg-slate-50/80 transition-colors border-b border-slate-100">
@@ -1939,14 +2037,13 @@
               <td class="p-3.5 md:p-4">${statusBadges[statusVal] || statusBadges.published}</td>
               <td class="p-3.5 md:p-4">${pricingBadge}</td>
               <td class="p-3.5 md:p-4 text-slate-600">
-                <span class="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[11px] font-semibold">${test.exam_category || "-"}</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[11px] font-semibold">${displayCat}</span>
                 <span class="text-slate-400 ml-1">/ ${test.subject || "-"}</span>
               </td>
               <td class="p-3.5 md:p-4 text-slate-500 font-mono text-[11px]">${test.classGrade || test.class || "-"}</td>
               <td class="p-3.5 md:p-4 font-bold text-indigo-700">${test.total_questions || qCount} Qs</td>
               <td class="p-3.5 md:p-4 text-[11px] text-slate-500">${formattedCreated}</td>
               <td class="p-3.5 md:p-4 text-right relative">
-                <!-- 3 DOTS MENU BUTTON -->
                 <button
                   type="button"
                   onclick="toggleActionDropdown(event, '${dropdownId}')"
@@ -1955,7 +2052,6 @@
                   <i data-lucide="more-horizontal" class="w-4 h-4"></i>
                 </button>
 
-                <!-- DROPDOWN POPUP -->
                 <div
                   id="${dropdownId}"
                   class="action-dropdown-menu hidden absolute right-4 top-12 z-50 w-52 bg-white border border-slate-200 rounded-2xl shadow-xl py-1.5 text-left text-xs font-bold divide-y divide-slate-100"
@@ -1986,7 +2082,6 @@
                     </button>
                   </div>
 
-                  <!-- QUICK STATUS CHANGE VIA MONGO _ID -->
                   <div class="py-1 px-3 text-[10px] text-slate-400 uppercase tracking-wider font-extrabold">Change Status</div>
                   <div class="py-1">
                     <button
@@ -2028,7 +2123,7 @@
 
                   <div class="py-1">
                     <button
-                     onclick="deleteTestPaper('${testMongoId}', '${test.test_id}')"
+                      onclick="deleteTestPaper('${testMongoId}', '${test.test_id}')"
                       class="w-full px-3.5 py-2 text-rose-600 hover:bg-rose-50 flex items-center gap-2.5 transition-colors cursor-pointer"
                     >
                       <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
@@ -2158,7 +2253,6 @@
             ""
           ).toLowerCase();
           const qId = (q.question_id || q._id || "").toLowerCase();
-
           const matchSearch =
             !searchVal || qText.includes(searchVal) || qId.includes(searchVal);
           const matchType = !typeVal || q.question_type === typeVal;
@@ -2215,7 +2309,6 @@
               <td class="p-3.5 md:p-4 font-bold text-emerald-600">${q.marks || 1}</td>
               <td class="p-3.5 md:p-4 text-[11px] text-slate-500">${formattedCreated}</td>
               <td class="p-3.5 md:p-4 text-right relative">
-                <!-- 3 DOTS MENU BUTTON -->
                 <button
                   type="button"
                   onclick="toggleActionDropdown(event, '${qDropdownId}')"
@@ -2224,7 +2317,6 @@
                   <i data-lucide="more-horizontal" class="w-4 h-4"></i>
                 </button>
 
-                <!-- DROPDOWN POPUP -->
                 <div
                   id="${qDropdownId}"
                   class="action-dropdown-menu hidden absolute right-4 top-12 z-50 w-44 bg-white border border-slate-200 rounded-2xl shadow-xl py-1.5 text-left text-xs font-bold divide-y divide-slate-100"
@@ -2314,7 +2406,7 @@
           const submitBtn = document.getElementById("btn-submit-question");
 
           const targetTest = allTestPapers.find((t) => t.test_id === testId);
-          const examCategory = targetTest?.exam_category || "GOVT_PSC";
+          const examCategory = targetTest?.exam_category || "OTHER";
 
           setBtnLoading(
             submitBtn,
@@ -2472,9 +2564,11 @@
           showToast("Network error while deleting test paper", "error");
         }
       }
+
       // INIT
       document.addEventListener("DOMContentLoaded", () => {
-        handleCategoryChange("1");
+        populateAllExamCategoryDropdowns();
+        handleCategoryChange("");
         loadTestPapers();
         lucide.createIcons();
 

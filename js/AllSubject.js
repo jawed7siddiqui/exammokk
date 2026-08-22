@@ -25,28 +25,31 @@ const subjectsBySegment = {
       categories: [
         {
           id: "dgk_todays_affairs",
-          title:
-            "Today's Live Current Affairs Drill (National & International)",
+          title: "Daily Current Affairs",
         },
         {
           id: "dgk_polity_constitution",
-          title: "Indian Polity, Articles & Governance (Static GK)",
+          title: "Indian Polity GK",
         },
         {
           id: "dgk_economy_banking",
-          title: "Banking, RBI Updates & Economic Terms",
+          title: "Banking & Economy",
         },
         {
           id: "dgk_science_tech",
-          title: "General Science, Space & Technology Affairs",
+          title: "Science & Tech",
         },
         {
           id: "dgk_history_culture",
-          title: "Indian History, Art & Heritage Highlights",
+          title: "History & Heritage",
         },
         {
           id: "dgk_awards_sports",
-          title: "Awards, Summits, Appointments & Sports 2026",
+          title: "Sports & Awards",
+        },
+        {
+          id: "dgk_static_gk",
+          title: "Static GK Special",
         },
       ],
       loaded: false,

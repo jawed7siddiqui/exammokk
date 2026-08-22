@@ -514,7 +514,7 @@
         <div
           class="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-3 shrink-0"
         >
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2.5">
             <div class="p-1.5 bg-rose-50 text-rose-600 rounded-lg">
               <i data-lucide="alert-circle" class="w-4 h-4"></i>
             </div>
@@ -573,6 +573,14 @@
 
       // 1. STREAM SPECIFIC MARKING & METADATA RULES
       const EXAM_PRESETS = {
+        DAILY_GK: {
+          id: "DAILY_GK",
+          title: "Daily GK & Current Affairs",
+          subtitle: "Daily Live 5-Minute Speed Quiz",
+          marks: 2.0,
+          negative: 0.5,
+          aliases: ["DAILY_GK", "DAILYGK", "GK", "CURRENT_AFFAIRS"],
+        },
         BANKING: {
           id: "BANKING",
           title: "Banking & Insurance",
@@ -883,8 +891,19 @@
 
       async function initRunner() {
         try {
-          const cleanTestId = encodeURIComponent(TARGET_TEST_ID.trim());
-          const endpoint = `${QUESTION_API_URL}/test/${cleanTestId}`;
+          const cleanTestId = TARGET_TEST_ID.trim();
+          let endpoint = "";
+
+          // CONDITION: Jab test_id "dgk_todays_affairs" ho toh dynamic latest API hit karega
+          if (cleanTestId === "dgk_todays_affairs") {
+            const querySubject = encodeURIComponent("General Knowledge");
+            const queryCategory = encodeURIComponent(
+              rawSegmentParam || "DAILY_GK",
+            );
+            endpoint = `${QUESTION_API_URL}/test/latest?subject=${querySubject}&exam_category=${queryCategory}`;
+          } else {
+            endpoint = `${QUESTION_API_URL}/test/${encodeURIComponent(cleanTestId)}`;
+          }
 
           const res = await fetch(endpoint, {
             method: "GET",

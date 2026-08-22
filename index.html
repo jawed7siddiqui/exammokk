@@ -318,6 +318,7 @@
       let deferredPrompt = null;
 
       // Device detection function (User Agent + Screen Width)
+      // Device detection function (User Agent + Screen Width)
       function isMobileDevice() {
         const userAgentCheck =
           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -327,12 +328,15 @@
         return userAgentCheck || screenWidthCheck;
       }
 
-      // Launch Daily GK Test directly in runner for both mobile and web
+      // Launch Daily GK Test according to screen/device type
       function launchDailyGKRunner() {
-        window.location.href =
-          "/gov_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK";
-      }
+        // Mobile par gov_exam_runner aur Desktop/Web par default gov_exam_web_runner
+        const runnerFile = isMobileDevice()
+          ? "gov_exam_runner.html"
+          : "gov_exam_web_runner.html";
 
+        window.location.href = `/${runnerFile}?test_id=dgk_todays_affairs&segment=DAILY_GK`;
+      }
       // PWA Install Event Handler
       window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();

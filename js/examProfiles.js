@@ -1,4 +1,15 @@
 const EXAM_PRESETS = {
+  DAILY_GK: {
+    id: "DAILY_GK",
+    title: "Daily GK & Current Affairs (Speed Drill)",
+    badge: "🌍 Daily GK",
+    marksPerQuestion: 2.0,
+    negativeMarks: 0.5, // 1/4th Negative
+    penaltyRatioText: "1/4th Penalty",
+    totalQuestions: 10,
+    durationMinutes: 7,
+    colorClass: "emerald",
+  },
   UPSC_PSC: {
     id: "UPSC_PSC",
     title: "UPSC / State PSC (GS Pattern)",
