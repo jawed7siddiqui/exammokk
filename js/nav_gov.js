@@ -48,7 +48,7 @@ function renderTopHeader(options = {}) {
                 </div>
                 <div>
                   <h1 class="text-sm font-black text-slate-900 tracking-tight leading-tight">
-                    ExamIndia
+                    ExamMokk
                   </h1>
                   <p class="text-[10px] font-bold text-indigo-600 leading-none">
                     Govt &amp; PSC Test Prep
