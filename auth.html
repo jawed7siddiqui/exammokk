@@ -57,11 +57,11 @@
   <body
     class="flex justify-center items-center min-h-screen bg-[#F1F5F9] p-0 sm:p-4 text-slate-900 antialiased select-none"
   >
-    <!-- FIGMA PRO APP FRAME -->
+    <!-- APP CONTAINER -->
     <div
       class="w-full max-w-[420px] h-screen sm:h-[820px] sm:max-h-[92vh] bg-white sm:rounded-[28px] flex flex-col justify-between shadow-[0_20px_50px_rgba(15,23,42,0.08)] border border-slate-200/80 relative overflow-hidden"
     >
-      <!-- 1. TOP STATUS BAR & BRAND HEADER -->
+      <!-- 1. TOP BRAND HEADER -->
       <header
         class="px-6 pt-6 pb-4 flex items-center justify-between border-b border-slate-100 bg-white/90 backdrop-blur-md sticky top-0 z-20"
       >
@@ -100,7 +100,7 @@
           <span
             class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"
           ></span>
-          <span>2026 LIVE</span>
+          <span>LIVE PORTAL</span>
         </div>
       </header>
 
@@ -172,12 +172,11 @@
             </div>
           </div>
 
-          <!-- UPDATED SHORT LABEL -->
           <h2 class="text-lg font-bold text-slate-900 tracking-tight">
             Sign In / Register
           </h2>
           <p class="text-xs text-slate-500 mt-1 max-w-[260px] leading-relaxed">
-            Enter mobile number to access mock tests.
+            Enter mobile number to access all mock tests.
           </p>
         </div>
 
@@ -189,7 +188,7 @@
             class="hidden text-xs font-semibold p-3.5 rounded-xl text-center bg-rose-50 text-rose-700 border border-rose-200/80 animate-fade"
           ></div>
 
-          <!-- STEP 1: MOBILE ENTRY (DEFAULT) -->
+          <!-- STEP 1: MOBILE ENTRY -->
           <section
             id="step-common-login"
             class="auth-step-container animate-fade space-y-4"
@@ -231,7 +230,7 @@
             </form>
           </section>
 
-          <!-- STEP 2A: PASSWORD (EXISTING USER) -->
+          <!-- STEP 2A: PASSWORD LOGIN -->
           <section
             id="step-enter-password"
             class="auth-step-container hidden animate-fade space-y-4"
@@ -269,7 +268,7 @@
             </form>
           </section>
 
-          <!-- STEP 2B: QUICK SIGNUP -->
+          <!-- STEP 2B: QUICK REGISTRATION -->
           <section
             id="step-registration"
             class="auth-step-container hidden animate-fade space-y-4"
@@ -378,7 +377,7 @@
         <div></div>
       </main>
 
-      <!-- 3. FIGMA STYLE CLEAN APP FOOTER -->
+      <!-- 3. FOOTER -->
       <footer
         class="py-3 px-6 text-center border-t border-slate-100 bg-slate-50/60 shrink-0"
       >
@@ -396,6 +395,36 @@
 
       let activeStepHistory = ["step-common-login"];
       let mobileNumber = "";
+
+      // Universal Device Telemetry & Push Token Helper (iOS / Android / Web)
+      function getDeviceContext() {
+        const ua = navigator.userAgent.toLowerCase();
+
+        // 1. Platform Detection
+        let platform = "web";
+        if (/android/i.test(ua)) {
+          platform = "android";
+        } else if (
+          /iphone|ipad|ipod/i.test(ua) ||
+          (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+        ) {
+          platform = "ios";
+        }
+
+        // 2. Form Factor Detection
+        let deviceType = "desktop";
+        if (/tablet|ipad/i.test(ua)) {
+          deviceType = "tablet";
+        } else if (/mobile|iphone|ipod|android/i.test(ua)) {
+          deviceType = "mobile";
+        }
+
+        return {
+          pushToken: localStorage.getItem("user_fcm_token") || null,
+          platform: platform,
+          deviceType: deviceType,
+        };
+      }
 
       function switchStep(stepId, pushHistory = true) {
         hideAlert();
@@ -484,12 +513,21 @@
         btn.innerText = "Signing in...";
 
         const password = document.getElementById("user-password-input").value;
+        const deviceMeta = getDeviceContext();
+
+        const loginPayload = {
+          mobileNumber: mobileNumber,
+          password: password,
+          pushToken: deviceMeta.pushToken,
+          platform: deviceMeta.platform,
+          deviceType: deviceMeta.deviceType,
+        };
 
         try {
           const res = await fetch(`${API_BASE_URL}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ mobileNumber, password }),
+            body: JSON.stringify(loginPayload),
           });
           const data = await res.json();
 
@@ -524,6 +562,7 @@
           .getElementById("reg-candidate-name")
           .value.trim();
         const userPassword = document.getElementById("reg-password").value;
+        const deviceMeta = getDeviceContext();
 
         const payload = {
           role: "aspirant",
@@ -533,6 +572,9 @@
           studentName: candidateName,
           schoolName: "ExamMokk Aspirant Hub",
           rollNo: "MOKK" + Math.floor(1000 + Math.random() * 9000),
+          pushToken: deviceMeta.pushToken,
+          platform: deviceMeta.platform,
+          deviceType: deviceMeta.deviceType,
         };
 
         try {
