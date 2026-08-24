@@ -1450,6 +1450,7 @@
 
         const payload = {
           test_id: TARGET_TEST_ID,
+          platform: "app", // 📱 Platform updated to app
           exam_category: activePreset.id,
           class_or_exam_name: testMeta.title,
           subject: testMeta.subject,
@@ -1510,7 +1511,6 @@
 
         document.getElementById("result-modal").classList.remove("hidden");
       }
-
       function openReviewModal() {
         document.getElementById("result-modal").classList.add("hidden");
         const container = document.getElementById("review-list-container");
