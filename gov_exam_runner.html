@@ -13,6 +13,21 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- KaTeX for Math & Formulas -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    ></script>
+
     <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap"
@@ -36,6 +51,9 @@
       .custom-scrollbar::-webkit-scrollbar-thumb {
         background: #cbd5e1;
         border-radius: 4px;
+      }
+      .katex {
+        font-size: 1.05em;
       }
     </style>
   </head>
@@ -553,7 +571,7 @@
 
     <!-- JAVASCRIPT CBT ENGINE -->
     <script>
-      const PASS_PERCENTAGE_THRESHOLD = 40; // Passing Criteria: 40% Marks
+      const PASS_PERCENTAGE_THRESHOLD = 40;
 
       const urlParams = new URLSearchParams(window.location.search);
       const TARGET_TEST_ID = urlParams.get("test_id") || "TEST_SAMPLE_MOCK_01";
@@ -690,6 +708,22 @@
         subject: "General Studies",
         exam_category: activePreset.id,
       };
+
+      // RENDER LATEX MATH FORMULAS
+      function renderMath(targetElement) {
+        const el = targetElement || document.body;
+        if (window.renderMathInElement) {
+          window.renderMathInElement(el, {
+            delimiters: [
+              { left: "$$", right: "$$", display: true },
+              { left: "$", right: "$", display: false },
+              { left: "\\(", right: "\\)", display: false },
+              { left: "\\[", right: "\\]", display: true },
+            ],
+            throwOnError: false,
+          });
+        }
+      }
 
       function showCustomDialog({
         title = "Notification",
@@ -894,7 +928,6 @@
           const cleanTestId = TARGET_TEST_ID.trim();
           let endpoint = "";
 
-          // CONDITION: Jab test_id "dgk_todays_affairs" ho toh dynamic latest API hit karega
           if (cleanTestId === "dgk_todays_affairs") {
             const querySubject = encodeURIComponent("General Knowledge");
             const queryCategory = encodeURIComponent(
@@ -930,7 +963,6 @@
           if (rawQuestions.length > 0) {
             const metaSource = resData.data || resData;
 
-            // Stream re-sync from backend metadata if available
             const backendCategory =
               metaSource.exam_category ||
               rawQuestions[0]?.exam_category ||
@@ -968,27 +1000,18 @@
               question_id: "Q_1",
               question_no: 1,
               question_text_en:
-                "Standard sample question statement for testing CBT interface.",
-              question_text_hi: "CBT इंटरफेस के परीक्षण के लिए मानक प्रश्न।",
-              options_en: [
-                "Option A",
-                "Option B",
-                "Option C",
-                "Option D",
-                "Option E",
-              ],
-              options_hi: [
-                "विकल्प A",
-                "विकल्प B",
-                "विकल्प C",
-                "विकल्प D",
-                "विकल्प E",
-              ],
+                "Find the value of the determinant $\\begin{vmatrix} 2 & 4 \\\\ 1 & 3 \\end{vmatrix}$.",
+              question_text_hi:
+                "सारणिक $\\begin{vmatrix} 2 & 4 \\\\ 1 & 3 \\end{vmatrix}$ का मान ज्ञात कीजिए।",
+              options_en: ["$2$", "$-2$", "$10$", "$6$"],
+              options_hi: ["$2$", "$-2$", "$10$", "$6$"],
               correct_option_index: 0,
               marks: activePreset.marks,
               negative_marks: activePreset.negative,
-              explanation_en: "Correct option is A.",
-              explanation_hi: "सही विकल्प A है।",
+              explanation_en:
+                "Formula: $(a \\times d) - (b \\times c) = (2 \\times 3) - (4 \\times 1) = 6 - 4 = 2$.",
+              explanation_hi:
+                "सूत्र: $(a \\times d) - (b \\times c) = (2 \\times 3) - (4 \\times 1) = 6 - 4 = 2$.",
             },
           ];
           testMeta.title = `${activePreset.title} Mock Test`;
@@ -996,7 +1019,6 @@
           totalDurationSeconds = totalDurationMins * 60;
           remainingSeconds = totalDurationSeconds;
 
-          // Header and page titles update
           document.getElementById("test-title").innerText = testMeta.title;
           document.getElementById("test-title").title = testMeta.title;
           document.getElementById("page-browser-title").innerText =
@@ -1071,8 +1093,9 @@
           selectedLang === "hi"
             ? q.question_text_hi || q.question_text_en
             : q.question_text_en || q.question_text_hi;
-        document.getElementById("question-text").innerText =
-          qText || "No question statement available.";
+
+        const qTextEl = document.getElementById("question-text");
+        qTextEl.innerHTML = qText || "No question statement available.";
 
         const optionsContainer = document.getElementById("options-container");
         optionsContainer.innerHTML = "";
@@ -1118,6 +1141,10 @@
 
         updatePaletteStatus();
         if (window.lucide) lucide.createIcons();
+
+        // KaTeX Math Rendering for Question & Options
+        renderMath(qTextEl);
+        renderMath(optionsContainer);
       }
 
       function startPerQuestionTimer() {
@@ -1566,6 +1593,7 @@
         }
 
         lucide.createIcons();
+        renderMath(container);
         document.getElementById("review-modal").classList.remove("hidden");
       }
 

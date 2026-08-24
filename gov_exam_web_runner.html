@@ -16,6 +16,21 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- KaTeX for Math & Determinant Formulas -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    ></script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -54,6 +69,9 @@
       .opt-card-hover:hover {
         border-color: #6366f1;
         background-color: #f5f3ff;
+      }
+      .katex {
+        font-size: 1.05em;
       }
     </style>
   </head>
@@ -104,11 +122,11 @@
       </div>
     </div>
 
-    <!-- 1. DESKTOP WEB CBT TOP HEADER -->
+    <!-- 1. CBT TOP HEADER -->
     <header
       class="bg-white border-b border-slate-200/90 shadow-xs z-30 shrink-0"
     >
-      <!-- TOP STRIP: BRAND, PAPER INFO & CANDIDATE PROFILE -->
+      <!-- TOP STRIP: BRAND & ACTIVE TEST -->
       <div
         class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4"
       >
@@ -148,7 +166,7 @@
           </a>
         </div>
 
-        <!-- CENTER: ACTIVE TEST TITLE & SECTION BADGE -->
+        <!-- CENTER: ACTIVE TEST TITLE -->
         <div
           class="hidden md:flex flex-col items-center justify-center flex-1 max-w-xl text-center px-4"
         >
@@ -168,11 +186,11 @@
               >National Level Test</span
             >
             <span>•</span>
-            <span class="text-slate-500">TCS iON Standard Evaluation</span>
+            <span class="text-slate-500">Standard CBT Interface</span>
           </div>
         </div>
 
-        <!-- RIGHT: CANDIDATE INFO, EXIT & PALETTE TOGGLE (MOBILE) -->
+        <!-- RIGHT: CANDIDATE INFO & ACTIONS -->
         <div class="flex items-center gap-2 shrink-0">
           <div
             class="hidden lg:flex items-center gap-2 px-3 py-1 bg-slate-50 border border-slate-200 rounded-xl"
@@ -186,11 +204,11 @@
               <span
                 id="user-display-name"
                 class="text-[11px] font-extrabold text-slate-800 block leading-tight"
-                >Aspirant Candidate</span
+                >Candidate</span
               >
               <span
                 class="text-[9px] font-semibold text-emerald-600 block leading-none"
-                >Connected Live</span
+                >Live</span
               >
             </div>
           </div>
@@ -214,68 +232,64 @@
         </div>
       </div>
 
-      <!-- BOTTOM CONTROL BAR: MARKS CRITERIA, TIMER, AND LANGUAGE SWITCH -->
-      <div class="bg-slate-50 border-t border-slate-200/80 px-4 sm:px-6 py-2">
+      <!-- BOTTOM CONTROL STRIP: QUESTION, +MARKS, -MARKS, TIMER & ENG/HI SWITCH -->
+      <div class="bg-slate-50 border-t border-slate-200/80 px-4 sm:px-6 py-1.5">
         <div
-          class="max-w-7xl mx-auto flex items-center justify-between gap-3 text-xs"
+          class="max-w-7xl mx-auto flex items-center justify-between gap-2 text-xs"
         >
-          <!-- MARKS BREAKDOWN -->
-          <div class="flex items-center gap-2 font-black text-[11px]">
+          <!-- QUESTION & SHORT MARKS BADGES (+ / -) -->
+          <div class="flex items-center gap-1.5 font-black text-[11px]">
             <span
               id="question-indicator"
-              class="text-slate-700 bg-white border border-slate-200 px-2.5 py-1 rounded-lg"
+              class="text-slate-800 bg-white border border-slate-200 px-2 py-0.5 rounded-lg shadow-2xs"
             >
-              Question 1 of 0
+              Q 1/0
             </span>
             <span
               id="badge-positive-mark"
-              class="text-emerald-700 bg-emerald-100/80 border border-emerald-200 px-2 py-1 rounded-lg"
+              class="text-emerald-700 bg-emerald-100/80 border border-emerald-200 px-2 py-0.5 rounded-lg"
             >
-              +1.00 Marks
+              +1.00
             </span>
             <span
               id="badge-negative-mark"
-              class="text-rose-700 bg-rose-100/80 border border-rose-200 px-2 py-1 rounded-lg"
+              class="text-rose-700 bg-rose-100/80 border border-rose-200 px-2 py-0.5 rounded-lg"
             >
-              -0.25 Negative
+              -0.25
             </span>
           </div>
 
-          <!-- COUNTDOWN TIMER & LANGUAGE TOGGLE -->
-          <div class="flex items-center gap-3">
+          <!-- COUNTDOWN TIMER & SHORT ENG/HI SWITCH -->
+          <div class="flex items-center gap-2">
             <div
-              class="flex items-center gap-2 bg-amber-100/90 border border-amber-300 px-3 py-1 rounded-xl text-amber-950 font-mono font-extrabold shadow-2xs"
+              class="flex items-center gap-1.5 bg-amber-100/90 border border-amber-300 px-2.5 py-0.5 rounded-xl text-amber-950 font-mono font-extrabold shadow-2xs"
             >
               <i
                 data-lucide="clock"
-                class="w-4 h-4 text-amber-800 animate-pulse"
+                class="w-3.5 h-3.5 text-amber-800 animate-pulse"
               ></i>
-              <span
-                class="text-[10px] uppercase font-bold text-amber-800 hidden sm:inline"
-                >Time Left:</span
-              >
               <span id="timer-display" class="text-xs sm:text-sm tracking-wider"
                 >20:00</span
               >
             </div>
 
-            <!-- DUAL LANGUAGE TOGGLE (EN / HI) -->
+            <!-- SHORT ENG / HI SWITCH -->
             <div
               class="flex bg-white p-0.5 rounded-xl border border-slate-200 text-xs font-black shadow-2xs"
             >
               <button
                 id="lang-en"
                 onclick="setLanguage('en')"
-                class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white cursor-pointer transition active:scale-95"
+                class="px-2 py-0.5 rounded-lg bg-indigo-600 text-white cursor-pointer transition active:scale-95"
               >
-                English
+                Eng
               </button>
               <button
                 id="lang-hi"
                 onclick="setLanguage('hi')"
-                class="px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer transition active:scale-95"
+                class="px-2 py-0.5 rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer transition active:scale-95"
               >
-                हिंदी
+                हिं
               </button>
             </div>
           </div>
@@ -283,7 +297,7 @@
       </div>
     </header>
 
-    <!-- 2. MAIN SPLIT DESKTOP WORKSPACE -->
+    <!-- 2. MAIN WORKSPACE -->
     <main class="flex-1 flex overflow-hidden relative max-w-7xl mx-auto w-full">
       <!-- LOADING OVERLAY -->
       <div
@@ -294,11 +308,11 @@
           class="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mb-3"
         ></div>
         <p class="font-extrabold text-indigo-900 text-sm tracking-wide">
-          Syncing Standard Question Paper with CBT Engine...
+          Syncing Question Paper...
         </p>
       </div>
 
-      <!-- LEFT 8 COLS: QUESTION STATEMENT & INTERACTIVE OPTIONS -->
+      <!-- LEFT: QUESTION STATEMENT & OPTIONS -->
       <section
         class="flex-1 flex flex-col justify-between overflow-hidden bg-white"
       >
@@ -307,25 +321,20 @@
           <div class="max-w-4xl w-full mx-auto space-y-4">
             <!-- QUESTION CONTAINER CARD -->
             <div
-              class="bg-white p-5 sm:p-7 rounded-3xl border border-slate-200/90 shadow-xs space-y-4"
+              class="bg-white p-4 sm:p-6 rounded-3xl border border-slate-200/90 shadow-xs space-y-3"
             >
               <div
-                class="flex items-center justify-between border-b border-slate-100 pb-3"
+                class="flex items-center justify-between border-b border-slate-100 pb-2.5"
               >
-                <div class="flex items-center gap-2">
-                  <span
-                    id="q-no-badge"
-                    class="px-2.5 py-1 bg-slate-900 text-white rounded-lg text-xs font-black uppercase tracking-wider"
-                  >
-                    Question 1
-                  </span>
-                  <span class="text-xs font-bold text-slate-400"
-                    >Single Choice Objective (MCQ)</span
-                  >
-                </div>
+                <span
+                  id="q-no-badge"
+                  class="px-2.5 py-0.5 bg-slate-900 text-white rounded-lg text-xs font-black uppercase"
+                >
+                  Q.1
+                </span>
 
                 <div
-                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-mono font-bold"
+                  class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-mono font-bold"
                 >
                   <i
                     data-lucide="timer"
@@ -342,20 +351,18 @@
                 </div>
               </div>
 
-              <!-- QUESTION TEXT -->
+              <!-- QUESTION TEXT (WITH MATH RENDER SUPPORT) -->
               <div
                 class="text-slate-900 text-base sm:text-lg font-bold leading-relaxed whitespace-pre-line"
               >
-                <span id="question-text"
-                  >Loading question text statement...</span
-                >
+                <span id="question-text">Loading question statement...</span>
               </div>
             </div>
 
             <!-- INTERACTIVE OPTIONS LIST -->
             <div
               id="options-container"
-              class="grid grid-cols-1 gap-3 pt-1"
+              class="grid grid-cols-1 gap-2.5 pt-1"
             ></div>
           </div>
         </div>
@@ -371,7 +378,7 @@
               class="h-10 px-3.5 sm:px-4 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl font-extrabold text-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition shadow-2xs whitespace-nowrap"
             >
               <i data-lucide="bookmark" class="w-3.5 h-3.5"></i>
-              <span class="hidden sm:inline">Mark for Review &amp; Next</span>
+              <span class="hidden sm:inline">Review &amp; Next</span>
               <span class="sm:hidden">Review</span>
             </button>
             <button
@@ -403,12 +410,12 @@
         </div>
       </section>
 
-      <!-- RIGHT 4 COLS: STICKY QUESTION PALETTE SIDEBAR -->
+      <!-- RIGHT: STICKY QUESTION PALETTE SIDEBAR -->
       <aside
         id="palette-sidebar"
         class="w-80 bg-white border-l border-slate-200/90 flex flex-col justify-between fixed md:static inset-y-0 right-0 z-50 transform translate-x-full md:translate-x-0 transition-transform duration-200 shadow-2xl md:shadow-none shrink-0"
       >
-        <!-- TOP MATRIX CONTENT (INDEPENDENTLY SCROLLABLE) -->
+        <!-- TOP MATRIX CONTENT -->
         <div class="p-5 space-y-4 overflow-y-auto flex-1 custom-scrollbar">
           <div
             class="flex items-center justify-between border-b border-slate-100 pb-3"
@@ -418,7 +425,7 @@
               <h2
                 class="font-black text-xs text-slate-900 uppercase tracking-wider"
               >
-                Question Status Matrix
+                Question Matrix
               </h2>
             </div>
             <button
@@ -429,7 +436,7 @@
             </button>
           </div>
 
-          <!-- NTA / TCS STANDARD COLOR LEGEND -->
+          <!-- STATUS LEGEND -->
           <div
             class="grid grid-cols-2 gap-2 text-[10px] font-bold text-slate-600 bg-slate-50 p-3 rounded-2xl border border-slate-200/80"
           >
@@ -456,8 +463,7 @@
                 class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-xs"
               ></span>
               <span
-                >Not Answered (<b id="count-not-answered" class="text-slate-900"
-                  >0</b
+                >Not Ans (<b id="count-not-answered" class="text-slate-900">0</b
                 >)</span
               >
             </div>
@@ -466,8 +472,7 @@
                 class="w-2.5 h-2.5 rounded-full bg-slate-200 border border-slate-300"
               ></span>
               <span
-                >Not Visited (<b id="count-not-visited" class="text-slate-900"
-                  >0</b
+                >Unseen (<b id="count-not-visited" class="text-slate-900">0</b
                 >)</span
               >
             </div>
@@ -477,7 +482,7 @@
           <div class="space-y-1.5">
             <span
               class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block"
-              >Choose a Question:</span
+              >Select Question:</span
             >
             <div
               id="palette-grid"
@@ -486,7 +491,7 @@
           </div>
         </div>
 
-        <!-- SUBMIT BUTTON (LOCKED AT h-16 FOR HORIZONTAL BASELINE MATCH) -->
+        <!-- SUBMIT BUTTON -->
         <div
           class="h-16 bg-slate-50 border-t border-slate-200/90 px-4 flex items-center justify-center shrink-0"
         >
@@ -495,7 +500,7 @@
             class="w-full h-10 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-black rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-emerald-100 transition"
           >
             <i data-lucide="send" class="w-3.5 h-3.5"></i>
-            <span>Submit</span>
+            <span>Submit Test</span>
           </button>
         </div>
       </aside>
@@ -511,15 +516,11 @@
       >
         <div class="text-center space-y-1">
           <div id="res-status-icon" class="text-4xl">📊</div>
-          <h2 class="text-xl font-black text-slate-900">
-            Candidate Performance Scorecard
-          </h2>
+          <h2 class="text-xl font-black text-slate-900">Scorecard</h2>
           <p
             id="res-exam-profile-badge"
             class="text-xs text-indigo-600 font-extrabold uppercase tracking-wide"
-          >
-            Exam Pattern Evaluation Summary
-          </p>
+          ></p>
         </div>
 
         <!-- SCORE METRICS GRID -->
@@ -531,7 +532,7 @@
           >
             <span
               class="text-xs font-bold text-slate-600 uppercase tracking-wider"
-              >Normalized Final Score:</span
+              >Final Score:</span
             >
             <span
               id="res-score-text"
@@ -571,19 +572,7 @@
             class="space-y-1.5 text-xs font-semibold text-slate-600 pt-2 border-t border-slate-200"
           >
             <div class="flex justify-between">
-              <span>Gross Positive Marks (+):</span>
-              <span id="res-gained" class="text-emerald-600 font-black"
-                >+0.00</span
-              >
-            </div>
-            <div class="flex justify-between">
-              <span>Negative Deductions (-):</span>
-              <span id="res-deducted" class="text-rose-600 font-black"
-                >-0.00</span
-              >
-            </div>
-            <div class="flex justify-between">
-              <span>Total Time Taken:</span>
+              <span>Time Taken:</span>
               <span
                 id="res-time-taken"
                 class="text-slate-800 font-mono font-bold"
@@ -601,7 +590,7 @@
             class="w-full py-3 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white font-black rounded-xl text-xs uppercase tracking-wider cursor-pointer transition shadow-md flex items-center justify-center gap-2"
           >
             <i data-lucide="search" class="w-4 h-4"></i>
-            <span>Review Question Mistakes &amp; Solutions</span>
+            <span>Review Mistakes &amp; Solutions</span>
           </button>
 
           <div class="grid grid-cols-2 gap-2.5">
@@ -634,21 +623,9 @@
         <div
           class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4 shrink-0"
         >
-          <div class="flex items-center gap-2.5">
-            <div
-              class="p-2 bg-rose-50 text-rose-600 rounded-xl border border-rose-200"
-            >
-              <i data-lucide="alert-circle" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <h3 class="text-base font-black text-slate-900">
-                Detailed Question Analysis &amp; Keys
-              </h3>
-              <p class="text-xs font-semibold text-slate-500">
-                Compare your selected choice against the official solution key
-              </p>
-            </div>
-          </div>
+          <h3 class="text-base font-black text-slate-900">
+            Solutions &amp; Explanations
+          </h3>
           <button
             onclick="closeReviewModal()"
             class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center cursor-pointer transition"
@@ -667,7 +644,7 @@
             onclick="closeReviewModal()"
             class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-md cursor-pointer active:scale-95 transition"
           >
-            Back to Final Scorecard
+            Back to Scorecard
           </button>
         </div>
       </div>
@@ -693,15 +670,14 @@
       const SUBMIT_RESULT_API_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/test/questions/submit";
 
-      // STREAM SPECIFIC MARKING SCHEMES
       const EXAM_PRESETS = {
         DAILY_GK: {
           id: "DAILY_GK",
           title: "Daily GK & Current Affairs",
-          subtitle: "Daily Live 5-Minute Speed Quiz",
+          subtitle: "Daily Live Speed Quiz",
           marks: 2.0,
           negative: 0.5,
-          aliases: ["DAILY_GK", "DAILYGK", "GK", "CURRENT_AFFAIRS"],
+          aliases: ["DAILY_GK", "DAILYGK", "GK"],
         },
         BANKING: {
           id: "BANKING",
@@ -709,7 +685,7 @@
           subtitle: "IBPS, SBI PO/Clerk & RBI",
           marks: 1.0,
           negative: 0.25,
-          aliases: ["BANKING", "BANK", "IBPS", "SBI", "RBI"],
+          aliases: ["BANKING", "BANK", "IBPS"],
         },
         SSC: {
           id: "SSC",
@@ -717,7 +693,7 @@
           subtitle: "CGL, CHSL, MTS & GD Constable",
           marks: 2.0,
           negative: 0.5,
-          aliases: ["SSC", "CGL", "CHSL", "MTS", "GD"],
+          aliases: ["SSC", "CGL", "CHSL"],
         },
         RAILWAYS: {
           id: "RAILWAYS",
@@ -725,7 +701,7 @@
           subtitle: "RRB NTPC, Group D & ALP",
           marks: 1.0,
           negative: 0.33,
-          aliases: ["RAILWAYS", "RAILWAY", "RRB", "NTPC"],
+          aliases: ["RAILWAYS", "RRB"],
         },
         JEE_NEET: {
           id: "JEE_NEET",
@@ -733,7 +709,7 @@
           subtitle: "NTA National Pattern",
           marks: 4.0,
           negative: 1.0,
-          aliases: ["JEE_NEET", "JEE", "NEET", "NTA"],
+          aliases: ["JEE_NEET", "JEE", "NEET"],
         },
         DEFENCE: {
           id: "DEFENCE",
@@ -741,7 +717,7 @@
           subtitle: "NDA, CDS, Police SI",
           marks: 2.5,
           negative: 0.83,
-          aliases: ["DEFENCE", "NDA", "CDS", "POLICE"],
+          aliases: ["DEFENCE", "NDA"],
         },
         TEACHING: {
           id: "TEACHING",
@@ -749,15 +725,15 @@
           subtitle: "CTET, State TET & KVS",
           marks: 1.0,
           negative: 0.0,
-          aliases: ["TEACHING", "TET", "CTET", "KVS"],
+          aliases: ["TEACHING", "TET"],
         },
         ENTRANCE: {
           id: "ENTRANCE",
           title: "CUET & Entrance",
-          subtitle: "CUET UG/PG, CLAT & Law",
+          subtitle: "CUET UG/PG & CLAT",
           marks: 5.0,
           negative: 1.0,
-          aliases: ["ENTRANCE", "CUET", "CLAT", "IPMAT"],
+          aliases: ["ENTRANCE", "CUET"],
         },
         GOVT_PSC: {
           id: "GOVT_PSC",
@@ -765,21 +741,13 @@
           subtitle: "Civil Services & State PCS",
           marks: 2.0,
           negative: 0.66,
-          aliases: [
-            "GOVT_PSC",
-            "GOV_PSC",
-            "UPSC",
-            "PSC",
-            "BPSC",
-            "UPPSC",
-            "RAS",
-          ],
+          aliases: ["GOVT_PSC", "UPSC", "PSC"],
         },
       };
 
       function resolvePreset(key) {
         if (EXAM_PRESETS[key]) return EXAM_PRESETS[key];
-        for (const [pKey, preset] of Object.entries(EXAM_PRESETS)) {
+        for (const [, preset] of Object.entries(EXAM_PRESETS)) {
           if (preset.aliases && preset.aliases.includes(key)) {
             return preset;
           }
@@ -813,34 +781,37 @@
         exam_category: activePreset.id,
       };
 
+      // RENDER LATEX MATH (DETERMINANTS, FRACTIONS, FORMULAS)
+      function renderMath(targetElement) {
+        const el = targetElement || document.body;
+        if (window.renderMathInElement) {
+          window.renderMathInElement(el, {
+            delimiters: [
+              { left: "$$", right: "$$", display: true },
+              { left: "$", right: "$", display: false },
+              { left: "\\(", right: "\\)", display: false },
+              { left: "\\[", right: "\\]", display: true },
+            ],
+            throwOnError: false,
+          });
+        }
+      }
+
       function showCustomDialog({
         title = "Notification",
         message = "",
         type = "alert",
         confirmText = "OK",
         cancelText = "Cancel",
-        icon = "info",
-        iconBg = "bg-indigo-50",
-        iconColor = "text-indigo-600",
-        btnColor = "bg-indigo-600 hover:bg-indigo-700 text-white",
       }) {
         return new Promise((resolve) => {
           const modal = document.getElementById("custom-dialog-modal");
-          const titleEl = document.getElementById("dialog-title");
-          const msgEl = document.getElementById("dialog-message");
-          const btnCancel = document.getElementById("dialog-btn-cancel");
+          document.getElementById("dialog-title").innerText = title;
+          document.getElementById("dialog-message").innerText = message;
           const btnConfirm = document.getElementById("dialog-btn-confirm");
-          const iconWrap = document.getElementById("dialog-icon-wrapper");
-          const iconEl = document.getElementById("dialog-icon");
-
-          titleEl.innerText = title;
-          msgEl.innerText = message;
+          const btnCancel = document.getElementById("dialog-btn-cancel");
           btnConfirm.innerText = confirmText;
           btnCancel.innerText = cancelText;
-
-          iconWrap.className = `w-12 h-12 mx-auto rounded-2xl flex items-center justify-center ${iconBg} ${iconColor}`;
-          iconEl.setAttribute("data-lucide", icon);
-          btnConfirm.className = `flex-1 py-2.5 ${btnColor} font-black rounded-xl text-xs cursor-pointer transition-all active:scale-95 shadow-md`;
 
           if (type === "alert") {
             btnCancel.classList.add("hidden");
@@ -871,16 +842,11 @@
 
       async function goHomeConfirm() {
         const leave = await showCustomDialog({
-          title: "Exit Examination Session?",
-          message:
-            "Your ongoing answer selections and timer will be cancelled if you leave now.",
+          title: "Exit Test?",
+          message: "Your current test progress will be lost.",
           type: "confirm",
-          confirmText: "Exit to Dashboard",
-          cancelText: "Stay on Test",
-          icon: "alert-triangle",
-          iconBg: "bg-rose-50 border border-rose-200",
-          iconColor: "text-rose-600",
-          btnColor: "bg-rose-600 hover:bg-rose-700 text-white",
+          confirmText: "Exit",
+          cancelText: "Stay",
         });
 
         if (leave) {
@@ -889,11 +855,7 @@
       }
 
       function goHomeDirect() {
-        const isMobile = window.innerWidth <= 768;
-        const targetDashboard = isMobile
-          ? "dashboard_web.html"
-          : "dashboard_web.html";
-        window.location.href = `/${targetDashboard}?type=${encodeURIComponent(activePreset.id)}`;
+        window.location.href = `/dashboard_web.html?type=${encodeURIComponent(activePreset.id)}`;
       }
 
       function normalizeQuestionData(rawQ, idx) {
@@ -905,7 +867,6 @@
           rawQ.question_text ||
           rawQ.question ||
           rawQ.title ||
-          rawQ.statement ||
           "";
 
         const textHi =
@@ -915,9 +876,7 @@
           textEn ||
           "";
 
-        let optsEnRaw =
-          rawQ.options_en || rawQ.options || rawQ.choices || rawQ.answers || [];
-
+        let optsEnRaw = rawQ.options_en || rawQ.options || rawQ.choices || [];
         let optsHiRaw =
           rawQ.options_hi || rawQ.options_hindi || optsEnRaw || [];
 
@@ -974,11 +933,10 @@
         }
 
         return {
-          question_id:
-            rawQ.question_id || rawQ.id || rawQ._id || `Q_${idx + 1}`,
+          question_id: rawQ.question_id || rawQ.id || `Q_${idx + 1}`,
           question_no: rawQ.question_no || idx + 1,
-          question_text_en: textEn || `Question Statement ${idx + 1}`,
-          question_text_hi: textHi || textEn || `प्रश्न विवरण ${idx + 1}`,
+          question_text_en: textEn || `Question ${idx + 1}`,
+          question_text_hi: textHi || textEn || `प्रश्न ${idx + 1}`,
           options_en:
             finalOptsEn.length > 0
               ? finalOptsEn
@@ -993,31 +951,24 @@
           explanation_en:
             rawQ.explanation_en ||
             rawQ.explanation ||
-            "No detailed explanation provided.",
+            "No explanation available.",
           explanation_hi:
             rawQ.explanation_hi ||
             rawQ.explanation ||
-            "कोई विस्तृत व्याख्या उपलब्ध नहीं है.",
+            "कोई व्याख्या उपलब्ध नहीं है.",
         };
       }
 
       async function initRunner() {
         try {
           const cleanTestId = TARGET_TEST_ID.trim();
-          let endpoint = "";
+          let endpoint = `${QUESTION_API_URL}/test/${encodeURIComponent(cleanTestId)}`;
 
           if (cleanTestId === "dgk_todays_affairs") {
-            const querySubject = encodeURIComponent("General Knowledge");
-            const queryCategory = encodeURIComponent(
-              rawSegmentParam || "DAILY_GK",
-            );
-            endpoint = `${QUESTION_API_URL}/test/latest?subject=${querySubject}&exam_category=${queryCategory}`;
-          } else {
-            endpoint = `${QUESTION_API_URL}/test/${encodeURIComponent(cleanTestId)}`;
+            endpoint = `${QUESTION_API_URL}/test/latest?subject=General%20Knowledge&exam_category=${encodeURIComponent(rawSegmentParam || "DAILY_GK")}`;
           }
 
           const res = await fetch(endpoint, {
-            method: "GET",
             headers: { Accept: "application/json" },
           });
 
@@ -1040,12 +991,11 @@
 
           if (rawQuestions.length > 0) {
             const metaSource = resData.data || resData;
-
-            const backendCategory =
+            activePreset = resolvePreset(
               metaSource.exam_category ||
-              rawQuestions[0]?.exam_category ||
-              rawSegmentParam;
-            activePreset = resolvePreset(backendCategory);
+                rawQuestions[0]?.exam_category ||
+                rawSegmentParam,
+            );
 
             questionsList = rawQuestions
               .map((q, idx) => normalizeQuestionData(q, idx))
@@ -1054,73 +1004,57 @@
             testMeta.title =
               metaSource.title ||
               metaSource.test_name ||
-              rawQuestions[0]?.test_name ||
               `${activePreset.title} CBT Paper`;
-            testMeta.subject =
-              metaSource.subject ||
-              rawQuestions[0]?.subject ||
-              "General Studies";
+            testMeta.subject = metaSource.subject || "General Studies";
             testMeta.exam_category = activePreset.id;
 
             totalDurationMins = Number(
               metaSource.total_time_mins || metaSource.duration || 20,
             );
           } else {
-            throw new Error("Questions array empty");
+            throw new Error("Questions empty");
           }
         } catch (err) {
-          console.warn("Backend questions fetch fallback initiated:", err);
+          // Sample Determinant Question Demo
           questionsList = [
             {
               question_id: "Q_1",
               question_no: 1,
               question_text_en:
-                "Which of the following bodies is responsible for conducting civil services examinations in India?",
+                "Find the value of the determinant $\\begin{vmatrix} 2 & 4 \\\\ 1 & 3 \\end{vmatrix}$.",
               question_text_hi:
-                "भारत में सिविल सेवा परीक्षा आयोजित करने के लिए निम्नलिखित में से कौन सा निकाय उत्तरदायी है?",
-              options_en: [
-                "Union Public Service Commission (UPSC)",
-                "Staff Selection Commission (SSC)",
-                "NITI Aayog",
-                "Election Commission of India",
-              ],
-              options_hi: [
-                "संघ लोक सेवा आयोग (UPSC)",
-                "कर्मचारी चयन आयोग (SSC)",
-                "नीति आयोग",
-                "भारत निर्वाचन आयोग",
-              ],
+                "सारणिक (Determinant) $\\begin{vmatrix} 2 & 4 \\\\ 1 & 3 \\end{vmatrix}$ का मान ज्ञात कीजिए।",
+              options_en: ["$2$", "$-2$", "$10$", "$6$"],
+              options_hi: ["$2$", "$-2$", "$10$", "$6$"],
               correct_option_index: 0,
               marks: activePreset.marks,
               negative_marks: activePreset.negative,
               explanation_en:
-                "Article 315-323 of the Constitution deals with the Union Public Service Commission.",
+                "Determinant formula: $(a \\times d) - (b \\times c) = (2 \\times 3) - (4 \\times 1) = 6 - 4 = 2$.",
               explanation_hi:
-                "संविधान के अनुच्छेद 315-323 संघ लोक सेवा आयोग से संबंधित हैं।",
+                "सारणिक का सूत्र: $(a \\times d) - (b \\times c) = (2 \\times 3) - (4 \\times 1) = 6 - 4 = 2$.",
             },
           ];
-          testMeta.title = `${activePreset.title} Mock CBT`;
+          testMeta.title = `${activePreset.title} Mock Test`;
         } finally {
           totalDurationSeconds = totalDurationMins * 60;
           remainingSeconds = totalDurationSeconds;
 
           document.getElementById("test-title").innerText = testMeta.title;
-          document.getElementById("test-title").title = testMeta.title;
-          document.getElementById("page-browser-title").innerText =
-            `${testMeta.title} - ExamMokk CBT`;
           document.getElementById("brand-header-subtitle").innerText =
             activePreset.subtitle;
           document.getElementById("header-exam-badge").innerText =
             activePreset.title;
+
           document.getElementById("badge-positive-mark").innerText =
-            `+${activePreset.marks.toFixed(2)} Marks`;
+            `+${activePreset.marks.toFixed(2)}`;
           document.getElementById("badge-negative-mark").innerText =
-            `-${activePreset.negative.toFixed(2)} Negative`;
+            `-${activePreset.negative.toFixed(2)}`;
 
           document.getElementById("timer-display").innerText =
             `${String(totalDurationMins).padStart(2, "0")}:00`;
           document.getElementById("question-indicator").innerText =
-            `Question 1 of ${questionsList.length}`;
+            `Q 1/${questionsList.length}`;
 
           document.getElementById("loading-overlay").classList.add("hidden");
 
@@ -1169,18 +1103,19 @@
 
         const q = questionsList[index];
 
-        document.getElementById("q-no-badge").innerText =
-          `Question ${index + 1}`;
+        document.getElementById("q-no-badge").innerText = `Q.${index + 1}`;
         document.getElementById("question-indicator").innerText =
-          `Question ${index + 1} of ${questionsList.length}`;
+          `Q ${index + 1}/${questionsList.length}`;
         document.getElementById("btn-prev").disabled = index === 0;
 
         const qText =
           selectedLang === "hi"
             ? q.question_text_hi || q.question_text_en
             : q.question_text_en || q.question_text_hi;
-        document.getElementById("question-text").innerText =
-          qText || "No question statement available.";
+
+        // Render Math into Question text
+        const qTextEl = document.getElementById("question-text");
+        qTextEl.innerHTML = qText;
 
         const optionsContainer = document.getElementById("options-container");
         optionsContainer.innerHTML = "";
@@ -1194,7 +1129,7 @@
           const isSelected = userAnswers[currentQIndex] === optIdx;
           const optCard = document.createElement("label");
 
-          optCard.className = `opt-card-hover min-h-[52px] flex items-center gap-3.5 px-4 py-3 rounded-2xl border-2 cursor-pointer transition shadow-2xs ${
+          optCard.className = `opt-card-hover min-h-[48px] flex items-center gap-3 px-3.5 py-2.5 rounded-2xl border-2 cursor-pointer transition shadow-2xs ${
             isSelected
               ? "border-indigo-600 bg-indigo-50/80 ring-2 ring-indigo-500/20 text-indigo-950 font-bold"
               : "border-slate-200 bg-white hover:border-slate-300 text-slate-800 font-semibold"
@@ -1228,6 +1163,10 @@
 
         updatePaletteStatus();
         if (window.lucide) lucide.createIcons();
+
+        // Render Math elements using KaTeX
+        renderMath(qTextEl);
+        renderMath(optionsContainer);
       }
 
       function startPerQuestionTimer() {
@@ -1288,7 +1227,6 @@
               "bg-purple-500",
               "text-white",
               "border-purple-600",
-              "shadow-xs",
             );
             marked++;
           } else if (isAnswered) {
@@ -1296,16 +1234,10 @@
               "bg-emerald-500",
               "text-white",
               "border-emerald-600",
-              "shadow-xs",
             );
             answered++;
           } else if (isVisited) {
-            btn.classList.add(
-              "bg-rose-500",
-              "text-white",
-              "border-rose-600",
-              "shadow-xs",
-            );
+            btn.classList.add("bg-rose-500", "text-white", "border-rose-600");
             notAnswered++;
           } else {
             btn.classList.add(
@@ -1364,12 +1296,12 @@
         selectedLang = lang;
         document.getElementById("lang-en").className =
           lang === "en"
-            ? "px-2.5 py-1 rounded-lg bg-indigo-600 text-white cursor-pointer active:scale-95"
-            : "px-2.5 py-1 rounded-lg text-slate-600 cursor-pointer active:scale-95";
+            ? "px-2 py-0.5 rounded-lg bg-indigo-600 text-white cursor-pointer"
+            : "px-2 py-0.5 rounded-lg text-slate-600 cursor-pointer";
         document.getElementById("lang-hi").className =
           lang === "hi"
-            ? "px-2.5 py-1 rounded-lg bg-indigo-600 text-white cursor-pointer active:scale-95"
-            : "px-2.5 py-1 rounded-lg text-slate-600 cursor-pointer active:scale-95";
+            ? "px-2 py-0.5 rounded-lg bg-indigo-600 text-white cursor-pointer"
+            : "px-2 py-0.5 rounded-lg text-slate-600 cursor-pointer";
         renderQuestion(currentQIndex);
       }
 
@@ -1389,14 +1321,8 @@
             clearInterval(qTimerInterval);
             await showCustomDialog({
               title: "Time Over!",
-              message:
-                "The examination countdown has expired. Submitting your responses automatically.",
+              message: "Submitting responses automatically.",
               type: "alert",
-              confirmText: "View Scorecard",
-              icon: "alarm-clock-off",
-              iconBg: "bg-rose-50",
-              iconColor: "text-rose-600",
-              btnColor: "bg-rose-600 hover:bg-rose-700 text-white",
             });
             submitTestFinal();
             return;
@@ -1411,15 +1337,11 @@
       async function submitTestConfirmation() {
         const attempted = Object.keys(userAnswers).length;
         const confirmed = await showCustomDialog({
-          title: "Submit Examination Paper?",
-          message: `You have attempted ${attempted} out of ${questionsList.length} questions. Are you sure you want to finish the test?`,
+          title: "Submit Test?",
+          message: `Attempted ${attempted}/${questionsList.length} questions.`,
           type: "confirm",
-          confirmText: "Yes, Submit Test",
-          cancelText: "Resume Examination",
-          icon: "send",
-          iconBg: "bg-emerald-50 border border-emerald-200",
-          iconColor: "text-emerald-600",
-          btnColor: "bg-emerald-600 hover:bg-emerald-700 text-white",
+          confirmText: "Submit",
+          cancelText: "Resume",
         });
 
         if (confirmed) {
@@ -1435,7 +1357,6 @@
         let correctCount = 0;
         let wrongCount = 0;
         let unattemptedCount = 0;
-        const breakdown = [];
         evaluatedReviewData = [];
 
         questionsList.forEach((q, idx) => {
@@ -1443,65 +1364,27 @@
           const isAttempted = userChoice !== undefined && userChoice !== null;
           const isCorrect =
             isAttempted && userChoice === q.correct_option_index;
-          const timeSpentOnQ = questionTimeSpent[idx] || 0;
-
-          let marksObtained = 0;
 
           if (!isAttempted) {
             unattemptedCount++;
           } else if (isCorrect) {
             correctCount++;
-            marksObtained = activePreset.marks;
           } else {
             wrongCount++;
-            marksObtained = -activePreset.negative;
           }
 
-          const qOptionsEn = q.options_en || [];
-          const qOptionsHi = q.options_hi || q.options_en || [];
-
-          const breakdownItem = {
-            question_id: q.question_id || `Q_${idx + 1}`,
-            question_no: q.question_no || idx + 1,
-            question_type: "mcq_single",
-            question_text: q.question_text_en || "",
-            marks_obtained: Number(marksObtained.toFixed(2)),
-            max_marks: activePreset.marks,
-            time_spent_seconds: timeSpentOnQ,
+          evaluatedReviewData.push({
+            qIndex: idx,
+            question_no: idx + 1,
             is_attempted: isAttempted,
             is_correct: isCorrect,
-            user_response: isAttempted ? userChoice : null,
-            correct_response: q.correct_option_index,
-            explanation: q.explanation_en || "",
-          };
-
-          breakdown.push(breakdownItem);
-
-          evaluatedReviewData.push({
-            ...breakdownItem,
-            qIndex: idx,
-            text_en: q.question_text_en || "",
-            text_hi: q.question_text_hi || "",
-            options_en: qOptionsEn,
-            options_hi: qOptionsHi,
+            text_en: q.question_text_en,
+            text_hi: q.question_text_hi,
             userChoiceTextEn: isAttempted
-              ? qOptionsEn[userChoice] ||
-                `Option ${String.fromCharCode(65 + userChoice)}`
+              ? q.options_en[userChoice]
               : "Not Attempted",
-            userChoiceTextHi: isAttempted
-              ? qOptionsHi[userChoice] ||
-                `विकल्प ${String.fromCharCode(65 + userChoice)}`
-              : "प्रयास नहीं किया",
-            correctChoiceTextEn:
-              qOptionsEn[q.correct_option_index] ||
-              `Option ${String.fromCharCode(65 + q.correct_option_index)}`,
-            correctChoiceTextHi:
-              qOptionsHi[q.correct_option_index] ||
-              `विकल्प ${String.fromCharCode(65 + q.correct_option_index)}`,
-            explanation_en:
-              q.explanation_en || "No English explanation provided.",
-            explanation_hi:
-              q.explanation_hi || "कोई हिंदी व्याख्या उपलब्ध नहीं है.",
+            correctChoiceTextEn: q.options_en[q.correct_option_index],
+            explanation_en: q.explanation_en,
           });
         });
 
@@ -1514,91 +1397,25 @@
         const maxScore = questionsList.length * activePreset.marks;
         const accuracy =
           correctCount + wrongCount > 0
-            ? Number(
-                ((correctCount / (correctCount + wrongCount)) * 100).toFixed(1),
-              )
+            ? Math.round((correctCount / (correctCount + wrongCount)) * 100)
             : 0;
         const totalTimeTakenSeconds = totalDurationSeconds - remainingSeconds;
-
-        const scorePercentage = maxScore > 0 ? (netScore / maxScore) * 100 : 0;
-        const isCandidatePassed =
-          scorePercentage >= PASS_PERCENTAGE_THRESHOLD && netScore > 0;
-
-        let studentId = "GUEST_STUDENT";
-        let studentName = "Aspirant";
-        try {
-          const localUser = JSON.parse(
-            localStorage.getItem("examIndiaUser") || "{}",
-          );
-          if (localUser.id || localUser.student_id) {
-            studentId = localUser.id || localUser.student_id;
-          }
-          if (localUser.name || localUser.userName) {
-            studentName = localUser.name || localUser.userName;
-          }
-        } catch (e) {}
-
-        const payload = {
-          test_id: TARGET_TEST_ID,
-          exam_category: activePreset.id,
-          class_or_exam_name: testMeta.title,
-          subject: testMeta.subject,
-          student_id: studentId,
-          student_name: studentName,
-          applied_exam_profile: activePreset.id,
-          marking_scheme_applied: {
-            marks_per_question: activePreset.marks,
-            negative_marks_per_wrong: activePreset.negative,
-          },
-          total_score: netScore,
-          max_score: maxScore,
-          positive_marks_gained: Number(positiveGained.toFixed(2)),
-          negative_marks_deducted: Number(negativeDeducted.toFixed(2)),
-          total_correct: correctCount,
-          total_wrong: wrongCount,
-          total_unattempted: unattemptedCount,
-          percentage: Number(scorePercentage.toFixed(2)),
-          accuracy: accuracy,
-          time_taken_seconds: totalTimeTakenSeconds,
-          total_time_mins: totalDurationMins,
-          question_breakdown: breakdown,
-        };
-
-        try {
-          fetch(SUBMIT_RESULT_API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          }).catch((err) => console.error("Submit error:", err));
-        } catch (e) {}
+        const mins = Math.floor(totalTimeTakenSeconds / 60);
+        const secs = totalTimeTakenSeconds % 60;
 
         document.getElementById("res-exam-profile-badge").innerText =
-          `${activePreset.title} (+${activePreset.marks.toFixed(2)} / -${activePreset.negative.toFixed(2)})`;
+          `${activePreset.title} Paper`;
         document.getElementById("res-score-text").innerText =
           `${netScore} / ${maxScore}`;
         document.getElementById("res-correct").innerText = correctCount;
         document.getElementById("res-wrong").innerText = wrongCount;
         document.getElementById("res-accuracy").innerText = `${accuracy}%`;
-        document.getElementById("res-gained").innerText =
-          `+${positiveGained.toFixed(2)}`;
-        document.getElementById("res-deducted").innerText =
-          `-${negativeDeducted.toFixed(2)}`;
-
-        const mins = Math.floor(totalTimeTakenSeconds / 60);
-        const secs = totalTimeTakenSeconds % 60;
         document.getElementById("res-time-taken").innerText =
           `${mins}m ${secs}s`;
 
-        const statusIconEl = document.getElementById("res-status-icon");
-        if (statusIconEl) {
-          statusIconEl.innerText = isCandidatePassed ? "🎉" : "📊";
-        }
-
-        if (isCandidatePassed && typeof confetti === "function") {
-          confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
-        }
-
         document.getElementById("result-modal").classList.remove("hidden");
+        if (typeof confetti === "function" && netScore > 0)
+          confetti({ particleCount: 90, spread: 60 });
       }
 
       function openReviewModal() {
@@ -1610,85 +1427,34 @@
 
         if (mistakes.length === 0) {
           container.innerHTML = `
-            <div class="p-8 text-center bg-emerald-50 rounded-2xl border border-emerald-200 space-y-2">
-              <div class="text-4xl">🌟</div>
-              <h4 class="text-base font-black text-emerald-800">100% Flawless Accuracy!</h4>
-              <p class="text-xs font-semibold text-emerald-600">All attempted questions were solved correctly.</p>
+            <div class="p-6 text-center bg-emerald-50 rounded-2xl border border-emerald-200">
+              <h4 class="text-sm font-black text-emerald-800">100% Accuracy!</h4>
             </div>
           `;
         } else {
           mistakes.forEach((item) => {
             const card = document.createElement("div");
             card.className =
-              "bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3 shadow-2xs";
-
-            const qTitle =
-              selectedLang === "hi"
-                ? item.text_hi || item.text_en
-                : item.text_en || item.text_hi;
-            const userChoiceText =
-              selectedLang === "hi"
-                ? item.userChoiceTextHi
-                : item.userChoiceTextEn;
-            const correctChoiceText =
-              selectedLang === "hi"
-                ? item.correctChoiceTextHi
-                : item.correctChoiceTextEn;
-            const explanationText =
-              selectedLang === "hi"
-                ? item.explanation_hi || item.explanation_en
-                : item.explanation_en || item.explanation_hi;
-
+              "bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2.5 text-xs";
             card.innerHTML = `
-              <div class="flex items-center justify-between border-b border-slate-200 pb-2 flex-wrap gap-2">
-                <div class="flex items-center gap-2">
-                  <span class="px-2.5 py-0.5 bg-slate-900 text-white rounded-lg text-xs font-black">Q.${item.question_no}</span>
-                  <span class="text-[10px] font-black px-2 py-0.5 rounded-md ${item.is_attempted ? "bg-rose-100 text-rose-800" : "bg-amber-100 text-amber-900"}">
-                    ${item.is_attempted ? "❌ Wrong Attempt" : "⚠️ Unattempted"}
-                  </span>
-                </div>
-                <span class="text-xs font-mono font-bold text-slate-500">
-                  ⏱ Spent: ${item.time_spent_seconds}s
-                </span>
+              <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                <span class="px-2 py-0.5 bg-slate-900 text-white rounded font-bold">Q.${item.question_no}</span>
+                <span class="${item.is_attempted ? "text-rose-600" : "text-amber-600"} font-bold">${item.is_attempted ? "Wrong" : "Unattempted"}</span>
               </div>
-
-              <p class="text-xs sm:text-sm font-bold text-slate-800 leading-relaxed whitespace-pre-line">${qTitle}</p>
-
-              <div class="space-y-1.5 text-xs font-bold pt-1">
-                <div class="p-2.5 rounded-xl border border-rose-200 bg-rose-50 text-rose-800 flex items-start gap-2">
-                  <span class="shrink-0 font-extrabold">Your Selection:</span>
-                  <span class="flex-1 font-semibold">${userChoiceText}</span>
-                </div>
-                <div class="p-2.5 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 flex items-start gap-2">
-                  <span class="shrink-0 font-extrabold">Correct Answer:</span>
-                  <span class="flex-1 font-semibold">${correctChoiceText}</span>
-                </div>
+              <div class="font-bold text-slate-800 text-sm math-container">${item.text_en}</div>
+              <div class="space-y-1 font-semibold">
+                <div class="p-2 rounded-lg bg-rose-50 text-rose-800 math-container">Selected: ${item.userChoiceTextEn}</div>
+                <div class="p-2 rounded-lg bg-emerald-50 text-emerald-800 math-container">Correct: ${item.correctChoiceTextEn}</div>
               </div>
-
-              <div class="pt-1.5">
-                <button onclick="toggleExplanation('exp-${item.qIndex}')" class="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-black flex items-center gap-1.5 cursor-pointer transition active:scale-95">
-                  <span>💡 View Step-by-Step Explanation</span>
-                  <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
-                </button>
-                
-                <div id="exp-${item.qIndex}" class="hidden mt-2.5 p-3.5 bg-indigo-50/70 border border-indigo-100 rounded-xl text-xs font-medium text-slate-700 leading-relaxed space-y-1">
-                  <span class="block font-black text-indigo-950 text-[10px] uppercase tracking-wider">Solution Key:</span>
-                  <p>${explanationText}</p>
-                </div>
-              </div>
+              <div class="text-slate-500 pt-1 text-[11px] leading-relaxed math-container"><strong>Solution:</strong> ${item.explanation_en}</div>
             `;
-
             container.appendChild(card);
           });
         }
 
         if (window.lucide) lucide.createIcons();
+        renderMath(container);
         document.getElementById("review-modal").classList.remove("hidden");
-      }
-
-      function toggleExplanation(expId) {
-        const el = document.getElementById(expId);
-        if (el) el.classList.toggle("hidden");
       }
 
       function closeReviewModal() {
