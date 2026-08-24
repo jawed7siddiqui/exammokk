@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - Registered Users Management</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- COMMON HEADER LOADER SCRIPT -->
+    <script src="/js/admin-header.js"></script>
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+      code,
+      pre,
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .spinner {
+        border: 2px solid rgba(79, 70, 229, 0.2);
+        border-radius: 50%;
+        border-top-color: #4f46e5;
+        width: 16px;
+        height: 16px;
+        animation: spin 0.6s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      .toast-enter {
+        animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-indigo-600 selection:text-white"
+  >
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div
+      id="toast-container"
+      class="fixed top-5 right-5 z-[9999] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"
+    ></div>
+
+    <!-- COMMON MOBILE HEADER -->
+    <div id="common-mobile-header" class="contents"></div>
+
+    <!-- MAIN FULL WIDTH CONTAINER -->
+    <div
+      class="flex-1 flex flex-col min-h-screen w-full bg-slate-50 overflow-x-hidden"
+    >
+      <!-- COMMON TOP HEADER SLOT -->
+      <div id="common-top-header" class="contents"></div>
+
+      <!-- CONTENT BODY -->
+      <main class="p-4 md:p-8 flex-1 space-y-5 max-w-[1700px] mx-auto w-full">
+        <!-- FILTER TOOLBAR -->
+        <div
+          class="bg-white border border-slate-200 p-4 rounded-2xl flex flex-col gap-3 shadow-xs"
+        >
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
+            <!-- Search -->
+            <div class="relative lg:col-span-2">
+              <i
+                data-lucide="search"
+                class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+              ></i>
+              <input
+                type="text"
+                id="filter_search"
+                placeholder="Search Student Name or Mobile No..."
+                onkeyup="debounceSearch()"
+                class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 outline-none focus:border-indigo-500 focus:bg-white transition-all"
+              />
+            </div>
+
+            <!-- Platform Filter -->
+            <div>
+              <select
+                id="filter_platform"
+                onchange="loadUsers(1)"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
+              >
+                <option value="">All Platforms</option>
+                <option value="app">📱 Mobile App (Android/iOS)</option>
+                <option value="android">🤖 Android</option>
+                <option value="ios">🍎 iOS</option>
+                <option value="web">🌐 Web Portal</option>
+              </select>
+            </div>
+
+            <!-- Role Filter -->
+            <div>
+              <select
+                id="filter_role"
+                onchange="loadUsers(1)"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
+              >
+                <option value="">All Roles</option>
+                <option value="aspirant">Aspirant</option>
+                <option value="student">Student</option>
+                <option value="educator">Educator</option>
+                <option value="mentor">Mentor</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+
+            <!-- Status Filter -->
+            <div>
+              <select
+                id="filter_status"
+                onchange="loadUsers(1)"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
+              >
+                <option value="">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="blocked">Blocked</option>
+              </select>
+            </div>
+
+            <!-- Page Size -->
+            <div>
+              <select
+                id="filter_limit"
+                onchange="loadUsers(1)"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
+              >
+                <option value="10">10 / page</option>
+                <option value="25">25 / page</option>
+                <option value="50">50 / page</option>
+                <option value="100">100 / page</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- USERS TABLE CONTAINER -->
+        <div
+          class="bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col"
+        >
+          <div class="overflow-x-auto min-h-[400px]">
+            <table class="w-full text-left text-xs">
+              <thead
+                class="bg-slate-50/80 text-slate-500 uppercase font-extrabold text-[10px] tracking-wider border-b border-slate-200"
+              >
+                <tr>
+                  <th class="p-3.5 md:p-4">Candidate Profile</th>
+                  <th class="p-3.5 md:p-4">Mobile &amp; Roll No</th>
+                  <th class="p-3.5 md:p-4">Platform &amp; Device</th>
+                  <th class="p-3.5 md:p-4">Target / Exam</th>
+                  <th class="p-3.5 md:p-4">Tests Given</th>
+                  <th class="p-3.5 md:p-4">Status</th>
+                  <th class="p-3.5 md:p-4">Registered On</th>
+                  <th class="p-3.5 md:p-4 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody
+                id="usersTableBody"
+                class="divide-y divide-slate-100 font-semibold text-slate-700"
+              >
+                <tr>
+                  <td colspan="8" class="p-8 text-center text-slate-400">
+                    Loading users...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- PAGINATION CONTROLS -->
+          <div
+            id="pagination-container"
+            class="p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs"
+          >
+            <span id="pagination-info" class="text-slate-500 font-semibold"
+              >Showing 0 of 0</span
+            >
+            <div class="flex items-center gap-2">
+              <button
+                id="btn-prev"
+                onclick="goToPage(currentPage - 1)"
+                disabled
+                class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed text-slate-700 font-bold rounded-xl transition-all cursor-pointer"
+              >
+                Previous
+              </button>
+              <span
+                id="pagination-current"
+                class="font-mono font-bold px-2 text-indigo-600"
+                >Page 1</span
+              >
+              <button
+                id="btn-next"
+                onclick="goToPage(currentPage + 1)"
+                disabled
+                class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed text-slate-700 font-bold rounded-xl transition-all cursor-pointer"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- ================= MODAL: FULL USER PROFILE VIEW ================= -->
+    <div
+      id="modal-view-user"
+      class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden overflow-y-auto"
+    >
+      <div
+        class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl border border-slate-200 my-8 flex flex-col max-h-[90vh] overflow-hidden"
+      >
+        <!-- Header -->
+        <div
+          class="flex items-center justify-between border-b border-slate-100 px-6 py-4 bg-slate-50/50 shrink-0"
+        >
+          <div>
+            <h3
+              id="modal-user-name"
+              class="text-base font-extrabold text-slate-800"
+            >
+              User Profile Overview
+            </h3>
+            <p
+              id="modal-user-meta"
+              class="text-xs text-slate-400 font-medium font-mono mt-0.5"
+            ></p>
+          </div>
+          <button
+            onclick="closeUserModal()"
+            class="text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 cursor-pointer transition-all"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6 overflow-y-auto space-y-6 flex-1 text-xs">
+          <!-- Metric Cards -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div
+              class="p-3.5 rounded-2xl bg-indigo-50/60 border border-indigo-100"
+            >
+              <span
+                class="text-[10px] font-extrabold text-indigo-600 uppercase tracking-wider block"
+                >Role</span
+              >
+              <div
+                id="m_user_role"
+                class="text-sm font-black text-slate-800 font-mono mt-1 uppercase"
+              >
+                -
+              </div>
+            </div>
+            <div
+              class="p-3.5 rounded-2xl bg-emerald-50/60 border border-emerald-100"
+            >
+              <span
+                class="text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider block"
+                >Tests Given</span
+              >
+              <div
+                id="m_user_tests"
+                class="text-base font-black text-emerald-700 font-mono mt-1"
+              >
+                0
+              </div>
+            </div>
+            <div
+              class="p-3.5 rounded-2xl bg-amber-50/60 border border-amber-100"
+            >
+              <span
+                class="text-[10px] font-extrabold text-amber-700 uppercase tracking-wider block"
+                >Medium</span
+              >
+              <div
+                id="m_user_medium"
+                class="text-sm font-black text-slate-800 font-mono mt-1"
+              >
+                -
+              </div>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+              <span
+                class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block"
+                >Account Status</span
+              >
+              <div id="m_user_status" class="mt-1"></div>
+            </div>
+          </div>
+
+          <!-- Academic & Demographic Details -->
+          <div
+            class="bg-slate-50/80 rounded-2xl border border-slate-200 p-4 grid grid-cols-1 sm:grid-cols-2 gap-3.5"
+          >
+            <div>
+              <span class="text-[10px] text-slate-400 font-bold uppercase block"
+                >Mobile Number</span
+              >
+              <span
+                id="m_user_mobile"
+                class="font-mono font-bold text-slate-800 text-xs"
+              ></span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400 font-bold uppercase block"
+                >Roll Number</span
+              >
+              <span
+                id="m_user_roll"
+                class="font-mono font-bold text-indigo-600 text-xs"
+              ></span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400 font-bold uppercase block"
+                >Target Stage &amp; Year</span
+              >
+              <span
+                id="m_user_target"
+                class="font-semibold text-slate-700 text-xs"
+              ></span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400 font-bold uppercase block"
+                >Service Preference</span
+              >
+              <span
+                id="m_user_service"
+                class="font-semibold text-slate-700 text-xs"
+              ></span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400 font-bold uppercase block"
+                >Optional Subject</span
+              >
+              <span
+                id="m_user_optional"
+                class="font-semibold text-slate-700 text-xs"
+              ></span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400 font-bold uppercase block"
+                >Location (State/City)</span
+              >
+              <span
+                id="m_user_location"
+                class="font-semibold text-slate-700 text-xs"
+              ></span>
+            </div>
+          </div>
+
+          <!-- Telemetry & Device Info -->
+          <div
+            class="border border-slate-200 rounded-2xl p-4 bg-white space-y-2"
+          >
+            <h4
+              class="font-extrabold text-slate-800 text-[11px] uppercase tracking-wide flex items-center gap-1.5"
+            >
+              <i data-lucide="smartphone" class="w-4 h-4 text-indigo-600"></i>
+              <span>Device &amp; Telemetry Data</span>
+            </h4>
+            <div
+              class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px] text-slate-600"
+            >
+              <div>
+                <span class="text-slate-400 font-bold">Platform:</span>
+                <b id="m_user_platform" class="text-slate-800 uppercase"></b>
+              </div>
+              <div>
+                <span class="text-slate-400 font-bold">OS:</span>
+                <b id="m_user_os" class="text-slate-800 capitalize"></b>
+              </div>
+              <div>
+                <span class="text-slate-400 font-bold">Browser:</span>
+                <b id="m_user_browser" class="text-slate-800 capitalize"></b>
+              </div>
+              <div>
+                <span class="text-slate-400 font-bold">IP Address:</span>
+                <b id="m_user_ip" class="font-mono text-slate-700"></b>
+              </div>
+              <div class="sm:col-span-2">
+                <span class="text-slate-400 font-bold">Push Token:</span>
+                <b
+                  id="m_user_pushtoken"
+                  class="font-mono text-slate-500 truncate block"
+                ></b>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div
+          class="border-t border-slate-100 px-6 py-3.5 bg-slate-50 flex justify-end shrink-0"
+        >
+          <button
+            onclick="closeUserModal()"
+            class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold rounded-xl cursor-pointer transition-all shadow-xs"
+          >
+            Close Profile
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT ENGINE -->
+    <script>
+      const USERS_API_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/users";
+
+      let currentPage = 1;
+      let totalPages = 1;
+      let fetchedUsers = [];
+      let searchTimeout = null;
+
+      function showToast(message, type = "success") {
+        const container = document.getElementById("toast-container");
+        const toast = document.createElement("div");
+        const icons = {
+          success: `<i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0"></i>`,
+          error: `<i data-lucide="alert-circle" class="w-5 h-5 text-rose-600 shrink-0"></i>`,
+          info: `<i data-lucide="info" class="w-5 h-5 text-indigo-600 shrink-0"></i>`,
+        };
+        const bgStyles = {
+          success:
+            "bg-white border-emerald-200 text-slate-800 shadow-lg shadow-emerald-500/10",
+          error:
+            "bg-white border-rose-200 text-slate-800 shadow-lg shadow-rose-500/10",
+          info: "bg-white border-indigo-200 text-slate-800 shadow-lg shadow-indigo-500/10",
+        };
+
+        toast.className = `toast-enter pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl border ${bgStyles[type] || bgStyles.info} text-xs font-bold`;
+        toast.innerHTML = `
+          ${icons[type] || icons.info}
+          <div class="flex-1 leading-snug">${message}</div>
+          <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-700 p-1 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        `;
+
+        container.appendChild(toast);
+        if (window.lucide) lucide.createIcons();
+
+        setTimeout(() => {
+          toast.style.transition = "all 0.3s ease";
+          toast.style.opacity = "0";
+          toast.style.transform = "translateX(100%)";
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      }
+
+      function formatDate(dateStr) {
+        if (!dateStr) return "-";
+        try {
+          const d = new Date(dateStr);
+          return d.toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        } catch (e) {
+          return dateStr;
+        }
+      }
+
+      function debounceSearch() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          loadUsers(1);
+        }, 400);
+      }
+
+      async function loadUsers(page = 1) {
+        const tbody = document.getElementById("usersTableBody");
+
+        const search = document.getElementById("filter_search").value.trim();
+        const platform = document.getElementById("filter_platform").value;
+        const role = document.getElementById("filter_role").value;
+        const status = document.getElementById("filter_status").value;
+        const limit = document.getElementById("filter_limit").value;
+
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" class="p-8 text-center text-slate-400">
+              <div class="inline-flex items-center gap-2">
+                <div class="spinner"></div> Loading Users Data...
+              </div>
+            </td>
+          </tr>
+        `;
+
+        try {
+          const params = new URLSearchParams({
+            page,
+            limit,
+            ...(search && { search }),
+            ...(platform && { platform }),
+            ...(role && { role }),
+            ...(status && { status }),
+          });
+
+          const res = await fetch(`${USERS_API_URL}?${params.toString()}`);
+          const json = await res.json();
+
+          if (json.success && Array.isArray(json.data)) {
+            fetchedUsers = json.data;
+            currentPage = json.pagination?.currentPage || page;
+            totalPages = json.pagination?.totalPages || 1;
+
+            renderTable(fetchedUsers);
+            renderPagination(json.pagination);
+          } else {
+            tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400">No users found matching your criteria.</td></tr>`;
+            renderPagination({ totalUsers: 0, currentPage: 1, totalPages: 1 });
+          }
+        } catch (err) {
+          tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-rose-500">Failed to fetch users from server.</td></tr>`;
+          showToast("Network Error fetching users", "error");
+        }
+      }
+
+      function renderTable(list) {
+        const tbody = document.getElementById("usersTableBody");
+        if (!list || list.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400">No users found.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = list
+          .map((user, index) => {
+            const studentName = user.studentName || "Candidate";
+            const userAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(studentName)}&background=4f46e5&color=fff&size=64`;
+            const platform = (user.platform || "unknown").toLowerCase();
+
+            const platformBadges = {
+              web: `<span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 text-[10px] font-extrabold uppercase font-mono">🌐 Web</span>`,
+              android: `<span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-extrabold uppercase font-mono">🤖 Android</span>`,
+              ios: `<span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200 text-[10px] font-extrabold uppercase font-mono">🍎 iOS</span>`,
+              unknown: `<span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200 text-[10px] font-extrabold uppercase font-mono">❓ Unknown</span>`,
+            };
+
+            const statusBadges = {
+              active: `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-extrabold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Active</span>`,
+              inactive: `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200 text-[10px] font-extrabold"><span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>Inactive</span>`,
+              blocked: `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-extrabold"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Blocked</span>`,
+            };
+
+            return `
+              <tr class="hover:bg-slate-50/80 transition-colors border-b border-slate-100">
+                <td class="p-3.5 md:p-4">
+                  <div class="flex items-center gap-2.5">
+                    <img src="${userAvatar}" alt="User Avatar" class="w-8 h-8 rounded-full border border-slate-200 object-cover" />
+                    <div>
+                      <div class="font-bold text-slate-800 text-xs">${studentName}</div>
+                      <div class="text-[10px] text-slate-400 font-semibold uppercase">${user.role || "aspirant"} • ${user.gender || "N/A"}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="p-3.5 md:p-4 font-mono">
+                  <div class="font-bold text-slate-800">${user.mobileNumber}</div>
+                  <span class="text-[10px] text-indigo-600 font-bold">${user.rollNo || "No Roll"}</span>
+                </td>
+                <td class="p-3.5 md:p-4">
+                  <div class="flex flex-col gap-1 items-start">
+                    ${platformBadges[platform] || platformBadges.unknown}
+                    <span class="text-[10px] text-slate-400 font-medium capitalize">${user.deviceType || "web"} (${user.operatingSystem || "OS"})</span>
+                  </div>
+                </td>
+                <td class="p-3.5 md:p-4 text-xs font-semibold text-slate-700">
+                  <div>${user.targetYear || "UPSC CSE"}</div>
+                  <span class="text-[10px] text-slate-400 font-normal">${user.targetStage || "Prelims"} • ${user.medium || "English"}</span>
+                </td>
+                <td class="p-3.5 md:p-4 font-mono font-bold text-indigo-600 text-center">
+                  ${user.testsAttemptedCount || 0}
+                </td>
+                <td class="p-3.5 md:p-4">${statusBadges[user.status] || statusBadges.active}</td>
+                <td class="p-3.5 md:p-4 text-[11px] text-slate-500">${formatDate(user.createdAt)}</td>
+                <td class="p-3.5 md:p-4 text-right">
+                  <button
+                    onclick="openUserModal(${index})"
+                    class="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 rounded-xl font-bold text-[11px] cursor-pointer transition-all active:scale-95 flex items-center gap-1.5 ml-auto"
+                  >
+                    <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                    <span>View Profile</span>
+                  </button>
+                </td>
+              </tr>
+            `;
+          })
+          .join("");
+
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function renderPagination(pagination) {
+        const info = document.getElementById("pagination-info");
+        const current = document.getElementById("pagination-current");
+        const btnPrev = document.getElementById("btn-prev");
+        const btnNext = document.getElementById("btn-next");
+
+        if (!pagination) return;
+
+        info.innerText = `Total Registered Users: ${pagination.totalUsers || 0}`;
+        current.innerText = `Page ${pagination.currentPage || 1} of ${pagination.totalPages || 1}`;
+
+        btnPrev.disabled =
+          !pagination.hasPrevPage && pagination.currentPage <= 1;
+        btnNext.disabled =
+          !pagination.hasNextPage &&
+          pagination.currentPage >= pagination.totalPages;
+      }
+
+      function goToPage(page) {
+        if (page >= 1 && page <= totalPages) {
+          loadUsers(page);
+        }
+      }
+
+      function openUserModal(index) {
+        const user = fetchedUsers[index];
+        if (!user) return;
+
+        document.getElementById("modal-user-name").innerText =
+          `${user.studentName} (${user.gender || "N/A"})`;
+        document.getElementById("modal-user-meta").innerText =
+          `User ID: ${user._id} | Created: ${formatDate(user.createdAt)}`;
+
+        document.getElementById("m_user_role").innerText =
+          user.role || "aspirant";
+        document.getElementById("m_user_tests").innerText =
+          user.testsAttemptedCount || 0;
+        document.getElementById("m_user_medium").innerText =
+          user.medium || "English";
+
+        const statusClass =
+          user.status === "active"
+            ? "bg-emerald-100 text-emerald-800"
+            : "bg-rose-100 text-rose-800";
+        document.getElementById("m_user_status").innerHTML =
+          `<span class="inline-flex px-2 py-0.5 rounded-md ${statusClass} font-extrabold text-[10px] uppercase">${user.status || "active"}</span>`;
+
+        document.getElementById("m_user_mobile").innerText =
+          user.mobileNumber || "-";
+        document.getElementById("m_user_roll").innerText = user.rollNo || "-";
+        document.getElementById("m_user_target").innerText =
+          `${user.targetStage || "Prelims"} (${user.targetYear || "2026"})`;
+        document.getElementById("m_user_service").innerText =
+          user.servicePreference || "IAS / IPS / IFS";
+        document.getElementById("m_user_optional").innerText =
+          user.optionalSubject || "General Studies";
+        document.getElementById("m_user_location").innerText =
+          `${user.city || "-"}, ${user.state || "-"} (${user.country || "India"})`;
+
+        document.getElementById("m_user_platform").innerText =
+          user.platform || "web";
+        document.getElementById("m_user_os").innerText =
+          `${user.operatingSystem || "Unknown"} / ${user.deviceType || "device"}`;
+        document.getElementById("m_user_browser").innerText =
+          user.browser || "unknown";
+        document.getElementById("m_user_ip").innerText =
+          user.ipAddress || "N/A";
+        document.getElementById("m_user_pushtoken").innerText = user.pushToken
+          ? user.pushToken.substring(0, 32) + "..."
+          : "Not Registered";
+
+        document.getElementById("modal-view-user").classList.remove("hidden");
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function closeUserModal() {
+        document.getElementById("modal-view-user").classList.add("hidden");
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof renderAdminHeader === "function") {
+          renderAdminHeader("User Directory", "users");
+        }
+        loadUsers(1);
+        if (window.lucide) lucide.createIcons();
+      });
+    </script>
+  </body>
+</html>

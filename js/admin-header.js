@@ -137,11 +137,11 @@ function renderAdminHeader(pageTitle = "DualEngine Pro", activeNav = "tests") {
         </div>
         <div>
           <h1 class="font-extrabold text-sm tracking-tight text-slate-800 group-hover:text-indigo-600 transition-colors">DualEngine Pro</h1>
-          <p class="text-[11px] text-slate-500 font-semibold">Test &amp; Item Manager</p>
+          <p class="text-[11px] text-slate-500 font-semibold">Test &amp; User Manager</p>
         </div>
       </a>
 
-      <nav class="flex-1 p-3.5 space-y-1.5">
+      <nav class="flex-1 p-3.5 space-y-1.5 overflow-y-auto">
         <a href="admin.html" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-bold text-xs text-slate-600 hover:bg-slate-100 hover:text-indigo-600 transition-all cursor-pointer">
           <i data-lucide="home" class="w-4 h-4 text-indigo-600"></i>
           <span>Admin Home</span>
@@ -160,6 +160,11 @@ function renderAdminHeader(pageTitle = "DualEngine Pro", activeNav = "tests") {
         <a href="results.html" id="nav-results" class="w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs ${activeNav === "results" ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/20" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"} transition-all cursor-pointer">
           <i data-lucide="award" class="w-4 h-4"></i>
           <span>3. User Results Hub</span>
+        </a>
+
+        <a href="users.html" id="nav-users" class="w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs ${activeNav === "users" ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/20" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"} transition-all cursor-pointer">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          <span>4. Registered Users Hub</span>
         </a>
       </nav>
 
@@ -194,6 +199,11 @@ function renderAdminHeader(pageTitle = "DualEngine Pro", activeNav = "tests") {
         <a href="ai.html" class="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-xs rounded-xl flex items-center gap-2 cursor-pointer transition-all active:scale-95 shadow-2xs">
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-600"></i>
           <span>Generate</span>
+        </a>
+
+        <a href="users.html" class="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-xs rounded-xl flex items-center gap-2 cursor-pointer transition-all active:scale-95 shadow-2xs">
+          <i data-lucide="users" class="w-3.5 h-3.5 text-indigo-600"></i>
+          <span>Users</span>
         </a>
 
         <a href="results.html" class="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-xs rounded-xl flex items-center gap-2 cursor-pointer transition-all active:scale-95 shadow-2xs">
