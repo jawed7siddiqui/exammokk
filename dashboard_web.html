@@ -16,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
 
@@ -34,333 +34,100 @@
         color: #0f172a;
       }
       .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
+        display: none;
       }
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: #f1f5f9;
+      .custom-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
       }
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 9999px;
+      .pro-card {
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       }
-      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(6px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .animate-fadeIn {
-        animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      }
-      .test-card-hover {
-        transition:
-          transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-          box-shadow 0.2s ease,
-          border-color 0.2s ease;
-      }
-      .test-card-hover:hover {
+      .pro-card:hover {
         transform: translateY(-2px);
-        border-color: #818cf8;
-        box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.08);
+        box-shadow: 0 12px 24px -8px rgba(79, 70, 229, 0.12);
       }
     </style>
   </head>
   <body
     class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white antialiased"
   >
-    <!-- 1. REUSABLE GLOBAL HEADER (Layout.js) -->
+    <!-- 1. REUSABLE GLOBAL HEADER -->
     <div id="global-header"></div>
 
-    <!-- 2. MAIN WEB DESKTOP DASHBOARD CONTAINER -->
+    <!-- 2. MAIN DASHBOARD CONTAINER -->
     <main
-      class="flex-grow py-6 sm:py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-8"
+      class="flex-grow py-4 sm:py-8 px-3.5 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-5"
     >
-      <!-- BREADCRUMB NAVIGATION & STREAM TITLE -->
+      <!-- STREAM TITLE + LIVE CHALLENGE HERO BANNER (SLIM PRO BANNER) -->
       <div
-        class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 pb-5"
+        class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-white shadow-xl shadow-slate-950/10 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
       >
         <div class="space-y-1">
-          <nav
-            aria-label="Breadcrumb"
-            class="flex items-center space-x-2 text-xs font-semibold text-slate-500 mb-1.5"
-          >
-            <a
-              href="/"
-              class="hover:text-indigo-600 transition flex items-center gap-1"
-            >
-              <i data-lucide="home" class="w-3.5 h-3.5"></i>
-              <span>Home</span>
-            </a>
-            <span>/</span>
-            <a
-              href="/#exam-grid-section"
-              class="hover:text-indigo-600 transition"
-              >Exams</a
-            >
-            <span>/</span>
-            <span
-              id="breadcrumb-current-stream"
-              class="text-indigo-600 font-bold"
-              >Exam Dashboard</span
-            >
-          </nav>
-
-          <div class="flex items-center gap-3">
-            <h1
-              id="page-header-title"
-              class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight"
-            >
-              Loading Dashboard...
-            </h1>
-            <span
-              id="header-stream-badge"
-              class="text-[11px] font-black uppercase px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200"
-            >
-              Exam Stream
-            </span>
-          </div>
-          <p
-            id="page-header-subtitle"
-            class="text-xs sm:text-sm text-slate-500 font-medium"
-          >
-            Attempt chapter-wise mock tests, live sectional timers, and
-            authentic negative marking papers.
-          </p>
-        </div>
-
-        <!-- STREAM SELECTOR SHORTCUTS -->
-        <div
-          class="flex items-center gap-2 overflow-x-auto pb-1 max-w-full custom-scrollbar"
-        >
-          <a
-            href="?type=SSC"
-            class="px-3.5 py-1.5 bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 transition whitespace-nowrap shadow-2xs"
-            >⚡ SSC</a
-          >
-          <a
-            href="?type=BANKING"
-            class="px-3.5 py-1.5 bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 transition whitespace-nowrap shadow-2xs"
-            >🏦 Bank</a
-          >
-          <a
-            href="?type=RAILWAYS"
-            class="px-3.5 py-1.5 bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 transition whitespace-nowrap shadow-2xs"
-            >🚆 RRB</a
-          >
-          <a
-            href="?type=GOVT_PSC"
-            class="px-3.5 py-1.5 bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 transition whitespace-nowrap shadow-2xs"
-            >⚖️ UPSC/PSC</a
-          >
-          <a
-            href="?type=DAILY_GK"
-            class="px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-800 transition whitespace-nowrap shadow-2xs"
-            >🌍 Daily GK</a
-          >
-        </div>
-      </div>
-
-      <!-- HERO STATS & DAILY LIVE TEST (WIDE WEB CARD) -->
-      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- LEFT: DAILY LIVE CHALLENGE HERO CARD (8 COLS) -->
-        <div
-          id="non-kids-daily-widget"
-          class="lg:col-span-8 bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl shadow-indigo-950/20 border border-white/10 relative overflow-hidden flex flex-col justify-between"
-        >
-          <div
-            class="absolute -right-12 -top-12 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"
-          ></div>
-          <div
-            class="absolute -left-12 -bottom-12 w-48 h-48 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"
-          ></div>
-
-          <!-- TOP ROW -->
-          <div
-            class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6"
-          >
-            <div class="space-y-1.5">
-              <div class="flex items-center gap-2">
-                <span
-                  class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"
-                ></span>
-                <span
-                  id="daily-challenge-subject"
-                  class="text-xs font-black tracking-widest text-indigo-300 uppercase"
-                >
-                  Daily Live Challenge
-                </span>
-                <span
-                  class="bg-emerald-400 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider"
-                >
-                  100% Free
-                </span>
-              </div>
-              <h2
-                id="daily-challenge-title"
-                class="text-xl sm:text-2xl font-black text-white leading-snug"
-              >
-                Practice Today's Live Mock Test Set
-              </h2>
-              <p class="text-xs text-indigo-200/80 font-medium">
-                Standardized CBT interface matching real exam negative marking
-                criteria.
-              </p>
-            </div>
-
-            <!-- START CTA -->
-            <button
-              id="btn-start-daily"
-              onclick="startDailyTest()"
-              class="px-6 py-3.5 bg-white hover:bg-indigo-50 active:scale-95 text-indigo-950 rounded-2xl font-black text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center gap-2 shadow-lg shrink-0 group"
-            >
-              <span>Launch Live Test</span>
-              <i
-                data-lucide="play"
-                class="w-4 h-4 fill-current text-indigo-700 group-hover:scale-110 transition-transform"
-              ></i>
-            </button>
-          </div>
-
-          <!-- BOTTOM META BADGES -->
-          <div
-            class="relative z-10 pt-4 border-t border-white/10 flex flex-wrap items-center gap-4 text-xs font-bold text-indigo-100"
-          >
-            <div
-              class="flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10"
-            >
-              <span>📝</span>
-              <span id="daily-challenge-qs">15 Questions</span>
-            </div>
-            <div
-              class="flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10"
-            >
-              <span>⏱️</span>
-              <span id="daily-challenge-time">15 Mins</span>
-            </div>
-            <div
-              class="flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10"
-            >
-              <span class="text-amber-300">⚡</span>
-              <span id="daily-timer" class="font-mono text-amber-300"
-                >Live Active Today</span
-              >
-            </div>
-          </div>
-        </div>
-
-        <!-- RIGHT: CANDIDATE RECENT STATS & SCOREBOARD CARD (4 COLS) -->
-        <div
-          class="lg:col-span-4 bg-white border border-slate-200/90 rounded-3xl p-6 shadow-xs flex flex-col justify-between space-y-4"
-        >
-          <div class="space-y-1">
-            <div class="flex items-center justify-between">
-              <span
-                class="text-[11px] font-black uppercase tracking-wider text-slate-400"
-                >Candidate Activity</span
-              >
-              <a
-                href="scoreboard.html"
-                class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1"
-              >
-                <span>View Full Scoreboard</span>
-                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-              </a>
-            </div>
-            <h3 class="text-base font-extrabold text-slate-900">
-              Recent Test Performance
-            </h3>
-            <p
-              id="dash-banner-title"
-              class="text-xs font-semibold text-slate-500 truncate"
-            >
-              No recent attempt recorded
-            </p>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div
-              class="bg-slate-50 border border-slate-200/80 p-3.5 rounded-2xl text-center"
-            >
-              <span
-                class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5"
-                >Last Score</span
-              >
-              <span
-                id="dash-banner-score"
-                class="text-lg font-black text-slate-900"
-                >--/--</span
-              >
-            </div>
-            <div
-              class="bg-emerald-50/80 border border-emerald-100 p-3.5 rounded-2xl text-center"
-            >
-              <span
-                class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mb-0.5"
-                >Accuracy</span
-              >
-              <span
-                id="dash-banner-accuracy"
-                class="text-lg font-black text-emerald-700"
-                >--%</span
-              >
-            </div>
-          </div>
-
-          <div
-            class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium"
-          >
-            <span class="flex items-center gap-1"
-              ><i
-                data-lucide="check-circle-2"
-                class="w-3.5 h-3.5 text-emerald-600"
-              ></i>
-              Auto-Rank Engine</span
-            >
-            <span class="text-[11px] font-bold text-slate-400"
-              >Real-time AIR</span
-            >
-          </div>
-        </div>
-      </section>
-
-      <!-- SUBJECT MODULES & TEST PAPERS ACCORDION (EXPANDED FOR DESKTOP WEB) -->
-      <section class="space-y-4">
-        <div
-          class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"
-        >
-          <div class="space-y-0.5">
-            <h2
-              class="text-lg sm:text-xl font-black text-slate-900 flex items-center gap-2"
-            >
-              <i data-lucide="layers" class="w-5 h-5 text-indigo-600"></i>
-              <span>Subject Modules &amp; Full Mock Papers</span>
-            </h2>
-            <p class="text-xs text-slate-500 font-medium">
-              Click on any subject category below to expand chapter sets and
-              full tests.
-            </p>
-          </div>
-
           <div class="flex items-center gap-2">
             <span
-              id="total-subjects-count"
-              class="text-xs font-black bg-indigo-50 text-indigo-700 px-3.5 py-1 rounded-full border border-indigo-100"
+              class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
             >
-              0 Modules
+              Live Mock
+            </span>
+            <span
+              id="page-header-title"
+              class="text-xs sm:text-sm font-bold text-indigo-200"
+            >
+              Loading Exam Stream...
             </span>
           </div>
+          <h2
+            id="daily-challenge-title"
+            class="text-base sm:text-xl font-extrabold text-white tracking-tight"
+          >
+            Today's Special Speed Test Set
+          </h2>
+          <div class="flex items-center gap-3 text-xs text-slate-300 pt-0.5">
+            <span
+              id="daily-challenge-qs"
+              class="flex items-center gap-1 font-medium"
+              >📝 15 Qs</span
+            >
+            <span>•</span>
+            <span
+              id="daily-challenge-time"
+              class="flex items-center gap-1 font-medium"
+              >⏱️ 15 Mins</span
+            >
+            <span>•</span>
+            <span class="text-emerald-400 font-bold">100% Free</span>
+          </div>
+        </div>
+
+        <button
+          onclick="startDailyTest()"
+          class="w-full sm:w-auto px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 cursor-pointer shadow-md shrink-0"
+        >
+          <span>Start Now</span>
+          <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+        </button>
+      </div>
+
+      <!-- SUBJECT MODULES -->
+      <section class="space-y-3">
+        <div class="flex items-center justify-between px-1">
+          <h3
+            class="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5"
+          >
+            <i data-lucide="layers" class="w-4 h-4 text-indigo-600"></i>
+            <span>Subject Modules</span>
+          </h3>
+          <span
+            id="total-subjects-count"
+            class="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-100"
+          >
+            0 Modules
+          </span>
         </div>
 
         <!-- ACCORDION CONTAINER -->
-        <div id="subjects-accordion-container" class="space-y-3.5"></div>
+        <div id="subjects-accordion-container" class="space-y-2.5"></div>
       </section>
     </main>
 
@@ -370,147 +137,93 @@
       class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden"
     >
       <div
-        class="bg-white rounded-3xl w-full max-w-md p-6 space-y-5 animate-fadeIn shadow-2xl border border-slate-100"
+        class="bg-white rounded-2xl w-full max-w-sm p-5 space-y-4 shadow-2xl border border-slate-100"
       >
         <div
           class="flex items-center justify-between border-b border-slate-100 pb-3"
         >
-          <div>
-            <h3 class="text-base font-black text-slate-900">
-              Unlock Mock Test Series
-            </h3>
-            <p class="text-xs text-slate-500 font-medium">
-              Instant access to comprehensive answer keys &amp; solutions
-            </p>
-          </div>
+          <h3 class="text-sm font-black text-slate-900">Unlock Test Paper</h3>
           <button
             onclick="closePaywallModal()"
-            class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center cursor-pointer transition"
+            class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center cursor-pointer hover:bg-slate-200"
           >
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
         <div
-          class="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-4 text-center space-y-1.5"
+          class="bg-indigo-50/70 border border-indigo-100 rounded-xl p-3.5 text-center space-y-1"
         >
           <p
             id="paywall-test-title"
-            class="text-xs font-extrabold text-indigo-950 line-clamp-1"
+            class="text-xs font-bold text-indigo-950 truncate"
           >
             Mock Test Series
           </p>
-          <div class="flex items-center justify-center gap-2.5">
+          <div class="flex items-center justify-center gap-2">
             <span
               id="paywall-test-price"
-              class="text-2xl font-black text-indigo-600"
+              class="text-xl font-black text-indigo-600"
               >₹9</span
             >
             <span
               id="paywall-test-mrp"
-              class="text-sm text-slate-400 line-through font-bold"
+              class="text-xs text-slate-400 line-through font-bold"
               >₹19</span
-            >
-            <span
-              class="text-[10px] font-black bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md"
-              >50% OFF</span
             >
           </div>
         </div>
 
-        <div class="space-y-3">
+        <div class="space-y-2">
           <button
             onclick="executeBuyTest()"
-            class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-black text-xs rounded-xl shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2 cursor-pointer"
+            class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <i data-lucide="unlock" class="w-4 h-4"></i>
-            <span id="btn-paywall-text">Buy This Test @ ₹9</span>
+            <i data-lucide="unlock" class="w-3.5 h-3.5"></i>
+            <span id="btn-paywall-text">Unlock Now @ ₹9</span>
           </button>
-
           <button
             onclick="executeBuyPass()"
-            class="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-95 active:scale-95 text-white font-black text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+            class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <i data-lucide="crown" class="w-4 h-4"></i>
-            <span>Get All-India Exam Pass @ ₹99/mo</span>
+            <i data-lucide="crown" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>Get Exam Pass @ ₹99/mo</span>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- 3. REUSABLE GLOBAL FOOTER (Layout.js) -->
+    <!-- 3. REUSABLE GLOBAL FOOTER -->
     <div id="global-footer"></div>
 
-    <!-- LAYOUT ENGINE SCRIPT -->
     <script src="/js/layout.js"></script>
 
-    <!-- DASHBOARD LOGIC ENGINE -->
     <script>
       const BASE_API_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/subject";
-      const SCOREBOARD_API_URL =
-        "https://exam-api.jawedsiddiqui.cloud/api/test/questions/scoreboard";
 
-      // 1. EXTRACT DIRECT STREAM URL PARAMETER
       const urlParams = new URLSearchParams(window.location.search);
       const rawType = (urlParams.get("type") || "SSC").toUpperCase();
 
-      // Stream Configuration
       const STREAM_TITLES = {
-        DAILY_GK: {
-          title: "Daily GK & Current Affairs",
-          sub: "Today's Live Speed Drill & Static General Knowledge",
-          badge: "Daily Live Quiz",
-        },
-        SSC: {
-          title: "Staff Selection Commission (SSC)",
-          sub: "SSC CGL, CHSL, MTS, CPO & GD Constable TCS iON Pattern",
-          badge: "TCS Pattern",
-        },
+        DAILY_GK: { title: "Daily GK & Current Affairs", badge: "Daily Live" },
+        SSC: { title: "SSC (CGL, CHSL, MTS)", badge: "TCS Pattern" },
         RAILWAYS: {
-          title: "Railway Recruitment Board (RRB)",
-          sub: "RRB NTPC CBT-1 & 2, Group D, ALP & RPF Sub-Inspector",
+          title: "Railways (RRB NTPC, Group D)",
           badge: "Railway CBT",
         },
-        BANKING: {
-          title: "Banking & Insurance Exams",
-          sub: "SBI PO/Clerk, IBPS PO/Clerk & RBI Assistant 20-min Timers",
-          badge: "IBPS Pattern",
-        },
-        JEE_NEET: {
-          title: "JEE Main & NEET UG",
-          sub: "Physics, Chemistry, Biology & Mathematics NTA CBT Mock Sets",
-          badge: "NTA Simulator",
-        },
-        DEFENCE: {
-          title: "Defence & Police Exams",
-          sub: "NDA GAT & Maths, CDS, UP/Bihar Police SI & Constable",
-          badge: "Defence Series",
-        },
-        TEACHING: {
-          title: "Teaching & TET Exams",
-          sub: "CTET Paper 1 & 2, CDP, State TET & KVS Recruitment",
-          badge: "Teaching Series",
-        },
-        ENTRANCE: {
-          title: "CUET UG/PG & Law Entrances",
-          sub: "CUET Domain Subjects, General Test & CLAT Legal Reasoning",
-          badge: "NTA Entrance",
-        },
-        GOVT_PSC: {
-          title: "Civil Services & State PSC",
-          sub: "UPSC CSE Prelims GS-1 & CSAT, BPSC, UPPSC & State PCS",
-          badge: "Civil Services",
-        },
+        BANKING: { title: "Banking (IBPS, SBI, RBI)", badge: "IBPS Pattern" },
+        JEE_NEET: { title: "JEE Main & NEET UG", badge: "NTA Simulator" },
+        DEFENCE: { title: "Defence & Police Exams", badge: "Defence Series" },
+        TEACHING: { title: "Teaching & State TET", badge: "Teaching Series" },
+        ENTRANCE: { title: "CUET & Law Entrances", badge: "NTA Entrance" },
+        GOVT_PSC: { title: "Civil Services & State PSC", badge: "State PCS" },
       };
 
       const currentSegment = STREAM_TITLES[rawType] ? rawType : "SSC";
-
       let openSubjectId = null;
-      let selectedTestForPurchase = null;
       let activeDailyTest = null;
 
-      // 2. RETRIEVE SUBJECT LIST FROM ALLSUBJECT.JS
       function getCurrentSubjectList() {
         if (
           typeof subjectsBySegment !== "undefined" &&
@@ -518,76 +231,32 @@
         ) {
           return subjectsBySegment[currentSegment];
         }
-
-        // Direct Global Object Fallback
         if (
           currentSegment === "DAILY_GK" &&
           (window.DAILY_GK || typeof DAILY_GK !== "undefined")
         ) {
           return window.DAILY_GK || DAILY_GK;
         }
-
         if (
           window[currentSegment] ||
           typeof window[currentSegment] !== "undefined"
         ) {
           return window[currentSegment];
         }
-
         return [];
       }
 
-      // 3. SYNC WEB HEADER UI & TITLES
       function syncHeaderUI() {
         const meta = STREAM_TITLES[currentSegment] || {
-          title: "Competitive Exam Dashboard",
-          sub: "Full Length Mock Tests & Question Sets",
-          badge: "Exam Series",
+          title: "Exam Dashboard",
         };
-
         document.getElementById("page-tab-title").innerText =
           `${meta.title} | ExamMokk`;
         document.getElementById("page-header-title").innerText = meta.title;
-        document.getElementById("page-header-subtitle").innerText = meta.sub;
-        document.getElementById("header-stream-badge").innerText = meta.badge;
-        document.getElementById("breadcrumb-current-stream").innerText =
-          meta.title;
       }
 
-      // 4. FETCH RECENT USER SCORE SUMMARY
-      async function fetchRecentUserScore() {
-        try {
-          const userStr = localStorage.getItem("examIndiaUser");
-          const studentId = userStr
-            ? JSON.parse(userStr).student_id || "GUEST_STUDENT"
-            : "GUEST_STUDENT";
-
-          const res = await fetch(
-            `${SCOREBOARD_API_URL}?student_id=${encodeURIComponent(studentId)}&limit=1`,
-          );
-          if (res.ok) {
-            const data = await res.json();
-            const recent = data.data?.[0] || data.results?.[0];
-            if (recent) {
-              document.getElementById("dash-banner-title").innerText =
-                recent.subject ||
-                recent.class_or_exam_name ||
-                "Last Test Attempt";
-              document.getElementById("dash-banner-score").innerText =
-                `${recent.total_score}/${recent.max_score}`;
-              document.getElementById("dash-banner-accuracy").innerText =
-                `${recent.accuracy || 0}%`;
-            }
-          }
-        } catch (e) {
-          console.warn("Could not load recent score summary:", e);
-        }
-      }
-
-      // 5. FETCH SUBJECT PAPERS & CHAPTERS
       async function fetchSubjectTests(subjObj) {
         if (!subjObj) return;
-
         subjObj.loading = true;
         subjObj.hasError = false;
         renderAccordion();
@@ -597,11 +266,7 @@
           const res = await fetch(
             `${BASE_API_URL}/${encodeURIComponent(apiQuery)}`,
           );
-
-          if (!res.ok) {
-            throw new Error(`HTTP ${res.status}`);
-          }
-
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const resData = await res.json();
 
           if (
@@ -616,57 +281,45 @@
               desc:
                 item.category_title ||
                 item.board_or_exam ||
-                "Official Exam Practice Set",
+                "Full Exam Mock Paper",
               ques: Number(item.total_questions) || 15,
               time: Number(item.total_time_mins) || 15,
               access_type: item.access_type || "free",
               price: item.price || 0,
               discounted_price: item.discounted_price || 0,
-              difficulty: item.difficulty_level || "Medium",
               is_daily: Boolean(item.is_daily_challenge),
-              included_in_pass: item.included_in_pass !== false,
               exam_category: item.exam_category || currentSegment,
             }));
-          } else {
-            // Fallback predefined chapters if backend empty
-            if (Array.isArray(subjObj.categories)) {
-              subjObj.categories = subjObj.categories.map((c) => ({
-                id: c.id,
-                title: `${c.title} – Set #1`,
-                desc: `${subjObj.name} Standard Practice Set`,
-                ques: 15,
-                time: 15,
-                access_type: "free",
-                price: 0,
-                discounted_price: 0,
-                difficulty: "Medium",
-                is_daily: false,
-                included_in_pass: true,
-                exam_category: currentSegment,
-              }));
-            }
+          } else if (Array.isArray(subjObj.categories)) {
+            subjObj.categories = subjObj.categories.map((c) => ({
+              id: c.id,
+              title: `${c.title}`,
+              desc: `Practice Set`,
+              ques: 15,
+              time: 15,
+              access_type: "free",
+              price: 0,
+              discounted_price: 0,
+              is_daily: false,
+              exam_category: currentSegment,
+            }));
           }
 
-          // Daily live test update
           let dailyItem =
             subjObj.categories.find((c) => c.is_daily) || subjObj.categories[0];
           if (dailyItem) {
             activeDailyTest = dailyItem;
-            document.getElementById("daily-challenge-subject").innerText =
-              subjObj.name;
             document.getElementById("daily-challenge-title").innerText =
               dailyItem.title;
             document.getElementById("daily-challenge-qs").innerText =
-              `${dailyItem.ques} Questions`;
+              `📝 ${dailyItem.ques} Qs`;
             document.getElementById("daily-challenge-time").innerText =
-              `${dailyItem.time} Mins`;
+              `⏱️ ${dailyItem.time} Mins`;
           }
 
           subjObj.loaded = true;
         } catch (error) {
-          console.error("Fetch subject tests failed:", error);
           subjObj.hasError = true;
-          subjObj.errorMessage = "Failed to load test sets from the engine.";
         } finally {
           subjObj.loading = false;
           renderAccordion();
@@ -683,7 +336,6 @@
         }
       }
 
-      // 6. RENDER DESKTOP WEB RESPONSIVE ACCORDION
       function renderAccordion() {
         const container = document.getElementById(
           "subjects-accordion-container",
@@ -692,19 +344,12 @@
         const isUserPremium = getUserPremiumStatus();
 
         document.getElementById("total-subjects-count").innerText =
-          `${activeList.length} Modules`;
+          `${activeList.length} Subjects`;
 
         if (activeList.length === 0) {
           container.innerHTML = `
-            <div class="py-16 text-center bg-white rounded-3xl border border-slate-200/80 p-6 space-y-3">
-              <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto text-xl font-bold">
-                <i data-lucide="layers" class="w-6 h-6"></i>
-              </div>
-              <h3 class="text-base font-bold text-slate-800">No subjects currently active for this stream</h3>
-              <p class="text-xs text-slate-500 max-w-sm mx-auto">Explore other examination categories or attempt daily practice quizzes.</p>
-              <a href="/#exam-grid-section" class="inline-block px-5 py-2.5 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow-md no-underline">
-                Explore All Exams
-              </a>
+            <div class="py-10 text-center bg-white rounded-2xl border border-slate-200 p-4">
+              <p class="text-xs font-bold text-slate-500">No subject tests found.</p>
             </div>
           `;
           if (typeof lucide !== "undefined") lucide.createIcons();
@@ -717,150 +362,100 @@
             const categoryCount = subj.categories ? subj.categories.length : 0;
 
             return `
-            <div class="bg-white border ${
-              isOpen
-                ? "border-indigo-500 shadow-md ring-1 ring-indigo-500/20"
-                : "border-slate-200/90 shadow-2xs"
-            } rounded-3xl overflow-hidden transition-all duration-200">
+            <div class="bg-white border ${isOpen ? "border-indigo-400 ring-1 ring-indigo-400/20 shadow-xs" : "border-slate-200/90"} rounded-2xl overflow-hidden transition">
               
-              <!-- SUBJECT HEADER CARD -->
+              <!-- SUBJECT TITLE ROW -->
               <div 
                 onclick="toggleSubject('${subj.id}')"
-                class="p-4 sm:p-5 flex items-center justify-between cursor-pointer select-none hover:bg-slate-50/80 transition-all"
+                class="p-3.5 sm:p-4 flex items-center justify-between cursor-pointer select-none hover:bg-slate-50 transition"
               >
-                <div class="flex items-center gap-4 min-w-0">
-                  <div class="w-12 h-12 rounded-2xl ${
-                    subj.color || "bg-indigo-600"
-                  } text-white flex items-center justify-center text-xl font-black shrink-0 shadow-xs">
+                <div class="flex items-center gap-3 min-w-0">
+                  <div class="w-9 h-9 rounded-xl ${subj.color || "bg-indigo-600"} text-white flex items-center justify-center text-base font-bold shrink-0">
                     ${subj.icon || "📚"}
                   </div>
                   <div class="min-w-0">
-                    <h3 class="font-black text-slate-900 text-sm sm:text-base truncate leading-snug">${subj.name}</h3>
-                    <p class="text-xs font-semibold text-slate-500 mt-0.5 truncate">
-                      ${
-                        subj.loading
-                          ? "Connecting to test simulator..."
-                          : subj.hasError
-                            ? "Error loading papers"
-                            : `${categoryCount} Chapter-Wise &amp; Full Mock Papers Available`
-                      }
-                    </p>
+                    <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm truncate">${subj.name}</h4>
+                    <span class="text-[11px] text-slate-400 font-semibold">${categoryCount} Papers Available</span>
                   </div>
                 </div>
 
-                <div class="flex items-center gap-3 shrink-0">
-                  <span class="hidden sm:inline-flex text-xs font-extrabold px-3 py-1 rounded-full border ${
-                    subj.hasError
-                      ? "bg-rose-50 text-rose-600 border-rose-200"
-                      : subj.badgeColor ||
-                        "bg-indigo-50 text-indigo-700 border-indigo-200"
-                  }">
-                    ${
-                      subj.loading
-                        ? "⏳ Syncing..."
-                        : subj.hasError
-                          ? "⚠️ Error"
-                          : `${categoryCount} Sets Ready`
-                    }
-                  </span>
-                  <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition-transform duration-200 ${
-                    isOpen ? "rotate-180 bg-indigo-50 text-indigo-600" : ""
-                  }">
-                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition duration-200 ${isOpen ? "rotate-180 bg-indigo-50 text-indigo-600" : ""}">
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
                   </div>
                 </div>
               </div>
 
-              <!-- ACCORDION CONTENT (WEB GRID LAYOUT) -->
+              <!-- PAPERS GRID -->
               ${
                 isOpen
                   ? `
-                <div class="bg-slate-50/70 p-4 sm:p-6 border-t border-slate-100 animate-fadeIn space-y-4">
+                <div class="bg-slate-50/60 p-3 sm:p-4 border-t border-slate-100 space-y-2.5">
                   ${
                     subj.loading
-                      ? `
-                      <div class="py-12 text-center space-y-2">
-                        <div class="w-8 h-8 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                        <p class="text-xs font-bold text-indigo-600">Loading ${subj.name} Question Sets...</p>
-                      </div>
-                    `
-                      : subj.hasError
+                      ? `<div class="py-6 text-center text-xs font-bold text-indigo-600">Loading tests...</div>`
+                      : categoryCount > 0
                         ? `
-                      <div class="py-8 text-center space-y-2">
-                        <p class="text-xs font-bold text-rose-500">${subj.errorMessage || "Failed to load tests."}</p>
-                        <button onclick="event.stopPropagation(); fetchSubjectTests(window.getSubjectById ? window.getSubjectById('${subj.id}') : { id: '${subj.id}', name: '${subj.name}', apiSubject: '${subj.apiSubject || subj.name}' })" class="px-4 py-2 bg-rose-50 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold cursor-pointer">
-                          Retry Loading
-                        </button>
-                      </div>
-                    `
-                        : categoryCount > 0
-                          ? `
-                          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                            ${subj.categories
-                              .map((cat) => {
-                                const isPaid =
-                                  cat.access_type === "paid" ||
-                                  cat.access_type === "subscription_only";
-                                const isUnlocked = isUserPremium || !isPaid;
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                          ${subj.categories
+                            .map((cat) => {
+                              const isPaid =
+                                cat.access_type === "paid" ||
+                                cat.access_type === "subscription_only";
+                              const isUnlocked = isUserPremium || !isPaid;
+                              const catJson = JSON.stringify(cat).replace(
+                                /'/g,
+                                "&apos;",
+                              );
 
-                                let badgeHtml = "";
-                                if (cat.access_type === "free") {
-                                  badgeHtml = `<span class="text-[10px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-md">FREE</span>`;
-                                } else if (cat.access_type === "paid") {
-                                  badgeHtml = `<span class="text-[10px] font-black bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded-md">₹${cat.discounted_price || cat.price}</span>`;
-                                } else {
-                                  badgeHtml = `<span class="text-[10px] font-black bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded-md">🔒 PASS</span>`;
-                                }
-
-                                const catJsonEscaped = JSON.stringify(
-                                  cat,
-                                ).replace(/'/g, "&apos;");
-
-                                return `
-                                  <div class="test-card-hover bg-white border border-slate-200/90 rounded-2xl p-4 flex flex-col justify-between shadow-2xs space-y-3">
-                                    <div class="space-y-1.5">
-                                      <div class="flex items-start justify-between gap-2">
-                                        <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm line-clamp-1 leading-snug">${cat.title}</h4>
-                                        ${badgeHtml}
-                                      </div>
-                                      <p class="text-[11px] font-medium text-slate-500 line-clamp-2 leading-relaxed">${cat.desc}</p>
-                                    </div>
-
-                                    <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
-                                      <div class="flex items-center gap-2 text-[10px] font-bold text-slate-500">
-                                        <span class="bg-slate-100 px-2 py-0.5 rounded">📝 ${cat.ques} Qs</span>
-                                        <span class="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded">⏱️ ${cat.time}m</span>
-                                      </div>
-
+                              return `
+                                <div class="pro-card bg-white border border-slate-200 rounded-xl p-3 flex flex-col justify-between space-y-2.5 shadow-2xs">
+                                  <div class="space-y-1">
+                                    <div class="flex items-center justify-between gap-1.5">
+                                      <h5 class="font-bold text-slate-900 text-xs truncate">${cat.title}</h5>
                                       ${
-                                        isUnlocked
-                                          ? `
-                                        <button 
-                                          onclick="startTest('${cat.id}', '${cat.exam_category}')"
-                                          class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs flex items-center gap-1.5"
-                                        >
-                                          <span>Start Test</span>
-                                          <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
-                                        </button>
-                                      `
-                                          : `
-                                        <button 
-                                          onclick='openPaywall(${catJsonEscaped})'
-                                          class="px-4 py-2 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs flex items-center gap-1.5"
-                                        >
-                                          <span>Unlock</span>
-                                          <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-                                        </button>
-                                      `
+                                        cat.access_type === "free"
+                                          ? `<span class="text-[9px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200 px-1.5 py-0.2 rounded">FREE</span>`
+                                          : `<span class="text-[9px] font-black bg-indigo-50 text-indigo-700 border border-indigo-200 px-1.5 py-0.2 rounded">₹${cat.discounted_price || cat.price}</span>`
                                       }
                                     </div>
+                                    <div class="flex items-center gap-2 text-[10px] font-bold text-slate-400">
+                                      <span>📝 ${cat.ques} Qs</span>
+                                      <span>•</span>
+                                      <span>⏱️ ${cat.time}m</span>
+                                    </div>
                                   </div>
-                                `;
-                              })
-                              .join("")}
-                          </div>
-                        `
-                          : `<div class="py-8 text-center text-slate-400 font-bold text-xs">📂 No tests found in this category.</div>`
+
+                                  <div class="pt-2 border-t border-slate-100 flex justify-end">
+                                    ${
+                                      isUnlocked
+                                        ? `
+                                      <button 
+                                        onclick="startTest('${cat.id}', '${cat.exam_category}')"
+                                        class="w-full py-1.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer"
+                                      >
+                                        <span>Start Test</span>
+                                        <i data-lucide="play" class="w-3 h-3 fill-current"></i>
+                                      </button>
+                                    `
+                                        : `
+                                      <button 
+                                        onclick='openPaywall(${catJson})'
+                                        class="w-full py-1.5 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer"
+                                      >
+                                        <i data-lucide="lock" class="w-3 h-3"></i>
+                                        <span>Unlock</span>
+                                      </button>
+                                    `
+                                    }
+                                  </div>
+                                </div>
+                              `;
+                            })
+                            .join("")}
+                        </div>
+                      `
+                        : `<div class="py-4 text-center text-slate-400 font-bold text-xs">No tests available.</div>`
                   }
                 </div>
               `
@@ -914,14 +509,13 @@
       }
 
       function openPaywall(testObj) {
-        selectedTestForPurchase = testObj;
         document.getElementById("paywall-test-title").innerText = testObj.title;
         document.getElementById("paywall-test-price").innerText =
           `₹${testObj.discounted_price || testObj.price || 9}`;
         document.getElementById("paywall-test-mrp").innerText =
           `₹${testObj.price || 19}`;
         document.getElementById("btn-paywall-text").innerText =
-          `Buy This Test @ ₹${testObj.discounted_price || testObj.price || 9}`;
+          `Unlock Now @ ₹${testObj.discounted_price || testObj.price || 9}`;
         document.getElementById("paywall-modal").classList.remove("hidden");
       }
 
@@ -931,18 +525,17 @@
 
       function executeBuyTest() {
         closePaywallModal();
-        alert("Redirecting to secure test checkout...");
+        alert("Redirecting to checkout...");
       }
 
       function executeBuyPass() {
         closePaywallModal();
-        alert("Redirecting to All-India Exam Pass checkout...");
+        alert("Redirecting to Pass checkout...");
       }
 
       document.addEventListener("DOMContentLoaded", () => {
         syncHeaderUI();
         openFirstSubject();
-        fetchRecentUserScore();
         if (typeof lucide !== "undefined") lucide.createIcons();
       });
     </script>

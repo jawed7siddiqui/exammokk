@@ -177,7 +177,7 @@
               <span class="text-base">🌍</span>
               <span>Daily GK Drill (Free)</span>
             </button>
-
+            <!-- 
             <button
               id="install-pwa-btn"
               onclick="installPrepApp()"
@@ -185,7 +185,7 @@
             >
               <i data-lucide="download" class="w-4 h-4 text-indigo-600"></i>
               <span>Install Free App</span>
-            </button>
+            </button> -->
           </div>
         </div>
       </section>
@@ -332,7 +332,7 @@
       function launchDailyGKRunner() {
         // Mobile par gov_exam_runner aur Desktop/Web par default gov_exam_web_runner
         const runnerFile = isMobileDevice()
-          ? "gov_exam_runner.html"
+          ? "gov_exam_web_runner.html"
           : "gov_exam_web_runner.html";
 
         window.location.href = `/${runnerFile}?test_id=dgk_todays_affairs&segment=DAILY_GK`;
