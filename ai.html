@@ -15,6 +15,8 @@
       rel="stylesheet"
     />
 
+    <!-- COMMON HEADER LOADER SCRIPT -->
+    <script src="/js/admin-header.js"></script>
     <!-- MASTER SUBJECTS DATA SOURCE -->
     <script src="/js/AllSubject.js"></script>
 
@@ -59,476 +61,447 @@
       class="fixed top-5 right-5 z-[9999] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"
     ></div>
 
-    <!-- 1. TOP HEADER NAVIGATION -->
-    <header
-      class="bg-white border-b border-slate-200 px-5 py-3.5 flex items-center justify-between sticky top-0 z-40 shadow-xs"
-    >
-      <div class="flex items-center gap-3">
-        <div
-          class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-600/20 shrink-0"
-        >
-          <i data-lucide="sparkles" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1
-              class="text-sm md:text-base font-black tracking-tight text-slate-900"
-            >
-              AI Auto-Test Engine &amp; Generator
-            </h1>
-            <span
-              class="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-md text-[10px] font-extrabold uppercase tracking-wider"
-              >Direct Stream Synced</span
-            >
-          </div>
-          <p
-            class="text-[11px] text-slate-500 font-semibold font-mono truncate max-w-xs sm:max-w-none"
-          >
-            POST /api/upsc/generate-ai-test
-          </p>
-        </div>
-      </div>
+    <!-- COMMON MOBILE HEADER -->
+    <div id="common-mobile-header" class="contents"></div>
 
-      <div
-        class="flex items-center gap-2 px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-xl text-xs"
+    <!-- MAIN FULL WIDTH CONTAINER (NO SIDEBAR) -->
+    <div
+      class="flex-1 flex flex-col min-h-screen w-full bg-slate-50 overflow-x-hidden"
+    >
+      <!-- COMMON TOP HEADER BAR -->
+      <div id="common-top-header" class="contents"></div>
+
+      <!-- MAIN SPLIT INTERFACE -->
+      <main
+        class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5 p-4 md:p-6 max-w-[1700px] mx-auto w-full"
       >
-        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-        <span class="text-slate-700 font-bold text-[11px] hidden sm:inline"
-          >Auto-Mapped Engine</span
-        >
-      </div>
-    </header>
-
-    <!-- 2. MAIN SPLIT INTERFACE -->
-    <main
-      class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5 p-4 md:p-6 max-w-[1700px] mx-auto w-full"
-    >
-      <!-- LEFT PANEL: CONFIG & CONTROLS -->
-      <section class="lg:col-span-5 space-y-4">
-        <div
-          class="bg-white border border-slate-200/80 rounded-3xl p-5 space-y-4 shadow-sm"
-        >
+        <!-- LEFT PANEL: CONFIG & CONTROLS -->
+        <section class="lg:col-span-5 space-y-4">
           <div
-            class="flex items-center justify-between border-b border-slate-100 pb-3"
+            class="bg-white border border-slate-200/80 rounded-3xl p-5 space-y-4 shadow-sm"
           >
             <div
-              class="flex items-center gap-2 text-indigo-600 font-extrabold text-xs uppercase tracking-wider"
+              class="flex items-center justify-between border-b border-slate-100 pb-3"
             >
-              <i data-lucide="sliders" class="w-4 h-4"></i>
-              <span>Blueprint Parameters</span>
-            </div>
-            <span
-              id="badge-total-qs"
-              class="text-[10px] text-slate-600 font-bold bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200 font-mono"
-            >
-              15 Questions / Mock
-            </span>
-          </div>
-
-          <!-- 1. EXAM STREAM SELECTION (DYNAMIC FROM ALLSUBJECT.JS) & STATUS -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div class="sm:col-span-2">
-              <label
-                class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1"
+              <div
+                class="flex items-center gap-2 text-indigo-600 font-extrabold text-xs uppercase tracking-wider"
               >
-                Target Exam Stream
-              </label>
-              <select
-                id="cfg_exam_stream"
-                onchange="handleExamStreamChange()"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 focus:border-indigo-500 rounded-xl text-xs font-bold text-slate-800 outline-none cursor-pointer transition-all"
-              >
-                <!-- Populated dynamically via JavaScript -->
-              </select>
-            </div>
-            <div>
-              <label
-                class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1"
-              >
-                Publish Status
-              </label>
-              <select
-                id="cfg_status"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 focus:border-indigo-500 rounded-xl text-xs font-bold text-emerald-600 outline-none cursor-pointer"
-              >
-                <option value="published" selected>🟢 Published</option>
-                <option value="draft">🟡 Draft</option>
-                <option value="pending">🟣 Pending</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- 2. BOARD & CLASS/STAGE -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label
-                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
-                >Board / Exam Agency</label
-              >
-              <input
-                type="text"
-                id="cfg_board"
-                value="SSC"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
-              />
-            </div>
-            <div id="cfg_class_stage_container">
-              <label
-                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
-                >Tier / Level / Grade</label
-              >
-              <input
-                type="text"
-                id="cfg_class_stage"
-                value="Tier 1"
-                placeholder="e.g. Tier 1"
-                oninput="updateTestTitlePreview()"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
-              />
-            </div>
-          </div>
-
-          <!-- TEST TITLE PREVIEW -->
-          <div>
-            <label
-              class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
-              >Test Title (Auto-Populated)</label
-            >
-            <input
-              type="text"
-              id="cfg_test_title_preview"
-              placeholder="Will auto-populate from selected topics"
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-indigo-700 outline-none focus:border-indigo-500"
-            />
-          </div>
-
-          <!-- 3. ENGINE MODE, DURATION, QUESTIONS & MARKS -->
-          <div class="grid grid-cols-4 gap-2">
-            <div>
-              <label
-                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
-                >Mode</label
-              >
-              <select
-                id="cfg_mode"
-                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-indigo-600 outline-none"
-              >
-                <option value="mcq_single" selected>MCQ Single</option>
-                <option value="matching_canvas">Canvas</option>
-                <option value="cbt_exam">CBT Exam</option>
-              </select>
-            </div>
-            <div>
-              <label
-                id="lbl_duration"
-                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
-                >Time (M)</label
-              >
-              <input
-                type="number"
-                id="cfg_duration"
-                value="15"
-                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-slate-800 outline-none"
-              />
-            </div>
-            <div>
-              <label
-                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
-                >Total Qs</label
-              >
-              <input
-                type="number"
-                id="cfg_total_questions"
-                value="15"
-                oninput="onQuestionsCountChange()"
-                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-indigo-600 outline-none"
-              />
-            </div>
-            <div>
-              <label
-                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
-                >+Marks/-Neg</label
-              >
-              <div class="flex items-center gap-1">
-                <input
-                  type="number"
-                  step="0.1"
-                  id="cfg_marks"
-                  value="2"
-                  title="Marks for correct"
-                  class="w-1/2 p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-emerald-600 outline-none text-center"
-                />
-                <input
-                  type="number"
-                  step="0.01"
-                  id="cfg_negative_marks"
-                  value="0.5"
-                  title="Negative Marks deducted"
-                  class="w-1/2 p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-rose-600 outline-none text-center"
-                />
+                <i data-lucide="sliders" class="w-4 h-4"></i>
+                <span>Blueprint Parameters</span>
               </div>
-            </div>
-          </div>
-
-          <!-- 4. MONETIZATION -->
-          <div
-            class="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-2.5"
-          >
-            <div class="flex items-center justify-between">
               <span
-                class="text-[10px] font-extrabold text-indigo-600 uppercase tracking-wider"
+                id="badge-total-qs"
+                class="text-[10px] text-slate-600 font-bold bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200 font-mono"
               >
-                💰 Monetization &amp; Access
+                15 Questions / Mock
               </span>
-              <label
-                class="inline-flex items-center gap-1.5 text-[11px] font-bold text-slate-700 cursor-pointer"
-              >
-                <input
-                  type="checkbox"
-                  id="cfg_included_in_pass"
-                  checked
-                  class="w-3.5 h-3.5 text-indigo-600 rounded bg-white border-slate-300"
-                />
-                <span>Include in Pass</span>
-              </label>
             </div>
 
-            <div class="grid grid-cols-3 gap-2">
-              <div>
+            <!-- 1. EXAM STREAM SELECTION (DYNAMIC FROM ALLSUBJECT.JS) & STATUS -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="sm:col-span-2">
                 <label
-                  class="block text-[9px] font-bold text-slate-500 uppercase mb-1"
-                  >Access Type</label
+                  class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1"
                 >
+                  Target Exam Stream
+                </label>
                 <select
-                  id="cfg_access_type"
-                  onchange="togglePriceFields()"
-                  class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none cursor-pointer"
+                  id="cfg_exam_stream"
+                  onchange="handleExamStreamChange()"
+                  class="w-full p-2.5 bg-slate-50 border border-slate-200 focus:border-indigo-500 rounded-xl text-xs font-bold text-slate-800 outline-none cursor-pointer transition-all"
                 >
-                  <option value="free" selected>Free</option>
-                  <option value="paid">Paid</option>
-                  <option value="subscription_only">Pass Only</option>
+                  <!-- Populated dynamically via JavaScript -->
                 </select>
               </div>
               <div>
                 <label
-                  class="block text-[9px] font-bold text-slate-500 uppercase mb-1"
-                  >MRP Price (₹)</label
+                  class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1"
+                >
+                  Publish Status
+                </label>
+                <select
+                  id="cfg_status"
+                  class="w-full p-2.5 bg-slate-50 border border-slate-200 focus:border-indigo-500 rounded-xl text-xs font-bold text-emerald-600 outline-none cursor-pointer"
+                >
+                  <option value="published" selected>🟢 Published</option>
+                  <option value="draft">🟡 Draft</option>
+                  <option value="pending">🟣 Pending</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 2. BOARD & CLASS/STAGE -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label
+                  class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                  >Board / Exam Agency</label
+                >
+                <input
+                  type="text"
+                  id="cfg_board"
+                  value="SSC"
+                  class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
+                />
+              </div>
+              <div id="cfg_class_stage_container">
+                <label
+                  class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                  >Tier / Level / Grade</label
+                >
+                <input
+                  type="text"
+                  id="cfg_class_stage"
+                  value="Tier 1"
+                  placeholder="e.g. Tier 1"
+                  oninput="updateTestTitlePreview()"
+                  class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
+                />
+              </div>
+            </div>
+
+            <!-- TEST TITLE PREVIEW -->
+            <div>
+              <label
+                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >Test Title (Auto-Populated)</label
+              >
+              <input
+                type="text"
+                id="cfg_test_title_preview"
+                placeholder="Will auto-populate from selected topics"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-indigo-700 outline-none focus:border-indigo-500"
+              />
+            </div>
+
+            <!-- 3. ENGINE MODE, DURATION, QUESTIONS & MARKS -->
+            <div class="grid grid-cols-4 gap-2">
+              <div>
+                <label
+                  class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                  >Mode</label
+                >
+                <select
+                  id="cfg_mode"
+                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-indigo-600 outline-none"
+                >
+                  <option value="mcq_single" selected>MCQ Single</option>
+                  <option value="matching_canvas">Canvas</option>
+                  <option value="cbt_exam">CBT Exam</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  id="lbl_duration"
+                  class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                  >Time (M)</label
                 >
                 <input
                   type="number"
-                  id="cfg_price"
-                  value="0"
-                  disabled
-                  class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none disabled:opacity-50"
+                  id="cfg_duration"
+                  value="15"
+                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-slate-800 outline-none"
                 />
               </div>
               <div>
                 <label
-                  class="block text-[9px] font-bold text-slate-500 uppercase mb-1"
-                  >Selling (₹)</label
+                  class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                  >Total Qs</label
                 >
                 <input
                   type="number"
-                  id="cfg_discounted_price"
-                  value="0"
-                  disabled
-                  class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none disabled:opacity-50"
+                  id="cfg_total_questions"
+                  value="15"
+                  oninput="onQuestionsCountChange()"
+                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-indigo-600 outline-none"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                  >+Marks/-Neg</label
+                >
+                <div class="flex items-center gap-1">
+                  <input
+                    type="number"
+                    step="0.1"
+                    id="cfg_marks"
+                    value="2"
+                    title="Marks for correct"
+                    class="w-1/2 p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-emerald-600 outline-none text-center"
+                  />
+                  <input
+                    type="number"
+                    step="0.01"
+                    id="cfg_negative_marks"
+                    value="0.5"
+                    title="Negative Marks deducted"
+                    class="w-1/2 p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-rose-600 outline-none text-center"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. MONETIZATION -->
+            <div
+              class="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-2.5"
+            >
+              <div class="flex items-center justify-between">
+                <span
+                  class="text-[10px] font-extrabold text-indigo-600 uppercase tracking-wider"
+                >
+                  💰 Monetization &amp; Access
+                </span>
+                <label
+                  class="inline-flex items-center gap-1.5 text-[11px] font-bold text-slate-700 cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    id="cfg_included_in_pass"
+                    checked
+                    class="w-3.5 h-3.5 text-indigo-600 rounded bg-white border-slate-300"
+                  />
+                  <span>Include in Pass</span>
+                </label>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2">
+                <div>
+                  <label
+                    class="block text-[9px] font-bold text-slate-500 uppercase mb-1"
+                    >Access Type</label
+                  >
+                  <select
+                    id="cfg_access_type"
+                    onchange="togglePriceFields()"
+                    class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none cursor-pointer"
+                  >
+                    <option value="free" selected>Free</option>
+                    <option value="paid">Paid</option>
+                    <option value="subscription_only">Pass Only</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    class="block text-[9px] font-bold text-slate-500 uppercase mb-1"
+                    >MRP Price (₹)</label
+                  >
+                  <input
+                    type="number"
+                    id="cfg_price"
+                    value="0"
+                    disabled
+                    class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none disabled:opacity-50"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-[9px] font-bold text-slate-500 uppercase mb-1"
+                    >Selling (₹)</label
+                  >
+                  <input
+                    type="number"
+                    id="cfg_discounted_price"
+                    value="0"
+                    disabled
+                    class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none disabled:opacity-50"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. DIFFICULTY & TAGS -->
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label
+                  class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                  >Difficulty</label
+                >
+                <select
+                  id="cfg_difficulty"
+                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none"
+                >
+                  <option value="easy" selected>🟢 Easy</option>
+                  <option value="medium">🟡 Medium</option>
+                  <option value="hard">🔴 Hard</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                  >Target Tags</label
+                >
+                <input
+                  type="text"
+                  id="cfg_tags"
+                  value="SSC CGL, CHSL, MTS, Tier-1"
+                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
                 />
               </div>
             </div>
           </div>
 
-          <!-- 5. DIFFICULTY & TAGS -->
-          <div class="grid grid-cols-2 gap-2.5">
-            <div>
-              <label
-                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
-                >Difficulty</label
-              >
-              <select
-                id="cfg_difficulty"
-                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none"
-              >
-                <option value="easy" selected>🟢 Easy</option>
-                <option value="medium">🟡 Medium</option>
-                <option value="hard">🔴 Hard</option>
-              </select>
-            </div>
-            <div>
-              <label
-                class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
-                >Target Tags</label
-              >
-              <input
-                type="text"
-                id="cfg_tags"
-                value="SSC CGL, CHSL, MTS, Tier-1"
-                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- SUBJECT & CATEGORY TREE ACCORDION CARD -->
-        <div
-          class="bg-white border border-slate-200/80 rounded-3xl p-5 space-y-3.5 shadow-sm flex flex-col"
-        >
+          <!-- SUBJECT & CATEGORY TREE ACCORDION CARD -->
           <div
-            class="flex items-center justify-between border-b border-slate-100 pb-3"
-          >
-            <div>
-              <h3
-                class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2"
-              >
-                <i data-lucide="layers" class="w-4 h-4 text-indigo-600"></i>
-                <span>Available Chapters (AllSubject.js)</span>
-              </h3>
-              <p class="text-[11px] text-slate-500 font-semibold mt-0.5">
-                Select chapters to generate test series
-              </p>
-            </div>
-
-            <div class="flex items-center gap-2">
-              <button
-                type="button"
-                onclick="toggleSelectAllTopics(true)"
-                class="text-[10px] font-bold text-indigo-600 hover:text-indigo-700 cursor-pointer transition-colors"
-              >
-                All
-              </button>
-              <span class="text-slate-300">|</span>
-              <button
-                type="button"
-                onclick="toggleSelectAllTopics(false)"
-                class="text-[10px] font-bold text-slate-500 hover:text-slate-700 cursor-pointer transition-colors"
-              >
-                Clear
-              </button>
-            </div>
-          </div>
-
-          <div
-            id="subject-category-tree"
-            class="space-y-2.5 max-h-[360px] overflow-y-auto no-scrollbar pr-1"
-          ></div>
-
-          <div class="pt-2">
-            <button
-              id="btn-trigger-generation"
-              onclick="startAutomatedBatchGeneration()"
-              class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-98 text-white font-extrabold rounded-2xl text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 cursor-pointer shadow-lg shadow-indigo-600/20 transition-all"
-            >
-              <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
-              <span id="btn-trigger-text"
-                >Generate Tests For (0) Selected Topics</span
-              >
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- RIGHT PANEL: CONSOLE & OUTPUT PREVIEW -->
-      <section class="lg:col-span-7 space-y-4 flex flex-col">
-        <div
-          class="bg-white border border-slate-200/80 rounded-3xl p-5 shadow-sm space-y-3"
-        >
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-              <span
-                id="queue-status-dot"
-                class="w-2.5 h-2.5 rounded-full bg-slate-300"
-              ></span>
-              <h3
-                id="queue-status-title"
-                class="text-xs font-black text-slate-800 uppercase tracking-wider"
-              >
-                Engine: Idle
-              </h3>
-            </div>
-            <span
-              id="queue-progress-count"
-              class="text-[11px] font-mono font-bold bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200 text-indigo-600"
-            >
-              0 / 0 Completed
-            </span>
-          </div>
-
-          <div
-            class="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200/80"
+            class="bg-white border border-slate-200/80 rounded-3xl p-5 space-y-3.5 shadow-sm flex flex-col"
           >
             <div
-              id="queue-progress-bar"
-              class="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 transition-all duration-300 w-0"
-            ></div>
-          </div>
-        </div>
+              class="flex items-center justify-between border-b border-slate-100 pb-3"
+            >
+              <div>
+                <h3
+                  class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2"
+                >
+                  <i data-lucide="layers" class="w-4 h-4 text-indigo-600"></i>
+                  <span>Available Chapters (AllSubject.js)</span>
+                </h3>
+                <p class="text-[11px] text-slate-500 font-semibold mt-0.5">
+                  Select chapters to generate test series
+                </p>
+              </div>
 
-        <div
-          class="bg-white border border-slate-200/80 rounded-3xl p-5 shadow-sm flex-1 flex flex-col space-y-3"
-        >
-          <div
-            class="flex items-center justify-between border-b border-slate-100 pb-3 flex-wrap gap-2"
-          >
-            <div class="flex items-center gap-2">
-              <i data-lucide="database" class="w-4 h-4 text-emerald-600"></i>
-              <span
-                class="text-xs font-black text-slate-800 uppercase tracking-wide"
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  onclick="toggleSelectAllTopics(true)"
+                  class="text-[10px] font-bold text-indigo-600 hover:text-indigo-700 cursor-pointer transition-colors"
+                >
+                  All
+                </button>
+                <span class="text-slate-300">|</span>
+                <button
+                  type="button"
+                  onclick="toggleSelectAllTopics(false)"
+                  class="text-[10px] font-bold text-slate-500 hover:text-slate-700 cursor-pointer transition-colors"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+
+            <div
+              id="subject-category-tree"
+              class="space-y-2.5 max-h-[360px] overflow-y-auto no-scrollbar pr-1"
+            ></div>
+
+            <div class="pt-2">
+              <button
+                id="btn-trigger-generation"
+                onclick="startAutomatedBatchGeneration()"
+                class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-98 text-white font-extrabold rounded-2xl text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 cursor-pointer shadow-lg shadow-indigo-600/20 transition-all"
               >
-                Database Payload Output
+                <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
+                <span id="btn-trigger-text"
+                  >Generate Tests For (0) Selected Topics</span
+                >
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- RIGHT PANEL: CONSOLE & OUTPUT PREVIEW -->
+        <section class="lg:col-span-7 space-y-4 flex flex-col">
+          <div
+            class="bg-white border border-slate-200/80 rounded-3xl p-5 shadow-sm space-y-3"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span
+                  id="queue-status-dot"
+                  class="w-2.5 h-2.5 rounded-full bg-slate-300"
+                ></span>
+                <h3
+                  id="queue-status-title"
+                  class="text-xs font-black text-slate-800 uppercase tracking-wider"
+                >
+                  Engine: Idle
+                </h3>
+              </div>
+              <span
+                id="queue-progress-count"
+                class="text-[11px] font-mono font-bold bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200 text-indigo-600"
+              >
+                0 / 0 Completed
               </span>
             </div>
 
-            <div class="flex items-center gap-2">
-              <button
-                onclick="copyActiveJsonToClipboard()"
-                class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
-              >
-                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                <span>Copy JSON</span>
-              </button>
-              <button
-                onclick="clearPayloadConsole()"
-                class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1"
-              >
-                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                <span>Clear</span>
-              </button>
+            <div
+              class="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200/80"
+            >
+              <div
+                id="queue-progress-bar"
+                class="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 transition-all duration-300 w-0"
+              ></div>
             </div>
           </div>
 
           <div
-            id="generated-subject-tabs"
-            class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1"
-          >
-            <span class="text-[11px] font-semibold text-slate-400 italic">
-              No tests generated in this session yet.
-            </span>
-          </div>
-
-          <div
-            class="flex-1 bg-slate-900 rounded-2xl p-4 border border-slate-800 flex flex-col relative overflow-hidden min-h-[460px]"
+            class="bg-white border border-slate-200/80 rounded-3xl p-5 shadow-sm flex-1 flex flex-col space-y-3"
           >
             <div
-              class="flex items-center justify-between pb-2 border-b border-slate-800 text-[10px] font-mono text-slate-400"
+              class="flex items-center justify-between border-b border-slate-100 pb-3 flex-wrap gap-2"
             >
-              <span id="console-header-label">Terminal / Ready</span>
-              <span
-                id="active-test-meta-badge"
-                class="text-indigo-400 font-bold"
-                >Waiting for action...</span
-              >
+              <div class="flex items-center gap-2">
+                <i data-lucide="database" class="w-4 h-4 text-emerald-600"></i>
+                <span
+                  class="text-xs font-black text-slate-800 uppercase tracking-wide"
+                >
+                  Database Payload Output
+                </span>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button
+                  onclick="copyActiveJsonToClipboard()"
+                  class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+                >
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                  <span>Copy JSON</span>
+                </button>
+                <button
+                  onclick="clearPayloadConsole()"
+                  class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1"
+                >
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  <span>Clear</span>
+                </button>
+              </div>
             </div>
 
-            <pre
-              id="ai-console-output"
-              class="flex-1 font-mono text-xs text-emerald-400 overflow-y-auto no-scrollbar p-2 mt-2 leading-relaxed whitespace-pre-wrap select-text"
+            <div
+              id="generated-subject-tabs"
+              class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1"
             >
+              <span class="text-[11px] font-semibold text-slate-400 italic">
+                No tests generated in this session yet.
+              </span>
+            </div>
+
+            <div
+              class="flex-1 bg-slate-900 rounded-2xl p-4 border border-slate-800 flex flex-col relative overflow-hidden min-h-[460px]"
+            >
+              <div
+                class="flex items-center justify-between pb-2 border-b border-slate-800 text-[10px] font-mono text-slate-400"
+              >
+                <span id="console-header-label">Terminal / Ready</span>
+                <span
+                  id="active-test-meta-badge"
+                  class="text-indigo-400 font-bold"
+                  >Waiting for action...</span
+                >
+              </div>
+
+              <pre
+                id="ai-console-output"
+                class="flex-1 font-mono text-xs text-emerald-400 overflow-y-auto no-scrollbar p-2 mt-2 leading-relaxed whitespace-pre-wrap select-text"
+              >
 Select chapters from the left panel and click "Generate Tests" to start.</pre
-            >
+              >
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </div>
 
     <!-- JAVASCRIPT SYSTEM ENGINE -->
     <script>
@@ -585,7 +558,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         return {};
       }
 
-      // Stream Human Labels
       const STREAM_LABELS = {
         DAILY_GK: "🌍 Daily GK & Current Affairs",
         SSC: "⚡ SSC Exams (CGL, CHSL, GD, CPO)",
@@ -600,7 +572,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         KIDS_SCHOOL: "🎨 Kids School (Class 1-3)",
       };
 
-      // 1. POPULATE DROPDOWN DYNAMICALLY FROM ALLSUBJECT.JS
       function populateExamStreamDropdown() {
         const selectEl = document.getElementById("cfg_exam_stream");
         const allData = getSubjectsData();
@@ -609,16 +580,14 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
 
         let html = "";
 
-        // 1. Daily GK & Quizzes (Top Priority)
         if (allData.DAILY_GK) {
           html += `
-      <optgroup label="🌍 Live Drill & GK">
-        <option value="DAILY_GK">${STREAM_LABELS.DAILY_GK || "Daily GK & Current Affairs"}</option>
-      </optgroup>
-    `;
+            <optgroup label="🌍 Live Drill & GK">
+              <option value="DAILY_GK">${STREAM_LABELS.DAILY_GK || "Daily GK & Current Affairs"}</option>
+            </optgroup>
+          `;
         }
 
-        // 2. Direct Competitive Streams
         const competitiveKeys = [
           "SSC",
           "RAILWAYS",
@@ -636,16 +605,14 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         });
         html += `</optgroup>`;
 
-        // 3. Govt PSC
         if (allData.GOVT_PSC) {
           html += `
-      <optgroup label="🏛️ Civil Services">
-        <option value="GOVT_PSC">${STREAM_LABELS.GOVT_PSC}</option>
-      </optgroup>
-    `;
+            <optgroup label="🏛️ Civil Services">
+              <option value="GOVT_PSC">${STREAM_LABELS.GOVT_PSC}</option>
+            </optgroup>
+          `;
         }
 
-        // 4. School Education
         if (allData.BOARD_EXAMS || allData.KIDS_SCHOOL) {
           html += `<optgroup label="📚 School Education">`;
           if (allData.BOARD_EXAMS)
@@ -657,7 +624,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
 
         selectEl.innerHTML = html;
       }
-      // 2. HANDLE STREAM CHANGE (AUTO-POPULATE ATTRIBUTES FROM ALLSUBJECT.JS)
+
       function handleExamStreamChange() {
         const streamKey = document.getElementById("cfg_exam_stream").value;
         const allData = getSubjectsData();
@@ -666,7 +633,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
 
         const isDailyGK = streamKey === "DAILY_GK";
 
-        // 1. Board / Agency Defaults
         let defaultBoard = firstSubject.tags?.[0] || streamKey;
         if (isDailyGK) defaultBoard = "Daily Quiz / Open";
         else if (streamKey === "SSC") defaultBoard = "SSC";
@@ -678,7 +644,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         else if (streamKey === "ENTRANCE") defaultBoard = "NTA / Consortium";
         else if (streamKey === "GOVT_PSC") defaultBoard = "UPSC / State PSC";
 
-        // 2. Exam-Wise Standard Time & Marking Schemes
         let defaultTotalQs = 15;
         let defaultDuration = 15;
         let defaultMode = "mcq_single";
@@ -687,68 +652,59 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
 
         switch (streamKey) {
           case "DAILY_GK":
-            defaultTotalQs = 10; // 10 Questions Daily Drill
-            defaultDuration = 5; // 5 Mins Rapid Speed
+            defaultTotalQs = 10;
+            defaultDuration = 5;
             posMarks = 2.0;
-            negMarks = 0.5; // 25% Negative
+            negMarks = 0.5;
             break;
-
           case "SSC":
             defaultTotalQs = 15;
-            defaultDuration = 10; // 10 Mins (CGL/CHSL Speed)
+            defaultDuration = 10;
             posMarks = 2.0;
-            negMarks = 0.5; // 25% Negative
+            negMarks = 0.5;
             break;
-
           case "RAILWAYS":
             defaultTotalQs = 15;
-            defaultDuration = 12; // 12 Mins (RRB NTPC/Group D)
+            defaultDuration = 12;
             posMarks = 1.0;
-            negMarks = 0.33; // 33.33% (1/3rd) Negative
+            negMarks = 0.33;
             break;
-
           case "BANKING":
             defaultTotalQs = 15;
-            defaultDuration = 10; // 10 Mins Speed Drill
+            defaultDuration = 10;
             posMarks = 1.0;
-            negMarks = 0.25; // 25% (1/4th) Negative
+            negMarks = 0.25;
             break;
-
           case "JEE_NEET":
             defaultTotalQs = 15;
-            defaultDuration = 20; // 20 Mins (Concept & Calculation)
+            defaultDuration = 20;
             posMarks = 4.0;
-            negMarks = 1.0; // 25% (1/4th) Negative
+            negMarks = 1.0;
             break;
-
           case "DEFENCE":
             defaultTotalQs = 15;
-            defaultDuration = 15; // 15 Mins (NDA/CDS)
+            defaultDuration = 15;
             posMarks = 2.5;
-            negMarks = 0.83; // 33.33% (1/3rd) Negative
+            negMarks = 0.83;
             break;
-
           case "TEACHING":
             defaultTotalQs = 15;
-            defaultDuration = 15; // 15 Mins (CTET/STET)
+            defaultDuration = 15;
             posMarks = 1.0;
-            negMarks = 0.0; // No Negative Marking
+            negMarks = 0.0;
             break;
-
           case "ENTRANCE":
             defaultTotalQs = 15;
-            defaultDuration = 15; // 15 Mins (CUET/CLAT)
+            defaultDuration = 15;
             posMarks = 5.0;
-            negMarks = 1.0; // 20% (1/5th) Negative
+            negMarks = 1.0;
             break;
-
           case "GOVT_PSC":
             defaultTotalQs = 15;
-            defaultDuration = 15; // 15 Mins (UPSC / State PCS)
+            defaultDuration = 15;
             posMarks = 2.0;
-            negMarks = 0.66; // 33.33% (1/3rd) Negative
+            negMarks = 0.66;
             break;
-
           default:
             defaultTotalQs = 15;
             defaultDuration = 15;
@@ -757,7 +713,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
             break;
         }
 
-        // Subject-level override agar custom marks maujood hon
         if (firstSubject.marksPerCorrect !== undefined && !isDailyGK) {
           posMarks = firstSubject.marksPerCorrect;
         }
@@ -765,7 +720,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
           negMarks = firstSubject.negativeMarks;
         }
 
-        // 3. Set Input Values in UI
         document.getElementById("cfg_board").value = defaultBoard;
         document.getElementById("cfg_tags").value = (
           firstSubject.tags || []
@@ -776,7 +730,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         document.getElementById("cfg_marks").value = posMarks;
         document.getElementById("cfg_negative_marks").value = negMarks;
 
-        // 4. Update UI Labels & Badges
         const durationLabel = document.getElementById("lbl_duration");
         if (durationLabel) {
           durationLabel.textContent = "Time (M)";
@@ -787,7 +740,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
           badgeTotalQs.textContent = `${defaultTotalQs} Questions / Mock`;
         }
 
-        // 5. Stage / Tier Defaults
         let stageVal = "Tier 1";
         if (isDailyGK) stageVal = "Daily Drill";
         else if (streamKey === "GOVT_PSC" || streamKey === "BANKING")
@@ -803,21 +755,22 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         );
         if (stageContainer) {
           stageContainer.innerHTML = `
-      <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">
-        ${isDailyGK ? "Drill Type" : "Tier / Stage"}
-      </label>
-      <input
-        type="text"
-        id="cfg_class_stage"
-        value="${stageVal}"
-        oninput="updateTestTitlePreview()"
-        class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
-      />
-    `;
+            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+              ${isDailyGK ? "Drill Type" : "Tier / Stage"}
+            </label>
+            <input
+              type="text"
+              id="cfg_class_stage"
+              value="${stageVal}"
+              oninput="updateTestTitlePreview()"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
+            />
+          `;
         }
 
         renderSubjectCategoryTree();
       }
+
       function toggleSubjectAccordion(subId) {
         const content = document.getElementById(`sub-content-${subId}`);
         const icon = document.getElementById(`sub-arrow-${subId}`);
@@ -1048,7 +1001,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
 
         const streamKey = document.getElementById("cfg_exam_stream").value;
 
-        // Backend Schema Compatibility (Enum mapping)
         let examCategory = streamKey;
         if (
           [
@@ -1128,7 +1080,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
               category_id: categoryId,
               category_title: categoryTitle,
               exam_category: examCategory,
-              exam_stream: streamKey, // Direct stream passed
+              exam_stream: streamKey,
               status: status,
               board_or_exam: board,
               classGrade: stage,
@@ -1321,6 +1273,9 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
       }
 
       document.addEventListener("DOMContentLoaded", () => {
+        if (typeof renderAdminHeader === "function") {
+          renderAdminHeader("AI Auto-Test Engine & Generator", "ai");
+        }
         populateExamStreamDropdown();
         handleExamStreamChange();
         togglePriceFields();

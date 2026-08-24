@@ -14,6 +14,8 @@
       rel="stylesheet"
     />
 
+    <!-- COMMON HEADER LOADER SCRIPT -->
+    <script src="/js/admin-header.js"></script>
     <!-- MASTER SUBJECTS DATA SOURCE -->
     <script src="/js/AllSubject.js"></script>
 
@@ -75,153 +77,22 @@
       class="fixed top-5 right-5 z-[9999] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"
     ></div>
 
-    <!-- MOBILE TOP HEADER BAR -->
-    <div
-      class="md:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between sticky top-0 z-40 shadow-xs"
-    >
-      <div class="flex items-center gap-2.5">
-        <div class="p-2 bg-indigo-600 rounded-xl text-white shadow-xs">
-          <i data-lucide="layers" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <span
-            class="font-extrabold text-sm tracking-tight text-slate-800 block"
-            >DualEngine Pro</span
-          >
-          <span
-            class="text-[10px] text-indigo-600 font-bold uppercase tracking-wider"
-            >Admin Workspace</span
-          >
-        </div>
-      </div>
-      <button
-        onclick="toggleMobileSidebar()"
-        class="p-2 text-slate-600 hover:text-slate-900 bg-slate-100 rounded-xl border border-slate-200 transition-colors cursor-pointer"
-      >
-        <i data-lucide="menu" class="w-5 h-5"></i>
-      </button>
-    </div>
+    <!-- 1. COMMON MOBILE BAR SLOT -->
+    <div id="common-mobile-header" class="contents"></div>
 
-    <!-- SIDEBAR NAV -->
-    <aside
-      id="sidebar"
-      class="w-full md:w-64 bg-white border-r border-slate-200 flex flex-col fixed md:sticky top-0 h-screen z-40 transition-transform duration-300 -translate-x-full md:translate-x-0 shrink-0"
-    >
-      <div
-        class="p-5 border-b border-slate-100 hidden md:flex items-center gap-3"
-      >
-        <div
-          class="p-2.5 bg-gradient-to-tr from-indigo-600 to-indigo-500 rounded-2xl shadow-sm text-white"
-        >
-          <i data-lucide="layers" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <h1 class="font-extrabold text-sm tracking-tight text-slate-800">
-            DualEngine Pro
-          </h1>
-          <p class="text-[11px] text-slate-500 font-semibold">
-            Test &amp; Item Manager
-          </p>
-        </div>
-      </div>
-
-      <nav class="flex-1 p-3.5 space-y-1.5">
-        <button
-          onclick="switchTab('tests')"
-          id="nav-tests"
-          class="w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs bg-indigo-600 text-white shadow-sm shadow-indigo-600/20 transition-all cursor-pointer"
-        >
-          <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
-          <span>1. Test Containers</span>
-        </button>
-
-        <button
-          onclick="switchTab('questions')"
-          id="nav-questions"
-          class="w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all cursor-pointer"
-        >
-          <i data-lucide="help-circle" class="w-4 h-4"></i>
-          <span>2. Questions Items</span>
-        </button>
-      </nav>
-
-      <div
-        class="p-4 border-t border-slate-100 bg-slate-50/50 text-[11px] text-slate-600 space-y-1"
-      >
-        <div class="flex items-center justify-between font-bold text-slate-700">
-          <span>Backend API</span>
-          <span
-            class="inline-flex items-center gap-1 text-[10px] text-emerald-600"
-          >
-            <span
-              class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"
-            ></span>
-            Live
-          </span>
-        </div>
-        <p class="text-[10px] text-slate-400 font-mono truncate">
-          exam-api.jawedsiddiqui.cloud
-        </p>
-      </div>
-    </aside>
+    <!-- 2. COMMON SIDEBAR SLOT -->
+    <div id="common-sidebar-container" class="contents"></div>
 
     <!-- MAIN CONTENT AREA -->
     <div
       class="flex-1 flex flex-col min-h-screen w-full bg-slate-50 overflow-x-hidden"
     >
-      <header
-        class="bg-white border-b border-slate-200 px-4 md:px-8 py-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3 sticky top-0 z-30 shadow-2xs"
-      >
-        <div>
-          <h2
-            id="page-title"
-            class="text-base md:text-lg font-extrabold text-slate-800 tracking-tight"
-          >
-            Test Papers Management
-          </h2>
-          <p class="text-xs text-slate-500 font-medium">
-            Endpoints:
-            <span class="font-mono text-[11px] text-indigo-600 font-semibold"
-              >/api/kidspaint</span
-            >
-            &amp;
-            <span class="font-mono text-[11px] text-indigo-600 font-semibold"
-              >/api/test/questions</span
-            >
-          </p>
-        </div>
-
-        <div class="flex items-center gap-2.5 self-end md:self-auto">
-          <!-- AI GENERATE LINK BUTTON -->
-          <a
-            href="ai.html"
-            class="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-xs rounded-xl flex items-center gap-2 cursor-pointer transition-all active:scale-95 shadow-2xs"
-          >
-            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-600"></i>
-            <span>Generate</span>
-          </a>
-
-          <button
-            onclick="refreshCurrentTab(this)"
-            class="px-3.5 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs rounded-xl flex items-center gap-2 cursor-pointer transition-all active:scale-95 shadow-2xs"
-          >
-            <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
-            <span>Refresh</span>
-          </button>
-          <span
-            class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-bold px-3 py-1.5 rounded-full"
-          >
-            <span
-              class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"
-            ></span>
-            Sync Active
-          </span>
-        </div>
-      </header>
+      <!-- 3. COMMON TOP HEADER SLOT -->
+      <div id="common-top-header" class="contents"></div>
 
       <!-- MAIN BODY CONTAINER -->
       <main class="p-4 md:p-8 flex-1 space-y-6">
-        <!-- ================= TAB 1: TEST PAPERS ================= -->
+        <!-- TAB 1: TEST PAPERS -->
         <section id="section-tests" class="space-y-4">
           <div
             class="bg-white border border-slate-200 p-3.5 md:p-4 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs"
@@ -257,7 +128,6 @@
                 class="w-full sm:w-48 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
               >
                 <option value="">All Categories</option>
-                <!-- Populated dynamically via JS -->
               </select>
 
               <select
@@ -316,7 +186,7 @@
           </div>
         </section>
 
-        <!-- ================= TAB 2: QUESTIONS ================= -->
+        <!-- TAB 2: QUESTIONS -->
         <section id="section-questions" class="hidden space-y-4">
           <div
             class="bg-white border border-slate-200 p-4 md:p-5 rounded-2xl space-y-3.5 shadow-xs"
@@ -391,7 +261,6 @@
             </div>
           </div>
 
-          <!-- QUESTIONS LIST TABLE -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-xs">
             <div
               class="p-3.5 md:p-4 border-b border-slate-100 font-extrabold text-xs text-slate-800 flex items-center justify-between"
@@ -455,7 +324,7 @@
       </main>
     </div>
 
-    <!-- ================= MODAL 1: TEST PAPER ================= -->
+    <!-- MODAL 1: TEST PAPER -->
     <div
       id="modal-test"
       class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden overflow-y-auto"
@@ -488,29 +357,24 @@
         </div>
 
         <form id="testPaperForm" class="space-y-4">
-          <!-- 1. CATEGORY / STREAM & STATUS -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div class="sm:col-span-2">
               <label
                 class="block text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-1.5"
+                >Select Exam Category / Stream</label
               >
-                Select Exam Category / Stream
-              </label>
               <select
                 id="m_exam_category"
                 onchange="handleCategoryChange()"
                 class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white transition-all cursor-pointer"
                 required
-              >
-                <!-- Populated dynamically via JS -->
-              </select>
+              ></select>
             </div>
             <div>
               <label
                 class="block text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-1.5"
+                >Publish Status</label
               >
-                Publish Status
-              </label>
               <select
                 id="m_status"
                 class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white transition-all cursor-pointer"
@@ -589,7 +453,6 @@
             />
           </div>
 
-          <!-- 2. ENGINE & DURATION -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label class="block text-[11px] font-bold text-slate-600 mb-1"
@@ -628,16 +491,14 @@
             </div>
           </div>
 
-          <!-- 3. MONETIZATION & PRICING SECTION -->
           <div
             class="p-3.5 bg-indigo-50/50 rounded-2xl border border-indigo-100 space-y-3"
           >
             <div class="flex items-center justify-between">
               <span
                 class="text-[11px] font-extrabold text-indigo-900 uppercase tracking-wider"
+                >💰 Monetization &amp; Access</span
               >
-                💰 Monetization &amp; Access
-              </span>
               <label
                 class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 cursor-pointer"
               >
@@ -650,7 +511,6 @@
                 <span>Include in Subscription Pass</span>
               </label>
             </div>
-
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label class="block text-[10px] font-bold text-slate-600 mb-1"
@@ -695,16 +555,14 @@
             </div>
           </div>
 
-          <!-- 4. DAILY CHALLENGE & TAGS SECTION -->
           <div
             class="p-3.5 bg-amber-50/50 rounded-2xl border border-amber-100 space-y-3"
           >
             <div class="flex items-center justify-between">
               <span
                 class="text-[11px] font-extrabold text-amber-900 uppercase tracking-wider"
+                >🔥 Daily Special / Habit Engine</span
               >
-                🔥 Daily Special / Habit Engine
-              </span>
               <label
                 class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 cursor-pointer"
               >
@@ -717,7 +575,6 @@
                 <span>Set as Daily Free Test</span>
               </label>
             </div>
-
             <div
               class="grid grid-cols-1 sm:grid-cols-2 gap-3"
               id="daily_options_container"
@@ -748,7 +605,6 @@
             </div>
           </div>
 
-          <!-- 5. DIFFICULTY & SEARCH TAGS -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
               <label class="block text-[11px] font-bold text-slate-600 mb-1"
@@ -789,7 +645,7 @@
       </div>
     </div>
 
-    <!-- ================= MODAL 2: QUESTION ITEM ================= -->
+    <!-- MODAL 2: QUESTION ITEM -->
     <div
       id="modal-question"
       class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden overflow-y-auto"
@@ -823,7 +679,6 @@
         <div
           class="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 overflow-y-auto pr-1"
         >
-          <!-- LEFT SIDE: FORM -->
           <form id="questionForm" class="lg:col-span-7 flex flex-col space-y-3">
             <div class="flex-1 flex flex-col">
               <div class="flex items-center justify-between mb-1.5">
@@ -853,7 +708,6 @@
             </button>
           </form>
 
-          <!-- RIGHT SIDE: ACCORDION SAMPLES -->
           <div
             class="lg:col-span-5 bg-slate-50/80 p-4 rounded-2xl border border-slate-200 flex flex-col space-y-3"
           >
@@ -875,7 +729,6 @@
             </div>
 
             <div class="space-y-3 overflow-y-auto max-h-[460px] pr-1">
-              <!-- TEMPLATE 1: GOVT PSC / COMPETITIVE MCQ -->
               <div
                 class="border border-indigo-200 bg-white rounded-xl overflow-hidden shadow-2xs"
               >
@@ -919,7 +772,6 @@
                 </div>
               </div>
 
-              <!-- TEMPLATE 2: KIDS SCHOOL MATCHING CANVAS -->
               <div
                 class="border border-emerald-200 bg-white rounded-xl overflow-hidden shadow-2xs"
               >
@@ -968,7 +820,7 @@
       </div>
     </div>
 
-    <!-- ================= MODAL 3: VIEW QUESTION JSON ================= -->
+    <!-- MODAL 3: VIEW QUESTION JSON -->
     <div
       id="modal-view-json"
       class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden overflow-y-auto"
@@ -979,14 +831,12 @@
         <div
           class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4"
         >
-          <div>
-            <h3
-              id="view-json-subtitle"
-              class="text-base font-extrabold text-slate-800 font-mono"
-            >
-              Full Question Payload
-            </h3>
-          </div>
+          <h3
+            id="view-json-subtitle"
+            class="text-base font-extrabold text-slate-800 font-mono"
+          >
+            Full Question Payload
+          </h3>
           <button
             onclick="closeViewJsonModal()"
             class="text-slate-400 hover:text-slate-600 cursor-pointer"
@@ -994,7 +844,6 @@
             <i data-lucide="x" class="w-5 h-5"></i>
           </button>
         </div>
-
         <div
           class="bg-slate-900 p-4 rounded-2xl overflow-x-auto max-h-96 border border-slate-800"
         >
@@ -1003,7 +852,6 @@
             class="font-mono text-xs text-emerald-400 leading-relaxed"
           ></pre>
         </div>
-
         <div class="mt-4 flex justify-end gap-2.5">
           <button
             onclick="copyJsonToClipboard()"
@@ -1032,7 +880,6 @@
       let editingTestId = null;
       let editingQuestionMongoId = null;
 
-      // Master Stream Labels
       const STREAM_LABELS = {
         DAILY_GK: "🌍 Daily GK & Current Affairs",
         SSC: "⚡ SSC Exams (CGL, CHSL, GD, CPO)",
@@ -1060,13 +907,9 @@
         if (availableKeys.length === 0) return;
 
         let optionsHtml = "";
-
-        // Group 1: Daily
-        if (allData.DAILY_GK) {
+        if (allData.DAILY_GK)
           optionsHtml += `<optgroup label="🌍 Live Drill & GK"><option value="DAILY_GK">${STREAM_LABELS.DAILY_GK}</option></optgroup>`;
-        }
 
-        // Group 2: Competitive Exams
         const compKeys = [
           "SSC",
           "RAILWAYS",
@@ -1083,12 +926,9 @@
         });
         optionsHtml += `</optgroup>`;
 
-        // Group 3: Civil Services
-        if (allData.GOVT_PSC) {
+        if (allData.GOVT_PSC)
           optionsHtml += `<optgroup label="🏛️ Civil Services"><option value="GOVT_PSC">${STREAM_LABELS.GOVT_PSC}</option></optgroup>`;
-        }
 
-        // Group 4: School Education
         if (allData.BOARD_EXAMS || allData.KIDS_SCHOOL) {
           optionsHtml += `<optgroup label="📚 School Education">`;
           if (allData.BOARD_EXAMS)
@@ -1098,32 +938,13 @@
           optionsHtml += `</optgroup>`;
         }
 
-        // Add any remaining keys
-        availableKeys.forEach((k) => {
-          if (
-            !STREAM_LABELS[k] &&
-            ![
-              "DAILY_GK",
-              "GOVT_PSC",
-              "BOARD_EXAMS",
-              "KIDS_SCHOOL",
-              ...compKeys,
-            ].includes(k)
-          ) {
-            optionsHtml += `<option value="${k}">${k}</option>`;
-          }
-        });
-
-        // Set in Modal Category Dropdown
         const modalCatSelect = document.getElementById("m_exam_category");
         if (modalCatSelect) modalCatSelect.innerHTML = optionsHtml;
 
-        // Set in Filter Category Dropdown
         const filterCatSelect = document.getElementById("filter_test_category");
-        if (filterCatSelect) {
+        if (filterCatSelect)
           filterCatSelect.innerHTML =
             `<option value="">All Categories</option>` + optionsHtml;
-        }
       }
 
       function extractTestStatus(test) {
@@ -1156,12 +977,11 @@
       }
 
       function closeAllDropdowns(event) {
-        document.querySelectorAll(".action-dropdown-menu").forEach((el) => {
-          el.classList.add("hidden");
-        });
+        document
+          .querySelectorAll(".action-dropdown-menu")
+          .forEach((el) => el.classList.add("hidden"));
       }
 
-      // ================= TEMPLATES ================= //
       const GOVT_PSC_TEMPLATE = {
         questions: [
           {
@@ -1234,11 +1054,9 @@
         const allData = getActiveSubjectsData();
         const subjectsList = allData[streamKey] || [];
         const firstSubject = subjectsList[0] || {};
-
         const isKids = streamKey === "KIDS_SCHOOL";
         const isDailyGK = streamKey === "DAILY_GK";
 
-        // Board mapping
         if (!existingVal) {
           if (isDailyGK) boardInput.value = "Daily Drill";
           else if (streamKey === "SSC") boardInput.value = "SSC";
@@ -1250,7 +1068,6 @@
             boardInput.value = "CBSE";
           else boardInput.value = firstSubject.tags?.[0] || streamKey;
 
-          // Default mode & questions
           document.getElementById("m_mode").value = isKids
             ? "canvas_matching"
             : "standard_mcq";
@@ -1266,14 +1083,10 @@
               : 20;
         }
 
-        // Stage Input Render
         if (streamKey === "GOVT_PSC") {
           container.innerHTML = `
             <label class="block text-[11px] font-bold text-slate-600 mb-1">Exam Paper / Stage</label>
-            <select 
-              id="m_class" 
-              class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-indigo-600 cursor-pointer"
-            >
+            <select id="m_class" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-indigo-600 cursor-pointer">
               <option value="PRELIMS_GS_1">Prelims GS Paper-1</option>
               <option value="PRELIMS_CSAT">Prelims GS Paper-2 (CSAT)</option>
               <option value="MAINS_GS_1">Mains GS Paper-1</option>
@@ -1297,13 +1110,7 @@
             <label class="block text-[11px] font-bold text-slate-600 mb-1">
               ${isKids ? "Class / Grade" : streamKey === "BOARD_EXAMS" ? "Class" : isDailyGK ? "Drill Type" : "Tier / Stage"}
             </label>
-            <input
-              type="text"
-              id="m_class"
-              value="${existingVal || defStage}"
-              placeholder="${placeholder}"
-              class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white transition-all"
-            />
+            <input type="text" id="m_class" value="${existingVal || defStage}" placeholder="${placeholder}" class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white transition-all" />
           `;
         }
 
@@ -1333,13 +1140,11 @@
       function showToast(message, type = "success") {
         const container = document.getElementById("toast-container");
         const toast = document.createElement("div");
-
         const icons = {
           success: `<i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0"></i>`,
           error: `<i data-lucide="alert-circle" class="w-5 h-5 text-rose-600 shrink-0"></i>`,
           info: `<i data-lucide="info" class="w-5 h-5 text-indigo-600 shrink-0"></i>`,
         };
-
         const bgStyles = {
           success:
             "bg-white border-emerald-200 text-slate-800 shadow-lg shadow-emerald-500/10",
@@ -1408,10 +1213,7 @@
         const templateSource =
           type === "govt_psc" ? GOVT_PSC_TEMPLATE : KIDS_SCHOOL_TEMPLATE;
         const copy = JSON.parse(JSON.stringify(templateSource));
-
-        copy.questions.forEach((q) => {
-          q.test_id = targetId;
-        });
+        copy.questions.forEach((q) => (q.test_id = targetId));
 
         document.getElementById("q_json_payload").value = JSON.stringify(
           copy,
@@ -1449,21 +1251,27 @@
           .getElementById("section-questions")
           .classList.toggle("hidden", tab !== "questions");
 
-        document.getElementById("nav-tests").className =
-          tab === "tests"
-            ? "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs bg-indigo-600 text-white shadow-sm transition-all cursor-pointer"
-            : "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all cursor-pointer";
+        const navTests = document.getElementById("nav-tests");
+        const navQuestions = document.getElementById("nav-questions");
 
-        document.getElementById("nav-questions").className =
-          tab === "questions"
-            ? "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs bg-indigo-600 text-white shadow-sm transition-all cursor-pointer"
-            : "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all cursor-pointer";
+        if (navTests) {
+          navTests.className =
+            tab === "tests"
+              ? "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs bg-indigo-600 text-white shadow-sm transition-all cursor-pointer"
+              : "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all cursor-pointer";
+        }
+
+        if (navQuestions) {
+          navQuestions.className =
+            tab === "questions"
+              ? "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs bg-indigo-600 text-white shadow-sm transition-all cursor-pointer"
+              : "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all cursor-pointer";
+        }
 
         document.getElementById("page-title").innerText =
           tab === "tests"
             ? "Test Papers Management"
             : "Test Questions Management";
-
         if (tab === "questions") populateTestDropdown(allTestPapers);
       }
 
@@ -1507,7 +1315,6 @@
               `<option value="${s.id}|${s.apiSubject || s.name}">${s.name}</option>`,
           )
           .join("");
-
         populateCategories();
       }
 
@@ -1544,9 +1351,8 @@
         if (isEdit && testData) {
           const cat = testData.exam_stream || testData.exam_category || "SSC";
           document.getElementById("m_exam_category").value = cat;
-
-          const safeStatus = extractTestStatus(testData);
-          document.getElementById("m_status").value = safeStatus;
+          document.getElementById("m_status").value =
+            extractTestStatus(testData);
 
           handleCategoryChange(testData.classGrade || testData.class || "");
           document.getElementById("m_board").value =
@@ -1596,7 +1402,6 @@
             testData.total_time_mins || testData.duration || 20;
           document.getElementById("m_questions").value =
             testData.total_questions || 20;
-
           document.getElementById("m_access_type").value =
             testData.access_type || "free";
           document.getElementById("m_price").value = testData.price || 0;
@@ -1604,7 +1409,6 @@
             testData.discounted_price || 0;
           document.getElementById("m_included_in_pass").checked =
             testData.included_in_pass !== false;
-
           document.getElementById("m_is_daily").checked = Boolean(
             testData.is_daily_challenge,
           );
@@ -1618,7 +1422,6 @@
           }
           document.getElementById("m_make_paid_after_expiry").checked =
             testData.make_paid_after_expiry !== false;
-
           document.getElementById("m_difficulty").value =
             testData.difficulty_level || "medium";
           document.getElementById("m_tags").value = Array.isArray(
@@ -1700,7 +1503,6 @@
             "Enter Title for Cloned Test Paper:",
             `${originalTest?.title || testId} (Copy)`,
           );
-
           if (newTitle === null) return;
           showToast("Cloning test paper...", "info");
 
@@ -1751,7 +1553,6 @@
             .trim();
           const stream = getCategory();
 
-          // Enum safety
           let examCatEnum = stream;
           if (
             [
@@ -1967,16 +1768,13 @@
             !searchVal ||
             (test.test_id && test.test_id.toLowerCase().includes(searchVal)) ||
             (test.title && test.title.toLowerCase().includes(searchVal));
-
           const matchSubject = !subjectVal || test.subject === subjectVal;
           const matchCategory =
             !categoryVal ||
             test.exam_stream === categoryVal ||
             test.exam_category === categoryVal;
-
           const currentItemStatus = extractTestStatus(test);
           const matchStatus = !statusVal || currentItemStatus === statusVal;
-
           return matchSearch && matchSubject && matchCategory && matchStatus;
         });
 
@@ -2013,7 +1811,6 @@
             const dailyBadge = test.is_daily_challenge
               ? `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-50 border border-rose-200 text-[9px] font-bold text-rose-600 ml-1.5">🔥 Daily</span>`
               : "";
-
             const statusVal = extractTestStatus(test);
             const statusBadges = {
               published: `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-extrabold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Published</span>`,
@@ -2044,88 +1841,49 @@
               <td class="p-3.5 md:p-4 font-bold text-indigo-700">${test.total_questions || qCount} Qs</td>
               <td class="p-3.5 md:p-4 text-[11px] text-slate-500">${formattedCreated}</td>
               <td class="p-3.5 md:p-4 text-right relative">
-                <button
-                  type="button"
-                  onclick="toggleActionDropdown(event, '${dropdownId}')"
-                  class="p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all cursor-pointer inline-flex items-center justify-center active:scale-95"
-                >
+                <button type="button" onclick="toggleActionDropdown(event, '${dropdownId}')" class="p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all cursor-pointer inline-flex items-center justify-center active:scale-95">
                   <i data-lucide="more-horizontal" class="w-4 h-4"></i>
                 </button>
-
-                <div
-                  id="${dropdownId}"
-                  class="action-dropdown-menu hidden absolute right-4 top-12 z-50 w-52 bg-white border border-slate-200 rounded-2xl shadow-xl py-1.5 text-left text-xs font-bold divide-y divide-slate-100"
-                >
+                <div id="${dropdownId}" class="action-dropdown-menu hidden absolute right-4 top-12 z-50 w-52 bg-white border border-slate-200 rounded-2xl shadow-xl py-1.5 text-left text-xs font-bold divide-y divide-slate-100">
                   <div class="py-1">
-                    <button
-                      onclick="manageTestQuestions('${test.test_id}')"
-                      class="w-full px-3.5 py-2 text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 flex items-center gap-2.5 transition-colors cursor-pointer"
-                    >
+                    <button onclick="manageTestQuestions('${test.test_id}')" class="w-full px-3.5 py-2 text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 flex items-center gap-2.5 transition-colors cursor-pointer">
                       <i data-lucide="help-circle" class="w-4 h-4 text-indigo-500"></i>
                       <span>Manage Questions</span>
                     </button>
-
-                    <button
-                      onclick='openTestModal(true, ${testJsonEscaped})'
-                      class="w-full px-3.5 py-2 text-slate-700 hover:bg-amber-50 hover:text-amber-700 flex items-center gap-2.5 transition-colors cursor-pointer"
-                    >
+                    <button onclick='openTestModal(true, ${testJsonEscaped})' class="w-full px-3.5 py-2 text-slate-700 hover:bg-amber-50 hover:text-amber-700 flex items-center gap-2.5 transition-colors cursor-pointer">
                       <i data-lucide="edit-3" class="w-4 h-4 text-amber-500"></i>
                       <span>Edit Test Paper</span>
                     </button>
-
-                    <button
-                      onclick="cloneTestPaper('${test.test_id}')"
-                      class="w-full px-3.5 py-2 text-slate-700 hover:bg-cyan-50 hover:text-cyan-700 flex items-center gap-2.5 transition-colors cursor-pointer"
-                    >
+                    <button onclick="cloneTestPaper('${test.test_id}')" class="w-full px-3.5 py-2 text-slate-700 hover:bg-cyan-50 hover:text-cyan-700 flex items-center gap-2.5 transition-colors cursor-pointer">
                       <i data-lucide="copy" class="w-4 h-4 text-cyan-500"></i>
                       <span>Clone (as Draft)</span>
                     </button>
                   </div>
-
                   <div class="py-1 px-3 text-[10px] text-slate-400 uppercase tracking-wider font-extrabold">Change Status</div>
                   <div class="py-1">
-                    <button
-                      onclick="updateTestStatusByMongoId('${testMongoId}', '${test.test_id}', 'published')"
-                      class="w-full px-3.5 py-1.5 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 flex items-center gap-2 text-[11px] cursor-pointer"
-                    >
+                    <button onclick="updateTestStatusByMongoId('${testMongoId}', '${test.test_id}', 'published')" class="w-full px-3.5 py-1.5 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 flex items-center gap-2 text-[11px] cursor-pointer">
                       <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                       <span>Mark Published</span>
                     </button>
-                    <button
-                      onclick="updateTestStatusByMongoId('${testMongoId}', '${test.test_id}', 'draft')"
-                      class="w-full px-3.5 py-1.5 text-slate-600 hover:bg-amber-50 hover:text-amber-700 flex items-center gap-2 text-[11px] cursor-pointer"
-                    >
+                    <button onclick="updateTestStatusByMongoId('${testMongoId}', '${test.test_id}', 'draft')" class="w-full px-3.5 py-1.5 text-slate-600 hover:bg-amber-50 hover:text-amber-700 flex items-center gap-2 text-[11px] cursor-pointer">
                       <span class="w-2 h-2 rounded-full bg-amber-500"></span>
                       <span>Mark Draft</span>
                     </button>
-                    <button
-                      onclick="updateTestStatusByMongoId('${testMongoId}', '${test.test_id}', 'pending')"
-                      class="w-full px-3.5 py-1.5 text-slate-600 hover:bg-purple-50 hover:text-purple-700 flex items-center gap-2 text-[11px] cursor-pointer"
-                    >
+                    <button onclick="updateTestStatusByMongoId('${testMongoId}', '${test.test_id}', 'pending')" class="w-full px-3.5 py-1.5 text-slate-600 hover:bg-purple-50 hover:text-purple-700 flex items-center gap-2 text-[11px] cursor-pointer">
                       <span class="w-2 h-2 rounded-full bg-purple-500"></span>
                       <span>Mark Pending</span>
                     </button>
-                    <button
-                      onclick="updateTestStatusByMongoId('${testMongoId}', '${test.test_id}', 'cancelled')"
-                      class="w-full px-3.5 py-1.5 text-slate-600 hover:bg-rose-50 hover:text-rose-700 flex items-center gap-2 text-[11px] cursor-pointer"
-                    >
+                    <button onclick="updateTestStatusByMongoId('${testMongoId}', '${test.test_id}', 'cancelled')" class="w-full px-3.5 py-1.5 text-slate-600 hover:bg-rose-50 hover:text-rose-700 flex items-center gap-2 text-[11px] cursor-pointer">
                       <span class="w-2 h-2 rounded-full bg-rose-500"></span>
                       <span>Mark Cancelled</span>
                     </button>
-                    <button
-                      onclick="updateTestStatusByMongoId('${testMongoId}', '${test.test_id}', 'archived')"
-                      class="w-full px-3.5 py-1.5 text-slate-600 hover:bg-slate-100 hover:text-slate-800 flex items-center gap-2 text-[11px] cursor-pointer"
-                    >
+                    <button onclick="updateTestStatusByMongoId('${testMongoId}', '${test.test_id}', 'archived')" class="w-full px-3.5 py-1.5 text-slate-600 hover:bg-slate-100 hover:text-slate-800 flex items-center gap-2 text-[11px] cursor-pointer">
                       <span class="w-2 h-2 rounded-full bg-slate-400"></span>
                       <span>Mark Archived</span>
                     </button>
                   </div>
-
                   <div class="py-1">
-                    <button
-                      onclick="deleteTestPaper('${testMongoId}', '${test.test_id}')"
-                      class="w-full px-3.5 py-2 text-rose-600 hover:bg-rose-50 flex items-center gap-2.5 transition-colors cursor-pointer"
-                    >
+                    <button onclick="deleteTestPaper('${testMongoId}', '${test.test_id}')" class="w-full px-3.5 py-2 text-rose-600 hover:bg-rose-50 flex items-center gap-2.5 transition-colors cursor-pointer">
                       <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
                       <span>Delete Test</span>
                     </button>
@@ -2256,7 +2014,6 @@
           const matchSearch =
             !searchVal || qText.includes(searchVal) || qId.includes(searchVal);
           const matchType = !typeVal || q.question_type === typeVal;
-
           return matchSearch && matchType;
         });
 
@@ -2293,12 +2050,7 @@
             return `
             <tr class="hover:bg-slate-50/80 transition-colors border-b border-slate-100">
               <td class="p-3.5 md:p-4 text-center">
-                <input
-                  type="checkbox"
-                  class="q-row-checkbox w-4 h-4 text-indigo-600 rounded cursor-pointer border-slate-300 focus:ring-indigo-500"
-                  value="${qMongoId}"
-                  onchange="onRowCheckboxChange()"
-                />
+                <input type="checkbox" class="q-row-checkbox w-4 h-4 text-indigo-600 rounded cursor-pointer border-slate-300 focus:ring-indigo-500" value="${qMongoId}" onchange="onRowCheckboxChange()" />
               </td>
               <td class="p-3.5 md:p-4 font-mono font-bold text-indigo-600">${q.question_no || idx + 1}</td>
               <td class="p-3.5 md:p-4">
@@ -2309,41 +2061,22 @@
               <td class="p-3.5 md:p-4 font-bold text-emerald-600">${q.marks || 1}</td>
               <td class="p-3.5 md:p-4 text-[11px] text-slate-500">${formattedCreated}</td>
               <td class="p-3.5 md:p-4 text-right relative">
-                <button
-                  type="button"
-                  onclick="toggleActionDropdown(event, '${qDropdownId}')"
-                  class="p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all cursor-pointer inline-flex items-center justify-center active:scale-95"
-                >
+                <button type="button" onclick="toggleActionDropdown(event, '${qDropdownId}')" class="p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all cursor-pointer inline-flex items-center justify-center active:scale-95">
                   <i data-lucide="more-horizontal" class="w-4 h-4"></i>
                 </button>
-
-                <div
-                  id="${qDropdownId}"
-                  class="action-dropdown-menu hidden absolute right-4 top-12 z-50 w-44 bg-white border border-slate-200 rounded-2xl shadow-xl py-1.5 text-left text-xs font-bold divide-y divide-slate-100"
-                >
+                <div id="${qDropdownId}" class="action-dropdown-menu hidden absolute right-4 top-12 z-50 w-44 bg-white border border-slate-200 rounded-2xl shadow-xl py-1.5 text-left text-xs font-bold divide-y divide-slate-100">
                   <div class="py-1">
-                    <button
-                      onclick="openViewJsonModal(${idx}); closeAllDropdowns();"
-                      class="w-full px-3.5 py-2 text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 flex items-center gap-2.5 transition-colors cursor-pointer"
-                    >
+                    <button onclick="openViewJsonModal(${idx}); closeAllDropdowns();" class="w-full px-3.5 py-2 text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 flex items-center gap-2.5 transition-colors cursor-pointer">
                       <i data-lucide="eye" class="w-4 h-4 text-indigo-500"></i>
                       <span>View Payload</span>
                     </button>
-
-                    <button
-                      onclick='openQuestionModal(true, ${qJsonEscaped}); closeAllDropdowns();'
-                      class="w-full px-3.5 py-2 text-slate-700 hover:bg-amber-50 hover:text-amber-700 flex items-center gap-2.5 transition-colors cursor-pointer"
-                    >
+                    <button onclick='openQuestionModal(true, ${qJsonEscaped}); closeAllDropdowns();' class="w-full px-3.5 py-2 text-slate-700 hover:bg-amber-50 hover:text-amber-700 flex items-center gap-2.5 transition-colors cursor-pointer">
                       <i data-lucide="edit-3" class="w-4 h-4 text-amber-500"></i>
                       <span>Edit Question</span>
                     </button>
                   </div>
-
                   <div class="py-1">
-                    <button
-                      onclick="deleteQuestion('${qMongoId || qDisplayId}'); closeAllDropdowns();"
-                      class="w-full px-3.5 py-2 text-rose-600 hover:bg-rose-50 flex items-center gap-2.5 transition-colors cursor-pointer"
-                    >
+                    <button onclick="deleteQuestion('${qMongoId || qDisplayId}'); closeAllDropdowns();" class="w-full px-3.5 py-2 text-rose-600 hover:bg-rose-50 flex items-center gap-2.5 transition-colors cursor-pointer">
                       <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
                       <span>Delete</span>
                     </button>
@@ -2371,7 +2104,6 @@
           ".q-row-checkbox:checked",
         );
         const selectAllCb = document.getElementById("selectAllQuestions");
-
         if (selectAllCb) {
           selectAllCb.checked =
             checkboxes.length > 0 && checkboxes.length === checkedBoxes.length;
@@ -2404,7 +2136,6 @@
             .toUpperCase();
           const jsonText = document.getElementById("q_json_payload").value;
           const submitBtn = document.getElementById("btn-submit-question");
-
           const targetTest = allTestPapers.find((t) => t.test_id === testId);
           const examCategory = targetTest?.exam_category || "OTHER";
 
@@ -2567,6 +2298,10 @@
 
       // INIT
       document.addEventListener("DOMContentLoaded", () => {
+        // Render common header & navigation
+        if (typeof renderAdminHeader === "function") {
+          renderAdminHeader("Test Papers Management", "tests");
+        }
         populateAllExamCategoryDropdowns();
         handleCategoryChange("");
         loadTestPapers();
