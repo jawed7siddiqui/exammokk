@@ -97,7 +97,7 @@
               </span>
             </div>
 
-            <!-- 1. EXAM STREAM SELECTION (DYNAMIC FROM ALLSUBJECT.JS) & STATUS -->
+            <!-- 1. EXAM STREAM SELECTION & STATUS -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div class="sm:col-span-2">
                 <label
@@ -154,7 +154,6 @@
                   id="cfg_class_stage"
                   value="Tier 1"
                   placeholder="e.g. Tier 1"
-                  oninput="updateTestTitlePreview()"
                   class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
                 />
               </div>
@@ -164,12 +163,12 @@
             <div>
               <label
                 class="block text-[10px] font-bold text-slate-500 uppercase mb-1"
-                >Test Title (Auto-Populated)</label
+                >Test Title (Clean Name Preview)</label
               >
               <input
                 type="text"
                 id="cfg_test_title_preview"
-                placeholder="Will auto-populate from selected topics"
+                placeholder="Will auto-populate from selected topic"
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-indigo-700 outline-none focus:border-indigo-500"
               />
             </div>
@@ -321,9 +320,9 @@
                   id="cfg_difficulty"
                   class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none"
                 >
-                  <option value="easy" selected>🟢 Easy</option>
-                  <option value="medium">🟡 Medium</option>
-                  <option value="hard">🔴 Hard</option>
+                  <option value="Easy">🟢 Easy</option>
+                  <option value="Medium" selected>🟡 Medium</option>
+                  <option value="Hard">🔴 Hard</option>
                 </select>
               </div>
               <div>
@@ -762,7 +761,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
               type="text"
               id="cfg_class_stage"
               value="${stageVal}"
-              oninput="updateTestTitlePreview()"
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
             />
           `;
@@ -944,8 +942,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
 
         if (checked.length === 1) {
           const categoryTitle = checked[0].dataset.categoryTitle;
-          // Default format: Chapter Title #1
-          titleInput.value = `${categoryTitle} #1`;
+          titleInput.value = categoryTitle; // Clean Title (No #1 or Level)
 
           if (checked[0].dataset.posMarks) {
             document.getElementById("cfg_marks").value =
@@ -961,6 +958,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
           titleInput.placeholder = "Select a chapter to set title";
         }
       }
+
       function togglePriceFields() {
         const type = document.getElementById("cfg_access_type").value;
         const isFree = type === "free";
@@ -998,21 +996,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         }
 
         const streamKey = document.getElementById("cfg_exam_stream").value;
-
-        let examCategory = streamKey;
-        if (
-          [
-            "SSC",
-            "RAILWAYS",
-            "BANKING",
-            "JEE_NEET",
-            "DEFENCE",
-            "TEACHING",
-            "ENTRANCE",
-          ].includes(streamKey)
-        ) {
-          examCategory = "OTHER";
-        }
+        const cleanExamCategory = streamKey;
 
         const status = document.getElementById("cfg_status").value;
         const board = document.getElementById("cfg_board").value.trim();
@@ -1058,7 +1042,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
               0;
 
             const topicKey = `${subjectId}_${categoryId}`;
-            const dynamicTestTitle = `${categoryTitle} #1`;
+            const dynamicTestTitle = categoryTitle; // Clean Title (Level handled in Backend)
 
             updateProgress(
               completed,
@@ -1077,7 +1061,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
               category: categoryTitle,
               category_id: categoryId,
               category_title: categoryTitle,
-              exam_category: examCategory,
+              exam_category: cleanExamCategory,
               exam_stream: streamKey,
               status: status,
               board_or_exam: board,
@@ -1120,7 +1104,12 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
                 result.test_id ||
                 result.data?.test_id ||
                 `TEST_${board}_${subjectId.toUpperCase()}`;
-              logToConsole(`-> [OK] Test Created: ${testId} for ${board}`);
+              const level = result.level || result.test_paper?.level || 1;
+              const desc = result.desc || result.test_paper?.desc || "";
+
+              logToConsole(
+                `-> [OK] Test Created: ${testId} | Level: ${level} | Desc: '${desc}'`,
+              );
 
               generatedTestsStore.push({
                 topicKey,
@@ -1128,6 +1117,8 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
                 subjectName,
                 categoryTitle,
                 testId: testId,
+                level: level,
+                desc: desc,
                 payload: result,
               });
 
@@ -1135,8 +1126,12 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
               selectActiveTab(topicKey);
 
               completed++;
-              updateProgress(completed, total, `Completed: ${categoryTitle}!`);
-              showToast(`Created & Saved: ${categoryTitle}`, "success");
+              updateProgress(
+                completed,
+                total,
+                `Completed: ${categoryTitle} (Level ${level})!`,
+              );
+              showToast(`Created: ${categoryTitle} (Lvl ${level})`, "success");
 
               if (i < total - 1) {
                 logToConsole(`-> ⏳ Cooldown 3.5s for API safety...`);
@@ -1223,7 +1218,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
               }"
             >
               <span>${item.categoryTitle}</span>
-              <span class="text-[10px] bg-black/10 px-1.5 py-0.2 rounded font-mono">Live</span>
+              <span class="text-[10px] bg-black/10 px-1.5 py-0.2 rounded font-mono">Lvl ${item.level || 1}</span>
             </button>
           `;
           })
@@ -1239,7 +1234,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         );
         if (activeItem) {
           document.getElementById("console-header-label").textContent =
-            `Viewing: ${activeItem.subjectName} — ${activeItem.categoryTitle}`;
+            `Viewing: ${activeItem.subjectName} — ${activeItem.categoryTitle} (Level ${activeItem.level || 1})`;
           document.getElementById("active-test-meta-badge").textContent =
             `ID: ${activeItem.testId}`;
           document.getElementById("ai-console-output").textContent =

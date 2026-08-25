@@ -60,6 +60,12 @@
     </style>
   </head>
   <body class="flex justify-center items-center min-h-screen bg-slate-950">
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div
+      id="custom-toast-container"
+      class="fixed top-4 z-[9999] flex flex-col gap-2 w-full max-w-[390px] px-4 pointer-events-none"
+    ></div>
+
     <!-- MOBILE CONTAINER (Phone Viewport: 430px Fit) -->
     <div
       class="w-full max-w-[430px] bg-slate-50 h-screen max-h-screen flex flex-col justify-start shadow-2xl relative overflow-hidden"
@@ -95,7 +101,7 @@
 
         <!-- RIGHT: LOGOUT BUTTON -->
         <button
-          onclick="handleUserLogout()"
+          onclick="openLogoutModal()"
           class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 active:bg-rose-500 active:text-white text-rose-600 border border-rose-200/80 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs active:scale-95"
         >
           <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
@@ -133,7 +139,7 @@
 
               <h3
                 id="daily-challenge-title"
-                class="text-sm font-extrabold text-white leading-snug truncate"
+                class="text-sm font-extrabold text-white leading-snug"
               >
                 Practice Mock Tests Below
               </h3>
@@ -275,7 +281,7 @@
         >
           <p
             id="paywall-test-title"
-            class="text-xs font-extrabold text-indigo-900 line-clamp-1"
+            class="text-xs font-extrabold text-indigo-900"
           >
             Mock Test
           </p>
@@ -317,6 +323,45 @@
       </div>
     </div>
 
+    <!-- 5. LOGOUT CONFIRMATION MODAL -->
+    <div
+      id="logout-modal"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden"
+    >
+      <div
+        class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-sm p-5 space-y-4 animate-fadeIn"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100"
+          >
+            <i data-lucide="log-out" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-black text-slate-900">Sign Out</h3>
+            <p class="text-xs text-slate-400 font-semibold">
+              Are you sure you want to log out of ExamMokk?
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5 pt-2">
+          <button
+            onclick="closeLogoutModal()"
+            class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 font-bold text-xs rounded-xl transition-all cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            onclick="confirmLogoutAction()"
+            class="w-full py-2.5 bg-rose-600 hover:bg-rose-700 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-md shadow-rose-600/20 transition-all cursor-pointer"
+          >
+            Yes, Log Out
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- JAVASCRIPT ENGINE -->
     <script>
       const BASE_API_URL =
@@ -324,11 +369,9 @@
       const SCOREBOARD_API_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/test/questions/scoreboard";
 
-      // 1. EXTRACT DIRECT STREAM URL PARAMETER
       const urlParams = new URLSearchParams(window.location.search);
       const rawType = (urlParams.get("type") || "SSC").toUpperCase();
 
-      // Normalize stream key with AllSubject.js & Include DAILY_GK
       const STREAM_TITLES = {
         DAILY_GK: {
           title: "Daily GK & Current Affairs",
@@ -367,8 +410,43 @@
       let openSubjectId = null;
       let selectedTestForPurchase = null;
       let activeDailyTest = null;
+      let expandedSubjectsMap = {};
 
-      // 2. GET CURRENT SUBJECT LIST DIRECTLY FROM ALLSUBJECT.JS
+      function showToastMessage(text, type = "info") {
+        const container = document.getElementById("custom-toast-container");
+        if (!container) return;
+
+        const toast = document.createElement("div");
+        toast.className = `p-3 rounded-2xl text-xs font-bold text-white shadow-xl flex items-center justify-between gap-2 pointer-events-auto animate-fadeIn ${
+          type === "error"
+            ? "bg-rose-600"
+            : type === "success"
+              ? "bg-emerald-600"
+              : "bg-indigo-600"
+        }`;
+
+        toast.innerHTML = `
+          <span>${text}</span>
+          <button onclick="this.parentElement.remove()" class="p-1 opacity-70 hover:opacity-100 cursor-pointer">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        `;
+
+        container.appendChild(toast);
+        if (typeof lucide !== "undefined") lucide.createIcons();
+
+        setTimeout(() => {
+          toast.remove();
+        }, 3500);
+      }
+
+      function isWithinFiveDays(dateString) {
+        if (!dateString) return false;
+        const testDate = new Date(dateString).getTime();
+        const diffInDays = (Date.now() - testDate) / (1000 * 60 * 60 * 24);
+        return diffInDays >= 0 && diffInDays <= 5;
+      }
+
       function getCurrentSubjectList() {
         if (
           typeof subjectsBySegment !== "undefined" &&
@@ -377,7 +455,6 @@
           return subjectsBySegment[currentSegment];
         }
 
-        // Direct window fallback for arrays
         if (
           currentSegment === "DAILY_GK" &&
           (window.DAILY_GK || typeof DAILY_GK !== "undefined")
@@ -388,7 +465,6 @@
         return [];
       }
 
-      // 3. DYNAMIC HEADER TITLE UPDATE
       function syncHeaderUI() {
         const titleEl = document.getElementById("page-header-title");
         const subTitleEl = document.getElementById("page-header-subtitle");
@@ -401,7 +477,6 @@
         subTitleEl.textContent = meta.sub;
       }
 
-      // 4. FETCH RECENT SCORE SUMMARY
       async function fetchRecentUserScore() {
         try {
           const userStr = localStorage.getItem("examIndiaUser");
@@ -429,7 +504,7 @@
         }
       }
 
-      // 5. FETCH SUBJECT TESTS
+      // 5. FETCH & SMART LEVEL SORTING ENGINE
       async function fetchSubjectTests(subjObj) {
         if (!subjObj) return;
 
@@ -454,14 +529,13 @@
             Array.isArray(resData.data) &&
             resData.data.length > 0
           ) {
-            subjObj.categories = resData.data.map((item) => ({
+            const rawItems = resData.data.map((item) => ({
               id: item.test_id || item._id,
               title:
                 item.title || item.test_name || `${subjObj.name} Mock Test`,
+              rawLevel: item.level ? Number(item.level) : null,
               desc:
-                item.category_title ||
-                item.board_or_exam ||
-                "Official Exam Practice Set",
+                item.desc || item.category_title || "Official Practice Paper",
               ques: Number(item.total_questions) || 15,
               time: Number(item.total_time_mins) || 15,
               access_type: item.access_type || "free",
@@ -471,14 +545,44 @@
               is_daily: Boolean(item.is_daily_challenge),
               included_in_pass: item.included_in_pass !== false,
               exam_category: item.exam_category || currentSegment,
+              createdAt: item.createdAt || item.date || null,
             }));
+
+            // Separate tests with explicit level vs missing level
+            const explicitLevelTests = rawItems
+              .filter((item) => item.rawLevel !== null && item.rawLevel > 0)
+              .sort((a, b) => a.rawLevel - b.rawLevel);
+
+            const missingLevelTests = rawItems.filter(
+              (item) => item.rawLevel === null || item.rawLevel <= 0,
+            );
+
+            let nextAutoLevel =
+              explicitLevelTests.length > 0
+                ? explicitLevelTests[explicitLevelTests.length - 1].rawLevel + 1
+                : 1;
+
+            const incrementedMissingTests = missingLevelTests.map((item) => {
+              const assigned = nextAutoLevel;
+              nextAutoLevel++;
+              return {
+                ...item,
+                level: assigned,
+              };
+            });
+
+            // Explicit level tests pehle, auto-incremented baad me
+            subjObj.categories = [
+              ...explicitLevelTests.map((t) => ({ ...t, level: t.rawLevel })),
+              ...incrementedMissingTests,
+            ];
           } else {
-            // Fallback to offline predefined chapters in AllSubject.js if backend is empty
             if (Array.isArray(subjObj.categories)) {
-              subjObj.categories = subjObj.categories.map((c) => ({
+              subjObj.categories = subjObj.categories.map((c, idx) => ({
                 id: c.id,
-                title: `${c.title} – Set #1`,
-                desc: `${subjObj.name} Practice Chapter`,
+                title: c.title,
+                level: idx + 1,
+                desc: c.description || `${subjObj.name} Practice Chapter`,
                 ques: 15,
                 time: 15,
                 access_type: "free",
@@ -488,11 +592,11 @@
                 is_daily: false,
                 included_in_pass: true,
                 exam_category: currentSegment,
+                createdAt: null,
               }));
             }
           }
 
-          // Daily live test update
           let dailyItem =
             subjObj.categories.find((c) => c.is_daily) || subjObj.categories[0];
 
@@ -529,6 +633,11 @@
         }
       }
 
+      function toggleSubjectMore(subId) {
+        expandedSubjectsMap[subId] = !expandedSubjectsMap[subId];
+        renderAccordion();
+      }
+
       function renderAccordion() {
         const container = document.getElementById(
           "subjects-accordion-container",
@@ -555,7 +664,15 @@
         container.innerHTML = activeList
           .map((subj) => {
             const isOpen = subj.id === openSubjectId;
-            const categoryCount = subj.categories ? subj.categories.length : 0;
+            const allCategories = subj.categories || [];
+            const categoryCount = allCategories.length;
+            const isExpanded = Boolean(expandedSubjectsMap[subj.id]);
+
+            // MAX 2 VISIBLE IN DEFAULT VIEW
+            const visibleCategories = isExpanded
+              ? allCategories
+              : allCategories.slice(0, 2);
+            const hiddenCount = Math.max(0, categoryCount - 2);
 
             return `
             <div class="bg-white border ${
@@ -610,11 +727,11 @@
                 </div>
               </div>
 
-              <!-- ACCORDION CONTENT -->
+              <!-- ACCORDION CONTENT (MAX 2 CARDS + MINIMAL ARROW BAR) -->
               ${
                 isOpen
                   ? `
-                <div class="bg-slate-50/80 p-3 border-t border-slate-100 space-y-2.5 animate-fadeIn">
+                <div class="bg-slate-50/80 p-3 border-t border-slate-100 space-y-2 animate-fadeIn">
                   ${
                     subj.loading
                       ? `
@@ -633,66 +750,128 @@
                       </div>
                     `
                         : categoryCount > 0
-                          ? subj.categories
-                              .map((cat) => {
-                                const isPaid =
-                                  cat.access_type === "paid" ||
-                                  cat.access_type === "subscription_only";
-                                const isUnlocked = isUserPremium || !isPaid;
+                          ? `
+                      <div class="space-y-2">
+                        ${visibleCategories
+                          .map((cat) => {
+                            const isPaid =
+                              cat.access_type === "paid" ||
+                              cat.access_type === "subscription_only";
+                            const isUnlocked = isUserPremium || !isPaid;
+                            const isNew = isWithinFiveDays(cat.createdAt);
 
-                                let badgeHtml = "";
-                                if (cat.access_type === "paid") {
-                                  badgeHtml = `<span class="text-[10px] font-black bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded">₹${cat.discounted_price || cat.price}</span>`;
-                                } else if (
-                                  cat.access_type === "subscription_only"
-                                ) {
-                                  badgeHtml = `<span class="text-[10px] font-black bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded">🔒 PASS</span>`;
-                                }
+                            const cardContainerClass = isNew
+                              ? "bg-emerald-50/70 border border-emerald-300 shadow-2xs hover:border-emerald-400"
+                              : "bg-white border border-slate-200/90 shadow-2xs hover:border-indigo-300";
 
-                                const catJsonEscaped = JSON.stringify(
-                                  cat,
-                                ).replace(/'/g, "&apos;");
+                            const titleTextClass = isNew
+                              ? "text-emerald-950 font-black"
+                              : "text-slate-900 font-extrabold";
 
-                                return `
-                        <div class="bg-white border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all">
-                          <div class="pr-2 min-w-0 flex-1">
-                            <div class="flex items-center gap-2">
-                              <h5 class="font-extrabold text-slate-800 text-xs truncate">${cat.title}</h5>
-                              ${badgeHtml}
-                            </div>
-                            <p class="text-[11px] font-medium text-slate-400 truncate mt-0.5">${cat.desc}</p>
-                            <div class="flex items-center gap-1.5 mt-1.5">
-                              <span class="text-[10px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">${cat.ques} Qs</span>
-                              <span class="text-[10px] font-bold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded">⏱️ ${cat.time}m</span>
-                              <span class="text-[10px] font-bold uppercase text-slate-400">${cat.difficulty || "Medium"}</span>
-                            </div>
+                            const descTextClass = isNew
+                              ? "text-emerald-700/90"
+                              : "text-slate-500";
+
+                            const levelBadgeClass = isNew
+                              ? "bg-emerald-100 text-emerald-800 border-emerald-200"
+                              : "bg-indigo-50 text-indigo-700 border-indigo-200";
+
+                            let priceBadge = "";
+                            if (cat.access_type === "paid") {
+                              priceBadge = `<span class="text-[9.5px] font-black bg-indigo-50 text-indigo-700 border border-indigo-200 px-1.5 py-0.2 rounded shrink-0">₹${cat.discounted_price || cat.price}</span>`;
+                            } else if (
+                              cat.access_type === "subscription_only"
+                            ) {
+                              priceBadge = `<span class="text-[9.5px] font-black bg-amber-50 text-amber-800 border border-amber-200 px-1.5 py-0.2 rounded shrink-0">🔒 PASS</span>`;
+                            }
+
+                            const catJsonEscaped = JSON.stringify(cat).replace(
+                              /'/g,
+                              "&apos;",
+                            );
+
+                            return `
+                              <div class="${cardContainerClass} rounded-2xl p-2.5 space-y-1.5 transition-all overflow-hidden">
+                                
+                                <div class="space-y-0.5">
+                                  <div class="flex items-center gap-1.5 flex-wrap">
+                                    <h5 class="${titleTextClass} text-[11.5px] leading-tight break-words">
+                                      ${cat.title}
+                                    </h5>
+
+                                    <span class="px-1.5 py-0.2 ${levelBadgeClass} border text-[8.5px] font-black rounded uppercase shrink-0">
+                                      LVL ${cat.level || 1}
+                                    </span>
+
+                                    ${priceBadge}
+                                  </div>
+
+                                  <p class="text-[10.5px] font-medium ${descTextClass} leading-snug">
+                                    ${cat.desc}
+                                  </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-1 border-t ${isNew ? "border-emerald-200/60" : "border-slate-100"} gap-2">
+                                  <div class="flex items-center gap-1 flex-wrap">
+                                    <span class="text-[9px] font-bold ${isNew ? "bg-white/90 text-emerald-900 border border-emerald-200/60" : "bg-slate-100 text-slate-700"} px-1.5 py-0.5 rounded">
+                                      📝 ${cat.ques} Qs
+                                    </span>
+                                    <span class="text-[9px] font-bold ${isNew ? "bg-emerald-100/90 text-emerald-800 border border-emerald-200/60" : "bg-indigo-50 text-indigo-700"} px-1.5 py-0.5 rounded">
+                                      ⏱️ ${cat.time}m
+                                    </span>
+                                    <span class="text-[9px] font-bold uppercase text-slate-400 bg-white px-1 py-0.5 rounded border border-slate-200/60">
+                                      ${cat.difficulty || "Medium"}
+                                    </span>
+                                  </div>
+
+                                  ${
+                                    isUnlocked
+                                      ? `
+                                    <button 
+                                      onclick="startTest('${cat.id}', '${cat.exam_category}', ${cat.level || 1})"
+                                      class="px-3 py-1 ${isNew ? "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/20" : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/20"} active:scale-95 text-white rounded-lg text-[11px] font-bold transition-all cursor-pointer shadow-xs shrink-0 flex items-center gap-1"
+                                    >
+                                      <span>Start</span>
+                                      <i data-lucide="play" class="w-3 h-3 fill-current"></i>
+                                    </button>
+                                  `
+                                      : `
+                                    <button 
+                                      onclick='openPaywall(${catJsonEscaped})'
+                                      class="px-3 py-1 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white rounded-lg text-[11px] font-bold transition-all cursor-pointer shadow-xs shrink-0 flex items-center gap-1"
+                                    >
+                                      <span>Unlock</span>
+                                      <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                                    </button>
+                                  `
+                                  }
+                                </div>
+                              </div>
+                            `;
+                          })
+                          .join("")}
+
+                        <!-- MINIMAL DOWN / UP ARROW TOGGLE (IF > 2 TESTS) -->
+                        ${
+                          categoryCount > 2
+                            ? `
+                          <div class="pt-1 flex justify-center">
+                            <button
+                              onclick="event.stopPropagation(); toggleSubjectMore('${subj.id}')"
+                              class="px-4 py-1.5 bg-white hover:bg-slate-100 border border-slate-200/90 active:scale-95 rounded-full text-slate-600 font-extrabold text-[11px] transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs group"
+                            >
+                              <span>${isExpanded ? "Show Less" : `+${hiddenCount} More Tests`}</span>
+                              <i 
+                                data-lucide="${isExpanded ? "chevron-up" : "chevron-down"}" 
+                                class="w-3.5 h-3.5 text-indigo-600 transition-transform duration-200 group-hover:translate-y-0.5"
+                              ></i>
+                            </button>
                           </div>
-
-                          ${
-                            isUnlocked
-                              ? `
-                            <button 
-                              onclick="startTest('${cat.id}', '${cat.exam_category}')"
-                              class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs shrink-0 flex items-center gap-1.5"
-                            >
-                              <span>Start</span>
-                              <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
-                            </button>
-                          `
-                              : `
-                            <button 
-                              onclick='openPaywall(${catJsonEscaped})'
-                              class="px-3.5 py-2 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs shrink-0 flex items-center gap-1.5"
-                            >
-                              <span>Unlock</span>
-                              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-                            </button>
-                          `
-                          }
-                        </div>
-                      `;
-                              })
-                              .join("")
+                        `
+                            : ""
+                        }
+                      </div>
+                    `
                           : `<div class="py-4 text-center text-slate-400 font-bold text-xs">📂 No tests found in this category.</div>`
                   }
                 </div>
@@ -721,17 +900,23 @@
         renderAccordion();
       }
 
-      function startTest(testId, examCategory) {
-        window.location.href = `mobile_exam_runner.html?test_id=${encodeURIComponent(testId)}&segment=${encodeURIComponent(examCategory || currentSegment)}`;
+      function startTest(testId, examCategory, level = 1) {
+        window.location.href = `mobile_exam_runner.html?test_id=${encodeURIComponent(testId)}&level=${level}&segment=${encodeURIComponent(examCategory || currentSegment)}`;
       }
 
       function startDailyTest() {
         if (activeDailyTest) {
-          startTest(activeDailyTest.id, activeDailyTest.exam_category);
+          startTest(
+            activeDailyTest.id,
+            activeDailyTest.exam_category,
+            activeDailyTest.level || 1,
+          );
         } else {
           const list = getCurrentSubjectList();
           const firstCat = list[0]?.categories?.[0];
-          if (firstCat) startTest(firstCat.id, firstCat.exam_category);
+          if (firstCat) {
+            startTest(firstCat.id, firstCat.exam_category, firstCat.level || 1);
+          }
         }
       }
 
@@ -746,6 +931,7 @@
         return false;
       }
 
+      // MODAL CONTROLLERS (Paywall & Logout)
       function openPaywall(testObj) {
         selectedTestForPurchase = testObj;
         document.getElementById("paywall-test-title").textContent =
@@ -765,19 +951,29 @@
 
       function executeBuyTest() {
         closePaywallModal();
-        alert("Redirecting to checkout...");
+        showToastMessage("Opening Payment Gateway...", "info");
       }
 
       function executeBuyPass() {
         closePaywallModal();
-        alert("Redirecting to Exam Pass subscription...");
+        showToastMessage("Redirecting to All-Access Pass...", "info");
       }
 
-      function handleUserLogout() {
-        if (confirm("Are you sure you want to log out?")) {
-          localStorage.clear();
+      function openLogoutModal() {
+        document.getElementById("logout-modal").classList.remove("hidden");
+      }
+
+      function closeLogoutModal() {
+        document.getElementById("logout-modal").classList.add("hidden");
+      }
+
+      function confirmLogoutAction() {
+        closeLogoutModal();
+        localStorage.clear();
+        showToastMessage("Logged out successfully!", "success");
+        setTimeout(() => {
           window.location.href = "auth.html";
-        }
+        }, 600);
       }
 
       document.addEventListener("DOMContentLoaded", () => {
