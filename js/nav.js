@@ -109,11 +109,11 @@ function renderBottomNav(activeTabName = null) {
       activeMatch: ["home.html", "home.html"],
     },
     {
-      id: "tests",
-      name: "Tests",
-      icon: "file-check-2",
-      url: "testpaper.html",
-      activeMatch: ["testpaper.html"],
+      id: "daily-gk",
+      name: "Daily GK",
+      icon: "globe", // ya "newspaper" / "zap"
+      url: "mobile-daily-gk.html",
+      activeMatch: ["mobile-daily-gk.html", "gk-quiz.html"],
     },
     {
       id: "scorecard",

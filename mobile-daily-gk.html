@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>ExamMokk - Daily GK & Current Affairs</title>
+
+    <!-- Tailwind CSS & Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Master Scripts -->
+    <script src="js/AllSubject.js"></script>
+    <script src="js/nav.js"></script>
+
+    <style>
+      body {
+        font-family:
+          "Plus Jakarta Sans",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        background-color: #090d16;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.2s ease-out forwards;
+      }
+    </style>
+  </head>
+  <body class="flex justify-center items-center min-h-screen bg-slate-950">
+    <!-- MOBILE CONTAINER (Phone Viewport: 430px Fit) -->
+    <div
+      class="w-full max-w-[430px] bg-slate-50 h-screen max-h-screen flex flex-col justify-start shadow-2xl relative overflow-hidden"
+    >
+      <!-- 1. FIXED TOP HEADER -->
+      <header
+        class="bg-white px-4 py-3 border-b border-slate-200/80 shrink-0 shadow-2xs z-10 flex items-center justify-between"
+      >
+        <!-- LEFT: BACK BUTTON & TITLE -->
+        <div class="flex items-center gap-2.5">
+          <button
+            onclick="window.location.href = 'home.html'"
+            class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 flex items-center justify-center transition-all cursor-pointer shrink-0"
+            title="Back to Home"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+          <div>
+            <h1
+              class="text-sm font-black text-slate-900 tracking-tight leading-tight flex items-center gap-1.5"
+            >
+              <span>Daily GK &amp; CA</span>
+              <span class="text-xs">🌍</span>
+            </h1>
+            <p
+              class="text-[10px] font-bold text-indigo-600 leading-none mt-0.5"
+            >
+              All India Speed Quizzes
+            </p>
+          </div>
+        </div>
+
+        <!-- RIGHT: LOGOUT BUTTON -->
+        <button
+          onclick="handleUserLogout()"
+          class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 active:bg-rose-500 active:text-white text-rose-600 border border-rose-200/80 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs active:scale-95"
+        >
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+          <span>Logout</span>
+        </button>
+      </header>
+
+      <!-- 2. MAIN SCROLLABLE CONTENT -->
+      <main
+        class="flex-1 px-4 pt-3 pb-24 space-y-3.5 overflow-y-auto no-scrollbar"
+      >
+        <!-- UNIFIED DAILY LIVE CHALLENGE BANNER -->
+        <div
+          class="bg-gradient-to-br from-indigo-800 via-indigo-900 to-slate-900 rounded-3xl p-4 text-white shadow-xl shadow-indigo-950/25 border border-white/10 relative overflow-hidden"
+        >
+          <div
+            class="absolute -right-6 -top-6 w-24 h-24 bg-blue-400/20 rounded-full blur-2xl pointer-events-none"
+          ></div>
+
+          <!-- TOP SECTION -->
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 mb-1">
+                <span
+                  class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"
+                ></span>
+                <span
+                  id="daily-challenge-subject"
+                  class="text-[11px] font-black tracking-wider text-indigo-200 uppercase truncate"
+                >
+                  TODAY'S LIVE CHALLENGE
+                </span>
+              </div>
+
+              <h3
+                id="daily-challenge-title"
+                class="text-sm font-extrabold text-white leading-snug truncate"
+              >
+                Daily GK &amp; Current Affairs Speed Drill
+              </h3>
+            </div>
+          </div>
+
+          <!-- MIDDLE ROW -->
+          <div class="flex items-center justify-between gap-2 mt-2.5">
+            <div
+              class="flex items-center gap-2 text-xs font-bold text-indigo-100/90 flex-wrap"
+            >
+              <span
+                class="inline-flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-md border border-white/10"
+              >
+                📝 <span id="daily-challenge-qs">15 Qs</span>
+              </span>
+              <span
+                class="inline-flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-md border border-white/10"
+              >
+                ⏱️ <span id="daily-challenge-time">10 M</span>
+              </span>
+              <span
+                id="daily-timer"
+                class="text-amber-300 font-mono text-[10px]"
+              >
+                ⏳ Active Today
+              </span>
+            </div>
+
+            <button
+              id="btn-start-daily"
+              onclick="startDailyLiveDrill()"
+              class="px-3.5 py-1.5 bg-white hover:bg-indigo-50 active:scale-95 text-indigo-900 rounded-xl font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5 shadow-md shrink-0"
+            >
+              <span>START</span>
+              <i
+                data-lucide="play"
+                class="w-3.5 h-3.5 fill-current text-indigo-700"
+              ></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- DAILY GK CATEGORIES (TOPIC WISE ACCORDION) -->
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between px-1">
+            <h3
+              class="text-xs font-extrabold text-slate-800 uppercase tracking-wider"
+            >
+              GK Modules &amp; Topics
+            </h3>
+            <span
+              id="total-categories-count"
+              class="text-[11px] font-extrabold bg-indigo-50 text-indigo-600 px-2.5 py-0.5 rounded-full border border-indigo-100"
+              >0 Topics</span
+            >
+          </div>
+
+          <!-- ACCORDION CONTAINER -->
+          <div id="gk-accordion-container" class="space-y-2.5"></div>
+        </div>
+      </main>
+
+      <!-- 3. DYNAMIC BOTTOM NAVIGATION PLACEHOLDER -->
+      <div id="bottom-nav-placeholder"></div>
+    </div>
+
+    <!-- JAVASCRIPT ENGINE -->
+    <script>
+      // Backend API endpoint
+      const API_BASE_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/subject";
+
+      let openCategoryId = null;
+      let dailyGkConfig = null;
+      let categoryTestsMap = {}; // Cache API tests per category
+      let activeDailyTest = null;
+
+      // 1. EXTRACT DAILY GK FROM ALLSUBJECT.JS
+      function getDailyGkConfig() {
+        if (window.ALL_SUBJECTS?.DAILY_GK?.length) {
+          return Array.isArray(window.ALL_SUBJECTS.DAILY_GK)
+            ? window.ALL_SUBJECTS.DAILY_GK[0]
+            : window.ALL_SUBJECTS.DAILY_GK;
+        }
+
+        if (typeof DAILY_GK !== "undefined") {
+          return Array.isArray(DAILY_GK) ? DAILY_GK[0] : DAILY_GK;
+        }
+
+        if (
+          typeof subjectsBySegment !== "undefined" &&
+          subjectsBySegment.DAILY_GK
+        ) {
+          return Array.isArray(subjectsBySegment.DAILY_GK)
+            ? subjectsBySegment.DAILY_GK[0]
+            : subjectsBySegment.DAILY_GK;
+        }
+
+        return null;
+      }
+
+      // 2. FETCH TESTS FROM REAL API ONLY (NO DUMMY FALLBACK)
+      async function fetchCategoryTestsFromAPI(category) {
+        if (!category) return;
+
+        category.loading = true;
+        category.hasError = false;
+        renderAccordion();
+
+        try {
+          const apiQuery =
+            category.title ||
+            category.name ||
+            dailyGkConfig?.apiSubject ||
+            "General Knowledge";
+
+          const res = await fetch(
+            `${API_BASE_URL}/${encodeURIComponent(apiQuery)}`,
+          );
+
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+          }
+
+          const resData = await res.json();
+
+          if (
+            resData?.success &&
+            Array.isArray(resData.data) &&
+            resData.data.length > 0
+          ) {
+            categoryTestsMap[category.id] = resData.data.map((item) => ({
+              id: item.test_id || item._id,
+              title: item.title || item.test_name || `${category.title} Test`,
+              desc:
+                item.category_title ||
+                category.description ||
+                "Daily Speed Drill",
+              ques: Number(item.total_questions) || 15,
+              time: Number(item.total_time_mins) || 10,
+              difficulty: item.difficulty_level || "Medium",
+              is_daily: Boolean(item.is_daily_challenge),
+            }));
+
+            // Sync daily challenge banner agar live test mile
+            const daily = categoryTestsMap[category.id].find((t) => t.is_daily);
+            if (daily) {
+              activeDailyTest = daily;
+              document.getElementById("daily-challenge-title").textContent =
+                daily.title;
+              document.getElementById("daily-challenge-qs").textContent =
+                `${daily.ques} Qs`;
+              document.getElementById("daily-challenge-time").textContent =
+                `${daily.time} M`;
+            }
+          } else {
+            // No tests from API -> empty array (Shows Coming Soon)
+            categoryTestsMap[category.id] = [];
+          }
+
+          category.loaded = true;
+        } catch (err) {
+          console.warn(
+            `No online tests found for category ${category.title}:`,
+            err,
+          );
+          categoryTestsMap[category.id] = [];
+          category.loaded = true;
+        } finally {
+          category.loading = false;
+          renderAccordion();
+        }
+      }
+
+      // 3. RENDER ACCORDION
+      function renderAccordion() {
+        const container = document.getElementById("gk-accordion-container");
+        if (!container) return;
+
+        const categories = dailyGkConfig?.categories || [];
+        document.getElementById("total-categories-count").textContent =
+          `${categories.length} Topics`;
+
+        if (categories.length === 0) {
+          container.innerHTML = `
+            <div class="py-12 text-center bg-white rounded-2xl border border-slate-200/80 p-6">
+              <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-3 text-xl">⏳</div>
+              <h4 class="text-xs font-black text-slate-800 uppercase tracking-wider">Coming Soon</h4>
+              <p class="text-[11px] text-slate-400 font-semibold mt-1">Daily GK & Current Affairs are being updated.</p>
+            </div>
+          `;
+          if (typeof lucide !== "undefined") lucide.createIcons();
+          return;
+        }
+
+        container.innerHTML = categories
+          .map((cat) => {
+            const isOpen = cat.id === openCategoryId;
+            const tests = categoryTestsMap[cat.id] || [];
+
+            return `
+            <div class="bg-white border ${
+              isOpen ? "border-indigo-500 shadow-xs" : "border-slate-200/90"
+            } rounded-2xl overflow-hidden transition-all duration-200">
+              
+              <!-- TOPIC HEADER -->
+              <div 
+                onclick="toggleCategory('${cat.id}')"
+                class="p-3.5 flex items-center justify-between cursor-pointer select-none bg-white hover:bg-slate-50 transition-all"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-100 flex items-center justify-center text-lg font-black shrink-0 shadow-xs">
+                    ${cat.icon || "📚"}
+                  </div>
+                  <div class="min-w-0">
+                    <h4 class="font-extrabold text-slate-800 text-xs truncate leading-snug">${cat.title}</h4>
+                    <span class="text-[10px] font-semibold text-slate-400 block mt-0.5 truncate">
+                      ${cat.description || "Daily Speed Quizzes"}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 shrink-0">
+                  <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border bg-indigo-50 text-indigo-700 border-indigo-200">
+                    ${cat.loading ? "⏳ Loading" : "Explore"}
+                  </span>
+                  <div class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition-transform duration-200 ${
+                    isOpen ? "rotate-180 bg-indigo-50 text-indigo-600" : ""
+                  }">
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ACCORDION CONTENT (API DATA ONLY OR COMING SOON) -->
+              ${
+                isOpen
+                  ? `
+                <div class="bg-slate-50/80 p-3 border-t border-slate-100 space-y-2.5 animate-fadeIn">
+                  ${
+                    cat.loading
+                      ? `
+                      <div class="py-5 text-center">
+                        <div class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                        <p class="text-xs font-bold text-indigo-600">Connecting to Live Question Bank...</p>
+                      </div>
+                    `
+                      : tests.length > 0
+                        ? tests
+                            .map(
+                              (test) => `
+                            <div class="bg-white border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all">
+                              <div class="pr-2 min-w-0 flex-1">
+                                <h5 class="font-extrabold text-slate-800 text-xs truncate">${test.title}</h5>
+                                <p class="text-[11px] font-medium text-slate-400 truncate mt-0.5">${test.desc}</p>
+                                <div class="flex items-center gap-1.5 mt-1.5">
+                                  <span class="text-[10px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">${test.ques} Qs</span>
+                                  <span class="text-[10px] font-bold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded">⏱️ ${test.time}m</span>
+                                  <span class="text-[10px] font-bold uppercase text-slate-400">${test.difficulty}</span>
+                                </div>
+                              </div>
+
+                              <button 
+                                onclick="startTest('${test.id}', '${cat.id}')"
+                                class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs shrink-0 flex items-center gap-1.5"
+                              >
+                                <span>Start</span>
+                                <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                              </button>
+                            </div>
+                          `,
+                            )
+                            .join("")
+                        : `
+                        <div class="py-6 text-center bg-white rounded-xl border border-dashed border-slate-300 p-4">
+                          <span class="text-lg">⏳</span>
+                          <p class="text-xs font-bold text-slate-700 mt-1">Coming Soon</p>
+                          <p class="text-[10px] text-slate-400 font-medium">New test sets are being prepared for this topic.</p>
+                        </div>
+                      `
+                  }
+                </div>
+              `
+                  : ""
+              }
+            </div>
+          `;
+          })
+          .join("");
+
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      }
+
+      function toggleCategory(categoryId) {
+        if (openCategoryId === categoryId) {
+          openCategoryId = null;
+        } else {
+          openCategoryId = categoryId;
+          const cat = dailyGkConfig?.categories?.find(
+            (c) => c.id === categoryId,
+          );
+          if (cat && !cat.loaded && !cat.loading) {
+            fetchCategoryTestsFromAPI(cat);
+            return;
+          }
+        }
+        renderAccordion();
+      }
+
+      function startTest(testId, categoryId) {
+        window.location.href = `mobile_exam_runner.html?test_id=${encodeURIComponent(testId)}&category=${encodeURIComponent(categoryId)}&segment=DAILY_GK`;
+      }
+
+      function startDailyLiveDrill() {
+        if (activeDailyTest) {
+          startTest(activeDailyTest.id, "dgk_todays_affairs");
+        } else {
+          const firstCat = dailyGkConfig?.categories?.[0];
+          if (firstCat) {
+            openCategoryId = firstCat.id;
+            fetchCategoryTestsFromAPI(firstCat);
+          }
+        }
+      }
+
+      function handleUserLogout() {
+        if (confirm("Are you sure you want to log out?")) {
+          localStorage.clear();
+          window.location.href = "auth.html";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        dailyGkConfig = getDailyGkConfig();
+
+        if (dailyGkConfig?.categories?.length > 0) {
+          const firstCat = dailyGkConfig.categories[0];
+          openCategoryId = firstCat.id;
+          fetchCategoryTestsFromAPI(firstCat);
+        } else {
+          renderAccordion();
+        }
+      });
+    </script>
+  </body>
+</html>

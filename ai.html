@@ -941,12 +941,11 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
           ".topic-item-checkbox:checked",
         );
         const titleInput = document.getElementById("cfg_test_title_preview");
-        const stageEl = document.getElementById("cfg_class_stage");
-        const stage = stageEl ? stageEl.value : "Tier 1";
 
         if (checked.length === 1) {
           const categoryTitle = checked[0].dataset.categoryTitle;
-          titleInput.value = `${categoryTitle} – Level ${stage}`;
+          // Default format: Chapter Title #1
+          titleInput.value = `${categoryTitle} #1`;
 
           if (checked[0].dataset.posMarks) {
             document.getElementById("cfg_marks").value =
@@ -962,7 +961,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
           titleInput.placeholder = "Select a chapter to set title";
         }
       }
-
       function togglePriceFields() {
         const type = document.getElementById("cfg_access_type").value;
         const isFree = type === "free";
@@ -1060,7 +1058,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
               0;
 
             const topicKey = `${subjectId}_${categoryId}`;
-            const dynamicTestTitle = `${categoryTitle} – Level ${stage}`;
+            const dynamicTestTitle = `${categoryTitle} #1`;
 
             updateProgress(
               completed,
