@@ -210,6 +210,15 @@
       let isCategoryLoading = false;
       let activeDailyTest = null;
 
+      // Check if test is within 5 days old
+      function isWithinFiveDays(dateString) {
+        if (!dateString) return false;
+        const testDate = new Date(dateString).getTime();
+        const currentDate = Date.now();
+        const diffInDays = (currentDate - testDate) / (1000 * 60 * 60 * 24);
+        return diffInDays >= 0 && diffInDays <= 5;
+      }
+
       function getDailyGkConfig() {
         if (window.ALL_SUBJECTS?.DAILY_GK?.length) {
           return Array.isArray(window.ALL_SUBJECTS.DAILY_GK)
@@ -263,6 +272,7 @@
               time: Number(item.total_time_mins) || 10,
               difficulty: item.difficulty_level || "Medium",
               is_daily: Boolean(item.is_daily_challenge),
+              createdAt: item.createdAt || item.date || item.created_at || null,
             }));
 
             const daily =
@@ -367,16 +377,19 @@
                     `
                       : topicTests.length > 0
                         ? topicTests
-                            .map(
-                              (test) => `
+                            .map((test) => {
+                              const isNew = isWithinFiveDays(test.createdAt);
+
+                              return `
                             <div class="bg-white border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all">
                               <div class="pr-2 min-w-0 flex-1">
                                 <div class="flex items-center gap-1.5">
                                   <h5 class="font-extrabold text-slate-800 text-xs truncate">${test.title}</h5>
-                                  <!-- NEW TAG BADGE -->
-                                  <span class="px-1.5 py-0.2 bg-rose-500 text-white text-[9px] font-black tracking-wider rounded-md uppercase shrink-0 shadow-2xs">
-                                    NEW
-                                  </span>
+                                  ${
+                                    isNew
+                                      ? `<span class="px-1.5 py-0.2 bg-rose-500 text-white text-[9px] font-black tracking-wider rounded-md uppercase shrink-0 shadow-2xs">NEW</span>`
+                                      : ""
+                                  }
                                 </div>
                                 <p class="text-[11px] font-medium text-slate-400 truncate mt-0.5">${test.desc}</p>
                                 <div class="flex items-center gap-1.5 mt-1.5">
@@ -394,8 +407,8 @@
                                 <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
                               </button>
                             </div>
-                          `,
-                            )
+                          `;
+                            })
                             .join("")
                         : `
                         <div class="py-6 text-center bg-white rounded-xl border border-dashed border-slate-300 p-4">
