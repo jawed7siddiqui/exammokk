@@ -320,7 +320,7 @@
 
       // Launch Daily GK Test according to screen/device type
       function launchDailyGKRunner() {
-        const runnerFile = isMobileDevice() ? "/test/runner" : "/test/runner";
+        const runnerFile = isMobileDevice() ? "test/runner" : "test/runner";
 
         window.location.href = `/${runnerFile}?test_id=dgk_todays_affairs&segment=DAILY_GK`;
       }
