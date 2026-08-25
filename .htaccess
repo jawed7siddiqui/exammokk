@@ -32,7 +32,7 @@ RewriteRule ^privacy-policy/?$ privacy-policy.html [L,QSA]
 RewriteRule ^terms/?$ terms.html [L,QSA]
 RewriteRule ^pricing/?$ pricing.html [L,QSA]
 RewriteRule ^tests/?$ tests.html [L,QSA]
-RewriteRule ^dashboard/?$ dashboard_gov_exam.html [L,QSA]
+RewriteRule ^dashboard/?$ dashboard_mobile_exam.html [L,QSA]
 
 # ------------------------------------------------------------------------------
 # 4. BLOGS ROUTING

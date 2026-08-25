@@ -26,7 +26,7 @@
     },
     {
       "source": "/dashboard",
-      "destination": "/dashboard_gov_exam.html"
+      "destination": "/dashboard_mobile_exam.html"
     },
     {
       "source": "/blogs",

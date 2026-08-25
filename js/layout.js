@@ -122,7 +122,7 @@ function renderHeader() {
             </div>
 
             <!-- DAILY GK DIRECT LINK -->
-            <a href="/gov_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 transition no-underline">
+            <a href="/mobile_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 transition no-underline">
               <span class="text-sm">🌍</span>
               <span>Daily GK Quiz</span>
             </a>
@@ -147,7 +147,7 @@ function renderHeader() {
       <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3 max-h-[85vh] overflow-y-auto">
         <a href="/" class="block px-3 py-2 rounded-lg text-sm font-bold text-indigo-600 bg-indigo-50 no-underline">Home</a>
         
-        <a href="/gov_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 no-underline">
+        <a href="/mobile_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 no-underline">
           <span class="text-base">🌍</span>
           <span>Daily GK &amp; Current Affairs Drill (Free)</span>
         </a>
@@ -214,7 +214,7 @@ function renderFooter() {
           <div>
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-4">Entrances &amp; Practice</h4>
             <ul class="space-y-2 text-xs font-semibold">
-              <li><a href="/gov_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="text-emerald-700 font-bold hover:text-emerald-800 transition no-underline">Daily GK &amp; Current Affairs Drill</a></li>
+              <li><a href="/mobile_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="text-emerald-700 font-bold hover:text-emerald-800 transition no-underline">Daily GK &amp; Current Affairs Drill</a></li>
               <li><a href="/jee-neet" class="hover:text-indigo-600 transition no-underline">NTA JEE Main &amp; NEET UG</a></li>
               <li><a href="/defence" class="hover:text-indigo-600 transition no-underline">NDA, CDS, Police SI, Agniveer</a></li>
               <li><a href="/teaching" class="hover:text-indigo-600 transition no-underline">CTET, State TET &amp; KVS</a></li>
