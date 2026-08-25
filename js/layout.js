@@ -1,5 +1,6 @@
 /**
  * ExamMokk Cloud - Global Layout & Analytics Engine
+ * Policy-Compliant Edition (Google Ads & Misrepresentation Safe)
  */
 
 // 1. DYNAMIC GOOGLE ANALYTICS (GA4) INJECTION
@@ -46,7 +47,8 @@ function renderHeader() {
                 <span class="text-lg font-black tracking-tight text-slate-900 uppercase">Exam<span class="text-indigo-600">Mokk</span></span>
                 <span class="bg-indigo-50 text-indigo-700 border border-indigo-200 text-[9px] font-black px-1.5 py-0.2 rounded-full uppercase">FREE</span>
               </div>
-              <span class="text-[10px] font-semibold text-slate-500 tracking-wider uppercase -mt-0.5">Govt Prep App &amp; Test Engine</span>
+              <!-- Policy Safe: Clarified as practice test platform -->
+              <span class="text-[10px] font-semibold text-slate-500 tracking-wider uppercase -mt-0.5">Online Exam Prep &amp; Mock Test Portal</span>
             </div>
           </a>
 
@@ -57,7 +59,7 @@ function renderHeader() {
             <!-- ALL EXAMS MEGA DROPDOWN -->
             <div class="relative group">
               <button class="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition py-2 cursor-pointer focus:outline-none">
-                <span>All Exams</span>
+                <span>All Exam Categories</span>
                 <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform group-hover:rotate-180"></i>
               </button>
               
@@ -65,56 +67,56 @@ function renderHeader() {
                 <a href="/ssc" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition no-underline">
                   <span class="text-base">⚡</span>
                   <div>
-                    <div class="text-xs font-bold text-slate-900">SSC Exams</div>
+                    <div class="text-xs font-bold text-slate-900">SSC Exam Practice</div>
                     <div class="text-[10px] text-slate-500 font-medium">CGL, CHSL, MTS, GD</div>
                   </div>
                 </a>
                 <a href="/upsc" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition no-underline">
                   <span class="text-base">⚖️</span>
                   <div>
-                    <div class="text-xs font-bold text-slate-900">PSC &amp; UPSC</div>
-                    <div class="text-[10px] text-slate-500 font-medium">IAS, BPSC, UPPSC</div>
+                    <div class="text-xs font-bold text-slate-900">Civil Services &amp; PSC</div>
+                    <div class="text-[10px] text-slate-500 font-medium">IAS, BPSC, UPPSC Prep</div>
                   </div>
                 </a>
                 <a href="/banking" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition no-underline">
                   <span class="text-base">🏦</span>
                   <div>
-                    <div class="text-xs font-bold text-slate-900">Banking</div>
+                    <div class="text-xs font-bold text-slate-900">Banking Exams</div>
                     <div class="text-[10px] text-slate-500 font-medium">SBI, IBPS PO &amp; Clerk</div>
                   </div>
                 </a>
                 <a href="/railways" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition no-underline">
                   <span class="text-base">🚆</span>
                   <div>
-                    <div class="text-xs font-bold text-slate-900">Railways</div>
+                    <div class="text-xs font-bold text-slate-900">Railways Exams</div>
                     <div class="text-[10px] text-slate-500 font-medium">RRB NTPC, Group D</div>
                   </div>
                 </a>
                 <a href="/jee-neet" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition no-underline">
                   <span class="text-base">🧬</span>
                   <div>
-                    <div class="text-xs font-bold text-slate-900">JEE &amp; NEET UG</div>
+                    <div class="text-xs font-bold text-slate-900">JEE &amp; NEET Mock Tests</div>
                     <div class="text-[10px] text-slate-500 font-medium">Physics, Chem, Bio</div>
                   </div>
                 </a>
                 <a href="/defence" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition no-underline">
                   <span class="text-base">🎖️</span>
                   <div>
-                    <div class="text-xs font-bold text-slate-900">Defence</div>
+                    <div class="text-xs font-bold text-slate-900">Defence Exams</div>
                     <div class="text-[10px] text-slate-500 font-medium">NDA, CDS, Police SI</div>
                   </div>
                 </a>
                 <a href="/teaching" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition no-underline">
                   <span class="text-base">👨‍🏫</span>
                   <div>
-                    <div class="text-xs font-bold text-slate-900">Teaching</div>
+                    <div class="text-xs font-bold text-slate-900">Teaching Eligibility</div>
                     <div class="text-[10px] text-slate-500 font-medium">CTET, State TET</div>
                   </div>
                 </a>
                 <a href="/entrance" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition no-underline">
                   <span class="text-base">🎓</span>
                   <div>
-                    <div class="text-xs font-bold text-slate-900">CUET &amp; Law</div>
+                    <div class="text-xs font-bold text-slate-900">CUET &amp; Law Entrances</div>
                     <div class="text-[10px] text-slate-500 font-medium">CUET UG, CLAT</div>
                   </div>
                 </a>
@@ -124,7 +126,7 @@ function renderHeader() {
             <!-- DAILY GK DIRECT LINK -->
             <a href="/dashboard/web?type=DAILY_GK" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 transition no-underline">
               <span class="text-sm">🌍</span>
-              <span>Daily GK Quiz</span>
+              <span>Daily GK Practice</span>
             </a>
 
             <a href="/about-us" class="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition no-underline">About</a>
@@ -132,7 +134,7 @@ function renderHeader() {
             <!-- START FREE TEST CTA BUTTON -->
             <a href="/#exam-grid-section" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-100 transition active:scale-95 cursor-pointer no-underline">
               <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-300 fill-current"></i>
-              <span>Start Free Test</span>
+              <span>Start Free Practice Test</span>
             </a>
           </nav>
 
@@ -149,12 +151,12 @@ function renderHeader() {
         
         <a href="/mobile_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 no-underline">
           <span class="text-base">🌍</span>
-          <span>Daily GK &amp; Current Affairs Drill (Free)</span>
+          <span>Daily GK &amp; Current Affairs Practice (Free)</span>
         </a>
 
-        <div class="px-3 pt-2 text-[10px] font-black uppercase tracking-wider text-slate-400">All Exam Categories</div>
+        <div class="px-3 pt-2 text-[10px] font-black uppercase tracking-wider text-slate-400">Exam Practice Categories</div>
         <div class="grid grid-cols-2 gap-2">
-          <a href="/ssc" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5 no-underline"><span>⚡</span> SSC</a>
+          <a href="/ssc" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5 no-underline"><span>⚡</span> SSC Prep</a>
           <a href="/upsc" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5 no-underline"><span>⚖️</span> UPSC/PSC</a>
           <a href="/banking" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5 no-underline"><span>🏦</span> Banking</a>
           <a href="/railways" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 flex items-center gap-1.5 no-underline"><span>🚆</span> Railways</a>
@@ -172,7 +174,7 @@ function renderHeader() {
         <!-- MOBILE CTA -->
         <a href="/#exam-grid-section" onclick="toggleMobileMenu()" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl text-xs uppercase flex items-center justify-center gap-2 shadow-md no-underline">
           <i data-lucide="zap" class="w-4 h-4 text-amber-300 fill-current"></i>
-          <span>Start Free Test</span>
+          <span>Start Free Practice Test</span>
         </a>
       </div>
     </header>
@@ -196,43 +198,50 @@ function renderFooter() {
               </div>
               <span class="text-lg font-black text-slate-900 uppercase tracking-tight">Exam<span class="text-indigo-600">Mokk</span></span>
             </div>
+            <!-- Policy Safe: Clarified as practice test platform -->
             <p class="text-xs text-slate-500 leading-relaxed font-medium">
-              India's authentic online mock test portal featuring official negative marking formulas, strict question timers, and real-time national ranking.
+              An independent online mock test platform designed for exam preparation, offering standard negative marking patterns, test timers, and percentile analytics.
             </p>
           </div>
 
           <div>
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-4">Govt &amp; Career Exams</h4>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-4">Competitive Exam Prep</h4>
             <ul class="space-y-2 text-xs font-semibold">
-              <li><a href="/upsc" class="hover:text-indigo-600 transition no-underline">UPSC Civil Services &amp; State PSC</a></li>
-              <li><a href="/ssc" class="hover:text-indigo-600 transition no-underline">SSC CGL, CHSL, MTS, CPO</a></li>
-              <li><a href="/railways" class="hover:text-indigo-600 transition no-underline">Railway RRB NTPC &amp; Group D</a></li>
-              <li><a href="/banking" class="hover:text-indigo-600 transition no-underline">IBPS, SBI PO &amp; Clerk</a></li>
+              <li><a href="/upsc" class="hover:text-indigo-600 transition no-underline">UPSC Civil Services &amp; State PSC Practice</a></li>
+              <li><a href="/ssc" class="hover:text-indigo-600 transition no-underline">SSC CGL, CHSL, MTS Mock Tests</a></li>
+              <li><a href="/railways" class="hover:text-indigo-600 transition no-underline">RRB NTPC &amp; Group D Practice</a></li>
+              <li><a href="/banking" class="hover:text-indigo-600 transition no-underline">IBPS &amp; SBI PO/Clerk Practice</a></li>
             </ul>
           </div>
 
           <div>
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-4">Entrances &amp; Practice</h4>
             <ul class="space-y-2 text-xs font-semibold">
-              <li><a href="/mobile_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="text-emerald-700 font-bold hover:text-emerald-800 transition no-underline">Daily GK &amp; Current Affairs Drill</a></li>
-              <li><a href="/jee-neet" class="hover:text-indigo-600 transition no-underline">NTA JEE Main &amp; NEET UG</a></li>
-              <li><a href="/defence" class="hover:text-indigo-600 transition no-underline">NDA, CDS, Police SI, Agniveer</a></li>
-              <li><a href="/teaching" class="hover:text-indigo-600 transition no-underline">CTET, State TET &amp; KVS</a></li>
+              <li><a href="/mobile_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="text-emerald-700 font-bold hover:text-emerald-800 transition no-underline">Daily GK &amp; Current Affairs Quiz</a></li>
+              <li><a href="/jee-neet" class="hover:text-indigo-600 transition no-underline">JEE Main &amp; NEET UG Mock Series</a></li>
+              <li><a href="/defence" class="hover:text-indigo-600 transition no-underline">Defence (NDA, CDS, AFCAT) Prep</a></li>
+              <li><a href="/teaching" class="hover:text-indigo-600 transition no-underline">Teaching (CTET &amp; State TET) Tests</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-4">Live Verification</h4>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-4">Exam Simulator Engine</h4>
+            <!-- Policy Safe: Replaced claims of "Live Verification / Official matching" with objective descriptions -->
             <p class="text-xs text-slate-500 leading-relaxed mb-3 font-medium">
-              Standardized engine matching NTA, TCS-iON, IBPS, and UPSC evaluation algorithms.
+              Mock tests prepared according to publicly available syllabi and marking schemes.
             </p>
             <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] text-emerald-700 font-bold">
-              <span>🇮🇳 Verified Indian Exam Patterns</span>
+              <span>🇮🇳 Standardized Test Simulation</span>
             </div>
           </div>
         </div>
 
-        <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
+        <!-- MANDATORY DISCLAIMER FOR GOOGLE POLICY COMPLIANCE -->
+        <div class="py-4 border-b border-slate-100 text-[11px] text-slate-400 leading-relaxed">
+          <p><strong>Disclaimer:</strong> ExamMokk is an independent educational technology and test-preparation platform. It is not affiliated with, endorsed by, or associated with any government body, ministry, or official testing agency (including UPSC, SSC, NTA, IBPS, or Indian Railways). All mock tests and study materials are developed solely for candidate practice and self-assessment.</p>
+        </div>
+
+        <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
           <div>&copy; 2026 ExamMokk AI India. All Rights Reserved.</div>
           <div class="flex gap-6">
             <a href="/privacy-policy" class="hover:text-slate-900 transition no-underline">Privacy Policy</a>
