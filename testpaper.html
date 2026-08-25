@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>ExamMokk - Practice Test Papers</title>
+    <title>ExamMokk - Test Papers</title>
 
     <!-- Tailwind CSS & Lucide Icons -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -56,7 +56,7 @@
         }
       }
       .animate-slide-up {
-        animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        animation: slideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       }
     </style>
   </head>
@@ -67,7 +67,7 @@
     >
       <!-- 1. FIXED TOP HEADER -->
       <header
-        class="bg-white px-4 py-3.5 border-b border-slate-200/80 shrink-0 shadow-2xs z-20 flex items-center justify-between"
+        class="bg-white px-4 py-3 border-b border-slate-200/80 shrink-0 shadow-2xs z-20 flex items-center justify-between"
       >
         <div class="flex items-center gap-2.5">
           <button
@@ -79,40 +79,50 @@
           </button>
           <div>
             <h1
-              id="top-header-stream-title"
               class="text-sm font-black text-slate-900 tracking-tight leading-tight"
             >
-              Mock Test Papers
+              Test Papers
             </h1>
             <p
               id="top-header-stream-sub"
-              class="text-[10px] font-bold text-indigo-600 leading-none mt-0.5"
+              class="text-[10px] font-bold text-indigo-600 leading-none mt-0.5 truncate max-w-[210px]"
             >
               All India Practice Series
             </p>
           </div>
         </div>
 
-        <button
-          onclick="loadInitialData()"
-          class="w-9 h-9 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-600 flex items-center justify-center transition-all cursor-pointer active:scale-95"
-          title="Refresh Tests"
-        >
-          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-        </button>
+        <div class="flex items-center gap-1.5">
+          <button
+            onclick="toggleSavedFilter()"
+            id="btn-saved-filter"
+            class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-all cursor-pointer active:scale-95"
+            title="Saved Bookmarks"
+          >
+            <i data-lucide="bookmark" class="w-4 h-4"></i>
+          </button>
+          <button
+            onclick="loadInitialData()"
+            class="w-9 h-9 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-600 flex items-center justify-center transition-all cursor-pointer active:scale-95"
+            title="Refresh Tests"
+          >
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          </button>
+        </div>
       </header>
 
       <!-- 2. SCROLLABLE MAIN ARENA -->
       <main
-        class="flex-1 px-4 pt-3.5 pb-24 space-y-3.5 overflow-y-auto no-scrollbar"
+        class="flex-1 px-4 pt-3 pb-24 space-y-3.5 overflow-y-auto no-scrollbar"
       >
-        <!-- 🔥 TODAY'S FEATURED / DAILY CHALLENGE BLOCK -->
+        <!-- 🔥 TODAY'S FEATURED / LIVE CHALLENGE BLOCK -->
         <div
           id="today-featured-block"
-          class="bg-gradient-to-br from-indigo-700 via-indigo-800 to-slate-900 rounded-2xl p-4 text-white shadow-md shadow-indigo-950/20 relative overflow-hidden"
+          class="bg-gradient-to-br from-indigo-700 via-indigo-800 to-slate-900 rounded-2xl p-4 text-white shadow-md shadow-indigo-950/20 relative overflow-hidden min-h-[128px] flex flex-col justify-between shrink-0"
         >
-          <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center justify-between mb-1.5">
             <span
+              id="today-tag-badge"
               class="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded-full shadow-xs"
             >
               🔥 Live Mock Test
@@ -125,40 +135,40 @@
             </span>
           </div>
 
-          <div class="my-2">
+          <div class="my-auto py-1">
             <h2
               id="today-test-title"
               class="text-sm font-extrabold text-white leading-snug line-clamp-1"
             >
-              Loading Today's Test...
+              Daily Live Practice Set
             </h2>
             <p
               id="today-test-subtitle"
               class="text-[11px] text-indigo-200 font-semibold mt-0.5 truncate"
             >
-              Test your preparation &amp; check live rank
+              Test your preparation &amp; check all India rank
             </p>
           </div>
 
           <div
-            class="flex items-center justify-between pt-2.5 border-t border-white/15 mt-2.5"
+            class="flex items-center justify-between pt-2 border-t border-white/15"
           >
             <div
               class="flex items-center gap-2 text-[11px] text-indigo-100 font-bold"
             >
               <span id="today-q-count" class="bg-white/10 px-2 py-0.5 rounded"
-                >-- Ques</span
+                >15 Ques</span
               >
               <span
                 id="today-time-count"
                 class="bg-white/10 px-2 py-0.5 rounded"
-                >⏱️ -- M</span
+                >⏱️ 15 M</span
               >
             </div>
 
             <button
               id="today-start-btn"
-              onclick="startFeaturedTest()"
+              onclick="previewTestById(featuredTest?.test_id)"
               class="px-4 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 rounded-xl text-xs font-black uppercase flex items-center gap-1.5 shadow-sm active:scale-95 transition-all cursor-pointer"
             >
               <span>Start</span>
@@ -167,26 +177,38 @@
           </div>
         </div>
 
-        <!-- SEARCH INPUT -->
-        <div class="relative w-full">
-          <i
-            data-lucide="search"
-            class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
-          ></i>
-          <input
-            type="text"
-            id="test-search-input"
-            oninput="applyFilters()"
-            placeholder="Search test name, subject, topic..."
-            class="w-full pl-9 pr-3 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 outline-none focus:border-indigo-500 shadow-2xs transition-all"
-          />
+        <!-- SEARCH + SORT BAR -->
+        <div class="flex items-center gap-2 shrink-0">
+          <div class="relative flex-1">
+            <i
+              data-lucide="search"
+              class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+            ></i>
+            <input
+              type="text"
+              id="test-search-input"
+              oninput="applyFilters()"
+              placeholder="Search test name, topic, code..."
+              class="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 outline-none focus:border-indigo-500 shadow-2xs transition-all"
+            />
+          </div>
+
+          <select
+            id="sort-select"
+            onchange="applyFilters()"
+            class="bg-white border border-slate-200 text-slate-700 font-bold text-xs py-2 px-2.5 rounded-xl outline-none shadow-2xs cursor-pointer"
+          >
+            <option value="DEFAULT">Default</option>
+            <option value="NEWEST">Newest</option>
+            <option value="QUESTIONS">Most Questions</option>
+          </select>
         </div>
 
-        <!-- SUBJECTS BAR (HORIZONTAL + VIEW ALL MODAL) -->
-        <div class="space-y-2">
+        <!-- 📚 DYNAMIC SUBJECTS BAR -->
+        <div class="space-y-1.5 shrink-0">
           <div class="flex items-center justify-between px-1">
             <span
-              class="text-[11px] font-extrabold text-slate-700 uppercase tracking-wider"
+              class="text-[10px] font-black uppercase tracking-wider text-slate-500"
             >
               Exam Subjects
             </span>
@@ -201,43 +223,46 @@
 
           <div
             id="subject-pills-container"
-            class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5"
+            class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 min-h-[36px]"
           >
             <!-- Dynamic Subject Horizontal Pills -->
           </div>
         </div>
 
         <!-- STATUS TOGGLE (ALL vs PENDING vs COMPLETED) -->
-        <div class="grid grid-cols-3 gap-1.5 bg-slate-200/70 p-1.5 rounded-xl">
+        <div
+          class="grid grid-cols-3 gap-1 bg-slate-200/70 p-1 rounded-xl shrink-0"
+        >
           <button
             onclick="setStatusFilter('ALL')"
             id="status-btn-ALL"
-            class="status-btn active py-2 text-center text-xs font-extrabold rounded-lg bg-white text-indigo-700 shadow-xs transition-all cursor-pointer"
+            class="status-btn active py-1.5 text-center text-xs font-extrabold rounded-lg bg-white text-indigo-700 shadow-xs transition-all cursor-pointer"
           >
             All Tests
           </button>
           <button
             onclick="setStatusFilter('PENDING')"
             id="status-btn-PENDING"
-            class="status-btn py-2 text-center text-xs font-extrabold rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer"
+            class="status-btn py-1.5 text-center text-xs font-extrabold rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer"
           >
             ⏳ Unattempted
           </button>
           <button
             onclick="setStatusFilter('COMPLETED')"
             id="status-btn-COMPLETED"
-            class="status-btn py-2 text-center text-xs font-extrabold rounded-lg text-emerald-700 hover:text-emerald-800 transition-all cursor-pointer"
+            class="status-btn py-1.5 text-center text-xs font-extrabold rounded-lg text-emerald-700 hover:text-emerald-800 transition-all cursor-pointer"
           >
             ✅ Attempted
           </button>
         </div>
 
         <!-- LIST HEADER INFO -->
-        <div class="flex items-center justify-between px-1 pt-1">
+        <div class="flex items-center justify-between px-1 pt-0.5 shrink-0">
           <h3
+            id="list-heading-title"
             class="text-xs font-extrabold text-slate-800 uppercase tracking-wider"
           >
-            Mock Test Papers
+            Practice Tests
           </h3>
           <span
             id="filtered-count-badge"
@@ -248,21 +273,21 @@
         </div>
 
         <!-- LOADING SKELETON -->
-        <div id="test-loading" class="py-8 text-center">
+        <div id="test-loading" class="py-12 text-center">
           <div
-            class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"
+            class="w-7 h-7 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"
           ></div>
-          <p class="text-xs font-bold text-indigo-600">
-            Loading Mock Papers...
+          <p id="loading-text" class="text-xs font-bold text-indigo-600">
+            Loading Test Sets...
           </p>
         </div>
 
         <!-- TEST PAPERS LIST CONTAINER -->
-        <div id="test-list-container" class="space-y-2.5">
+        <div id="test-list-container" class="space-y-3 min-h-[260px]">
           <!-- Dynamic Cards -->
         </div>
 
-        <!-- 10-ITEMS PAGINATION -->
+        <!-- PAGINATION CONTROLS -->
         <div
           id="pagination-controls"
           class="hidden bg-white border border-slate-200/80 rounded-xl p-2.5 flex items-center justify-between shadow-2xs mt-2"
@@ -294,17 +319,115 @@
         </div>
       </main>
 
-      <!-- 3. DYNAMIC BOTTOM NAVIGATION PLACEHOLDER -->
+      <!-- 3. BOTTOM NAVIGATION PLACEHOLDER -->
       <div id="bottom-nav-placeholder"></div>
     </div>
 
-    <!-- 4. ALL SUBJECTS BOTTOM SHEET / MODAL -->
+    <!-- 4. PRE-TEST INSTRUCTION & CONFIRMATION BOTTOM SHEET -->
+    <div
+      id="test-preview-modal"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs flex items-end justify-center z-50 hidden"
+    >
+      <div
+        class="w-full max-w-[430px] bg-white rounded-t-3xl p-5 border-t border-slate-200 shadow-2xl space-y-4 animate-slide-up"
+      >
+        <div
+          class="flex items-center justify-between border-b border-slate-100 pb-3"
+        >
+          <div>
+            <span
+              id="sheet-category-badge"
+              class="text-[10px] font-extrabold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded uppercase"
+            >
+              Mock Test
+            </span>
+            <h3
+              id="sheet-test-title"
+              class="text-sm font-black text-slate-900 mt-1 line-clamp-1"
+            >
+              Test Title
+            </h3>
+          </div>
+          <button
+            onclick="closePreviewModal()"
+            class="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-full text-slate-500 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div
+          class="grid grid-cols-3 gap-2 bg-slate-50 p-3 rounded-2xl border border-slate-100 text-center"
+        >
+          <div>
+            <span class="text-[10px] font-bold text-slate-400 uppercase"
+              >Questions</span
+            >
+            <p
+              id="sheet-metric-q"
+              class="text-xs font-black text-slate-800 mt-0.5"
+            >
+              --
+            </p>
+          </div>
+          <div class="border-x border-slate-200">
+            <span class="text-[10px] font-bold text-slate-400 uppercase"
+              >Duration</span
+            >
+            <p
+              id="sheet-metric-time"
+              class="text-xs font-black text-slate-800 mt-0.5"
+            >
+              --
+            </p>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-slate-400 uppercase"
+              >Marks</span
+            >
+            <p
+              id="sheet-metric-marks"
+              class="text-xs font-black text-slate-800 mt-0.5"
+            >
+              --
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="space-y-1.5 text-xs font-semibold text-slate-600 bg-amber-50/60 p-3 rounded-xl border border-amber-100"
+        >
+          <p
+            class="flex items-center gap-1.5 text-amber-900 font-bold text-[11px]"
+          >
+            <i data-lucide="info" class="w-3.5 h-3.5"></i>
+            <span>Test Guidelines</span>
+          </p>
+          <ul
+            class="text-[11px] text-amber-800/90 list-disc list-inside space-y-0.5"
+          >
+            <li>Timer auto-starts once you click Begin Test.</li>
+            <li>Detailed scorecard &amp; solutions shown after submit.</li>
+          </ul>
+        </div>
+
+        <button
+          id="sheet-start-btn"
+          class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs rounded-xl shadow-md shadow-indigo-600/30 active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+        >
+          <span>Begin Test Now</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 5. ALL SUBJECTS BOTTOM SHEET WITH SEARCH -->
     <div
       id="subject-modal"
       class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs flex items-end justify-center z-50 hidden"
     >
       <div
-        class="w-full max-w-[430px] bg-white rounded-t-3xl p-4 border-t border-slate-200 shadow-2xl space-y-3.5 animate-slide-up max-h-[80vh] flex flex-col"
+        class="w-full max-w-[430px] bg-white rounded-t-3xl p-4 border-t border-slate-200 shadow-2xl space-y-3 animate-slide-up max-h-[80vh] flex flex-col"
       >
         <div
           class="flex items-center justify-between border-b border-slate-100 pb-2.5"
@@ -323,11 +446,25 @@
           </button>
         </div>
 
+        <div class="relative">
+          <i
+            data-lucide="search"
+            class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+          ></i>
+          <input
+            type="text"
+            id="modal-subject-search"
+            oninput="filterModalSubjects()"
+            placeholder="Search subject name..."
+            class="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:border-indigo-500"
+          />
+        </div>
+
         <div
           id="modal-subjects-grid"
-          class="grid grid-cols-2 gap-2.5 overflow-y-auto pr-1 flex-1"
+          class="grid grid-cols-2 gap-2.5 overflow-y-auto pr-1 flex-1 py-1"
         >
-          <!-- Rendered dynamically from AllSubject.js -->
+          <!-- Dynamic Grid Items -->
         </div>
 
         <button
@@ -344,78 +481,32 @@
 
     <!-- JAVASCRIPT ENGINE -->
     <script>
-      const TEST_API_URL = "https://exam-api.jawedsiddiqui.cloud/api/kidspaint";
+      const BASE_TEST_API_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint";
+      const SUBJECT_API_ENDPOINT =
+        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/subject";
       const USER_RESULTS_API_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/test/questions/results/user";
 
-      // 1. Resolve Direct Stream from URL Parameter
       const urlParams = new URLSearchParams(window.location.search);
-      const rawStream = (
-        urlParams.get("type") ||
-        urlParams.get("stream") ||
-        "SSC"
-      ).toUpperCase();
+      const selectedCategory = "ALL"; // Strictly default to ALL
 
-      const STREAM_CONFIGS = {
-        SSC: { name: "SSC Exams", desc: "CGL, CHSL, MTS & GD Constable" },
-        RAILWAYS: {
-          name: "Railway Exams",
-          desc: "RRB NTPC, Group D, ALP & RPF",
-        },
-        BANKING: {
-          name: "Banking & Insurance",
-          desc: "SBI PO, IBPS Clerk & RBI Grade B",
-        },
-        JEE_NEET: {
-          name: "JEE & NEET UG",
-          desc: "Physics, Chemistry, Maths & Bio",
-        },
-        DEFENCE: {
-          name: "Defence & Police",
-          desc: "NDA, CDS, Police SI & Constable",
-        },
-        TEACHING: {
-          name: "Teaching & TET",
-          desc: "CTET Paper 1 & 2, State TET & KVS",
-        },
-        ENTRANCE: { name: "CUET & Entrance", desc: "CUET UG/PG, CLAT & IPMAT" },
-        GOVT_PSC: {
-          name: "Govt PSC & UPSC",
-          desc: "Civil Services & State PCS",
-        },
-      };
-
-      const currentSegment = STREAM_CONFIGS[rawStream] ? rawStream : "SSC";
-
+      let masterAllTests = [];
       let allTests = [];
       let userAttemptedMap = {};
+      let savedBookmarks = new Set();
+      let isSavedOnly = false;
       let selectedSubject = "ALL";
       let selectedStatus = "ALL";
       let currentPage = 1;
       const ITEMS_PER_PAGE = 10;
       let featuredTest = null;
+      const subjectTestCache = {};
 
-      function getActiveSubjectList() {
-        if (
-          typeof subjectsBySegment !== "undefined" &&
-          subjectsBySegment[currentSegment]
-        ) {
-          return subjectsBySegment[currentSegment];
-        }
-        return [];
-      }
-
-      function getSubjectConfigByName(name) {
-        const list = getActiveSubjectList();
-        const found = list.find(
-          (s) =>
-            (s.apiSubject &&
-              s.apiSubject.toLowerCase() === (name || "").toLowerCase()) ||
-            (s.name && s.name.toLowerCase() === (name || "").toLowerCase()) ||
-            (s.id && s.id.toLowerCase() === (name || "").toLowerCase()),
-        );
-        return found || { icon: "📚" };
-      }
+      try {
+        const stored = localStorage.getItem("bookmarked_tests");
+        if (stored) savedBookmarks = new Set(JSON.parse(stored));
+      } catch (e) {}
 
       function getActiveUserId() {
         let userId = urlParams.get("user_id") || urlParams.get("student_id");
@@ -437,18 +528,11 @@
         loadingEl.classList.remove("hidden");
         document.getElementById("test-list-container").innerHTML = "";
 
-        // Header Title Sync
-        const streamInfo = STREAM_CONFIGS[currentSegment];
-        document.getElementById("top-header-stream-title").textContent =
-          streamInfo.name;
-        document.getElementById("top-header-stream-sub").textContent =
-          streamInfo.desc;
-
         const userId = getActiveUserId();
 
         try {
           const [testsRes, historyRes] = await Promise.allSettled([
-            fetch(TEST_API_URL).then((r) => r.json()),
+            fetch(BASE_TEST_API_URL).then((r) => r.json()),
             fetch(`${USER_RESULTS_API_URL}/${encodeURIComponent(userId)}`).then(
               (r) => r.json(),
             ),
@@ -459,18 +543,11 @@
             testsRes.value?.success &&
             Array.isArray(testsRes.value.data)
           ) {
-            // Filter tests matching the active stream
-            allTests = testsRes.value.data.filter(
-              (t) =>
-                (t.exam_category || "").toUpperCase() === currentSegment ||
-                (t.applied_exam_profile || "").toUpperCase() === currentSegment,
-            );
-
-            // If empty for this stream, use all returned
-            if (allTests.length === 0) {
-              allTests = testsRes.value.data;
-            }
+            masterAllTests = testsRes.value.data;
+            subjectTestCache["ALL"] = testsRes.value.data;
+            allTests = testsRes.value.data;
           } else {
+            masterAllTests = [];
             allTests = [];
           }
 
@@ -481,14 +558,14 @@
             Array.isArray(historyRes.value.data)
           ) {
             historyRes.value.data.forEach((r) => {
-              const tid = r.test_id?.trim().toUpperCase();
+              const tid = (r.test_id || "").trim().toUpperCase();
               if (tid && !userAttemptedMap[tid]) {
                 userAttemptedMap[tid] = r;
               }
             });
           }
 
-          renderTodayFeaturedTest();
+          selectedSubject = "ALL";
           populateDynamicSubjects();
           populateModalSubjectsGrid();
           applyFilters();
@@ -500,57 +577,123 @@
         }
       }
 
-      // 3. Render Featured Test Card
-      function renderTodayFeaturedTest() {
-        if (allTests.length === 0) {
-          document
-            .getElementById("today-featured-block")
-            .classList.add("hidden");
+      // 3. Subject Retrieval from AllSubject.js & Tests Pool
+      function getActiveSubjectList() {
+        if (typeof subjectsBySegment !== "undefined") {
+          const allMerged = [];
+          const seen = new Set();
+          Object.values(subjectsBySegment).forEach((subArr) => {
+            if (Array.isArray(subArr)) {
+              subArr.forEach((s) => {
+                const key = (s.apiSubject || s.name || "").toLowerCase();
+                if (key && !seen.has(key)) {
+                  seen.add(key);
+                  allMerged.push(s);
+                }
+              });
+            }
+          });
+          if (allMerged.length > 0) return allMerged;
+        }
+
+        const extracted = new Map();
+        (masterAllTests || []).forEach((t) => {
+          const sName = (t.subject || t.category_title || "").trim();
+          if (sName && !extracted.has(sName.toLowerCase())) {
+            extracted.set(sName.toLowerCase(), {
+              name: sName,
+              apiSubject: sName,
+              id: sName.toLowerCase().replace(/\s+/g, "_"),
+              icon: "📚",
+            });
+          }
+        });
+        return Array.from(extracted.values());
+      }
+
+      function getSubjectConfigByName(name) {
+        const list = getActiveSubjectList();
+        const found = list.find(
+          (s) =>
+            (s.apiSubject &&
+              s.apiSubject.toLowerCase() === (name || "").toLowerCase()) ||
+            (s.name && s.name.toLowerCase() === (name || "").toLowerCase()) ||
+            (s.id && s.id.toLowerCase() === (name || "").toLowerCase()),
+        );
+        return found || { icon: "📚", name: name || "General Studies" };
+      }
+
+      // 4. Select Subject & Fetch Data
+      async function selectSubjectFilter(subj) {
+        selectedSubject = subj;
+        populateDynamicSubjects();
+        populateModalSubjectsGrid();
+
+        if (subj === "ALL") {
+          allTests = masterAllTests;
+          applyFilters();
           return;
         }
 
-        document
-          .getElementById("today-featured-block")
-          .classList.remove("hidden");
-        const unattemptedTests = allTests.filter(
-          (t) => !userAttemptedMap[t.test_id?.toUpperCase()],
-        );
-        featuredTest =
-          unattemptedTests.length > 0 ? unattemptedTests[0] : allTests[0];
+        if (subjectTestCache[subj]) {
+          allTests = subjectTestCache[subj];
+          applyFilters();
+          return;
+        }
 
-        document.getElementById("today-test-title").innerText =
-          featuredTest.title ||
-          featuredTest.test_name ||
-          "Daily Live Mock Test";
-        document.getElementById("today-test-subtitle").innerText =
-          `${featuredTest.subject || "General Studies"} • ${featuredTest.category_title || "Official Pattern"}`;
+        const loadingEl = document.getElementById("test-loading");
+        const loadingText = document.getElementById("loading-text");
+        loadingText.innerText = `Loading ${subj} Tests...`;
+        loadingEl.classList.remove("hidden");
 
-        const qCount =
-          featuredTest.total_questions || featuredTest.questions?.length || 15;
-        const tMins = featuredTest.total_time_mins || 15;
+        try {
+          const res = await fetch(
+            `${SUBJECT_API_ENDPOINT}/${encodeURIComponent(subj)}`,
+          );
+          const json = await res.json();
 
-        document.getElementById("today-q-count").innerText = `${qCount} Ques`;
-        document.getElementById("today-time-count").innerText = `⏱️ ${tMins} M`;
-      }
-
-      function startFeaturedTest() {
-        if (featuredTest && featuredTest.test_id) {
-          startTest(featuredTest.test_id, featuredTest.exam_category);
+          if (json && json.success && Array.isArray(json.data)) {
+            subjectTestCache[subj] = json.data;
+            allTests = json.data;
+          } else if (Array.isArray(json)) {
+            subjectTestCache[subj] = json;
+            allTests = json;
+          } else {
+            const fallbackFiltered = masterAllTests.filter((t) => {
+              const s = (t.subject || t.category_title || "").toLowerCase();
+              return s.includes(subj.toLowerCase());
+            });
+            subjectTestCache[subj] = fallbackFiltered;
+            allTests = fallbackFiltered;
+          }
+        } catch (e) {
+          console.error(`Error fetching tests for subject: ${subj}`, e);
+          const fallbackFiltered = masterAllTests.filter((t) => {
+            const s = (t.subject || t.category_title || "").toLowerCase();
+            return s.includes(subj.toLowerCase());
+          });
+          subjectTestCache[subj] = fallbackFiltered;
+          allTests = fallbackFiltered;
+        } finally {
+          loadingEl.classList.add("hidden");
+          loadingText.innerText = "Loading Test Sets...";
+          applyFilters();
         }
       }
 
-      // 4. Populate Subjects Horizontal Bar
+      // 5. Populate Subjects UI
       function populateDynamicSubjects() {
         const container = document.getElementById("subject-pills-container");
         const activeSubjects = getActiveSubjectList();
+        const totalCount = masterAllTests.length;
 
         let pillsHtml = `
           <button
             onclick="selectSubjectFilter('ALL')"
-            class="filter-pill ${selectedSubject === "ALL" ? "active bg-indigo-600 text-white shadow-xs" : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shadow-2xs"} px-3 py-1.5 rounded-xl text-xs font-extrabold whitespace-nowrap cursor-pointer transition-all shrink-0"
-            data-subject="ALL"
+            class="filter-pill ${selectedSubject === "ALL" ? "active bg-indigo-600 text-white shadow-xs" : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shadow-2xs"} px-3 py-1.5 rounded-xl text-xs font-extrabold whitespace-nowrap cursor-pointer transition-all shrink-0 flex items-center gap-1.5"
           >
-            📋 All
+            <span>📋 All</span>
+            <span class="text-[9px] px-1.5 py-0.2 rounded-full ${selectedSubject === "ALL" ? "bg-white/25 text-white" : "bg-slate-100 text-slate-600"}">${totalCount}</span>
           </button>
         `;
 
@@ -558,16 +701,24 @@
           const subjIdentifier = sub.apiSubject || sub.name;
           const isActive =
             selectedSubject.toLowerCase() === subjIdentifier.toLowerCase() ||
-            selectedSubject.toLowerCase() === sub.id.toLowerCase();
+            selectedSubject.toLowerCase() === (sub.id || "").toLowerCase();
+
+          const count = masterAllTests.filter((t) => {
+            const s = (t.subject || t.category_title || "").toLowerCase();
+            return (
+              s === subjIdentifier.toLowerCase() ||
+              s.includes(subjIdentifier.toLowerCase())
+            );
+          }).length;
 
           pillsHtml += `
             <button
               onclick="selectSubjectFilter('${subjIdentifier}')"
               class="filter-pill ${isActive ? "active bg-indigo-600 text-white shadow-xs" : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shadow-2xs"} px-3 py-1.5 rounded-xl text-xs font-extrabold whitespace-nowrap cursor-pointer transition-all shrink-0 flex items-center gap-1.5"
-              data-subject="${subjIdentifier}"
             >
               <span>${sub.icon || "📚"}</span>
               <span>${sub.name}</span>
+              <span class="text-[9px] px-1.5 py-0.2 rounded-full ${isActive ? "bg-white/25 text-white" : "bg-slate-100 text-slate-500"}">${count}</span>
             </button>
           `;
         });
@@ -575,24 +726,37 @@
         container.innerHTML = pillsHtml;
       }
 
-      // 5. Populate Subjects Grid in Bottom Sheet
-      function populateModalSubjectsGrid() {
+      function populateModalSubjectsGrid(searchKeyword = "") {
         const gridContainer = document.getElementById("modal-subjects-grid");
         const activeSubjects = getActiveSubjectList();
 
-        gridContainer.innerHTML = activeSubjects
+        const filteredList = activeSubjects.filter((s) =>
+          s.name.toLowerCase().includes(searchKeyword.toLowerCase()),
+        );
+
+        if (filteredList.length === 0) {
+          gridContainer.innerHTML = `
+            <div class="col-span-2 py-6 text-center text-xs text-slate-400 font-bold">
+              No matching subjects found
+            </div>
+          `;
+          return;
+        }
+
+        gridContainer.innerHTML = filteredList
           .map((sub) => {
             const subjIdentifier = sub.apiSubject || sub.name;
-            const totalInSubj = allTests.filter(
-              (t) =>
-                (t.subject || "").trim().toLowerCase() ===
-                  subjIdentifier.toLowerCase() ||
-                (t.subject_id || "").trim().toLowerCase() ===
-                  sub.id.toLowerCase(),
-            ).length;
             const isCurrentActive =
               selectedSubject.toLowerCase() === subjIdentifier.toLowerCase() ||
-              selectedSubject.toLowerCase() === sub.id.toLowerCase();
+              selectedSubject.toLowerCase() === (sub.id || "").toLowerCase();
+
+            const count = masterAllTests.filter((t) => {
+              const s = (t.subject || t.category_title || "").toLowerCase();
+              return (
+                s === subjIdentifier.toLowerCase() ||
+                s.includes(subjIdentifier.toLowerCase())
+              );
+            }).length;
 
             return `
             <div
@@ -602,12 +766,12 @@
               <div class="flex items-center justify-between">
                 <span class="text-2xl">${sub.icon || "📚"}</span>
                 <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isCurrentActive ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-600"}">
-                  ${totalInSubj} Tests
+                  ${count} Tests
                 </span>
               </div>
               <div class="mt-2">
                 <h4 class="font-extrabold text-xs text-slate-800 truncate">${sub.name}</h4>
-                <p class="text-[10px] font-semibold text-slate-400 mt-0.5">Mock test papers</p>
+                <p class="text-[10px] font-semibold text-slate-400 mt-0.5">Subject Mock Papers</p>
               </div>
             </div>
           `;
@@ -615,45 +779,117 @@
           .join("");
       }
 
-      function selectSubjectFilter(subj) {
-        selectedSubject = subj;
-        populateDynamicSubjects();
-        populateModalSubjectsGrid();
-        applyFilters();
+      function filterModalSubjects() {
+        const query = document.getElementById("modal-subject-search").value;
+        populateModalSubjectsGrid(query);
       }
 
+      // 6. Featured Test Banner
+      function renderTodayFeaturedTest(filteredList = []) {
+        const unattemptedTests = filteredList.filter(
+          (t) => !userAttemptedMap[t.test_id?.toUpperCase()],
+        );
+
+        featuredTest =
+          unattemptedTests.length > 0
+            ? unattemptedTests[0]
+            : filteredList.length > 0
+              ? filteredList[0]
+              : masterAllTests[0] || null;
+
+        if (!featuredTest) {
+          document.getElementById("today-test-title").innerText =
+            "All India Mock Challenge";
+          document.getElementById("today-test-subtitle").innerText =
+            "Test your preparation & check live rank";
+          document.getElementById("today-q-count").innerText = "15 Ques";
+          document.getElementById("today-time-count").innerText = "⏱️ 15 M";
+          return;
+        }
+
+        document.getElementById("today-test-title").innerText =
+          featuredTest.title ||
+          featuredTest.test_name ||
+          "Daily Live Mock Test";
+        document.getElementById("today-test-subtitle").innerText =
+          `${featuredTest.subject || "General Studies"} • ${featuredTest.exam_category || "Practice Series"}`;
+
+        const qCount =
+          featuredTest.total_questions || featuredTest.questions?.length || 15;
+        const tMins = featuredTest.total_time_mins || 15;
+
+        document.getElementById("today-q-count").innerText = `${qCount} Ques`;
+        document.getElementById("today-time-count").innerText = `⏱️ ${tMins} M`;
+      }
+
+      // 7. Status & Filter Logic
       function setStatusFilter(status) {
         selectedStatus = status;
         document.querySelectorAll(".status-btn").forEach((btn) => {
           btn.className =
-            "status-btn py-2 text-center text-xs font-extrabold rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer";
+            "status-btn py-1.5 text-center text-xs font-extrabold rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer";
         });
         const activeBtn = document.getElementById(`status-btn-${status}`);
         if (activeBtn) {
           activeBtn.className =
-            "status-btn active py-2 text-center text-xs font-extrabold rounded-lg bg-white text-indigo-700 shadow-xs transition-all cursor-pointer";
+            "status-btn active py-1.5 text-center text-xs font-extrabold rounded-lg bg-white text-indigo-700 shadow-xs transition-all cursor-pointer";
         }
         applyFilters();
       }
 
-      // 6. Combined Filter and Sorting
+      function toggleSavedFilter() {
+        isSavedOnly = !isSavedOnly;
+        const btn = document.getElementById("btn-saved-filter");
+        if (isSavedOnly) {
+          btn.className =
+            "w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-xs";
+        } else {
+          btn.className =
+            "w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-all cursor-pointer active:scale-95";
+        }
+        applyFilters();
+      }
+
+      function toggleBookmark(testId, event) {
+        if (event) event.stopPropagation();
+        if (savedBookmarks.has(testId)) {
+          savedBookmarks.delete(testId);
+        } else {
+          savedBookmarks.add(testId);
+        }
+        try {
+          localStorage.setItem(
+            "bookmarked_tests",
+            JSON.stringify([...savedBookmarks]),
+          );
+        } catch (e) {}
+        applyFilters();
+      }
+
       function applyFilters() {
         const searchVal = document
           .getElementById("test-search-input")
           .value.toLowerCase()
           .trim();
+        const sortVal = document.getElementById("sort-select").value;
 
-        let filtered = allTests.filter((test) => {
-          const title = (test.title || test.test_name || "").toLowerCase();
+        const testPool = selectedSubject === "ALL" ? masterAllTests : allTests;
+
+        let filtered = testPool.filter((test) => {
           const testId = (test.test_id || "").toLowerCase();
+          const title = (test.title || test.test_name || "").toLowerCase();
           const subject = (test.subject || "").toLowerCase();
-          const subjectId = (test.subject_id || "").toLowerCase();
           const category = (test.category_title || "").toLowerCase();
 
-          const matchSubject =
-            selectedSubject === "ALL" ||
-            subject === selectedSubject.toLowerCase() ||
-            subjectId === selectedSubject.toLowerCase();
+          let matchSubject = true;
+          if (selectedSubject !== "ALL") {
+            const targetSub = selectedSubject.toLowerCase();
+            matchSubject =
+              subject === targetSub ||
+              category === targetSub ||
+              subject.includes(targetSub) ||
+              targetSub.includes(subject);
+          }
 
           const matchSearch =
             !searchVal ||
@@ -663,28 +899,38 @@
             category.includes(searchVal);
 
           const isCompleted = !!userAttemptedMap[test.test_id?.toUpperCase()];
-
           let matchStatus = true;
           if (selectedStatus === "PENDING") matchStatus = !isCompleted;
           else if (selectedStatus === "COMPLETED") matchStatus = isCompleted;
 
-          return matchSubject && matchSearch && matchStatus;
+          const matchSaved = !isSavedOnly || savedBookmarks.has(test.test_id);
+
+          return matchSubject && matchSearch && matchStatus && matchSaved;
         });
 
-        filtered.sort((a, b) => {
-          const aDone = !!userAttemptedMap[a.test_id?.toUpperCase()];
-          const bDone = !!userAttemptedMap[b.test_id?.toUpperCase()];
-          if (aDone === bDone) return 0;
-          return aDone ? 1 : -1;
-        });
+        if (sortVal === "QUESTIONS") {
+          filtered.sort(
+            (a, b) => (b.total_questions || 0) - (a.total_questions || 0),
+          );
+        } else if (sortVal === "NEWEST") {
+          filtered.reverse();
+        } else {
+          filtered.sort((a, b) => {
+            const aDone = !!userAttemptedMap[a.test_id?.toUpperCase()];
+            const bDone = !!userAttemptedMap[b.test_id?.toUpperCase()];
+            if (aDone === bDone) return 0;
+            return aDone ? 1 : -1;
+          });
+        }
 
         document.getElementById("filtered-count-badge").innerText =
           `${filtered.length} Papers`;
+        renderTodayFeaturedTest(filtered);
         currentPage = 1;
         renderPaginatedList(filtered);
       }
 
-      // 7. Render Paginated Cards
+      // 8. Render Cards
       function renderPaginatedList(testList) {
         const container = document.getElementById("test-list-container");
         const paginationControls = document.getElementById(
@@ -692,7 +938,11 @@
         );
 
         if (testList.length === 0) {
-          renderEmptyState("No test papers found for this selection.");
+          renderEmptyState(
+            selectedSubject !== "ALL"
+              ? `No test papers currently uploaded for "${selectedSubject}".`
+              : "No test papers found matching your selection.",
+          );
           paginationControls.classList.add("hidden");
           return;
         }
@@ -708,81 +958,104 @@
           .map((test) => {
             const subjName = test.subject || "General Studies";
             const style = getSubjectConfigByName(subjName);
-
             const qCount = test.total_questions || test.questions?.length || 15;
             const timeMins = test.total_time_mins || 15;
+            const testId = test.test_id || "";
 
-            const pastResult = userAttemptedMap[test.test_id?.toUpperCase()];
+            const pastResult = userAttemptedMap[testId.toUpperCase()];
             const isCompleted = !!pastResult;
-            const examCategory = test.exam_category || currentSegment;
+            const isSaved = savedBookmarks.has(testId);
+            const testType = test.test_type || "Full Mock";
 
             return `
-            <div class="bg-white border ${isCompleted ? "border-emerald-200 bg-emerald-50/20" : "border-slate-200/90"} rounded-2xl p-3.5 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all">
+            <div class="bg-white border ${isCompleted ? "border-emerald-200/90 bg-emerald-50/15" : "border-slate-200/90"} rounded-2xl p-3.5 shadow-2xs transition-all space-y-3">
               
-              <div class="flex items-center gap-3 min-w-0 pr-2 flex-1">
-                <div class="w-10 h-10 rounded-xl ${isCompleted ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-slate-50 border border-slate-200"} flex items-center justify-center text-xl shrink-0 shadow-2xs">
-                  ${isCompleted ? "🎯" : style.icon || "📚"}
-                </div>
-
-                <div class="min-w-0 flex-1">
-                  <div class="flex items-center gap-1.5 mb-0.5">
-                    ${
-                      isCompleted
-                        ? `
-                      <span class="text-[10px] font-extrabold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
-                        Score: ${pastResult.total_score}/${pastResult.max_score} (${pastResult.percentage}%)
-                      </span>
-                    `
-                        : `
-                      <span class="text-[10px] font-extrabold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100">
-                        Free Practice
-                      </span>
-                    `
-                    }
+              <div class="flex items-start justify-between gap-2.5">
+                <div class="flex items-center gap-3 min-w-0 flex-1">
+                  <div class="w-10 h-10 rounded-xl ${isCompleted ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-slate-50 border border-slate-200"} flex items-center justify-center text-xl shrink-0 shadow-2xs">
+                    ${isCompleted ? "🎯" : style.icon || "📚"}
                   </div>
 
-                  <h4 class="font-extrabold text-slate-800 text-xs truncate leading-snug">
-                    ${test.title || test.test_name || "Practice Test Paper"}
-                  </h4>
-                  
-                  <p class="text-[11px] font-medium text-slate-400 truncate mt-0.5">
-                    ${test.category_title || subjName} • ${examCategory} Mock
-                  </p>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex items-center gap-1.5 mb-0.5">
+                      <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-700">
+                        ${testType}
+                      </span>
+                      ${
+                        isCompleted
+                          ? `
+                        <span class="text-[10px] font-black bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
+                          Score: ${pastResult.total_score}/${pastResult.max_score} (${pastResult.percentage}%)
+                        </span>
+                      `
+                          : `
+                        <span class="text-[10px] font-extrabold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100">
+                          Free Test
+                        </span>
+                      `
+                      }
+                    </div>
 
-                  <div class="flex items-center gap-1.5 mt-1.5">
-                    <span class="text-[10px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">
-                      ${qCount} Ques
-                    </span>
-                    <span class="text-[10px] font-bold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded">
-                      ⏱️ ${timeMins}m
-                    </span>
+                    <h4 class="font-extrabold text-slate-900 text-xs truncate leading-snug">
+                      ${test.title || test.test_name || "Practice Test Paper"}
+                    </h4>
+                    
+                    <p class="text-[11px] font-medium text-slate-400 truncate mt-0.5">
+                      ${test.category_title || subjName} • ${test.exam_category || "Mock"}
+                    </p>
                   </div>
                 </div>
+
+                <button
+                  onclick="toggleBookmark('${testId}', event)"
+                  class="p-1.5 rounded-lg text-slate-400 hover:text-amber-500 hover:bg-slate-50 transition-all cursor-pointer"
+                  title="Save Bookmark"
+                >
+                  <i data-lucide="bookmark" class="w-4 h-4 ${isSaved ? "fill-amber-500 text-amber-500" : ""}"></i>
+                </button>
               </div>
 
-              <!-- ACTION BUTTON -->
-              <div class="shrink-0">
-                ${
-                  isCompleted
-                    ? `
-                  <button
-                    onclick="startTest('${test.test_id}', '${examCategory}')"
-                    class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-xs active:scale-95 transition-all cursor-pointer"
-                  >
-                    <span>Re-attempt</span>
-                    <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
-                  </button>
-                `
-                    : `
-                  <button
-                    onclick="startTest('${test.test_id}', '${examCategory}')"
-                    class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-xs shadow-indigo-600/20 active:scale-95 transition-all cursor-pointer"
-                  >
-                    <span>Start</span>
-                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
-                  </button>
-                `
-                }
+              <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[10px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">
+                    ${qCount} Ques
+                  </span>
+                  <span class="text-[10px] font-bold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded">
+                    ⏱️ ${timeMins}m
+                  </span>
+                </div>
+
+                <div class="flex items-center gap-1.5">
+                  ${
+                    isCompleted
+                      ? `
+                    <button
+                      onclick="openScoreboard('${testId}', '${pastResult.result_id || ""}')"
+                      class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-[11px] font-black flex items-center gap-1 active:scale-95 transition-all cursor-pointer"
+                      title="View Scoreboard"
+                    >
+                      <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-indigo-600"></i>
+                      <span>Score</span>
+                    </button>
+                    <button
+                      onclick="previewTestById('${testId}')"
+                      class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-[11px] font-black flex items-center gap-1 shadow-xs active:scale-95 transition-all cursor-pointer"
+                    >
+                      <span>Re-test</span>
+                      <i data-lucide="rotate-cw" class="w-3 h-3"></i>
+                    </button>
+                  `
+                      : `
+                    <button
+                      onclick="previewTestById('${testId}')"
+                      class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-black flex items-center gap-1.5 shadow-xs shadow-indigo-600/20 active:scale-95 transition-all cursor-pointer"
+                    >
+                      <span>Start</span>
+                      <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    </button>
+                  `
+                  }
+                </div>
               </div>
 
             </div>
@@ -801,9 +1074,7 @@
           paginationControls.classList.add("hidden");
         }
 
-        if (typeof lucide !== "undefined") {
-          lucide.createIcons();
-        }
+        if (typeof lucide !== "undefined") lucide.createIcons();
       }
 
       function prevPage() {
@@ -820,17 +1091,72 @@
 
       function renderEmptyState(msg) {
         document.getElementById("test-list-container").innerHTML = `
-          <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center text-xs font-bold text-slate-400">
-            ${msg}
+          <div class="bg-white border border-slate-200 rounded-2xl p-8 text-center text-xs font-bold text-slate-400 space-y-2.5 min-h-[220px] flex flex-col items-center justify-center shadow-2xs">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
+              📂
+            </div>
+            <p class="max-w-[240px] text-slate-500 font-semibold leading-relaxed">${msg}</p>
+            <button
+              onclick="selectSubjectFilter('ALL')"
+              class="px-4 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-extrabold text-[11px] rounded-xl cursor-pointer transition-all active:scale-95"
+            >
+              Reset to All Tests
+            </button>
           </div>
         `;
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      }
+
+      // 9. Preview Modal & Redirection
+      function previewTestById(testId) {
+        const test =
+          allTests.find((t) => t.test_id === testId) ||
+          masterAllTests.find((t) => t.test_id === testId);
+
+        if (!test) return;
+
+        document.getElementById("sheet-test-title").innerText =
+          test.title || test.test_name || "Practice Test";
+        document.getElementById("sheet-category-badge").innerText =
+          `${test.exam_category || "Mock"} • ${test.subject || "General"}`;
+
+        const qCount = test.total_questions || test.questions?.length || 15;
+        const timeMins = test.total_time_mins || 15;
+        const totalMarks = test.total_marks || qCount * 2;
+
+        document.getElementById("sheet-metric-q").innerText = `${qCount} Qs`;
+        document.getElementById("sheet-metric-time").innerText =
+          `${timeMins} Mins`;
+        document.getElementById("sheet-metric-marks").innerText =
+          `${totalMarks} M`;
+
+        const startBtn = document.getElementById("sheet-start-btn");
+        startBtn.onclick = () => {
+          closePreviewModal();
+          startTest(test.test_id, test.exam_category);
+        };
+
+        document
+          .getElementById("test-preview-modal")
+          .classList.remove("hidden");
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      }
+
+      function closePreviewModal() {
+        document.getElementById("test-preview-modal").classList.add("hidden");
       }
 
       function startTest(testId, examCategory) {
-        window.location.href = `gov_exam_runner.html?test_id=${encodeURIComponent(testId)}&segment=${encodeURIComponent(examCategory || currentSegment)}`;
+        window.location.href = `gov_exam_runner.html?test_id=${encodeURIComponent(testId)}&segment=${encodeURIComponent(examCategory || "ALL")}`;
+      }
+
+      function openScoreboard(testId, resultId) {
+        window.location.href = `scoreboard.html?test_id=${encodeURIComponent(testId)}&result_id=${encodeURIComponent(resultId)}&segment=ALL`;
       }
 
       function openSubjectModal() {
+        document.getElementById("modal-subject-search").value = "";
+        populateModalSubjectsGrid();
         document.getElementById("subject-modal").classList.remove("hidden");
         if (typeof lucide !== "undefined") lucide.createIcons();
       }
