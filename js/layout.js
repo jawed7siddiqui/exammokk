@@ -72,7 +72,7 @@ function renderHeader() {
                 <a href="/upsc" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition no-underline">
                   <span class="text-base">⚖️</span>
                   <div>
-                    <div class="text-xs font-bold text-slate-900">Govt PSC &amp; UPSC</div>
+                    <div class="text-xs font-bold text-slate-900">PSC &amp; UPSC</div>
                     <div class="text-[10px] text-slate-500 font-medium">IAS, BPSC, UPPSC</div>
                   </div>
                 </a>
