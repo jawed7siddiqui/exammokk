@@ -29,7 +29,7 @@
       "destination": "/dashboard_web.html"
     },
     {
-      "source": "/dashboard/runner",
+      "source": "/test/runner",
       "destination": "/web_exam_runner.html"
     },
     {
