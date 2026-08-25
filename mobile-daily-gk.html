@@ -201,16 +201,15 @@
 
     <!-- JAVASCRIPT ENGINE -->
     <script>
-      // Backend API endpoint
-      const API_BASE_URL =
-        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/subject";
+      const API_CATEGORY_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/category";
 
       let openCategoryId = null;
       let dailyGkConfig = null;
-      let categoryTestsMap = {}; // Cache API tests per category
+      let allCategoryTests = [];
+      let isCategoryLoading = false;
       let activeDailyTest = null;
 
-      // 1. EXTRACT DAILY GK FROM ALLSUBJECT.JS
       function getDailyGkConfig() {
         if (window.ALL_SUBJECTS?.DAILY_GK?.length) {
           return Array.isArray(window.ALL_SUBJECTS.DAILY_GK)
@@ -234,28 +233,17 @@
         return null;
       }
 
-      // 2. FETCH TESTS FROM REAL API ONLY (NO DUMMY FALLBACK)
-      async function fetchCategoryTestsFromAPI(category) {
-        if (!category) return;
-
-        category.loading = true;
-        category.hasError = false;
+      async function loadAllTestsForCategory() {
+        isCategoryLoading = true;
         renderAccordion();
 
         try {
-          const apiQuery =
-            category.title ||
-            category.name ||
-            dailyGkConfig?.apiSubject ||
-            "General Knowledge";
-
+          const categorySlug = "DAILY_GK";
           const res = await fetch(
-            `${API_BASE_URL}/${encodeURIComponent(apiQuery)}`,
+            `${API_CATEGORY_URL}/${encodeURIComponent(categorySlug)}`,
           );
 
-          if (!res.ok) {
-            throw new Error(`HTTP ${res.status}`);
-          }
+          if (!res.ok) throw new Error(`HTTP Status ${res.status}`);
 
           const resData = await res.json();
 
@@ -264,21 +252,21 @@
             Array.isArray(resData.data) &&
             resData.data.length > 0
           ) {
-            categoryTestsMap[category.id] = resData.data.map((item) => ({
+            allCategoryTests = resData.data.map((item) => ({
               id: item.test_id || item._id,
-              title: item.title || item.test_name || `${category.title} Test`,
+              title: item.title || item.test_name || "Daily GK Mock Test",
               desc:
-                item.category_title ||
-                category.description ||
-                "Daily Speed Drill",
+                item.desc || item.category_title || "Official Practice Paper",
+              subCategoryId:
+                item.category_id || item.sub_category || "dgk_todays_affairs",
               ques: Number(item.total_questions) || 15,
               time: Number(item.total_time_mins) || 10,
               difficulty: item.difficulty_level || "Medium",
               is_daily: Boolean(item.is_daily_challenge),
             }));
 
-            // Sync daily challenge banner agar live test mile
-            const daily = categoryTestsMap[category.id].find((t) => t.is_daily);
+            const daily =
+              allCategoryTests.find((t) => t.is_daily) || allCategoryTests[0];
             if (daily) {
               activeDailyTest = daily;
               document.getElementById("daily-challenge-title").textContent =
@@ -289,25 +277,17 @@
                 `${daily.time} M`;
             }
           } else {
-            // No tests from API -> empty array (Shows Coming Soon)
-            categoryTestsMap[category.id] = [];
+            allCategoryTests = [];
           }
-
-          category.loaded = true;
         } catch (err) {
-          console.warn(
-            `No online tests found for category ${category.title}:`,
-            err,
-          );
-          categoryTestsMap[category.id] = [];
-          category.loaded = true;
+          console.warn("Failed to load category tests:", err);
+          allCategoryTests = [];
         } finally {
-          category.loading = false;
+          isCategoryLoading = false;
           renderAccordion();
         }
       }
 
-      // 3. RENDER ACCORDION
       function renderAccordion() {
         const container = document.getElementById("gk-accordion-container");
         if (!container) return;
@@ -331,7 +311,12 @@
         container.innerHTML = categories
           .map((cat) => {
             const isOpen = cat.id === openCategoryId;
-            const tests = categoryTestsMap[cat.id] || [];
+
+            const topicTests = allCategoryTests.filter(
+              (t) =>
+                t.subCategoryId === cat.id ||
+                t.title.toLowerCase().includes(cat.title.toLowerCase()),
+            );
 
             return `
             <div class="bg-white border ${
@@ -357,7 +342,7 @@
 
                 <div class="flex items-center gap-2 shrink-0">
                   <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border bg-indigo-50 text-indigo-700 border-indigo-200">
-                    ${cat.loading ? "⏳ Loading" : "Explore"}
+                    ${isCategoryLoading ? "⏳ Loading" : topicTests.length > 0 ? `${topicTests.length} Tests` : "Explore"}
                   </span>
                   <div class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition-transform duration-200 ${
                     isOpen ? "rotate-180 bg-indigo-50 text-indigo-600" : ""
@@ -367,26 +352,32 @@
                 </div>
               </div>
 
-              <!-- ACCORDION CONTENT (API DATA ONLY OR COMING SOON) -->
+              <!-- ACCORDION CONTENT -->
               ${
                 isOpen
                   ? `
                 <div class="bg-slate-50/80 p-3 border-t border-slate-100 space-y-2.5 animate-fadeIn">
                   ${
-                    cat.loading
+                    isCategoryLoading
                       ? `
                       <div class="py-5 text-center">
                         <div class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-                        <p class="text-xs font-bold text-indigo-600">Connecting to Live Question Bank...</p>
+                        <p class="text-xs font-bold text-indigo-600">Loading tests from server...</p>
                       </div>
                     `
-                      : tests.length > 0
-                        ? tests
+                      : topicTests.length > 0
+                        ? topicTests
                             .map(
                               (test) => `
                             <div class="bg-white border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between shadow-2xs hover:border-indigo-300 transition-all">
                               <div class="pr-2 min-w-0 flex-1">
-                                <h5 class="font-extrabold text-slate-800 text-xs truncate">${test.title}</h5>
+                                <div class="flex items-center gap-1.5">
+                                  <h5 class="font-extrabold text-slate-800 text-xs truncate">${test.title}</h5>
+                                  <!-- NEW TAG BADGE -->
+                                  <span class="px-1.5 py-0.2 bg-rose-500 text-white text-[9px] font-black tracking-wider rounded-md uppercase shrink-0 shadow-2xs">
+                                    NEW
+                                  </span>
+                                </div>
                                 <p class="text-[11px] font-medium text-slate-400 truncate mt-0.5">${test.desc}</p>
                                 <div class="flex items-center gap-1.5 mt-1.5">
                                   <span class="text-[10px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">${test.ques} Qs</span>
@@ -410,7 +401,7 @@
                         <div class="py-6 text-center bg-white rounded-xl border border-dashed border-slate-300 p-4">
                           <span class="text-lg">⏳</span>
                           <p class="text-xs font-bold text-slate-700 mt-1">Coming Soon</p>
-                          <p class="text-[10px] text-slate-400 font-medium">New test sets are being prepared for this topic.</p>
+                          <p class="text-[10px] text-slate-400 font-medium">New test papers are being uploaded for this topic.</p>
                         </div>
                       `
                   }
@@ -431,13 +422,6 @@
           openCategoryId = null;
         } else {
           openCategoryId = categoryId;
-          const cat = dailyGkConfig?.categories?.find(
-            (c) => c.id === categoryId,
-          );
-          if (cat && !cat.loaded && !cat.loading) {
-            fetchCategoryTestsFromAPI(cat);
-            return;
-          }
         }
         renderAccordion();
       }
@@ -448,13 +432,11 @@
 
       function startDailyLiveDrill() {
         if (activeDailyTest) {
-          startTest(activeDailyTest.id, "dgk_todays_affairs");
+          startTest(activeDailyTest.id, activeDailyTest.subCategoryId);
+        } else if (allCategoryTests.length > 0) {
+          startTest(allCategoryTests[0].id, allCategoryTests[0].subCategoryId);
         } else {
-          const firstCat = dailyGkConfig?.categories?.[0];
-          if (firstCat) {
-            openCategoryId = firstCat.id;
-            fetchCategoryTestsFromAPI(firstCat);
-          }
+          alert("Daily challenge is being prepared. Please check back soon!");
         }
       }
 
@@ -467,14 +449,10 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         dailyGkConfig = getDailyGkConfig();
-
         if (dailyGkConfig?.categories?.length > 0) {
-          const firstCat = dailyGkConfig.categories[0];
-          openCategoryId = firstCat.id;
-          fetchCategoryTestsFromAPI(firstCat);
-        } else {
-          renderAccordion();
+          openCategoryId = dailyGkConfig.categories[0].id;
         }
+        loadAllTestsForCategory();
       });
     </script>
   </body>
