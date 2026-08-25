@@ -124,7 +124,7 @@ function renderHeader() {
             <!-- DAILY GK DIRECT LINK -->
             <a href="/gov_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 transition no-underline">
               <span class="text-sm">🌍</span>
-              <span>Daily GK Drill</span>
+              <span>Daily GK Quiz</span>
             </a>
 
             <a href="/about-us" class="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition no-underline">About</a>

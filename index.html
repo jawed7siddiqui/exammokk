@@ -13,11 +13,11 @@
     </title>
     <meta
       name="description"
-      content="ExamMokk is India's 100% free govt exam preparation app & online mock test engine. Practice Daily GK drills, SSC CGL, Bank PO/Clerk, RRB NTPC, UPSC Prelims, and Defence tests with official negative marking."
+      content="ExamMokk is India's 100% free govt exam preparation app & online mock test engine. Practice Daily GK Quiz, SSC CGL, Bank PO/Clerk, RRB NTPC, UPSC Prelims, and Defence tests with official negative marking."
     />
     <meta
       name="keywords"
-      content="daily gk quiz, free govt exam preparation app, sarkari exam test app, ssc cgl mock test app, bank po test series app, rrb ntpc online test app, online test engine india"
+      content="daily gk quiz, aaj ka gk test, free govt exam preparation app, sarkari exam test app, ssc cgl mock test app, bank po test series app, rrb ntpc online test app, online test engine india"
     />
     <meta
       name="robots"
@@ -74,7 +74,7 @@
               "price": "0",
               "priceCurrency": "INR"
             },
-            "description": "Free Indian government competitive examination preparation application for SSC, Banking, Railways, UPSC, JEE, NEET and Daily GK.",
+            "description": "Free Indian government competitive examination preparation application for SSC, Banking, Railways, UPSC, JEE, NEET and Daily GK Quiz.",
             "url": "https://exammokk.cloud/"
           },
           {
@@ -154,7 +154,7 @@
           >
             Practice real CBT exam patterns for SSC CGL, Banking (SBI/IBPS),
             Railways RRB, UPSC Prelims, JEE &amp; NEET with official negative
-            marking, daily speed drills, and all-India ranking.
+            marking, daily quick quizzes, and all-India ranking.
           </p>
 
           <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
@@ -174,18 +174,9 @@
               onclick="launchDailyGKRunner()"
               class="px-7 py-3.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold rounded-2xl shadow-lg shadow-emerald-100 transition flex items-center gap-2 text-sm cursor-pointer border-0"
             >
-              <span class="text-base">🌍</span>
-              <span>Daily GK Drill (Free)</span>
+              <span class="text-base">⚡</span>
+              <span>Daily GK Quiz (Free)</span>
             </button>
-            <!-- 
-            <button
-              id="install-pwa-btn"
-              onclick="installPrepApp()"
-              class="px-7 py-3.5 bg-white hover:bg-slate-100 text-slate-800 font-bold rounded-2xl border border-slate-300 transition flex items-center gap-2 text-sm shadow-xs cursor-pointer"
-            >
-              <i data-lucide="download" class="w-4 h-4 text-indigo-600"></i>
-              <span>Install Free App</span>
-            </button> -->
           </div>
         </div>
       </section>
@@ -268,7 +259,7 @@
             <div
               class="w-16 h-16 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-3xl shrink-0 border border-white/20"
             >
-              🌍
+              ⚡
             </div>
             <div>
               <div
@@ -284,12 +275,12 @@
                 >
               </div>
               <h3 class="text-lg sm:text-2xl font-black">
-                Daily GK &amp; Current Affairs Speed Drill
+                Daily GK &amp; Current Affairs Quiz (आज का टेस्ट)
               </h3>
               <p class="text-xs text-emerald-50 font-medium max-w-xl mt-1">
                 Practice high-yield Daily Current Affairs, Indian Polity &amp;
-                Static GK topics with timer, instant explanation &amp; official
-                negative marking.
+                Static GK questions with timer, instant explanation &amp;
+                official negative marking.
               </p>
             </div>
           </div>
@@ -299,7 +290,7 @@
             onclick="launchDailyGKRunner()"
             class="px-8 py-3.5 bg-white text-emerald-800 hover:bg-emerald-50 active:scale-95 text-xs font-black rounded-2xl shadow-lg transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer border-0"
           >
-            <span>Start Daily GK Drill</span>
+            <span>Start Daily Quiz</span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
         </div>
@@ -318,7 +309,6 @@
       let deferredPrompt = null;
 
       // Device detection function (User Agent + Screen Width)
-      // Device detection function (User Agent + Screen Width)
       function isMobileDevice() {
         const userAgentCheck =
           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -330,13 +320,13 @@
 
       // Launch Daily GK Test according to screen/device type
       function launchDailyGKRunner() {
-        // Mobile par gov_exam_runner aur Desktop/Web par default gov_exam_web_runner
         const runnerFile = isMobileDevice()
           ? "gov_exam_web_runner.html"
           : "gov_exam_web_runner.html";
 
         window.location.href = `/${runnerFile}?test_id=dgk_todays_affairs&segment=DAILY_GK`;
       }
+
       // PWA Install Event Handler
       window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();
