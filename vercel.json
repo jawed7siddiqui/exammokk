@@ -29,6 +29,10 @@
       "destination": "/dashboard_mobile_exam.html"
     },
     {
+      "source": "/dashboard/web",
+      "destination": "/dashboard_web_exam.html"
+    },
+    {
       "source": "/blogs",
       "destination": "/blogs.html"
     },
