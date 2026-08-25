@@ -77,20 +77,14 @@
       class="fixed top-5 right-5 z-[9999] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"
     ></div>
 
-    <!-- 1. COMMON MOBILE BAR SLOT -->
     <div id="common-mobile-header" class="contents"></div>
-
-    <!-- 2. COMMON SIDEBAR SLOT -->
     <div id="common-sidebar-container" class="contents"></div>
 
-    <!-- MAIN CONTENT AREA -->
     <div
       class="flex-1 flex flex-col min-h-screen w-full bg-slate-50 overflow-x-hidden"
     >
-      <!-- 3. COMMON TOP HEADER SLOT -->
       <div id="common-top-header" class="contents"></div>
 
-      <!-- MAIN BODY CONTAINER -->
       <main class="p-4 md:p-8 flex-1 space-y-6">
         <!-- TAB 1: TEST PAPERS -->
         <section id="section-tests" class="space-y-4">
@@ -108,7 +102,7 @@
                 <input
                   type="text"
                   id="filter_test_search"
-                  oninput="applyTestPaperFilters()"
+                  oninput="handleSearchDebounce()"
                   placeholder="Search by ID or Title..."
                   class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 outline-none focus:border-indigo-500 focus:bg-white transition-all"
                 />
@@ -153,7 +147,9 @@
             </button>
           </div>
 
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-xs">
+          <div
+            class="bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between"
+          >
             <div class="overflow-x-auto min-h-[340px]">
               <table class="w-full text-left text-xs">
                 <thead
@@ -182,6 +178,56 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+
+            <!-- PAGINATION BAR -->
+            <div
+              id="test-pagination-container"
+              class="p-3.5 md:p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-50/40 rounded-b-2xl text-xs"
+            >
+              <div class="flex items-center gap-3">
+                <span
+                  id="pagination-info"
+                  class="font-bold text-slate-500 text-[11px]"
+                  >Showing 0 - 0 of 0</span
+                >
+                <div
+                  class="flex items-center gap-1.5 border-l border-slate-200 pl-3"
+                >
+                  <span class="text-slate-400 text-[11px]">Rows:</span>
+                  <select
+                    id="pagination-limit"
+                    onchange="changePageLimit(this.value)"
+                    class="bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs font-bold text-slate-700 outline-none"
+                  >
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-1.5">
+                <button
+                  id="btn-prev-page"
+                  onclick="goToPage(currentPage - 1)"
+                  class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white font-bold text-slate-600 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all flex items-center gap-1 text-[11px]"
+                >
+                  <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i> Prev
+                </button>
+                <div
+                  id="pagination-pages"
+                  class="flex items-center gap-1"
+                ></div>
+                <button
+                  id="btn-next-page"
+                  onclick="goToPage(currentPage + 1)"
+                  class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white font-bold text-slate-600 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all flex items-center gap-1 text-[11px]"
+                >
+                  Next <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -879,6 +925,13 @@
       let currentTestQuestions = [];
       let editingTestId = null;
       let editingQuestionMongoId = null;
+      let searchDebounceTimeout = null;
+
+      // PAGINATION STATE
+      let currentPage = 1;
+      let pageLimit = 10;
+      let totalPages = 1;
+      let totalRecords = 0;
 
       const STREAM_LABELS = {
         DAILY_GK: "🌍 Daily GK & Current Affairs",
@@ -907,8 +960,9 @@
         if (availableKeys.length === 0) return;
 
         let optionsHtml = "";
-        if (allData.DAILY_GK)
+        if (allData.DAILY_GK) {
           optionsHtml += `<optgroup label="🌍 Live Drill & GK"><option value="DAILY_GK">${STREAM_LABELS.DAILY_GK}</option></optgroup>`;
+        }
 
         const compKeys = [
           "SSC",
@@ -926,8 +980,9 @@
         });
         optionsHtml += `</optgroup>`;
 
-        if (allData.GOVT_PSC)
+        if (allData.GOVT_PSC) {
           optionsHtml += `<optgroup label="🏛️ Civil Services"><option value="GOVT_PSC">${STREAM_LABELS.GOVT_PSC}</option></optgroup>`;
+        }
 
         if (allData.BOARD_EXAMS || allData.KIDS_SCHOOL) {
           optionsHtml += `<optgroup label="📚 School Education">`;
@@ -942,9 +997,10 @@
         if (modalCatSelect) modalCatSelect.innerHTML = optionsHtml;
 
         const filterCatSelect = document.getElementById("filter_test_category");
-        if (filterCatSelect)
+        if (filterCatSelect) {
           filterCatSelect.innerHTML =
             `<option value="">All Categories</option>` + optionsHtml;
+        }
       }
 
       function extractTestStatus(test) {
@@ -1237,12 +1293,6 @@
         }
       }
 
-      function toggleMobileSidebar() {
-        document
-          .getElementById("sidebar")
-          .classList.toggle("-translate-x-full");
-      }
-
       function switchTab(tab) {
         document
           .getElementById("section-tests")
@@ -1268,29 +1318,14 @@
               : "w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl font-bold text-xs text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all cursor-pointer";
         }
 
-        document.getElementById("page-title").innerText =
-          tab === "tests"
-            ? "Test Papers Management"
-            : "Test Questions Management";
-        if (tab === "questions") populateTestDropdown(allTestPapers);
-      }
-
-      function refreshCurrentTab(btn) {
-        setBtnLoading(btn, true, "Refreshing...");
-        const isTestsTab = !document
-          .getElementById("section-tests")
-          .classList.contains("hidden");
-        if (isTestsTab) {
-          loadTestPapers().then(() => {
-            setBtnLoading(btn, false);
-            showToast("Test papers refreshed", "info");
-          });
-        } else {
-          loadQuestionsForTest().then(() => {
-            setBtnLoading(btn, false);
-            showToast("Questions refreshed", "info");
-          });
+        const pageTitle = document.getElementById("page-title");
+        if (pageTitle) {
+          pageTitle.innerText =
+            tab === "tests"
+              ? "Test Papers Management"
+              : "Test Questions Management";
         }
+        if (tab === "questions") populateTestDropdown(allTestPapers);
       }
 
       function getCategory() {
@@ -1457,273 +1492,122 @@
         editingTestId = null;
       }
 
-      async function updateTestStatusByMongoId(mongoId, testId, newStatus) {
-        closeAllDropdowns();
-        const normalizedStatus = String(newStatus).toLowerCase().trim();
-        const targetIdentifier = mongoId || testId;
-
-        try {
-          const res = await fetch(
-            `${QUESTION_API_URL}/status/${targetIdentifier}`,
-            {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ status: normalizedStatus }),
-            },
-          );
-
-          const result = await res.json();
-          if (result.success || res.ok) {
-            showToast(
-              `Status updated to ${normalizedStatus.toUpperCase()}!`,
-              "success",
-            );
-            const target = allTestPapers.find(
-              (t) => extractTestMongoId(t) === mongoId || t.test_id === testId,
-            );
-            if (target) {
-              target.status = normalizedStatus;
-              if (target.paper) target.paper.status = normalizedStatus;
-            }
-            applyTestPaperFilters();
-            loadTestPapers();
-          } else {
-            showToast(result.message || "Failed to update status", "error");
-          }
-        } catch (err) {
-          showToast("Network error while changing status", "error");
-        }
+      // ==========================================
+      // PAGINATION & FILTER LOGIC
+      // ==========================================
+      function handleSearchDebounce() {
+        clearTimeout(searchDebounceTimeout);
+        searchDebounceTimeout = setTimeout(() => {
+          currentPage = 1;
+          loadTestPapers();
+        }, 300);
       }
 
-      async function cloneTestPaper(testId) {
-        closeAllDropdowns();
-        try {
-          const originalTest = allTestPapers.find((t) => t.test_id === testId);
-          const newTitle = prompt(
-            "Enter Title for Cloned Test Paper:",
-            `${originalTest?.title || testId} (Copy)`,
-          );
-          if (newTitle === null) return;
-          showToast("Cloning test paper...", "info");
-
-          const res = await fetch(`${QUESTION_API_URL}/${testId}/clone`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ title: newTitle.trim() }),
-          });
-
-          const result = await res.json();
-          if (result.success && result.data) {
-            showToast(
-              `Cloned successfully as DRAFT! ID: ${result.data.test_id}`,
-              "success",
-            );
-            await loadTestPapers();
-            openTestModal(true, result.data);
-          } else {
-            showToast(result.message || "Failed to clone test paper", "error");
-          }
-        } catch (err) {
-          showToast("Network error while cloning test paper", "error");
-        }
+      function applyTestPaperFilters() {
+        currentPage = 1;
+        loadTestPapers();
       }
 
-      document
-        .getElementById("testPaperForm")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const submitBtn = document.getElementById("btn-submit-test");
-          setBtnLoading(
-            submitBtn,
-            true,
-            editingTestId ? "Updating..." : "Saving...",
-          );
+      function goToPage(page) {
+        if (page < 1 || page > totalPages || page === currentPage) return;
+        currentPage = page;
+        loadTestPapers();
+      }
 
-          const [sid, sname] = document
-            .getElementById("m_subject")
-            .value.split("|");
-          const [cid, cname] = document
-            .getElementById("m_category")
-            .value.split("|");
-          const isDaily = document.getElementById("m_is_daily").checked;
-          const dailyDateVal = document.getElementById("m_daily_date").value;
-          const formStatus = document
-            .getElementById("m_status")
-            .value.toLowerCase()
-            .trim();
-          const stream = getCategory();
+      function changePageLimit(newLimit) {
+        pageLimit = parseInt(newLimit, 10);
+        currentPage = 1;
+        loadTestPapers();
+      }
 
-          let examCatEnum = stream;
+      function renderPaginationControls() {
+        const prevBtn = document.getElementById("btn-prev-page");
+        const nextBtn = document.getElementById("btn-next-page");
+        const info = document.getElementById("pagination-info");
+        const pagesContainer = document.getElementById("pagination-pages");
+
+        prevBtn.disabled = currentPage <= 1;
+        nextBtn.disabled = currentPage >= totalPages || totalPages === 0;
+
+        const startItem =
+          totalRecords === 0 ? 0 : (currentPage - 1) * pageLimit + 1;
+        const endItem = Math.min(currentPage * pageLimit, totalRecords);
+        info.innerText = `Showing ${startItem} - ${endItem} of ${totalRecords}`;
+
+        let pagesHtml = "";
+        for (let i = 1; i <= totalPages; i++) {
           if (
-            [
-              "SSC",
-              "RAILWAYS",
-              "BANKING",
-              "JEE_NEET",
-              "DEFENCE",
-              "TEACHING",
-              "ENTRANCE",
-              "DAILY_GK",
-            ].includes(stream)
+            i === 1 ||
+            i === totalPages ||
+            (i >= currentPage - 1 && i <= currentPage + 1)
           ) {
-            examCatEnum = "OTHER";
-          }
-
-          const payload = {
-            exam_category: examCatEnum,
-            exam_stream: stream,
-            status: formStatus,
-            board_or_exam: document.getElementById("m_board").value.trim(),
-            classGrade: document.getElementById("m_class").value.trim(),
-            subject_id: sid,
-            subject: sname,
-            category_id: cid,
-            category_title: cname,
-            title: document.getElementById("m_title").value.trim(),
-            config_mode: document.getElementById("m_mode").value,
-            duration: Number(document.getElementById("m_duration").value),
-            total_questions: Number(
-              document.getElementById("m_questions").value,
-            ),
-            total_marks: Number(document.getElementById("m_questions").value),
-            access_type: document.getElementById("m_access_type").value,
-            price: Number(document.getElementById("m_price").value) || 0,
-            discounted_price:
-              Number(document.getElementById("m_discounted_price").value) || 0,
-            included_in_pass:
-              document.getElementById("m_included_in_pass").checked,
-            is_daily_challenge: isDaily,
-            daily_date: isDaily && dailyDateVal ? dailyDateVal : null,
-            make_paid_after_expiry: document.getElementById(
-              "m_make_paid_after_expiry",
-            ).checked,
-            difficulty_level: document.getElementById("m_difficulty").value,
-            target_tags: document.getElementById("m_tags").value.trim(),
-          };
-
-          try {
-            const endpoint = editingTestId
-              ? `${TEST_API_URL}/${editingTestId}`
-              : `${TEST_API_URL}/create-meta`;
-            const method = editingTestId ? "PUT" : "POST";
-
-            const res = await fetch(endpoint, {
-              method: method,
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-            });
-
-            const result = await res.json();
-            if (result.success || res.ok) {
-              showToast(
-                editingTestId
-                  ? "Test paper updated successfully!"
-                  : `Test created! ID: ${result.test_id}`,
-                "success",
-              );
-              closeTestModal();
-              loadTestPapers();
-            } else {
-              showToast(result.message || "Failed to save test paper", "error");
-            }
-          } catch (err) {
-            showToast("Network error! Could not connect to API", "error");
-          } finally {
-            setBtnLoading(submitBtn, false);
-          }
-        });
-
-      function openQuestionModal(isEdit = false, questionData = null) {
-        const targetId = document.getElementById("q_target_test_id").value;
-        if (!targetId)
-          return showToast("Pehle Test ID select karein!", "error");
-
-        editingQuestionMongoId =
-          isEdit && questionData ? questionData._id || questionData.id : null;
-        document.getElementById("modal-q-title").innerText = isEdit
-          ? `Edit Question: ${questionData.question_id || editingQuestionMongoId}`
-          : `Add Question(s) to ${targetId}`;
-
-        if (isEdit && questionData) {
-          document.getElementById("q_json_payload").value = JSON.stringify(
-            questionData,
-            null,
-            2,
-          );
-        } else {
-          const targetTest = allTestPapers.find((t) => t.test_id === targetId);
-          if (
-            targetTest &&
-            (targetTest.exam_category === "KIDS_SCHOOL" ||
-              targetTest.exam_stream === "KIDS_SCHOOL")
-          ) {
-            applyTemplate("kids_school");
-          } else {
-            applyTemplate("govt_psc");
+            const isActive = i === currentPage;
+            pagesHtml += `
+              <button 
+                onclick="goToPage(${i})" 
+                class="w-7 h-7 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  isActive
+                    ? "bg-indigo-600 text-white shadow-xs"
+                    : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
+                }">
+                ${i}
+              </button>
+            `;
+          } else if (i === currentPage - 2 || i === currentPage + 2) {
+            pagesHtml += `<span class="px-1 text-slate-400 text-xs">...</span>`;
           }
         }
-
-        document.getElementById("modal-question").classList.remove("hidden");
-      }
-
-      function closeQuestionModal() {
-        document.getElementById("modal-question").classList.add("hidden");
-        editingQuestionMongoId = null;
-      }
-
-      function openViewJsonModal(qIndex) {
-        const question = currentTestQuestions[qIndex];
-        if (!question) return;
-
-        document.getElementById("view-json-subtitle").innerText =
-          `Q_ID: ${question.question_id || question._id || "N/A"}`;
-        document.getElementById("view-json-content").innerText = JSON.stringify(
-          question,
-          null,
-          2,
-        );
-        document.getElementById("modal-view-json").classList.remove("hidden");
-      }
-
-      function closeViewJsonModal() {
-        document.getElementById("modal-view-json").classList.add("hidden");
-      }
-
-      function copyJsonToClipboard() {
-        const text = document.getElementById("view-json-content").innerText;
-        navigator.clipboard.writeText(text);
-        showToast("JSON copied to clipboard!", "success");
+        pagesContainer.innerHTML = pagesHtml;
       }
 
       async function loadTestPapers() {
         const tbody = document.getElementById("testPaperTableBody");
         tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-slate-400"><div class="inline-flex items-center gap-2"><div class="spinner"></div> Loading Test Papers...</div></td></tr>`;
 
+        const search =
+          document.getElementById("filter_test_search")?.value.trim() || "";
+        const subject =
+          document.getElementById("filter_test_subject")?.value || "";
+        const category =
+          document.getElementById("filter_test_category")?.value || "";
+        const status =
+          document.getElementById("filter_test_status")?.value || "";
+
+        const queryParams = new URLSearchParams({
+          page: currentPage,
+          limit: pageLimit,
+        });
+
+        if (status) queryParams.append("status", status);
+        if (subject) queryParams.append("subject", subject);
+        if (category) queryParams.append("exam_category", category);
+        if (search) queryParams.append("search", search);
+
         try {
-          const res = await fetch(`${TEST_API_URL}`);
+          const res = await fetch(`${TEST_API_URL}?${queryParams.toString()}`);
           const result = await res.json();
 
           let list = [];
-          if (Array.isArray(result)) list = result;
-          else if (result && Array.isArray(result.data)) list = result.data;
-          else if (result && result.data && Array.isArray(result.data.tests))
-            list = result.data.tests;
-          else if (
-            result &&
-            result.data &&
-            Array.isArray(result.data.testPapers)
-          )
-            list = result.data.testPapers;
-
-          if (list && list.length > 0) {
-            allTestPapers = list;
-            populateSubjectFilterDropdowns(allTestPapers);
-            applyTestPaperFilters();
-            populateTestDropdown(allTestPapers);
-          } else {
-            tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-slate-400">No test papers found.</td></tr>`;
-            populateTestDropdown([]);
+          if (result.pagination) {
+            totalRecords = result.pagination.totalRecords || 0;
+            totalPages = result.pagination.totalPages || 1;
+            currentPage = result.pagination.currentPage || 1;
+            list = result.data || [];
+          } else if (Array.isArray(result)) {
+            list = result;
+            totalRecords = list.length;
+            totalPages = 1;
+          } else if (result && Array.isArray(result.data)) {
+            list = result.data;
+            totalRecords = list.length;
+            totalPages = 1;
           }
+
+          allTestPapers = list;
+          populateSubjectFilterDropdowns(allTestPapers);
+          populateTestDropdown(allTestPapers);
+          renderTestPaperTable(list);
+          renderPaginationControls();
         } catch (err) {
           tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-rose-500">Failed to connect to backend server.</td></tr>`;
           showToast("Failed to fetch test papers!", "error");
@@ -1747,38 +1631,6 @@
           `<option value="">All Subjects (Quick Switch)</option>` +
           subjects.map((s) => `<option value="${s}">${s}</option>`).join("");
         if (subjects.includes(currentQSubVal)) qSubSel.value = currentQSubVal;
-      }
-
-      function applyTestPaperFilters() {
-        const searchVal = document
-          .getElementById("filter_test_search")
-          .value.toLowerCase()
-          .trim();
-        const subjectVal = document.getElementById("filter_test_subject").value;
-        const categoryVal = document.getElementById(
-          "filter_test_category",
-        ).value;
-        const statusVal = document
-          .getElementById("filter_test_status")
-          .value.toLowerCase()
-          .trim();
-
-        const filtered = allTestPapers.filter((test) => {
-          const matchSearch =
-            !searchVal ||
-            (test.test_id && test.test_id.toLowerCase().includes(searchVal)) ||
-            (test.title && test.title.toLowerCase().includes(searchVal));
-          const matchSubject = !subjectVal || test.subject === subjectVal;
-          const matchCategory =
-            !categoryVal ||
-            test.exam_stream === categoryVal ||
-            test.exam_category === categoryVal;
-          const currentItemStatus = extractTestStatus(test);
-          const matchStatus = !statusVal || currentItemStatus === statusVal;
-          return matchSearch && matchSubject && matchCategory && matchStatus;
-        });
-
-        renderTestPaperTable(filtered);
       }
 
       function renderTestPaperTable(data) {
@@ -1901,20 +1753,20 @@
         const select = document.getElementById("q_target_test_id");
         try {
           let testList = data;
-          if (!testList) {
-            const res = await fetch(`${TEST_API_URL}`);
+          if (!testList || testList.length === 0) {
+            const res = await fetch(`${TEST_API_URL}?limit=100`);
             const result = await res.json();
-            if (result.success && result.data) testList = result.data;
+            testList = result.data || result;
           }
 
-          if (testList) {
+          if (testList && Array.isArray(testList)) {
             const selectedVal = select.value;
             select.innerHTML =
               `<option value="">-- Choose Test Paper First --</option>` +
               testList
                 .map(
                   (t) =>
-                    `<option value="${t.test_id}">${t.test_id} - ${t.title} (${t.subject}) [${extractTestStatus(t).toUpperCase()}]</option>`,
+                    `<option value="${t.test_id}">${t.test_id} - ${t.title} (${t.subject || ""}) [${extractTestStatus(t).toUpperCase()}]</option>`,
                 )
                 .join("");
             if (selectedVal) select.value = selectedVal;
@@ -2126,6 +1978,236 @@
         }
       }
 
+      async function updateTestStatusByMongoId(mongoId, testId, newStatus) {
+        closeAllDropdowns();
+        const normalizedStatus = String(newStatus).toLowerCase().trim();
+        const targetIdentifier = mongoId || testId;
+
+        try {
+          const res = await fetch(
+            `${QUESTION_API_URL}/status/${targetIdentifier}`,
+            {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ status: normalizedStatus }),
+            },
+          );
+
+          const result = await res.json();
+          if (result.success || res.ok) {
+            showToast(
+              `Status updated to ${normalizedStatus.toUpperCase()}!`,
+              "success",
+            );
+            loadTestPapers();
+          } else {
+            showToast(result.message || "Failed to update status", "error");
+          }
+        } catch (err) {
+          showToast("Network error while changing status", "error");
+        }
+      }
+
+      async function cloneTestPaper(testId) {
+        closeAllDropdowns();
+        try {
+          const originalTest = allTestPapers.find((t) => t.test_id === testId);
+          const newTitle = prompt(
+            "Enter Title for Cloned Test Paper:",
+            `${originalTest?.title || testId} (Copy)`,
+          );
+          if (newTitle === null) return;
+          showToast("Cloning test paper...", "info");
+
+          const res = await fetch(`${QUESTION_API_URL}/${testId}/clone`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: newTitle.trim() }),
+          });
+
+          const result = await res.json();
+          if (result.success && result.data) {
+            showToast(
+              `Cloned successfully as DRAFT! ID: ${result.data.test_id}`,
+              "success",
+            );
+            await loadTestPapers();
+            openTestModal(true, result.data);
+          } else {
+            showToast(result.message || "Failed to clone test paper", "error");
+          }
+        } catch (err) {
+          showToast("Network error while cloning test paper", "error");
+        }
+      }
+
+      document
+        .getElementById("testPaperForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById("btn-submit-test");
+          setBtnLoading(
+            submitBtn,
+            true,
+            editingTestId ? "Updating..." : "Saving...",
+          );
+
+          const [sid, sname] = document
+            .getElementById("m_subject")
+            .value.split("|");
+          const [cid, cname] = document
+            .getElementById("m_category")
+            .value.split("|");
+          const isDaily = document.getElementById("m_is_daily").checked;
+          const dailyDateVal = document.getElementById("m_daily_date").value;
+          const formStatus = document
+            .getElementById("m_status")
+            .value.toLowerCase()
+            .trim();
+          const stream = getCategory();
+
+          let examCatEnum = stream;
+          if (
+            [
+              "SSC",
+              "RAILWAYS",
+              "BANKING",
+              "JEE_NEET",
+              "DEFENCE",
+              "TEACHING",
+              "ENTRANCE",
+              "DAILY_GK",
+            ].includes(stream)
+          ) {
+            examCatEnum = "OTHER";
+          }
+
+          const payload = {
+            exam_category: examCatEnum,
+            exam_stream: stream,
+            status: formStatus,
+            board_or_exam: document.getElementById("m_board").value.trim(),
+            classGrade: document.getElementById("m_class").value.trim(),
+            subject_id: sid,
+            subject: sname,
+            category_id: cid,
+            category_title: cname,
+            title: document.getElementById("m_title").value.trim(),
+            config_mode: document.getElementById("m_mode").value,
+            duration: Number(document.getElementById("m_duration").value),
+            total_questions: Number(
+              document.getElementById("m_questions").value,
+            ),
+            total_marks: Number(document.getElementById("m_questions").value),
+            access_type: document.getElementById("m_access_type").value,
+            price: Number(document.getElementById("m_price").value) || 0,
+            discounted_price:
+              Number(document.getElementById("m_discounted_price").value) || 0,
+            included_in_pass:
+              document.getElementById("m_included_in_pass").checked,
+            is_daily_challenge: isDaily,
+            daily_date: isDaily && dailyDateVal ? dailyDateVal : null,
+            make_paid_after_expiry: document.getElementById(
+              "m_make_paid_after_expiry",
+            ).checked,
+            difficulty_level: document.getElementById("m_difficulty").value,
+            target_tags: document.getElementById("m_tags").value.trim(),
+          };
+
+          try {
+            const endpoint = editingTestId
+              ? `${TEST_API_URL}/${editingTestId}`
+              : `${TEST_API_URL}/create-meta`;
+            const method = editingTestId ? "PUT" : "POST";
+
+            const res = await fetch(endpoint, {
+              method: method,
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            const result = await res.json();
+            if (result.success || res.ok) {
+              showToast(
+                editingTestId
+                  ? "Test paper updated successfully!"
+                  : `Test created! ID: ${result.test_id}`,
+                "success",
+              );
+              closeTestModal();
+              loadTestPapers();
+            } else {
+              showToast(result.message || "Failed to save test paper", "error");
+            }
+          } catch (err) {
+            showToast("Network error! Could not connect to API", "error");
+          } finally {
+            setBtnLoading(submitBtn, false);
+          }
+        });
+
+      function openQuestionModal(isEdit = false, questionData = null) {
+        const targetId = document.getElementById("q_target_test_id").value;
+        if (!targetId)
+          return showToast("Pehle Test ID select karein!", "error");
+
+        editingQuestionMongoId =
+          isEdit && questionData ? questionData._id || questionData.id : null;
+        document.getElementById("modal-q-title").innerText = isEdit
+          ? `Edit Question: ${questionData.question_id || editingQuestionMongoId}`
+          : `Add Question(s) to ${targetId}`;
+
+        if (isEdit && questionData) {
+          document.getElementById("q_json_payload").value = JSON.stringify(
+            questionData,
+            null,
+            2,
+          );
+        } else {
+          const targetTest = allTestPapers.find((t) => t.test_id === targetId);
+          if (
+            targetTest &&
+            (targetTest.exam_category === "KIDS_SCHOOL" ||
+              targetTest.exam_stream === "KIDS_SCHOOL")
+          ) {
+            applyTemplate("kids_school");
+          } else {
+            applyTemplate("govt_psc");
+          }
+        }
+
+        document.getElementById("modal-question").classList.remove("hidden");
+      }
+
+      function closeQuestionModal() {
+        document.getElementById("modal-question").classList.add("hidden");
+        editingQuestionMongoId = null;
+      }
+
+      function openViewJsonModal(qIndex) {
+        const question = currentTestQuestions[qIndex];
+        if (!question) return;
+
+        document.getElementById("view-json-subtitle").innerText =
+          `Q_ID: ${question.question_id || question._id || "N/A"}`;
+        document.getElementById("view-json-content").innerText = JSON.stringify(
+          question,
+          null,
+          2,
+        );
+        document.getElementById("modal-view-json").classList.remove("hidden");
+      }
+
+      function closeViewJsonModal() {
+        document.getElementById("modal-view-json").classList.add("hidden");
+      }
+
+      function copyJsonToClipboard() {
+        const text = document.getElementById("view-json-content").innerText;
+        navigator.clipboard.writeText(text);
+        showToast("JSON copied to clipboard!", "success");
+      }
+
       document
         .getElementById("questionForm")
         .addEventListener("submit", async (e) => {
@@ -2296,9 +2378,7 @@
         }
       }
 
-      // INIT
       document.addEventListener("DOMContentLoaded", () => {
-        // Render common header & navigation
         if (typeof renderAdminHeader === "function") {
           renderAdminHeader("Test Papers Management", "tests");
         }
@@ -2308,17 +2388,16 @@
         lucide.createIcons();
 
         const govtPreviewEl = document.getElementById("preview-govt-mcq");
-        if (govtPreviewEl) {
+        if (govtPreviewEl)
           govtPreviewEl.innerText = JSON.stringify(GOVT_PSC_TEMPLATE, null, 2);
-        }
+
         const kidsPreviewEl = document.getElementById("preview-kids-canvas");
-        if (kidsPreviewEl) {
+        if (kidsPreviewEl)
           kidsPreviewEl.innerText = JSON.stringify(
             KIDS_SCHOOL_TEMPLATE,
             null,
             2,
           );
-        }
       });
     </script>
   </body>
