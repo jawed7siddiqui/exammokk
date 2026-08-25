@@ -484,7 +484,7 @@
       }
 
       function startTest(testId, examCategory) {
-        window.location.href = `test/runner?test_id=${encodeURIComponent(testId)}&segment=${encodeURIComponent(examCategory || currentSegment)}`;
+        window.location.href = `/test/runner?test_id=${encodeURIComponent(testId)}&segment=${encodeURIComponent(examCategory || currentSegment)}`;
       }
 
       function startDailyTest() {
