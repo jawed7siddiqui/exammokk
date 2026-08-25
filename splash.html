@@ -465,7 +465,7 @@
           gap: 10px;
         "
       >
-        <!-- Made in India (Elevated with extra spacing above loader) -->
+        <!-- Made in India -->
         <div
           class="animate-fade"
           style="
@@ -504,7 +504,7 @@
               border-radius: 9999px;
               background-color: #4f46e5;
               width: 0%;
-              transition: width 75ms linear;
+              transition: width 50ms linear;
             "
           ></div>
         </div>
@@ -544,6 +544,7 @@
 
         let progress = 0;
 
+        // Interval set to 25ms (100 steps * 25ms = exactly 2.5 seconds)
         const interval = setInterval(() => {
           progress += 1;
 
@@ -567,7 +568,7 @@
             clearInterval(interval);
             redirectUser();
           }
-        }, 40);
+        }, 25);
 
         function redirectUser() {
           const session =
