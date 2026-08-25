@@ -233,7 +233,7 @@ function renderFooter() {
         </div>
 
         <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
-          <div>&copy; 2026 ExamMokk Cloud. All Rights Reserved.</div>
+          <div>&copy; 2026 ExamMokk AI India. All Rights Reserved.</div>
           <div class="flex gap-6">
             <a href="/privacy-policy" class="hover:text-slate-900 transition no-underline">Privacy Policy</a>
             <a href="/terms" class="hover:text-slate-900 transition no-underline">Terms of Service</a>
