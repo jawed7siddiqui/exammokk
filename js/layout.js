@@ -122,7 +122,7 @@ function renderHeader() {
             </div>
 
             <!-- DAILY GK DIRECT LINK -->
-            <a href="/test/runner?test_id=dgk_todays_affairs&segment=DAILY_GK" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 transition no-underline">
+            <a href="/dashboard/web?type=DAILY_GK" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 transition no-underline">
               <span class="text-sm">🌍</span>
               <span>Daily GK Quiz</span>
             </a>

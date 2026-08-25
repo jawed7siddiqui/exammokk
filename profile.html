@@ -404,14 +404,14 @@
         const confirmBtn = document.getElementById("modal-confirm-btn");
 
         iconContainer.className =
-          "w-12 h-12 rounded-2xl mx-auto flex items-center justify-center mb-3.5 bg-slate-100 text-slate-600";
-        icon.setAttribute("data-lucide", "log-out");
-        title.innerText = "Log Out";
-        desc.innerText = "Are you sure you want to log out of your account?";
+          "w-12 h-12 rounded-2xl mx-auto flex items-center justify-center mb-3.5 bg-rose-50 text-rose-600 border border-rose-100";
+        icon.setAttribute("data-lucide", "lock");
+        title.innerText = "Logout?";
+        desc.innerText = "Are you sure you want to log out?";
 
         confirmBtn.className =
-          "py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-extrabold transition-all cursor-pointer";
-        confirmBtn.innerText = "Log Out";
+          "py-2.5 px-3 rounded-xl bg-rose-600 hover:bg-rose-700 active:scale-95 text-white text-xs font-black shadow-md shadow-rose-600/25 transition-all cursor-pointer";
+        confirmBtn.innerText = "Logout";
         confirmBtn.onclick = () => {
           localStorage.clear();
           sessionStorage.clear();
@@ -421,7 +421,6 @@
         modal.classList.remove("hidden");
         if (typeof lucide !== "undefined") lucide.createIcons();
       }
-
       function openDeleteModal() {
         const modal = document.getElementById("action-modal");
         const iconContainer = document.getElementById("modal-icon-container");

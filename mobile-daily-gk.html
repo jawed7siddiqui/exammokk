@@ -197,6 +197,54 @@
 
       <!-- 3. DYNAMIC BOTTOM NAVIGATION PLACEHOLDER -->
       <div id="bottom-nav-placeholder"></div>
+
+      <!-- 4. CENTER DIALOG MODAL (Alert & Confirmation) -->
+      <div
+        id="app-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-xs p-4 hidden"
+      >
+        <div
+          class="w-full max-w-[340px] bg-white rounded-3xl p-5 shadow-2xl border border-slate-100 text-center animate-fadeIn transform transition-all"
+        >
+          <!-- Icon -->
+          <div
+            id="modal-icon-container"
+            class="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3.5 text-xl bg-indigo-50 text-indigo-600"
+          >
+            <span id="modal-icon">ℹ️</span>
+          </div>
+
+          <!-- Title & Message -->
+          <h4
+            id="modal-title"
+            class="text-sm font-extrabold text-slate-900 tracking-tight"
+          >
+            Notification
+          </h4>
+          <p
+            id="modal-message"
+            class="text-xs text-slate-500 font-medium mt-1.5 leading-relaxed"
+          >
+            Message details will appear here.
+          </p>
+
+          <!-- Buttons Container -->
+          <div id="modal-actions" class="mt-5 flex items-center gap-2">
+            <button
+              id="modal-btn-cancel"
+              class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer hidden"
+            >
+              Cancel
+            </button>
+            <button
+              id="modal-btn-confirm"
+              class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs shadow-indigo-600/20"
+            >
+              Okay
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- JAVASCRIPT ENGINE -->
@@ -209,6 +257,60 @@
       let allCategoryTests = [];
       let isCategoryLoading = false;
       let activeDailyTest = null;
+      let modalConfirmCallback = null;
+
+      // Custom Center Modal Engine
+      function showModal({
+        title = "Alert",
+        message = "",
+        icon = "ℹ️",
+        type = "alert", // 'alert' or 'confirm'
+        confirmText = "Okay",
+        cancelText = "Cancel",
+        confirmClass = "bg-indigo-600 hover:bg-indigo-700 text-white",
+        onConfirm = null,
+      }) {
+        const modal = document.getElementById("app-modal");
+        const titleEl = document.getElementById("modal-title");
+        const msgEl = document.getElementById("modal-message");
+        const iconEl = document.getElementById("modal-icon");
+        const btnCancel = document.getElementById("modal-btn-cancel");
+        const btnConfirm = document.getElementById("modal-btn-confirm");
+
+        titleEl.textContent = title;
+        msgEl.textContent = message;
+        iconEl.textContent = icon;
+
+        btnConfirm.textContent = confirmText;
+        btnConfirm.className = `flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs active:scale-95 ${confirmClass}`;
+
+        if (type === "confirm") {
+          btnCancel.textContent = cancelText;
+          btnCancel.classList.remove("hidden");
+        } else {
+          btnCancel.classList.add("hidden");
+        }
+
+        modalConfirmCallback = onConfirm;
+        modal.classList.remove("hidden");
+      }
+
+      function closeModal() {
+        document.getElementById("app-modal").classList.add("hidden");
+        modalConfirmCallback = null;
+      }
+
+      document
+        .getElementById("modal-btn-cancel")
+        .addEventListener("click", closeModal);
+
+      document
+        .getElementById("modal-btn-confirm")
+        .addEventListener("click", () => {
+          const cb = modalConfirmCallback;
+          closeModal();
+          if (typeof cb === "function") cb();
+        });
 
       // Check if test is within 5 days old
       function isWithinFiveDays(dateString) {
@@ -449,17 +551,30 @@
         } else if (allCategoryTests.length > 0) {
           startTest(allCategoryTests[0].id, allCategoryTests[0].subCategoryId);
         } else {
-          alert("Daily challenge is being prepared. Please check back soon!");
+          showModal({
+            title: "Coming Soon",
+            message:
+              "Today's GK drill is currently being prepared. Please check back shortly!",
+            icon: "⏳",
+            type: "alert",
+          });
         }
       }
 
       function handleUserLogout() {
-        if (confirm("Are you sure you want to log out?")) {
-          localStorage.clear();
-          window.location.href = "auth.html";
-        }
+        showModal({
+          title: "Logout?",
+          message: "Are you sure you want to log out?",
+          icon: "🔒",
+          type: "confirm",
+          confirmText: "Logout",
+          confirmClass: "bg-rose-600 hover:bg-rose-700 text-white",
+          onConfirm: () => {
+            localStorage.clear();
+            window.location.href = "auth.html";
+          },
+        });
       }
-
       document.addEventListener("DOMContentLoaded", () => {
         dailyGkConfig = getDailyGkConfig();
         if (dailyGkConfig?.categories?.length > 0) {
