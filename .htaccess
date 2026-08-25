@@ -24,7 +24,7 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
 # ------------------------------------------------------------------------------
-# 3. STATIC WEBPAGES ROUTING (Clean URLs)
+# 3. STATIC WEBPAGES & DASHBOARD ROUTING (Clean URLs)
 # ------------------------------------------------------------------------------
 RewriteRule ^about-us/?$ about-us.html [L,QSA]
 RewriteRule ^contact-us/?$ contact-us.html [L,QSA]
@@ -32,7 +32,13 @@ RewriteRule ^privacy-policy/?$ privacy-policy.html [L,QSA]
 RewriteRule ^terms/?$ terms.html [L,QSA]
 RewriteRule ^pricing/?$ pricing.html [L,QSA]
 RewriteRule ^tests/?$ tests.html [L,QSA]
+
+# Dashboard Routes (Sub-paths pehle match honge)
+RewriteRule ^dashboard/web/?$ dashboard_web.html [L,QSA]
 RewriteRule ^dashboard/?$ dashboard_mobile_exam.html [L,QSA]
+
+# Live Exam Runner Route
+RewriteRule ^test/runner/?$ web_exam_runner.html [L,QSA]
 
 # ------------------------------------------------------------------------------
 # 4. BLOGS ROUTING
