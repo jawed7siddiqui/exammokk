@@ -139,7 +139,7 @@
         ctx.fillText("100% FREE CBT ENGINE", 890, 83);
 
         // 6. Main Headlines
-        ctx.font = "900 52px sans-serif";
+        ctx.font = "900 54px sans-serif";
         ctx.fillStyle = "#0f172a";
         ctx.fillText("Free Online Mock Tests & Daily Quiz", 70, 185);
 
@@ -148,13 +148,8 @@
         textGrad.addColorStop(0.5, "#2563eb");
         textGrad.addColorStop(1, "#0891b2");
         ctx.fillStyle = textGrad;
-        ctx.font = "bold 32px sans-serif";
-        // UPSC explicitly highlighted in headline
-        ctx.fillText(
-          "UPSC, SSC, Banking, Railways & Govt Exams की तैयारी",
-          70,
-          240,
-        );
+        ctx.font = "bold 34px sans-serif";
+        ctx.fillText("SSC, Banking, Railways & Govt Exams की तैयारी", 70, 240);
 
         // 7. Feature Badges
         const features = [
@@ -195,17 +190,16 @@
         ctx.fillText("POPULAR EXAMS:", 70, 440);
 
         const streams = [
-          "UPSC CSE",
           "SSC CGL",
           "RRB NTPC",
           "SBI / IBPS PO",
-          "State PSC",
           "Defence",
+          "UPSC",
         ];
         let tagX = 70;
         streams.forEach((stream) => {
-          ctx.font = "800 17px sans-serif";
-          const tagW = ctx.measureText(stream).width + 32;
+          ctx.font = "800 18px sans-serif";
+          const tagW = ctx.measureText(stream).width + 36;
 
           ctx.fillStyle = "#ffffff";
           ctx.strokeStyle = "#cbd5e1";
@@ -215,8 +209,8 @@
           ctx.stroke();
 
           ctx.fillStyle = "#1e293b";
-          ctx.fillText(stream, tagX + 16, 496);
-          tagX += tagW + 12;
+          ctx.fillText(stream, tagX + 18, 496);
+          tagX += tagW + 14;
         });
 
         // 9. CTA Button
@@ -240,7 +234,7 @@
         // 10. Made in India & Domain Watermark (Bottom Right)
         ctx.font = "800 20px sans-serif";
         ctx.fillStyle = "#475569";
-        const footerText = "exammokk.cloud";
+        const footerText = "🇮🇳 Made in India • exammokk.cloud";
         const textWidth = ctx.measureText(footerText).width;
         ctx.fillText(footerText, 1130 - textWidth, 580);
       }
