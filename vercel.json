@@ -46,10 +46,6 @@
       "destination": "/blog-detail.html"
     },
     {
-      "source": "/assets/og-banner.png",
-      "destination": "/assets/og-banner.png"
-    },
-    {
       "source": "/:exam",
       "destination": "/exam-detail.html"
     }
