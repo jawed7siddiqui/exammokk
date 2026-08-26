@@ -1,10 +1,7 @@
 {
   "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/assets/:match*",
-      "destination": "/assets/:match*"
-    },
     {
       "source": "/about-us",
       "destination": "/about-us.html"
@@ -50,7 +47,7 @@
       "destination": "/blog-detail.html"
     },
     {
-      "source": "/:exam((?!assets/|.*\\..*).*)",
+      "source": "/:exam([a-zA-Z0-9_-]+)",
       "destination": "/exam-detail.html"
     }
   ]
