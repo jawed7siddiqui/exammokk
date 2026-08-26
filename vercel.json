@@ -1,5 +1,10 @@
 {
+  "cleanUrls": true,
   "rewrites": [
+    {
+      "source": "/assets/:match*",
+      "destination": "/assets/:match*"
+    },
     {
       "source": "/about-us",
       "destination": "/about-us.html"
@@ -36,7 +41,6 @@
       "source": "/dashboard",
       "destination": "/dashboard_mobile_exam.html"
     },
-
     {
       "source": "/blogs",
       "destination": "/blogs.html"
@@ -46,7 +50,7 @@
       "destination": "/blog-detail.html"
     },
     {
-      "source": "/:exam",
+      "source": "/:exam((?!assets/|.*\\..*).*)",
       "destination": "/exam-detail.html"
     }
   ]
