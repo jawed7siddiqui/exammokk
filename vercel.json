@@ -3,51 +3,39 @@
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/about-us",
-      "destination": "/about-us.html"
+      "source": "/assets/(.*)",
+      "destination": "/assets/$1"
     },
     {
-      "source": "/contact-us",
-      "destination": "/contact-us.html"
+      "source": "/data/(.*)",
+      "destination": "/data/$1"
     },
     {
-      "source": "/privacy-policy",
-      "destination": "/privacy-policy.html"
+      "source": "/js/(.*)",
+      "destination": "/js/$1"
     },
     {
-      "source": "/terms",
-      "destination": "/terms.html"
-    },
-    {
-      "source": "/pricing",
-      "destination": "/pricing.html"
-    },
-    {
-      "source": "/tests",
-      "destination": "/tests.html"
-    },
-    {
-      "source": "/dashboard/web",
-      "destination": "/dashboard_web.html"
-    },
-    {
-      "source": "/test/runner",
-      "destination": "/web_exam_runner.html"
-    },
-    {
-      "source": "/dashboard",
-      "destination": "/dashboard_mobile_exam.html"
-    },
-    {
-      "source": "/blogs",
-      "destination": "/blogs.html"
+      "source": "/css/(.*)",
+      "destination": "/css/$1"
     },
     {
       "source": "/blogs/:slug",
       "destination": "/blog-detail.html"
     },
     {
-      "source": "/:exam([a-zA-Z0-9_-]+)",
+      "source": "/test/runner",
+      "destination": "/web_exam_runner.html"
+    },
+    {
+      "source": "/dashboard/web",
+      "destination": "/dashboard_web.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/dashboard_mobile_exam.html"
+    },
+    {
+      "source": "/((?!about-us|contact-us|privacy-policy|terms|pricing|tests|blogs|assets|data|js|css|favicon|manifest).*$)",
       "destination": "/exam-detail.html"
     }
   ]
