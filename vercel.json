@@ -1,82 +1,45 @@
 {
   "cleanUrls": true,
-
-  "rewrites": [
+  "trailingSlash": false,
+  "routes": [
     {
-      "source": "/about-us",
-      "destination": "/about-us.html"
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
     },
     {
-      "source": "/contact-us",
-      "destination": "/contact-us.html"
+      "src": "/data/(.*)",
+      "dest": "/data/$1"
     },
     {
-      "source": "/privacy-policy",
-      "destination": "/privacy-policy.html"
+      "src": "/js/(.*)",
+      "dest": "/js/$1"
     },
     {
-      "source": "/terms",
-      "destination": "/terms.html"
+      "src": "/css/(.*)",
+      "dest": "/css/$1"
     },
     {
-      "source": "/pricing",
-      "destination": "/pricing.html"
+      "src": "/(ssc|upsc|banking|railways|jee-neet|defence|teaching|entrance)",
+      "dest": "/exam-detail.html"
     },
     {
-      "source": "/tests",
-      "destination": "/tests.html"
+      "src": "/blogs/([^/]+)",
+      "dest": "/blog-detail.html"
     },
     {
-      "source": "/dashboard/web",
-      "destination": "/dashboard_web.html"
+      "src": "/test/runner",
+      "dest": "/web_exam_runner.html"
     },
     {
-      "source": "/test/runner",
-      "destination": "/web_exam_runner.html"
+      "src": "/dashboard/web",
+      "dest": "/dashboard_web.html"
     },
     {
-      "source": "/dashboard",
-      "destination": "/dashboard_mobile_exam.html"
+      "src": "/dashboard",
+      "dest": "/dashboard_mobile_exam.html"
     },
     {
-      "source": "/blogs",
-      "destination": "/blogs.html"
-    },
-    {
-      "source": "/blogs/:slug",
-      "destination": "/blog-detail.html"
-    },
-    {
-      "source": "/ssc",
-      "destination": "/exam-detail.html"
-    },
-    {
-      "source": "/upsc",
-      "destination": "/exam-detail.html"
-    },
-    {
-      "source": "/banking",
-      "destination": "/exam-detail.html"
-    },
-    {
-      "source": "/railways",
-      "destination": "/exam-detail.html"
-    },
-    {
-      "source": "/jee-neet",
-      "destination": "/exam-detail.html"
-    },
-    {
-      "source": "/defence",
-      "destination": "/exam-detail.html"
-    },
-    {
-      "source": "/teaching",
-      "destination": "/exam-detail.html"
-    },
-    {
-      "source": "/entrance",
-      "destination": "/exam-detail.html"
+      "handle": "filesystem"
     }
   ]
 }
