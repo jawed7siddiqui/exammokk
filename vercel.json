@@ -1,4 +1,6 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
     {
       "source": "/about-us",
@@ -36,7 +38,6 @@
       "source": "/dashboard",
       "destination": "/dashboard_mobile_exam.html"
     },
-
     {
       "source": "/blogs",
       "destination": "/blogs.html"
@@ -46,7 +47,35 @@
       "destination": "/blog-detail.html"
     },
     {
-      "source": "/:exam",
+      "source": "/ssc",
+      "destination": "/exam-detail.html"
+    },
+    {
+      "source": "/upsc",
+      "destination": "/exam-detail.html"
+    },
+    {
+      "source": "/banking",
+      "destination": "/exam-detail.html"
+    },
+    {
+      "source": "/railways",
+      "destination": "/exam-detail.html"
+    },
+    {
+      "source": "/jee-neet",
+      "destination": "/exam-detail.html"
+    },
+    {
+      "source": "/defence",
+      "destination": "/exam-detail.html"
+    },
+    {
+      "source": "/teaching",
+      "destination": "/exam-detail.html"
+    },
+    {
+      "source": "/entrance",
       "destination": "/exam-detail.html"
     }
   ]

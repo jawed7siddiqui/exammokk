@@ -47,10 +47,9 @@ RewriteRule ^blogs/?$ blogs.html [L,QSA]
 RewriteRule ^blogs/([^/]+)/?$ blog-detail.html?slug=$1 [L,QSA]
 
 # ------------------------------------------------------------------------------
-# 5. DYNAMIC EXAM ROUTING (E.g. /upsc, /ssc, /banking, /jee-neet)
+# 5. EXAM CATEGORIES ROUTING (Explicit Routes for 8 Streams)
 # ------------------------------------------------------------------------------
-# Kisi bhi single slug ko dynamic exam template par send karega
-RewriteRule ^([a-zA-Z0-9_-]+)/?$ exam-detail.html?exam=$1 [L,QSA]
+RewriteRule ^(ssc|upsc|banking|railways|jee-neet|defence|teaching|entrance)/?$ exam-detail.html?exam=$1 [L,QSA]
 
 # ------------------------------------------------------------------------------
 # 6. PERFORMANCE & BROWSER CACHING (Fast Core Web Vitals)
