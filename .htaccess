@@ -1,31 +1,19 @@
-# ==============================================================================
-# ExamMokk Cloud - Production .htaccess Configuration
-# ==============================================================================
-
 Options -Indexes +FollowSymLinks
 RewriteEngine On
 RewriteBase /
 
-# ------------------------------------------------------------------------------
-# 1. SECURITY & HTTPS (Optional: enable if SSL is configured)
-# ------------------------------------------------------------------------------
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-# Prevent direct access to hidden files/folders (e.g. .git, .env)
+# 1. Block Hidden Files
 RewriteRule ^\.(.*)$ - [F]
 
-# ------------------------------------------------------------------------------
-# 2. REAL FILES & DIRECTORIES PASSTHROUGH
-# ------------------------------------------------------------------------------
-# Real static files (CSS, JS, Images, JSON data) aur direct folders ko bypass karein
+# 2. Static Folders Direct Bypass (Assets, Data, JS, CSS)
+RewriteRule ^(assets|data|js|css)/ - [L]
+
+# 3. Real Files & Directory Passthrough
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# ------------------------------------------------------------------------------
-# 3. STATIC WEBPAGES & DASHBOARD ROUTING (Clean URLs)
-# ------------------------------------------------------------------------------
+# 4. Static Pages
 RewriteRule ^about-us/?$ about-us.html [L,QSA]
 RewriteRule ^contact-us/?$ contact-us.html [L,QSA]
 RewriteRule ^privacy-policy/?$ privacy-policy.html [L,QSA]
@@ -33,27 +21,26 @@ RewriteRule ^terms/?$ terms.html [L,QSA]
 RewriteRule ^pricing/?$ pricing.html [L,QSA]
 RewriteRule ^tests/?$ tests.html [L,QSA]
 
-# Dashboard Routes (Sub-paths pehle match honge)
+# 5. App & Runner
 RewriteRule ^dashboard/web/?$ dashboard_web.html [L,QSA]
 RewriteRule ^dashboard/?$ dashboard_mobile_exam.html [L,QSA]
-
-# Live Exam Runner Route
 RewriteRule ^test/runner/?$ web_exam_runner.html [L,QSA]
 
-# ------------------------------------------------------------------------------
-# 4. BLOGS ROUTING
-# ------------------------------------------------------------------------------
+# 6. Blogs
 RewriteRule ^blogs/?$ blogs.html [L,QSA]
 RewriteRule ^blogs/([^/]+)/?$ blog-detail.html?slug=$1 [L,QSA]
 
-# ------------------------------------------------------------------------------
-# 5. EXAM CATEGORIES ROUTING (Explicit Routes for 8 Streams)
-# ------------------------------------------------------------------------------
-RewriteRule ^(ssc|upsc|banking|railways|jee-neet|defence|teaching|entrance)/?$ exam-detail.html?exam=$1 [L,QSA]
+# 7. 8 Explicit Exam Routes
+RewriteRule ^ssc/?$ exam-detail.html?exam=ssc [L,QSA]
+RewriteRule ^upsc/?$ exam-detail.html?exam=upsc [L,QSA]
+RewriteRule ^banking/?$ exam-detail.html?exam=banking [L,QSA]
+RewriteRule ^railways/?$ exam-detail.html?exam=railways [L,QSA]
+RewriteRule ^jee-neet/?$ exam-detail.html?exam=jee-neet [L,QSA]
+RewriteRule ^defence/?$ exam-detail.html?exam=defence [L,QSA]
+RewriteRule ^teaching/?$ exam-detail.html?exam=teaching [L,QSA]
+RewriteRule ^entrance/?$ exam-detail.html?exam=entrance [L,QSA]
 
-# ------------------------------------------------------------------------------
-# 6. PERFORMANCE & BROWSER CACHING (Fast Core Web Vitals)
-# ------------------------------------------------------------------------------
+# 8. Caching
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType image/jpg "access plus 1 year"
@@ -63,11 +50,4 @@ RewriteRule ^(ssc|upsc|banking|railways|jee-neet|defence|teaching|entrance)/?$ e
     ExpiresByType image/svg+xml "access plus 1 year"
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
-</IfModule>
-
-# ------------------------------------------------------------------------------
-# 7. GZIP / DEFLATE COMPRESSION
-# ------------------------------------------------------------------------------
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json
 </IfModule>
