@@ -52,11 +52,55 @@
       .animate-fade {
         animation: smoothFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       }
+      @keyframes nativeToastDrop {
+        0% {
+          opacity: 0;
+          transform: translateY(-16px) scale(0.96);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      .animate-native-toast {
+        animation: nativeToastDrop 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
     </style>
   </head>
   <body
-    class="flex justify-center items-center min-h-screen bg-[#F1F5F9] p-0 sm:p-4 text-slate-900 antialiased select-none"
+    class="flex justify-center items-center min-h-screen bg-[#F1F5F9] p-0 sm:p-4 text-slate-900 antialiased select-none relative"
   >
+    <!-- TOP RIGHT / MOBILE NATIVE HYBRID TOAST -->
+    <aside
+      id="app-toast"
+      aria-live="polite"
+      class="fixed top-3 right-3 left-3 sm:left-auto sm:right-5 sm:top-5 z-50 hidden sm:max-w-sm w-auto rounded-2xl p-3.5 shadow-[0_16px_36px_rgba(0,0,0,0.12)] border backdrop-blur-xl animate-native-toast flex items-start gap-3 transition-all"
+    >
+      <div
+        id="toast-icon-wrapper"
+        class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 shadow-xs text-base"
+      >
+        <i id="toast-icon" data-lucide="alert-circle" class="w-4 h-4"></i>
+      </div>
+      <div class="flex-1 min-w-0 pt-0.5">
+        <h4 id="toast-title" class="text-xs font-bold tracking-tight">
+          Notification
+        </h4>
+        <p
+          id="toast-message"
+          class="text-[11px] font-semibold opacity-90 mt-0.5 leading-snug"
+        >
+          Alert message text here.
+        </p>
+      </div>
+      <button
+        onclick="hideToast()"
+        class="text-current opacity-50 hover:opacity-100 p-1 -mr-1 rounded-lg transition-opacity cursor-pointer"
+      >
+        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+      </button>
+    </aside>
+
     <!-- APP CONTAINER -->
     <div
       class="w-full max-w-[420px] h-screen sm:h-[820px] sm:max-h-[92vh] bg-white sm:rounded-[28px] flex flex-col justify-between shadow-[0_20px_50px_rgba(15,23,42,0.08)] border border-slate-200/80 relative overflow-hidden"
@@ -182,25 +226,24 @@
 
         <!-- FORM INTERACTION WRAPPER -->
         <div class="my-auto py-4 space-y-4">
-          <!-- Modern Error Notification -->
-          <div
-            id="exam-alert-box"
-            class="hidden text-xs font-semibold p-3.5 rounded-xl text-center bg-rose-50 text-rose-700 border border-rose-200/80 animate-fade"
-          ></div>
-
           <!-- STEP 1: MOBILE ENTRY -->
           <section
             id="step-common-login"
             class="auth-step-container animate-fade space-y-4"
           >
-            <form onsubmit="handleCommonLoginSubmit(event)" class="space-y-4">
+            <form
+              onsubmit="handleCommonLoginSubmit(event)"
+              class="space-y-4"
+              novalidate
+            >
               <div>
                 <label
                   class="text-[11px] font-bold text-slate-700 block mb-1.5"
                 >
-                  Mobile Number
+                  Mobile Number <span class="text-rose-500">*</span>
                 </label>
                 <div
+                  id="mobile-input-container"
                   class="flex items-center w-full bg-slate-50/70 border border-slate-200 rounded-xl overflow-hidden focus-within:border-indigo-600 focus-within:bg-white focus-within:ring-4 focus-within:ring-indigo-50 transition-all duration-200"
                 >
                   <span
@@ -212,7 +255,13 @@
                     id="user-mobile"
                     required
                     maxlength="10"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                    oninput="
+                      this.value = this.value.replace(/[^0-9]/g, '');
+                      resetInputHighlight(
+                        'user-mobile',
+                        'mobile-input-container',
+                      );
+                    "
                     placeholder="Enter 10-digit mobile"
                     class="w-full px-3.5 py-3 font-semibold text-slate-900 outline-none bg-transparent text-sm tracking-wider placeholder:text-slate-400"
                   />
@@ -235,11 +284,15 @@
             id="step-enter-password"
             class="auth-step-container hidden animate-fade space-y-4"
           >
-            <form onsubmit="handlePasswordSubmit(event)" class="space-y-4">
+            <form
+              onsubmit="handlePasswordSubmit(event)"
+              class="space-y-4"
+              novalidate
+            >
               <div>
                 <div class="flex items-center justify-between mb-1.5">
                   <label class="text-[11px] font-bold text-slate-700">
-                    Account Password
+                    Account Password <span class="text-rose-500">*</span>
                   </label>
                   <span class="text-[10px] font-semibold text-slate-400"
                     >Default: 123456</span
@@ -251,6 +304,7 @@
                     id="user-password-input"
                     required
                     minlength="4"
+                    oninput="resetInputHighlight('user-password-input')"
                     placeholder="Enter your password"
                     class="w-full p-3.5 border border-slate-200 rounded-xl font-mono-tag font-semibold text-slate-900 outline-none focus:border-indigo-600 focus:bg-white focus:ring-4 focus:ring-indigo-50 bg-slate-50/70 text-sm transition-all"
                   />
@@ -276,23 +330,74 @@
             <form
               onsubmit="handleRegistrationSubmit(event)"
               class="space-y-3.5"
+              novalidate
             >
+              <!-- 1. FULL NAME FIELD -->
               <div>
                 <label class="text-[11px] font-bold text-slate-700 block mb-1">
-                  Candidate Full Name
+                  Candidate Full Name <span class="text-rose-500">*</span>
                 </label>
                 <input
                   type="text"
                   id="reg-candidate-name"
                   required
+                  oninput="resetInputHighlight('reg-candidate-name')"
                   placeholder="e.g. Rahul Sharma"
                   class="w-full px-3.5 py-3 bg-slate-50/70 border border-slate-200 rounded-xl font-semibold text-slate-900 text-xs outline-none focus:border-indigo-600 focus:bg-white focus:ring-4 focus:ring-indigo-50 transition-all placeholder:text-slate-400"
                 />
               </div>
 
+              <!-- 2. GENDER SELECTION FIELD -->
               <div>
                 <label class="text-[11px] font-bold text-slate-700 block mb-1">
-                  Create Password
+                  Gender <span class="text-rose-500">*</span>
+                </label>
+                <div id="gender-options-wrapper" class="grid grid-cols-3 gap-2">
+                  <label
+                    class="gender-option-label flex items-center justify-center gap-1.5 p-2.5 bg-slate-50/70 border border-slate-200 rounded-xl cursor-pointer text-xs font-semibold text-slate-700 hover:border-indigo-500 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/60 has-[:checked]:text-indigo-600 transition-all"
+                  >
+                    <input
+                      type="radio"
+                      name="candidate-gender"
+                      value="Male"
+                      onchange="clearGenderValidation()"
+                      class="hidden"
+                    />
+                    <span>Male</span>
+                  </label>
+
+                  <label
+                    class="gender-option-label flex items-center justify-center gap-1.5 p-2.5 bg-slate-50/70 border border-slate-200 rounded-xl cursor-pointer text-xs font-semibold text-slate-700 hover:border-indigo-500 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/60 has-[:checked]:text-indigo-600 transition-all"
+                  >
+                    <input
+                      type="radio"
+                      name="candidate-gender"
+                      value="Female"
+                      onchange="clearGenderValidation()"
+                      class="hidden"
+                    />
+                    <span>Female</span>
+                  </label>
+
+                  <label
+                    class="gender-option-label flex items-center justify-center gap-1.5 p-2.5 bg-slate-50/70 border border-slate-200 rounded-xl cursor-pointer text-xs font-semibold text-slate-700 hover:border-indigo-500 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/60 has-[:checked]:text-indigo-600 transition-all"
+                  >
+                    <input
+                      type="radio"
+                      name="candidate-gender"
+                      value="Other"
+                      onchange="clearGenderValidation()"
+                      class="hidden"
+                    />
+                    <span>Other</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- 3. PASSWORD FIELD -->
+              <div>
+                <label class="text-[11px] font-bold text-slate-700 block mb-1">
+                  Create Password <span class="text-rose-500">*</span>
                   <span class="text-[10px] text-slate-400 font-normal"
                     >(Min. 4 characters)</span
                   >
@@ -302,37 +407,40 @@
                   id="reg-password"
                   required
                   minlength="4"
+                  oninput="resetInputHighlight('reg-password')"
                   placeholder="Create your password"
                   class="w-full px-3.5 py-3 bg-slate-50/70 border border-slate-200 rounded-xl font-semibold text-slate-900 text-xs outline-none focus:border-indigo-600 focus:bg-white focus:ring-4 focus:ring-indigo-50 transition-all placeholder:text-slate-400"
                 />
               </div>
 
-              <div class="flex items-start gap-2 pt-0.5">
-                <input
-                  type="checkbox"
-                  id="terms-checkbox"
-                  required
-                  class="accent-indigo-600 w-4 h-4 rounded border-slate-300 cursor-pointer mt-0.5"
-                />
-                <label
-                  for="terms-checkbox"
-                  class="text-[11px] text-slate-500 leading-snug cursor-pointer select-none"
-                >
-                  I agree to the
-                  <a
-                    href="terms.html"
-                    target="_blank"
-                    class="text-indigo-600 font-semibold hover:underline"
-                    >Terms</a
+              <!-- 4. TERMS CHECKBOX FIELD -->
+              <div>
+                <div class="flex items-start gap-2 pt-0.5">
+                  <input
+                    type="checkbox"
+                    id="terms-checkbox"
+                    class="accent-indigo-600 w-4 h-4 rounded border-slate-300 cursor-pointer mt-0.5"
+                  />
+                  <label
+                    for="terms-checkbox"
+                    class="text-[11px] text-slate-500 leading-snug cursor-pointer select-none"
                   >
-                  &amp;
-                  <a
-                    href="privacy-policy.html"
-                    target="_blank"
-                    class="text-indigo-600 font-semibold hover:underline"
-                    >Privacy Policy</a
-                  >.
-                </label>
+                    I agree to the
+                    <a
+                      href="terms.html"
+                      target="_blank"
+                      class="text-indigo-600 font-semibold hover:underline"
+                      >Terms</a
+                    >
+                    &amp;
+                    <a
+                      href="privacy-policy.html"
+                      target="_blank"
+                      class="text-indigo-600 font-semibold hover:underline"
+                      >Privacy Policy</a
+                    >.
+                  </label>
+                </div>
               </div>
 
               <button
@@ -395,12 +503,115 @@
 
       let activeStepHistory = ["step-common-login"];
       let mobileNumber = "";
+      let toastTimer = null;
 
-      // Universal Device Telemetry & Push Token Helper (iOS / Android / Web)
+      // ==============================================================
+      // HYBRID TOAST (Red = Error, Green = Success, Blue = Info)
+      // ==============================================================
+      function showNativeToast(title, msg, type = "error") {
+        const toast = document.getElementById("app-toast");
+        const titleEl = document.getElementById("toast-title");
+        const msgEl = document.getElementById("toast-message");
+        const iconWrapper = document.getElementById("toast-icon-wrapper");
+        const icon = document.getElementById("toast-icon");
+
+        if (!toast || !msgEl) return;
+        if (toastTimer) clearTimeout(toastTimer);
+
+        titleEl.innerText = title;
+        msgEl.innerText = msg;
+
+        toast.className =
+          "fixed top-3 right-3 left-3 sm:left-auto sm:right-5 sm:top-5 z-50 sm:max-w-sm w-auto rounded-2xl p-3.5 shadow-[0_16px_36px_rgba(0,0,0,0.12)] border backdrop-blur-xl animate-native-toast flex items-start gap-3 transition-all";
+
+        if (type === "success") {
+          toast.classList.add(
+            "bg-emerald-50/95",
+            "border-emerald-200",
+            "text-emerald-950",
+          );
+          iconWrapper.className =
+            "w-8 h-8 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm";
+          icon.setAttribute("data-lucide", "check-circle");
+        } else if (type === "info") {
+          toast.classList.add(
+            "bg-indigo-50/95",
+            "border-indigo-200",
+            "text-indigo-950",
+          );
+          iconWrapper.className =
+            "w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-sm";
+          icon.setAttribute("data-lucide", "info");
+        } else {
+          toast.classList.add(
+            "bg-rose-50/95",
+            "border-rose-200",
+            "text-rose-950",
+          );
+          iconWrapper.className =
+            "w-8 h-8 rounded-xl bg-rose-500 text-white flex items-center justify-center shrink-0 shadow-sm";
+          icon.setAttribute("data-lucide", "alert-circle");
+        }
+
+        toast.classList.remove("hidden");
+        if (typeof lucide !== "undefined") lucide.createIcons();
+
+        toastTimer = setTimeout(() => {
+          hideToast();
+        }, 4000);
+      }
+
+      function hideToast() {
+        const toast = document.getElementById("app-toast");
+        if (toast) toast.classList.add("hidden");
+      }
+
+      // ==============================================================
+      // HYBRID VISUAL HIGHLIGHT (BORDER + FOCUS)
+      // ==============================================================
+      function markInputError(inputId, customContainerId = null) {
+        const inputEl = document.getElementById(inputId);
+        const container = customContainerId
+          ? document.getElementById(customContainerId)
+          : inputEl;
+        if (container) {
+          container.classList.add(
+            "border-rose-400",
+            "bg-rose-50/30",
+            "ring-2",
+            "ring-rose-100",
+          );
+          container.classList.remove("border-slate-200");
+        }
+      }
+
+      function resetInputHighlight(inputId, customContainerId = null) {
+        const inputEl = document.getElementById(inputId);
+        const container = customContainerId
+          ? document.getElementById(customContainerId)
+          : inputEl;
+        if (container) {
+          container.classList.remove(
+            "border-rose-400",
+            "bg-rose-50/30",
+            "ring-2",
+            "ring-rose-100",
+          );
+          container.classList.add("border-slate-200");
+        }
+      }
+
+      function clearGenderValidation() {
+        document.querySelectorAll(".gender-option-label").forEach((el) => {
+          el.classList.remove("border-rose-400", "bg-rose-50/30");
+          el.classList.add("border-slate-200");
+        });
+      }
+
+      // Device Context Meta Telemetry
       function getDeviceContext() {
         const ua = navigator.userAgent.toLowerCase();
 
-        // 1. Platform Detection
         let platform = "web";
         if (/android/i.test(ua)) {
           platform = "android";
@@ -411,7 +622,6 @@
           platform = "ios";
         }
 
-        // 2. Form Factor Detection
         let deviceType = "desktop";
         if (/tablet|ipad/i.test(ua)) {
           deviceType = "tablet";
@@ -427,7 +637,7 @@
       }
 
       function switchStep(stepId, pushHistory = true) {
-        hideAlert();
+        hideToast();
         if (
           pushHistory &&
           activeStepHistory[activeStepHistory.length - 1] !== stepId
@@ -458,29 +668,25 @@
         }
       }
 
-      function showAlert(msg) {
-        const box = document.getElementById("exam-alert-box");
-        if (box) {
-          box.innerText = msg;
-          box.classList.remove("hidden");
-        }
-      }
-
-      function hideAlert() {
-        const box = document.getElementById("exam-alert-box");
-        if (box) box.classList.add("hidden");
-      }
-
-      // 1. Mobile Check
+      // 1. Mobile Step
       async function handleCommonLoginSubmit(e) {
         e.preventDefault();
-        hideAlert();
+        mobileNumber = document.getElementById("user-mobile").value.trim();
+
+        if (!mobileNumber || mobileNumber.length !== 10) {
+          markInputError("user-mobile", "mobile-input-container");
+          showNativeToast(
+            "Invalid Mobile",
+            "Please enter a valid 10-digit mobile number.",
+            "error",
+          );
+          document.getElementById("user-mobile").focus();
+          return;
+        }
 
         const btn = document.getElementById("btn-mobile-submit");
         btn.disabled = true;
         btn.innerText = "Checking...";
-
-        mobileNumber = document.getElementById("user-mobile").value.trim();
 
         try {
           const res = await fetch(`${API_BASE_URL}/check-mobile`, {
@@ -490,8 +696,18 @@
           });
           const data = await res.json();
           if (data.exists) {
+            showNativeToast(
+              "Account Found",
+              "Please enter password to sign in.",
+              "info",
+            );
             switchStep("step-enter-password");
           } else {
+            showNativeToast(
+              "New Candidate",
+              "Complete quick profile setup to continue.",
+              "info",
+            );
             switchStep("step-registration");
           }
         } catch (err) {
@@ -503,18 +719,27 @@
         }
       }
 
-      // 2. Password Login
+      // 2. Password Login Step
       async function handlePasswordSubmit(e) {
         e.preventDefault();
-        hideAlert();
+        const password = document.getElementById("user-password-input").value;
+
+        if (!password || password.length < 4) {
+          markInputError("user-password-input");
+          showNativeToast(
+            "Password Required",
+            "Password must be at least 4 characters long.",
+            "error",
+          );
+          document.getElementById("user-password-input").focus();
+          return;
+        }
 
         const btn = document.getElementById("btn-password-submit");
         btn.disabled = true;
         btn.innerText = "Signing in...";
 
-        const password = document.getElementById("user-password-input").value;
         const deviceMeta = getDeviceContext();
-
         const loginPayload = {
           mobileNumber: mobileNumber,
           password: password,
@@ -532,15 +757,24 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
+            showNativeToast(
+              "Authenticated",
+              "Login successful! Redirecting...",
+              "success",
+            );
             localStorage.setItem("examIndiaToken", data.token);
             localStorage.setItem("examIndiaUser", JSON.stringify(data.user));
             finishAuthAndGoHome();
           } else {
-            showAlert(
-              `❌ ${data.message || "Invalid credentials! Try again."}`,
+            markInputError("user-password-input");
+            showNativeToast(
+              "Authentication Failed",
+              data.message || "Invalid credentials. Try again.",
+              "error",
             );
           }
         } catch (err) {
+          showNativeToast("Offline Mode", "Accessing test portal...", "info");
           finishAuthAndGoHome();
         } finally {
           btn.disabled = false;
@@ -549,19 +783,72 @@
         }
       }
 
-      // 3. Quick Register
+      // 3. Quick Register Step (Hybrid Validation Check)
       async function handleRegistrationSubmit(e) {
         e.preventDefault();
-        hideAlert();
-
-        const btn = document.getElementById("btn-reg-submit");
-        btn.disabled = true;
-        btn.innerText = "Creating account...";
 
         const candidateName = document
           .getElementById("reg-candidate-name")
           .value.trim();
         const userPassword = document.getElementById("reg-password").value;
+        const termsChecked = document.getElementById("terms-checkbox").checked;
+        const genderElement = document.querySelector(
+          'input[name="candidate-gender"]:checked',
+        );
+
+        // Validation 1: Candidate Name
+        if (!candidateName) {
+          markInputError("reg-candidate-name");
+          showNativeToast(
+            "Name Required",
+            "Please enter candidate full name.",
+            "error",
+          );
+          document.getElementById("reg-candidate-name").focus();
+          return;
+        }
+
+        // Validation 2: Gender Selection
+        if (!genderElement) {
+          document.querySelectorAll(".gender-option-label").forEach((el) => {
+            el.classList.add("border-rose-400", "bg-rose-50/30");
+            el.classList.remove("border-slate-200");
+          });
+          showNativeToast(
+            "Gender Required",
+            "Please choose your gender to continue.",
+            "error",
+          );
+          return;
+        }
+
+        // Validation 3: Password Length
+        if (!userPassword || userPassword.length < 4) {
+          markInputError("reg-password");
+          showNativeToast(
+            "Invalid Password",
+            "Password must be at least 4 characters long.",
+            "error",
+          );
+          document.getElementById("reg-password").focus();
+          return;
+        }
+
+        // Validation 4: Terms & Conditions
+        if (!termsChecked) {
+          showNativeToast(
+            "Terms Required",
+            "Please accept the Terms & Privacy Policy.",
+            "error",
+          );
+          return;
+        }
+
+        const btn = document.getElementById("btn-reg-submit");
+        btn.disabled = true;
+        btn.innerText = "Creating account...";
+
+        const genderSelected = genderElement.value;
         const deviceMeta = getDeviceContext();
 
         const payload = {
@@ -569,6 +856,7 @@
           mobileNumber: mobileNumber,
           password: userPassword,
           candidateName: candidateName,
+          gender: genderSelected,
           studentName: candidateName,
           schoolName: "ExamMokk Aspirant Hub",
           rollNo: "MOKK" + Math.floor(1000 + Math.random() * 9000),
@@ -586,15 +874,27 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
+            showNativeToast(
+              "Registration Success",
+              "Account created successfully.",
+              "success",
+            );
             localStorage.setItem("examIndiaToken", data.token);
             localStorage.setItem("examIndiaUser", JSON.stringify(data.user));
             switchStep("step-reg-success");
           } else {
-            showAlert(
-              `❌ ${data.message || "Registration failed. Try again."}`,
+            showNativeToast(
+              "Registration Failed",
+              data.message || "Failed to create profile. Try again.",
+              "error",
             );
           }
         } catch (err) {
+          showNativeToast(
+            "Profile Saved",
+            "Configuring your offline workspace.",
+            "info",
+          );
           localStorage.setItem("examIndiaUser", JSON.stringify(payload));
           switchStep("step-reg-success");
         } finally {
@@ -612,7 +912,9 @@
           isActivated: true,
         };
         localStorage.setItem("examIndiaSession", JSON.stringify(sessionData));
-        window.location.href = "home.html";
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 300);
       }
 
       document.addEventListener("DOMContentLoaded", () => {
