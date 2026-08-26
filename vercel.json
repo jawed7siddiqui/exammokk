@@ -1,45 +1,53 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "routes": [
+  "rewrites": [
     {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
+      "source": "/about-us",
+      "destination": "/about-us.html"
     },
     {
-      "src": "/data/(.*)",
-      "dest": "/data/$1"
+      "source": "/contact-us",
+      "destination": "/contact-us.html"
     },
     {
-      "src": "/js/(.*)",
-      "dest": "/js/$1"
+      "source": "/privacy-policy",
+      "destination": "/privacy-policy.html"
     },
     {
-      "src": "/css/(.*)",
-      "dest": "/css/$1"
+      "source": "/terms",
+      "destination": "/terms.html"
     },
     {
-      "src": "/(ssc|upsc|banking|railways|jee-neet|defence|teaching|entrance)",
-      "dest": "/exam-detail.html"
+      "source": "/pricing",
+      "destination": "/pricing.html"
     },
     {
-      "src": "/blogs/([^/]+)",
-      "dest": "/blog-detail.html"
+      "source": "/tests",
+      "destination": "/tests.html"
     },
     {
-      "src": "/test/runner",
-      "dest": "/web_exam_runner.html"
+      "source": "/dashboard/web",
+      "destination": "/dashboard_web.html"
     },
     {
-      "src": "/dashboard/web",
-      "dest": "/dashboard_web.html"
+      "source": "/test/runner",
+      "destination": "/web_exam_runner.html"
     },
     {
-      "src": "/dashboard",
-      "dest": "/dashboard_mobile_exam.html"
+      "source": "/dashboard",
+      "destination": "/dashboard_mobile_exam.html"
+    },
+
+    {
+      "source": "/blogs",
+      "destination": "/blogs.html"
     },
     {
-      "handle": "filesystem"
+      "source": "/blogs/:slug",
+      "destination": "/blog-detail.html"
+    },
+    {
+      "source": "/:exam",
+      "destination": "/exam-detail.html"
     }
   ]
 }
