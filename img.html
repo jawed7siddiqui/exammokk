@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Generate Premium Stylish OG Banner</title>
+  </head>
+  <body
+    style="
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #0f172a;
+      margin: 0;
+    "
+  >
+    <h3 style="color: #f8fafc; font-weight: 700">
+      Generating Premium 1200x630 og-banner.png...
+    </h3>
+    <canvas
+      id="bannerCanvas"
+      width="1200"
+      height="630"
+      style="
+        max-width: 90%;
+        border-radius: 16px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      "
+    ></canvas>
+    <br />
+    <button
+      id="downloadBtn"
+      style="
+        padding: 14px 32px;
+        background: linear-gradient(135deg, #4f46e5, #06b6d4);
+        color: white;
+        border: none;
+        font-size: 16px;
+        font-weight: 800;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+      "
+    >
+      Download Stylish og-banner.png
+    </button>
+
+    <script>
+      const canvas = document.getElementById("bannerCanvas");
+      const ctx = canvas.getContext("2d");
+
+      function drawBanner() {
+        // 1. Base Canvas (Clean Off-White)
+        ctx.fillStyle = "#f8fafc";
+        ctx.fillRect(0, 0, 1200, 630);
+
+        // 2. Subtle Dot Matrix Pattern
+        ctx.fillStyle = "#cbd5e1";
+        for (let x = 30; x < 1200; x += 30) {
+          for (let y = 30; y < 630; y += 30) {
+            ctx.beginPath();
+            ctx.arc(x, y, 1.2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        // 3. Vibrant Ambient Glows (Mesh Gradient effect)
+        ctx.save();
+        ctx.filter = "blur(90px)";
+        // Indigo glow top-right
+        ctx.fillStyle = "rgba(99, 102, 241, 0.18)";
+        ctx.beginPath();
+        ctx.arc(1050, 100, 240, 0, Math.PI * 2);
+        ctx.fill();
+        // Cyan/Teal glow bottom-left
+        ctx.fillStyle = "rgba(6, 182, 212, 0.20)";
+        ctx.beginPath();
+        ctx.arc(150, 500, 220, 0, Math.PI * 2);
+        ctx.fill();
+        // Amber subtle center glow
+        ctx.fillStyle = "rgba(251, 191, 36, 0.12)";
+        ctx.beginPath();
+        ctx.arc(700, 300, 180, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // Outer Sleek Border
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(1, 1, 1198, 628);
+
+        // 4. Modern Glass Logo Badge (Top Left)
+        ctx.save();
+        ctx.fillStyle = "#ffffff";
+        ctx.shadowColor = "rgba(15, 23, 42, 0.08)";
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetY = 6;
+        roundRect(ctx, 80, 50, 240, 56, 16);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.strokeStyle = "rgba(226, 232, 240, 0.9)";
+        ctx.lineWidth = 1.5;
+        roundRect(ctx, 80, 50, 240, 56, 16);
+        ctx.stroke();
+
+        // Logo Icon (Gradient Box)
+        const iconGrad = ctx.createLinearGradient(92, 60, 132, 96);
+        iconGrad.addColorStop(0, "#4f46e5");
+        iconGrad.addColorStop(1, "#06b6d4");
+        ctx.fillStyle = iconGrad;
+        roundRect(ctx, 92, 60, 36, 36, 10);
+        ctx.fill();
+
+        // 'E' shape
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(104, 71, 14, 3);
+        ctx.fillRect(104, 71, 4, 14);
+        ctx.fillRect(104, 77, 10, 2.5);
+        ctx.fillRect(104, 82, 14, 3);
+
+        // Logo Typography
+        ctx.font = "900 24px sans-serif";
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText("Exam", 140, 86);
+        ctx.fillStyle = "#0891b2"; // Rich Cyan-Teal
+        ctx.fillText("Mokk", 204, 86);
+
+        // 5. Top Right "Live Simulation" Pill
+        ctx.fillStyle = "#ffffff";
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.lineWidth = 1.5;
+        roundRect(ctx, 880, 52, 240, 46, 23);
+        ctx.fill();
+        ctx.stroke();
+
+        // Pulsing Green dot
+        ctx.fillStyle = "#10b981";
+        ctx.beginPath();
+        ctx.arc(908, 75, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.font = "800 12px sans-serif";
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText("100% FREE CBT ENGINE", 925, 79);
+
+        // 6. Main Headlines
+        ctx.font = "900 46px sans-serif";
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText("Free Online Mock Tests & Daily Quiz", 80, 205);
+
+        // Gradient Sub-Headline in Hindi
+        ctx.font = "bold 30px sans-serif";
+        const textGrad = ctx.createLinearGradient(80, 0, 750, 0);
+        textGrad.addColorStop(0, "#4f46e5");
+        textGrad.addColorStop(0.5, "#2563eb");
+        textGrad.addColorStop(1, "#0891b2");
+        ctx.fillStyle = textGrad;
+        ctx.fillText(
+          "SSC, Banking, Railways & Govt Exams की मुफ़्त तैयारी",
+          80,
+          260,
+        );
+
+        // 7. Glassmorphism Feature Cards
+        drawModernCard(
+          80,
+          320,
+          290,
+          72,
+          "⚡",
+          "#06b6d4",
+          "Daily GK Quizzes",
+          "Exam-focused practice daily",
+        );
+        drawModernCard(
+          390,
+          320,
+          290,
+          72,
+          "⏱️",
+          "#f59e0b",
+          "Exact Exam Timers",
+          "Simulated CBT interface",
+        );
+        drawModernCard(
+          700,
+          320,
+          310,
+          72,
+          "📊",
+          "#6366f1",
+          "All-India Ranking",
+          "Instant solutions & percentile",
+        );
+
+        // 8. Exam Badges Line
+        ctx.font = "800 11px sans-serif";
+        ctx.fillStyle = "#64748b";
+        ctx.fillText("POPULAR TARGET STREAMS", 80, 465);
+
+        // Exam tags pills
+        const streams = [
+          "SSC CGL",
+          "RRB NTPC",
+          "SBI / IBPS PO",
+          "UPSC Prelims",
+          "Defence",
+        ];
+        let tagX = 80;
+        streams.forEach((stream) => {
+          ctx.font = "700 13px sans-serif";
+          const tagW = ctx.measureText(stream).width + 24;
+
+          ctx.fillStyle = "#ffffff";
+          ctx.strokeStyle = "#e2e8f0";
+          ctx.lineWidth = 1;
+          roundRect(ctx, tagX, 485, tagW, 36, 10);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = "#334155";
+          ctx.fillText(stream, tagX + 12, 508);
+          tagX += tagW + 12;
+        });
+
+        // 9. High-Tech Action Button
+        const btnGrad = ctx.createLinearGradient(780, 465, 1120, 545);
+        btnGrad.addColorStop(0, "#4f46e5");
+        btnGrad.addColorStop(1, "#06b6d4");
+
+        ctx.save();
+        ctx.shadowColor = "rgba(79, 70, 229, 0.35)";
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetY = 8;
+        ctx.fillStyle = btnGrad;
+        roundRect(ctx, 780, 465, 340, 68, 20);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.font = "900 19px sans-serif";
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText("Start Free Practice ➔", 835, 507);
+
+        // 10. Watermark / Domain (Bottom Right)
+        ctx.font = "800 14px sans-serif";
+        ctx.fillStyle = "#94a3b8";
+        ctx.fillText(
+          "exammokk.cloud",
+          1080 - ctx.measureText("exammokk.cloud").width,
+          595,
+        );
+      }
+
+      function drawModernCard(x, y, w, h, icon, iconColor, title, subtitle) {
+        ctx.save();
+        ctx.fillStyle = "#ffffff";
+        ctx.shadowColor = "rgba(15, 23, 42, 0.05)";
+        ctx.shadowBlur = 15;
+        ctx.shadowOffsetY = 6;
+        roundRect(ctx, x, y, w, h, 16);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.strokeStyle = "#f1f5f9";
+        ctx.lineWidth = 1.5;
+        roundRect(ctx, x, y, w, h, 16);
+        ctx.stroke();
+
+        // Icon container box
+        ctx.fillStyle = "#f8fafc";
+        roundRect(ctx, x + 12, y + 14, 44, 44, 12);
+        ctx.fill();
+
+        ctx.font = "22px sans-serif";
+        ctx.fillText(icon, x + 23, y + 44);
+
+        // Title
+        ctx.font = "800 15px sans-serif";
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText(title, x + 68, y + 36);
+
+        // Subtitle
+        ctx.font = "600 12px sans-serif";
+        ctx.fillStyle = "#64748b";
+        ctx.fillText(subtitle, x + 68, y + 54);
+      }
+
+      function roundRect(ctx, x, y, width, height, radius) {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(
+          x + width,
+          y + height,
+          x + width - radius,
+          y + height,
+        );
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+      }
+
+      window.onload = () => {
+        drawBanner();
+        document.getElementById("downloadBtn").onclick = () => {
+          const link = document.createElement("a");
+          link.download = "og-banner.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        };
+        document.getElementById("downloadBtn").click();
+      };
+    </script>
+  </body>
+</html>
