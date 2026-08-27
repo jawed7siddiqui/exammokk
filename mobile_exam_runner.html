@@ -60,6 +60,71 @@
   <body
     class="bg-slate-100 h-full flex flex-col justify-between overflow-hidden text-slate-800 antialiased"
   >
+    <!-- LANGUAGE SELECTION MODAL (MOBILE NATIVE POPUP) -->
+    <div
+      id="lang-selector-modal"
+      class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 z-50 transition-all duration-300"
+    >
+      <div
+        class="bg-white w-full sm:max-w-sm rounded-t-[28px] sm:rounded-3xl p-6 border border-slate-200 shadow-2xl space-y-4 transform transition-all"
+      >
+        <!-- Top Drag Pill for Mobile Native feel -->
+        <div
+          class="w-12 h-1.5 bg-slate-300 rounded-full mx-auto sm:hidden -mt-1 mb-2"
+        ></div>
+
+        <div class="text-center space-y-1">
+          <div
+            class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-xs"
+          >
+            <i data-lucide="languages" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-base font-extrabold text-slate-900">
+            Choose Exam Language
+          </h3>
+          <p class="text-xs font-semibold text-slate-500">
+            परीक्षा का माध्यम चुनें / Select default test language
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 pt-1">
+          <!-- English Option -->
+          <button
+            onclick="selectInitialLanguage('en')"
+            class="p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-600 active:bg-indigo-50/70 flex flex-col items-center gap-1.5 transition-all cursor-pointer active:scale-95 group shadow-2xs"
+          >
+            <span
+              class="text-lg font-black text-slate-800 group-hover:text-indigo-700"
+              >English</span
+            >
+            <span
+              class="text-[10px] font-bold text-slate-400 group-hover:text-indigo-500"
+              >Default Medium</span
+            >
+          </button>
+
+          <!-- Hindi Option -->
+          <button
+            onclick="selectInitialLanguage('hi')"
+            class="p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-600 active:bg-indigo-50/70 flex flex-col items-center gap-1.5 transition-all cursor-pointer active:scale-95 group shadow-2xs"
+          >
+            <span
+              class="text-lg font-black text-slate-800 group-hover:text-indigo-700"
+              >हिन्दी</span
+            >
+            <span
+              class="text-[10px] font-bold text-slate-400 group-hover:text-indigo-500"
+              >हिंदी माध्यम</span
+            >
+          </button>
+        </div>
+
+        <p class="text-[10px] font-bold text-center text-slate-400 pt-1">
+          You can also switch language anytime from top bar.
+        </p>
+      </div>
+    </div>
+
     <!-- CUSTOM CONFIRMATION / ALERT MODAL -->
     <div
       id="custom-dialog-modal"
@@ -687,7 +752,7 @@
 
       let questionsList = [];
       let currentQIndex = 0;
-      let selectedLang = "en";
+      let selectedLang = localStorage.getItem("preferred_exam_lang") || "en";
 
       let userAnswers = {};
       let markedForReview = new Set();
@@ -708,6 +773,13 @@
         subject: "General Studies",
         exam_category: activePreset.id,
       };
+
+      // INITIAL LANGUAGE PICKER HANDLER
+      function selectInitialLanguage(lang) {
+        setLanguage(lang);
+        localStorage.setItem("preferred_exam_lang", lang);
+        document.getElementById("lang-selector-modal").classList.add("hidden");
+      }
 
       // RENDER LATEX MATH FORMULAS
       function renderMath(targetElement) {
@@ -1039,6 +1111,7 @@
 
           document.getElementById("loading-overlay").classList.add("hidden");
 
+          setLanguage(selectedLang);
           startMainTimer();
           startPerQuestionTimer();
           renderQuestion(0);
@@ -1450,7 +1523,7 @@
 
         const payload = {
           test_id: TARGET_TEST_ID,
-          platform: "app", // 📱 Platform updated to app
+          platform: "app",
           exam_category: activePreset.id,
           class_or_exam_name: testMeta.title,
           subject: testMeta.subject,
@@ -1511,6 +1584,7 @@
 
         document.getElementById("result-modal").classList.remove("hidden");
       }
+
       function openReviewModal() {
         document.getElementById("result-modal").classList.add("hidden");
         const container = document.getElementById("review-list-container");

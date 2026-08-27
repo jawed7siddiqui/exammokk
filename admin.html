@@ -915,11 +915,127 @@
       </div>
     </div>
 
+    <!-- MODAL 4: SEND PUSH NOTIFICATION (NEW) -->
+    <div
+      id="modal-push"
+      class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden overflow-y-auto"
+    >
+      <div
+        class="bg-white p-6 md:p-8 rounded-3xl shadow-2xl w-full max-w-lg border border-slate-200 my-8 transition-all"
+      >
+        <div
+          class="flex items-center justify-between border-b border-slate-100 pb-3.5 mb-5"
+        >
+          <div class="flex items-center gap-2.5">
+            <div
+              class="p-2 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600"
+            >
+              <i data-lucide="bell" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3
+                class="text-base font-extrabold text-slate-800 tracking-tight"
+              >
+                Send Push Notification
+              </h3>
+              <p class="text-xs text-slate-400 font-medium">
+                Broadcast this test paper to all registered mobile app users
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onclick="closePushModal()"
+            class="p-1 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <form
+          id="pushNotificationForm"
+          class="space-y-4"
+          onsubmit="handleSendPushNotification(event)"
+        >
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">
+              Notification Title
+            </label>
+            <input
+              type="text"
+              id="push_title"
+              class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white transition-all"
+              placeholder="e.g. 🔴 Live Test Alert!"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">
+              Notification Message
+            </label>
+            <textarea
+              id="push_message"
+              rows="3"
+              class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600 focus:bg-white transition-all leading-relaxed"
+              placeholder="Enter push message for candidates..."
+              required
+            ></textarea>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">
+              Test Target Link (Web / App View URL)
+            </label>
+            <input
+              type="text"
+              id="push_target_url"
+              class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-mono font-bold bg-slate-50 text-indigo-700 outline-none focus:border-indigo-600 focus:bg-white transition-all"
+              placeholder="https://exammokk.cloud/..."
+              required
+            />
+          </div>
+
+          <div
+            class="p-3 bg-emerald-50/70 border border-emerald-100 rounded-2xl flex items-center justify-between text-xs"
+          >
+            <span class="font-bold text-emerald-900 flex items-center gap-1.5">
+              <i data-lucide="users" class="w-4 h-4 text-emerald-600"></i>
+              Target Audience:
+            </span>
+            <span class="font-extrabold text-emerald-700 uppercase text-[11px]"
+              >All App Users (Broadcast)</span
+            >
+          </div>
+
+          <div class="pt-2 flex gap-3">
+            <button
+              type="button"
+              onclick="closePushModal()"
+              class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs cursor-pointer transition-all active:scale-95"
+            >
+              Cancel
+            </button>
+            <button
+              id="btn-send-push"
+              type="submit"
+              class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-indigo-600/20 transition-all"
+            >
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span>Send Now</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <!-- JAVASCRIPT LOGIC -->
     <script>
       const TEST_API_URL = "https://exam-api.jawedsiddiqui.cloud/api/kidspaint";
       const QUESTION_API_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/test/questions";
+      const PUSH_API_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/send-push-notification";
 
       let allTestPapers = [];
       let currentTestQuestions = [];
@@ -1036,6 +1152,88 @@
         document
           .querySelectorAll(".action-dropdown-menu")
           .forEach((el) => el.classList.add("hidden"));
+      }
+
+      // ==========================================
+      // PUSH NOTIFICATION MODAL & API DISPATCH
+      // ==========================================
+      function openPushModal(testId) {
+        closeAllDropdowns();
+
+        // Direct memory array se test find karein bina kisi JSON escape issue ke
+        const test = allTestPapers.find((t) => t.test_id === testId);
+
+        if (!test) {
+          showToast("Test paper record nahi mila!", "error");
+          return;
+        }
+
+        const testTitle = test.title || test.test_name || "New Mock Test";
+        const safeTestId = test.test_id || "";
+
+        document.getElementById("push_title").value =
+          `🔴 Live Mock Test: ${testTitle}`;
+        document.getElementById("push_message").value =
+          `${testTitle} test abhi live ho chuka hai! Abhi participate karein aur score check karein.`;
+        document.getElementById("push_target_url").value =
+          `https://exammokk.cloud/mobile_exam_runner.html?test_id=${safeTestId}`;
+
+        document.getElementById("modal-push").classList.remove("hidden");
+        if (window.lucide) lucide.createIcons();
+      }
+      function closePushModal() {
+        document.getElementById("modal-push").classList.add("hidden");
+      }
+
+      async function handleSendPushNotification(event) {
+        event.preventDefault();
+        const sendBtn = document.getElementById("btn-send-push");
+
+        const title = document.getElementById("push_title").value.trim();
+        const message = document.getElementById("push_message").value.trim();
+        const targetUrl = document
+          .getElementById("push_target_url")
+          .value.trim();
+
+        if (!title || !message) {
+          return showToast("Title and message are required!", "error");
+        }
+
+        setBtnLoading(sendBtn, true, "Sending Push...");
+
+        try {
+          const payload = {
+            title: title,
+            message: message,
+            sendToAll: true,
+            targetUrl: targetUrl,
+          };
+
+          const res = await fetch(PUSH_API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const result = await res.json();
+          if (res.ok && result.success) {
+            showToast(
+              "Push notification sent to all users successfully! 🚀",
+              "success",
+            );
+            closePushModal();
+          } else {
+            showToast(
+              result.message || "Failed to deliver push notification",
+              "error",
+            );
+          }
+        } catch (err) {
+          console.error(err);
+          showToast("Network error while sending push notification", "error");
+        } finally {
+          setBtnLoading(sendBtn, false);
+        }
       }
 
       const GOVT_PSC_TEMPLATE = {
@@ -1696,9 +1894,17 @@
                 <button type="button" onclick="toggleActionDropdown(event, '${dropdownId}')" class="p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all cursor-pointer inline-flex items-center justify-center active:scale-95">
                   <i data-lucide="more-horizontal" class="w-4 h-4"></i>
                 </button>
-                <div id="${dropdownId}" class="action-dropdown-menu hidden absolute right-4 top-12 z-50 w-52 bg-white border border-slate-200 rounded-2xl shadow-xl py-1.5 text-left text-xs font-bold divide-y divide-slate-100">
+                <div id="${dropdownId}" class="action-dropdown-menu hidden absolute right-4 top-12 z-50 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl py-1.5 text-left text-xs font-bold divide-y divide-slate-100">
                   <div class="py-1">
-                    <button onclick="manageTestQuestions('${test.test_id}')" class="w-full px-3.5 py-2 text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 flex items-center gap-2.5 transition-colors cursor-pointer">
+                   <button 
+  type="button" 
+  onclick="openPushModal('${test.test_id}')" 
+  class="w-full px-3.5 py-2 text-indigo-600 hover:bg-indigo-50 flex items-center gap-2.5 transition-colors cursor-pointer font-extrabold"
+>
+  <i data-lucide="bell-ring" class="w-4 h-4 text-indigo-600"></i>
+  <span>Send Push Notification</span>
+</button>
+                    <button onclick="manageTestQuestions('${test.test_id}')" class="w-full px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-indigo-600 flex items-center gap-2.5 transition-colors cursor-pointer">
                       <i data-lucide="help-circle" class="w-4 h-4 text-indigo-500"></i>
                       <span>Manage Questions</span>
                     </button>

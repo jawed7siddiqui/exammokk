@@ -78,6 +78,68 @@
   <body
     class="h-full flex flex-col justify-between overflow-hidden antialiased"
   >
+    <!-- MANDATORY LANGUAGE SELECTION MODAL -->
+    <div
+      id="lang-selector-modal"
+      class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 z-50 transition-all duration-300"
+    >
+      <div
+        class="bg-white w-full sm:max-w-md rounded-t-[32px] sm:rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-2xl space-y-5 transform transition-all"
+      >
+        <div
+          class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto sm:hidden -mt-1 mb-2"
+        ></div>
+
+        <div class="text-center space-y-1.5">
+          <div
+            class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-2 border border-indigo-100 shadow-xs"
+          >
+            <i data-lucide="languages" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-black text-slate-900 tracking-tight">
+            Choose Examination Language
+          </h3>
+          <p class="text-xs font-semibold text-slate-500">
+            कृपया परीक्षा का माध्यम चुनें / Select default test language
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3.5 pt-1">
+          <button
+            onclick="selectInitialLanguage('en')"
+            class="p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-600 hover:bg-indigo-50/40 active:bg-indigo-50 flex flex-col items-center gap-1.5 transition-all cursor-pointer active:scale-95 group shadow-2xs"
+          >
+            <span
+              class="text-base font-black text-slate-800 group-hover:text-indigo-600"
+              >English</span
+            >
+            <span
+              class="text-[11px] font-bold text-slate-400 group-hover:text-indigo-500"
+              >Default Medium</span
+            >
+          </button>
+
+          <button
+            onclick="selectInitialLanguage('hi')"
+            class="p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-600 hover:bg-indigo-50/40 active:bg-indigo-50 flex flex-col items-center gap-1.5 transition-all cursor-pointer active:scale-95 group shadow-2xs"
+          >
+            <span
+              class="text-base font-black text-slate-800 group-hover:text-indigo-600"
+              >हिन्दी</span
+            >
+            <span
+              class="text-[11px] font-bold text-slate-400 group-hover:text-indigo-500"
+              >हिंदी माध्यम</span
+            >
+          </button>
+        </div>
+
+        <p class="text-[11px] font-bold text-center text-slate-400 pt-1">
+          * You can toggle language anytime during the exam from the top bar.
+        </p>
+      </div>
+    </div>
+
     <!-- CONFIRMATION / ALERT DIALOG MODAL -->
     <div
       id="custom-dialog-modal"
@@ -126,7 +188,6 @@
     <header
       class="bg-white border-b border-slate-200/90 shadow-xs z-30 shrink-0"
     >
-      <!-- TOP STRIP: BRAND & ACTIVE TEST -->
       <div
         class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4"
       >
@@ -232,12 +293,11 @@
         </div>
       </div>
 
-      <!-- BOTTOM CONTROL STRIP: QUESTION, +MARKS, -MARKS, TIMER & ENG/HI SWITCH -->
+      <!-- BOTTOM CONTROL STRIP -->
       <div class="bg-slate-50 border-t border-slate-200/80 px-4 sm:px-6 py-1.5">
         <div
           class="max-w-7xl mx-auto flex items-center justify-between gap-2 text-xs"
         >
-          <!-- QUESTION & SHORT MARKS BADGES (+ / -) -->
           <div class="flex items-center gap-1.5 font-black text-[11px]">
             <span
               id="question-indicator"
@@ -259,7 +319,6 @@
             </span>
           </div>
 
-          <!-- COUNTDOWN TIMER & SHORT ENG/HI SWITCH -->
           <div class="flex items-center gap-2">
             <div
               class="flex items-center gap-1.5 bg-amber-100/90 border border-amber-300 px-2.5 py-0.5 rounded-xl text-amber-950 font-mono font-extrabold shadow-2xs"
@@ -273,7 +332,6 @@
               >
             </div>
 
-            <!-- SHORT ENG / HI SWITCH -->
             <div
               class="flex bg-white p-0.5 rounded-xl border border-slate-200 text-xs font-black shadow-2xs"
             >
@@ -299,7 +357,6 @@
 
     <!-- 2. MAIN WORKSPACE -->
     <main class="flex-1 flex overflow-hidden relative max-w-7xl mx-auto w-full">
-      <!-- LOADING OVERLAY -->
       <div
         id="loading-overlay"
         class="absolute inset-0 bg-slate-50/95 backdrop-blur-xs flex flex-col items-center justify-center z-40"
@@ -316,10 +373,8 @@
       <section
         class="flex-1 flex flex-col justify-between overflow-hidden bg-white"
       >
-        <!-- SCROLLABLE QUESTION AREA -->
         <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
           <div class="max-w-4xl w-full mx-auto space-y-4">
-            <!-- QUESTION CONTAINER CARD -->
             <div
               class="bg-white p-4 sm:p-6 rounded-3xl border border-slate-200/90 shadow-xs space-y-3"
             >
@@ -351,7 +406,6 @@
                 </div>
               </div>
 
-              <!-- QUESTION TEXT (WITH MATH RENDER SUPPORT) -->
               <div
                 class="text-slate-900 text-base sm:text-lg font-bold leading-relaxed whitespace-pre-line"
               >
@@ -359,7 +413,6 @@
               </div>
             </div>
 
-            <!-- INTERACTIVE OPTIONS LIST -->
             <div
               id="options-container"
               class="grid grid-cols-1 gap-2.5 pt-1"
@@ -367,7 +420,6 @@
           </div>
         </div>
 
-        <!-- HORIZONTAL LOCKED BOTTOM CONTROL BAR -->
         <div
           class="h-16 bg-slate-50 border-t border-slate-200/90 px-4 sm:px-8 flex items-center justify-between gap-3 shrink-0"
         >
@@ -413,9 +465,8 @@
       <!-- RIGHT: STICKY QUESTION PALETTE SIDEBAR -->
       <aside
         id="palette-sidebar"
-        class="w-80 bg-white border-l border-slate-200/90 flex flex-col justify-between fixed md:static inset-y-0 right-0 z-50 transform translate-x-full md:translate-x-0 transition-transform duration-200 shadow-2xl md:shadow-none shrink-0"
+        class="w-80 bg-white border-l border-slate-200/90 flex flex-col justify-between fixed md:static inset-y-0 right-0 z-40 transform translate-x-full md:translate-x-0 transition-transform duration-200 shadow-2xl md:shadow-none shrink-0"
       >
-        <!-- TOP MATRIX CONTENT -->
         <div class="p-5 space-y-4 overflow-y-auto flex-1 custom-scrollbar">
           <div
             class="flex items-center justify-between border-b border-slate-100 pb-3"
@@ -436,7 +487,6 @@
             </button>
           </div>
 
-          <!-- STATUS LEGEND -->
           <div
             class="grid grid-cols-2 gap-2 text-[10px] font-bold text-slate-600 bg-slate-50 p-3 rounded-2xl border border-slate-200/80"
           >
@@ -478,7 +528,6 @@
             </div>
           </div>
 
-          <!-- NUMBERS GRID -->
           <div class="space-y-1.5">
             <span
               class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block"
@@ -491,7 +540,6 @@
           </div>
         </div>
 
-        <!-- SUBMIT BUTTON -->
         <div
           class="h-16 bg-slate-50 border-t border-slate-200/90 px-4 flex items-center justify-center shrink-0"
         >
@@ -621,17 +669,42 @@
         class="bg-white rounded-3xl p-6 max-w-3xl w-full border border-slate-200 shadow-2xl flex flex-col max-h-[90vh] my-auto animate-fadeIn"
       >
         <div
-          class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4 shrink-0"
+          class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4 shrink-0 flex-wrap gap-2"
         >
-          <h3 class="text-base font-black text-slate-900">
-            Solutions &amp; Explanations
-          </h3>
-          <button
-            onclick="closeReviewModal()"
-            class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center cursor-pointer transition"
-          >
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
+          <div>
+            <h3 class="text-base font-black text-slate-900">
+              Solutions &amp; Explanations
+            </h3>
+            <p class="text-[11px] font-semibold text-slate-500">
+              Review your incorrect and unattempted responses
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <div
+              class="flex bg-slate-100 p-0.5 rounded-xl border border-slate-200 text-xs font-black"
+            >
+              <button
+                id="review-lang-en"
+                onclick="setReviewLanguage('en')"
+                class="px-2 py-0.5 rounded-lg text-slate-600 cursor-pointer transition"
+              >
+                Eng
+              </button>
+              <button
+                id="review-lang-hi"
+                onclick="setReviewLanguage('hi')"
+                class="px-2 py-0.5 rounded-lg text-slate-600 cursor-pointer transition"
+              >
+                हिं
+              </button>
+            </div>
+            <button
+              onclick="closeReviewModal()"
+              class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center cursor-pointer transition"
+            >
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
         </div>
 
         <div
@@ -652,7 +725,7 @@
 
     <!-- JAVASCRIPT CBT ENGINE -->
     <script>
-      const PASS_PERCENTAGE_THRESHOLD = 40;
+      const CELEBRATION_PERCENTAGE_THRESHOLD = 50; // केवल 50% से अधिक स्कोर पर ही सेलिब्रेशन होगा
 
       const urlParams = new URLSearchParams(window.location.search);
       const TARGET_TEST_ID = urlParams.get("test_id") || "TEST_SAMPLE_MOCK_01";
@@ -759,7 +832,7 @@
 
       let questionsList = [];
       let currentQIndex = 0;
-      let selectedLang = "en";
+      let selectedLang = localStorage.getItem("preferred_exam_lang") || "en";
 
       let userAnswers = {};
       let markedForReview = new Set();
@@ -781,7 +854,12 @@
         exam_category: activePreset.id,
       };
 
-      // RENDER LATEX MATH (DETERMINANTS, FRACTIONS, FORMULAS)
+      function selectInitialLanguage(lang) {
+        setLanguage(lang);
+        localStorage.setItem("preferred_exam_lang", lang);
+        document.getElementById("lang-selector-modal").classList.add("hidden");
+      }
+
       function renderMath(targetElement) {
         const el = targetElement || document.body;
         if (window.renderMathInElement) {
@@ -1015,7 +1093,6 @@
             throw new Error("Questions empty");
           }
         } catch (err) {
-          // Sample Determinant Question Demo
           questionsList = [
             {
               question_id: "Q_1",
@@ -1058,6 +1135,7 @@
 
           document.getElementById("loading-overlay").classList.add("hidden");
 
+          setLanguage(selectedLang);
           startMainTimer();
           startPerQuestionTimer();
           renderQuestion(0);
@@ -1113,7 +1191,6 @@
             ? q.question_text_hi || q.question_text_en
             : q.question_text_en || q.question_text_hi;
 
-        // Render Math into Question text
         const qTextEl = document.getElementById("question-text");
         qTextEl.innerHTML = qText;
 
@@ -1164,7 +1241,6 @@
         updatePaletteStatus();
         if (window.lucide) lucide.createIcons();
 
-        // Render Math elements using KaTeX
         renderMath(qTextEl);
         renderMath(optionsContainer);
       }
@@ -1373,18 +1449,25 @@
             wrongCount++;
           }
 
+          const qOptionsEn = q.options_en || [];
+          const qOptionsHi = q.options_hi || qOptionsEn;
+
           evaluatedReviewData.push({
             qIndex: idx,
             question_no: idx + 1,
             is_attempted: isAttempted,
             is_correct: isCorrect,
-            text_en: q.question_text_en,
-            text_hi: q.question_text_hi,
-            userChoiceTextEn: isAttempted
-              ? q.options_en[userChoice]
-              : "Not Attempted",
-            correctChoiceTextEn: q.options_en[q.correct_option_index],
-            explanation_en: q.explanation_en,
+            user_choice: isAttempted ? userChoice : null,
+            correct_choice: q.correct_option_index,
+            text_en: q.question_text_en || "",
+            text_hi: q.question_text_hi || q.question_text_en || "",
+            options_en: qOptionsEn,
+            options_hi: qOptionsHi,
+            explanation_en: q.explanation_en || "No explanation available.",
+            explanation_hi:
+              q.explanation_hi ||
+              q.explanation_en ||
+              "कोई व्याख्या उपलब्ध नहीं है.",
           });
         });
 
@@ -1403,6 +1486,10 @@
         const mins = Math.floor(totalTimeTakenSeconds / 60);
         const secs = totalTimeTakenSeconds % 60;
 
+        const scorePercentage = maxScore > 0 ? (netScore / maxScore) * 100 : 0;
+        const shouldCelebrate =
+          scorePercentage > CELEBRATION_PERCENTAGE_THRESHOLD && netScore > 0;
+
         document.getElementById("res-exam-profile-badge").innerText =
           `${activePreset.title} Paper`;
         document.getElementById("res-score-text").innerText =
@@ -1413,13 +1500,33 @@
         document.getElementById("res-time-taken").innerText =
           `${mins}m ${secs}s`;
 
+        const statusIconEl = document.getElementById("res-status-icon");
+        if (statusIconEl) {
+          statusIconEl.innerText = shouldCelebrate ? "🎉" : "📊";
+        }
+
+        // CONFETTI CELEBRATION: केवल 50% से अधिक स्कोर आने पर ही ट्रिगर होगा
+        if (shouldCelebrate && typeof confetti === "function") {
+          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        }
+
         document.getElementById("result-modal").classList.remove("hidden");
-        if (typeof confetti === "function" && netScore > 0)
-          confetti({ particleCount: 90, spread: 60 });
       }
 
-      function openReviewModal() {
-        document.getElementById("result-modal").classList.add("hidden");
+      function setReviewLanguage(lang) {
+        selectedLang = lang;
+        document.getElementById("review-lang-en").className =
+          lang === "en"
+            ? "px-2 py-0.5 rounded-lg bg-indigo-600 text-white cursor-pointer shadow-xs"
+            : "px-2 py-0.5 rounded-lg text-slate-600 cursor-pointer";
+        document.getElementById("review-lang-hi").className =
+          lang === "hi"
+            ? "px-2 py-0.5 rounded-lg bg-indigo-600 text-white cursor-pointer shadow-xs"
+            : "px-2 py-0.5 rounded-lg text-slate-600 cursor-pointer";
+        renderReviewContent();
+      }
+
+      function renderReviewContent() {
         const container = document.getElementById("review-list-container");
         container.innerHTML = "";
 
@@ -1427,26 +1534,76 @@
 
         if (mistakes.length === 0) {
           container.innerHTML = `
-            <div class="p-6 text-center bg-emerald-50 rounded-2xl border border-emerald-200">
-              <h4 class="text-sm font-black text-emerald-800">100% Accuracy!</h4>
+            <div class="p-8 text-center bg-emerald-50 rounded-2xl border border-emerald-200 space-y-2">
+              <div class="text-4xl">🌟</div>
+              <h4 class="text-base font-black text-emerald-800">100% Accuracy!</h4>
+              <p class="text-xs font-semibold text-emerald-600">
+                ${selectedLang === "hi" ? "शानदार प्रदर्शन! आपने सभी प्रश्नों के सही उत्तर दिए हैं।" : "Flawless Performance! All your answers were correct."}
+              </p>
             </div>
           `;
         } else {
           mistakes.forEach((item) => {
             const card = document.createElement("div");
             card.className =
-              "bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2.5 text-xs";
+              "bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2.5 text-xs shadow-2xs";
+
+            const qText =
+              selectedLang === "hi"
+                ? item.text_hi || item.text_en
+                : item.text_en || item.text_hi;
+            const opts =
+              selectedLang === "hi"
+                ? item.options_hi || item.options_en
+                : item.options_en || item.options_hi;
+            const explanation =
+              selectedLang === "hi"
+                ? item.explanation_hi || item.explanation_en
+                : item.explanation_en || item.explanation_hi;
+
+            const userChoiceText = item.is_attempted
+              ? opts[item.user_choice] ||
+                `Option ${String.fromCharCode(65 + item.user_choice)}`
+              : selectedLang === "hi"
+                ? "प्रयास नहीं किया"
+                : "Not Attempted";
+
+            const correctChoiceText =
+              opts[item.correct_choice] ||
+              `Option ${String.fromCharCode(65 + item.correct_choice)}`;
+
+            const statusBadgeText = item.is_attempted
+              ? selectedLang === "hi"
+                ? "गलत उत्तर (Wrong)"
+                : "Wrong"
+              : selectedLang === "hi"
+                ? "छोड़ दिया (Unattempted)"
+                : "Unattempted";
+
             card.innerHTML = `
               <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                <span class="px-2 py-0.5 bg-slate-900 text-white rounded font-bold">Q.${item.question_no}</span>
-                <span class="${item.is_attempted ? "text-rose-600" : "text-amber-600"} font-bold">${item.is_attempted ? "Wrong" : "Unattempted"}</span>
+                <span class="px-2.5 py-0.5 bg-slate-900 text-white rounded-lg font-bold">Q.${item.question_no}</span>
+                <span class="${item.is_attempted ? "text-rose-700 bg-rose-100 border border-rose-200" : "text-amber-800 bg-amber-100 border border-amber-200"} px-2 py-0.5 rounded-md font-bold text-[10px]">
+                  ${statusBadgeText}
+                </span>
               </div>
-              <div class="font-bold text-slate-800 text-sm math-container">${item.text_en}</div>
-              <div class="space-y-1 font-semibold">
-                <div class="p-2 rounded-lg bg-rose-50 text-rose-800 math-container">Selected: ${item.userChoiceTextEn}</div>
-                <div class="p-2 rounded-lg bg-emerald-50 text-emerald-800 math-container">Correct: ${item.correctChoiceTextEn}</div>
+              <div class="font-bold text-slate-900 text-sm leading-snug whitespace-pre-line">${qText}</div>
+              <div class="space-y-1.5 font-semibold pt-1">
+                <div class="p-2.5 rounded-xl border border-rose-200 bg-rose-50/80 text-rose-900 flex items-start gap-1.5">
+                  <span class="shrink-0 font-extrabold">${selectedLang === "hi" ? "आपका उत्तर:" : "Selected:"}</span>
+                  <span class="flex-1">${userChoiceText}</span>
+                </div>
+                <div class="p-2.5 rounded-xl border border-emerald-200 bg-emerald-50/80 text-emerald-900 flex items-start gap-1.5">
+                  <span class="shrink-0 font-extrabold">${selectedLang === "hi" ? "सही उत्तर:" : "Correct:"}</span>
+                  <span class="flex-1">${correctChoiceText}</span>
+                </div>
               </div>
-              <div class="text-slate-500 pt-1 text-[11px] leading-relaxed math-container"><strong>Solution:</strong> ${item.explanation_en}</div>
+              <div class="text-slate-600 pt-2 text-[11px] leading-relaxed border-t border-slate-200/80">
+                <strong class="text-slate-900 block mb-0.5 uppercase tracking-wide text-[10px]">
+                  ${selectedLang === "hi" ? "व्याख्या (Explanation):" : "Explanation & Solution:"}
+                </strong>
+                ${explanation}
+              </div>
             `;
             container.appendChild(card);
           });
@@ -1454,6 +1611,11 @@
 
         if (window.lucide) lucide.createIcons();
         renderMath(container);
+      }
+
+      function openReviewModal() {
+        document.getElementById("result-modal").classList.add("hidden");
+        setReviewLanguage(selectedLang);
         document.getElementById("review-modal").classList.remove("hidden");
       }
 
