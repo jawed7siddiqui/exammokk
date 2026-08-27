@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ExamMokk - All Gov Exam Preparation Plans</title>
+  </head>
+  <body
+    style="
+      font-family:
+        &quot;Segoe UI&quot;,
+        system-ui,
+        -apple-system,
+        sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #0f172a;
+      margin: 20px 0;
+    "
+  >
+    <h3 style="color: #f8fafc; font-weight: 700; margin-bottom: 12px">
+      Updated EdTech Banner • 1080x1920 (All Gov Exam Prep)
+    </h3>
+    <canvas
+      id="bannerCanvas"
+      width="1080"
+      height="1920"
+      style="
+        max-width: 90%;
+        max-height: 80vh;
+        border-radius: 20px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      "
+    ></canvas>
+    <br />
+    <button
+      id="downloadBtn"
+      style="
+        padding: 16px 36px;
+        background: linear-gradient(135deg, #2563eb, #0284c7);
+        color: #ffffff;
+        border: none;
+        font-size: 17px;
+        font-weight: 800;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+      "
+    >
+      Download Banner (1080x1920 PNG)
+    </button>
+
+    <script>
+      const canvas = document.getElementById("bannerCanvas");
+      const ctx = canvas.getContext("2d");
+
+      function drawBanner() {
+        // 1. Soft Crisp Light Background
+        ctx.fillStyle = "#f8fafc";
+        ctx.fillRect(0, 0, 1080, 1920);
+
+        // 2. Subtle Grid Pattern
+        ctx.strokeStyle = "rgba(203, 213, 225, 0.35)";
+        ctx.lineWidth = 1;
+        for (let x = 0; x < 1080; x += 60) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, 1920);
+          ctx.stroke();
+        }
+        for (let y = 0; y < 1920; y += 60) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(1080, y);
+          ctx.stroke();
+        }
+
+        // Soft Ambient Gradients
+        ctx.save();
+        ctx.filter = "blur(120px)";
+        ctx.fillStyle = "rgba(37, 99, 235, 0.08)";
+        ctx.beginPath();
+        ctx.arc(950, 150, 320, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "rgba(14, 165, 233, 0.08)";
+        ctx.beginPath();
+        ctx.arc(120, 1100, 300, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // 3. Header: Logo Badge & Trust Pill
+        drawCard(ctx, 60, 48, 290, 70, 18, "#ffffff", "#e2e8f0", 1.5);
+
+        // Logo Icon Box
+        const iconGrad = ctx.createLinearGradient(74, 60, 122, 108);
+        iconGrad.addColorStop(0, "#2563eb");
+        iconGrad.addColorStop(1, "#0284c7");
+        ctx.fillStyle = iconGrad;
+        roundRect(ctx, 74, 60, 46, 46, 12);
+        ctx.fill();
+
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(88, 72, 18, 4);
+        ctx.fillRect(88, 72, 4, 20);
+        ctx.fillRect(88, 80, 14, 3);
+        ctx.fillRect(88, 88, 18, 4);
+
+        ctx.font = "900 32px sans-serif";
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText("Exam", 136, 94);
+        ctx.fillStyle = "#0284c7";
+        ctx.fillText("Mokk", 224, 94);
+
+        // Top Right Trust Pill
+        drawCard(ctx, 670, 50, 350, 64, 32, "#ffffff", "#e2e8f0", 1.5);
+        ctx.fillStyle = "#0284c7";
+        ctx.beginPath();
+        ctx.arc(700, 82, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.font = "800 15px sans-serif";
+        ctx.fillStyle = "#334155";
+        ctx.fillText("ALL GOV EXAM PRACTICE", 722, 88);
+
+        // 4. Hero Title & Subtitle (Updated Text)
+        ctx.font = "900 52px sans-serif";
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText("All Gov Exam Preparation", 60, 175);
+
+        ctx.font = "700 24px sans-serif";
+        ctx.fillStyle = "#64748b";
+        ctx.fillText(
+          "Online Practice Sets, Full Mock Tests & Performance Analysis",
+          60,
+          215,
+        );
+
+        // 5. 9 EXAM STREAMS AT THE TOP
+        const streamContainerY = 240;
+        drawCard(
+          ctx,
+          60,
+          streamContainerY,
+          960,
+          165,
+          20,
+          "#ffffff",
+          "#cbd5e1",
+          2,
+        );
+
+        ctx.font = "900 17px sans-serif";
+        ctx.fillStyle = "#0284c7";
+        ctx.fillText(
+          "🎯 POPULAR GOV & ENTRANCE EXAMS COVERED:",
+          82,
+          streamContainerY + 30,
+        );
+
+        // Stream Row 1 (5 Streams)
+        const row1Streams = [
+          "UPSC CSE",
+          "SSC CGL",
+          "Banking / PO",
+          "Railways NTPC",
+          "Defence (NDA/CDS)",
+        ];
+        let r1X = 78;
+        const r1Y = streamContainerY + 46;
+        row1Streams.forEach((tag) => {
+          ctx.font = "800 18px sans-serif";
+          const tw = ctx.measureText(tag).width + 24;
+          drawCard(ctx, r1X, r1Y, tw, 46, 12, "#f1f5f9", "#94a3b8", 1.5);
+          ctx.fillStyle = "#0f172a";
+          ctx.fillText(tag, r1X + 12, r1Y + 30);
+          r1X += tw + 10;
+        });
+
+        // Stream Row 2 (4 Streams)
+        const row2Streams = [
+          "JEE Main/Adv",
+          "NEET UG",
+          "CTET / State TET",
+          "State PSCs",
+        ];
+        let r2X = 78;
+        const r2Y = streamContainerY + 102;
+        row2Streams.forEach((tag) => {
+          ctx.font = "800 19px sans-serif";
+          const tw = ctx.measureText(tag).width + 30;
+          drawCard(ctx, r2X, r2Y, tw, 46, 12, "#f1f5f9", "#94a3b8", 1.5);
+          ctx.fillStyle = "#0f172a";
+          ctx.fillText(tag, r2X + 15, r2Y + 30);
+          r2X += tw + 12;
+        });
+
+        // 6. PRICING CARDS SECTION
+        let cardY = 430;
+
+        // Plan 1: All-Exam Super Pass (Featured)
+        drawStandardPlanCard({
+          y: cardY,
+          badge: "RECOMMENDED FOR GOV EXAMS",
+          badgeBg: "#2563eb",
+          badgeTextCol: "#ffffff",
+          planName: "All-Exam Super Pass",
+          target: "Individual Learner • Full 1-Year Access",
+          price: "₹99",
+          oldPrice: "₹499",
+          period: "/ yearly",
+          coupon: "MOKK99",
+          entitlements: [
+            "Full Access to Daily Practice Sets & Quizzes",
+            "Structured Online Mock Test Series",
+            "Detailed Explanations & Performance Insights",
+          ],
+          isFeatured: true,
+        });
+
+        // Plan 2: ExamMokk Monthly Pass
+        cardY += 395;
+        drawStandardPlanCard({
+          y: cardY,
+          badge: "MONTHLY ACCESS",
+          badgeBg: "#f1f5f9",
+          badgeTextCol: "#475569",
+          planName: "ExamMokk Monthly Pass",
+          target: "Individual Learner • 30-Day Pass",
+          price: "₹19",
+          oldPrice: "₹99",
+          period: "/ monthly",
+          coupon: "MOKK19",
+          entitlements: [
+            "Unlimited Online Practice Quizzes",
+            "Standard Practice Mock Tests Included",
+            "Instant Solutions & Answer Keys",
+          ],
+          isFeatured: false,
+        });
+
+        // Plan 3: Coaching Partner Annual Pass
+        cardY += 395;
+        drawStandardPlanCard({
+          y: cardY,
+          badge: "INSTITUTES & COACHINGS • B2B PARTNER PASS",
+          badgeBg: "#e0f2fe",
+          badgeTextCol: "#0369a1",
+          planName: "Coaching Partner Annual Pass",
+          target: "Institutes & Educators • Minimum 10 Seats Pack",
+          price: "₹70",
+          oldPrice: "₹100",
+          period: "/ student / year (Min 10 Seats)",
+          coupon: "COACH5",
+          entitlements: [
+            "Starts from 10 Student Seats @ ₹70/student/year",
+            "Dedicated Educator & Institute Admin Dashboard",
+            "Batch Progress Tracking & Management Reports",
+          ],
+          isFeatured: false,
+        });
+
+        // 7. Trust Features Strip
+        const trustY = 1635;
+        drawCard(ctx, 60, trustY, 960, 70, 18, "#ffffff", "#e2e8f0", 1.2);
+
+        const trustItems = [
+          { icon: "📝", text: "Latest Syllabus Pattern" },
+          { icon: "📊", text: "All-India Benchmarking" },
+          { icon: "⚡", text: "Instant Solutions" },
+        ];
+
+        trustItems.forEach((t, i) => {
+          const tx = 95 + i * 320;
+          ctx.font = "20px sans-serif";
+          ctx.fillText(t.icon, tx, trustY + 43);
+          ctx.font = "700 17px sans-serif";
+          ctx.fillStyle = "#334155";
+          ctx.fillText(t.text, tx + 32, trustY + 41);
+        });
+
+        // 8. Footer CTA Button
+        const ctaGrad = ctx.createLinearGradient(60, 1725, 1020, 1835);
+        ctaGrad.addColorStop(0, "#2563eb");
+        ctaGrad.addColorStop(1, "#0284c7");
+
+        ctx.save();
+        ctx.shadowColor = "rgba(37, 99, 235, 0.25)";
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetY = 6;
+        ctx.fillStyle = ctaGrad;
+        roundRect(ctx, 60, 1725, 960, 105, 24);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.font = "800 30px sans-serif";
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText("Get Started & Choose Your Plan ➔", 280, 1788);
+
+        // Watermark URL
+        ctx.font = "700 19px sans-serif";
+        ctx.fillStyle = "#64748b";
+        ctx.fillText("Official Portal: exammokk.cloud", 415, 1875);
+      }
+
+      function drawStandardPlanCard(p) {
+        const x = 60;
+        const w = 960;
+        const h = 365;
+
+        ctx.save();
+        if (p.isFeatured) {
+          ctx.shadowColor = "rgba(37, 99, 235, 0.12)";
+          ctx.shadowBlur = 24;
+          ctx.shadowOffsetY = 8;
+          drawCard(ctx, x, p.y, w, h, 24, "#ffffff", "#2563eb", 2);
+        } else {
+          ctx.shadowColor = "rgba(15, 23, 42, 0.04)";
+          ctx.shadowBlur = 14;
+          ctx.shadowOffsetY = 4;
+          drawCard(ctx, x, p.y, w, h, 24, "#ffffff", "#e2e8f0", 1.5);
+        }
+        ctx.restore();
+
+        // Top Badge
+        ctx.fillStyle = p.badgeBg;
+        const badgeW = ctx.measureText(p.badge).width + 32;
+        roundRect(ctx, x + 32, p.y + 22, badgeW, 30, 15);
+        ctx.fill();
+
+        ctx.font = "800 13px sans-serif";
+        ctx.fillStyle = p.badgeTextCol;
+        ctx.fillText(p.badge, x + 48, p.y + 42);
+
+        // Plan Name
+        ctx.font = "900 30px sans-serif";
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText(p.planName, x + 32, p.y + 90);
+
+        // Target / Subtitle
+        ctx.font = "600 15px sans-serif";
+        ctx.fillStyle = "#64748b";
+        ctx.fillText(p.target, x + 32, p.y + 118);
+
+        // Price Row
+        ctx.font = "900 48px sans-serif";
+        ctx.fillStyle = "#2563eb";
+        ctx.fillText(p.price, x + 32, p.y + 180);
+        const priceW = ctx.measureText(p.price).width;
+
+        // Old Price Strike
+        ctx.font = "700 22px sans-serif";
+        ctx.fillStyle = "#94a3b8";
+        ctx.fillText(p.oldPrice, x + 44 + priceW, p.y + 175);
+        const oldW = ctx.measureText(p.oldPrice).width;
+        ctx.strokeStyle = "#ef4444";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x + 40 + priceW, p.y + 168);
+        ctx.lineTo(x + 48 + priceW + oldW, p.y + 168);
+        ctx.stroke();
+
+        ctx.font = "600 17px sans-serif";
+        ctx.fillStyle = "#64748b";
+        ctx.fillText(p.period, x + 56 + priceW + oldW, p.y + 175);
+
+        // Entitlements (Checklist)
+        p.entitlements.forEach((item, i) => {
+          ctx.font = "900 17px sans-serif";
+          ctx.fillStyle = "#0284c7";
+          ctx.fillText("✔", x + 32, p.y + 232 + i * 34);
+
+          ctx.font = "600 16px sans-serif";
+          ctx.fillStyle = "#334155";
+          ctx.fillText(item, x + 60, p.y + 230 + i * 34);
+        });
+
+        // Coupon Box (Right Side)
+        const coupX = x + 630;
+        const coupY = p.y + 95;
+        drawCard(ctx, coupX, coupY, 295, 185, 18, "#f8fafc", "#cbd5e1", 1.5);
+
+        ctx.font = "800 13px sans-serif";
+        ctx.fillStyle = "#0284c7";
+        ctx.fillText("APPLY COUPON CODE", coupX + 64, coupY + 38);
+
+        // Dashed Coupon Box
+        ctx.save();
+        ctx.setLineDash([5, 4]);
+        ctx.strokeStyle = "#0284c7";
+        ctx.lineWidth = 1.8;
+        roundRect(ctx, coupX + 24, coupY + 54, 247, 60, 12);
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.font = "900 28px monospace";
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText(p.coupon, coupX + 76, coupY + 95);
+
+        ctx.font = "700 13px sans-serif";
+        ctx.fillStyle = "#059669";
+        ctx.fillText("✔ Valid on Checkout", coupX + 78, coupY + 148);
+      }
+
+      function drawCard(ctx, x, y, w, h, r, fill, stroke, strokeW) {
+        ctx.fillStyle = fill;
+        roundRect(ctx, x, y, w, h, r);
+        ctx.fill();
+        if (stroke) {
+          ctx.strokeStyle = stroke;
+          ctx.lineWidth = strokeW || 1;
+          roundRect(ctx, x, y, w, h, r);
+          ctx.stroke();
+        }
+      }
+
+      function roundRect(ctx, x, y, width, height, radius) {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(
+          x + width,
+          y + height,
+          x + width - radius,
+          y + height,
+        );
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+      }
+
+      window.onload = () => {
+        drawBanner();
+        document.getElementById("downloadBtn").onclick = () => {
+          const link = document.createElement("a");
+          link.download = "exammokk-gov-exams.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        };
+      };
+    </script>
+  </body>
+</html>

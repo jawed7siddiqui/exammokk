@@ -1,0 +1,1157 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - Subscription & Plan Management</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- COMMON HEADER LOADER SCRIPT -->
+    <script src="/js/admin-header.js"></script>
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+      code,
+      pre,
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .spinner {
+        border: 2px solid rgba(79, 70, 229, 0.2);
+        border-radius: 50%;
+        border-top-color: #4f46e5;
+        width: 16px;
+        height: 16px;
+        animation: spin 0.6s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      .toast-enter {
+        animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f8fafc;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 9999px;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-indigo-600 selection:text-white"
+  >
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div
+      id="toast-container"
+      class="fixed top-5 right-5 z-[9999] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"
+    ></div>
+
+    <!-- COMMON MOBILE HEADER SLOT -->
+    <div id="common-mobile-header" class="contents"></div>
+
+    <!-- MAIN WRAPPER WITH SIDEBAR CONTAINER -->
+    <div class="flex-1 flex min-h-screen w-full bg-slate-50 overflow-x-hidden">
+      <!-- COMMON SIDEBAR SLOT -->
+      <div id="common-sidebar-container" class="contents"></div>
+
+      <!-- MAIN CONTENT WRAPPER -->
+      <div class="flex-1 flex flex-col min-h-screen min-w-0 bg-slate-50">
+        <!-- COMMON TOP HEADER SLOT -->
+        <div id="common-top-header" class="contents"></div>
+
+        <!-- CONTENT BODY -->
+        <main class="p-4 md:p-8 flex-1 space-y-6 max-w-[1700px] mx-auto w-full">
+          <!-- TOP ACTION STRIP -->
+          <div
+            class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
+          >
+            <div>
+              <h2
+                class="text-sm font-extrabold text-slate-900 uppercase tracking-wide"
+              >
+                Plan Configuration &amp; Overview
+              </h2>
+              <p class="text-[11px] text-slate-400 font-semibold">
+                Manage B2C student subscriptions &amp; B2B coaching tiers
+              </p>
+            </div>
+            <button
+              onclick="openCreateModal()"
+              class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-extrabold rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
+            >
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Create New Plan</span>
+            </button>
+          </div>
+
+          <!-- TOP METRICS -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+            <div
+              class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
+            >
+              <span
+                class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block"
+                >Total Active Plans</span
+              >
+              <div
+                id="stat_total_plans"
+                class="text-xl font-black text-slate-900 font-mono mt-1"
+              >
+                0
+              </div>
+            </div>
+            <div
+              class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
+            >
+              <span
+                class="text-[10px] font-extrabold text-indigo-600 uppercase tracking-wider block"
+                >B2C Retail Plans</span
+              >
+              <div
+                id="stat_b2c_plans"
+                class="text-xl font-black text-indigo-600 font-mono mt-1"
+              >
+                0
+              </div>
+            </div>
+            <div
+              class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
+            >
+              <span
+                class="text-[10px] font-extrabold text-purple-600 uppercase tracking-wider block"
+                >B2B Coaching Plans</span
+              >
+              <div
+                id="stat_b2b_plans"
+                class="text-xl font-black text-purple-600 font-mono mt-1"
+              >
+                0
+              </div>
+            </div>
+            <div
+              class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
+            >
+              <span
+                class="text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider block"
+                >Linked Active Codes</span
+              >
+              <div
+                id="stat_promo_codes"
+                class="text-xl font-black text-emerald-600 font-mono mt-1"
+              >
+                0
+              </div>
+            </div>
+          </div>
+
+          <!-- FILTER TOOLBAR -->
+          <div
+            class="bg-white border border-slate-200 p-4 rounded-2xl flex flex-col gap-3 shadow-xs"
+          >
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+              <!-- Search -->
+              <div class="relative lg:col-span-2">
+                <i
+                  data-lucide="search"
+                  class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+                ></i>
+                <input
+                  type="text"
+                  id="filter_search"
+                  placeholder="Search Plan Name, Plan Code or Promo Code..."
+                  onkeyup="debounceSearch()"
+                  class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 outline-none focus:border-indigo-500 focus:bg-white transition-all"
+                />
+              </div>
+
+              <!-- Model Filter -->
+              <div>
+                <select
+                  id="filter_model"
+                  onchange="loadPlans(1)"
+                  class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
+                >
+                  <option value="">All Business Models</option>
+                  <option value="B2C">👤 B2C (Direct Student)</option>
+                  <option value="B2B">🏢 B2B (Institute / Coaching)</option>
+                </select>
+              </div>
+
+              <!-- Billing Cycle Filter -->
+              <div>
+                <select
+                  id="filter_cycle"
+                  onchange="loadPlans(1)"
+                  class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
+                >
+                  <option value="">All Billing Cycles</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="quarterly">Quarterly</option>
+                  <option value="half_yearly">Half-Yearly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
+              </div>
+
+              <!-- Status Filter -->
+              <div>
+                <select
+                  id="filter_status"
+                  onchange="loadPlans(1)"
+                  class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
+                >
+                  <option value="">All Statuses</option>
+                  <option value="active">Active Only</option>
+                  <option value="inactive">Inactive Only</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- PLANS TABLE -->
+          <div
+            class="bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col"
+          >
+            <div class="overflow-x-auto min-h-[380px]">
+              <table class="w-full text-left text-xs">
+                <thead
+                  class="bg-slate-50 text-slate-500 uppercase font-extrabold text-[10px] tracking-wider border-b border-slate-200"
+                >
+                  <tr>
+                    <th class="p-3.5 md:p-4">Plan Name &amp; Code</th>
+                    <th class="p-3.5 md:p-4">Target Model</th>
+                    <th class="p-3.5 md:p-4">Duration Cycle</th>
+                    <th class="p-3.5 md:p-4">Pricing</th>
+                    <th class="p-3.5 md:p-4">6-Char Promo Code</th>
+                    <th class="p-3.5 md:p-4">Entitlements</th>
+                    <th class="p-3.5 md:p-4">Status</th>
+                    <th class="p-3.5 md:p-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody
+                  id="plansTableBody"
+                  class="divide-y divide-slate-100 font-semibold text-slate-700"
+                >
+                  <tr>
+                    <td colspan="8" class="p-8 text-center text-slate-400">
+                      Loading plans...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- PAGINATION -->
+            <div
+              class="p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs"
+            >
+              <span id="pagination-info" class="text-slate-500 font-semibold"
+                >Total Plans: 0</span
+              >
+              <div class="flex items-center gap-2">
+                <button
+                  id="btn-prev"
+                  onclick="goToPage(currentPage - 1)"
+                  disabled
+                  class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-700 font-bold rounded-xl transition cursor-pointer"
+                >
+                  Previous
+                </button>
+                <span
+                  id="pagination-current"
+                  class="font-mono font-bold px-2 text-indigo-600"
+                  >Page 1</span
+                >
+                <button
+                  id="btn-next"
+                  onclick="goToPage(currentPage + 1)"
+                  disabled
+                  class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-700 font-bold rounded-xl transition cursor-pointer"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: CREATE / EDIT PLAN ================= -->
+    <div
+      id="modal-plan-form"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 hidden overflow-y-auto"
+    >
+      <div
+        class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl border border-slate-200 my-auto flex flex-col max-h-[92vh] overflow-hidden"
+      >
+        <!-- Modal Header -->
+        <div
+          class="flex items-center justify-between border-b border-slate-100 px-6 py-4 bg-slate-50 shrink-0"
+        >
+          <div>
+            <h3
+              id="modal-form-title"
+              class="text-base font-black text-slate-900"
+            >
+              Create Subscription Plan
+            </h3>
+            <p class="text-[11px] font-semibold text-slate-400">
+              Configure business rules, duration and promo codes
+            </p>
+          </div>
+          <button
+            onclick="closePlanModal()"
+            class="text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 cursor-pointer transition"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Form Body -->
+        <form
+          id="planForm"
+          onsubmit="handleFormSubmit(event)"
+          class="p-6 overflow-y-auto space-y-4 custom-scrollbar flex-1 text-xs"
+        >
+          <input type="hidden" id="form_plan_id" value="" />
+
+          <!-- Row 1: Business Model & Duration Cycle -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">
+                Business Target Model <span class="text-rose-500">*</span>
+              </label>
+              <select
+                id="form_business_model"
+                onchange="handleBusinessModelChange()"
+                required
+                class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 outline-none focus:border-indigo-600 focus:bg-white cursor-pointer"
+              >
+                <option value="B2C">👤 B2C (Direct Student Candidate)</option>
+                <option value="B2B">
+                  🏢 B2B (Institute / Coaching Center)
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">
+                Billing Cycle Duration <span class="text-rose-500">*</span>
+              </label>
+              <select
+                id="form_duration_cycle"
+                required
+                class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 outline-none focus:border-indigo-600 focus:bg-white cursor-pointer"
+              >
+                <option value="monthly">Monthly (30 Days)</option>
+                <option value="quarterly">Quarterly (90 Days)</option>
+                <option value="half_yearly">Half-Yearly (180 Days)</option>
+                <option value="yearly">Yearly (365 Days)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Row 2: Plan Name & Plan Code -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">
+                Plan Title / Name <span class="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="form_plan_name"
+                placeholder="e.g. UPSC Prelims Mastery Pack"
+                required
+                class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">
+                Plan Unique Identifier Code
+              </label>
+              <input
+                type="text"
+                id="form_plan_code"
+                placeholder="e.g. PLAN_B2C_UPSC_01"
+                class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold text-indigo-700 uppercase outline-none focus:border-indigo-600 focus:bg-white"
+              />
+            </div>
+          </div>
+
+          <!-- Row 3: Pricing & Discount Pricing -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">
+                Standard Price (₹ INR) <span class="text-rose-500">*</span>
+              </label>
+              <input
+                type="number"
+                id="form_price"
+                placeholder="999"
+                min="0"
+                step="1"
+                required
+                class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">
+                Discounted Offer Price (₹ INR)
+              </label>
+              <input
+                type="number"
+                id="form_discount_price"
+                placeholder="499"
+                min="0"
+                step="1"
+                class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold text-emerald-700 outline-none focus:border-indigo-600 focus:bg-white"
+              />
+            </div>
+          </div>
+
+          <!-- Row 4: 6-Character Promo Code Auto-Generator -->
+          <div
+            class="p-3.5 bg-indigo-50/70 border border-indigo-100 rounded-2xl space-y-2"
+          >
+            <div class="flex items-center justify-between">
+              <label
+                class="text-[11px] font-extrabold text-indigo-900 flex items-center gap-1.5"
+              >
+                <i data-lucide="tag" class="w-3.5 h-3.5 text-indigo-600"></i>
+                <span>Generated 6-Character Promo Code</span>
+              </label>
+              <button
+                type="button"
+                onclick="generateNewPromoCode()"
+                class="text-[10px] font-black text-indigo-600 hover:text-indigo-800 cursor-pointer flex items-center gap-1"
+              >
+                <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+                <span>Regenerate</span>
+              </button>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <input
+                type="text"
+                id="form_promo_code"
+                maxlength="6"
+                required
+                placeholder="6-Char Code"
+                class="flex-1 px-3 py-2 bg-white border border-indigo-200 rounded-xl font-mono font-black text-sm text-indigo-950 uppercase tracking-widest outline-none text-center"
+              />
+              <input
+                type="number"
+                id="form_promo_discount_percent"
+                min="0"
+                max="100"
+                placeholder="Disc % (e.g. 20)"
+                class="w-32 px-3 py-2 bg-white border border-indigo-200 rounded-xl font-mono font-bold text-xs text-indigo-900 outline-none text-center"
+              />
+            </div>
+            <p
+              class="text-[10px] text-indigo-700/80 font-medium leading-relaxed"
+            >
+              Automatic 6 alpha-numeric code linked to this plan. Users can
+              apply it at checkout.
+            </p>
+          </div>
+
+          <!-- DYNAMIC B2B FIELDS (ONLY FOR COACHING/INSTITUTES) -->
+          <div
+            id="b2b_fields_container"
+            class="hidden p-4 bg-purple-50/60 border border-purple-200 rounded-2xl space-y-3.5"
+          >
+            <h4
+              class="font-black text-purple-900 text-xs uppercase tracking-wider flex items-center gap-1.5"
+            >
+              <i data-lucide="building-2" class="w-4 h-4 text-purple-600"></i>
+              <span>B2B Coaching Specific Configuration</span>
+            </h4>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-700 mb-1">
+                  Max Student Seat Licenses
+                </label>
+                <input
+                  type="number"
+                  id="form_b2b_max_students"
+                  placeholder="e.g. 500"
+                  min="1"
+                  class="w-full px-3 py-2 bg-white border border-purple-200 rounded-xl font-mono font-bold text-slate-800 outline-none focus:border-purple-600"
+                />
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-bold text-slate-700 mb-1">
+                  Custom Brand / White-label
+                </label>
+                <select
+                  id="form_b2b_whitelabel"
+                  class="w-full px-3 py-2 bg-white border border-purple-200 rounded-xl font-bold text-slate-800 outline-none focus:border-purple-600 cursor-pointer"
+                >
+                  <option value="true">
+                    Allowed (Coaching Logo &amp; Name)
+                  </option>
+                  <option value="false">ExamMokk Standard Branding</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">
+                Target Coaching / Institute Name (Optional)
+              </label>
+              <input
+                type="text"
+                id="form_b2b_institute_name"
+                placeholder="e.g. Vision Career Academy"
+                class="w-full px-3 py-2 bg-white border border-purple-200 rounded-xl font-semibold text-slate-800 outline-none focus:border-purple-600"
+              />
+            </div>
+          </div>
+
+          <!-- DYNAMIC B2C FIELDS (ONLY FOR DIRECT STUDENTS) -->
+          <div
+            id="b2c_fields_container"
+            class="p-4 bg-blue-50/60 border border-blue-200 rounded-2xl space-y-3"
+          >
+            <h4
+              class="font-black text-blue-900 text-xs uppercase tracking-wider flex items-center gap-1.5"
+            >
+              <i data-lucide="user-check" class="w-4 h-4 text-blue-600"></i>
+              <span>B2C Student Access Entitlements</span>
+            </h4>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-700 mb-1"
+                  >Daily Test Attempt Limit</label
+                >
+                <input
+                  type="number"
+                  id="form_b2c_daily_limit"
+                  placeholder="e.g. 15 (0 for Unlimited)"
+                  min="0"
+                  class="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl font-mono font-bold text-slate-800 outline-none focus:border-blue-600"
+                />
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-bold text-slate-700 mb-1"
+                  >Full Solutions &amp; AI Explanations</label
+                >
+                <select
+                  id="form_b2c_ai_access"
+                  class="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl font-bold text-slate-800 outline-none focus:border-blue-600 cursor-pointer"
+                >
+                  <option value="true">Included Full Access</option>
+                  <option value="false">Standard Explanations Only</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description & Feature Bullet Points -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">
+              Plan Features / Highlights (Comma separated)
+            </label>
+            <textarea
+              id="form_features"
+              rows="2"
+              placeholder="e.g. Unlimited All-India Mocks, Bilingual Hindi/English, Performance Analytics, PDF Question Bank"
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
+            ></textarea>
+          </div>
+
+          <!-- Status Switch -->
+          <div
+            class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-2xl"
+          >
+            <span class="font-bold text-slate-800"
+              >Publish &amp; Activate Plan</span
+            >
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                id="form_is_active"
+                checked
+                class="sr-only peer"
+              />
+              <div
+                class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"
+              ></div>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-2">
+            <button
+              type="submit"
+              id="btn-save-plan"
+              class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-black rounded-xl text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <i data-lucide="check" class="w-4 h-4"></i>
+              <span id="btn-save-text">Save Plan &amp; Promo Code</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT CRUD LOGIC INTEGRATED WITH API -->
+    <script>
+      // 🌟 BASE API ENDPOINT
+      const API_BASE_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/subscription";
+
+      let allPlans = [];
+      let currentPage = 1;
+      let totalPages = 1;
+      let searchTimeout = null;
+
+      function toggleMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        if (sidebar) sidebar.classList.toggle("-translate-x-full");
+      }
+
+      function refreshCurrentTab() {
+        loadPlans(currentPage);
+      }
+
+      // 6-Character Random Alpha-Numeric Generator (e.g. EX8K9P)
+      function generate6CharPromo() {
+        const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        let code = "";
+        for (let i = 0; i < 6; i++) {
+          code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
+      }
+
+      function generateNewPromoCode() {
+        document.getElementById("form_promo_code").value = generate6CharPromo();
+      }
+
+      function handleBusinessModelChange() {
+        const model = document.getElementById("form_business_model").value;
+        const b2bContainer = document.getElementById("b2b_fields_container");
+        const b2cContainer = document.getElementById("b2c_fields_container");
+
+        if (model === "B2B") {
+          b2bContainer.classList.remove("hidden");
+          b2cContainer.classList.add("hidden");
+        } else {
+          b2bContainer.classList.add("hidden");
+          b2cContainer.classList.remove("hidden");
+        }
+      }
+
+      function showToast(message, type = "success") {
+        const container = document.getElementById("toast-container");
+        const toast = document.createElement("div");
+        const icons = {
+          success: `<i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0"></i>`,
+          error: `<i data-lucide="alert-circle" class="w-5 h-5 text-rose-600 shrink-0"></i>`,
+          info: `<i data-lucide="info" class="w-5 h-5 text-indigo-600 shrink-0"></i>`,
+        };
+        const bgStyles = {
+          success:
+            "bg-white border-emerald-200 text-slate-800 shadow-lg shadow-emerald-500/10",
+          error:
+            "bg-white border-rose-200 text-slate-800 shadow-lg shadow-rose-500/10",
+          info: "bg-white border-indigo-200 text-slate-800 shadow-lg shadow-indigo-500/10",
+        };
+
+        toast.className = `toast-enter pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl border ${bgStyles[type] || bgStyles.info} text-xs font-bold`;
+        toast.innerHTML = `
+          ${icons[type] || icons.info}
+          <div class="flex-1 leading-snug">${message}</div>
+          <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-700 p-1 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        `;
+
+        container.appendChild(toast);
+        if (window.lucide) lucide.createIcons();
+
+        setTimeout(() => {
+          toast.style.transition = "all 0.3s ease";
+          toast.style.opacity = "0";
+          toast.style.transform = "translateX(100%)";
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      }
+
+      function debounceSearch() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          loadPlans(1);
+        }, 300);
+      }
+
+      // Local Storage Helpers as High Availability Fallback
+      function getLocalPlans() {
+        const raw = localStorage.getItem("exammokk_sub_plans");
+        if (raw) {
+          try {
+            return JSON.parse(raw);
+          } catch (e) {}
+        }
+        return [];
+      }
+
+      function saveLocalPlans(data) {
+        localStorage.setItem("exammokk_sub_plans", JSON.stringify(data));
+      }
+
+      // ==========================================
+      // 1. READ ALL PLANS (GET /api/subscription)
+      // ==========================================
+      async function loadPlans(page = 1) {
+        const tbody = document.getElementById("plansTableBody");
+        const search = document.getElementById("filter_search").value.trim();
+        const model = document.getElementById("filter_model").value;
+        const cycle = document.getElementById("filter_cycle").value;
+        const status = document.getElementById("filter_status").value;
+
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" class="p-8 text-center text-slate-400">
+              <div class="inline-flex items-center gap-2">
+                <div class="spinner"></div> Loading Subscription Plans...
+              </div>
+            </td>
+          </tr>
+        `;
+
+        try {
+          const params = new URLSearchParams({
+            page,
+            limit: 15,
+            ...(search && { search }),
+            ...(model && { businessModel: model }),
+            ...(cycle && { durationCycle: cycle }),
+            ...(status && { status }),
+          });
+
+          let plans = [];
+          let isApiSuccess = false;
+
+          try {
+            const res = await fetch(`${API_BASE_URL}?${params.toString()}`, {
+              headers: { Accept: "application/json" },
+            });
+
+            if (res.ok) {
+              const resJson = await res.json();
+              if (resJson.success && Array.isArray(resJson.data)) {
+                plans = resJson.data;
+                currentPage = resJson.pagination?.currentPage || page;
+                totalPages = resJson.pagination?.totalPages || 1;
+                isApiSuccess = true;
+                saveLocalPlans(plans);
+              }
+            }
+          } catch (apiErr) {
+            console.warn("Backend API Offline/Fallback initiated:", apiErr);
+          }
+
+          if (!isApiSuccess) {
+            plans = getLocalPlans();
+            if (search || model || cycle || status) {
+              plans = plans.filter((p) => {
+                const s = search.toLowerCase();
+                const matchSearch =
+                  !s ||
+                  (p.planName && p.planName.toLowerCase().includes(s)) ||
+                  (p.planCode && p.planCode.toLowerCase().includes(s)) ||
+                  (p.promoCode && p.promoCode.toLowerCase().includes(s));
+                const matchModel = !model || p.businessModel === model;
+                const matchCycle = !cycle || p.durationCycle === cycle;
+                const matchStatus =
+                  !status || (status === "active" ? p.isActive : !p.isActive);
+                return matchSearch && matchModel && matchCycle && matchStatus;
+              });
+            }
+          }
+
+          allPlans = plans;
+          renderTable(plans);
+          updateMetrics(plans);
+        } catch (err) {
+          tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-rose-500">Failed to load plans from server.</td></tr>`;
+        }
+      }
+
+      function updateMetrics(list) {
+        document.getElementById("stat_total_plans").innerText = list.length;
+        document.getElementById("stat_b2c_plans").innerText = list.filter(
+          (p) => p.businessModel === "B2C",
+        ).length;
+        document.getElementById("stat_b2b_plans").innerText = list.filter(
+          (p) => p.businessModel === "B2B",
+        ).length;
+        document.getElementById("stat_promo_codes").innerText = list.filter(
+          (p) => p.promoCode,
+        ).length;
+      }
+
+      function renderTable(list) {
+        const tbody = document.getElementById("plansTableBody");
+        if (!list || list.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400">No subscription plans found matching criteria.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = list
+          .map((item, index) => {
+            const isB2B = item.businessModel === "B2B";
+            const modelBadge = isB2B
+              ? `<span class="px-2.5 py-0.5 rounded-lg bg-purple-100 text-purple-800 border border-purple-200 text-[10px] font-black uppercase">🏢 B2B Institute</span>`
+              : `<span class="px-2.5 py-0.5 rounded-lg bg-blue-100 text-blue-800 border border-blue-200 text-[10px] font-black uppercase">👤 B2C Direct</span>`;
+
+            const cycleBadge = `<span class="capitalize px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-bold text-[10px]">${item.durationCycle || "Monthly"}</span>`;
+
+            const isActive =
+              item.isActive !== false && item.status !== "inactive";
+            const statusBadge = isActive
+              ? `<span class="inline-flex items-center gap-1 text-emerald-600 font-extrabold text-[11px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Active</span>`
+              : `<span class="inline-flex items-center gap-1 text-slate-400 font-extrabold text-[11px]"><span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>Inactive</span>`;
+
+            const promoBadge = item.promoCode
+              ? `<span class="font-mono font-black text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded-md tracking-wider">${item.promoCode}</span>`
+              : `<span class="text-slate-400">-</span>`;
+
+            const entitlement = isB2B
+              ? `${item.entitlements?.maxStudentSeats || 100} Seats • ${item.entitlements?.instituteName || "Coaching"}`
+              : `Daily: ${item.entitlements?.dailyTestLimit ? `${item.entitlements.dailyTestLimit} Tests` : "Unlimited"}`;
+
+            const planId = item._id || item.id;
+
+            return `
+              <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                <td class="p-3.5 md:p-4">
+                  <div class="font-bold text-slate-900 text-xs">${item.planName}</div>
+                  <span class="text-[10px] font-mono text-slate-400 font-bold">${item.planCode || planId}</span>
+                </td>
+                <td class="p-3.5 md:p-4">${modelBadge}</td>
+                <td class="p-3.5 md:p-4">${cycleBadge}</td>
+                <td class="p-3.5 md:p-4 font-mono font-bold">
+                  <span class="text-slate-900 text-sm">₹${item.discountPrice || item.price}</span>
+                  ${item.discountPrice && item.discountPrice < item.price ? `<span class="text-[10px] text-slate-400 line-through ml-1">₹${item.price}</span>` : ""}
+                </td>
+                <td class="p-3.5 md:p-4">${promoBadge}</td>
+                <td class="p-3.5 md:p-4 text-[11px] text-slate-600 font-semibold">${entitlement}</td>
+                <td class="p-3.5 md:p-4">${statusBadge}</td>
+                <td class="p-3.5 md:p-4 text-right">
+                  <div class="inline-flex items-center gap-1.5">
+                    <button
+                      onclick="editPlan(${index})"
+                      class="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg cursor-pointer transition active:scale-95"
+                      title="Edit Plan"
+                    >
+                      <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button
+                      onclick="deletePlan('${planId}')"
+                      class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg cursor-pointer transition active:scale-95"
+                      title="Delete Plan"
+                    >
+                      <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `;
+          })
+          .join("");
+
+        document.getElementById("pagination-info").innerText =
+          `Total Plans: ${list.length}`;
+        const btnPrev = document.getElementById("btn-prev");
+        const btnNext = document.getElementById("btn-next");
+        btnPrev.disabled = currentPage <= 1;
+        btnNext.disabled = currentPage >= totalPages;
+        document.getElementById("pagination-current").innerText =
+          `Page ${currentPage} of ${totalPages}`;
+
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function goToPage(page) {
+        if (page >= 1 && page <= totalPages) {
+          loadPlans(page);
+        }
+      }
+
+      function openCreateModal() {
+        document.getElementById("planForm").reset();
+        document.getElementById("form_plan_id").value = "";
+        document.getElementById("modal-form-title").innerText =
+          "Create Subscription Plan";
+        document.getElementById("btn-save-text").innerText =
+          "Publish Plan & Promo Code";
+
+        generateNewPromoCode();
+        handleBusinessModelChange();
+
+        document.getElementById("modal-plan-form").classList.remove("hidden");
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function editPlan(index) {
+        const p = allPlans[index];
+        if (!p) return;
+
+        document.getElementById("form_plan_id").value = p._id || p.id;
+        document.getElementById("modal-form-title").innerText =
+          `Edit: ${p.planName}`;
+        document.getElementById("btn-save-text").innerText =
+          "Update Plan Details";
+
+        document.getElementById("form_business_model").value =
+          p.businessModel || "B2C";
+        document.getElementById("form_duration_cycle").value =
+          p.durationCycle || "monthly";
+        document.getElementById("form_plan_name").value = p.planName || "";
+        document.getElementById("form_plan_code").value = p.planCode || "";
+        document.getElementById("form_price").value = p.price || "";
+        document.getElementById("form_discount_price").value =
+          p.discountPrice || "";
+        document.getElementById("form_promo_code").value =
+          p.promoCode || generate6CharPromo();
+        document.getElementById("form_promo_discount_percent").value =
+          p.promoDiscountPercent || "";
+        document.getElementById("form_features").value = Array.isArray(
+          p.features,
+        )
+          ? p.features.join(", ")
+          : p.features || "";
+        document.getElementById("form_is_active").checked =
+          p.isActive !== false && p.status !== "inactive";
+
+        document.getElementById("form_b2b_max_students").value =
+          p.entitlements?.maxStudentSeats || "";
+        document.getElementById("form_b2b_whitelabel").value = p.entitlements
+          ?.isWhiteLabel
+          ? "true"
+          : "false";
+        document.getElementById("form_b2b_institute_name").value =
+          p.entitlements?.instituteName || "";
+
+        document.getElementById("form_b2c_daily_limit").value =
+          p.entitlements?.dailyTestLimit || "";
+        document.getElementById("form_b2c_ai_access").value =
+          p.entitlements?.aiExplanationAccess !== false ? "true" : "false";
+
+        handleBusinessModelChange();
+        document.getElementById("modal-plan-form").classList.remove("hidden");
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function closePlanModal() {
+        document.getElementById("modal-plan-form").classList.add("hidden");
+      }
+
+      // ==========================================
+      // 2. CREATE & UPDATE PLAN (POST & PUT API)
+      // ==========================================
+      async function handleFormSubmit(e) {
+        e.preventDefault();
+
+        const planId = document.getElementById("form_plan_id").value;
+        const businessModel = document.getElementById(
+          "form_business_model",
+        ).value;
+        const durationCycle = document.getElementById(
+          "form_duration_cycle",
+        ).value;
+        const planName = document.getElementById("form_plan_name").value.trim();
+        const planCode =
+          document.getElementById("form_plan_code").value.trim() ||
+          `PLAN_${businessModel}_${Date.now().toString().slice(-4)}`;
+        const price = Number(document.getElementById("form_price").value);
+        const discountPrice =
+          Number(document.getElementById("form_discount_price").value) || price;
+        const promoCode = document
+          .getElementById("form_promo_code")
+          .value.trim()
+          .toUpperCase();
+        const promoDisc =
+          Number(
+            document.getElementById("form_promo_discount_percent").value,
+          ) || 0;
+        const featuresRaw = document
+          .getElementById("form_features")
+          .value.trim();
+        const isActive = document.getElementById("form_is_active").checked;
+
+        const entitlements = {};
+        if (businessModel === "B2B") {
+          entitlements.maxStudentSeats =
+            Number(document.getElementById("form_b2b_max_students").value) ||
+            100;
+          entitlements.isWhiteLabel =
+            document.getElementById("form_b2b_whitelabel").value === "true";
+          entitlements.instituteName = document
+            .getElementById("form_b2b_institute_name")
+            .value.trim();
+        } else {
+          entitlements.dailyTestLimit =
+            Number(document.getElementById("form_b2c_daily_limit").value) || 0;
+          entitlements.aiExplanationAccess =
+            document.getElementById("form_b2c_ai_access").value === "true";
+          entitlements.allIndiaRankAccess = true;
+        }
+
+        const payload = {
+          planName,
+          planCode,
+          businessModel,
+          durationCycle,
+          price,
+          discountPrice,
+          promoCode,
+          promoDiscountPercent: promoDisc,
+          entitlements,
+          features: featuresRaw
+            ? featuresRaw
+                .split(",")
+                .map((f) => f.trim())
+                .filter(Boolean)
+            : [],
+          status: isActive ? "active" : "inactive",
+          isActive: isActive,
+          domain: "jawedsiddiqui.cloud",
+        };
+
+        const saveBtn = document.getElementById("btn-save-plan");
+        saveBtn.disabled = true;
+
+        try {
+          const method = planId ? "PUT" : "POST";
+          const endpoint = planId ? `${API_BASE_URL}/${planId}` : API_BASE_URL;
+
+          const res = await fetch(endpoint, {
+            method,
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          const resData = await res.json().catch(() => ({}));
+
+          if (res.ok && resData.success) {
+            showToast(
+              `Plan ${planId ? "updated" : "created"} successfully! Promo Code: ${promoCode}`,
+              "success",
+            );
+            closePlanModal();
+            loadPlans(currentPage);
+          } else {
+            throw new Error(resData.message || "Failed to save on server");
+          }
+        } catch (err) {
+          console.warn("API save error, caching locally:", err);
+
+          let local = getLocalPlans();
+          if (planId) {
+            local = local.map((p) =>
+              p._id === planId || p.id === planId
+                ? { ...p, ...payload, id: planId }
+                : p,
+            );
+          } else {
+            local.unshift({ ...payload, id: `LOCAL_${Date.now()}` });
+          }
+          saveLocalPlans(local);
+
+          showToast(`Plan saved locally (${err.message})`, "info");
+          closePlanModal();
+          loadPlans(currentPage);
+        } finally {
+          saveBtn.disabled = false;
+        }
+      }
+
+      // ==========================================
+      // 3. DELETE PLAN (DELETE /api/subscription/:id)
+      // ==========================================
+      async function deletePlan(id) {
+        if (
+          !confirm(
+            "Are you sure you want to delete this subscription plan and revoke its promo code?",
+          )
+        )
+          return;
+
+        try {
+          const res = await fetch(`${API_BASE_URL}/${id}`, {
+            method: "DELETE",
+            headers: { Accept: "application/json" },
+          });
+
+          const resData = await res.json().catch(() => ({}));
+
+          if (res.ok && resData.success) {
+            showToast("Subscription plan deleted successfully", "info");
+          } else {
+            throw new Error(resData.message || "Delete failed");
+          }
+        } catch (err) {
+          console.warn("Server delete error, updating local cache:", err);
+          let local = getLocalPlans();
+          local = local.filter((p) => p._id !== id && p.id !== id);
+          saveLocalPlans(local);
+          showToast("Plan removed", "info");
+        } finally {
+          loadPlans(currentPage);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof renderAdminHeader === "function") {
+          renderAdminHeader("Subscription & Plans Engine", "subscription");
+        }
+        loadPlans(1);
+        if (window.lucide) lucide.createIcons();
+      });
+    </script>
+  </body>
+</html>
