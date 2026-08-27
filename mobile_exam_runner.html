@@ -68,7 +68,6 @@
       <div
         class="bg-white w-full sm:max-w-sm rounded-t-[28px] sm:rounded-3xl p-6 border border-slate-200 shadow-2xl space-y-4 transform transition-all"
       >
-        <!-- Top Drag Pill for Mobile Native feel -->
         <div
           class="w-12 h-1.5 bg-slate-300 rounded-full mx-auto sm:hidden -mt-1 mb-2"
         ></div>
@@ -88,7 +87,6 @@
         </div>
 
         <div class="grid grid-cols-2 gap-3 pt-1">
-          <!-- English Option -->
           <button
             onclick="selectInitialLanguage('en')"
             class="p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-600 active:bg-indigo-50/70 flex flex-col items-center gap-1.5 transition-all cursor-pointer active:scale-95 group shadow-2xs"
@@ -103,7 +101,6 @@
             >
           </button>
 
-          <!-- Hindi Option -->
           <button
             onclick="selectInitialLanguage('hi')"
             class="p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-600 active:bg-indigo-50/70 flex flex-col items-center gap-1.5 transition-all cursor-pointer active:scale-95 group shadow-2xs"
@@ -171,11 +168,9 @@
 
     <!-- 1. BRAND HEADER -->
     <header class="bg-white border-b border-slate-200 shadow-xs z-20 shrink-0">
-      <!-- TOP STRIP: BRAND & NAVIGATION -->
       <div
         class="px-3.5 sm:px-6 py-2.5 flex items-center justify-between gap-3 border-b border-slate-100"
       >
-        <!-- BRAND & BACK TO HOME -->
         <div class="flex items-center gap-2.5 shrink-0">
           <button
             onclick="goHomeConfirm()"
@@ -210,7 +205,6 @@
           </div>
         </div>
 
-        <!-- CENTER: TEST TITLE -->
         <div class="flex-1 text-center min-w-0 px-2 hidden sm:block">
           <h2
             id="test-title"
@@ -221,7 +215,6 @@
           </h2>
         </div>
 
-        <!-- RIGHT: BADGE, PALETTE & LOGOUT -->
         <div class="flex items-center gap-1.5 shrink-0">
           <span
             id="header-exam-badge"
@@ -249,7 +242,6 @@
         </div>
       </div>
 
-      <!-- BOTTOM STRIP: MARKS, TIMER & LANGUAGE -->
       <div
         class="px-3.5 sm:px-6 py-1.5 flex items-center justify-between gap-2 bg-slate-50/90 text-xs"
       >
@@ -303,7 +295,6 @@
 
     <!-- 2. MAIN WORKSPACE -->
     <main class="flex-1 flex overflow-hidden relative">
-      <!-- LOADING OVERLAY -->
       <div
         id="loading-overlay"
         class="absolute inset-0 bg-slate-50/95 backdrop-blur-xs flex flex-col items-center justify-center z-30"
@@ -316,12 +307,10 @@
         </p>
       </div>
 
-      <!-- LEFT: QUESTION STATEMENT & OPTIONS -->
       <section
         class="flex-1 flex flex-col justify-between px-3.5 sm:px-5 pt-8 sm:pt-10 pb-2 overflow-y-auto custom-scrollbar"
       >
         <div class="max-w-2xl w-full mx-auto space-y-3">
-          <!-- QUESTION CARD -->
           <div
             class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-2xs space-y-2.5"
           >
@@ -362,11 +351,9 @@
             </div>
           </div>
 
-          <!-- Options List -->
           <div id="options-container" class="space-y-2.5"></div>
         </div>
 
-        <!-- FOOTER TOOLBAR -->
         <div
           class="max-w-2xl w-full mx-auto px-1 pt-2.5 pb-1 border-t border-slate-200 mt-2"
         >
@@ -410,7 +397,6 @@
         </div>
       </section>
 
-      <!-- RIGHT: PALETTE SIDEBAR -->
       <aside
         id="palette-sidebar"
         class="w-72 bg-white border-l border-slate-200 p-4 flex flex-col justify-between fixed md:static inset-y-0 right-0 z-40 transform translate-x-full md:translate-x-0 transition-transform duration-200 shadow-xl md:shadow-none"
@@ -432,7 +418,6 @@
             </button>
           </div>
 
-          <!-- Status Indicators -->
           <div
             class="grid grid-cols-2 gap-1.5 text-[10px] font-bold text-slate-600 mb-3 pb-2.5 border-b border-slate-100"
           >
@@ -454,14 +439,12 @@
             </div>
           </div>
 
-          <!-- Numbers Grid -->
           <div
             id="palette-grid"
             class="grid grid-cols-5 gap-2 max-h-[52vh] overflow-y-auto custom-scrollbar pr-1 p-1"
           ></div>
         </div>
 
-        <!-- Submit Button -->
         <div class="pt-2.5 border-t border-slate-200">
           <button
             onclick="submitTestConfirmation()"
@@ -654,7 +637,6 @@
       const SUBMIT_RESULT_API_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/test/questions/submit";
 
-      // 1. STREAM SPECIFIC MARKING & METADATA RULES
       const EXAM_PRESETS = {
         DAILY_GK: {
           id: "DAILY_GK",
@@ -771,17 +753,16 @@
       let testMeta = {
         title: "Competitive Mock Test",
         subject: "General Studies",
+        subject_id: "",
         exam_category: activePreset.id,
       };
 
-      // INITIAL LANGUAGE PICKER HANDLER
       function selectInitialLanguage(lang) {
         setLanguage(lang);
         localStorage.setItem("preferred_exam_lang", lang);
         document.getElementById("lang-selector-modal").classList.add("hidden");
       }
 
-      // RENDER LATEX MATH FORMULAS
       function renderMath(targetElement) {
         const el = targetElement || document.body;
         if (window.renderMathInElement) {
@@ -1057,6 +1038,9 @@
               rawQuestions[0]?.subject ||
               "General Studies";
 
+            testMeta.subject_id =
+              metaSource.subject_id || rawQuestions[0]?.subject_id || "";
+
             testMeta.exam_category = activePreset.id;
 
             totalDurationMins = Number(
@@ -1215,7 +1199,6 @@
         updatePaletteStatus();
         if (window.lucide) lucide.createIcons();
 
-        // KaTeX Math Rendering for Question & Options
         renderMath(qTextEl);
         renderMath(optionsContainer);
       }
@@ -1392,24 +1375,36 @@
       }
 
       async function submitTestConfirmation() {
-        const attempted = Object.keys(userAnswers).length;
+        // Calculate attempt status safely
+        const attempted = Object.keys(userAnswers).filter(
+          (key) =>
+            userAnswers[key] !== undefined &&
+            userAnswers[key] !== null &&
+            userAnswers[key] !== "",
+        ).length;
+
+        const total = questionsList.length;
+        const unattempted = Math.max(0, total - attempted);
+
         const confirmed = await showCustomDialog({
-          title: "Finish & Submit Exam?",
-          message: `You have answered ${attempted} of ${questionsList.length} questions. Are you sure you want to submit?`,
+          title: "SUBMIT EXAMINATION?",
+          message: `You have attempted ${attempted} of ${total} questions. ${unattempted} question${
+            unattempted !== 1 ? "s" : ""
+          } ${unattempted !== 1 ? "are" : "is"} unattempted. Once submitted, you cannot change your answers.`,
           type: "confirm",
-          confirmText: "Submit Now",
-          cancelText: "Resume Test",
+          confirmText: "SUBMIT NOW",
+          cancelText: "RESUME TEST",
           icon: "send",
           iconBg: "bg-emerald-50",
           iconColor: "text-emerald-600",
-          btnColor: "bg-emerald-600 active:bg-emerald-700 text-white",
+          btnColor:
+            "bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white tracking-wide uppercase",
         });
 
         if (confirmed) {
           submitTestFinal();
         }
       }
-
       async function submitTestFinal() {
         clearInterval(mainTimerInterval);
         clearInterval(qTimerInterval);
@@ -1490,9 +1485,8 @@
 
         const positiveGained = correctCount * activePreset.marks;
         const negativeDeducted = wrongCount * activePreset.negative;
-        const netScore = Math.max(
-          0,
-          Number((positiveGained - negativeDeducted).toFixed(2)),
+        const actualNetScore = Number(
+          (positiveGained - negativeDeducted).toFixed(2),
         );
         const maxScore = questionsList.length * activePreset.marks;
         const accuracy =
@@ -1503,38 +1497,67 @@
             : 0;
         const totalTimeTakenSeconds = totalDurationSeconds - remainingSeconds;
 
-        const scorePercentage = maxScore > 0 ? (netScore / maxScore) * 100 : 0;
+        const scorePercentage =
+          maxScore > 0 ? (actualNetScore / maxScore) * 100 : 0;
         const isCandidatePassed =
-          scorePercentage >= PASS_PERCENTAGE_THRESHOLD && netScore > 0;
+          scorePercentage >= PASS_PERCENTAGE_THRESHOLD && actualNetScore > 0;
 
-        let studentId = "GUEST_STUDENT";
-        let studentName = "Aspirant";
+        // User Identity Resolution (examindiaUser from localStorage)
+        let resolvedStudentId = "GUEST_STUDENT";
+        let resolvedStudentName = "Guest User";
+
         try {
-          const localUser = JSON.parse(
-            localStorage.getItem("examIndiaUser") || "{}",
-          );
-          if (localUser.id || localUser.student_id) {
-            studentId = localUser.id || localUser.student_id;
+          const rawLocalUser =
+            localStorage.getItem("examindiaUser") ||
+            localStorage.getItem("examIndiaUser") ||
+            localStorage.getItem("user") ||
+            "{}";
+          const localUser = JSON.parse(rawLocalUser);
+
+          if (localUser.id || localUser.student_id || localUser._id) {
+            resolvedStudentId = String(
+              localUser.id || localUser.student_id || localUser._id,
+            ).trim();
           }
-          if (localUser.name || localUser.userName) {
-            studentName = localUser.name || localUser.userName;
+          if (
+            localUser.studentName ||
+            localUser.name ||
+            localUser.userName ||
+            localUser.fullName
+          ) {
+            resolvedStudentName = String(
+              localUser.studentName ||
+                localUser.name ||
+                localUser.userName ||
+                localUser.fullName,
+            ).trim();
           }
-        } catch (e) {}
+        } catch (e) {
+          console.error("Error reading examindiaUser from localStorage:", e);
+        }
+
+        const isAppUser = Boolean(
+          resolvedStudentId &&
+          resolvedStudentId !== "GUEST_STUDENT" &&
+          resolvedStudentId !== "",
+        );
 
         const payload = {
           test_id: TARGET_TEST_ID,
-          platform: "app",
+          platform: isAppUser ? "app" : "web",
           exam_category: activePreset.id,
           class_or_exam_name: testMeta.title,
           subject: testMeta.subject,
-          student_id: studentId,
-          student_name: studentName,
+          subject_id: testMeta.subject_id || "",
+          student_id: isAppUser ? resolvedStudentId : "GUEST_STUDENT",
+          student_name:
+            resolvedStudentName || (isAppUser ? "kumarji" : "Guest User"),
           applied_exam_profile: activePreset.id,
           marking_scheme_applied: {
             marks_per_question: activePreset.marks,
             negative_marks_per_wrong: activePreset.negative,
           },
-          total_score: netScore,
+          total_score: actualNetScore,
           max_score: maxScore,
           positive_marks_gained: Number(positiveGained.toFixed(2)),
           negative_marks_deducted: Number(negativeDeducted.toFixed(2)),
@@ -1554,12 +1577,14 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
           }).catch((err) => console.error("Submit error:", err));
-        } catch (e) {}
+        } catch (e) {
+          console.error("Payload dispatch error:", e);
+        }
 
         document.getElementById("res-exam-profile-badge").innerText =
           `${activePreset.title} (+${activePreset.marks.toFixed(2)} / -${activePreset.negative.toFixed(2)})`;
         document.getElementById("res-score-text").innerText =
-          `${netScore} / ${maxScore}`;
+          `${actualNetScore} / ${maxScore}`;
         document.getElementById("res-correct").innerText = correctCount;
         document.getElementById("res-wrong").innerText = wrongCount;
         document.getElementById("res-accuracy").innerText = `${accuracy}%`;

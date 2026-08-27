@@ -725,7 +725,7 @@
 
     <!-- JAVASCRIPT CBT ENGINE -->
     <script>
-      const CELEBRATION_PERCENTAGE_THRESHOLD = 50; // केवल 50% से अधिक स्कोर पर ही सेलिब्रेशन होगा
+      const CELEBRATION_PERCENTAGE_THRESHOLD = 50;
 
       const urlParams = new URLSearchParams(window.location.search);
       const TARGET_TEST_ID = urlParams.get("test_id") || "TEST_SAMPLE_MOCK_01";
@@ -851,6 +851,7 @@
       let testMeta = {
         title: "Competitive Mock Test",
         subject: "General Studies",
+        subject_id: "SUB_GS_01",
         exam_category: activePreset.id,
       };
 
@@ -1082,8 +1083,10 @@
             testMeta.title =
               metaSource.title ||
               metaSource.test_name ||
+              metaSource.class_or_exam_name ||
               `${activePreset.title} CBT Paper`;
             testMeta.subject = metaSource.subject || "General Studies";
+            testMeta.subject_id = metaSource.subject_id || "SUB_GS_01";
             testMeta.exam_category = activePreset.id;
 
             totalDurationMins = Number(
@@ -1411,20 +1414,33 @@
       }
 
       async function submitTestConfirmation() {
-        const attempted = Object.keys(userAnswers).length;
+        const attempted = Object.keys(userAnswers).filter(
+          (key) =>
+            userAnswers[key] !== undefined &&
+            userAnswers[key] !== null &&
+            userAnswers[key] !== "",
+        ).length;
+
+        const total = questionsList.length;
+        const unattempted = Math.max(0, total - attempted);
+
         const confirmed = await showCustomDialog({
-          title: "Submit Test?",
-          message: `Attempted ${attempted}/${questionsList.length} questions.`,
+          title: "SUBMIT TEST?",
+          message: `You have attempted ${attempted} of ${total} questions (${unattempted} unattempted). Are you sure you want to finish the test?`,
           type: "confirm",
-          confirmText: "Submit",
-          cancelText: "Resume",
+          confirmText: "SUBMIT TEST",
+          cancelText: "RESUME TEST",
+          icon: "send",
+          iconBg: "bg-emerald-50",
+          iconColor: "text-emerald-600",
+          btnColor:
+            "bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-extrabold tracking-wide uppercase",
         });
 
         if (confirmed) {
           submitTestFinal();
         }
       }
-
       async function submitTestFinal() {
         clearInterval(mainTimerInterval);
         clearInterval(qTimerInterval);
@@ -1433,6 +1449,7 @@
         let correctCount = 0;
         let wrongCount = 0;
         let unattemptedCount = 0;
+        const breakdown = [];
         evaluatedReviewData = [];
 
         questionsList.forEach((q, idx) => {
@@ -1440,17 +1457,40 @@
           const isAttempted = userChoice !== undefined && userChoice !== null;
           const isCorrect =
             isAttempted && userChoice === q.correct_option_index;
+          const timeSpentOnQ = questionTimeSpent[idx] || 0;
+
+          let marksObtained = 0;
 
           if (!isAttempted) {
             unattemptedCount++;
+            marksObtained = 0;
           } else if (isCorrect) {
             correctCount++;
+            marksObtained = activePreset.marks;
           } else {
             wrongCount++;
+            marksObtained = -Number(activePreset.negative.toFixed(2));
           }
 
           const qOptionsEn = q.options_en || [];
           const qOptionsHi = q.options_hi || qOptionsEn;
+
+          const breakdownItem = {
+            question_id: q.question_id || `Q_${idx + 1}`,
+            question_no: q.question_no || idx + 1,
+            question_type: "mcq_single",
+            question_text: q.question_text_en || "",
+            marks_obtained: marksObtained,
+            max_marks: activePreset.marks,
+            time_spent_seconds: timeSpentOnQ,
+            is_attempted: isAttempted,
+            is_correct: isCorrect,
+            user_response: isAttempted ? userChoice : null,
+            correct_response: q.correct_option_index,
+            explanation: q.explanation_en || "",
+          };
+
+          breakdown.push(breakdownItem);
 
           evaluatedReviewData.push({
             qIndex: idx,
@@ -1471,8 +1511,12 @@
           });
         });
 
-        const positiveGained = correctCount * activePreset.marks;
-        const negativeDeducted = wrongCount * activePreset.negative;
+        const positiveGained = Number(
+          (correctCount * activePreset.marks).toFixed(2),
+        );
+        const negativeDeducted = Number(
+          (wrongCount * activePreset.negative).toFixed(2),
+        );
         const netScore = Math.max(
           0,
           Number((positiveGained - negativeDeducted).toFixed(2)),
@@ -1480,7 +1524,9 @@
         const maxScore = questionsList.length * activePreset.marks;
         const accuracy =
           correctCount + wrongCount > 0
-            ? Math.round((correctCount / (correctCount + wrongCount)) * 100)
+            ? Number(
+                ((correctCount / (correctCount + wrongCount)) * 100).toFixed(1),
+              )
             : 0;
         const totalTimeTakenSeconds = totalDurationSeconds - remainingSeconds;
         const mins = Math.floor(totalTimeTakenSeconds / 60);
@@ -1490,6 +1536,63 @@
         const shouldCelebrate =
           scorePercentage > CELEBRATION_PERCENTAGE_THRESHOLD && netScore > 0;
 
+        // User info retrieval
+        let studentName = "Guest User";
+        try {
+          const localUser = JSON.parse(
+            localStorage.getItem("examIndiaUser") || "{}",
+          );
+          if (localUser.name || localUser.userName) {
+            studentName = localUser.name || localUser.userName;
+          }
+        } catch (e) {}
+
+        // 🚀 PREPARE API PAYLOAD
+        const payload = {
+          test_id: TARGET_TEST_ID,
+          platform: "web",
+          exam_category: activePreset.id,
+          class_or_exam_name: testMeta.title,
+          subject: testMeta.subject,
+          subject_id: testMeta.subject_id,
+          student_name: studentName,
+          applied_exam_profile: activePreset.id,
+          marking_scheme_applied: {
+            marks_per_question: activePreset.marks,
+            negative_marks_per_wrong: activePreset.negative,
+          },
+          max_score: maxScore,
+          positive_marks_gained: positiveGained,
+          negative_marks_deducted: negativeDeducted,
+          total_correct: correctCount,
+          total_wrong: wrongCount,
+          total_unattempted: unattemptedCount,
+          accuracy: accuracy,
+          time_taken_seconds: totalTimeTakenSeconds,
+          total_time_mins: totalDurationMins,
+          question_breakdown: breakdown,
+        };
+
+        // 📡 HIT POST API IN BACKGROUND
+        try {
+          fetch(SUBMIT_RESULT_API_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(payload),
+          })
+            .then(async (response) => {
+              const data = await response.json().catch(() => ({}));
+              console.log("Submit Response Success:", data);
+            })
+            .catch((err) => console.error("Submit API Error:", err));
+        } catch (err) {
+          console.error("Fetch Execution Error:", err);
+        }
+
+        // UPDATE UI SCORECARD
         document.getElementById("res-exam-profile-badge").innerText =
           `${activePreset.title} Paper`;
         document.getElementById("res-score-text").innerText =
@@ -1505,7 +1608,6 @@
           statusIconEl.innerText = shouldCelebrate ? "🎉" : "📊";
         }
 
-        // CONFETTI CELEBRATION: केवल 50% से अधिक स्कोर आने पर ही ट्रिगर होगा
         if (shouldCelebrate && typeof confetti === "function") {
           confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         }
