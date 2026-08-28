@@ -36,7 +36,7 @@ function renderHeader() {
     <header class="bg-white/95 border-b border-slate-200 sticky top-0 z-50 backdrop-blur-md shadow-xs">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-          
+
           <!-- BRAND LOGO -->
           <a href="/" class="flex items-center gap-3 group no-underline">
             <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-md shadow-indigo-200 group-hover:scale-105 transition-transform">
@@ -52,16 +52,16 @@ function renderHeader() {
           </a>
 
           <!-- DESKTOP NAVIGATION -->
-          <nav class="hidden md:flex items-center gap-8">
+          <nav class="hidden md:flex items-center gap-6">
             <a href="/" class="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition no-underline">Home</a>
-            
+
             <!-- ALL EXAMS MEGA DROPDOWN -->
             <div class="relative group">
               <button class="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition py-2 cursor-pointer focus:outline-none">
-                <span>All Exam Categories</span>
+                <span>Exams</span>
                 <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform group-hover:rotate-180"></i>
               </button>
-              
+
               <div class="absolute left-0 top-full hidden group-hover:grid grid-cols-2 gap-1.5 w-96 bg-white border border-slate-200 rounded-2xl shadow-xl p-3 z-50 animate-fadeIn">
                 <a href="/ssc" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-indigo-50/50 transition no-underline">
                   <span class="text-base">⚡</span>
@@ -125,16 +125,22 @@ function renderHeader() {
             <!-- DAILY GK DIRECT LINK -->
             <a href="/dashboard/web?type=DAILY_GK" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 transition no-underline">
               <span class="text-sm">🌍</span>
-              <span>Daily GK Practice</span>
+              <span>Daily GK</span>
             </a>
 
             <a href="/pricing" class="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition no-underline">Pricing</a>
             <a href="/about-us" class="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition no-underline">About</a>
 
             <!-- START FREE TEST CTA BUTTON -->
-            <a href="/#exam-grid-section" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-100 transition active:scale-95 cursor-pointer no-underline">
-              <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-300 fill-current"></i>
-              <span>Start Free Practice Test</span>
+            <a href="/#exam-grid-section" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs border border-indigo-200 transition active:scale-95 cursor-pointer no-underline">
+              <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-500 fill-current"></i>
+              <span>Free Test</span>
+            </a>
+
+            <!-- COMMON LOGIN / JOIN BUTTON (RIGHTMOST) -->
+            <a href="/login.html" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-100 transition active:scale-95 cursor-pointer no-underline">
+              <i data-lucide="user" class="w-3.5 h-3.5"></i>
+              <span>Login / Join</span>
             </a>
           </nav>
 
@@ -148,7 +154,7 @@ function renderHeader() {
       <!-- MOBILE DROPDOWN -->
       <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3 max-h-[85vh] overflow-y-auto">
         <a href="/" class="block px-3 py-2 rounded-lg text-sm font-bold text-indigo-600 bg-indigo-50 no-underline">Home</a>
-        
+
         <a href="/mobile_exam_runner.html?test_id=dgk_todays_affairs&segment=DAILY_GK" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 no-underline">
           <span class="text-base">🌍</span>
           <span>Daily GK &amp; Current Affairs Practice (Free)</span>
@@ -171,11 +177,18 @@ function renderHeader() {
           <a href="/contact-us" class="px-3 py-2 hover:bg-slate-50 rounded-lg no-underline">Contact &amp; Help</a>
         </div>
 
-        <!-- MOBILE CTA -->
-        <a href="/#exam-grid-section" onclick="toggleMobileMenu()" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl text-xs uppercase flex items-center justify-center gap-2 shadow-md no-underline">
-          <i data-lucide="zap" class="w-4 h-4 text-amber-300 fill-current"></i>
-          <span>Start Free Practice Test</span>
-        </a>
+        <!-- MOBILE CTAS -->
+        <div class="flex flex-col gap-2 pt-2">
+          <a href="/login.html" onclick="toggleMobileMenu()" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl text-xs uppercase flex items-center justify-center gap-2 shadow-md no-underline">
+            <i data-lucide="user" class="w-4 h-4"></i>
+            <span>Login / Join Now</span>
+          </a>
+
+          <a href="/#exam-grid-section" onclick="toggleMobileMenu()" class="w-full py-2.5 bg-indigo-50 text-indigo-700 border border-indigo-200 font-bold rounded-xl text-xs uppercase flex items-center justify-center gap-2 no-underline">
+            <i data-lucide="zap" class="w-4 h-4 text-amber-500 fill-current"></i>
+            <span>Start Free Practice Test</span>
+          </a>
+        </div>
       </div>
     </header>
   `;
@@ -190,7 +203,7 @@ function renderFooter() {
     <footer class="bg-white text-slate-600 pt-16 pb-12 border-t border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-100">
-          
+
           <div class="space-y-4 md:col-span-1">
             <div class="flex items-center gap-2.5">
               <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
