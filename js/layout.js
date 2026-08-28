@@ -129,6 +129,7 @@ function renderHeader() {
               <span>Daily GK Practice</span>
             </a>
 
+            <a href="/pricing" class="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition no-underline">Pricing</a>
             <a href="/about-us" class="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition no-underline">About</a>
 
             <!-- START FREE TEST CTA BUTTON -->

@@ -5,223 +5,193 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- SEO META TAGS -->
-    <title>
-      All-India Free Exam Pass | 100% Free Mock Test Series - ExamMokk
-    </title>
+    <title>Plans & Pricing - Premium Exam Pass | ExamMokk</title>
     <meta
       name="description"
-      content="Get 100% Free All-Access Exam Pass for SSC, Banking, Railways, UPSC, JEE, NEET, and Defence exams. Unlimited full mock tests with real negative marking."
+      content="Choose from our premium student passes for SSC, Banking, Railways, UPSC, JEE, NEET, and Defence exams. Unlimited mock tests with national ranking."
     />
     <meta
       name="keywords"
-      content="free test pass, free mock test series, ssc cgl free pass, free exam preparation india"
+      content="exam test pass, b2c mock plans, test series pricing, ssc cgl mock pass, exammokk subscription"
     />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://exammokk.cloud/pricing" />
 
-    <!-- OPEN GRAPH -->
-    <meta property="og:locale" content="en_IN" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="ExamMokk All-Access Pass - 100% Free" />
-    <meta
-      property="og:description"
-      content="Unlock full-length mock tests across all Indian competitive streams for free."
-    />
-    <meta property="og:url" content="https://exammokk.cloud/pricing" />
-    <meta
-      property="og:image"
-      content="https://exammokk.cloud/assets/og-image.png"
-    />
-
-    <!-- Tailwind CSS, Lucide Icons & Fonts -->
+    <!-- Tailwind CSS v4, Lucide Icons & Fonts -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
 
     <style>
       body {
         font-family: "Plus Jakarta Sans", sans-serif;
-        background-color: #f8fafc;
-        color: #0f172a;
+      }
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .spinner {
+        border: 3px solid rgba(99, 102, 241, 0.2);
+        border-radius: 50%;
+        border-top-color: #4f46e5;
+        width: 32px;
+        height: 32px;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
     </style>
   </head>
   <body
-    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white"
+    class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased selection:bg-indigo-600 selection:text-white"
   >
     <!-- REUSABLE HEADER -->
     <div id="global-header"></div>
 
-    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
+    <main
+      class="flex-grow py-8 md:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full flex flex-col items-center"
+    >
       <!-- HERO HEADER -->
-      <section class="text-center space-y-4 mb-12">
+      <section
+        class="text-center space-y-3 md:space-y-4 mb-8 md:mb-12 w-full max-w-3xl"
+      >
         <div
-          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-black uppercase tracking-wider shadow-xs"
+          class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-[11px] sm:text-xs font-black uppercase tracking-wider shadow-xs"
         >
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-          <span>100% Free Open Access • Zero Hidden Fees</span>
+          <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
+          <span>B2C Student Exam Passes</span>
         </div>
 
         <h1
-          class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight"
+          class="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-snug sm:leading-tight"
         >
-          All-India Exam Pass is <br />
+          Accelerate Your Prep with <br class="hidden sm:inline" />
           <span
             class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-emerald-600"
           >
-            100% Free For All Aspirants
+            ExamMokk Super Pass
           </span>
         </h1>
 
         <p
-          class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-medium"
+          class="text-slate-600 text-xs sm:text-base max-w-xl mx-auto leading-relaxed font-medium"
         >
-          Prepare for any competitive exam without expensive subscriptions. Get
-          unlimited access to standardized mock tests, sectional timers, and
-          national percentile ranks.
+          Full mock tests, chapter-wise test series, AI explanations, and
+          All-India percentile rank cards.
         </p>
+
+        <!-- DURATION FILTER TABS (Quarterly Removed & Perfectly Centered) -->
+        <div
+          class="pt-3 flex items-center justify-center gap-2 flex-wrap"
+          id="cycleFilterContainer"
+        >
+          <button
+            onclick="filterByCycle('all')"
+            class="cycle-tab active px-4 py-1.5 rounded-full text-xs font-extrabold transition-all border border-indigo-600 bg-indigo-600 text-white shadow-xs cursor-pointer"
+            data-cycle="all"
+          >
+            All Passes
+          </button>
+          <button
+            onclick="filterByCycle('monthly')"
+            class="cycle-tab px-4 py-1.5 rounded-full text-xs font-bold transition-all border border-slate-200 bg-white text-slate-600 hover:border-slate-300 cursor-pointer"
+            data-cycle="monthly"
+          >
+            Monthly
+          </button>
+          <button
+            onclick="filterByCycle('yearly')"
+            class="cycle-tab px-4 py-1.5 rounded-full text-xs font-bold transition-all border border-slate-200 bg-white text-slate-600 hover:border-slate-300 cursor-pointer"
+            data-cycle="yearly"
+          >
+            Yearly
+          </button>
+        </div>
       </section>
 
-      <!-- FREE PASS CARD -->
-      <div
-        class="max-w-xl mx-auto bg-white border-2 border-indigo-500 rounded-3xl p-6 sm:p-8 shadow-xl shadow-indigo-100/50 space-y-6 relative overflow-hidden"
-      >
-        <!-- Top Ribbon -->
+      <!-- PLANS CONTAINER (Centered in all screens: 1, 2, or 3 cards) -->
+      <div class="w-full flex justify-center">
         <div
-          class="absolute -top-1 -right-1 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-[10px] font-black uppercase px-4 py-1.5 rounded-bl-2xl shadow-sm tracking-wider"
+          id="plansContainer"
+          class="w-full flex flex-wrap justify-center items-stretch gap-6 sm:gap-8 max-w-5xl"
         >
-          Free Forever
-        </div>
-
-        <div class="space-y-2">
-          <div class="flex items-center gap-2">
-            <span class="text-2xl">👑</span>
-            <h2 class="text-xl font-black text-slate-900">
-              All-Access Mock Pass
-            </h2>
+          <!-- Skeleton Loading View -->
+          <div
+            class="w-full py-16 flex flex-col items-center justify-center gap-3"
+          >
+            <div class="spinner"></div>
+            <p
+              class="text-xs font-bold text-slate-400 uppercase tracking-wider"
+            >
+              Loading Active Passes...
+            </p>
           </div>
-          <p class="text-xs text-slate-500 font-medium">
-            Unlimited practice for SSC, Banking, Railways, UPSC, JEE, NEET &amp;
-            Defence.
-          </p>
-        </div>
-
-        <!-- Pricing Highlight -->
-        <div
-          class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 flex items-baseline gap-2"
-        >
-          <span class="text-4xl font-black text-slate-900">₹0</span>
-          <span class="text-xs font-bold text-slate-400 line-through"
-            >₹499/year</span
-          >
-          <span
-            class="ml-auto text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200"
-            >100% FREE</span
-          >
-        </div>
-
-        <!-- Feature List -->
-        <div class="space-y-3 pt-2">
-          <h3
-            class="text-xs font-black uppercase tracking-wider text-slate-400"
-          >
-            Included In Free Pass:
-          </h3>
-          <ul
-            class="space-y-2.5 text-xs sm:text-sm font-semibold text-slate-700"
-          >
-            <li class="flex items-center gap-2.5">
-              <i
-                data-lucide="check-circle-2"
-                class="w-4 h-4 text-emerald-600 shrink-0"
-              ></i>
-              <span>Access to all 8 Major Exam Categories</span>
-            </li>
-            <li class="flex items-center gap-2.5">
-              <i
-                data-lucide="check-circle-2"
-                class="w-4 h-4 text-emerald-600 shrink-0"
-              ></i>
-              <span>Full-length Mocks &amp; Chapter-wise Quizzes</span>
-            </li>
-            <li class="flex items-center gap-2.5">
-              <i
-                data-lucide="check-circle-2"
-                class="w-4 h-4 text-emerald-600 shrink-0"
-              ></i>
-              <span>Official Negative Marking Simulator</span>
-            </li>
-            <li class="flex items-center gap-2.5">
-              <i
-                data-lucide="check-circle-2"
-                class="w-4 h-4 text-emerald-600 shrink-0"
-              ></i>
-              <span>Real-Time All-India Percentile &amp; Rank Card</span>
-            </li>
-            <li class="flex items-center gap-2.5">
-              <i
-                data-lucide="check-circle-2"
-                class="w-4 h-4 text-emerald-600 shrink-0"
-              ></i>
-              <span>Detailed Step-by-Step Answer Explanations</span>
-            </li>
-            <li class="flex items-center gap-2.5">
-              <i
-                data-lucide="check-circle-2"
-                class="w-4 h-4 text-emerald-600 shrink-0"
-              ></i>
-              <span>No Credit Card or Payment Required</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- CTA Action -->
-        <div class="pt-4 border-t border-slate-100">
-          <a
-            href="/"
-            class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-2xl shadow-lg shadow-indigo-100 flex items-center justify-center gap-2 text-sm transition no-underline"
-          >
-            <i
-              data-lucide="zap"
-              class="w-4 h-4 text-amber-300 fill-current"
-            ></i>
-            <span>Start Free Tests Now</span>
-          </a>
         </div>
       </div>
 
+      <!-- PROMO CODE BANNER -->
+      <section
+        class="mt-12 md:mt-16 w-full max-w-3xl p-5 sm:p-7 bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 rounded-3xl text-white flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 shadow-xl text-center sm:text-left"
+      >
+        <div class="space-y-1">
+          <h3
+            class="text-base sm:text-lg font-black tracking-tight flex items-center justify-center sm:justify-start gap-2"
+          >
+            <i
+              data-lucide="sparkles"
+              class="w-4 h-4 text-amber-400 shrink-0"
+            ></i>
+            <span>Have a Coaching Promo Code?</span>
+          </h3>
+          <p class="text-xs sm:text-sm text-indigo-200 font-medium">
+            Enter your 6-character code at checkout to claim instant discounts.
+          </p>
+        </div>
+        <a
+          href="#plansContainer"
+          class="w-full sm:w-auto text-center px-5 py-2.5 bg-white hover:bg-slate-100 text-indigo-900 text-xs font-black uppercase tracking-wider rounded-xl transition shadow-md whitespace-nowrap"
+        >
+          View Passes
+        </a>
+      </section>
+
       <!-- FAQ SECTION -->
-      <section class="mt-16 space-y-4 max-w-2xl mx-auto">
-        <h3 class="text-lg font-black text-slate-900 text-center">
+      <section class="mt-12 md:mt-16 space-y-4 max-w-2xl w-full mx-auto">
+        <h3 class="text-lg sm:text-xl font-black text-slate-900 text-center">
           Frequently Asked Questions
         </h3>
 
-        <div class="space-y-3 text-xs">
+        <div class="space-y-3 text-xs sm:text-sm">
           <div
-            class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1"
+            class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1 shadow-xs"
           >
             <h4 class="font-bold text-slate-900">
-              Is this mock test pass really 100% free?
+              Which exams are included in this pass?
             </h4>
-            <p class="text-slate-500 leading-relaxed font-medium">
-              Yes, all test series, chapter quizzes, and national ranking
-              analytics are completely free with zero hidden charges.
+            <p class="text-slate-600 leading-relaxed font-medium">
+              SSC (CGL, CHSL, MTS), Banking (IBPS, SBI, RRB), Railways (NTPC,
+              Group D), UPSC CSAT, Defence, and State exams.
             </p>
           </div>
           <div
-            class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1"
+            class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1 shadow-xs"
           >
             <h4 class="font-bold text-slate-900">
-              How many tests can I attempt daily?
+              Can I give tests on Mobile?
             </h4>
-            <p class="text-slate-500 leading-relaxed font-medium">
-              There is no daily attempt limit. You can practice as many
-              sectional drills and full mock papers as you need.
+            <p class="text-slate-600 leading-relaxed font-medium">
+              Yes, our interface is 100% mobile-friendly with real CBT exam
+              timer simulation.
             </p>
           </div>
         </div>
@@ -231,7 +201,297 @@
     <!-- REUSABLE FOOTER -->
     <div id="global-footer"></div>
 
-    <!-- REUSABLE LAYOUT SCRIPT -->
+    <!-- SCRIPTS -->
     <script src="/js/layout.js"></script>
+    <script>
+      const API_BASE_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/subscription";
+      let b2cPlans = [];
+      let activeCycle = "all";
+
+      async function fetchB2CPlans() {
+        try {
+          const response = await fetch(
+            `${API_BASE_URL}?businessModel=B2C&status=active&limit=50`,
+            {
+              headers: { Accept: "application/json" },
+            },
+          );
+
+          if (!response.ok) throw new Error("Network error");
+          const resJson = await response.json();
+
+          if (resJson.success && Array.isArray(resJson.data)) {
+            b2cPlans = resJson.data.filter(
+              (p) =>
+                p.businessModel === "B2C" &&
+                p.isActive !== false &&
+                p.status !== "inactive",
+            );
+          } else {
+            throw new Error("Invalid format");
+          }
+        } catch (error) {
+          console.warn("Using local fallback data:", error);
+          const local = localStorage.getItem("exammokk_sub_plans");
+          if (local) {
+            try {
+              b2cPlans = JSON.parse(local).filter(
+                (p) =>
+                  p.businessModel === "B2C" &&
+                  p.isActive !== false &&
+                  p.status !== "inactive",
+              );
+            } catch (e) {
+              b2cPlans = [];
+            }
+          }
+        }
+
+        renderPlans();
+      }
+
+      function filterByCycle(cycle) {
+        activeCycle = cycle;
+        document.querySelectorAll(".cycle-tab").forEach((tab) => {
+          if (tab.dataset.cycle === cycle) {
+            tab.className =
+              "cycle-tab px-4 py-1.5 rounded-full text-xs font-extrabold transition-all border border-indigo-600 bg-indigo-600 text-white shadow-xs cursor-pointer";
+          } else {
+            tab.className =
+              "cycle-tab px-4 py-1.5 rounded-full text-xs font-bold transition-all border border-slate-200 bg-white text-slate-600 hover:border-slate-300 cursor-pointer";
+          }
+        });
+        renderPlans();
+      }
+
+      function toggleFeatures(planIndex) {
+        const moreContainer = document.getElementById(
+          `more-features-${planIndex}`,
+        );
+        const btnText = document.getElementById(`toggle-text-${planIndex}`);
+        const icon = document.getElementById(`toggle-icon-${planIndex}`);
+
+        if (moreContainer.classList.contains("hidden")) {
+          moreContainer.classList.remove("hidden");
+          btnText.innerText = "Show Less";
+          icon.setAttribute("data-lucide", "chevron-up");
+        } else {
+          moreContainer.classList.add("hidden");
+          btnText.innerText = `View More Features (${moreContainer.dataset.extraCount})`;
+          icon.setAttribute("data-lucide", "chevron-down");
+        }
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function renderPlans() {
+        const container = document.getElementById("plansContainer");
+        const filtered = b2cPlans.filter((p) => {
+          if (activeCycle === "all") return true;
+          return p.durationCycle?.toLowerCase() === activeCycle.toLowerCase();
+        });
+
+        if (filtered.length === 0) {
+          container.innerHTML = `
+            <div class="w-full max-w-md mx-auto py-12 text-center space-y-3 bg-white border border-slate-200 rounded-3xl p-6 shadow-xs">
+              <i data-lucide="package-search" class="w-10 h-10 text-slate-300 mx-auto"></i>
+              <p class="text-xs font-bold text-slate-600">No active student plans found for this duration.</p>
+              <button onclick="filterByCycle('all')" class="text-xs text-indigo-600 font-extrabold hover:underline cursor-pointer">Show all plans</button>
+            </div>
+          `;
+          if (window.lucide) lucide.createIcons();
+          return;
+        }
+
+        container.innerHTML = filtered
+          .map((plan, index) => {
+            const isPopular = index === 0 || plan.durationCycle === "yearly";
+            const price = Number(plan.price) || 0;
+            const discountPrice = Number(plan.discountPrice) || price;
+            const hasDiscount = discountPrice < price;
+            const discPercent =
+              plan.promoDiscountPercent ||
+              (hasDiscount
+                ? Math.round(((price - discountPrice) / price) * 100)
+                : 0);
+
+            const cycleMap = {
+              monthly: "Monthly Pass (30 Days)",
+              quarterly: "Quarterly Pass (90 Days)",
+              half_yearly: "Half-Yearly Pass (180 Days)",
+              yearly: "1 Year Access (365 Days)",
+            };
+            const durationLabel =
+              cycleMap[plan.durationCycle] || plan.durationCycle || "Validity";
+
+            // Features setup
+            const primaryList = [
+              plan.entitlements?.dailyTestLimit
+                ? `${plan.entitlements.dailyTestLimit} Tests Daily Attempt Limit`
+                : "Unlimited Tests Attempt Daily",
+              plan.entitlements?.aiExplanationAccess !== false
+                ? "AI Detailed Explanations Included"
+                : "Standard Answer Explanations",
+            ];
+
+            let extraFeatures = [];
+            if (Array.isArray(plan.features) && plan.features.length > 0) {
+              extraFeatures = plan.features;
+            } else {
+              extraFeatures = [
+                "Full Mock Tests + Subject Quizzes",
+                "Real NTA Pattern Negative Marking CBT",
+                "All-India Percentile & AIR Rank Card",
+                "Instant Weakness & Accuracy Insights",
+              ];
+            }
+
+            const allCombined = [...primaryList, ...extraFeatures];
+            const visibleFeatures = allCombined.slice(0, 3);
+            const hiddenFeatures = allCombined.slice(3);
+
+            return `
+              <div class="w-full sm:w-[350px] md:w-[360px] bg-white border ${isPopular ? "border-2 border-indigo-600 shadow-xl shadow-indigo-100" : "border-slate-200 shadow-xs"} rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-200">
+                
+                <div class="space-y-4">
+                  <!-- Header Top Badge -->
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">
+                      ${durationLabel}
+                    </span>
+                    ${
+                      isPopular
+                        ? `
+                      <span class="bg-indigo-600 text-white text-[9px] sm:text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
+                        <i data-lucide="crown" class="w-3 h-3 text-amber-300"></i>
+                        <span>Popular</span>
+                      </span>
+                    `
+                        : ""
+                    }
+                  </div>
+
+                  <!-- Plan Title -->
+                  <div>
+                    <h3 class="text-lg sm:text-xl font-black text-slate-900 leading-snug">${plan.planName}</h3>
+                    <p class="text-[10px] font-mono text-slate-400 font-bold uppercase">${plan.planCode || "PLAN_PASS"}</p>
+                  </div>
+
+                  <!-- Pricing Container -->
+                  <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 flex items-baseline justify-between">
+                    <div>
+                      <div class="flex items-baseline gap-1.5">
+                        <span class="text-2xl sm:text-3xl font-black text-slate-900 font-mono">₹${discountPrice}</span>
+                        ${hasDiscount ? `<span class="text-xs font-bold text-slate-400 line-through font-mono">₹${price}</span>` : ""}
+                      </div>
+                      <span class="text-[10px] text-slate-500 font-bold block">One-time payment</span>
+                    </div>
+
+                    ${
+                      discPercent > 0
+                        ? `
+                      <span class="text-[10px] font-black text-emerald-700 bg-emerald-50 px-2 py-1 rounded-lg border border-emerald-200">
+                        ${discPercent}% OFF
+                      </span>
+                    `
+                        : ""
+                    }
+                  </div>
+
+                  <!-- 6-Char Promo Code Tag -->
+                  ${
+                    plan.promoCode
+                      ? `
+                    <div class="px-3 py-2 bg-indigo-50/70 border border-indigo-100 rounded-xl flex items-center justify-between gap-2">
+                      <div class="flex items-center gap-1.5">
+                        <i data-lucide="tag" class="w-3.5 h-3.5 text-indigo-600 shrink-0"></i>
+                        <span class="font-mono font-black text-xs text-indigo-900 tracking-wider">${plan.promoCode}</span>
+                      </div>
+                      <button onclick="copyCode('${plan.promoCode}')" class="px-2 py-0.5 bg-white text-indigo-700 border border-indigo-200 text-[10px] font-bold rounded-md hover:bg-indigo-50 active:scale-95 transition cursor-pointer">
+                        Copy
+                      </button>
+                    </div>
+                  `
+                      : ""
+                  }
+
+                  <!-- Visible Features -->
+                  <div class="space-y-2 pt-1">
+                    <ul class="space-y-2 text-xs font-semibold text-slate-700">
+                      ${visibleFeatures
+                        .map(
+                          (f) => `
+                        <li class="flex items-start gap-2">
+                          <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
+                          <span class="leading-tight">${f}</span>
+                        </li>
+                      `,
+                        )
+                        .join("")}
+                    </ul>
+
+                    <!-- Expandable Features Content -->
+                    ${
+                      hiddenFeatures.length > 0
+                        ? `
+                      <div id="more-features-${index}" data-extra-count="${hiddenFeatures.length}" class="hidden pt-2 border-t border-dashed border-slate-200 space-y-2">
+                        <ul class="space-y-2 text-xs font-semibold text-slate-700">
+                          ${hiddenFeatures
+                            .map(
+                              (f) => `
+                            <li class="flex items-start gap-2">
+                              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-indigo-600 shrink-0 mt-0.5"></i>
+                              <span class="leading-tight">${f}</span>
+                            </li>
+                          `,
+                            )
+                            .join("")}
+                        </ul>
+                      </div>
+
+                      <!-- Arrow Down / Expand Button -->
+                      <button
+                        type="button"
+                        onclick="toggleFeatures(${index})"
+                        class="w-full py-1 text-[11px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center justify-center gap-1 cursor-pointer transition select-none"
+                      >
+                        <span id="toggle-text-${index}">View More Features (${hiddenFeatures.length})</span>
+                        <i id="toggle-icon-${index}" data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                      </button>
+                    `
+                        : ""
+                    }
+                  </div>
+                </div>
+
+                <!-- Action CTA Button -->
+                <div class="pt-4 mt-4 border-t border-slate-100">
+                  <a
+                    href="/checkout?planId=${plan._id || plan.id || ""}&code=${plan.promoCode || ""}"
+                    class="w-full py-3 ${isPopular ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-100" : "bg-slate-900 hover:bg-slate-800 text-white"} font-black rounded-xl flex items-center justify-center gap-1.5 text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer no-underline"
+                  >
+                    <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-300 fill-current"></i>
+                    <span>Get Access Pass</span>
+                  </a>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function copyCode(code) {
+        navigator.clipboard.writeText(code).then(() => {
+          alert(`Coupon code "${code}" copied to clipboard!`);
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        fetchB2CPlans();
+        if (window.lucide) lucide.createIcons();
+      });
+    </script>
   </body>
 </html>
