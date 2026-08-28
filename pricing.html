@@ -18,8 +18,13 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://exammokk.cloud/pricing" />
 
+    <!-- Tailwind CSS & Lucide Icons -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Razorpay Checkout Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -166,7 +171,7 @@
             <span>Have a Coaching Promo Code?</span>
           </h3>
           <p class="text-xs sm:text-sm text-indigo-200 font-medium">
-            Enter your 6-character code at checkout to claim instant discounts.
+            Enter your promo code directly during checkout to claim discounts.
           </p>
         </div>
         <a
@@ -220,6 +225,7 @@
       </section>
     </main>
 
+    <!-- Modal: Login Required -->
     <div
       id="login-required-modal"
       class="fixed inset-0 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden"
@@ -265,94 +271,18 @@
       </div>
     </div>
 
+    <!-- Processing Overlay Loader -->
     <div
-      id="checkout-modal"
-      class="fixed inset-0 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden"
+      id="payment-loading-modal"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden"
     >
       <div
-        class="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full border border-slate-200 shadow-2xl space-y-4 animate-fade"
+        class="bg-white rounded-3xl p-6 max-w-xs w-full text-center space-y-3 flex flex-col items-center shadow-2xl animate-fade"
       >
-        <div
-          class="flex items-center justify-between border-b border-slate-100 pb-3"
-        >
-          <div>
-            <h3 class="text-base font-black text-slate-900">
-              Confirm Activation
-            </h3>
-            <p class="text-xs text-slate-400 font-semibold">
-              Direct Plan Assignment
-            </p>
-          </div>
-          <button
-            onclick="closeCheckoutModal()"
-            class="p-1.5 bg-slate-100 rounded-full text-slate-400 hover:text-slate-700 cursor-pointer"
-          >
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
-        </div>
-
-        <div
-          class="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-2.5 text-xs"
-        >
-          <div class="flex items-center justify-between">
-            <span class="text-slate-500 font-semibold">Selected Plan:</span>
-            <span id="modal-plan-name" class="font-bold text-slate-900"
-              >--</span
-            >
-          </div>
-          <div class="flex items-center justify-between">
-            <span class="text-slate-500 font-semibold">Billing Duration:</span>
-            <span id="modal-plan-cycle" class="font-bold text-slate-900"
-              >--</span
-            >
-          </div>
-
-          <div class="border-t border-slate-200/60 pt-2.5 space-y-1.5">
-            <div class="flex items-center justify-between">
-              <span class="text-slate-500 font-semibold"
-                >Promo / Coupon Code:</span
-              >
-              <span
-                id="modal-promo-tag"
-                class="font-mono font-bold text-indigo-600"
-                >NONE</span
-              >
-            </div>
-            <div class="flex items-center gap-1.5">
-              <input
-                type="text"
-                id="modal-coupon-input"
-                maxlength="6"
-                placeholder="6-CHAR PROMO"
-                class="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg font-mono font-bold text-xs uppercase text-center outline-none focus:border-indigo-600"
-              />
-              <button
-                onclick="applyModalPromo()"
-                class="px-3 py-1.5 bg-indigo-600 text-white rounded-lg font-bold text-xs hover:bg-indigo-700 cursor-pointer"
-              >
-                Apply
-              </button>
-            </div>
-          </div>
-
-          <div
-            class="flex items-center justify-between border-t border-slate-200/60 pt-2.5 text-sm font-black"
-          >
-            <span class="text-slate-900">Payable Amount:</span>
-            <span id="modal-plan-price" class="text-indigo-600 font-mono-tag"
-              >₹0</span
-            >
-          </div>
-        </div>
-
-        <button
-          id="btn-confirm-buy"
-          onclick="executeBuySubscription()"
-          class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition cursor-pointer shadow-lg shadow-indigo-600/25 flex items-center justify-center gap-2"
-        >
-          <span>Confirm &amp; Activate Plan</span>
-          <i data-lucide="check-circle" class="w-4 h-4"></i>
-        </button>
+        <div class="spinner"></div>
+        <p class="text-xs font-bold text-slate-700" id="payment-loading-text">
+          Initializing Payment...
+        </p>
       </div>
     </div>
 
@@ -360,15 +290,29 @@
 
     <script src="/js/layout.js"></script>
     <script>
-      const API_BASE_URL =
+      const SUBSCRIPTION_API_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/subscription";
+      const PAYMENT_API_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/payment";
+
       let b2cPlans = [];
       let activeCycle = "all";
       let selectedPlan = null;
       let appliedPromoCode = "";
       let appliedDiscountPercent = 0;
 
-      // 1. Check if user is logged in from localStorage
+      function showGlobalLoader(text = "Initializing Payment...") {
+        const el = document.getElementById("payment-loading-modal");
+        const txt = document.getElementById("payment-loading-text");
+        if (txt) txt.innerText = text;
+        if (el) el.classList.remove("hidden");
+      }
+
+      function hideGlobalLoader() {
+        const el = document.getElementById("payment-loading-modal");
+        if (el) el.classList.add("hidden");
+      }
+
       function checkUserLoggedIn() {
         const rawUser =
           localStorage.getItem("exammokk_user") ||
@@ -396,19 +340,18 @@
             localStorage.setItem("exammokk_user", rawUser);
           }
 
-          return uid ? { userId: uid, user: userObj } : null;
+          return uid ? { userId: uid, user: userObj, token } : null;
         } catch (e) {
           return null;
         }
       }
 
-      // 2. Fetch B2C Plans
       async function fetchB2CPlans() {
         const container = document.getElementById("plansContainer");
 
         try {
           const response = await fetch(
-            `${API_BASE_URL}?businessModel=B2C&status=active&limit=50`,
+            `${SUBSCRIPTION_API_URL}?businessModel=B2C&status=active&limit=50`,
             {
               headers: { Accept: "application/json" },
             },
@@ -434,7 +377,7 @@
           if (b2cPlans.length === 0) {
             container.innerHTML = `
               <div class="col-span-full p-8 bg-white border border-slate-200 rounded-3xl text-center text-xs font-bold text-slate-400">
-                No active B2C plans configured on the server currently.
+                No active passes found at the moment.
               </div>
             `;
             return;
@@ -457,7 +400,6 @@
         }
 
         renderPlans();
-        checkPendingPurchaseAfterLogin();
       }
 
       function filterByCycle(cycle) {
@@ -496,7 +438,6 @@
       function renderPlans() {
         const container = document.getElementById("plansContainer");
 
-        // FREE FOREVER CARD
         const freeCardHtml = `
           <div class="w-full sm:w-[340px] md:w-[350px] bg-white border border-slate-200/90 shadow-xs rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-200">
             <div class="space-y-4">
@@ -559,7 +500,6 @@
           return p.durationCycle?.toLowerCase() === activeCycle.toLowerCase();
         });
 
-        // Dynamic Cards with Buy Button
         const dynamicCardsHtml = filtered
           .map((plan, index) => {
             const isPopular =
@@ -609,7 +549,6 @@
 
             return `
               <div class="w-full sm:w-[340px] md:w-[350px] bg-white border ${isPopular ? "border-2 border-indigo-600 shadow-xl shadow-indigo-100" : "border-slate-200 shadow-xs"} rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-200">
-                
                 <div class="space-y-4">
                   <div class="flex items-center justify-between gap-2">
                     <span class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">
@@ -743,9 +682,7 @@
         });
       }
 
-      // ==============================================================
-      // 3. BUY CLICK HANDLER (CHECK LOGIN -> MODAL OR POPUP)
-      // ==============================================================
+      // Handle Buy Click
       function handleBuyClick(index) {
         const filtered = b2cPlans.filter((p) => {
           if (activeCycle === "all") return true;
@@ -758,11 +695,12 @@
         selectedPlan = plan;
         const authData = checkUserLoggedIn();
 
-        // Agar user login NAHI hai to "Login Required Modal" kholo
+        // 1. Agar logged in NAHI hai -> Target billing.html set karein aur session data save karein
         if (!authData || !authData.userId) {
+          sessionStorage.setItem("redirect_after_login", "billing.html");
           sessionStorage.setItem("pending_plan_id", plan._id || plan.id || "");
           sessionStorage.setItem("pending_promo_code", plan.promoCode || "");
-          sessionStorage.setItem("redirect_after_login", "billing.html");
+          sessionStorage.setItem("auto_trigger_payment", "true");
 
           document.getElementById("login-modal-plan-name").innerText =
             plan.planName;
@@ -773,15 +711,10 @@
           return;
         }
 
-        // Agar user login hai to Checkout/Activation Modal open karo
+        // 2. Already Logged In -> Direct Razorpay Trigger
         appliedPromoCode = selectedPlan.promoCode || "";
         appliedDiscountPercent = selectedPlan.promoDiscountPercent || 0;
-
-        document.getElementById("modal-coupon-input").value = appliedPromoCode;
-        updateModalPricing();
-
-        document.getElementById("checkout-modal").classList.remove("hidden");
-        if (window.lucide) lucide.createIcons();
+        executeBuySubscription();
       }
 
       function closeLoginRequiredModal() {
@@ -792,57 +725,8 @@
         window.location.href = "login.html";
       }
 
-      function checkPendingPurchaseAfterLogin() {
-        const pendingPlanId = sessionStorage.getItem("pending_plan_id");
-        const authData = checkUserLoggedIn();
-
-        if (pendingPlanId && authData && authData.userId) {
-          sessionStorage.removeItem("pending_plan_id");
-          const promo = sessionStorage.getItem("pending_promo_code") || "";
-          sessionStorage.removeItem("pending_promo_code");
-
-          const matchedIndex = b2cPlans.findIndex(
-            (p) => p._id === pendingPlanId || p.id === pendingPlanId,
-          );
-          if (matchedIndex !== -1) {
-            handleBuyClick(matchedIndex);
-            if (promo) {
-              document.getElementById("modal-coupon-input").value = promo;
-              applyModalPromo();
-            }
-          }
-        }
-      }
-
-      function closeCheckoutModal() {
-        document.getElementById("checkout-modal").classList.add("hidden");
-      }
-
-      function applyModalPromo() {
-        const input = document
-          .getElementById("modal-coupon-input")
-          .value.trim()
-          .toUpperCase();
-        if (!input) {
-          appliedPromoCode = "";
-          appliedDiscountPercent = 0;
-        } else if (
-          selectedPlan &&
-          selectedPlan.promoCode &&
-          input === selectedPlan.promoCode.toUpperCase()
-        ) {
-          appliedPromoCode = input;
-          appliedDiscountPercent = selectedPlan.promoDiscountPercent || 20;
-        } else {
-          appliedPromoCode = input;
-          appliedDiscountPercent = 15;
-        }
-        updateModalPricing();
-      }
-
-      function updateModalPricing() {
-        if (!selectedPlan) return;
-
+      function getCalculatedPrice() {
+        if (!selectedPlan) return 0;
         const basePrice =
           selectedPlan.discountPrice && selectedPlan.discountPrice > 0
             ? selectedPlan.discountPrice
@@ -855,56 +739,132 @@
             Math.round(basePrice - (basePrice * appliedDiscountPercent) / 100),
           );
         }
-
-        document.getElementById("modal-plan-name").innerText =
-          selectedPlan.planName;
-        document.getElementById("modal-plan-cycle").innerText = (
-          selectedPlan.durationCycle || "Monthly"
-        ).toUpperCase();
-        document.getElementById("modal-promo-tag").innerText = appliedPromoCode
-          ? `${appliedPromoCode} (${appliedDiscountPercent}%)`
-          : "NONE";
-        document.getElementById("modal-plan-price").innerText =
-          `₹${finalPrice}`;
+        return finalPrice;
       }
 
-      // ==============================================================
-      // 4. EXECUTE BUY SUBSCRIPTION (POST /api/subscription/buy)
-      // ==============================================================
+      // Payment Trigger & Execution
       async function executeBuySubscription() {
         if (!selectedPlan) return;
 
         const authData = checkUserLoggedIn();
         if (!authData || !authData.userId) {
-          closeCheckoutModal();
           document
             .getElementById("login-required-modal")
             .classList.remove("hidden");
           return;
         }
 
-        const btn = document.getElementById("btn-confirm-buy");
-        btn.disabled = true;
-        btn.innerHTML = `<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> <span>Activating...</span>`;
+        showGlobalLoader("Preparing Secure Checkout...");
+
+        const finalAmount = getCalculatedPrice();
+
+        if (finalAmount <= 0) {
+          await processDirectAssignment(authData);
+          return;
+        }
 
         try {
-          const res = await fetch(`${API_BASE_URL}/buy`, {
+          const orderResponse = await fetch(`${PAYMENT_API_URL}/create-order`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              ...(authData.token
+                ? { Authorization: `Bearer ${authData.token}` }
+                : {}),
             },
             body: JSON.stringify({
               userId: authData.userId,
               planId: selectedPlan._id || selectedPlan.id,
+              amount: finalAmount,
               promoCode: appliedPromoCode,
-              paymentGateway: "DIRECT_ASSIGN",
             }),
           });
 
+          const orderData = await orderResponse.json();
+          hideGlobalLoader();
+
+          if (!orderResponse.ok || !orderData.success) {
+            throw new Error(
+              orderData.message || "Failed to create order on server.",
+            );
+          }
+
+          const {
+            orderId,
+            amount,
+            currency = "INR",
+            razorpayKeyId,
+          } = orderData.data || orderData;
+
+          const options = {
+            key: razorpayKeyId,
+            amount: amount || finalAmount * 100,
+            currency: currency,
+            name: "ExamMokk",
+            description: `Pass: ${selectedPlan.planName}`,
+            order_id: orderId,
+            image: "https://exammokk.cloud/favicon.ico",
+            handler: async function (paymentResponse) {
+              showGlobalLoader("Verifying Payment & Activating...");
+              await verifyRazorpayPayment({
+                userId: authData.userId,
+                planId: selectedPlan._id || selectedPlan.id,
+                promoCode: appliedPromoCode,
+                razorpay_payment_id: paymentResponse.razorpay_payment_id,
+                razorpay_order_id: paymentResponse.razorpay_order_id,
+                razorpay_signature: paymentResponse.razorpay_signature,
+              });
+            },
+            prefill: {
+              name: authData.user?.name || authData.user?.candidateName || "",
+              email: authData.user?.email || "",
+              contact:
+                authData.user?.phone ||
+                authData.user?.mobile ||
+                authData.user?.mobileNumber ||
+                "",
+            },
+            theme: {
+              color: "#4f46e5",
+            },
+            modal: {
+              ondismiss: function () {
+                hideGlobalLoader();
+              },
+            },
+          };
+
+          const rzp = new Razorpay(options);
+          rzp.on("payment.failed", function (response) {
+            hideGlobalLoader();
+            alert(
+              response.error?.description ||
+                "Payment failed. Please try again.",
+            );
+          });
+
+          rzp.open();
+        } catch (e) {
+          hideGlobalLoader();
+          console.error("Razorpay Checkout Error:", e);
+          alert(e.message || "Failed to initiate payment. Please try again.");
+        }
+      }
+
+      async function verifyRazorpayPayment(payload) {
+        try {
+          const res = await fetch(`${PAYMENT_API_URL}/verify-payment`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
           const data = await res.json();
+          hideGlobalLoader();
 
           if (res.ok && data.success) {
-            // Save active plan locally for billing.html
             const currentPlanSnapshot = {
               planName: selectedPlan.planName,
               planCode: selectedPlan.planCode || "PLAN_ACTIVE",
@@ -921,19 +881,55 @@
             sessionStorage.removeItem("pending_plan_id");
             sessionStorage.removeItem("pending_promo_code");
 
-            closeCheckoutModal();
-            // Direct Redirect to Billing Page
+            window.location.href = "billing.html";
+          } else {
+            alert(data.message || "Payment verification failed.");
+          }
+        } catch (err) {
+          hideGlobalLoader();
+          console.error("Verification Error:", err);
+          alert("Payment verification network error. Please contact support.");
+        }
+      }
+
+      async function processDirectAssignment(authData) {
+        try {
+          const res = await fetch(`${SUBSCRIPTION_API_URL}/buy`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: authData.userId,
+              planId: selectedPlan._id || selectedPlan.id,
+              promoCode: appliedPromoCode,
+              paymentGateway: "DIRECT_ASSIGN",
+            }),
+          });
+
+          const data = await res.json();
+          hideGlobalLoader();
+
+          if (res.ok && data.success) {
+            const currentPlanSnapshot = {
+              planName: selectedPlan.planName,
+              planCode: selectedPlan.planCode || "PLAN_ACTIVE",
+              durationCycle: selectedPlan.durationCycle || "monthly",
+              validityDate:
+                data.data?.userSubscription?.expiryDate || "31 Dec 2026",
+              activatedAt: new Date().toISOString(),
+            };
+            localStorage.setItem(
+              "exammokk_active_plan",
+              JSON.stringify(currentPlanSnapshot),
+            );
             window.location.href = "billing.html";
           } else {
             alert(data.message || "Failed to activate subscription.");
           }
         } catch (e) {
-          console.error("Buy API Error:", e);
-          alert("Server connection error. Please try again.");
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML = `<span>Confirm &amp; Activate Plan</span> <i data-lucide="check-circle" class="w-4 h-4"></i>`;
-          if (window.lucide) lucide.createIcons();
+          hideGlobalLoader();
+          alert("Server error occurred. Please try again.");
         }
       }
 

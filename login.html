@@ -118,7 +118,7 @@
       <header
         class="px-6 sm:px-8 pt-7 pb-5 flex items-center justify-between border-b border-slate-100 bg-white sticky top-0 z-10"
       >
-        <!-- 1. SMART BACK BUTTON -->
+        <!-- SMART BACK BUTTON -->
         <button
           id="app-back-btn"
           onclick="handleAppBackNavigation()"
@@ -128,7 +128,7 @@
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
         </button>
 
-        <!-- 2. BRAND LOGO (CLICKABLE HOME LINK) -->
+        <!-- BRAND LOGO -->
         <a
           href="index.html"
           class="flex items-center gap-2.5 no-underline hover:opacity-90 transition-opacity"
@@ -295,7 +295,6 @@
             class="space-y-3.5"
             novalidate
           >
-            <!-- 1. FULL NAME FIELD -->
             <div>
               <label class="text-[11px] font-bold text-slate-700 block mb-1">
                 Candidate Full Name <span class="text-rose-500">*</span>
@@ -310,7 +309,6 @@
               />
             </div>
 
-            <!-- 2. GENDER SELECTION FIELD -->
             <div>
               <label class="text-[11px] font-bold text-slate-700 block mb-1">
                 Gender <span class="text-rose-500">*</span>
@@ -355,7 +353,6 @@
               </div>
             </div>
 
-            <!-- 3. PASSWORD FIELD -->
             <div>
               <label class="text-[11px] font-bold text-slate-700 block mb-1">
                 Create Password <span class="text-rose-500">*</span>
@@ -374,7 +371,6 @@
               />
             </div>
 
-            <!-- 4. TERMS CHECKBOX FIELD -->
             <div>
               <div class="flex items-start gap-2 pt-0.5">
                 <input
@@ -438,11 +434,11 @@
             onclick="finishAuthAndGoHome()"
             class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-lg shadow-emerald-600/25 transition-all"
           >
-            Access Candidate Dashboard →
+            Continue →
           </button>
         </section>
 
-        <!-- 3. FOOTER TEXT BACK TO HOME LINK -->
+        <!-- FOOTER TEXT BACK TO HOME LINK -->
         <div class="text-center pt-2">
           <a
             href="index.html"
@@ -472,7 +468,6 @@
       const REDIRECT_TARGET = "frontend_dashboard.html";
       const HOME_PAGE = "index.html";
 
-      // Standard LocalStorage Keys
       const STORAGE_KEYS = {
         TOKEN: "exammokk_token",
         USER: "exammokk_user",
@@ -483,7 +478,6 @@
       let mobileNumber = "";
       let toastTimer = null;
 
-      // Toast Notifications
       function showNativeToast(title, msg, type = "error") {
         const toast = document.getElementById("app-toast");
         const titleEl = document.getElementById("toast-title");
@@ -542,7 +536,6 @@
         if (toast) toast.classList.add("hidden");
       }
 
-      // Visual Input Feedback
       function markInputError(inputId, customContainerId = null) {
         const inputEl = document.getElementById(inputId);
         const container = customContainerId
@@ -620,7 +613,6 @@
         if (window.lucide) lucide.createIcons();
       }
 
-      // Smart Back Navigation (Step History OR Home)
       function handleAppBackNavigation() {
         if (activeStepHistory.length > 1) {
           activeStepHistory.pop();
@@ -631,7 +623,7 @@
         }
       }
 
-      // 1. Mobile Check Step
+      // Step 1: Mobile Check
       async function handleCommonLoginSubmit(e) {
         e.preventDefault();
         mobileNumber = document.getElementById("user-mobile").value.trim();
@@ -682,7 +674,7 @@
         }
       }
 
-      // 2. Password Login Step
+      // Step 2: Password Login
       async function handlePasswordSubmit(e) {
         e.preventDefault();
         const password = document.getElementById("user-password-input").value;
@@ -746,7 +738,7 @@
         }
       }
 
-      // 3. Quick Registration Step
+      // Step 3: Registration
       async function handleRegistrationSubmit(e) {
         e.preventDefault();
 
@@ -863,6 +855,7 @@
         }
       }
 
+      // Finish Auth & Redirect to Captured Origin (billing.html) or Default Dashboard
       function finishAuthAndGoHome() {
         const sessionData = {
           date: new Date().toISOString(),
@@ -871,14 +864,30 @@
           isActivated: true,
         };
         localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(sessionData));
-        setTimeout(() => {
-          window.location.href = REDIRECT_TARGET;
-        }, 300);
+
+        const redirectTarget = sessionStorage.getItem("redirect_after_login");
+
+        if (redirectTarget) {
+          sessionStorage.removeItem("redirect_after_login");
+          setTimeout(() => {
+            window.location.href = redirectTarget;
+          }, 300);
+        } else {
+          setTimeout(() => {
+            window.location.href = REDIRECT_TARGET;
+          }, 300);
+        }
       }
 
-      // Check for Existing Session
+      // Check for Existing Session on Page Load
       document.addEventListener("DOMContentLoaded", () => {
         if (localStorage.getItem(STORAGE_KEYS.TOKEN)) {
+          const redirectTarget = sessionStorage.getItem("redirect_after_login");
+          if (redirectTarget) {
+            sessionStorage.removeItem("redirect_after_login");
+            window.location.href = redirectTarget;
+            return;
+          }
           window.location.href = REDIRECT_TARGET;
           return;
         }

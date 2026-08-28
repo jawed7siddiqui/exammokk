@@ -304,9 +304,38 @@ function closeLogoutModal() {
 }
 
 function confirmLogoutAction() {
-  localStorage.removeItem(STORAGE_KEYS.TOKEN);
-  localStorage.removeItem(STORAGE_KEYS.USER);
-  localStorage.removeItem(STORAGE_KEYS.SESSION);
+  // 1. Clear All Core & Legacy Keys from localStorage
+  const keysToRemove = [
+    // Current Storage Keys
+    "exammokk_token",
+    "exammokk_user",
+    "exammokk_session",
+    "exammokk_active_plan",
+    "exammokk_sub_plans",
+    "user_fcm_token",
+
+    // Legacy / Cross-Portal Keys
+    "examIndiaToken",
+    "examIndiaUser",
+    "kidsPaintToken",
+    "kidsPaintUser",
+    "auth_token",
+    "token",
+    "access_token",
+    "user",
+    "authUser",
+    "user_info",
+  ];
+
+  keysToRemove.forEach((key) => localStorage.removeItem(key));
+
+  // 2. Clear SessionStorage (Checkout context, pending plans, promo codes, redirect paths)
+  sessionStorage.clear();
+
+  // 3. Optional: Agar aap completely sab kuch reset karna chahte hain localStorage se:
+  // localStorage.clear();
+
+  // 4. Redirect to login page
   window.location.href = "login.html";
 }
 
