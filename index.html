@@ -11,11 +11,11 @@
     <title>ExamMokk - Online Mock Tests & Exam Preparation Practice 2026</title>
     <meta
       name="description"
-      content="ExamMokk is an independent exam preparation platform and online mock test simulator. Practice Daily GK Quizzes, SSC CGL, Bank PO/Clerk, RRB NTPC, UPSC Prelims, and Defence mock tests."
+      content="ExamMokk is an independent exam preparation platform and online mock test simulator. Practice Daily GK Quizzes, SSC CGL, Bank PO/Clerk, RRB NTPC, BPSC, JPSC, UPSC Prelims, and Defence mock tests."
     />
     <meta
       name="keywords"
-      content="daily gk quiz, aaj ka gk test, exam preparation practice app, competitive exam mock tests, ssc cgl mock test practice, bank po test series, rrb ntpc online test simulator"
+      content="daily gk quiz, aaj ka gk test, exam preparation practice app, competitive exam mock tests, ssc cgl mock test practice, bank po test series, rrb ntpc online test simulator, bpsc mock test, jpsc prelims test series"
     />
     <meta
       name="robots"
@@ -42,7 +42,7 @@
     />
     <meta
       property="og:description"
-      content="Prepare for SSC, Banking, Railways, UPSC, and State exams with simulated mock tests, instant scorecards, and subject-wise quizzes on ExamMokk."
+      content="Prepare for SSC, Banking, Railways, BPSC, JPSC, UPSC, and State exams with simulated mock tests, instant scorecards, and subject-wise quizzes on ExamMokk."
     />
     <meta
       property="og:image"
@@ -65,7 +65,7 @@
     />
     <meta
       name="twitter:description"
-      content="Free online practice tests & Daily GK quizzes for SSC, Banking, Railways & UPSC."
+      content="Free online practice tests & Daily GK quizzes for SSC, Banking, Railways, BPSC, JPSC & UPSC."
     />
     <meta
       name="twitter:image"
@@ -87,7 +87,7 @@
               "price": "0",
               "priceCurrency": "INR"
             },
-            "description": "Independent competitive examination preparation application for SSC, Banking, Railways, UPSC, JEE, NEET and Daily GK Quiz practice.",
+            "description": "Independent competitive examination preparation application for SSC, Banking, Railways, BPSC, JPSC, UPSC, JEE, NEET and Daily GK Quiz practice.",
             "url": "https://exammokk.cloud/"
           },
           {
@@ -166,8 +166,8 @@
             class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed font-medium"
           >
             Practice simulated CBT tests for SSC CGL, Banking (SBI/IBPS),
-            Railways RRB, UPSC Prelims, JEE &amp; NEET with standard exam
-            marking, daily quizzes, and percentile analytics.
+            Railways RRB, BPSC, JPSC, UPSC Prelims, JEE &amp; NEET with standard
+            exam marking, daily quizzes, and percentile analytics.
           </p>
 
           <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
@@ -232,7 +232,7 @@
               <span
                 class="text-[11px] font-black bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full border border-indigo-100"
               >
-                8 Streams
+                10 Streams
               </span>
             </div>
             <p class="text-xs text-slate-500 font-medium">
@@ -284,7 +284,7 @@
                 >
                 <span
                   class="bg-white/20 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase"
-                  >SSC • Banking • Railways • UPSC</span
+                  >SSC • Banking • Railways • BPSC • UPSC</span
                 >
               </div>
               <h3 class="text-lg sm:text-2xl font-black">
@@ -333,7 +333,7 @@
                   government body, recruitment board, or official testing
                   agency</strong
                 >
-                (such as UPSC, SSC, NTA, IBPS, or Indian Railways).
+                (such as UPSC, SSC, BPSC, JPSC, NTA, IBPS, or Indian Railways).
               </p>
               <p class="text-[11px] leading-relaxed text-slate-400">
                 All mock test patterns and syllabi references are prepared from
@@ -345,6 +345,20 @@
                   rel="noopener"
                   class="underline hover:text-slate-600"
                   >SSC</a
+                >,
+                <a
+                  href="https://bpsc.bih.nic.in"
+                  target="_blank"
+                  rel="noopener"
+                  class="underline hover:text-slate-600"
+                  >BPSC</a
+                >,
+                <a
+                  href="https://jpsc.gov.in"
+                  target="_blank"
+                  rel="noopener"
+                  class="underline hover:text-slate-600"
+                  >JPSC</a
                 >,
                 <a
                   href="https://upsc.gov.in"
@@ -491,7 +505,7 @@
 
               return `
                 <div
-                  onclick="navigateToExam('${item.slug}')"
+                  onclick="navigateToExam('${item.slug || "dashboard?type=" + key}')"
                   class="exam-card group relative bg-white border border-slate-200/90 rounded-2xl p-4 pt-5 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
                 >
                   <span class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight ${theme.badgeBg} px-2.5 py-0.5 rounded-bl-lg border-b border-l uppercase">

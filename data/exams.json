@@ -50,6 +50,108 @@
       }
     ]
   },
+  "bpsc": {
+    "id": "BPSC",
+    "slug": "bpsc",
+    "title": "BPSC Combined Competitive Exam (CCE) & Bihar SI 2026 Free Mock Test App",
+    "metaTitle": "BPSC Prelims Mock Test App 2026 | Free Bihar Special GK & GS Test Series",
+    "metaDesc": "Practice BPSC CCE Prelims & Bihar Daroga online mock tests on ExamMokk. Complete Bihar Special History, Geography, Economy, and General Science with 1/3rd negative marking.",
+    "metaKeywords": "bpsc prep app, bpsc mock test 2026, bpsc prelims test series free, bihar special gk test, bihar daroga mock test app, bpsc cce online test series, bihar psc practice app",
+    "badge": "Bihar Public Service Commission",
+    "badgeColor": "rose",
+    "emoji": "🏛️",
+    "tagline": "Standard 150-Question BPSC Prelims Simulator with Bihar Special & High-Yield Science",
+    "overview": "Comprehensive BPSC Prelims (150 Questions, 150 Marks, 120 Minutes) preparation platform featuring updated 1/3rd (-0.33) negative marking evaluation, in-depth Bihar Special GK, and detailed bilingual solutions.",
+    "subjects": [
+      {
+        "name": "Bihar Special GK & History",
+        "topics": "Ancient Magadha, Buddhism/Jainism, 1857 Revolt in Bihar, Champaran & Freedom Struggle"
+      },
+      {
+        "name": "General Science (Physics, Chemistry, Biology)",
+        "topics": "NCERT Core Concepts, Everyday Applied Science, Human Physiology & Diseases"
+      },
+      {
+        "name": "Indian Polity & Bihar Administration",
+        "topics": "Constitution, Fundamental Rights, Panchayati Raj System in Bihar, State Legislature"
+      },
+      {
+        "name": "Bihar Geography & Economy",
+        "topics": "River Systems of Bihar, Agriculture, Minerals, Bihar Budget & Economic Survey"
+      },
+      {
+        "name": "Current Affairs & Mental Ability",
+        "topics": "National/International Roundups, Bihar State Schemes, Basic Numeracy & Reasoning"
+      }
+    ],
+    "highlights": [
+      "Exact BPSC 150-Question Pattern (120 Minutes)",
+      "Strict 1/3rd (-0.33 mark) Negative Marking Engine",
+      "Dedicated High-Weightage Bihar Special Modules",
+      "Instant All-Bihar Percentile & Category Cutoff Index"
+    ],
+    "faqs": [
+      {
+        "q": "What is the marking scheme for BPSC Prelims on ExamMokk?",
+        "a": "Each question carries 1 mark for correct response and 0.33 marks (1/3rd) are deducted for every wrong attempt."
+      },
+      {
+        "q": "Are Bihar Special Current Affairs and Budget questions updated?",
+        "a": "Yes, latest Bihar Economic Survey, Union/State Budget, and current affairs are thoroughly covered."
+      }
+    ]
+  },
+  "jpsc": {
+    "id": "JPSC",
+    "slug": "jpsc",
+    "title": "JPSC Combined Civil Services & JSSC CGL 2026 Free Exam Prep App",
+    "metaTitle": "JPSC Prelims Free Mock Test App 2026 | Jharkhand Special Paper 1 & 2 Tests",
+    "metaDesc": "Attempt free JPSC Civil Services Prelims Paper 1 & Paper 2 (Jharkhand Special) online mock tests. CNT Act, SPT Act, Tribal Culture, and History with Zero Negative Marking.",
+    "metaKeywords": "jpsc prep app, jpsc prelims mock test 2026, jpsc paper 2 test series free, cnt act spt act mcq, jharkhand gk practice app, jssc cgl online mock test",
+    "badge": "Jharkhand Public Service Commission",
+    "badgeColor": "emerald",
+    "emoji": "🏹",
+    "tagline": "Paper-1 GS & Paper-2 Jharkhand Special (CNT/SPT Acts) Full Simulator",
+    "overview": "Designed specifically for JPSC Civil Services Prelims aspirants. Offers Paper 1 (General Studies) and Paper 2 (Jharkhand Special - 100 Questions, 200 Marks) with exact +2 / 0 (Zero Negative Marking) official scoring pattern.",
+    "subjects": [
+      {
+        "name": "Jharkhand History & Tribal Movements",
+        "topics": "Munda, Santhal, Birsa Munda Revolts, Nagvanshi Dynasty, Freedom Movement in Jharkhand"
+      },
+      {
+        "name": "Jharkhand Specific Laws & Land Acts",
+        "topics": "Chota Nagpur Tenancy (CNT) Act 1908, Santhal Pargana Tenancy (SPT) Act 1949, Land Acquisition"
+      },
+      {
+        "name": "Jharkhand Geography, Mines & Minerals",
+        "topics": "Plateau Geology, Damodar Valley, Forest Management, Coal & Iron Ore Belts"
+      },
+      {
+        "name": "Jharkhand Culture, Art & Famous Personalities",
+        "topics": "Tribal Festivals (Sarhul, Karma), Folk Dances, Sports Personalities & Sahitya"
+      },
+      {
+        "name": "General Studies Paper 1",
+        "topics": "Indian History, Geography, Indian Polity, Economy, Science & Tech, National CA"
+      }
+    ],
+    "highlights": [
+      "Complete Paper-1 (GS) & Paper-2 (Jharkhand Special) Coverage",
+      "Authentic Official JPSC Scoring (+2 Marks, Zero Negative Marking)",
+      "Dedicated Land Laws (CNT & SPT) Sectional Drills",
+      "Complete Bilingual Explanations (Hindi & English)"
+    ],
+    "faqs": [
+      {
+        "q": "Is there negative marking in JPSC Prelims tests?",
+        "a": "No, as per official JPSC Prelims rules, there is zero negative marking (+2 marks for correct, 0 for wrong)."
+      },
+      {
+        "q": "Does it cover CNT Act and SPT Act detailed questions?",
+        "a": "Yes, high-weightage sections of Chota Nagpur and Santhal Pargana tenancy acts are thoroughly practiced."
+      }
+    ]
+  },
   "upsc": {
     "id": "GOVT_PSC",
     "slug": "upsc",

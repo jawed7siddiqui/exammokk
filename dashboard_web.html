@@ -210,7 +210,7 @@
             class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
           >
             <i data-lucide="crown" class="w-3.5 h-3.5 text-amber-400"></i>
-            <span>Get Exam Pass @ ₹99/mo</span>
+            <span>Get Exam Pass @ ₹99/yr</span>
           </button>
         </div>
       </div>
@@ -230,7 +230,13 @@
 
       const STREAM_TITLES = {
         DAILY_GK: { title: "Daily GK & Current Affairs", badge: "Daily Live" },
-        SSC: { title: "SSC (CGL, CHSL, MTS)", badge: "TCS Pattern" },
+        GOVT_PSC: { title: "Civil Services & State PSC", badge: "State PCS" },
+        BPSC: { title: "BPSC Prelims & Bihar Special", badge: "Bihar CCE" },
+        JPSC: {
+          title: "JPSC Prelims & Jharkhand Special",
+          badge: "Jharkhand PCS",
+        },
+        SSC: { title: "SSC (CGL, CHSL, MTS, GD)", badge: "TCS Pattern" },
         RAILWAYS: {
           title: "Railways (RRB NTPC, Group D)",
           badge: "Railway CBT",
@@ -240,7 +246,6 @@
         DEFENCE: { title: "Defence & Police Exams", badge: "Defence Series" },
         TEACHING: { title: "Teaching & State TET", badge: "Teaching Series" },
         ENTRANCE: { title: "CUET & Law Entrances", badge: "NTA Entrance" },
-        GOVT_PSC: { title: "Civil Services & State PSC", badge: "State PCS" },
       };
 
       const currentSegment = STREAM_TITLES[rawType] ? rawType : "SSC";
@@ -285,10 +290,28 @@
 
       function getCurrentSubjectList() {
         if (
+          typeof window.getSubjectsBySegment === "function" &&
+          window.getSubjectsBySegment(currentSegment).length > 0
+        ) {
+          return window.getSubjectsBySegment(currentSegment);
+        }
+        if (
           typeof subjectsBySegment !== "undefined" &&
           subjectsBySegment[currentSegment]
         ) {
           return subjectsBySegment[currentSegment];
+        }
+        if (
+          (currentSegment === "BPSC" || currentSegment === "JPSC") &&
+          typeof subjectsBySegment !== "undefined" &&
+          subjectsBySegment.GOVT_PSC
+        ) {
+          const filterId =
+            currentSegment === "BPSC" ? "p_bpsc_special" : "p_jpsc_special";
+          const match = subjectsBySegment.GOVT_PSC.filter(
+            (s) => s.id === filterId,
+          );
+          if (match.length > 0) return match;
         }
         if (
           currentSegment === "DAILY_GK" &&

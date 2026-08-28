@@ -317,7 +317,7 @@
             class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-95 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-md shadow-orange-500/20 flex items-center justify-center gap-1.5 cursor-pointer"
           >
             <i data-lucide="crown" class="w-4 h-4"></i>
-            <span>Get Exam Pass @ ₹99/mo</span>
+            <span>Get Exam Pass @ ₹99/yr</span>
           </button>
         </div>
       </div>
@@ -377,6 +377,18 @@
           title: "Daily GK & Current Affairs",
           sub: "Today's Live Speed Drill & Static GK",
         },
+        GOVT_PSC: {
+          title: "PSC & UPSC",
+          sub: "Civil Services & State PCS",
+        },
+        BPSC: {
+          title: "BPSC Prelims & Bihar Special",
+          sub: "BPSC CCE, Daroga & Bihar GS",
+        },
+        JPSC: {
+          title: "JPSC Prelims & Jharkhand Special",
+          sub: "JPSC Paper 1 & 2, CNT/SPT & State GK",
+        },
         SSC: { title: "SSC Exams", sub: "CGL, CHSL, MTS & GD Constable" },
         RAILWAYS: {
           title: "Railway Exams",
@@ -399,10 +411,6 @@
           sub: "CTET Paper 1 & 2, State TET & KVS",
         },
         ENTRANCE: { title: "CUET & Entrance", sub: "CUET UG/PG, CLAT & IPMAT" },
-        GOVT_PSC: {
-          title: "PSC & UPSC",
-          sub: "Civil Services & State PCS",
-        },
       };
 
       const currentSegment = STREAM_TITLES[rawType] ? rawType : "SSC";
@@ -449,10 +457,30 @@
 
       function getCurrentSubjectList() {
         if (
+          typeof window.getSubjectsBySegment === "function" &&
+          window.getSubjectsBySegment(currentSegment).length > 0
+        ) {
+          return window.getSubjectsBySegment(currentSegment);
+        }
+
+        if (
           typeof subjectsBySegment !== "undefined" &&
           subjectsBySegment[currentSegment]
         ) {
           return subjectsBySegment[currentSegment];
+        }
+
+        if (
+          (currentSegment === "BPSC" || currentSegment === "JPSC") &&
+          typeof subjectsBySegment !== "undefined" &&
+          subjectsBySegment.GOVT_PSC
+        ) {
+          const filterId =
+            currentSegment === "BPSC" ? "p_bpsc_special" : "p_jpsc_special";
+          const match = subjectsBySegment.GOVT_PSC.filter(
+            (s) => s.id === filterId,
+          );
+          if (match.length > 0) return match;
         }
 
         if (
@@ -652,7 +680,7 @@
           container.innerHTML = `
             <div class="py-8 text-center bg-white rounded-2xl border border-slate-200/80 p-4">
               <p class="text-xs font-bold text-slate-400">No subjects configured for this stream.</p>
-              <button onclick="window.location.href='/'" class="mt-3 px-3.5 py-1.5 bg-indigo-50 text-indigo-600 font-bold text-xs rounded-xl cursor-pointer">
+              <button onclick="window.location.href='/home.html'" class="mt-3 px-3.5 py-1.5 bg-indigo-50 text-indigo-600 font-bold text-xs rounded-xl cursor-pointer">
                 Back to All Exams
               </button>
             </div>

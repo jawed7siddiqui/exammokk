@@ -713,10 +713,26 @@
             "GOV_PSC",
             "UPSC",
             "PSC",
-            "BPSC",
             "UPPSC",
             "RAS",
+            "MPPSC",
           ],
+        },
+        BPSC: {
+          id: "BPSC",
+          title: "BPSC CCE Prelims",
+          subtitle: "Bihar Special & GS (1/3 Negative)",
+          marks: 1.0,
+          negative: 0.33,
+          aliases: ["BPSC", "BIHAR_PSC", "BPSC_CCE", "BIHAR_SI"],
+        },
+        JPSC: {
+          id: "JPSC",
+          title: "JPSC Prelims",
+          subtitle: "Jharkhand Special & Paper 2 (No Negative)",
+          marks: 2.0,
+          negative: 0.0,
+          aliases: ["JPSC", "JHARKHAND_PSC", "JSSC", "JPSC_CCE"],
         },
       };
 
@@ -962,7 +978,11 @@
               : ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"],
           correct_option_index: isNaN(correctIdx) ? 0 : correctIdx,
           marks: Number(rawQ.marks) || activePreset.marks,
-          negative_marks: Number(rawQ.negative_marks) || activePreset.negative,
+          negative_marks:
+            Number(rawQ.negative_marks) !== undefined &&
+            !isNaN(Number(rawQ.negative_marks))
+              ? Number(rawQ.negative_marks)
+              : activePreset.negative,
           explanation_en:
             rawQ.explanation_en ||
             rawQ.explanation ||
@@ -1375,7 +1395,6 @@
       }
 
       async function submitTestConfirmation() {
-        // Calculate attempt status safely
         const attempted = Object.keys(userAnswers).filter(
           (key) =>
             userAnswers[key] !== undefined &&
@@ -1405,6 +1424,7 @@
           submitTestFinal();
         }
       }
+
       async function submitTestFinal() {
         clearInterval(mainTimerInterval);
         clearInterval(qTimerInterval);
@@ -1502,7 +1522,6 @@
         const isCandidatePassed =
           scorePercentage >= PASS_PERCENTAGE_THRESHOLD && actualNetScore > 0;
 
-        // User Identity Resolution (examindiaUser from localStorage)
         let resolvedStudentId = "GUEST_STUDENT";
         let resolvedStudentName = "Guest User";
 

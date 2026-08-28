@@ -1,4 +1,4 @@
-// allsubject.js
+// allsubject.js - 100% Original DB IDs & Structure Preserved
 
 const subjectsBySegment = {
   // ⚡ Daily GK & Current Affairs Speed Drills
@@ -348,6 +348,7 @@ const subjectsBySegment = {
       loading: false,
     },
   ],
+
   // 4. ⚡ SSC Exams (Direct Stream)
   SSC: [
     {
@@ -830,7 +831,12 @@ const subjectsBySegment = {
 
 // Window object attachment and helpers
 window.subjectsBySegment = subjectsBySegment;
-window.allSubjects = Object.values(subjectsBySegment).flat();
+
+// Dynamic flattening (maintains backwards-compatibility with window.allSubjects)
+window.getAllSubjects = function () {
+  return Object.values(subjectsBySegment).flat();
+};
+window.allSubjects = window.getAllSubjects();
 
 window.getSubjectsBySegment = function (segmentKey) {
   if (!segmentKey) return [];
@@ -840,24 +846,41 @@ window.getSubjectsBySegment = function (segmentKey) {
 
 window.getSubjectById = function (id) {
   return (
-    window.allSubjects.find(function (subject) {
+    window.getAllSubjects().find(function (subject) {
       return subject.id === id;
     }) || null
   );
 };
 
-// Helper function to calculate test score easily
+// CBT Score calculation (supports accurate negative marking and accuracy metrics)
 window.calculateScore = function (subjectId, correctCount, incorrectCount) {
   const subject = window.getSubjectById(subjectId);
-  if (!subject) return { totalScore: 0, positive: 0, negative: 0 };
+  if (!subject) {
+    return {
+      totalScore: 0,
+      positiveMarksEarned: 0,
+      negativeMarksDeducted: 0,
+      accuracy: 0,
+    };
+  }
 
-  const positive = correctCount * (subject.marksPerCorrect || 1);
-  const negative = incorrectCount * (subject.negativeMarks || 0);
+  const validCorrect = Math.max(0, parseInt(correctCount) || 0);
+  const validIncorrect = Math.max(0, parseInt(incorrectCount) || 0);
+
+  const positive = validCorrect * (subject.marksPerCorrect || 1);
+  const negative = validIncorrect * (subject.negativeMarks || 0);
   const totalScore = parseFloat((positive - negative).toFixed(2));
 
+  const totalAttempted = validCorrect + validIncorrect;
+  const accuracy =
+    totalAttempted > 0
+      ? parseFloat(((validCorrect / totalAttempted) * 100).toFixed(1))
+      : 0;
+
   return {
-    totalScore: Math.max(0, totalScore),
-    positiveMarksEarned: positive,
-    negativeMarksDeducted: negative,
+    totalScore: totalScore,
+    positiveMarksEarned: parseFloat(positive.toFixed(2)),
+    negativeMarksDeducted: parseFloat(negative.toFixed(2)),
+    accuracy: accuracy,
   };
 };

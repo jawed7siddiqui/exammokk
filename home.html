@@ -191,7 +191,7 @@
           <span
             class="text-[11px] font-black bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full border border-indigo-100"
           >
-            8 Streams
+            10 Streams
           </span>
         </div>
 
@@ -205,7 +205,7 @@
             <span
               class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-bl-lg border-b border-l border-indigo-100 uppercase"
             >
-              UPSC/PSC
+              UPSC/PCS
             </span>
 
             <div class="flex flex-col items-center w-full">
@@ -222,7 +222,7 @@
               <p
                 class="text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
               >
-                IAS, BPSC, UPPSC, RAS, Polity &amp; State GK
+                IAS, UPPSC, RAS, MPPSC &amp; State GK
               </p>
             </div>
             <div
@@ -235,7 +235,83 @@
             </div>
           </div>
 
-          <!-- 2. SSC EXAMS -->
+          <!-- 2. BPSC (BIHAR) -->
+          <div
+            onclick="navigateToCategory('BPSC')"
+            class="group relative bg-white border border-slate-200/90 hover:border-rose-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+          >
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-rose-50 text-rose-700 px-2 py-0.5 rounded-bl-lg border-b border-l border-rose-200 uppercase"
+            >
+              BIHAR PSC
+            </span>
+
+            <div class="flex flex-col items-center w-full">
+              <div
+                class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center text-lg shadow-xs mb-2"
+              >
+                🏛️
+              </div>
+              <h4
+                class="text-xs font-black text-slate-900 leading-snug group-hover:text-rose-600 transition-colors"
+              >
+                BPSC Exams
+              </h4>
+              <p
+                class="text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
+              >
+                BPSC CCE Prelims, Bihar Special &amp; Daroga
+              </p>
+            </div>
+            <div
+              class="mt-3 pt-2 border-t border-slate-100 flex items-center justify-end w-full"
+            >
+              <i
+                data-lucide="chevron-right"
+                class="w-4 h-4 text-slate-400 group-hover:text-rose-600 transition-colors"
+              ></i>
+            </div>
+          </div>
+
+          <!-- 3. JPSC (JHARKHAND) -->
+          <div
+            onclick="navigateToCategory('JPSC')"
+            class="group relative bg-white border border-slate-200/90 hover:border-emerald-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+          >
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded-bl-lg border-b border-l border-emerald-200 uppercase"
+            >
+              JHARKHAND
+            </span>
+
+            <div class="flex flex-col items-center w-full">
+              <div
+                class="w-10 h-10 rounded-xl bg-emerald-700 text-white flex items-center justify-center text-lg shadow-xs mb-2"
+              >
+                🏹
+              </div>
+              <h4
+                class="text-xs font-black text-slate-900 leading-snug group-hover:text-emerald-700 transition-colors"
+              >
+                JPSC Exams
+              </h4>
+              <p
+                class="text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
+              >
+                JPSC Prelims, CNT/SPT Act &amp; Jharkhand GK
+              </p>
+            </div>
+            <div
+              class="mt-3 pt-2 border-t border-slate-100 flex items-center justify-end w-full"
+            >
+              <i
+                data-lucide="chevron-right"
+                class="w-4 h-4 text-slate-400 group-hover:text-emerald-700 transition-colors"
+              ></i>
+            </div>
+          </div>
+
+          <!-- 4. SSC EXAMS -->
           <div
             onclick="navigateToCategory('SSC')"
             class="group relative bg-white border border-slate-200/90 hover:border-slate-800 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
@@ -273,7 +349,7 @@
             </div>
           </div>
 
-          <!-- 3. RAILWAYS (RRB) -->
+          <!-- 5. RAILWAYS (RRB) -->
           <div
             onclick="navigateToCategory('RAILWAYS')"
             class="group relative bg-white border border-slate-200/90 hover:border-rose-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
@@ -311,7 +387,7 @@
             </div>
           </div>
 
-          <!-- 4. BANKING & INSURANCE -->
+          <!-- 6. BANKING & INSURANCE -->
           <div
             onclick="navigateToCategory('BANKING')"
             class="group relative bg-white border border-slate-200/90 hover:border-emerald-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
@@ -349,7 +425,7 @@
             </div>
           </div>
 
-          <!-- 5. DEFENCE & POLICE -->
+          <!-- 7. DEFENCE & POLICE -->
           <div
             onclick="navigateToCategory('DEFENCE')"
             class="group relative bg-white border border-slate-200/90 hover:border-slate-700 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
@@ -387,7 +463,7 @@
             </div>
           </div>
 
-          <!-- 6. JEE & NEET UG -->
+          <!-- 8. JEE & NEET UG -->
           <div
             onclick="navigateToCategory('JEE_NEET')"
             class="group relative bg-white border border-slate-200/90 hover:border-blue-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
@@ -425,7 +501,7 @@
             </div>
           </div>
 
-          <!-- 7. TEACHING & TET -->
+          <!-- 9. TEACHING & TET -->
           <div
             onclick="navigateToCategory('TEACHING')"
             class="group relative bg-white border border-slate-200/90 hover:border-cyan-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
@@ -463,7 +539,7 @@
             </div>
           </div>
 
-          <!-- 8. ENTRANCE & CUET -->
+          <!-- 10. ENTRANCE & CUET -->
           <div
             onclick="navigateToCategory('ENTRANCE')"
             class="group relative bg-white border border-slate-200/90 hover:border-purple-600 rounded-2xl p-3.5 pt-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
@@ -618,6 +694,8 @@
 
       const searchableExams = [
         { name: "PSC & UPSC Civil Services", type: "GOVT_PSC" },
+        { name: "BPSC (Bihar Civil Services / Daroga)", type: "BPSC" },
+        { name: "JPSC (Jharkhand Civil Services / JSSC)", type: "JPSC" },
         { name: "SSC CGL / CHSL / MTS / GD", type: "SSC" },
         { name: "Railway RRB NTPC & Group D", type: "RAILWAYS" },
         { name: "Banking (SBI / IBPS PO Clerk)", type: "BANKING" },
@@ -669,7 +747,7 @@
       }
 
       function openPassModal() {
-        alert("Redirecting to All-Access Exam Pass checkout @ ₹99/month...");
+        alert("Redirecting to All-Access Exam Pass checkout @ ₹99/year...");
       }
 
       document.addEventListener("DOMContentLoaded", () => {
