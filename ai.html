@@ -182,11 +182,12 @@
                 >
                 <select
                   id="cfg_mode"
-                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-indigo-600 outline-none"
+                  onchange="onConfigModeChange()"
+                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-indigo-600 outline-none cursor-pointer"
                 >
                   <option value="mcq_single" selected>MCQ Single</option>
+                  <option value="cbt_exam">CBT Full Exam</option>
                   <option value="matching_canvas">Canvas</option>
-                  <option value="cbt_exam">CBT Exam</option>
                 </select>
               </div>
               <div>
@@ -199,7 +200,7 @@
                   type="number"
                   id="cfg_duration"
                   value="15"
-                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-slate-800 outline-none"
+                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-slate-800 outline-none font-mono"
                 />
               </div>
               <div>
@@ -212,7 +213,7 @@
                   id="cfg_total_questions"
                   value="15"
                   oninput="onQuestionsCountChange()"
-                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-indigo-600 outline-none"
+                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-indigo-600 outline-none font-mono"
                 />
               </div>
               <div>
@@ -227,7 +228,7 @@
                     id="cfg_marks"
                     value="2"
                     title="Marks for correct"
-                    class="w-1/2 p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-emerald-600 outline-none text-center"
+                    class="w-1/2 p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-emerald-600 outline-none text-center font-mono"
                   />
                   <input
                     type="number"
@@ -235,7 +236,7 @@
                     id="cfg_negative_marks"
                     value="0.5"
                     title="Negative Marks deducted"
-                    class="w-1/2 p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-rose-600 outline-none text-center"
+                    class="w-1/2 p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-rose-600 outline-none text-center font-mono"
                   />
                 </div>
               </div>
@@ -290,7 +291,7 @@
                     id="cfg_price"
                     value="0"
                     disabled
-                    class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none disabled:opacity-50"
+                    class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none disabled:opacity-50 font-mono"
                   />
                 </div>
                 <div>
@@ -303,7 +304,7 @@
                     id="cfg_discounted_price"
                     value="0"
                     disabled
-                    class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none disabled:opacity-50"
+                    class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 outline-none disabled:opacity-50 font-mono"
                   />
                 </div>
               </div>
@@ -318,7 +319,7 @@
                 >
                 <select
                   id="cfg_difficulty"
-                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none"
+                  class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none cursor-pointer"
                 >
                   <option value="Easy">🟢 Easy</option>
                   <option value="Medium" selected>🟡 Medium</option>
@@ -559,6 +560,9 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
 
       const STREAM_LABELS = {
         DAILY_GK: "🌍 Daily GK & Current Affairs",
+        GOVT_PSC: "🏛️ Govt PSC / UPSC / All State PCS",
+        BPSC: "🏛️ BPSC (Bihar CCE & Daroga Special)",
+        JPSC: "🏹 JPSC (Jharkhand Civil Services & JSSC)",
         SSC: "⚡ SSC Exams (CGL, CHSL, GD, CPO)",
         RAILWAYS: "🚆 Railway Exams (RRB NTPC, Group D, ALP)",
         BANKING: "🏦 Banking & Insurance (IBPS, SBI, RBI)",
@@ -566,9 +570,90 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         DEFENCE: "🎖️ Defence & Police (NDA, CDS, Police SI)",
         TEACHING: "👨‍🏫 Teaching & TET (CTET, State TET, KVS)",
         ENTRANCE: "⚖️ CUET, Law & Management (CLAT, IPMAT)",
-        GOVT_PSC: "🏛️ Govt PSC / UPSC / All State PCS",
         BOARD_EXAMS: "📚 Board Exams (Class 4-12)",
         KIDS_SCHOOL: "🎨 Kids School (Class 1-3)",
+      };
+
+      // 🎯 MASTER EXAM STANDARD MARKING & DURATION RULES
+      const EXAM_STANDARDS = {
+        DAILY_GK: {
+          board: "Daily Quiz / Open",
+          stage: "Daily Speed Drill",
+          mcq: { totalQs: 10, duration: 5, pos: 2.0, neg: 0.5 },
+          cbt: { totalQs: 20, duration: 10, pos: 2.0, neg: 0.5 },
+        },
+        SSC: {
+          board: "SSC",
+          stage: "Tier 1",
+          mcq: { totalQs: 15, duration: 10, pos: 2.0, neg: 0.5 },
+          cbt: { totalQs: 100, duration: 60, pos: 2.0, neg: 0.5 },
+        },
+        BPSC: {
+          board: "BPSC",
+          stage: "CCE Prelims",
+          mcq: { totalQs: 15, duration: 12, pos: 1.0, neg: 0.33 },
+          cbt: { totalQs: 150, duration: 120, pos: 1.0, neg: 0.33 },
+        },
+        JPSC: {
+          board: "JPSC",
+          stage: "Combined Civil Services",
+          mcq: { totalQs: 15, duration: 12, pos: 2.0, neg: 0.0 },
+          cbt: { totalQs: 100, duration: 120, pos: 2.0, neg: 0.0 },
+        },
+        GOVT_PSC: {
+          board: "UPSC / State PSC",
+          stage: "Prelims GS",
+          mcq: { totalQs: 15, duration: 15, pos: 2.0, neg: 0.66 },
+          cbt: { totalQs: 100, duration: 120, pos: 2.0, neg: 0.66 },
+        },
+        RAILWAYS: {
+          board: "RRB",
+          stage: "CBT 1",
+          mcq: { totalQs: 15, duration: 12, pos: 1.0, neg: 0.33 },
+          cbt: { totalQs: 100, duration: 90, pos: 1.0, neg: 0.33 },
+        },
+        BANKING: {
+          board: "IBPS / SBI",
+          stage: "Prelims",
+          mcq: { totalQs: 15, duration: 10, pos: 1.0, neg: 0.25 },
+          cbt: { totalQs: 100, duration: 60, pos: 1.0, neg: 0.25 },
+        },
+        JEE_NEET: {
+          board: "NTA",
+          stage: "UG Exam",
+          mcq: { totalQs: 15, duration: 20, pos: 4.0, neg: 1.0 },
+          cbt: { totalQs: 75, duration: 180, pos: 4.0, neg: 1.0 },
+        },
+        DEFENCE: {
+          board: "UPSC / State Police",
+          stage: "Written Exam",
+          mcq: { totalQs: 15, duration: 15, pos: 2.5, neg: 0.83 },
+          cbt: { totalQs: 120, duration: 120, pos: 2.5, neg: 0.83 },
+        },
+        TEACHING: {
+          board: "CBSE / State TET",
+          stage: "Paper 1",
+          mcq: { totalQs: 15, duration: 15, pos: 1.0, neg: 0.0 },
+          cbt: { totalQs: 150, duration: 150, pos: 1.0, neg: 0.0 },
+        },
+        ENTRANCE: {
+          board: "NTA / Consortium",
+          stage: "UG / Law",
+          mcq: { totalQs: 15, duration: 15, pos: 5.0, neg: 1.0 },
+          cbt: { totalQs: 50, duration: 45, pos: 5.0, neg: 1.0 },
+        },
+        BOARD_EXAMS: {
+          board: "CBSE / ICSE",
+          stage: "Class 10/12",
+          mcq: { totalQs: 15, duration: 15, pos: 1.0, neg: 0.0 },
+          cbt: { totalQs: 50, duration: 60, pos: 1.0, neg: 0.0 },
+        },
+        KIDS_SCHOOL: {
+          board: "School",
+          stage: "Primary",
+          mcq: { totalQs: 10, duration: 10, pos: 1.0, neg: 0.0 },
+          cbt: { totalQs: 20, duration: 20, pos: 1.0, neg: 0.0 },
+        },
       };
 
       function populateExamStreamDropdown() {
@@ -582,10 +667,17 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         if (allData.DAILY_GK) {
           html += `
             <optgroup label="🌍 Live Drill & GK">
-              <option value="DAILY_GK">${STREAM_LABELS.DAILY_GK || "Daily GK & Current Affairs"}</option>
+              <option value="DAILY_GK">${STREAM_LABELS.DAILY_GK}</option>
             </optgroup>
           `;
         }
+
+        html += `<optgroup label="🏛️ State PSC & Civil Services">`;
+        if (allData.GOVT_PSC)
+          html += `<option value="GOVT_PSC">${STREAM_LABELS.GOVT_PSC}</option>`;
+        html += `<option value="BPSC">${STREAM_LABELS.BPSC}</option>`;
+        html += `<option value="JPSC">${STREAM_LABELS.JPSC}</option>`;
+        html += `</optgroup>`;
 
         const competitiveKeys = [
           "SSC",
@@ -604,14 +696,6 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         });
         html += `</optgroup>`;
 
-        if (allData.GOVT_PSC) {
-          html += `
-            <optgroup label="🏛️ Civil Services">
-              <option value="GOVT_PSC">${STREAM_LABELS.GOVT_PSC}</option>
-            </optgroup>
-          `;
-        }
-
         if (allData.BOARD_EXAMS || allData.KIDS_SCHOOL) {
           html += `<optgroup label="📚 School Education">`;
           if (allData.BOARD_EXAMS)
@@ -626,128 +710,40 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
 
       function handleExamStreamChange() {
         const streamKey = document.getElementById("cfg_exam_stream").value;
+        const mode = document.getElementById("cfg_mode").value;
+        const standard = EXAM_STANDARDS[streamKey] || EXAM_STANDARDS.SSC;
+        const config = mode === "cbt_exam" ? standard.cbt : standard.mcq;
+
         const allData = getSubjectsData();
-        const subjectsList = allData[streamKey] || [];
+        let subjectsList = allData[streamKey] || [];
+
+        // Handle virtual BPSC / JPSC streams from GOVT_PSC if separate key not defined
+        if (
+          subjectsList.length === 0 &&
+          (streamKey === "BPSC" || streamKey === "JPSC") &&
+          allData.GOVT_PSC
+        ) {
+          const filterId =
+            streamKey === "BPSC" ? "p_bpsc_special" : "p_jpsc_special";
+          subjectsList = allData.GOVT_PSC.filter((s) => s.id === filterId);
+          if (subjectsList.length === 0) subjectsList = allData.GOVT_PSC;
+        }
+
         const firstSubject = subjectsList[0] || {};
 
-        const isDailyGK = streamKey === "DAILY_GK";
-
-        let defaultBoard = firstSubject.tags?.[0] || streamKey;
-        if (isDailyGK) defaultBoard = "Daily Quiz / Open";
-        else if (streamKey === "SSC") defaultBoard = "SSC";
-        else if (streamKey === "RAILWAYS") defaultBoard = "RRB";
-        else if (streamKey === "BANKING") defaultBoard = "IBPS / SBI";
-        else if (streamKey === "JEE_NEET") defaultBoard = "NTA";
-        else if (streamKey === "DEFENCE") defaultBoard = "UPSC / State Police";
-        else if (streamKey === "TEACHING") defaultBoard = "CBSE / State Board";
-        else if (streamKey === "ENTRANCE") defaultBoard = "NTA / Consortium";
-        else if (streamKey === "GOVT_PSC") defaultBoard = "UPSC / State PSC";
-
-        let defaultTotalQs = 15;
-        let defaultDuration = 15;
-        let defaultMode = "mcq_single";
-        let posMarks = 1.0;
-        let negMarks = 0.25;
-
-        switch (streamKey) {
-          case "DAILY_GK":
-            defaultTotalQs = 10;
-            defaultDuration = 5;
-            posMarks = 2.0;
-            negMarks = 0.5;
-            break;
-          case "SSC":
-            defaultTotalQs = 15;
-            defaultDuration = 10;
-            posMarks = 2.0;
-            negMarks = 0.5;
-            break;
-          case "RAILWAYS":
-            defaultTotalQs = 15;
-            defaultDuration = 12;
-            posMarks = 1.0;
-            negMarks = 0.33;
-            break;
-          case "BANKING":
-            defaultTotalQs = 15;
-            defaultDuration = 10;
-            posMarks = 1.0;
-            negMarks = 0.25;
-            break;
-          case "JEE_NEET":
-            defaultTotalQs = 15;
-            defaultDuration = 20;
-            posMarks = 4.0;
-            negMarks = 1.0;
-            break;
-          case "DEFENCE":
-            defaultTotalQs = 15;
-            defaultDuration = 15;
-            posMarks = 2.5;
-            negMarks = 0.83;
-            break;
-          case "TEACHING":
-            defaultTotalQs = 15;
-            defaultDuration = 15;
-            posMarks = 1.0;
-            negMarks = 0.0;
-            break;
-          case "ENTRANCE":
-            defaultTotalQs = 15;
-            defaultDuration = 15;
-            posMarks = 5.0;
-            negMarks = 1.0;
-            break;
-          case "GOVT_PSC":
-            defaultTotalQs = 15;
-            defaultDuration = 15;
-            posMarks = 2.0;
-            negMarks = 0.66;
-            break;
-          default:
-            defaultTotalQs = 15;
-            defaultDuration = 15;
-            posMarks = 1.0;
-            negMarks = 0.25;
-            break;
-        }
-
-        if (firstSubject.marksPerCorrect !== undefined && !isDailyGK) {
-          posMarks = firstSubject.marksPerCorrect;
-        }
-        if (firstSubject.negativeMarks !== undefined && !isDailyGK) {
-          negMarks = firstSubject.negativeMarks;
-        }
-
-        document.getElementById("cfg_board").value = defaultBoard;
+        document.getElementById("cfg_board").value = standard.board;
+        document.getElementById("cfg_duration").value = config.duration;
+        document.getElementById("cfg_total_questions").value = config.totalQs;
+        document.getElementById("cfg_marks").value = config.pos;
+        document.getElementById("cfg_negative_marks").value = config.neg;
         document.getElementById("cfg_tags").value = (
-          firstSubject.tags || []
+          firstSubject.tags || [standard.board, standard.stage]
         ).join(", ");
-        document.getElementById("cfg_mode").value = defaultMode;
-        document.getElementById("cfg_duration").value = defaultDuration;
-        document.getElementById("cfg_total_questions").value = defaultTotalQs;
-        document.getElementById("cfg_marks").value = posMarks;
-        document.getElementById("cfg_negative_marks").value = negMarks;
-
-        const durationLabel = document.getElementById("lbl_duration");
-        if (durationLabel) {
-          durationLabel.textContent = "Time (M)";
-        }
 
         const badgeTotalQs = document.getElementById("badge-total-qs");
         if (badgeTotalQs) {
-          badgeTotalQs.textContent = `${defaultTotalQs} Questions / Mock`;
+          badgeTotalQs.textContent = `${config.totalQs} Questions / Mock`;
         }
-
-        let stageVal = "Tier 1";
-        if (isDailyGK) stageVal = "Daily Drill";
-        else if (streamKey === "GOVT_PSC" || streamKey === "BANKING")
-          stageVal = "Prelims";
-        else if (streamKey === "RAILWAYS") stageVal = "CBT 1";
-        else if (streamKey === "JEE_NEET") stageVal = "UG";
-        else if (streamKey === "DEFENCE") stageVal = "Written Exam";
-        else if (streamKey === "TEACHING") stageVal = "Paper 1";
-        else if (streamKey === "ENTRANCE") stageVal = "UG / Entrance";
 
         const stageContainer = document.getElementById(
           "cfg_class_stage_container",
@@ -755,18 +751,32 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
         if (stageContainer) {
           stageContainer.innerHTML = `
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">
-              ${isDailyGK ? "Drill Type" : "Tier / Stage"}
+              ${streamKey === "DAILY_GK" ? "Drill Type" : "Tier / Stage"}
             </label>
             <input
               type="text"
               id="cfg_class_stage"
-              value="${stageVal}"
+              value="${standard.stage}"
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-indigo-500"
             />
           `;
         }
 
         renderSubjectCategoryTree();
+      }
+
+      function onConfigModeChange() {
+        const streamKey = document.getElementById("cfg_exam_stream").value;
+        const mode = document.getElementById("cfg_mode").value;
+        const standard = EXAM_STANDARDS[streamKey] || EXAM_STANDARDS.SSC;
+        const config = mode === "cbt_exam" ? standard.cbt : standard.mcq;
+
+        document.getElementById("cfg_duration").value = config.duration;
+        document.getElementById("cfg_total_questions").value = config.totalQs;
+        document.getElementById("cfg_marks").value = config.pos;
+        document.getElementById("cfg_negative_marks").value = config.neg;
+
+        onQuestionsCountChange();
       }
 
       function toggleSubjectAccordion(subId) {
@@ -787,10 +797,26 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
       function renderSubjectCategoryTree() {
         const streamKey = document.getElementById("cfg_exam_stream").value;
         const allData = getSubjectsData();
-        const subjects = allData[streamKey] || [];
+        let subjects = allData[streamKey] || [];
+
+        // Fallback for BPSC and JPSC
+        if (
+          subjects.length === 0 &&
+          (streamKey === "BPSC" || streamKey === "JPSC") &&
+          allData.GOVT_PSC
+        ) {
+          const filterId =
+            streamKey === "BPSC" ? "p_bpsc_special" : "p_jpsc_special";
+          subjects = allData.GOVT_PSC.filter((s) => s.id === filterId);
+          if (subjects.length === 0) subjects = allData.GOVT_PSC;
+        }
+
         const container = document.getElementById("subject-category-tree");
         const totalQs =
           document.getElementById("cfg_total_questions").value || 15;
+        const defaultPos = document.getElementById("cfg_marks").value || 1;
+        const defaultNeg =
+          document.getElementById("cfg_negative_marks").value || 0;
 
         if (subjects.length === 0) {
           container.innerHTML = `
@@ -809,6 +835,14 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
             const subName = subj.name;
             const apiSubjName = subj.apiSubject || subj.name;
             const subIcon = subj.icon || "📚";
+            const posMarks =
+              subj.marksPerCorrect !== undefined
+                ? subj.marksPerCorrect
+                : defaultPos;
+            const negMarks =
+              subj.negativeMarks !== undefined
+                ? subj.negativeMarks
+                : defaultNeg;
 
             const categoryItemsHtml = categories
               .map((c, cIdx) => {
@@ -824,8 +858,8 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
                       data-api-subject="${apiSubjName}"
                       data-category-id="${c.id}"
                       data-category-title="${c.title}"
-                      data-pos-marks="${subj.marksPerCorrect !== undefined ? subj.marksPerCorrect : 1}"
-                      data-neg-marks="${subj.negativeMarks !== undefined ? subj.negativeMarks : 0}"
+                      data-pos-marks="${posMarks}"
+                      data-neg-marks="${negMarks}"
                       onchange="onTopicCheckChanged('${subId}')"
                       ${isFirstSub ? "checked" : ""}
                     />
@@ -942,7 +976,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
 
         if (checked.length === 1) {
           const categoryTitle = checked[0].dataset.categoryTitle;
-          titleInput.value = categoryTitle; // Clean Title (No #1 or Level)
+          titleInput.value = categoryTitle;
 
           if (checked[0].dataset.posMarks) {
             document.getElementById("cfg_marks").value =
@@ -1033,16 +1067,17 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
             const categoryTitle = checkbox.dataset.categoryTitle;
 
             const posMarks =
-              Number(checkbox.dataset.posMarks) ||
               Number(document.getElementById("cfg_marks").value) ||
+              Number(checkbox.dataset.posMarks) ||
               1;
             const negMarks =
-              Number(checkbox.dataset.negMarks) ||
-              Number(document.getElementById("cfg_negative_marks").value) ||
-              0;
+              Number(document.getElementById("cfg_negative_marks").value) !==
+              undefined
+                ? Number(document.getElementById("cfg_negative_marks").value)
+                : 0;
 
             const topicKey = `${subjectId}_${categoryId}`;
-            const dynamicTestTitle = categoryTitle; // Clean Title (Level handled in Backend)
+            const dynamicTestTitle = categoryTitle;
 
             updateProgress(
               completed,
@@ -1050,7 +1085,7 @@ Select chapters from the left panel and click "Generate Tests" to start.</pre
               `Generating [${i + 1}/${total}]: ${categoryTitle}...`,
             );
             logToConsole(
-              `\n[TASK ${i + 1}/${total}] Stream: [${streamKey}] | Board: [${board}] | Chapter: [${categoryTitle}]...`,
+              `\n[TASK ${i + 1}/${total}] Stream: [${streamKey}] | Board: [${board}] | Chapter: [${categoryTitle}] | Scheme: [+${posMarks}/-${negMarks}]...`,
             );
 
             const payload = {
