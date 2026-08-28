@@ -420,6 +420,53 @@
       let activeDailyTest = null;
       let expandedSubjectsMap = {};
 
+      // Extracts correct user details & id from examIndiaUser in localStorage
+      function getActiveLocalUser() {
+        const possibleKeys = [
+          "examIndiaUser",
+          "examindiaUser",
+          "user",
+          "currentUser",
+          "auth_user",
+        ];
+
+        for (const key of possibleKeys) {
+          const raw = localStorage.getItem(key);
+          if (raw && raw !== "undefined" && raw !== "null") {
+            try {
+              const parsed = JSON.parse(raw);
+              if (parsed && typeof parsed === "object") {
+                const id = String(
+                  parsed.id || parsed.student_id || parsed._id || "",
+                ).trim();
+                const name = String(
+                  parsed.studentName ||
+                    parsed.name ||
+                    parsed.userName ||
+                    parsed.fullName ||
+                    "",
+                ).trim();
+                return {
+                  id: id || "GUEST_STUDENT",
+                  name: name || "Guest User",
+                  isLoggedIn: Boolean(id && id !== "GUEST_STUDENT"),
+                  raw: parsed,
+                };
+              }
+            } catch (e) {
+              console.error(`Error parsing ${key} from localStorage:`, e);
+            }
+          }
+        }
+
+        return {
+          id: "GUEST_STUDENT",
+          name: "Guest User",
+          isLoggedIn: false,
+          raw: {},
+        };
+      }
+
       function showToastMessage(text, type = "info") {
         const container = document.getElementById("custom-toast-container");
         if (!container) return;
@@ -507,10 +554,8 @@
 
       async function fetchRecentUserScore() {
         try {
-          const userStr = localStorage.getItem("examIndiaUser");
-          const studentId = userStr
-            ? JSON.parse(userStr).student_id || "GUEST_STUDENT"
-            : "GUEST_STUDENT";
+          const activeUser = getActiveLocalUser();
+          const studentId = activeUser.id;
 
           const res = await fetch(
             `${SCOREBOARD_API_URL}?student_id=${encodeURIComponent(studentId)}&limit=1`,
@@ -541,9 +586,10 @@
         renderAccordion();
 
         try {
+          const activeUser = getActiveLocalUser();
           const apiQuery = subjObj.apiSubject || subjObj.name;
           const res = await fetch(
-            `${BASE_API_URL}/${encodeURIComponent(apiQuery)}`,
+            `${BASE_API_URL}/${encodeURIComponent(apiQuery)}?student_id=${encodeURIComponent(activeUser.id)}`,
           );
 
           if (!res.ok) {
@@ -599,7 +645,6 @@
               };
             });
 
-            // Explicit level tests pehle, auto-incremented baad me
             subjObj.categories = [
               ...explicitLevelTests.map((t) => ({ ...t, level: t.rawLevel })),
               ...incrementedMissingTests,
@@ -696,7 +741,6 @@
             const categoryCount = allCategories.length;
             const isExpanded = Boolean(expandedSubjectsMap[subj.id]);
 
-            // MAX 2 VISIBLE IN DEFAULT VIEW
             const visibleCategories = isExpanded
               ? allCategories
               : allCategories.slice(0, 2);
@@ -755,7 +799,7 @@
                 </div>
               </div>
 
-              <!-- ACCORDION CONTENT (MAX 2 CARDS + MINIMAL ARROW BAR) -->
+              <!-- ACCORDION CONTENT -->
               ${
                 isOpen
                   ? `
@@ -879,7 +923,6 @@
                           })
                           .join("")}
 
-                        <!-- MINIMAL DOWN / UP ARROW TOGGLE (IF > 2 TESTS) -->
                         ${
                           categoryCount > 2
                             ? `
@@ -929,7 +972,8 @@
       }
 
       function startTest(testId, examCategory, level = 1) {
-        window.location.href = `mobile_exam_runner.html?test_id=${encodeURIComponent(testId)}&level=${level}&segment=${encodeURIComponent(examCategory || currentSegment)}`;
+        const activeUser = getActiveLocalUser();
+        window.location.href = `mobile_exam_runner.html?test_id=${encodeURIComponent(testId)}&level=${level}&segment=${encodeURIComponent(examCategory || currentSegment)}&student_id=${encodeURIComponent(activeUser.id)}`;
       }
 
       function startDailyTest() {
@@ -950,11 +994,10 @@
 
       function getUserPremiumStatus() {
         try {
-          const rawUser = localStorage.getItem("examIndiaUser");
-          if (rawUser) {
-            const userObj = JSON.parse(rawUser);
-            return userObj.is_premium || userObj.has_pass || false;
-          }
+          const activeUser = getActiveLocalUser();
+          return (
+            activeUser.raw?.is_premium || activeUser.raw?.has_pass || false
+          );
         } catch (e) {}
         return false;
       }
