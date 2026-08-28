@@ -4,26 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- SEO META TAGS -->
-    <title>Plans & Pricing - Premium Exam Pass | ExamMokk</title>
+    <title>
+      Plans &amp; Pricing - Free &amp; Premium Exam Passes | ExamMokk
+    </title>
     <meta
       name="description"
-      content="Choose from our premium student passes for SSC, Banking, Railways, UPSC, JEE, NEET, and Defence exams. Unlimited mock tests with national ranking."
+      content="Choose from Free Starter Pass or Premium Student Passes for SSC, Banking, Railways, UPSC, and State exams. Daily GK quizzes &amp; unlimited mock tests."
     />
     <meta
       name="keywords"
-      content="exam test pass, b2c mock plans, test series pricing, ssc cgl mock pass, exammokk subscription"
+      content="free mock pass, exam test pass, b2c mock plans, test series pricing, ssc cgl mock pass, exammokk subscription"
     />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://exammokk.cloud/pricing" />
 
-    <!-- Tailwind CSS v4, Lucide Icons & Fonts -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
 
@@ -33,6 +33,9 @@
       }
       .font-mono {
         font-family: "JetBrains Mono", monospace;
+      }
+      .font-mono-tag {
+        font-family: "Space Grotesk", monospace;
       }
       .spinner {
         border: 3px solid rgba(99, 102, 241, 0.2);
@@ -50,26 +53,39 @@
           transform: rotate(360deg);
         }
       }
+      @keyframes smoothFadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade {
+        animation: smoothFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
     </style>
   </head>
   <body
     class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased selection:bg-indigo-600 selection:text-white"
   >
-    <!-- REUSABLE HEADER -->
     <div id="global-header"></div>
 
     <main
       class="flex-grow py-8 md:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full flex flex-col items-center"
     >
-      <!-- HERO HEADER -->
       <section
         class="text-center space-y-3 md:space-y-4 mb-8 md:mb-12 w-full max-w-3xl"
       >
         <div
           class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-[11px] sm:text-xs font-black uppercase tracking-wider shadow-xs"
         >
-          <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
-          <span>B2C Student Exam Passes</span>
+          <span
+            class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
+          ></span>
+          <span>Free Daily GK + Affordable Student Passes</span>
         </div>
 
         <h1
@@ -79,18 +95,17 @@
           <span
             class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-emerald-600"
           >
-            ExamMokk Super Pass
+            ExamMokk Passes
           </span>
         </h1>
 
         <p
           class="text-slate-600 text-xs sm:text-base max-w-xl mx-auto leading-relaxed font-medium"
         >
-          Full mock tests, chapter-wise test series, AI explanations, and
-          All-India percentile rank cards.
+          Start with 100% Free Daily Quizzes or upgrade to full-length CBT test
+          series with All-India rank &amp; AI explanations.
         </p>
 
-        <!-- DURATION FILTER TABS (Quarterly Removed & Perfectly Centered) -->
         <div
           class="pt-3 flex items-center justify-center gap-2 flex-wrap"
           id="cycleFilterContainer"
@@ -119,13 +134,11 @@
         </div>
       </section>
 
-      <!-- PLANS CONTAINER (Centered in all screens: 1, 2, or 3 cards) -->
       <div class="w-full flex justify-center">
         <div
           id="plansContainer"
-          class="w-full flex flex-wrap justify-center items-stretch gap-6 sm:gap-8 max-w-5xl"
+          class="w-full flex flex-wrap justify-center items-stretch gap-6 sm:gap-8 max-w-6xl"
         >
-          <!-- Skeleton Loading View -->
           <div
             class="w-full py-16 flex flex-col items-center justify-center gap-3"
           >
@@ -139,7 +152,6 @@
         </div>
       </div>
 
-      <!-- PROMO CODE BANNER -->
       <section
         class="mt-12 md:mt-16 w-full max-w-3xl p-5 sm:p-7 bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 rounded-3xl text-white flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 shadow-xl text-center sm:text-left"
       >
@@ -165,7 +177,6 @@
         </a>
       </section>
 
-      <!-- FAQ SECTION -->
       <section class="mt-12 md:mt-16 space-y-4 max-w-2xl w-full mx-auto">
         <h3 class="text-lg sm:text-xl font-black text-slate-900 text-center">
           Frequently Asked Questions
@@ -176,11 +187,22 @@
             class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1 shadow-xs"
           >
             <h4 class="font-bold text-slate-900">
-              Which exams are included in this pass?
+              Is the Daily GK Quiz completely free?
             </h4>
             <p class="text-slate-600 leading-relaxed font-medium">
-              SSC (CGL, CHSL, MTS), Banking (IBPS, SBI, RRB), Railways (NTPC,
-              Group D), UPSC CSAT, Defence, and State exams.
+              Yes, 100% free forever! You can attempt fresh Daily Current
+              Affairs and Static GK quizzes daily without any subscription.
+            </p>
+          </div>
+          <div
+            class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1 shadow-xs"
+          >
+            <h4 class="font-bold text-slate-900">
+              Which exams are included in the Super Pass?
+            </h4>
+            <p class="text-slate-600 leading-relaxed font-medium">
+              SSC (CGL, CHSL, MTS, GD), Banking (IBPS PO/Clerk, SBI PO),
+              Railways (RRB NTPC, Group D), BPSC, JPSC, and UPSC Prelims.
             </p>
           </div>
           <div
@@ -190,26 +212,200 @@
               Can I give tests on Mobile?
             </h4>
             <p class="text-slate-600 leading-relaxed font-medium">
-              Yes, our interface is 100% mobile-friendly with real CBT exam
-              timer simulation.
+              Yes, our platform is mobile-friendly with live question timers,
+              instant answer keys, and Hindi/English bilingual options.
             </p>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- REUSABLE FOOTER -->
+    <div
+      id="login-required-modal"
+      class="fixed inset-0 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden"
+    >
+      <div
+        class="bg-white rounded-3xl p-6 sm:p-7 max-w-sm w-full border border-slate-200 shadow-2xl space-y-4 animate-fade text-center flex flex-col items-center"
+      >
+        <div
+          class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-1 border border-indigo-100"
+        >
+          <i data-lucide="lock" class="w-7 h-7 stroke-[2.2]"></i>
+        </div>
+
+        <div>
+          <h3 class="text-base sm:text-lg font-black text-slate-900">
+            Account Required
+          </h3>
+          <p class="text-xs text-slate-500 font-semibold mt-1">
+            Please log in or create a candidate account to activate and link
+            your
+            <span id="login-modal-plan-name" class="text-indigo-600 font-bold"
+              >Access Pass</span
+            >.
+          </p>
+        </div>
+
+        <div class="w-full space-y-2 pt-2">
+          <button
+            onclick="redirectToLoginPage()"
+            class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-black text-xs uppercase tracking-wider rounded-xl transition cursor-pointer shadow-md shadow-indigo-600/25 flex items-center justify-center gap-1.5"
+          >
+            <span>Login to Your Account</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+
+          <button
+            onclick="closeLoginRequiredModal()"
+            class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 font-bold text-xs rounded-xl transition cursor-pointer"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="checkout-modal"
+      class="fixed inset-0 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden"
+    >
+      <div
+        class="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full border border-slate-200 shadow-2xl space-y-4 animate-fade"
+      >
+        <div
+          class="flex items-center justify-between border-b border-slate-100 pb-3"
+        >
+          <div>
+            <h3 class="text-base font-black text-slate-900">
+              Confirm Activation
+            </h3>
+            <p class="text-xs text-slate-400 font-semibold">
+              Direct Plan Assignment
+            </p>
+          </div>
+          <button
+            onclick="closeCheckoutModal()"
+            class="p-1.5 bg-slate-100 rounded-full text-slate-400 hover:text-slate-700 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div
+          class="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-2.5 text-xs"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-slate-500 font-semibold">Selected Plan:</span>
+            <span id="modal-plan-name" class="font-bold text-slate-900"
+              >--</span
+            >
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-500 font-semibold">Billing Duration:</span>
+            <span id="modal-plan-cycle" class="font-bold text-slate-900"
+              >--</span
+            >
+          </div>
+
+          <div class="border-t border-slate-200/60 pt-2.5 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-500 font-semibold"
+                >Promo / Coupon Code:</span
+              >
+              <span
+                id="modal-promo-tag"
+                class="font-mono font-bold text-indigo-600"
+                >NONE</span
+              >
+            </div>
+            <div class="flex items-center gap-1.5">
+              <input
+                type="text"
+                id="modal-coupon-input"
+                maxlength="6"
+                placeholder="6-CHAR PROMO"
+                class="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg font-mono font-bold text-xs uppercase text-center outline-none focus:border-indigo-600"
+              />
+              <button
+                onclick="applyModalPromo()"
+                class="px-3 py-1.5 bg-indigo-600 text-white rounded-lg font-bold text-xs hover:bg-indigo-700 cursor-pointer"
+              >
+                Apply
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center justify-between border-t border-slate-200/60 pt-2.5 text-sm font-black"
+          >
+            <span class="text-slate-900">Payable Amount:</span>
+            <span id="modal-plan-price" class="text-indigo-600 font-mono-tag"
+              >₹0</span
+            >
+          </div>
+        </div>
+
+        <button
+          id="btn-confirm-buy"
+          onclick="executeBuySubscription()"
+          class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition cursor-pointer shadow-lg shadow-indigo-600/25 flex items-center justify-center gap-2"
+        >
+          <span>Confirm &amp; Activate Plan</span>
+          <i data-lucide="check-circle" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
     <div id="global-footer"></div>
 
-    <!-- SCRIPTS -->
     <script src="/js/layout.js"></script>
     <script>
       const API_BASE_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/subscription";
       let b2cPlans = [];
       let activeCycle = "all";
+      let selectedPlan = null;
+      let appliedPromoCode = "";
+      let appliedDiscountPercent = 0;
 
+      // 1. Check if user is logged in from localStorage
+      function checkUserLoggedIn() {
+        const rawUser =
+          localStorage.getItem("exammokk_user") ||
+          localStorage.getItem("examIndiaUser") ||
+          localStorage.getItem("kidsPaintUser");
+
+        const token =
+          localStorage.getItem("exammokk_token") ||
+          localStorage.getItem("examIndiaToken") ||
+          localStorage.getItem("kidsPaintToken");
+
+        if (!rawUser && !token) {
+          return null;
+        }
+
+        try {
+          const userObj = JSON.parse(rawUser || "{}");
+          const uid =
+            userObj.id || userObj._id || userObj.userId || userObj.user_id;
+
+          if (token && !localStorage.getItem("exammokk_token")) {
+            localStorage.setItem("exammokk_token", token);
+          }
+          if (rawUser && !localStorage.getItem("exammokk_user")) {
+            localStorage.setItem("exammokk_user", rawUser);
+          }
+
+          return uid ? { userId: uid, user: userObj } : null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      // 2. Fetch B2C Plans
       async function fetchB2CPlans() {
+        const container = document.getElementById("plansContainer");
+
         try {
           const response = await fetch(
             `${API_BASE_URL}?businessModel=B2C&status=active&limit=50`,
@@ -221,15 +417,27 @@
           if (!response.ok) throw new Error("Network error");
           const resJson = await response.json();
 
-          if (resJson.success && Array.isArray(resJson.data)) {
-            b2cPlans = resJson.data.filter(
-              (p) =>
-                p.businessModel === "B2C" &&
-                p.isActive !== false &&
-                p.status !== "inactive",
-            );
-          } else {
-            throw new Error("Invalid format");
+          let fetchedList = [];
+          if (Array.isArray(resJson)) {
+            fetchedList = resJson;
+          } else if (resJson.success && Array.isArray(resJson.data)) {
+            fetchedList = resJson.data;
+          }
+
+          b2cPlans = fetchedList.filter(
+            (p) =>
+              (p.businessModel === "B2C" || !p.businessModel) &&
+              p.isActive !== false &&
+              p.status !== "inactive",
+          );
+
+          if (b2cPlans.length === 0) {
+            container.innerHTML = `
+              <div class="col-span-full p-8 bg-white border border-slate-200 rounded-3xl text-center text-xs font-bold text-slate-400">
+                No active B2C plans configured on the server currently.
+              </div>
+            `;
+            return;
           }
         } catch (error) {
           console.warn("Using local fallback data:", error);
@@ -238,7 +446,7 @@
             try {
               b2cPlans = JSON.parse(local).filter(
                 (p) =>
-                  p.businessModel === "B2C" &&
+                  (p.businessModel === "B2C" || !p.businessModel) &&
                   p.isActive !== false &&
                   p.status !== "inactive",
               );
@@ -249,6 +457,7 @@
         }
 
         renderPlans();
+        checkPendingPurchaseAfterLogin();
       }
 
       function filterByCycle(cycle) {
@@ -286,26 +495,76 @@
 
       function renderPlans() {
         const container = document.getElementById("plansContainer");
+
+        // FREE FOREVER CARD
+        const freeCardHtml = `
+          <div class="w-full sm:w-[340px] md:w-[350px] bg-white border border-slate-200/90 shadow-xs rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-200">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                  Lifetime Free
+                </span>
+                <span class="bg-emerald-600 text-white text-[9px] sm:text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
+                  <span>100% Free</span>
+                </span>
+              </div>
+
+              <div>
+                <h3 class="text-lg sm:text-xl font-black text-slate-900 leading-snug">Daily Free Pass</h3>
+                <p class="text-[10px] font-mono text-slate-400 font-bold uppercase">FREE_STARTER</p>
+              </div>
+
+              <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 flex items-baseline justify-between">
+                <div>
+                  <div class="flex items-baseline gap-1.5">
+                    <span class="text-2xl sm:text-3xl font-black text-slate-900 font-mono">₹0</span>
+                    <span class="text-xs font-bold text-emerald-600 font-mono">Free Forever</span>
+                  </div>
+                  <span class="text-[10px] text-slate-500 font-bold block">No card required</span>
+                </div>
+              </div>
+
+              <div class="space-y-2 pt-1">
+                <ul class="space-y-2 text-xs font-semibold text-slate-700">
+                  <li class="flex items-start gap-2">
+                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
+                    <span class="leading-tight">Daily Live GK &amp; Current Affairs Quiz</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
+                    <span class="leading-tight">Free Starter Demo Tests for all Exams</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
+                    <span class="leading-tight">Bilingual Interface (Hindi &amp; English)</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="pt-4 mt-4 border-t border-slate-100">
+              <a
+                href="/test/runner?test_id=dgk_todays_affairs&segment=DAILY_GK"
+                class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl flex items-center justify-center gap-1.5 text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer no-underline shadow-sm shadow-emerald-200"
+              >
+                <i data-lucide="play" class="w-3.5 h-3.5 text-amber-300 fill-current"></i>
+                <span>Start Free Practice</span>
+              </a>
+            </div>
+          </div>
+        `;
+
         const filtered = b2cPlans.filter((p) => {
           if (activeCycle === "all") return true;
           return p.durationCycle?.toLowerCase() === activeCycle.toLowerCase();
         });
 
-        if (filtered.length === 0) {
-          container.innerHTML = `
-            <div class="w-full max-w-md mx-auto py-12 text-center space-y-3 bg-white border border-slate-200 rounded-3xl p-6 shadow-xs">
-              <i data-lucide="package-search" class="w-10 h-10 text-slate-300 mx-auto"></i>
-              <p class="text-xs font-bold text-slate-600">No active student plans found for this duration.</p>
-              <button onclick="filterByCycle('all')" class="text-xs text-indigo-600 font-extrabold hover:underline cursor-pointer">Show all plans</button>
-            </div>
-          `;
-          if (window.lucide) lucide.createIcons();
-          return;
-        }
-
-        container.innerHTML = filtered
+        // Dynamic Cards with Buy Button
+        const dynamicCardsHtml = filtered
           .map((plan, index) => {
-            const isPopular = index === 0 || plan.durationCycle === "yearly";
+            const isPopular =
+              plan.durationCycle === "monthly" ||
+              plan.durationCycle === "yearly";
             const price = Number(plan.price) || 0;
             const discountPrice = Number(plan.discountPrice) || price;
             const hasDiscount = discountPrice < price;
@@ -324,10 +583,9 @@
             const durationLabel =
               cycleMap[plan.durationCycle] || plan.durationCycle || "Validity";
 
-            // Features setup
             const primaryList = [
               plan.entitlements?.dailyTestLimit
-                ? `${plan.entitlements.dailyTestLimit} Tests Daily Attempt Limit`
+                ? `${plan.entitlements.dailyTestLimit} Tests Daily Limit`
                 : "Unlimited Tests Attempt Daily",
               plan.entitlements?.aiExplanationAccess !== false
                 ? "AI Detailed Explanations Included"
@@ -339,10 +597,9 @@
               extraFeatures = plan.features;
             } else {
               extraFeatures = [
-                "Full Mock Tests + Subject Quizzes",
-                "Real NTA Pattern Negative Marking CBT",
+                "Full Mock Tests + Sectional Tests",
+                "Real Exam Marking (+2.00 / -0.50)",
                 "All-India Percentile & AIR Rank Card",
-                "Instant Weakness & Accuracy Insights",
               ];
             }
 
@@ -351,10 +608,9 @@
             const hiddenFeatures = allCombined.slice(3);
 
             return `
-              <div class="w-full sm:w-[350px] md:w-[360px] bg-white border ${isPopular ? "border-2 border-indigo-600 shadow-xl shadow-indigo-100" : "border-slate-200 shadow-xs"} rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-200">
+              <div class="w-full sm:w-[340px] md:w-[350px] bg-white border ${isPopular ? "border-2 border-indigo-600 shadow-xl shadow-indigo-100" : "border-slate-200 shadow-xs"} rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-200">
                 
                 <div class="space-y-4">
-                  <!-- Header Top Badge -->
                   <div class="flex items-center justify-between gap-2">
                     <span class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">
                       ${durationLabel}
@@ -371,13 +627,11 @@
                     }
                   </div>
 
-                  <!-- Plan Title -->
                   <div>
                     <h3 class="text-lg sm:text-xl font-black text-slate-900 leading-snug">${plan.planName}</h3>
                     <p class="text-[10px] font-mono text-slate-400 font-bold uppercase">${plan.planCode || "PLAN_PASS"}</p>
                   </div>
 
-                  <!-- Pricing Container -->
                   <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 flex items-baseline justify-between">
                     <div>
                       <div class="flex items-baseline gap-1.5">
@@ -398,7 +652,6 @@
                     }
                   </div>
 
-                  <!-- 6-Char Promo Code Tag -->
                   ${
                     plan.promoCode
                       ? `
@@ -415,7 +668,6 @@
                       : ""
                   }
 
-                  <!-- Visible Features -->
                   <div class="space-y-2 pt-1">
                     <ul class="space-y-2 text-xs font-semibold text-slate-700">
                       ${visibleFeatures
@@ -430,7 +682,6 @@
                         .join("")}
                     </ul>
 
-                    <!-- Expandable Features Content -->
                     ${
                       hiddenFeatures.length > 0
                         ? `
@@ -449,7 +700,6 @@
                         </ul>
                       </div>
 
-                      <!-- Arrow Down / Expand Button -->
                       <button
                         type="button"
                         onclick="toggleFeatures(${index})"
@@ -464,20 +714,25 @@
                   </div>
                 </div>
 
-                <!-- Action CTA Button -->
                 <div class="pt-4 mt-4 border-t border-slate-100">
-                  <a
-                    href="/checkout?planId=${plan._id || plan.id || ""}&code=${plan.promoCode || ""}"
-                    class="w-full py-3 ${isPopular ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-100" : "bg-slate-900 hover:bg-slate-800 text-white"} font-black rounded-xl flex items-center justify-center gap-1.5 text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer no-underline"
+                  <button
+                    onclick="handleBuyClick(${index})"
+                    class="w-full py-3 ${isPopular ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-100" : "bg-slate-900 hover:bg-slate-800 text-white"} font-black rounded-xl flex items-center justify-center gap-1.5 text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer border-0"
                   >
                     <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-300 fill-current"></i>
                     <span>Get Access Pass</span>
-                  </a>
+                  </button>
                 </div>
               </div>
             `;
           })
           .join("");
+
+        if (activeCycle === "all" || activeCycle === "monthly") {
+          container.innerHTML = freeCardHtml + dynamicCardsHtml;
+        } else {
+          container.innerHTML = dynamicCardsHtml;
+        }
 
         if (window.lucide) lucide.createIcons();
       }
@@ -486,6 +741,200 @@
         navigator.clipboard.writeText(code).then(() => {
           alert(`Coupon code "${code}" copied to clipboard!`);
         });
+      }
+
+      // ==============================================================
+      // 3. BUY CLICK HANDLER (CHECK LOGIN -> MODAL OR POPUP)
+      // ==============================================================
+      function handleBuyClick(index) {
+        const filtered = b2cPlans.filter((p) => {
+          if (activeCycle === "all") return true;
+          return p.durationCycle?.toLowerCase() === activeCycle.toLowerCase();
+        });
+
+        const plan = filtered[index];
+        if (!plan) return;
+
+        selectedPlan = plan;
+        const authData = checkUserLoggedIn();
+
+        // Agar user login NAHI hai to "Login Required Modal" kholo
+        if (!authData || !authData.userId) {
+          sessionStorage.setItem("pending_plan_id", plan._id || plan.id || "");
+          sessionStorage.setItem("pending_promo_code", plan.promoCode || "");
+          sessionStorage.setItem("redirect_after_login", "billing.html");
+
+          document.getElementById("login-modal-plan-name").innerText =
+            plan.planName;
+          document
+            .getElementById("login-required-modal")
+            .classList.remove("hidden");
+          if (window.lucide) lucide.createIcons();
+          return;
+        }
+
+        // Agar user login hai to Checkout/Activation Modal open karo
+        appliedPromoCode = selectedPlan.promoCode || "";
+        appliedDiscountPercent = selectedPlan.promoDiscountPercent || 0;
+
+        document.getElementById("modal-coupon-input").value = appliedPromoCode;
+        updateModalPricing();
+
+        document.getElementById("checkout-modal").classList.remove("hidden");
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function closeLoginRequiredModal() {
+        document.getElementById("login-required-modal").classList.add("hidden");
+      }
+
+      function redirectToLoginPage() {
+        window.location.href = "login.html";
+      }
+
+      function checkPendingPurchaseAfterLogin() {
+        const pendingPlanId = sessionStorage.getItem("pending_plan_id");
+        const authData = checkUserLoggedIn();
+
+        if (pendingPlanId && authData && authData.userId) {
+          sessionStorage.removeItem("pending_plan_id");
+          const promo = sessionStorage.getItem("pending_promo_code") || "";
+          sessionStorage.removeItem("pending_promo_code");
+
+          const matchedIndex = b2cPlans.findIndex(
+            (p) => p._id === pendingPlanId || p.id === pendingPlanId,
+          );
+          if (matchedIndex !== -1) {
+            handleBuyClick(matchedIndex);
+            if (promo) {
+              document.getElementById("modal-coupon-input").value = promo;
+              applyModalPromo();
+            }
+          }
+        }
+      }
+
+      function closeCheckoutModal() {
+        document.getElementById("checkout-modal").classList.add("hidden");
+      }
+
+      function applyModalPromo() {
+        const input = document
+          .getElementById("modal-coupon-input")
+          .value.trim()
+          .toUpperCase();
+        if (!input) {
+          appliedPromoCode = "";
+          appliedDiscountPercent = 0;
+        } else if (
+          selectedPlan &&
+          selectedPlan.promoCode &&
+          input === selectedPlan.promoCode.toUpperCase()
+        ) {
+          appliedPromoCode = input;
+          appliedDiscountPercent = selectedPlan.promoDiscountPercent || 20;
+        } else {
+          appliedPromoCode = input;
+          appliedDiscountPercent = 15;
+        }
+        updateModalPricing();
+      }
+
+      function updateModalPricing() {
+        if (!selectedPlan) return;
+
+        const basePrice =
+          selectedPlan.discountPrice && selectedPlan.discountPrice > 0
+            ? selectedPlan.discountPrice
+            : selectedPlan.price;
+
+        let finalPrice = basePrice;
+        if (appliedDiscountPercent > 0) {
+          finalPrice = Math.max(
+            0,
+            Math.round(basePrice - (basePrice * appliedDiscountPercent) / 100),
+          );
+        }
+
+        document.getElementById("modal-plan-name").innerText =
+          selectedPlan.planName;
+        document.getElementById("modal-plan-cycle").innerText = (
+          selectedPlan.durationCycle || "Monthly"
+        ).toUpperCase();
+        document.getElementById("modal-promo-tag").innerText = appliedPromoCode
+          ? `${appliedPromoCode} (${appliedDiscountPercent}%)`
+          : "NONE";
+        document.getElementById("modal-plan-price").innerText =
+          `₹${finalPrice}`;
+      }
+
+      // ==============================================================
+      // 4. EXECUTE BUY SUBSCRIPTION (POST /api/subscription/buy)
+      // ==============================================================
+      async function executeBuySubscription() {
+        if (!selectedPlan) return;
+
+        const authData = checkUserLoggedIn();
+        if (!authData || !authData.userId) {
+          closeCheckoutModal();
+          document
+            .getElementById("login-required-modal")
+            .classList.remove("hidden");
+          return;
+        }
+
+        const btn = document.getElementById("btn-confirm-buy");
+        btn.disabled = true;
+        btn.innerHTML = `<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> <span>Activating...</span>`;
+
+        try {
+          const res = await fetch(`${API_BASE_URL}/buy`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: authData.userId,
+              planId: selectedPlan._id || selectedPlan.id,
+              promoCode: appliedPromoCode,
+              paymentGateway: "DIRECT_ASSIGN",
+            }),
+          });
+
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            // Save active plan locally for billing.html
+            const currentPlanSnapshot = {
+              planName: selectedPlan.planName,
+              planCode: selectedPlan.planCode || "PLAN_ACTIVE",
+              durationCycle: selectedPlan.durationCycle || "monthly",
+              validityDate:
+                data.data?.userSubscription?.expiryDate || "31 Dec 2026",
+              activatedAt: new Date().toISOString(),
+            };
+            localStorage.setItem(
+              "exammokk_active_plan",
+              JSON.stringify(currentPlanSnapshot),
+            );
+
+            sessionStorage.removeItem("pending_plan_id");
+            sessionStorage.removeItem("pending_promo_code");
+
+            closeCheckoutModal();
+            // Direct Redirect to Billing Page
+            window.location.href = "billing.html";
+          } else {
+            alert(data.message || "Failed to activate subscription.");
+          }
+        } catch (e) {
+          console.error("Buy API Error:", e);
+          alert("Server connection error. Please try again.");
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = `<span>Confirm &amp; Activate Plan</span> <i data-lucide="check-circle" class="w-4 h-4"></i>`;
+          if (window.lucide) lucide.createIcons();
+        }
       }
 
       document.addEventListener("DOMContentLoaded", () => {

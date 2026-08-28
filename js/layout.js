@@ -45,7 +45,6 @@ function renderHeader() {
             <div class="flex flex-col">
               <div class="flex items-center gap-1.5">
                 <span class="text-lg font-black tracking-tight text-slate-900 uppercase">Exam<span class="text-indigo-600">Mokk</span></span>
-                <span class="bg-indigo-50 text-indigo-700 border border-indigo-200 text-[9px] font-black px-1.5 py-0.2 rounded-full uppercase">FREE</span>
               </div>
               <!-- Policy Safe: Clarified as practice test platform -->
               <span class="text-[10px] font-semibold text-slate-500 tracking-wider uppercase -mt-0.5">Online Exam Prep &amp; Mock Test Portal</span>

@@ -8,14 +8,14 @@
     />
 
     <!-- PRIMARY SEO & SAFE METADATA -->
-    <title>ExamMokk - Online Mock Tests & Exam Preparation Practice 2026</title>
+    <title>ExamMokk - Free Daily GK & Smart CBT Mock Test Series 2026</title>
     <meta
       name="description"
-      content="ExamMokk is an independent exam preparation platform and online mock test simulator. Practice Daily GK Quizzes, SSC CGL, Bank PO/Clerk, RRB NTPC, BPSC, JPSC, UPSC Prelims, and Defence mock tests."
+      content="Prepare for SSC, Banking, Railways, BPSC, JPSC & UPSC. Free Daily GK Quizzes, Hindi/English live speed tests, and full exam-pattern mock test series starting at ₹19/month."
     />
     <meta
       name="keywords"
-      content="daily gk quiz, aaj ka gk test, exam preparation practice app, competitive exam mock tests, ssc cgl mock test practice, bank po test series, rrb ntpc online test simulator, bpsc mock test, jpsc prelims test series"
+      content="daily gk quiz, aaj ka gk test, cbt mock test app, ssc cgl mock test, bank po speed quiz, rrb ntpc online test series, bpsc prelims practice, affordable test series"
     />
     <meta
       name="robots"
@@ -38,11 +38,11 @@
     <meta property="og:site_name" content="ExamMokk" />
     <meta
       property="og:title"
-      content="ExamMokk – Online Mock Tests & Competitive Exam Preparation"
+      content="ExamMokk – Free Daily GK & Smart CBT Practice Platform"
     />
     <meta
       property="og:description"
-      content="Prepare for SSC, Banking, Railways, BPSC, JPSC, UPSC, and State exams with simulated mock tests, instant scorecards, and subject-wise quizzes on ExamMokk."
+      content="Free Daily GK Speed Quizzes & Full CBT Mock Tests for SSC, Banking, Railways & State PSCs from ₹19/month."
     />
     <meta
       property="og:image"
@@ -61,11 +61,11 @@
     <meta name="twitter:url" content="https://exammokk.cloud/" />
     <meta
       name="twitter:title"
-      content="ExamMokk – Competitive Exam Practice Platform"
+      content="ExamMokk – Smart CBT Practice & Affordable Test Series"
     />
     <meta
       name="twitter:description"
-      content="Free online practice tests & Daily GK quizzes for SSC, Banking, Railways, BPSC, JPSC & UPSC."
+      content="Free Daily GK + full-length CBT practice tests starting at ₹19/month."
     />
     <meta
       name="twitter:image"
@@ -79,15 +79,16 @@
         "@graph": [
           {
             "@type": "SoftwareApplication",
-            "name": "ExamMokk - Competitive Exam Practice App",
+            "name": "ExamMokk - Smart CBT Exam Practice App",
             "operatingSystem": "Android, iOS, Web",
             "applicationCategory": "EducationalApplication",
             "offers": {
-              "@type": "Offer",
-              "price": "0",
+              "@type": "AggregateOffer",
+              "lowPrice": "0",
+              "highPrice": "99",
               "priceCurrency": "INR"
             },
-            "description": "Independent competitive examination preparation application for SSC, Banking, Railways, BPSC, JPSC, UPSC, JEE, NEET and Daily GK Quiz practice.",
+            "description": "Independent competitive exam preparation application providing free daily GK quizzes, timer-based CBT tests, and full test series for SSC, Banking, Railways, BPSC, and UPSC.",
             "url": "https://exammokk.cloud/"
           },
           {
@@ -133,7 +134,7 @@
   <body
     class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white"
   >
-    <!-- REUSABLE HEADER -->
+    <!-- REUSABLE HEADER (Contains Pricing in Nav Menu) -->
     <div id="global-header"></div>
 
     <main class="flex-grow">
@@ -146,42 +147,31 @@
             class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-black uppercase tracking-wider shadow-xs"
           >
             <span
-              class="w-2 h-2 rounded-full bg-indigo-600 animate-ping"
+              class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"
             ></span>
-            <span>📱 100% Free Practice Tests &amp; Exam Simulator</span>
+            <span>⚡ Free Daily GK + Pro CBT Mocks from ₹19/mo</span>
           </div>
 
           <h1
             class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight"
           >
-            Online Mock Tests &amp; <br />
+            Online All India Mock Tests &amp; <br />
             <span
               class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-800"
             >
-              Competitive Exam Practice
+              Govt Exam Preparation 2026
             </span>
           </h1>
 
           <p
             class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed font-medium"
           >
-            Practice simulated CBT tests for SSC CGL, Banking (SBI/IBPS),
-            Railways RRB, BPSC, JPSC, UPSC Prelims, JEE &amp; NEET with standard
-            exam marking, daily quizzes, and percentile analytics.
+            Attempt daily live speed quizzes in Hindi &amp; English for free.
+            Upgrade to full-length test series with real negative marking (+2.00
+            / -0.50), timer tracking, and instant scorecards.
           </p>
 
           <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <a
-              href="#exam-grid-section"
-              class="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-2xl shadow-lg shadow-indigo-200 transition flex items-center gap-2 text-sm no-underline cursor-pointer"
-            >
-              <i
-                data-lucide="zap"
-                class="w-4 h-4 text-amber-300 fill-current"
-              ></i>
-              <span>Start Free Practice Test</span>
-            </a>
-
             <!-- DAILY GK DIRECT RUNNER -->
             <button
               onclick="launchDailyGKRunner()"
@@ -190,6 +180,26 @@
               <span class="text-base">⚡</span>
               <span>Daily GK Quiz (Free)</span>
             </button>
+
+            <a
+              href="#exam-grid-section"
+              class="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-2xl shadow-lg shadow-indigo-200 transition flex items-center gap-2 text-sm no-underline cursor-pointer"
+            >
+              <i
+                data-lucide="zap"
+                class="w-4 h-4 text-amber-300 fill-current"
+              ></i>
+              <span>Explore Exam Mocks</span>
+            </a>
+
+            <!-- DEDICATED PRICING LINK -->
+            <!-- <a
+              href="/pricing.html"
+              class="px-6 py-3.5 bg-white border border-slate-300 hover:bg-slate-50 active:scale-95 text-slate-700 font-bold rounded-2xl shadow-xs transition flex items-center gap-2 text-sm no-underline cursor-pointer"
+            >
+              <span>View Plans (from ₹19)</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+            </a> -->
           </div>
         </div>
       </section>
@@ -200,17 +210,68 @@
           class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-6 sm:gap-12 text-xs font-bold text-indigo-100"
         >
           <div class="flex items-center gap-2">
-            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-            <span>100% Free Access</span>
+            <i data-lucide="zap" class="w-4 h-4 text-emerald-400"></i>
+            <span>Daily Free Speed Quizzes</span>
           </div>
           <div class="flex items-center gap-2">
-            <i data-lucide="timer" class="w-4 h-4 text-amber-300"></i>
+            <i data-lucide="languages" class="w-4 h-4 text-amber-300"></i>
+            <span>Bilingual (Eng / हिन्दी)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="timer" class="w-4 h-4 text-cyan-300"></i>
             <span>Standard Question Timers</span>
           </div>
           <div class="flex items-center gap-2">
-            <i data-lucide="bar-chart-2" class="w-4 h-4 text-cyan-300"></i>
-            <span>Performance &amp; Percentile Analytics</span>
+            <i data-lucide="award" class="w-4 h-4 text-rose-300"></i>
+            <span>Full Passes from ₹19</span>
           </div>
+        </div>
+      </section>
+
+      <!-- DAILY GK & CURRENT AFFAIRS CARD -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-4">
+        <div
+          class="bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10"
+        >
+          <div
+            class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row"
+          >
+            <div
+              class="w-16 h-16 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-3xl shrink-0 border border-white/20"
+            >
+              ⚡
+            </div>
+            <div>
+              <div
+                class="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1"
+              >
+                <span
+                  class="bg-black/20 text-emerald-200 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider"
+                  >100% Free Everyday</span
+                >
+                <span
+                  class="bg-white/20 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase"
+                  >SSC • Banking • Railways • State PSCs</span
+                >
+              </div>
+              <h3 class="text-lg sm:text-2xl font-black">
+                Daily GK &amp; Current Affairs Quiz (आज का टेस्ट)
+              </h3>
+              <p class="text-xs text-emerald-50 font-medium max-w-xl mt-1">
+                Attempt 10 high-yield questions daily with instant solution
+                analysis, time tracker, and Hindi/English switch.
+              </p>
+            </div>
+          </div>
+
+          <!-- DIRECT LAUNCH BUTTON -->
+          <button
+            onclick="launchDailyGKRunner()"
+            class="px-8 py-3.5 bg-white text-emerald-800 hover:bg-emerald-50 active:scale-95 text-xs font-black rounded-2xl shadow-lg transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer border-0"
+          >
+            <span>Start Free Quiz</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
         </div>
       </section>
 
@@ -232,12 +293,12 @@
               <span
                 class="text-[11px] font-black bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full border border-indigo-100"
               >
-                10 Streams
+                Free Demo &amp; Pro Mocks
               </span>
             </div>
             <p class="text-xs text-slate-500 font-medium">
-              Choose your target competitive exam category to launch practice
-              tests and subject quizzes.
+              Choose your exam category to attempt starter mocks and access
+              comprehensive test series.
             </p>
           </div>
         </div>
@@ -261,51 +322,31 @@
         ></div>
       </section>
 
-      <!-- DAILY GK & CURRENT AFFAIRS CARD -->
-      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <!-- PUSH TO PRICING PAGE STRIP -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <div
-          class="bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10"
+          class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800 shadow-xl"
         >
-          <div
-            class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row"
-          >
-            <div
-              class="w-16 h-16 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-3xl shrink-0 border border-white/20"
+          <div class="space-y-1 text-center md:text-left">
+            <span
+              class="text-[10px] font-black tracking-widest uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 px-2.5 py-0.5 rounded-full"
+              >Pocket-Friendly Prep</span
             >
-              ⚡
-            </div>
-            <div>
-              <div
-                class="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1"
-              >
-                <span
-                  class="bg-black/20 text-emerald-200 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider"
-                  >100% Free Daily Quiz</span
-                >
-                <span
-                  class="bg-white/20 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase"
-                  >SSC • Banking • Railways • BPSC • UPSC</span
-                >
-              </div>
-              <h3 class="text-lg sm:text-2xl font-black">
-                Daily GK &amp; Current Affairs Quiz (आज का टेस्ट)
-              </h3>
-              <p class="text-xs text-emerald-50 font-medium max-w-xl mt-1">
-                Practice high-yield Daily Current Affairs, Indian Polity &amp;
-                Static GK questions with test timer, instant solutions &amp;
-                standard negative marking.
-              </p>
-            </div>
+            <h3 class="text-xl sm:text-2xl font-black mt-2">
+              Unlock Unlimited Tests from just ₹19/month
+            </h3>
+            <p class="text-xs text-slate-300 font-medium max-w-xl">
+              Get full-length mock tests, sectional tests, and detailed
+              percentile reports without expensive annual subscriptions.
+            </p>
           </div>
-
-          <!-- DIRECT LAUNCH BUTTON -->
-          <button
-            onclick="launchDailyGKRunner()"
-            class="px-8 py-3.5 bg-white text-emerald-800 hover:bg-emerald-50 active:scale-95 text-xs font-black rounded-2xl shadow-lg transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer border-0"
+          <a
+            href="/pricing.html"
+            class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs font-black rounded-2xl shadow-lg shadow-indigo-600/30 transition-all whitespace-nowrap flex items-center gap-2 no-underline cursor-pointer"
           >
-            <span>Start Daily Quiz</span>
+            <span>Explore Pricing &amp; Passes</span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
+          </a>
         </div>
       </section>
 
