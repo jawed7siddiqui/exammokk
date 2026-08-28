@@ -9,7 +9,7 @@
     </title>
     <meta
       name="description"
-      content="Choose from Free Starter Pass or Premium Student Passes for SSC, Banking, Railways, UPSC, and State exams. Daily GK quizzes &amp; unlimited mock tests."
+      content="Choose Premium Student Passes for SSC, Banking, Railways, UPSC, and State exams. Unlimited CBT test series with All-India rank &amp; AI explanations."
     />
     <meta
       name="keywords"
@@ -90,7 +90,7 @@
           <span
             class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
           ></span>
-          <span>Free Daily GK + Affordable Student Passes</span>
+          <span>Affordable Student Passes &amp; Test Series</span>
         </div>
 
         <h1
@@ -107,10 +107,11 @@
         <p
           class="text-slate-600 text-xs sm:text-base max-w-xl mx-auto leading-relaxed font-medium"
         >
-          Start with 100% Free Daily Quizzes or upgrade to full-length CBT test
-          series with All-India rank &amp; AI explanations.
+          Upgrade to full-length CBT test series with All-India rank &amp; AI
+          step-by-step explanations.
         </p>
 
+        <!-- Dynamic Duration Filter Tabs -->
         <div
           class="pt-3 flex items-center justify-center gap-2 flex-wrap"
           id="cycleFilterContainer"
@@ -121,6 +122,20 @@
             data-cycle="all"
           >
             All Passes
+          </button>
+          <button
+            onclick="filterByCycle('daily')"
+            class="cycle-tab px-4 py-1.5 rounded-full text-xs font-bold transition-all border border-slate-200 bg-white text-slate-600 hover:border-slate-300 cursor-pointer"
+            data-cycle="daily"
+          >
+            1 Day
+          </button>
+          <button
+            onclick="filterByCycle('weekly')"
+            class="cycle-tab px-4 py-1.5 rounded-full text-xs font-bold transition-all border border-slate-200 bg-white text-slate-600 hover:border-slate-300 cursor-pointer"
+            data-cycle="weekly"
+          >
+            7 Days
           </button>
           <button
             onclick="filterByCycle('monthly')"
@@ -139,6 +154,7 @@
         </div>
       </section>
 
+      <!-- Plans Container -->
       <div class="w-full flex justify-center">
         <div
           id="plansContainer"
@@ -157,6 +173,7 @@
         </div>
       </div>
 
+      <!-- Promo Banner -->
       <section
         class="mt-12 md:mt-16 w-full max-w-3xl p-5 sm:p-7 bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 rounded-3xl text-white flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 shadow-xl text-center sm:text-left"
       >
@@ -182,23 +199,13 @@
         </a>
       </section>
 
+      <!-- FAQ Section -->
       <section class="mt-12 md:mt-16 space-y-4 max-w-2xl w-full mx-auto">
         <h3 class="text-lg sm:text-xl font-black text-slate-900 text-center">
           Frequently Asked Questions
         </h3>
 
         <div class="space-y-3 text-xs sm:text-sm">
-          <div
-            class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1 shadow-xs"
-          >
-            <h4 class="font-bold text-slate-900">
-              Is the Daily GK Quiz completely free?
-            </h4>
-            <p class="text-slate-600 leading-relaxed font-medium">
-              Yes, 100% free forever! You can attempt fresh Daily Current
-              Affairs and Static GK quizzes daily without any subscription.
-            </p>
-          </div>
           <div
             class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1 shadow-xs"
           >
@@ -346,6 +353,35 @@
         }
       }
 
+      function getCycleLabel(cycle) {
+        const c = (cycle || "").toLowerCase().trim();
+        switch (c) {
+          case "daily":
+          case "1 day":
+            return "1 Day Pass";
+          case "weekly":
+          case "7 days":
+            return "7 Days Pass";
+          case "fifteen_days":
+          case "15 days":
+            return "15 Days Pass";
+          case "monthly":
+          case "30 days":
+            return "Monthly Pass (30 Days)";
+          case "quarterly":
+          case "90 days":
+            return "Quarterly Pass (90 Days)";
+          case "half_yearly":
+          case "180 days":
+            return "Half-Yearly Pass (180 Days)";
+          case "yearly":
+          case "365 days":
+            return "1 Year Access (365 Days)";
+          default:
+            return cycle || "Access Pass";
+        }
+      }
+
       async function fetchB2CPlans() {
         const container = document.getElementById("plansContainer");
 
@@ -438,67 +474,19 @@
       function renderPlans() {
         const container = document.getElementById("plansContainer");
 
-        const freeCardHtml = `
-          <div class="w-full sm:w-[340px] md:w-[350px] bg-white border border-slate-200/90 shadow-xs rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-200">
-            <div class="space-y-4">
-              <div class="flex items-center justify-between gap-2">
-                <span class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-                  Lifetime Free
-                </span>
-                <span class="bg-emerald-600 text-white text-[9px] sm:text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
-                  <span>100% Free</span>
-                </span>
-              </div>
-
-              <div>
-                <h3 class="text-lg sm:text-xl font-black text-slate-900 leading-snug">Daily Free Pass</h3>
-                <p class="text-[10px] font-mono text-slate-400 font-bold uppercase">FREE_STARTER</p>
-              </div>
-
-              <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 flex items-baseline justify-between">
-                <div>
-                  <div class="flex items-baseline gap-1.5">
-                    <span class="text-2xl sm:text-3xl font-black text-slate-900 font-mono">₹0</span>
-                    <span class="text-xs font-bold text-emerald-600 font-mono">Free Forever</span>
-                  </div>
-                  <span class="text-[10px] text-slate-500 font-bold block">No card required</span>
-                </div>
-              </div>
-
-              <div class="space-y-2 pt-1">
-                <ul class="space-y-2 text-xs font-semibold text-slate-700">
-                  <li class="flex items-start gap-2">
-                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
-                    <span class="leading-tight">Daily Live GK &amp; Current Affairs Quiz</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
-                    <span class="leading-tight">Free Starter Demo Tests for all Exams</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
-                    <span class="leading-tight">Bilingual Interface (Hindi &amp; English)</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="pt-4 mt-4 border-t border-slate-100">
-              <a
-                href="/test/runner?test_id=dgk_todays_affairs&segment=DAILY_GK"
-                class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl flex items-center justify-center gap-1.5 text-xs uppercase tracking-wider transition active:scale-95 cursor-pointer no-underline shadow-sm shadow-emerald-200"
-              >
-                <i data-lucide="play" class="w-3.5 h-3.5 text-amber-300 fill-current"></i>
-                <span>Start Free Practice</span>
-              </a>
-            </div>
-          </div>
-        `;
-
         const filtered = b2cPlans.filter((p) => {
           if (activeCycle === "all") return true;
           return p.durationCycle?.toLowerCase() === activeCycle.toLowerCase();
         });
+
+        if (filtered.length === 0) {
+          container.innerHTML = `
+            <div class="w-full p-8 bg-white border border-slate-200 rounded-3xl text-center text-xs font-bold text-slate-400">
+              No passes found under this category.
+            </div>
+          `;
+          return;
+        }
 
         const dynamicCardsHtml = filtered
           .map((plan, index) => {
@@ -514,14 +502,7 @@
                 ? Math.round(((price - discountPrice) / price) * 100)
                 : 0);
 
-            const cycleMap = {
-              monthly: "Monthly Pass (30 Days)",
-              quarterly: "Quarterly Pass (90 Days)",
-              half_yearly: "Half-Yearly Pass (180 Days)",
-              yearly: "1 Year Access (365 Days)",
-            };
-            const durationLabel =
-              cycleMap[plan.durationCycle] || plan.durationCycle || "Validity";
+            const durationLabel = getCycleLabel(plan.durationCycle);
 
             const primaryList = [
               plan.entitlements?.dailyTestLimit
@@ -667,12 +648,7 @@
           })
           .join("");
 
-        if (activeCycle === "all" || activeCycle === "monthly") {
-          container.innerHTML = freeCardHtml + dynamicCardsHtml;
-        } else {
-          container.innerHTML = dynamicCardsHtml;
-        }
-
+        container.innerHTML = dynamicCardsHtml;
         if (window.lucide) lucide.createIcons();
       }
 
@@ -682,7 +658,6 @@
         });
       }
 
-      // Handle Buy Click
       function handleBuyClick(index) {
         const filtered = b2cPlans.filter((p) => {
           if (activeCycle === "all") return true;
@@ -695,7 +670,6 @@
         selectedPlan = plan;
         const authData = checkUserLoggedIn();
 
-        // 1. Agar logged in NAHI hai -> Target billing.html set karein aur session data save karein
         if (!authData || !authData.userId) {
           sessionStorage.setItem("redirect_after_login", "billing.html");
           sessionStorage.setItem("pending_plan_id", plan._id || plan.id || "");
@@ -711,7 +685,6 @@
           return;
         }
 
-        // 2. Already Logged In -> Direct Razorpay Trigger
         appliedPromoCode = selectedPlan.promoCode || "";
         appliedDiscountPercent = selectedPlan.promoDiscountPercent || 0;
         executeBuySubscription();
@@ -742,7 +715,6 @@
         return finalPrice;
       }
 
-      // Payment Trigger & Execution
       async function executeBuySubscription() {
         if (!selectedPlan) return;
 
@@ -865,21 +837,9 @@
           hideGlobalLoader();
 
           if (res.ok && data.success) {
-            const currentPlanSnapshot = {
-              planName: selectedPlan.planName,
-              planCode: selectedPlan.planCode || "PLAN_ACTIVE",
-              durationCycle: selectedPlan.durationCycle || "monthly",
-              validityDate:
-                data.data?.userSubscription?.expiryDate || "31 Dec 2026",
-              activatedAt: new Date().toISOString(),
-            };
-            localStorage.setItem(
-              "exammokk_active_plan",
-              JSON.stringify(currentPlanSnapshot),
-            );
-
             sessionStorage.removeItem("pending_plan_id");
             sessionStorage.removeItem("pending_promo_code");
+            sessionStorage.removeItem("auto_trigger_payment");
 
             window.location.href = "billing.html";
           } else {
@@ -911,18 +871,6 @@
           hideGlobalLoader();
 
           if (res.ok && data.success) {
-            const currentPlanSnapshot = {
-              planName: selectedPlan.planName,
-              planCode: selectedPlan.planCode || "PLAN_ACTIVE",
-              durationCycle: selectedPlan.durationCycle || "monthly",
-              validityDate:
-                data.data?.userSubscription?.expiryDate || "31 Dec 2026",
-              activatedAt: new Date().toISOString(),
-            };
-            localStorage.setItem(
-              "exammokk_active_plan",
-              JSON.stringify(currentPlanSnapshot),
-            );
             window.location.href = "billing.html";
           } else {
             alert(data.message || "Failed to activate subscription.");

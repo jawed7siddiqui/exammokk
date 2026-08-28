@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Razorpay Checkout SDK for Desktop & Mobile WebView -->
+    <!-- Razorpay Checkout SDK -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -67,7 +67,7 @@
   <body
     class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white antialiased"
   >
-    <!-- COMMON NAVIGATION PLACEHOLDER (Managed by /js/webNav.js) -->
+    <!-- COMMON NAVIGATION PLACEHOLDER -->
     <div id="web-nav-placeholder"></div>
 
     <!-- MAIN BILLING VIEW CONTAINER -->
@@ -92,18 +92,20 @@
             <div class="space-y-1">
               <div class="flex items-center gap-2 flex-wrap">
                 <span
-                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[10.5px] font-bold font-mono-tag uppercase tracking-wider"
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-[10.5px] font-bold font-mono-tag uppercase tracking-wider"
+                  id="curr-plan-badge-wrapper"
                 >
                   <span
-                    class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+                    id="curr-plan-dot"
+                    class="w-1.5 h-1.5 rounded-full bg-slate-400"
                   ></span>
-                  <span id="curr-plan-badge">ACTIVE MEMBERSHIP</span>
+                  <span id="curr-plan-badge">LOADING STATUS...</span>
                 </span>
                 <span
                   id="curr-plan-id"
                   class="text-xs text-indigo-300 font-code bg-white/10 px-2.5 py-0.5 rounded-lg border border-white/15"
                 >
-                  PASS-ID: LOADING...
+                  PASS-ID: --
                 </span>
               </div>
 
@@ -111,14 +113,13 @@
                 id="curr-plan-title"
                 class="text-2xl sm:text-3xl font-black tracking-tight text-white mt-1"
               >
-                Standard Free Pass
+                --
               </h1>
               <p
                 id="curr-plan-desc"
                 class="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed"
               >
-                Access to all computer-based mock tests, negative marking
-                simulators, and instant rank analytics.
+                Checking active candidate subscription status...
               </p>
             </div>
 
@@ -146,7 +147,7 @@
               <span
                 id="curr-plan-cycle"
                 class="text-xs font-black text-white mt-0.5 block"
-                >Lifetime / Free</span
+                >--</span
               >
             </div>
 
@@ -160,7 +161,7 @@
               <span
                 id="curr-plan-validity"
                 class="text-xs font-black text-emerald-300 font-mono-tag mt-0.5 block"
-                >31 Dec 2026</span
+                >--</span
               >
             </div>
 
@@ -174,7 +175,7 @@
               <span
                 id="curr-plan-limit"
                 class="text-xs font-black text-white mt-0.5 block"
-                >Unlimited Tests</span
+                >--</span
               >
             </div>
 
@@ -188,7 +189,7 @@
               <span
                 id="curr-plan-ai"
                 class="text-xs font-black text-indigo-300 mt-0.5 block"
-                >Full Unlocked</span
+                >--</span
               >
             </div>
           </div>
@@ -210,7 +211,7 @@
               Have an Institute or Promo Coupon?
             </h3>
             <p class="text-xs text-slate-500 font-semibold mt-0.5">
-              Apply your 6-character promo code to claim instant discounts.
+              Apply your promo code to claim available discounts.
             </p>
           </div>
         </div>
@@ -219,8 +220,8 @@
           <input
             type="text"
             id="coupon-input"
-            maxlength="6"
-            placeholder="6-CHAR CODE"
+            maxlength="10"
+            placeholder="PROMO CODE"
             class="px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-code font-bold text-xs uppercase tracking-widest text-slate-900 outline-none focus:border-indigo-600 focus:bg-white w-full sm:w-40 text-center"
           />
           <button
@@ -273,7 +274,7 @@
           id="plans-container"
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
         >
-          <!-- Populated purely by API -->
+          <!-- Loaded via API -->
         </div>
       </section>
 
@@ -415,6 +416,71 @@
       </div>
     </div>
 
+    <!-- 6. SUCCESS INVOICE RECEIPT MODAL -->
+    <div
+      id="invoice-modal"
+      class="fixed inset-0 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden"
+    >
+      <div
+        class="bg-white rounded-3xl p-6 sm:p-7 max-w-sm w-full border border-slate-200 shadow-2xl space-y-4 animate-fade text-center"
+      >
+        <div
+          class="w-12 h-12 bg-emerald-50 border border-emerald-200 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-sm"
+        >
+          <i data-lucide="check-circle" class="w-6 h-6 stroke-[2.5]"></i>
+        </div>
+
+        <div>
+          <h3 class="text-base font-black text-slate-900">
+            Payment Successful!
+          </h3>
+          <p class="text-xs text-slate-400 font-semibold mt-0.5">
+            Your pass has been activated in the database.
+          </p>
+        </div>
+
+        <div
+          class="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 text-left text-xs space-y-2 font-medium"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">Plan Activated</span>
+            <span id="inv-plan-name" class="font-bold text-slate-900">--</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">Amount Paid</span>
+            <span id="inv-amount" class="font-bold text-slate-900 font-mono-tag"
+              >₹0</span
+            >
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">Valid Till</span>
+            <span
+              id="inv-validity"
+              class="font-bold text-emerald-600 font-mono-tag"
+              >--</span
+            >
+          </div>
+          <div
+            class="flex items-center justify-between border-t border-slate-200 pt-2 text-[11px]"
+          >
+            <span class="text-slate-400">Payment ID</span>
+            <span
+              id="inv-txnid"
+              class="font-code font-bold text-indigo-600 truncate max-w-[150px]"
+              >--</span
+            >
+          </div>
+        </div>
+
+        <button
+          onclick="closeInvoiceModal()"
+          class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition cursor-pointer"
+        >
+          Continue to Dashboard
+        </button>
+      </div>
+    </div>
+
     <!-- REUSABLE GLOBAL FOOTER -->
     <footer
       class="py-5 px-4 text-center border-t border-slate-200/80 bg-white mt-auto"
@@ -424,10 +490,10 @@
       </p>
     </footer>
 
-    <!-- SCRIPT LINK (Common Nav Engine) -->
+    <!-- SCRIPT LINK -->
     <script src="/js/webNav.js"></script>
 
-    <!-- SUBSCRIPTION CLIENT CONTROLLER -->
+    <!-- CLIENT CONTROLLER -->
     <script>
       const API_BASE_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/subscription";
@@ -441,7 +507,36 @@
       let availablePlans = [];
       let selectedPlan = null;
 
-      // Robust User Extraction
+      // Dynamic Cycle Formatter for Daily, Weekly, 15 Days, etc.
+      function getCycleLabel(cycle) {
+        const c = (cycle || "").toLowerCase().trim();
+        switch (c) {
+          case "daily":
+          case "1 day":
+            return "1 Day";
+          case "weekly":
+          case "7 days":
+            return "7 Days";
+          case "fifteen_days":
+          case "15 days":
+            return "15 Days";
+          case "quarterly":
+          case "90 days":
+            return "3 Months";
+          case "half_yearly":
+          case "180 days":
+            return "6 Months";
+          case "yearly":
+          case "365 days":
+            return "1 Year";
+          case "monthly":
+          case "30 days":
+            return "Monthly";
+          default:
+            return cycle || "Monthly";
+        }
+      }
+
       function getActiveUserData() {
         const urlParams = new URLSearchParams(window.location.search);
         let userId = urlParams.get("user_id") || urlParams.get("userId") || "";
@@ -515,12 +610,8 @@
           } catch (e) {}
         }
 
-        if (!userId) {
-          userId = "guest_user_dashboard";
-        }
-
         return {
-          userId: userId,
+          userId: userId || "",
           user: userObj || {},
           token: token,
         };
@@ -530,10 +621,34 @@
         return getActiveUserData().userId;
       }
 
-      // 2. Fetch User Active Plan
+      // 1. Fetch User Active Plan
       async function loadUserCurrentPlan() {
         const userId = getActiveUserId();
-        if (!userId || userId === "guest_user_dashboard") return;
+        const badgeWrapper = document.getElementById("curr-plan-badge-wrapper");
+        const dot = document.getElementById("curr-plan-dot");
+        const badge = document.getElementById("curr-plan-badge");
+
+        function setFreeLimitedState() {
+          badgeWrapper.className =
+            "inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-[10.5px] font-bold font-mono-tag uppercase tracking-wider";
+          dot.className = "w-1.5 h-1.5 rounded-full bg-slate-400";
+          badge.innerText = "FREE PLAN";
+          document.getElementById("curr-plan-title").innerText =
+            "Free Starter Pass";
+          document.getElementById("curr-plan-desc").innerText =
+            "Basic access enabled. Upgrade to an active pass for full test series and AI solutions.";
+          document.getElementById("curr-plan-id").innerText =
+            "PASS-ID: FREE_PASS";
+          document.getElementById("curr-plan-cycle").innerText = "--";
+          document.getElementById("curr-plan-validity").innerText = "--";
+          document.getElementById("curr-plan-limit").innerText = "1 Test / Day";
+          document.getElementById("curr-plan-ai").innerText = "Restricted";
+        }
+
+        if (!userId) {
+          setFreeLimitedState();
+          return;
+        }
 
         try {
           const res = await fetch(
@@ -548,50 +663,66 @@
               ? subscription.planDetails
               : cachedSnapshot || fallbackFreePlan;
 
-            if (plan) {
+            const isActive = subscription
+              ? subscription.status === "ACTIVE" ||
+                subscription.status === "active"
+              : false;
+
+            if (isActive && plan) {
+              badgeWrapper.className =
+                "inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[10.5px] font-bold font-mono-tag uppercase tracking-wider";
+              dot.className =
+                "w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse";
+              badge.innerText = "ACTIVE MEMBERSHIP";
+
               document.getElementById("curr-plan-title").innerText =
-                plan.planName || "Standard Free Pass";
-              document.getElementById("curr-plan-id").innerText =
-                `PASS-ID: ${plan.planCode || "MOKK_FREE"}`;
-              document.getElementById("curr-plan-cycle").innerText = (
-                plan.durationCycle || "Monthly"
-              ).toUpperCase();
+                plan.planName || "Active Candidate Pass";
+              document.getElementById("curr-plan-id").innerText = `PASS-ID: ${
+                plan.planCode || "MOKK_PASS"
+              }`;
+              document.getElementById("curr-plan-cycle").innerText =
+                getCycleLabel(plan.durationCycle).toUpperCase();
+              document.getElementById("curr-plan-desc").innerText =
+                "Full access to computer-based mock tests, simulators, and instant rank analytics.";
+
+              const expiryRaw = subscription
+                ? subscription.expiryDate
+                : cachedSnapshot?.expiryDate;
+
+              document.getElementById("curr-plan-validity").innerText =
+                expiryRaw
+                  ? new Date(expiryRaw).toLocaleDateString("en-IN", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })
+                  : "--";
+
+              const dailyLimit =
+                plan.dailyTestLimit || cachedSnapshot?.dailyTestLimit;
+
+              document.getElementById("curr-plan-limit").innerText =
+                dailyLimit && dailyLimit > 0
+                  ? `${dailyLimit} Tests / Day`
+                  : "Unlimited Tests";
+
+              document.getElementById("curr-plan-ai").innerText =
+                cachedSnapshot && cachedSnapshot.aiExplanationAccess === false
+                  ? "Standard"
+                  : "Full Unlocked";
+            } else {
+              setFreeLimitedState();
             }
-
-            const expiryRaw = subscription
-              ? subscription.expiryDate
-              : cachedSnapshot
-                ? cachedSnapshot.expiryDate
-                : fallbackFreePlan?.validityDate;
-
-            document.getElementById("curr-plan-validity").innerText = expiryRaw
-              ? new Date(expiryRaw).toLocaleDateString("en-IN", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })
-              : "31 Dec 2026";
-
-            const dailyLimit = cachedSnapshot
-              ? cachedSnapshot.dailyTestLimit
-              : fallbackFreePlan?.dailyTestLimit;
-
-            document.getElementById("curr-plan-limit").innerText =
-              dailyLimit && dailyLimit > 0
-                ? `${dailyLimit} Tests / Day`
-                : "Unlimited Tests";
-
-            document.getElementById("curr-plan-ai").innerText =
-              cachedSnapshot && cachedSnapshot.aiExplanationAccess !== false
-                ? "Full Unlocked"
-                : "Standard Only";
+          } else {
+            setFreeLimitedState();
           }
         } catch (err) {
-          console.warn("Failed to load live user plan:", err);
+          console.warn("Failed to load user plan:", err);
+          setFreeLimitedState();
         }
       }
 
-      // 3. Dynamic Plan Loader
+      // 2. Dynamic Plan Loader
       async function loadAllPlans() {
         const container = document.getElementById("plans-container");
         container.innerHTML = `
@@ -623,12 +754,11 @@
             );
             renderPlansGrid();
 
-            // Check if user came from login for pending auto checkout
             checkPendingPurchaseAfterLogin();
           } else {
             container.innerHTML = `
               <div class="col-span-full p-8 bg-white border border-slate-200 rounded-3xl text-center text-xs font-bold text-slate-400">
-                No active B2C plans configured on the server currently.
+                No active subscription packages available at the moment.
               </div>
             `;
           }
@@ -636,9 +766,44 @@
           console.error("Plan fetch error:", e);
           container.innerHTML = `
             <div class="col-span-full p-8 bg-white border border-rose-200 rounded-3xl text-center text-xs font-bold text-rose-500">
-              Unable to load plans from server.
+              Unable to load plans from server. Please refresh the page.
             </div>
           `;
+        }
+      }
+
+      function checkPendingPurchaseAfterLogin() {
+        const pendingPlanId = sessionStorage.getItem("pending_plan_id");
+        const autoTrigger = sessionStorage.getItem("auto_trigger_payment");
+        const authData = getActiveUserData();
+
+        if (
+          pendingPlanId &&
+          autoTrigger === "true" &&
+          authData &&
+          authData.userId
+        ) {
+          const promo = sessionStorage.getItem("pending_promo_code") || "";
+
+          sessionStorage.removeItem("pending_plan_id");
+          sessionStorage.removeItem("pending_promo_code");
+          sessionStorage.removeItem("auto_trigger_payment");
+
+          const matchedPlanIndex = availablePlans.findIndex(
+            (p) => (p._id || p.id) === pendingPlanId,
+          );
+
+          if (matchedPlanIndex !== -1) {
+            if (promo) {
+              document.getElementById("coupon-input").value = promo;
+              applyPromoCoupon();
+            }
+
+            setTimeout(() => {
+              openCheckoutModal(matchedPlanIndex);
+              executeBuySubscription();
+            }, 400);
+          }
         }
       }
 
@@ -675,15 +840,7 @@
         container.innerHTML = availablePlans
           .map((plan, index) => {
             const finalPrice = calculateFinalPrice(plan);
-
-            const cycleLabel =
-              plan.durationCycle === "yearly"
-                ? "1 Year"
-                : plan.durationCycle === "half_yearly"
-                  ? "6 Months"
-                  : plan.durationCycle === "quarterly"
-                    ? "3 Months"
-                    : "Monthly";
+            const cycleLabel = getCycleLabel(plan.durationCycle);
 
             const featuresList = Array.isArray(plan.features)
               ? plan.features
@@ -692,7 +849,7 @@
                 : [
                     "Full Access to Mock Simulations",
                     "Real Negative Marking Engine",
-                    "Instant Solutions & Rank",
+                    "Instant Solutions & Rank Analytics",
                   ];
 
             return `
@@ -709,7 +866,11 @@
                     <h3 class="text-base font-black text-slate-900">${plan.planName}</h3>
                     <div class="flex items-baseline gap-2 mt-2">
                       <span class="text-3xl font-black text-slate-900 font-mono-tag">₹${finalPrice}</span>
-                      ${plan.price && plan.price > finalPrice ? `<span class="text-xs text-slate-400 line-through font-mono-tag">₹${plan.price}</span>` : ""}
+                      ${
+                        plan.price && plan.price > finalPrice
+                          ? `<span class="text-xs text-slate-400 line-through font-mono-tag">₹${plan.price}</span>`
+                          : ""
+                      }
                       <span class="text-xs text-slate-500 font-semibold">/ ${cycleLabel}</span>
                     </div>
                   </div>
@@ -743,56 +904,20 @@
         if (window.lucide) lucide.createIcons();
       }
 
-      // Check and Auto-Trigger Razorpay if coming from Login
-      function checkPendingPurchaseAfterLogin() {
-        const pendingPlanId = sessionStorage.getItem("pending_plan_id");
-        const autoTrigger = sessionStorage.getItem("auto_trigger_payment");
-        const authData = getActiveUserData();
-
-        if (
-          pendingPlanId &&
-          autoTrigger === "true" &&
-          authData &&
-          authData.userId &&
-          authData.userId !== "guest_user_dashboard"
-        ) {
-          const promo = sessionStorage.getItem("pending_promo_code") || "";
-
-          // Clear flags
-          sessionStorage.removeItem("pending_plan_id");
-          sessionStorage.removeItem("pending_promo_code");
-          sessionStorage.removeItem("auto_trigger_payment");
-
-          const matchedPlan = availablePlans.find(
-            (p) => (p._id || p.id) === pendingPlanId,
-          );
-
-          if (matchedPlan) {
-            selectedPlan = matchedPlan;
-            activeCouponCode = promo || selectedPlan.promoCode || "";
-            appliedDiscountPercent = selectedPlan.promoDiscountPercent || 0;
-
-            setTimeout(() => {
-              executeBuySubscription();
-            }, 350);
-          }
-        }
-      }
-
-      // 4. Fetch User Invoice History
+      // 3. Fetch User Invoice & Order History
       async function loadUserHistory() {
         const userId = getActiveUserId();
         const tbody = document.getElementById("history-table-body");
         const countBadge = document.getElementById("history-count-badge");
 
-        if (!userId || userId === "guest_user_dashboard") {
+        if (!userId) {
           tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-xs font-bold text-slate-400">No past subscription invoices found.</td></tr>`;
           return;
         }
 
         try {
           const res = await fetch(
-            `${API_BASE_URL}/user/${encodeURIComponent(userId)}/history`,
+            `${PAYMENT_API_URL}/history/${encodeURIComponent(userId)}`,
           );
           const resData = await res.json();
 
@@ -824,6 +949,17 @@
                 const isActive =
                   item.status === "ACTIVE" || item.status === "active";
 
+                const price =
+                  item.planDetails?.pricePaid ?? item.amountPaid ?? 0;
+                const gateway =
+                  item.paymentDetails?.gateway ||
+                  item.paymentGateway ||
+                  "RAZORPAY";
+
+                const cycleText = getCycleLabel(
+                  item.planDetails?.durationCycle || item.durationCycle,
+                );
+
                 return `
                   <tr class="hover:bg-slate-50 transition">
                     <td class="py-3.5 pl-2">
@@ -835,12 +971,14 @@
                         ${item.status}
                       </span>
                     </td>
-                    <td class="py-3.5 font-bold text-slate-900">${item.planDetails?.planName || item.planName || "ExamPass"}</td>
-                    <td class="py-3.5 capitalize">${item.planDetails?.durationCycle || item.durationCycle || "Monthly"}</td>
+                    <td class="py-3.5 font-bold text-slate-900">${
+                      item.planDetails?.planName || item.planName || "Pass"
+                    }</td>
+                    <td class="py-3.5 capitalize">${cycleText}</td>
                     <td class="py-3.5 font-code text-[11px] text-slate-500">${startDate}</td>
                     <td class="py-3.5 font-code text-[11px] text-emerald-600 font-bold">${expiryDate}</td>
-                    <td class="py-3.5 font-mono-tag font-bold text-slate-900">₹${item.planDetails?.pricePaid || item.amountPaid || 0}</td>
-                    <td class="py-3.5 text-right pr-2 font-code text-[10px] text-slate-400 uppercase">${item.paymentGateway || item.paymentDetails?.gateway || "RAZORPAY"}</td>
+                    <td class="py-3.5 font-mono-tag font-bold text-slate-900">₹${price}</td>
+                    <td class="py-3.5 text-right pr-2 font-code text-[10px] text-slate-400 uppercase">${gateway}</td>
                   </tr>
                 `;
               })
@@ -854,11 +992,16 @@
         }
       }
 
-      // 5. Razorpay Buy Flow
+      // 4. Razorpay Buy Flow
       async function executeBuySubscription() {
         if (!selectedPlan) return;
 
         const authData = getActiveUserData();
+        if (!authData.userId) {
+          alert("Please login first to purchase or upgrade your pass.");
+          return;
+        }
+
         const btn = document.getElementById("btn-confirm-buy");
         if (btn) {
           btn.disabled = true;
@@ -866,11 +1009,6 @@
         }
 
         const finalAmount = calculateFinalPrice(selectedPlan);
-
-        if (finalAmount <= 0) {
-          await directBypassAssignment(authData);
-          return;
-        }
 
         try {
           const orderResponse = await fetch(`${PAYMENT_API_URL}/create-order`, {
@@ -915,7 +1053,7 @@
             image: "https://exammokk.cloud/favicon.ico",
             handler: async function (paymentResponse) {
               if (btn) {
-                btn.innerHTML = `<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> <span>Verifying Payment...</span>`;
+                btn.innerHTML = `<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> <span>Verifying &amp; Saving...</span>`;
               }
 
               await verifyPaymentTransaction({
@@ -928,17 +1066,11 @@
               });
             },
             prefill: {
-              name: authData.user?.name || authData.user?.candidateName || "",
+              name: authData.user?.name || "",
               email: authData.user?.email || "",
-              contact:
-                authData.user?.phone ||
-                authData.user?.mobile ||
-                authData.user?.mobileNumber ||
-                "",
+              contact: authData.user?.phone || authData.user?.mobile || "",
             },
-            theme: {
-              color: "#4f46e5",
-            },
+            theme: { color: "#4f46e5" },
             modal: {
               ondismiss: function () {
                 if (btn) {
@@ -951,25 +1083,9 @@
           };
 
           const rzp = new Razorpay(options);
-          rzp.on("payment.failed", function (response) {
-            alert(
-              response.error?.description ||
-                "Payment failed. Please try again.",
-            );
-            if (btn) {
-              btn.disabled = false;
-              btn.innerHTML = `<span>Pay &amp; Activate Plan</span> <i data-lucide="shield-check" class="w-4 h-4"></i>`;
-              if (window.lucide) lucide.createIcons();
-            }
-          });
-
           rzp.open();
         } catch (e) {
-          console.error("Payment initiation error:", e);
-          alert(
-            e.message ||
-              "Failed to initiate payment. Please check your connection.",
-          );
+          console.error("Payment Error:", e);
           if (btn) {
             btn.disabled = false;
             btn.innerHTML = `<span>Pay &amp; Activate Plan</span> <i data-lucide="shield-check" class="w-4 h-4"></i>`;
@@ -978,6 +1094,7 @@
         }
       }
 
+      // 5. Verification & Receipt Modal Display
       async function verifyPaymentTransaction(payload) {
         try {
           const res = await fetch(`${PAYMENT_API_URL}/verify-payment`, {
@@ -989,56 +1106,50 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
-            alert("Payment successful! Your pass has been activated.");
             closeCheckoutModal();
+
+            const invoiceInfo = data.data?.invoice || {
+              planName: selectedPlan?.planName,
+              amountPaid: calculateFinalPrice(selectedPlan),
+              transactionId: payload.razorpay_payment_id,
+              expiryDate: data.data?.userSubscription?.expiryDate,
+            };
+
+            showInvoiceReceipt(invoiceInfo);
             loadUserCurrentPlan();
             loadUserHistory();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          } else {
-            alert(data.message || "Payment verification failed.");
           }
         } catch (err) {
-          console.error("Verification error:", err);
-          alert("Verification error occurred. Please contact support.");
+          console.error("Verification failed:", err);
         }
       }
 
-      async function directBypassAssignment(authData) {
-        try {
-          const res = await fetch(`${API_BASE_URL}/buy`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              userId: authData.userId,
-              planId: selectedPlan._id || selectedPlan.id,
-              promoCode: activeCouponCode,
-              paymentGateway: "DIRECT_ASSIGN",
-            }),
-          });
+      function showInvoiceReceipt(invoice) {
+        document.getElementById("inv-plan-name").innerText =
+          invoice.planName || "Active Pass";
+        document.getElementById("inv-amount").innerText = `₹${
+          invoice.amountPaid || 0
+        }`;
+        document.getElementById("inv-txnid").innerText =
+          invoice.transactionId || "--";
+        document.getElementById("inv-validity").innerText = invoice.expiryDate
+          ? new Date(invoice.expiryDate).toLocaleDateString("en-IN", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })
+          : "--";
 
-          const data = await res.json();
-          if (res.ok && data.success) {
-            alert("Success! Your subscription plan has been activated.");
-            closeCheckoutModal();
-            loadUserCurrentPlan();
-            loadUserHistory();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          } else {
-            alert(data.message || "Failed to activate subscription.");
-          }
-        } catch (e) {
-          alert("Network error. Please try again.");
-        } finally {
-          const btn = document.getElementById("btn-confirm-buy");
-          if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = `<span>Pay &amp; Activate Plan</span> <i data-lucide="shield-check" class="w-4 h-4"></i>`;
-            if (window.lucide) lucide.createIcons();
-          }
-        }
+        document.getElementById("invoice-modal").classList.remove("hidden");
+        if (window.lucide) lucide.createIcons();
       }
 
-      // 6. Promo Code Application Logic
+      function closeInvoiceModal() {
+        document.getElementById("invoice-modal").classList.add("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Promo Handlers
       function applyPromoCoupon() {
         const input = document
           .getElementById("coupon-input")
@@ -1047,23 +1158,23 @@
         const alertBox = document.getElementById("coupon-alert");
         const alertMsg = document.getElementById("coupon-alert-msg");
 
-        if (!input || input.length !== 6) {
+        if (!input) {
           alertBox.className =
             "p-4 rounded-2xl text-xs font-bold flex items-center justify-between bg-rose-50 border border-rose-200 text-rose-700";
-          alertMsg.innerText = "Please enter a valid 6-character promo code.";
+          alertMsg.innerText = "Please enter a valid promo code.";
           alertBox.classList.remove("hidden");
           return;
         }
 
         const matched = availablePlans.find((p) => p.promoCode === input);
-        const discount = matched ? matched.promoDiscountPercent || 25 : 20;
+        const discount = matched ? matched.promoDiscountPercent || 0 : 0;
 
         appliedDiscountPercent = discount;
         activeCouponCode = input;
 
         alertBox.className =
           "p-4 rounded-2xl text-xs font-bold flex items-center justify-between bg-emerald-50 border border-emerald-200 text-emerald-800";
-        alertMsg.innerText = `Coupon '${input}' Applied! Extra ${discount}% discount unlocked.`;
+        alertMsg.innerText = "Promo code applied successfully!";
         alertBox.classList.remove("hidden");
 
         renderPlansGrid();
@@ -1077,7 +1188,6 @@
         renderPlansGrid();
       }
 
-      // 7. Modal Handlers
       function openCheckoutModal(index) {
         selectedPlan = availablePlans[index];
         if (!selectedPlan) return;
@@ -1086,8 +1196,8 @@
 
         document.getElementById("modal-plan-name").innerText =
           selectedPlan.planName;
-        document.getElementById("modal-plan-cycle").innerText = (
-          selectedPlan.durationCycle || "Monthly"
+        document.getElementById("modal-plan-cycle").innerText = getCycleLabel(
+          selectedPlan.durationCycle,
         ).toUpperCase();
         document.getElementById("modal-plan-promo").innerText =
           activeCouponCode || "NONE";

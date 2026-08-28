@@ -76,234 +76,228 @@
       class="fixed top-5 right-5 z-[9999] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"
     ></div>
 
-    <!-- COMMON MOBILE HEADER SLOT -->
-    <div id="common-mobile-header" class="contents"></div>
+    <!-- COMMON TOP HEADER SLOT -->
+    <div id="common-top-header" class="contents"></div>
 
-    <!-- MAIN WRAPPER WITH SIDEBAR CONTAINER -->
-    <div class="flex-1 flex min-h-screen w-full bg-slate-50 overflow-x-hidden">
-      <!-- COMMON SIDEBAR SLOT -->
-      <div id="common-sidebar-container" class="contents"></div>
-
-      <!-- MAIN CONTENT WRAPPER -->
-      <div class="flex-1 flex flex-col min-h-screen min-w-0 bg-slate-50">
-        <!-- COMMON TOP HEADER SLOT -->
-        <div id="common-top-header" class="contents"></div>
-
-        <!-- CONTENT BODY -->
-        <main class="p-4 md:p-8 flex-1 space-y-6 max-w-[1700px] mx-auto w-full">
-          <!-- TOP ACTION STRIP -->
-          <div
-            class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
+    <!-- MAIN CONTENT CONTAINER (FULL WIDTH) -->
+    <div class="flex-1 flex flex-col min-h-screen min-w-0 bg-slate-50">
+      <!-- CONTENT BODY -->
+      <main class="p-4 md:p-8 flex-1 space-y-6 max-w-[1700px] mx-auto w-full">
+        <!-- TOP ACTION STRIP -->
+        <div
+          class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
+        >
+          <div>
+            <h2
+              class="text-sm font-extrabold text-slate-900 uppercase tracking-wide"
+            >
+              Plan Configuration &amp; Overview
+            </h2>
+            <p class="text-[11px] text-slate-400 font-semibold">
+              Manage B2C student subscriptions &amp; B2B coaching tiers
+            </p>
+          </div>
+          <button
+            onclick="openCreateModal()"
+            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-extrabold rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
           >
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+            <span>Create New Plan</span>
+          </button>
+        </div>
+
+        <!-- TOP METRICS -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+          <div
+            class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
+          >
+            <span
+              class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block"
+              >Total Active Plans</span
+            >
+            <div
+              id="stat_total_plans"
+              class="text-xl font-black text-slate-900 font-mono mt-1"
+            >
+              0
+            </div>
+          </div>
+          <div
+            class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
+          >
+            <span
+              class="text-[10px] font-extrabold text-indigo-600 uppercase tracking-wider block"
+              >B2C Retail Plans</span
+            >
+            <div
+              id="stat_b2c_plans"
+              class="text-xl font-black text-indigo-600 font-mono mt-1"
+            >
+              0
+            </div>
+          </div>
+          <div
+            class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
+          >
+            <span
+              class="text-[10px] font-extrabold text-purple-600 uppercase tracking-wider block"
+              >B2B Coaching Plans</span
+            >
+            <div
+              id="stat_b2b_plans"
+              class="text-xl font-black text-purple-600 font-mono mt-1"
+            >
+              0
+            </div>
+          </div>
+          <div
+            class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
+          >
+            <span
+              class="text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider block"
+              >Linked Active Codes</span
+            >
+            <div
+              id="stat_promo_codes"
+              class="text-xl font-black text-emerald-600 font-mono mt-1"
+            >
+              0
+            </div>
+          </div>
+        </div>
+
+        <!-- FILTER TOOLBAR -->
+        <div
+          class="bg-white border border-slate-200 p-4 rounded-2xl flex flex-col gap-3 shadow-xs"
+        >
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            <!-- Search -->
+            <div class="relative lg:col-span-2">
+              <i
+                data-lucide="search"
+                class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+              ></i>
+              <input
+                type="text"
+                id="filter_search"
+                placeholder="Search Plan Name, Plan Code or Promo Code..."
+                onkeyup="debounceSearch()"
+                class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 outline-none focus:border-indigo-500 focus:bg-white transition-all"
+              />
+            </div>
+
+            <!-- Model Filter -->
             <div>
-              <h2
-                class="text-sm font-extrabold text-slate-900 uppercase tracking-wide"
+              <select
+                id="filter_model"
+                onchange="loadPlans(1)"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
               >
-                Plan Configuration &amp; Overview
-              </h2>
-              <p class="text-[11px] text-slate-400 font-semibold">
-                Manage B2C student subscriptions &amp; B2B coaching tiers
-              </p>
+                <option value="">All Business Models</option>
+                <option value="B2C">👤 B2C (Direct Student)</option>
+                <option value="B2B">🏢 B2B (Institute / Coaching)</option>
+              </select>
             </div>
-            <button
-              onclick="openCreateModal()"
-              class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-extrabold rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
-            >
-              <i data-lucide="plus-circle" class="w-4 h-4"></i>
-              <span>Create New Plan</span>
-            </button>
-          </div>
 
-          <!-- TOP METRICS -->
-          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-            <div
-              class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
-            >
-              <span
-                class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block"
-                >Total Active Plans</span
+            <!-- Billing Cycle Filter (Updated with 1, 7, 15 Days) -->
+            <div>
+              <select
+                id="filter_cycle"
+                onchange="loadPlans(1)"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
               >
-              <div
-                id="stat_total_plans"
-                class="text-xl font-black text-slate-900 font-mono mt-1"
-              >
-                0
-              </div>
+                <option value="">All Billing Cycles</option>
+                <option value="daily">1 Day (Daily)</option>
+                <option value="weekly">7 Days (Weekly)</option>
+                <option value="fifteen_days">15 Days (Bi-Weekly)</option>
+                <option value="monthly">Monthly (30 Days)</option>
+                <option value="quarterly">Quarterly (90 Days)</option>
+                <option value="half_yearly">Half-Yearly (180 Days)</option>
+                <option value="yearly">Yearly (365 Days)</option>
+              </select>
             </div>
-            <div
-              class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
-            >
-              <span
-                class="text-[10px] font-extrabold text-indigo-600 uppercase tracking-wider block"
-                >B2C Retail Plans</span
+
+            <!-- Status Filter -->
+            <div>
+              <select
+                id="filter_status"
+                onchange="loadPlans(1)"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
               >
-              <div
-                id="stat_b2c_plans"
-                class="text-xl font-black text-indigo-600 font-mono mt-1"
-              >
-                0
-              </div>
-            </div>
-            <div
-              class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
-            >
-              <span
-                class="text-[10px] font-extrabold text-purple-600 uppercase tracking-wider block"
-                >B2B Coaching Plans</span
-              >
-              <div
-                id="stat_b2b_plans"
-                class="text-xl font-black text-purple-600 font-mono mt-1"
-              >
-                0
-              </div>
-            </div>
-            <div
-              class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs"
-            >
-              <span
-                class="text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider block"
-                >Linked Active Codes</span
-              >
-              <div
-                id="stat_promo_codes"
-                class="text-xl font-black text-emerald-600 font-mono mt-1"
-              >
-                0
-              </div>
+                <option value="">All Statuses</option>
+                <option value="active">Active Only</option>
+                <option value="inactive">Inactive Only</option>
+              </select>
             </div>
           </div>
+        </div>
 
-          <!-- FILTER TOOLBAR -->
+        <!-- PLANS TABLE -->
+        <div
+          class="bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col"
+        >
+          <div class="overflow-x-auto min-h-[380px]">
+            <table class="w-full text-left text-xs">
+              <thead
+                class="bg-slate-50 text-slate-500 uppercase font-extrabold text-[10px] tracking-wider border-b border-slate-200"
+              >
+                <tr>
+                  <th class="p-3.5 md:p-4">Plan Name &amp; Code</th>
+                  <th class="p-3.5 md:p-4">Target Model</th>
+                  <th class="p-3.5 md:p-4">Duration Cycle</th>
+                  <th class="p-3.5 md:p-4">Pricing</th>
+                  <th class="p-3.5 md:p-4">6-Char Promo Code</th>
+                  <th class="p-3.5 md:p-4">Entitlements</th>
+                  <th class="p-3.5 md:p-4">Status</th>
+                  <th class="p-3.5 md:p-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody
+                id="plansTableBody"
+                class="divide-y divide-slate-100 font-semibold text-slate-700"
+              >
+                <tr>
+                  <td colspan="8" class="p-8 text-center text-slate-400">
+                    Loading plans...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- PAGINATION -->
           <div
-            class="bg-white border border-slate-200 p-4 rounded-2xl flex flex-col gap-3 shadow-xs"
+            class="p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs"
           >
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-              <!-- Search -->
-              <div class="relative lg:col-span-2">
-                <i
-                  data-lucide="search"
-                  class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
-                ></i>
-                <input
-                  type="text"
-                  id="filter_search"
-                  placeholder="Search Plan Name, Plan Code or Promo Code..."
-                  onkeyup="debounceSearch()"
-                  class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 outline-none focus:border-indigo-500 focus:bg-white transition-all"
-                />
-              </div>
-
-              <!-- Model Filter -->
-              <div>
-                <select
-                  id="filter_model"
-                  onchange="loadPlans(1)"
-                  class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
-                >
-                  <option value="">All Business Models</option>
-                  <option value="B2C">👤 B2C (Direct Student)</option>
-                  <option value="B2B">🏢 B2B (Institute / Coaching)</option>
-                </select>
-              </div>
-
-              <!-- Billing Cycle Filter -->
-              <div>
-                <select
-                  id="filter_cycle"
-                  onchange="loadPlans(1)"
-                  class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
-                >
-                  <option value="">All Billing Cycles</option>
-                  <option value="monthly">Monthly</option>
-                  <option value="quarterly">Quarterly</option>
-                  <option value="half_yearly">Half-Yearly</option>
-                  <option value="yearly">Yearly</option>
-                </select>
-              </div>
-
-              <!-- Status Filter -->
-              <div>
-                <select
-                  id="filter_status"
-                  onchange="loadPlans(1)"
-                  class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 focus:bg-white cursor-pointer"
-                >
-                  <option value="">All Statuses</option>
-                  <option value="active">Active Only</option>
-                  <option value="inactive">Inactive Only</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- PLANS TABLE -->
-          <div
-            class="bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col"
-          >
-            <div class="overflow-x-auto min-h-[380px]">
-              <table class="w-full text-left text-xs">
-                <thead
-                  class="bg-slate-50 text-slate-500 uppercase font-extrabold text-[10px] tracking-wider border-b border-slate-200"
-                >
-                  <tr>
-                    <th class="p-3.5 md:p-4">Plan Name &amp; Code</th>
-                    <th class="p-3.5 md:p-4">Target Model</th>
-                    <th class="p-3.5 md:p-4">Duration Cycle</th>
-                    <th class="p-3.5 md:p-4">Pricing</th>
-                    <th class="p-3.5 md:p-4">6-Char Promo Code</th>
-                    <th class="p-3.5 md:p-4">Entitlements</th>
-                    <th class="p-3.5 md:p-4">Status</th>
-                    <th class="p-3.5 md:p-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody
-                  id="plansTableBody"
-                  class="divide-y divide-slate-100 font-semibold text-slate-700"
-                >
-                  <tr>
-                    <td colspan="8" class="p-8 text-center text-slate-400">
-                      Loading plans...
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- PAGINATION -->
-            <div
-              class="p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs"
+            <span id="pagination-info" class="text-slate-500 font-semibold"
+              >Total Plans: 0</span
             >
-              <span id="pagination-info" class="text-slate-500 font-semibold"
-                >Total Plans: 0</span
+            <div class="flex items-center gap-2">
+              <button
+                id="btn-prev"
+                onclick="goToPage(currentPage - 1)"
+                disabled
+                class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-700 font-bold rounded-xl transition cursor-pointer"
               >
-              <div class="flex items-center gap-2">
-                <button
-                  id="btn-prev"
-                  onclick="goToPage(currentPage - 1)"
-                  disabled
-                  class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-700 font-bold rounded-xl transition cursor-pointer"
-                >
-                  Previous
-                </button>
-                <span
-                  id="pagination-current"
-                  class="font-mono font-bold px-2 text-indigo-600"
-                  >Page 1</span
-                >
-                <button
-                  id="btn-next"
-                  onclick="goToPage(currentPage + 1)"
-                  disabled
-                  class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-700 font-bold rounded-xl transition cursor-pointer"
-                >
-                  Next
-                </button>
-              </div>
+                Previous
+              </button>
+              <span
+                id="pagination-current"
+                class="font-mono font-bold px-2 text-indigo-600"
+                >Page 1</span
+              >
+              <button
+                id="btn-next"
+                onclick="goToPage(currentPage + 1)"
+                disabled
+                class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-700 font-bold rounded-xl transition cursor-pointer"
+              >
+                Next
+              </button>
             </div>
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
 
     <!-- ================= MODAL: CREATE / EDIT PLAN ================= -->
@@ -373,6 +367,9 @@
                 required
                 class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 outline-none focus:border-indigo-600 focus:bg-white cursor-pointer"
               >
+                <option value="daily">1 Day (Daily)</option>
+                <option value="weekly">7 Days (Weekly)</option>
+                <option value="fifteen_days">15 Days (Bi-Weekly)</option>
                 <option value="monthly">Monthly (30 Days)</option>
                 <option value="quarterly">Quarterly (90 Days)</option>
                 <option value="half_yearly">Half-Yearly (180 Days)</option>
@@ -390,7 +387,7 @@
               <input
                 type="text"
                 id="form_plan_name"
-                placeholder="e.g. UPSC Prelims Mastery Pack"
+                placeholder="e.g. Daily Practice Pass / Monthly Mastery Pack"
                 required
                 class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
               />
@@ -403,7 +400,7 @@
               <input
                 type="text"
                 id="form_plan_code"
-                placeholder="e.g. PLAN_B2C_UPSC_01"
+                placeholder="e.g. PLAN_B2C_DAILY_01"
                 class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold text-indigo-700 uppercase outline-none focus:border-indigo-600 focus:bg-white"
               />
             </div>
@@ -418,7 +415,7 @@
               <input
                 type="number"
                 id="form_price"
-                placeholder="999"
+                placeholder="99"
                 min="0"
                 step="1"
                 required
@@ -433,7 +430,7 @@
               <input
                 type="number"
                 id="form_discount_price"
-                placeholder="499"
+                placeholder="30"
                 min="0"
                 step="1"
                 class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold text-emerald-700 outline-none focus:border-indigo-600 focus:bg-white"
@@ -563,7 +560,7 @@
                 <input
                   type="number"
                   id="form_b2c_daily_limit"
-                  placeholder="e.g. 15 (0 for Unlimited)"
+                  placeholder="e.g. 1, 5 (0 for Unlimited)"
                   min="0"
                   class="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl font-mono font-bold text-slate-800 outline-none focus:border-blue-600"
                 />
@@ -592,7 +589,7 @@
             <textarea
               id="form_features"
               rows="2"
-              placeholder="e.g. Unlimited All-India Mocks, Bilingual Hindi/English, Performance Analytics, PDF Question Bank"
+              placeholder="e.g. Daily 1 Live Mock Quiz, Instant Rank & Percentile, AI Step-by-Step Solutions"
               class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 outline-none focus:border-indigo-600 focus:bg-white"
             ></textarea>
           </div>
@@ -632,9 +629,8 @@
       </div>
     </div>
 
-    <!-- JAVASCRIPT CRUD LOGIC INTEGRATED WITH API -->
+    <!-- JAVASCRIPT CRUD LOGIC -->
     <script>
-      // 🌟 BASE API ENDPOINT
       const API_BASE_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/subscription";
 
@@ -643,16 +639,10 @@
       let totalPages = 1;
       let searchTimeout = null;
 
-      function toggleMobileSidebar() {
-        const sidebar = document.getElementById("sidebar");
-        if (sidebar) sidebar.classList.toggle("-translate-x-full");
-      }
-
       function refreshCurrentTab() {
         loadPlans(currentPage);
       }
 
-      // 6-Character Random Alpha-Numeric Generator (e.g. EX8K9P)
       function generate6CharPromo() {
         const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
         let code = "";
@@ -723,7 +713,6 @@
         }, 300);
       }
 
-      // Local Storage Helpers as High Availability Fallback
       function getLocalPlans() {
         const raw = localStorage.getItem("exammokk_sub_plans");
         if (raw) {
@@ -738,9 +727,36 @@
         localStorage.setItem("exammokk_sub_plans", JSON.stringify(data));
       }
 
-      // ==========================================
-      // 1. READ ALL PLANS (GET /api/subscription)
-      // ==========================================
+      // Helper function to format duration label nicely
+      function formatCycleLabel(cycle) {
+        switch ((cycle || "").toLowerCase()) {
+          case "daily":
+          case "1 day":
+            return "1 Day";
+          case "weekly":
+          case "7 days":
+            return "7 Days";
+          case "fifteen_days":
+          case "15 days":
+            return "15 Days";
+          case "monthly":
+          case "30 days":
+            return "Monthly (30D)";
+          case "quarterly":
+          case "90 days":
+            return "Quarterly (90D)";
+          case "half_yearly":
+          case "180 days":
+            return "Half-Yearly (180D)";
+          case "yearly":
+          case "365 days":
+            return "Yearly (365D)";
+          default:
+            return cycle || "Monthly";
+        }
+      }
+
+      // 1. READ ALL PLANS
       async function loadPlans(page = 1) {
         const tbody = document.getElementById("plansTableBody");
         const search = document.getElementById("filter_search").value.trim();
@@ -844,7 +860,7 @@
               ? `<span class="px-2.5 py-0.5 rounded-lg bg-purple-100 text-purple-800 border border-purple-200 text-[10px] font-black uppercase">🏢 B2B Institute</span>`
               : `<span class="px-2.5 py-0.5 rounded-lg bg-blue-100 text-blue-800 border border-blue-200 text-[10px] font-black uppercase">👤 B2C Direct</span>`;
 
-            const cycleBadge = `<span class="capitalize px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-bold text-[10px]">${item.durationCycle || "Monthly"}</span>`;
+            const cycleBadge = `<span class="capitalize px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-bold text-[10px]">${formatCycleLabel(item.durationCycle)}</span>`;
 
             const isActive =
               item.isActive !== false && item.status !== "inactive";
@@ -987,9 +1003,7 @@
         document.getElementById("modal-plan-form").classList.add("hidden");
       }
 
-      // ==========================================
       // 2. CREATE & UPDATE PLAN (POST & PUT API)
-      // ==========================================
       async function handleFormSubmit(e) {
         e.preventDefault();
 
@@ -1110,9 +1124,7 @@
         }
       }
 
-      // ==========================================
-      // 3. DELETE PLAN (DELETE /api/subscription/:id)
-      // ==========================================
+      // 3. DELETE PLAN
       async function deletePlan(id) {
         if (
           !confirm(
