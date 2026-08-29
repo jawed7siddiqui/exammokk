@@ -3,11 +3,13 @@
   <head>
     <meta charset="UTF-8" />
 
-    <!-- 1. Facebook Meta Tags (Preview Card ke liye) -->
-    <meta property="og:title" content="Daily GK Quiz - Start Now" />
+    <meta
+      property="og:title"
+      content="⚡ 100% FREE Daily GK Mock Test - ExamMokk"
+    />
     <meta
       property="og:description"
-      content="Click here to attempt today's daily GK mock test."
+      content="All Govt Exams (UPSC, SSC, Banking, Railways). Attempt today's live quiz now!"
     />
     <meta
       property="og:image"
@@ -17,27 +19,37 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:type" content="website" />
 
-    <!-- 2. Auto Redirect (Real Users ke liye) -->
-    <!-- Meta Refresh (0 second delay) -->
+    <meta name="twitter:card" content="summary_large_image" />
     <meta
-      http-equiv="refresh"
-      content="0; url=https://exammokk.cloud/test/runner?test_id=TEST_DAILYQ_DAILYGKQ_3340&level=1&segment=DAILY_GK"
+      name="twitter:image"
+      content="https://exammokk.cloud/assets/images/gk.png"
     />
 
-    <title>Daily GK Quiz</title>
+    <title>ExamMokk - Daily GK Quiz</title>
   </head>
-  <body>
-    <script>
-      // JavaScript Instant Redirect
-      window.location.href =
-        "https://exammokk.cloud/test/runner?test_id=TEST_DAILYQ_DAILYGKQ_3340&level=1&segment=DAILY_GK";
-    </script>
+  <body
+    style="
+      background: #0f172a;
+      color: #ffffff;
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    "
+  >
+    <p>Redirecting to Live Quiz... Please wait.</p>
     <p>
-      Redirecting to quiz... If not redirected,
+      If not redirected,
       <a
+        style="color: #38bdf8"
         href="https://exammokk.cloud/test/runner?test_id=TEST_DAILYQ_DAILYGKQ_3340&level=1&segment=DAILY_GK"
         >click here</a
       >.
     </p>
+
+    <script>
+      window.location.replace(
+        "https://exammokk.cloud/test/runner?test_id=TEST_DAILYQ_DAILYGKQ_3340&level=1&segment=DAILY_GK",
+      );
+    </script>
   </body>
 </html>
