@@ -13,7 +13,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
@@ -342,7 +342,7 @@
                   id="reg-candidate-name"
                   required
                   oninput="resetInputHighlight('reg-candidate-name')"
-                  placeholder="Enter Your Name
+                  placeholder="Enter Your Name"
                   class="w-full px-3.5 py-3 bg-slate-50/70 border border-slate-200 rounded-xl font-semibold text-slate-900 text-xs outline-none focus:border-indigo-600 focus:bg-white focus:ring-4 focus:ring-indigo-50 transition-all placeholder:text-slate-400"
                 />
               </div>
@@ -668,7 +668,7 @@
         }
       }
 
-      // 1. Mobile Step
+      // 1. Mobile Step (With Status Verification on Check)
       async function handleCommonLoginSubmit(e) {
         e.preventDefault();
         mobileNumber = document.getElementById("user-mobile").value.trim();
@@ -695,7 +695,31 @@
             body: JSON.stringify({ mobileNumber }),
           });
           const data = await res.json();
+
           if (data.exists) {
+            // Check status received from checkMobileExists API
+            const accountStatus = (data.status || "active").toLowerCase();
+
+            if (accountStatus === "blocked") {
+              markInputError("user-mobile", "mobile-input-container");
+              showNativeToast(
+                "Account Blocked",
+                "Your account has been blocked by the admin. Please contact support.",
+                "error",
+              );
+              return;
+            }
+
+            if (accountStatus === "inactive") {
+              markInputError("user-mobile", "mobile-input-container");
+              showNativeToast(
+                "Account Inactive",
+                "Your account is currently inactive. Please contact administrator.",
+                "error",
+              );
+              return;
+            }
+
             showNativeToast(
               "Account Found",
               "Please enter password to sign in.",
@@ -711,7 +735,11 @@
             switchStep("step-registration");
           }
         } catch (err) {
-          switchStep("step-registration");
+          showNativeToast(
+            "Network Error",
+            "Unable to verify mobile number. Please check connection.",
+            "error",
+          );
         } finally {
           btn.disabled = false;
           btn.innerHTML = `<span>Continue</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
@@ -719,7 +747,7 @@
         }
       }
 
-      // 2. Password Login Step
+      // 2. Password Login Step (With Status Verification)
       async function handlePasswordSubmit(e) {
         e.preventDefault();
         const password = document.getElementById("user-password-input").value;
@@ -757,13 +785,37 @@
           const data = await res.json();
 
           if (res.ok && data.success) {
+            // Check user status before allowing session
+            const userStatus = (data.user?.status || "active").toLowerCase();
+            if (userStatus === "blocked") {
+              showNativeToast(
+                "Account Blocked",
+                "Your account is blocked. Please contact support.",
+                "error",
+              );
+              return;
+            }
+            if (userStatus === "inactive") {
+              showNativeToast(
+                "Account Inactive",
+                "Your account is inactive. Please contact administrator.",
+                "error",
+              );
+              return;
+            }
+
             showNativeToast(
               "Authenticated",
               "Login successful! Redirecting...",
               "success",
             );
+
+            // Store standardized session keys
+            localStorage.setItem("token", data.token);
             localStorage.setItem("examIndiaToken", data.token);
             localStorage.setItem("examIndiaUser", JSON.stringify(data.user));
+            sessionStorage.setItem("last_status_check", Date.now().toString());
+
             finishAuthAndGoHome();
           } else {
             markInputError("user-password-input");
@@ -774,8 +826,11 @@
             );
           }
         } catch (err) {
-          showNativeToast("Offline Mode", "Accessing test portal...", "info");
-          finishAuthAndGoHome();
+          showNativeToast(
+            "Network Error",
+            "Unable to connect to server. Please try again.",
+            "error",
+          );
         } finally {
           btn.disabled = false;
           btn.innerHTML = `<span>Verify & Sign In</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
@@ -783,7 +838,7 @@
         }
       }
 
-      // 3. Quick Register Step (Hybrid Validation Check)
+      // 3. Quick Register Step
       async function handleRegistrationSubmit(e) {
         e.preventDefault();
 
@@ -879,8 +934,10 @@
               "Account created successfully.",
               "success",
             );
+            localStorage.setItem("token", data.token);
             localStorage.setItem("examIndiaToken", data.token);
             localStorage.setItem("examIndiaUser", JSON.stringify(data.user));
+            sessionStorage.setItem("last_status_check", Date.now().toString());
             switchStep("step-reg-success");
           } else {
             showNativeToast(
@@ -891,12 +948,10 @@
           }
         } catch (err) {
           showNativeToast(
-            "Profile Saved",
-            "Configuring your offline workspace.",
-            "info",
+            "Network Error",
+            "Registration request failed. Please check internet connection.",
+            "error",
           );
-          localStorage.setItem("examIndiaUser", JSON.stringify(payload));
-          switchStep("step-reg-success");
         } finally {
           btn.disabled = false;
           btn.innerHTML = `<span>Create Candidate Profile</span> <i data-lucide="user-plus" class="w-4 h-4"></i>`;

@@ -45,7 +45,7 @@
       @keyframes slideInRight {
         from {
           transform: translateX(100%);
-          opacity: 0;
+          opacity: 1;
         }
         to {
           transform: translateX(0);
@@ -78,7 +78,7 @@
 
       <!-- CONTENT BODY -->
       <main class="p-4 md:p-8 flex-1 space-y-5 max-w-[1700px] mx-auto w-full">
-        <!-- MANUAL SEARCH BAR ONLY (NO UNWANTED AUTO CALLS) -->
+        <!-- MANUAL SEARCH BAR ONLY -->
         <div
           class="bg-white border border-slate-200 p-4 rounded-2xl shadow-xs flex flex-col sm:flex-row gap-3 items-center justify-between"
         >
@@ -288,10 +288,10 @@
 
     <!-- JAVASCRIPT ENGINE -->
     <script>
-      const USERS_API_URL =
-        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/users";
-      const DELETE_API_URL =
-        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/users/bulk-delete";
+      const BASE_API_URL = "https://exam-api.jawedsiddiqui.cloud/api/kidspaint";
+      const USERS_API_URL = `${BASE_API_URL}/users`;
+      const CHANGE_STATUS_API_URL = `${BASE_API_URL}/change-user-status`;
+      const DELETE_API_URL = `${BASE_API_URL}/users/bulk-delete`;
 
       let currentPage = 1;
       let totalPages = 1;
@@ -405,6 +405,19 @@
         }
       }
 
+      function getStatusClass(status) {
+        switch (status) {
+          case "active":
+            return "bg-emerald-50 text-emerald-700 border-emerald-200 focus:ring-emerald-500";
+          case "inactive":
+            return "bg-amber-50 text-amber-700 border-amber-200 focus:ring-amber-500";
+          case "blocked":
+            return "bg-rose-50 text-rose-700 border-rose-200 focus:ring-rose-500";
+          default:
+            return "bg-slate-50 text-slate-700 border-slate-200 focus:ring-indigo-500";
+        }
+      }
+
       function renderTable(list) {
         const tbody = document.getElementById("usersTableBody");
         if (!list || list.length === 0) {
@@ -417,6 +430,7 @@
             const studentName = user.studentName || "Candidate";
             const userAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(studentName)}&background=4f46e5&color=fff&size=64`;
             const userId = user._id || user.id;
+            const currentStatus = (user.status || "active").toLowerCase();
 
             return `
               <tr class="hover:bg-slate-50/80 transition-colors border-b border-slate-100">
@@ -452,9 +466,16 @@
                   ${user.test_given || 0}
                 </td>
                 <td class="p-3.5 md:p-4">
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${user.status === "active" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-slate-100 text-slate-600"}">
-                    ${user.status || "active"}
-                  </span>
+                  <select
+                    id="status-select-${index}"
+                    data-previous="${currentStatus}"
+                    onchange="updateUserStatus('${user.mobileNumber}', this.value, ${index})"
+                    class="px-2.5 py-1 text-[11px] font-bold rounded-lg border outline-none cursor-pointer transition-all ${getStatusClass(currentStatus)}"
+                  >
+                    <option value="active" ${currentStatus === "active" ? "selected" : ""}>Active</option>
+                    <option value="inactive" ${currentStatus === "inactive" ? "selected" : ""}>Inactive</option>
+                    <option value="blocked" ${currentStatus === "blocked" ? "selected" : ""}>Blocked</option>
+                  </select>
                 </td>
                 <td class="p-3.5 md:p-4 text-[11px] text-slate-500">${formatDate(user.createdAt)}</td>
                 <td class="p-3.5 md:p-4 text-right">
@@ -472,6 +493,52 @@
           .join("");
 
         if (window.lucide) lucide.createIcons();
+      }
+
+      /* ================= STATUS UPDATE ACTION ================= */
+      async function updateUserStatus(mobileNumber, newStatus, index) {
+        const selectElem = document.getElementById(`status-select-${index}`);
+        const previousStatus = selectElem.getAttribute("data-previous");
+
+        if (!mobileNumber || mobileNumber === "-") {
+          showToast("User mobile number is missing", "error");
+          selectElem.value = previousStatus;
+          return;
+        }
+
+        selectElem.disabled = true;
+
+        try {
+          const response = await fetch(CHANGE_STATUS_API_URL, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              mobileNumber: mobileNumber.trim(),
+              status: newStatus,
+            }),
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            showToast(`Status updated to '${newStatus}'`, "success");
+            selectElem.setAttribute("data-previous", newStatus);
+            if (fetchedUsers[index]) {
+              fetchedUsers[index].status = newStatus;
+            }
+            selectElem.className = `px-2.5 py-1 text-[11px] font-bold rounded-lg border outline-none cursor-pointer transition-all ${getStatusClass(newStatus)}`;
+          } else {
+            showToast(result.message || "Failed to update status", "error");
+            selectElem.value = previousStatus;
+          }
+        } catch (err) {
+          showToast("Network error while updating status", "error");
+          selectElem.value = previousStatus;
+        } finally {
+          selectElem.disabled = false;
+        }
       }
 
       function renderPagination(pagination) {
