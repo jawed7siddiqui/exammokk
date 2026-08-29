@@ -108,7 +108,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
 
@@ -117,269 +117,542 @@
         font-family: "Plus Jakarta Sans", sans-serif;
         background-color: #f8fafc;
         color: #0f172a;
+        -webkit-tap-highlight-color: transparent;
       }
-      .exam-card {
-        transition:
-          transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-          box-shadow 0.2s ease,
-          border-color 0.2s ease;
-      }
-      .exam-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 16px 30px -8px rgba(79, 70, 229, 0.12);
-        border-color: #6366f1;
+      .font-mono-tag {
+        font-family: "Space Grotesk", monospace;
       }
     </style>
   </head>
   <body
-    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white"
+    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white antialiased"
   >
-    <!-- REUSABLE HEADER (Contains Pricing in Nav Menu) -->
+    <!-- REUSABLE HEADER -->
     <div id="global-header"></div>
 
     <main class="flex-grow">
-      <!-- HERO BANNER -->
+      <!-- 1. ULTRA-COMPACT HERO SECTION -->
       <section
-        class="relative pt-10 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-white via-indigo-50/40 to-slate-50 border-b border-slate-200/80"
+        class="pt-4 pb-3 px-3 sm:px-6 bg-gradient-to-b from-indigo-50/70 via-white to-slate-50 border-b border-slate-200/70"
       >
-        <div class="max-w-5xl mx-auto text-center space-y-4">
-          <div
-            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-black uppercase tracking-wider shadow-xs"
-          >
-            <span
-              class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"
-            ></span>
-            <span>⚡ Free Daily GK + Pro CBT Mocks from ₹19/mo</span>
-          </div>
-
-          <h1
-            class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight"
-          >
-            Online All India Mock Tests &amp; <br />
-            <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-800"
-            >
-              Govt Exam Preparation 2026
-            </span>
-          </h1>
-
-          <div class="max-w-2xl mx-auto text-center space-y-3">
-            <p
-              class="text-slate-600 text-sm sm:text-base leading-relaxed font-medium"
-            >
-              Practice free daily speed quizzes or attempt full-length test
-              series in Hindi &amp; English.
-            </p>
+        <div
+          class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left"
+        >
+          <div class="space-y-1">
             <div
-              class="flex flex-wrap items-center justify-center gap-2 text-xs font-semibold text-slate-600"
+              class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-100/70 border border-indigo-200 text-indigo-800 text-[10px] sm:text-xs font-black uppercase tracking-wider"
             >
               <span
-                class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200"
-              >
-                ⏱️ Timed Tests
-              </span>
-              <span
-                class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200"
-              >
-                📉 Negative Marking
-              </span>
-              <span
-                class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200"
-              >
-                📊 Instant Analytics
-              </span>
+                class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"
+              ></span>
+              <span>⚡ Free Daily GK + Pro CBT Mocks 2026</span>
             </div>
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 tracking-tight leading-tight"
+            >
+              All Government
+              <span class="text-indigo-600">Competitive Exam</span> Preparation
+            </h1>
+            <p
+              class="text-[11px] sm:text-xs text-slate-500 font-medium max-w-xl"
+            >
+              Real NTA/TCS Exam Interface • Hindi &amp; English • Instant AI
+              Rank Analytics
+            </p>
           </div>
 
-          <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <!-- DAILY GK DIRECT RUNNER -->
+          <!-- QUICK ACTIONS & STATS -->
+          <div class="flex items-center gap-2 shrink-0">
             <button
               onclick="launchDailyGKRunner()"
-              class="px-7 py-3.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold rounded-2xl shadow-lg shadow-emerald-100 transition flex items-center gap-2 text-sm cursor-pointer border-0"
+              class="px-4 py-2 sm:px-5 sm:py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold rounded-xl shadow-sm transition flex items-center gap-1.5 text-xs cursor-pointer border-0"
             >
-              <span class="text-base">⚡</span>
-              <span>Daily GK Quiz (Free)</span>
+              <span>⚡ Start Daily GK (Free)</span>
             </button>
-
             <a
               href="#exam-grid-section"
-              class="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-2xl shadow-lg shadow-indigo-200 transition flex items-center gap-2 text-sm no-underline cursor-pointer"
+              class="px-4 py-2 sm:px-5 sm:py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-xl shadow-sm transition flex items-center gap-1.5 text-xs no-underline"
             >
-              <i
-                data-lucide="zap"
-                class="w-4 h-4 text-amber-300 fill-current"
-              ></i>
-              <span>Explore Exam Mocks</span>
+              <span>Explore Exams</span>
+              <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
             </a>
-
-            <!-- DEDICATED PRICING LINK -->
-            <!-- <a
-              href="/pricing.html"
-              class="px-6 py-3.5 bg-white border border-slate-300 hover:bg-slate-50 active:scale-95 text-slate-700 font-bold rounded-2xl shadow-xs transition flex items-center gap-2 text-sm no-underline cursor-pointer"
-            >
-              <span>View Plans (from ₹19)</span>
-              <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
-            </a> -->
           </div>
         </div>
       </section>
 
-      <!-- ADVANTAGE STRIP -->
-      <section class="bg-indigo-900 text-white py-3.5 px-4">
+      <!-- 2. STREAMLINED DAILY GK BANNER (SLIM) -->
+      <section class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3 pb-1">
         <div
-          class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-6 sm:gap-12 text-xs font-bold text-indigo-100"
+          class="bg-gradient-to-r from-violet-700 via-indigo-700 to-slate-950 rounded-2xl p-3 sm:p-4 text-white shadow-md flex flex-col sm:flex-row items-center justify-between gap-3 border border-white/20"
         >
-          <div class="flex items-center gap-2">
-            <i data-lucide="zap" class="w-4 h-4 text-emerald-400"></i>
-            <span>Daily Free Speed Quizzes</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <i data-lucide="languages" class="w-4 h-4 text-amber-300"></i>
-            <span>Bilingual (Eng / हिन्दी)</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <i data-lucide="timer" class="w-4 h-4 text-cyan-300"></i>
-            <span>Standard Question Timers</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <i data-lucide="award" class="w-4 h-4 text-rose-300"></i>
-            <span>Full Passes from ₹19</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- DAILY GK & CURRENT AFFAIRS CARD -->
-      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-4">
-        <div
-          class="bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10"
-        >
-          <div
-            class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row"
-          >
+          <div class="flex items-center gap-3 w-full sm:w-auto">
             <div
-              class="w-16 h-16 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-3xl shrink-0 border border-white/20"
+              class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center text-lg shrink-0 border border-white/25"
             >
-              ⚡
+              🔥
             </div>
-            <div>
-              <div
-                class="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1"
-              >
+            <div class="text-left">
+              <div class="flex items-center gap-2">
                 <span
-                  class="bg-black/20 text-emerald-200 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider"
-                  >100% Free Everyday</span
+                  class="bg-rose-500/30 border border-rose-400/40 text-rose-200 text-[9px] font-black px-1.5 py-0.2 rounded-full uppercase tracking-wide"
+                  >Live Today</span
                 >
-                <span
-                  class="bg-white/20 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase"
-                  >SSC • Banking • Railways • State PSCs</span
-                >
+                <h3 class="text-xs sm:text-sm font-black tracking-tight">
+                  Daily Current Affairs &amp; GK Quiz
+                </h3>
               </div>
-              <h3 class="text-lg sm:text-2xl font-black">
-                Daily GK &amp; Current Affairs Quiz (आज का टेस्ट)
-              </h3>
-              <p class="text-xs text-emerald-50 font-medium max-w-xl mt-1">
-                Attempt 10 high-yield questions daily with instant solution
-                analysis, time tracker, and Hindi/English switch.
+              <p
+                class="text-[10.5px] sm:text-xs text-indigo-100/90 font-medium"
+              >
+                10 High-Yield Speed Questions • Instant Rank
               </p>
             </div>
           </div>
 
-          <!-- DIRECT LAUNCH BUTTON -->
           <button
             onclick="launchDailyGKRunner()"
-            class="px-8 py-3.5 bg-white text-emerald-800 hover:bg-emerald-50 active:scale-95 text-xs font-black rounded-2xl shadow-lg transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer border-0"
+            class="w-full sm:w-auto px-5 py-2 bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs font-black rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer border-0 shrink-0"
           >
-            <span>Start Free Quiz</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            <span>START QUIZ</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 stroke-[2.5]"></i>
           </button>
         </div>
       </section>
 
-      <!-- EXAM STREAMS GRID -->
+      <!-- 3. ALL COMPETITIVE EXAMS SECTION (HIGH UP - 50%+ VISIBLE ON LOAD) -->
       <section
         id="exam-grid-section"
-        class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
+        class="pt-3 pb-8 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-3"
       >
-        <div
-          class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-3"
-        >
-          <div class="space-y-1">
-            <div class="flex items-center gap-2">
-              <h2
-                class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight"
-              >
-                All Exam Practice Streams
-              </h2>
-              <span
-                class="text-[11px] font-black bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full border border-indigo-100"
-              >
-                Free Demo &amp; Pro Mocks
-              </span>
-            </div>
-            <p class="text-xs text-slate-500 font-medium">
-              Choose your exam category to attempt starter mocks and access
-              comprehensive test series.
+        <!-- SECTION HEADER -->
+        <div class="flex items-center justify-between">
+          <div>
+            <h2
+              class="text-sm sm:text-base font-black text-slate-900 flex items-center gap-1.5"
+            >
+              <i data-lucide="layers" class="w-4 h-4 text-indigo-600"></i>
+              <span>All Competitive Exams</span>
+            </h2>
+            <p class="text-[11px] text-slate-500 font-medium">
+              Select your examination stream to begin mock test simulations.
             </p>
           </div>
-        </div>
-
-        <!-- SKELETON LOADER -->
-        <div id="grid-loader" class="text-center py-16">
-          <div
-            class="inline-block w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"
-          ></div>
-          <p
-            class="mt-3 text-xs text-slate-500 font-bold uppercase tracking-wider"
+          <span
+            class="text-[10px] sm:text-xs font-black bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full border border-indigo-100 font-mono-tag"
           >
-            Loading examination streams...
-          </p>
+            10 STREAMS
+          </span>
         </div>
 
-        <!-- DYNAMIC EXAM CARDS GRID -->
+        <!-- 10 EXAM STREAM CARDS -->
         <div
-          id="exam-grid"
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 hidden"
-        ></div>
+          class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3.5"
+        >
+          <!-- 1. GOVT PSC & UPSC -->
+          <div
+            onclick="window.location.href = 'dashboard_web.html?type=GOVT_PSC'"
+            class="group relative bg-white border border-slate-200/90 hover:border-indigo-600 rounded-2xl p-3 sm:p-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+          >
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-bl-lg border-b border-l border-indigo-100 uppercase"
+              >UPSC/PCS</span
+            >
+            <div class="flex flex-col items-center w-full mt-1">
+              <div
+                class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-lg sm:text-xl shadow-xs mb-2"
+              >
+                ⚖️
+              </div>
+              <h3
+                class="text-xs sm:text-sm font-black text-slate-900 leading-snug group-hover:text-indigo-600 transition-colors"
+              >
+                PSC &amp; UPSC
+              </h3>
+              <p
+                class="text-[10.5px] sm:text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
+              >
+                IAS, UPPSC, RAS, MPPSC &amp; State GK
+              </p>
+            </div>
+            <div
+              class="mt-2.5 pt-1.5 border-t border-slate-100 flex items-center justify-end w-full"
+            >
+              <i
+                data-lucide="chevron-right"
+                class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 group-hover:text-indigo-600 transition-colors"
+              ></i>
+            </div>
+          </div>
+
+          <!-- 2. BPSC -->
+          <div
+            onclick="window.location.href = 'dashboard_web.html?type=BPSC'"
+            class="group relative bg-white border border-slate-200/90 hover:border-rose-600 rounded-2xl p-3 sm:p-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+          >
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-rose-50 text-rose-700 px-2 py-0.5 rounded-bl-lg border-b border-l border-rose-200 uppercase"
+              >BIHAR PSC</span
+            >
+            <div class="flex flex-col items-center w-full mt-1">
+              <div
+                class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-rose-600 text-white flex items-center justify-center text-lg sm:text-xl shadow-xs mb-2"
+              >
+                🏛️
+              </div>
+              <h3
+                class="text-xs sm:text-sm font-black text-slate-900 leading-snug group-hover:text-rose-600 transition-colors"
+              >
+                BPSC Exams
+              </h3>
+              <p
+                class="text-[10.5px] sm:text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
+              >
+                BPSC CCE Prelims, Bihar Special &amp; Daroga
+              </p>
+            </div>
+            <div
+              class="mt-2.5 pt-1.5 border-t border-slate-100 flex items-center justify-end w-full"
+            >
+              <i
+                data-lucide="chevron-right"
+                class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 group-hover:text-rose-600 transition-colors"
+              ></i>
+            </div>
+          </div>
+
+          <!-- 3. JPSC -->
+          <div
+            onclick="window.location.href = 'dashboard_web.html?type=JPSC'"
+            class="group relative bg-white border border-slate-200/90 hover:border-emerald-600 rounded-2xl p-3 sm:p-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+          >
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded-bl-lg border-b border-l border-emerald-200 uppercase"
+              >JHARKHAND</span
+            >
+            <div class="flex flex-col items-center w-full mt-1">
+              <div
+                class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-700 text-white flex items-center justify-center text-lg sm:text-xl shadow-xs mb-2"
+              >
+                🏹
+              </div>
+              <h3
+                class="text-xs sm:text-sm font-black text-slate-900 leading-snug group-hover:text-emerald-700 transition-colors"
+              >
+                JPSC Exams
+              </h3>
+              <p
+                class="text-[10.5px] sm:text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
+              >
+                JPSC Prelims, CNT/SPT Act &amp; Jharkhand GK
+              </p>
+            </div>
+            <div
+              class="mt-2.5 pt-1.5 border-t border-slate-100 flex items-center justify-end w-full"
+            >
+              <i
+                data-lucide="chevron-right"
+                class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 group-hover:text-emerald-700 transition-colors"
+              ></i>
+            </div>
+          </div>
+
+          <!-- 4. SSC -->
+          <div
+            onclick="window.location.href = 'dashboard_web.html?type=SSC'"
+            class="group relative bg-white border border-slate-200/90 hover:border-slate-800 rounded-2xl p-3 sm:p-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+          >
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-amber-50 text-amber-800 px-2 py-0.5 rounded-bl-lg border-b border-l border-amber-200 uppercase"
+              >POPULAR</span
+            >
+            <div class="flex flex-col items-center w-full mt-1">
+              <div
+                class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center text-lg sm:text-xl shadow-xs mb-2"
+              >
+                ⚡
+              </div>
+              <h3
+                class="text-xs sm:text-sm font-black text-slate-900 leading-snug group-hover:text-indigo-600 transition-colors"
+              >
+                SSC Exams
+              </h3>
+              <p
+                class="text-[10.5px] sm:text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
+              >
+                CGL, CHSL, MTS, GD Constable &amp; CPO
+              </p>
+            </div>
+            <div
+              class="mt-2.5 pt-1.5 border-t border-slate-100 flex items-center justify-end w-full"
+            >
+              <i
+                data-lucide="chevron-right"
+                class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 group-hover:text-slate-800 transition-colors"
+              ></i>
+            </div>
+          </div>
+
+          <!-- 5. RAILWAYS -->
+          <div
+            onclick="window.location.href = 'dashboard_web.html?type=RAILWAYS'"
+            class="group relative bg-white border border-slate-200/90 hover:border-rose-600 rounded-2xl p-3 sm:p-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+          >
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-rose-50 text-rose-700 px-2 py-0.5 rounded-bl-lg border-b border-l border-rose-200 uppercase"
+              >RRB</span
+            >
+            <div class="flex flex-col items-center w-full mt-1">
+              <div
+                class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-rose-600 text-white flex items-center justify-center text-lg sm:text-xl shadow-xs mb-2"
+              >
+                🚆
+              </div>
+              <h3
+                class="text-xs sm:text-sm font-black text-slate-900 leading-snug group-hover:text-rose-600 transition-colors"
+              >
+                Railway Exams
+              </h3>
+              <p
+                class="text-[10.5px] sm:text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
+              >
+                RRB NTPC, Group D, ALP, Tech &amp; RPF SI
+              </p>
+            </div>
+            <div
+              class="mt-2.5 pt-1.5 border-t border-slate-100 flex items-center justify-end w-full"
+            >
+              <i
+                data-lucide="chevron-right"
+                class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 group-hover:text-rose-600 transition-colors"
+              ></i>
+            </div>
+          </div>
+
+          <!-- 6. BANKING -->
+          <div
+            onclick="window.location.href = 'dashboard_web.html?type=BANKING'"
+            class="group relative bg-white border border-slate-200/90 hover:border-emerald-600 rounded-2xl p-3 sm:p-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+          >
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded-bl-lg border-b border-l border-emerald-200 uppercase"
+              >IBPS/SBI</span
+            >
+            <div class="flex flex-col items-center w-full mt-1">
+              <div
+                class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg sm:text-xl shadow-xs mb-2"
+              >
+                🏦
+              </div>
+              <h3
+                class="text-xs sm:text-sm font-black text-slate-900 leading-snug group-hover:text-emerald-600 transition-colors"
+              >
+                Banking &amp; Ins.
+              </h3>
+              <p
+                class="text-[10.5px] sm:text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
+              >
+                SBI PO, Clerk, IBPS RRB &amp; RBI Grade B
+              </p>
+            </div>
+            <div
+              class="mt-2.5 pt-1.5 border-t border-slate-100 flex items-center justify-end w-full"
+            >
+              <i
+                data-lucide="chevron-right"
+                class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 group-hover:text-emerald-600 transition-colors"
+              ></i>
+            </div>
+          </div>
+
+          <!-- 7. DEFENCE -->
+          <div
+            onclick="window.location.href = 'dashboard_web.html?type=DEFENCE'"
+            class="group relative bg-white border border-slate-200/90 hover:border-slate-700 rounded-2xl p-3 sm:p-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+          >
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-slate-100 text-slate-700 px-2 py-0.5 rounded-bl-lg border-b border-l border-slate-200 uppercase"
+              >DEFENCE</span
+            >
+            <div class="flex flex-col items-center w-full mt-1">
+              <div
+                class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-slate-700 text-white flex items-center justify-center text-lg sm:text-xl shadow-xs mb-2"
+              >
+                🎖️
+              </div>
+              <h3
+                class="text-xs sm:text-sm font-black text-slate-900 leading-snug group-hover:text-indigo-600 transition-colors"
+              >
+                Defence &amp; Police
+              </h3>
+              <p
+                class="text-[10.5px] sm:text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
+              >
+                NDA, CDS, UP/Bihar Police SI, Agniveer
+              </p>
+            </div>
+            <div
+              class="mt-2.5 pt-1.5 border-t border-slate-100 flex items-center justify-end w-full"
+            >
+              <i
+                data-lucide="chevron-right"
+                class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 group-hover:text-indigo-600 transition-colors"
+              ></i>
+            </div>
+          </div>
+
+          <!-- 8. JEE & NEET -->
+          <div
+            onclick="window.location.href = 'dashboard_web.html?type=JEE_NEET'"
+            class="group relative bg-white border border-slate-200/90 hover:border-blue-600 rounded-2xl p-3 sm:p-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+          >
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-blue-50 text-blue-800 px-2 py-0.5 rounded-bl-lg border-b border-l border-blue-200 uppercase"
+              >NTA</span
+            >
+            <div class="flex flex-col items-center w-full mt-1">
+              <div
+                class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg sm:text-xl shadow-xs mb-2"
+              >
+                🧬
+              </div>
+              <h3
+                class="text-xs sm:text-sm font-black text-slate-900 leading-snug group-hover:text-blue-600 transition-colors"
+              >
+                JEE &amp; NEET UG
+              </h3>
+              <p
+                class="text-[10.5px] sm:text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
+              >
+                Physics, Chemistry, Maths &amp; Biology
+              </p>
+            </div>
+            <div
+              class="mt-2.5 pt-1.5 border-t border-slate-100 flex items-center justify-end w-full"
+            >
+              <i
+                data-lucide="chevron-right"
+                class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 group-hover:text-blue-600 transition-colors"
+              ></i>
+            </div>
+          </div>
+
+          <!-- 9. TEACHING -->
+          <div
+            onclick="window.location.href = 'dashboard_web.html?type=TEACHING'"
+            class="group relative bg-white border border-slate-200/90 hover:border-cyan-600 rounded-2xl p-3 sm:p-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+          >
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-cyan-50 text-cyan-800 px-2 py-0.5 rounded-bl-lg border-b border-l border-cyan-200 uppercase"
+              >TEACHING</span
+            >
+            <div class="flex flex-col items-center w-full mt-1">
+              <div
+                class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-cyan-600 text-white flex items-center justify-center text-lg sm:text-xl shadow-xs mb-2"
+              >
+                👨‍🏫
+              </div>
+              <h3
+                class="text-xs sm:text-sm font-black text-slate-900 leading-snug group-hover:text-cyan-700 transition-colors"
+              >
+                Teaching &amp; TET
+              </h3>
+              <p
+                class="text-[10.5px] sm:text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
+              >
+                CTET Paper 1 &amp; 2, State TETs, KVS &amp; CDP
+              </p>
+            </div>
+            <div
+              class="mt-2.5 pt-1.5 border-t border-slate-100 flex items-center justify-end w-full"
+            >
+              <i
+                data-lucide="chevron-right"
+                class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 group-hover:text-cyan-700 transition-colors"
+              ></i>
+            </div>
+          </div>
+
+          <!-- 10. ENTRANCE -->
+          <div
+            onclick="window.location.href = 'dashboard_web.html?type=ENTRANCE'"
+            class="group relative bg-white border border-slate-200/90 hover:border-purple-600 rounded-2xl p-3 sm:p-4 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
+          >
+            <span
+              class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight bg-purple-50 text-purple-700 px-2 py-0.5 rounded-bl-lg border-b border-l border-purple-100 uppercase"
+              >CUET/LAW</span
+            >
+            <div class="flex flex-col items-center w-full mt-1">
+              <div
+                class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-purple-600 text-white flex items-center justify-center text-lg sm:text-xl shadow-xs mb-2"
+              >
+                ⚖️
+              </div>
+              <h3
+                class="text-xs sm:text-sm font-black text-slate-900 leading-snug group-hover:text-purple-600 transition-colors"
+              >
+                CUET &amp; Entrance
+              </h3>
+              <p
+                class="text-[10.5px] sm:text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight"
+              >
+                CUET UG/PG, CLAT, IPMAT &amp; Law Exams
+              </p>
+            </div>
+            <div
+              class="mt-2.5 pt-1.5 border-t border-slate-100 flex items-center justify-end w-full"
+            >
+              <i
+                data-lucide="chevron-right"
+                class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 group-hover:text-purple-600 transition-colors"
+              ></i>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <!-- PUSH TO PRICING PAGE STRIP -->
-      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <!-- 4. PUSH TO PRICING PAGE STRIP -->
+      <section class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-8">
         <div
-          class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800 shadow-xl"
+          class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl p-5 sm:p-6 text-white flex flex-col md:flex-row items-center justify-between gap-4 border border-slate-800 shadow-lg"
         >
           <div class="space-y-1 text-center md:text-left">
             <span
-              class="text-[10px] font-black tracking-widest uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 px-2.5 py-0.5 rounded-full"
+              class="text-[9px] font-black tracking-widest uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 px-2 py-0.5 rounded-full"
               >Pocket-Friendly Prep</span
             >
-            <h3 class="text-xl sm:text-2xl font-black mt-2">
+            <h3 class="text-base sm:text-xl font-black mt-1">
               Unlock Unlimited Tests from just ₹19/month
             </h3>
-            <p class="text-xs text-slate-300 font-medium max-w-xl">
+            <p
+              class="text-[11px] sm:text-xs text-slate-300 font-medium max-w-xl"
+            >
               Get full-length mock tests, sectional tests, and detailed
-              percentile reports without expensive annual subscriptions.
+              percentile reports.
             </p>
           </div>
           <a
             href="/pricing.html"
-            class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs font-black rounded-2xl shadow-lg shadow-indigo-600/30 transition-all whitespace-nowrap flex items-center gap-2 no-underline cursor-pointer"
+            class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs font-black rounded-xl shadow-md transition-all whitespace-nowrap flex items-center gap-1.5 no-underline cursor-pointer"
           >
             <span>Explore Pricing &amp; Passes</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
           </a>
         </div>
       </section>
 
-      <!-- INDEPENDENT PLATFORM NOTICE & SOURCES -->
-      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-        <div
-          class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm"
-        >
-          <div class="flex items-start gap-3.5">
+      <!-- 5. INDEPENDENT PLATFORM NOTICE -->
+      <section class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-8">
+        <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs">
+          <div class="flex items-start gap-2.5">
             <i
               data-lucide="info"
-              class="w-5 h-5 text-indigo-600 shrink-0 mt-0.5"
+              class="w-4 h-4 text-indigo-600 shrink-0 mt-0.5"
             ></i>
+            <p class="text-[11px] text-slate-500 leading-relaxed font-medium">
+              ExamMokk is an independent educational prep platform and is not
+              affiliated with, authorized by, or endorsed by any government
+              entity or examination authority.
+            </p>
           </div>
         </div>
       </section>
@@ -391,18 +664,16 @@
     <!-- LAYOUT ENGINE SCRIPT -->
     <script src="/js/layout.js"></script>
 
-    <!-- DATA & DEVICE DETECTION ENGINE -->
+    <!-- RUNNER & ICONS INITIALIZATION SCRIPT -->
     <script>
-      let EXAM_DATA = {};
       let deferredPrompt = null;
 
       function isMobileDevice() {
-        const userAgentCheck =
+        return (
           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
             navigator.userAgent,
-          );
-        const screenWidthCheck = window.innerWidth <= 768;
-        return userAgentCheck || screenWidthCheck;
+          ) || window.innerWidth <= 768
+        );
       }
 
       function launchDailyGKRunner() {
@@ -417,136 +688,10 @@
         if (installBtn) installBtn.classList.remove("hidden");
       });
 
-      function installPrepApp() {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === "accepted") {
-              console.log("User installed the ExamMokk App");
-            }
-            deferredPrompt = null;
-          });
-        } else {
-          alert(
-            "To install ExamMokk on Mobile: Tap the 3 dots in Chrome/Safari and select 'Add to Home Screen'.",
-          );
-        }
-      }
-
-      const THEME_STYLES = {
-        indigo: {
-          iconBg: "bg-indigo-600",
-          badgeBg: "bg-indigo-50 text-indigo-700 border-indigo-100",
-          btn: "bg-indigo-50 group-hover:bg-indigo-600 text-indigo-700 group-hover:text-white border-indigo-200",
-        },
-        amber: {
-          iconBg: "bg-slate-900",
-          badgeBg: "bg-amber-50 text-amber-800 border-amber-200",
-          btn: "bg-amber-50 group-hover:bg-slate-900 text-slate-900 group-hover:text-white border-amber-200",
-        },
-        rose: {
-          iconBg: "bg-rose-600",
-          badgeBg: "bg-rose-50 text-rose-700 border-rose-200",
-          btn: "bg-rose-50 group-hover:bg-rose-600 text-rose-700 group-hover:text-white border-rose-200",
-        },
-        emerald: {
-          iconBg: "bg-emerald-600",
-          badgeBg: "bg-emerald-50 text-emerald-800 border-emerald-200",
-          btn: "bg-emerald-50 group-hover:bg-emerald-600 text-emerald-700 group-hover:text-white border-emerald-200",
-        },
-        slate: {
-          iconBg: "bg-slate-700",
-          badgeBg: "bg-slate-100 text-slate-700 border-slate-200",
-          btn: "bg-slate-100 group-hover:bg-slate-800 text-slate-700 group-hover:text-white border-slate-200",
-        },
-        blue: {
-          iconBg: "bg-blue-600",
-          badgeBg: "bg-blue-50 text-blue-700 border-blue-200",
-          btn: "bg-blue-50 group-hover:bg-blue-600 text-blue-700 group-hover:text-white border-blue-200",
-        },
-        cyan: {
-          iconBg: "bg-cyan-600",
-          badgeBg: "bg-cyan-50 text-cyan-800 border-cyan-200",
-          btn: "bg-cyan-50 group-hover:bg-cyan-600 text-cyan-800 group-hover:text-white border-cyan-200",
-        },
-        purple: {
-          iconBg: "bg-purple-600",
-          badgeBg: "bg-purple-50 text-purple-700 border-purple-100",
-          btn: "bg-purple-50 group-hover:bg-purple-600 text-purple-700 group-hover:text-white border-purple-100",
-        },
-      };
-
-      async function loadAndRenderExams() {
-        const grid = document.getElementById("exam-grid");
-        const loader = document.getElementById("grid-loader");
-
-        try {
-          const res = await fetch("/data/exams.json");
-          EXAM_DATA = await res.json();
-
-          grid.innerHTML = Object.entries(EXAM_DATA)
-            .map(([key, item]) => {
-              const theme =
-                THEME_STYLES[item.badgeColor] || THEME_STYLES.indigo;
-              const subTitles = (item.subjects || [])
-                .map((s) => s.name)
-                .slice(0, 3)
-                .join(", ");
-
-              return `
-                <div
-                  onclick="navigateToExam('${item.slug || "dashboard?type=" + key}')"
-                  class="exam-card group relative bg-white border border-slate-200/90 rounded-2xl p-4 pt-5 shadow-2xs hover:shadow-md transition-all duration-150 cursor-pointer flex flex-col justify-between items-center text-center active:scale-97 overflow-hidden"
-                >
-                  <span class="absolute top-0 right-0 text-[8.5px] font-black tracking-tight ${theme.badgeBg} px-2.5 py-0.5 rounded-bl-lg border-b border-l uppercase">
-                    ${item.badge}
-                  </span>
-
-                  <div class="flex flex-col items-center w-full mt-1">
-                    <div class="w-11 h-11 rounded-xl ${theme.iconBg} text-white flex items-center justify-center text-xl shadow-xs mb-2.5 group-hover:scale-105 transition-transform">
-                      ${item.emoji}
-                    </div>
-
-                    <h3 class="text-xs sm:text-sm font-black text-slate-900 leading-snug group-hover:text-indigo-600 transition-colors">
-                      ${item.title.split(" 2026")[0]}
-                    </h3>
-
-                    <p class="text-[11px] font-semibold text-slate-500 mt-1 line-clamp-2 leading-tight">
-                      ${subTitles || item.tagline}
-                    </p>
-                  </div>
-
-                  <div class="mt-4 pt-2.5 border-t border-slate-100 w-full">
-                    <button
-                      class="w-full py-2 ${theme.btn} border font-extrabold rounded-xl text-xs transition duration-150 flex items-center justify-center gap-1.5 cursor-pointer"
-                    >
-                      <span>Start Practice</span>
-                      <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                    </button>
-                  </div>
-                </div>
-              `;
-            })
-            .join("");
-
-          loader.classList.add("hidden");
-          grid.classList.remove("hidden");
-
-          if (window.lucide) lucide.createIcons();
-        } catch (err) {
-          console.error("Failed to load /data/exams.json:", err);
-          loader.innerHTML = `
-            <p class="text-xs text-rose-500 font-bold">Failed to load exam data. Please verify /data/exams.json.</p>
-          `;
-        }
-      }
-
-      function navigateToExam(slug) {
-        window.location.href = `/${slug}`;
-      }
-
       document.addEventListener("DOMContentLoaded", () => {
-        loadAndRenderExams();
+        if (window.lucide) {
+          lucide.createIcons();
+        }
       });
     </script>
   </body>
