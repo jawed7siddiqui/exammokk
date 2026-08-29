@@ -42,6 +42,10 @@
       "destination": "/blogs.html"
     },
     {
+      "source": "/quiz",
+      "destination": "/fb-quiz.html"
+    },
+    {
       "source": "/blogs/:slug",
       "destination": "/blog-detail.html"
     },
