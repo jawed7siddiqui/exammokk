@@ -1,19 +1,105 @@
 /**
- * ExamIndia - Govt Exam Navigation (Header, Bottom Nav & Background Status Guard)
+ * ExamIndia - Govt Exam Navigation (Header, Bottom Nav & Realtime Status Guard)
  * File: js/nav_gov.js
+ * Version: 2.3.0
  */
 
 const CHECK_STATUS_API =
   "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/check-user-status";
 
 // ==========================================
-// 1. OPTIMIZED BACKGROUND STATUS VERIFICATION
+// 1. MOBILE NATIVE POP-UP MODAL (ENGLISH)
+// ==========================================
+function injectNativeStatusModal() {
+  if (document.getElementById("native-status-modal")) return;
+
+  const modalHtml = `
+    <div id="native-status-modal" class="fixed inset-0 z-[99999] bg-slate-900/70 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+      <div id="native-status-sheet" class="w-full max-w-[390px] bg-white rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl border border-slate-100 transform translate-y-full sm:translate-y-4 transition-transform duration-300 text-center space-y-4">
+        
+        <!-- Header Sheet Indicator -->
+        <div class="w-10 h-1.5 bg-slate-200 rounded-full mx-auto sm:hidden -mt-2 mb-2"></div>
+        
+        <!-- Animated Icon Container -->
+        <div id="status-modal-icon-bg" class="w-14 h-14 bg-rose-50 text-rose-600 rounded-2xl mx-auto flex items-center justify-center shadow-xs border border-rose-100">
+          <i id="status-modal-icon" data-lucide="shield-alert" class="w-7 h-7"></i>
+        </div>
+
+        <div>
+          <h3 id="status-modal-title" class="text-base font-extrabold text-slate-900 tracking-tight">
+            Account Restricted
+          </h3>
+          <p id="status-modal-message" class="text-xs text-slate-500 mt-1.5 leading-relaxed font-semibold">
+            Your candidate account has been temporarily disabled.
+          </p>
+        </div>
+
+        <button
+          id="btn-status-modal-action"
+          onclick="performForcedRedirect()"
+          class="w-full py-3.5 bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white font-bold rounded-2xl text-xs tracking-wider transition-all cursor-pointer shadow-md"
+        >
+          Return to Sign In
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML("beforeend", modalHtml);
+  if (typeof lucide !== "undefined") lucide.createIcons();
+}
+
+function showNativeStatusModal(title, message, isBlocked = true) {
+  injectNativeStatusModal();
+
+  const modal = document.getElementById("native-status-modal");
+  const sheet = document.getElementById("native-status-sheet");
+  const titleEl = document.getElementById("status-modal-title");
+  const msgEl = document.getElementById("status-modal-message");
+  const iconBg = document.getElementById("status-modal-icon-bg");
+  const icon = document.getElementById("status-modal-icon");
+
+  titleEl.innerText = title;
+  msgEl.innerText = message;
+
+  if (isBlocked) {
+    iconBg.className =
+      "w-14 h-14 bg-rose-50 text-rose-600 rounded-2xl mx-auto flex items-center justify-center shadow-xs border border-rose-100";
+    icon.setAttribute("data-lucide", "shield-alert");
+  } else {
+    iconBg.className =
+      "w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl mx-auto flex items-center justify-center shadow-xs border border-amber-100";
+    icon.setAttribute("data-lucide", "user-x");
+  }
+
+  if (typeof lucide !== "undefined") lucide.createIcons();
+
+  modal.classList.remove("opacity-0", "pointer-events-none");
+  modal.classList.add("opacity-100", "pointer-events-auto");
+  sheet.classList.remove("translate-y-full", "sm:translate-y-4");
+  sheet.classList.add("translate-y-0");
+
+  document.body.style.overflow = "hidden";
+}
+
+function performForcedRedirect() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("examIndiaToken");
+  localStorage.removeItem("examIndiaUser");
+  localStorage.removeItem("user_session");
+  localStorage.removeItem("examIndiaSession");
+  sessionStorage.clear();
+  window.location.replace("auth.html");
+}
+
+// ==========================================
+// 2. REAL-TIME USER STATUS GUARD
 // ==========================================
 async function verifyUserStatus() {
   const path = window.location.pathname;
   const page = path.split("/").pop() || "home.html";
 
-  // Login / Register / Auth pages par guard skip karein
+  // Skip guard on authentication pages
   const isAuthPage = [
     "auth.html",
     "login.html",
@@ -22,12 +108,11 @@ async function verifyUserStatus() {
   ].some((m) => page.toLowerCase() === m.toLowerCase());
   if (isAuthPage) return;
 
-  // Stored user check
   const storedUserRaw =
     localStorage.getItem("examIndiaUser") ||
     localStorage.getItem("user_session");
   if (!storedUserRaw) {
-    forceLogout("Session expired. Please log in again.");
+    performForcedRedirect();
     return;
   }
 
@@ -42,21 +127,17 @@ async function verifyUserStatus() {
     console.error("Session parse error:", e);
   }
 
-  if (!userMobile) return;
-
-  // ⚡ 1. 3-Minute Session Cache (Fast UI navigation & no server load)
-  const lastChecked = sessionStorage.getItem("last_status_check");
-  const now = Date.now();
-  if (lastChecked && now - parseInt(lastChecked, 10) < 3 * 60 * 1000) {
-    return; // 3 minute ke andar check already done
+  if (!userMobile) {
+    performForcedRedirect();
+    return;
   }
 
-  // ⚡ 2. Background API Call
   try {
-    const response = await fetch(CHECK_STATUS_API, {
+    const response = await fetch(`${CHECK_STATUS_API}?_nocache=${Date.now()}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Cache-Control": "no-cache",
       },
       body: JSON.stringify({ mobileNumber: userMobile.trim() }),
     });
@@ -64,48 +145,46 @@ async function verifyUserStatus() {
     const data = await response.json();
 
     if (data.success && data.data) {
-      sessionStorage.setItem("last_status_check", now.toString());
-      const status = (data.data.status || "active").toLowerCase();
+      const status = (data.data.status || "active").toLowerCase().trim();
 
       if (status === "blocked") {
-        forceLogout(
-          "Aapka account admin dwara block kar diya gaya hai. Kripya support se contact karein.",
+        showNativeStatusModal(
+          "Account Blocked",
+          "Your access has been suspended by the administrator. Please reach out to support for assistance.",
+          true,
         );
       } else if (status === "inactive") {
-        forceLogout(
-          "Aapka account inactive hai. Kripya administrator se sampark karein.",
+        showNativeStatusModal(
+          "Account Inactive",
+          "Your candidate profile is currently inactive. Contact your portal admin to reactivate access.",
+          false,
         );
       }
     } else if (response.status === 404) {
-      forceLogout("User account not found. Please register or login again.");
+      showNativeStatusModal(
+        "Account Not Found",
+        "Your account record could not be found. Please sign in again.",
+        true,
+      );
     }
   } catch (error) {
-    // Network fail hone par user ka active session break nahi hoga
-    console.warn("Status check network glitch:", error.message);
+    console.warn("Status check failed silently:", error.message);
   }
 }
 
-// Global Force-Logout Helper
-function forceLogout(reasonMessage) {
-  if (reasonMessage) {
-    alert(reasonMessage);
-  }
-  localStorage.removeItem("examIndiaUser");
-  localStorage.removeItem("token");
-  localStorage.removeItem("user_session");
-  sessionStorage.clear();
-  window.location.href = "auth.html";
-}
-
-// Global Manual Logout Utility
+// Manual Logout Utility
 function handleUserLogout() {
-  if (confirm("Kya aap logout karna chahte hain?")) {
-    forceLogout();
-  }
+  showNativeStatusModal(
+    "Sign Out",
+    "Are you sure you want to sign out of your portal session?",
+    false,
+  );
+  const actionBtn = document.getElementById("btn-status-modal-action");
+  if (actionBtn) actionBtn.innerText = "Confirm Sign Out";
 }
 
 // ==========================================
-// 2. REUSABLE TOP HEADER COMPONENT
+// 3. REUSABLE TOP HEADER COMPONENT
 // ==========================================
 function renderTopHeader(options = {}) {
   const path = window.location.pathname;
@@ -123,7 +202,6 @@ function renderTopHeader(options = {}) {
 
   const headerHtml = `
     <header class="bg-white px-4 py-3 border-b border-slate-200/80 shrink-0 shadow-2xs z-10 flex items-center justify-between sticky top-0 w-full">
-      <!-- LEFT: BACK BTN / LOGO & APP TITLE -->
       <div class="flex items-center gap-2.5 min-w-0">
         ${
           showBack
@@ -155,7 +233,6 @@ function renderTopHeader(options = {}) {
         }
       </div>
 
-      <!-- RIGHT: FULL LOGOUT BUTTON -->
       <div class="flex items-center gap-1.5 shrink-0">
         ${
           showLogout
@@ -173,17 +250,12 @@ function renderTopHeader(options = {}) {
   `;
 
   const placeholder = document.getElementById("top-header-placeholder");
-  if (placeholder) {
-    placeholder.outerHTML = headerHtml;
-  }
-
-  if (typeof lucide !== "undefined") {
-    lucide.createIcons();
-  }
+  if (placeholder) placeholder.outerHTML = headerHtml;
+  if (typeof lucide !== "undefined") lucide.createIcons();
 }
 
 // ==========================================
-// 3. REUSABLE BOTTOM NAVIGATION COMPONENT
+// 4. REUSABLE BOTTOM NAVIGATION COMPONENT
 // ==========================================
 function renderBottomNav(activeTabName = null) {
   const path = window.location.pathname;
@@ -249,30 +321,30 @@ function renderBottomNav(activeTabName = null) {
   `;
 
   const placeholder = document.getElementById("bottom-nav-placeholder");
-  if (placeholder) {
-    placeholder.outerHTML = navHtml;
-  } else {
-    document.body.insertAdjacentHTML("beforeend", navHtml);
-  }
+  if (placeholder) placeholder.outerHTML = navHtml;
+  else document.body.insertAdjacentHTML("beforeend", navHtml);
 
-  if (typeof lucide !== "undefined") {
-    lucide.createIcons();
-  }
+  if (typeof lucide !== "undefined") lucide.createIcons();
 }
 
 // ==========================================
-// 4. AUTO-INITIALIZE ON LOAD & FOCUS
+// 5. AUTO-INITIALIZE & 30-SECOND HEARTBEAT
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
-  // Pehle visual UI fast load hogi
+  injectNativeStatusModal();
   renderTopHeader();
   renderBottomNav();
 
-  // Background me status validation run hoga
+  // Instant check on open
   verifyUserStatus();
+
+  // Background Heartbeat: Check every 30 seconds
+  setInterval(() => {
+    verifyUserStatus();
+  }, 30000);
 });
 
-// App / Tab focus par automatically refresh
+// App / Tab focus re-verify
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "visible") {
     verifyUserStatus();
