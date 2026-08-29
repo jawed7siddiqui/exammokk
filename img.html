@@ -2,250 +2,84 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Generate Premium Stylish OG Banner</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=Noto+Sans+Devanagari:wght@700;800;900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body
     style="
-      font-family: sans-serif;
+      font-family:
+        &quot;Plus Jakarta Sans&quot;, &quot;Noto Sans Devanagari&quot;,
+        sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      background: #0f172a;
+      background: #0b0f19;
       margin: 0;
+      padding: 24px;
+      box-sizing: border-box;
     "
   >
-    <h3 style="color: #f8fafc; font-weight: 700">
-      Generating Premium 1200x630 og-banner.png...
+    <h3
+      style="
+        color: #f8fafc;
+        font-weight: 800;
+        margin-bottom: 16px;
+        text-align: center;
+      "
+    >
+      Mobile & WhatsApp Preview Optimized OG Banner (1200x630)
     </h3>
+
     <canvas
       id="bannerCanvas"
       width="1200"
       height="630"
       style="
-        max-width: 90%;
+        max-width: 95%;
+        height: auto;
         border-radius: 16px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.1);
       "
     ></canvas>
+
     <br />
+
     <button
       id="downloadBtn"
       style="
-        padding: 14px 32px;
+        padding: 16px 40px;
         background: linear-gradient(135deg, #4f46e5, #06b6d4);
         color: white;
         border: none;
-        font-size: 16px;
+        font-family: inherit;
+        font-size: 17px;
         font-weight: 800;
-        border-radius: 10px;
+        border-radius: 12px;
         cursor: pointer;
-        box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+        box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
+        transition: transform 0.2s ease;
       "
+      onmouseover="this.style.transform = 'scale(1.03)'"
+      onmouseout="this.style.transform = 'scale(1)'"
     >
-      Download Stylish og-banner.png
+      Download High-Res Banner (PNG)
     </button>
 
     <script>
       const canvas = document.getElementById("bannerCanvas");
       const ctx = canvas.getContext("2d");
 
-      function drawBanner() {
-        // 1. Base Canvas
-        ctx.fillStyle = "#f8fafc";
-        ctx.fillRect(0, 0, 1200, 630);
-
-        // 2. Dot Matrix Pattern
-        ctx.fillStyle = "#cbd5e1";
-        for (let x = 30; x < 1200; x += 30) {
-          for (let y = 30; y < 630; y += 30) {
-            ctx.beginPath();
-            ctx.arc(x, y, 1.5, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        }
-
-        // 3. Vibrant Ambient Glows
-        ctx.save();
-        ctx.filter = "blur(90px)";
-        ctx.fillStyle = "rgba(99, 102, 241, 0.22)";
-        ctx.beginPath();
-        ctx.arc(1050, 100, 260, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = "rgba(6, 182, 212, 0.22)";
-        ctx.beginPath();
-        ctx.arc(150, 500, 240, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-
-        // Outer Border
-        ctx.strokeStyle = "#e2e8f0";
-        ctx.lineWidth = 3;
-        ctx.strokeRect(1, 1, 1198, 628);
-
-        // 4. Logo Badge (Top Left)
-        ctx.save();
-        ctx.fillStyle = "#ffffff";
-        ctx.shadowColor = "rgba(15, 23, 42, 0.08)";
-        ctx.shadowBlur = 20;
-        ctx.shadowOffsetY = 6;
-        roundRect(ctx, 70, 45, 280, 64, 18);
-        ctx.fill();
-        ctx.restore();
-
-        ctx.strokeStyle = "#e2e8f0";
-        ctx.lineWidth = 2;
-        roundRect(ctx, 70, 45, 280, 64, 18);
-        ctx.stroke();
-
-        // Logo Icon
-        const iconGrad = ctx.createLinearGradient(84, 55, 128, 99);
-        iconGrad.addColorStop(0, "#4f46e5");
-        iconGrad.addColorStop(1, "#06b6d4");
-        ctx.fillStyle = iconGrad;
-        roundRect(ctx, 84, 55, 44, 44, 12);
-        ctx.fill();
-
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(98, 67, 16, 4);
-        ctx.fillRect(98, 67, 4, 18);
-        ctx.fillRect(98, 74, 12, 3);
-        ctx.fillRect(98, 81, 16, 4);
-
-        // Logo Typography
-        ctx.font = "900 28px sans-serif";
-        ctx.fillStyle = "#0f172a";
-        ctx.fillText("Exam", 140, 86);
-        ctx.fillStyle = "#0891b2";
-        ctx.fillText("Mokk", 215, 86);
-
-        // 5. Live Simulation Pill (Top Right)
-        ctx.fillStyle = "#ffffff";
-        ctx.strokeStyle = "#e2e8f0";
-        ctx.lineWidth = 2;
-        roundRect(ctx, 840, 48, 290, 58, 29);
-        ctx.fill();
-        ctx.stroke();
-
-        // Green Indicator Dot
-        ctx.fillStyle = "#10b981";
-        ctx.beginPath();
-        ctx.arc(870, 77, 7, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.font = "800 16px sans-serif";
-        ctx.fillStyle = "#0f172a";
-        ctx.fillText("100% FREE CBT ENGINE", 890, 83);
-
-        // 6. Main Headlines
-        ctx.font = "900 52px sans-serif";
-        ctx.fillStyle = "#0f172a";
-        ctx.fillText("Free Online Mock Tests & Daily Quiz", 70, 185);
-
-        const textGrad = ctx.createLinearGradient(70, 0, 950, 0);
-        textGrad.addColorStop(0, "#4f46e5");
-        textGrad.addColorStop(0.5, "#2563eb");
-        textGrad.addColorStop(1, "#0891b2");
-        ctx.fillStyle = textGrad;
-        ctx.font = "bold 32px sans-serif";
-        // UPSC explicitly highlighted in headline
-        ctx.fillText(
-          "UPSC, SSC, Banking, Railways & Govt Exams की तैयारी",
-          70,
-          240,
-        );
-
-        // 7. Feature Badges
-        const features = [
-          { icon: "⚡", title: "Daily Live Quizzes" },
-          { icon: "⏱️", title: "Real CBT Interface" },
-          { icon: "📊", title: "All India Ranking" },
-        ];
-
-        let featX = 70;
-        features.forEach((item) => {
-          ctx.save();
-          ctx.fillStyle = "#ffffff";
-          ctx.shadowColor = "rgba(15, 23, 42, 0.06)";
-          ctx.shadowBlur = 14;
-          ctx.shadowOffsetY = 4;
-          roundRect(ctx, featX, 295, 335, 78, 16);
-          ctx.fill();
-          ctx.restore();
-
-          ctx.strokeStyle = "#e2e8f0";
-          ctx.lineWidth = 1.5;
-          roundRect(ctx, featX, 295, 335, 78, 16);
-          ctx.stroke();
-
-          ctx.font = "30px sans-serif";
-          ctx.fillText(item.icon, featX + 20, 345);
-
-          ctx.font = "800 20px sans-serif";
-          ctx.fillStyle = "#0f172a";
-          ctx.fillText(item.title, featX + 68, 343);
-
-          featX += 360;
-        });
-
-        // 8. Exam Target Stream Pills
-        ctx.font = "800 16px sans-serif";
-        ctx.fillStyle = "#64748b";
-        ctx.fillText("POPULAR EXAMS:", 70, 440);
-
-        const streams = [
-          "UPSC CSE",
-          "SSC CGL",
-          "RRB NTPC",
-          "SBI / IBPS PO",
-          "State PSC",
-          "Defence",
-        ];
-        let tagX = 70;
-        streams.forEach((stream) => {
-          ctx.font = "800 17px sans-serif";
-          const tagW = ctx.measureText(stream).width + 32;
-
-          ctx.fillStyle = "#ffffff";
-          ctx.strokeStyle = "#cbd5e1";
-          ctx.lineWidth = 1.5;
-          roundRect(ctx, tagX, 465, tagW, 48, 14);
-          ctx.fill();
-          ctx.stroke();
-
-          ctx.fillStyle = "#1e293b";
-          ctx.fillText(stream, tagX + 16, 496);
-          tagX += tagW + 12;
-        });
-
-        // 9. CTA Button
-        const btnGrad = ctx.createLinearGradient(70, 542, 450, 602);
-        btnGrad.addColorStop(0, "#4f46e5");
-        btnGrad.addColorStop(1, "#06b6d4");
-
-        ctx.save();
-        ctx.shadowColor = "rgba(79, 70, 229, 0.35)";
-        ctx.shadowBlur = 18;
-        ctx.shadowOffsetY = 6;
-        ctx.fillStyle = btnGrad;
-        roundRect(ctx, 70, 542, 360, 60, 16);
-        ctx.fill();
-        ctx.restore();
-
-        ctx.font = "900 22px sans-serif";
-        ctx.fillStyle = "#ffffff";
-        ctx.fillText("Start Free Practice ➔", 120, 580);
-
-        // 10. Made in India & Domain Watermark (Bottom Right)
-        ctx.font = "800 20px sans-serif";
-        ctx.fillStyle = "#475569";
-        const footerText = "exammokk.cloud";
-        const textWidth = ctx.measureText(footerText).width;
-        ctx.fillText(footerText, 1130 - textWidth, 580);
-      }
-
-      function roundRect(ctx, x, y, width, height, radius) {
+      function drawRoundedRect(ctx, x, y, width, height, radius) {
         ctx.beginPath();
         ctx.moveTo(x + radius, y);
         ctx.lineTo(x + width - radius, y);
@@ -264,14 +98,293 @@
         ctx.closePath();
       }
 
-      window.onload = () => {
-        drawBanner();
-        document.getElementById("downloadBtn").onclick = () => {
-          const link = document.createElement("a");
-          link.download = "og-banner.png";
-          link.href = canvas.toDataURL("image/png");
-          link.click();
-        };
+      function drawBanner() {
+        ctx.clearRect(0, 0, 1200, 630);
+
+        // 1. Crisp White Background
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, 1200, 630);
+
+        // 2. Subtle Tech Dot Grid
+        ctx.fillStyle = "#e2e8f0";
+        for (let x = 30; x < 1200; x += 32) {
+          for (let y = 30; y < 630; y += 32) {
+            ctx.beginPath();
+            ctx.arc(x, y, 1.8, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        // 3. Eye-catching Ambient Glows
+        ctx.save();
+        ctx.filter = "blur(80px)";
+        ctx.fillStyle = "rgba(79, 70, 229, 0.25)";
+        ctx.beginPath();
+        ctx.arc(1080, 100, 280, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "rgba(6, 182, 212, 0.22)";
+        ctx.beginPath();
+        ctx.arc(120, 520, 260, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // Canvas Border
+        ctx.strokeStyle = "#cbd5e1";
+        ctx.lineWidth = 4;
+        ctx.strokeRect(2, 2, 1196, 626);
+
+        // 4. Brand Logo Badge (Top Left)
+        ctx.save();
+        ctx.fillStyle = "#ffffff";
+        ctx.shadowColor = "rgba(15, 23, 42, 0.1)";
+        ctx.shadowBlur = 18;
+        ctx.shadowOffsetY = 6;
+        drawRoundedRect(ctx, 60, 38, 290, 66, 18);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.lineWidth = 2;
+        drawRoundedRect(ctx, 60, 38, 290, 66, 18);
+        ctx.stroke();
+
+        // Logo Icon
+        const iconGrad = ctx.createLinearGradient(74, 48, 120, 94);
+        iconGrad.addColorStop(0, "#4f46e5");
+        iconGrad.addColorStop(1, "#06b6d4");
+        ctx.fillStyle = iconGrad;
+        drawRoundedRect(ctx, 74, 48, 46, 46, 13);
+        ctx.fill();
+
+        // Icon Shape
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 4;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.beginPath();
+        ctx.moveTo(86, 63);
+        ctx.lineTo(97, 78);
+        ctx.lineTo(108, 63);
+        ctx.stroke();
+
+        // Logo Text
+        ctx.font = "900 30px 'Plus Jakarta Sans', sans-serif";
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText("Exam", 134, 81);
+        ctx.fillStyle = "#0891b2";
+        ctx.fillText("Mokk", 214, 81);
+
+        // 5. CBT Live Tag (Top Right)
+        ctx.save();
+        ctx.fillStyle = "#ffffff";
+        ctx.shadowColor = "rgba(15, 23, 42, 0.08)";
+        ctx.shadowBlur = 14;
+        ctx.shadowOffsetY = 4;
+        drawRoundedRect(ctx, 815, 40, 325, 60, 30);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.lineWidth = 2;
+        drawRoundedRect(ctx, 815, 40, 325, 60, 30);
+        ctx.stroke();
+
+        ctx.fillStyle = "#10b981";
+        ctx.beginPath();
+        ctx.arc(842, 70, 7, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.font =
+          "900 16px 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif";
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText("REAL EXAM CBT INTERFACE", 860, 76);
+
+        // 6. Main Bold Headline
+        ctx.font =
+          "900 52px 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif";
+        ctx.fillStyle = "#090d16";
+        ctx.fillText("Online Mock Tests & Daily Quiz", 60, 168);
+
+        // Subtitle: "अब घर बैठे करें All Govt Exams की तैयारी 🎯"
+        const textGrad = ctx.createLinearGradient(60, 0, 1100, 0);
+        textGrad.addColorStop(0, "#4338ca");
+        textGrad.addColorStop(0.5, "#2563eb");
+        textGrad.addColorStop(1, "#0891b2");
+        ctx.fillStyle = textGrad;
+        ctx.font =
+          "900 32px 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif";
+        ctx.fillText("अब घर बैठे करें All Govt Exams की तैयारी 🎯", 60, 218);
+
+        // 7. BIG EXAM BADGES (UPSC, SSC, RAILWAYS, BANKING)
+        const bigExams = [
+          {
+            name: "UPSC CSE",
+            bg: "#1e1b4b",
+            text: "#ffffff",
+            border: "#4338ca",
+          },
+          {
+            name: "SSC CGL / CHSL",
+            bg: "#042f2e",
+            text: "#ffffff",
+            border: "#0d9488",
+          },
+          {
+            name: "RAILWAYS (RRB)",
+            bg: "#450a0a",
+            text: "#ffffff",
+            border: "#dc2626",
+          },
+          {
+            name: "BANKING (PO/Clerk)",
+            bg: "#172554",
+            text: "#ffffff",
+            border: "#2563eb",
+          },
+        ];
+
+        let examX = 60;
+        bigExams.forEach((exam) => {
+          ctx.save();
+          ctx.fillStyle = exam.bg;
+          ctx.shadowColor = "rgba(0, 0, 0, 0.18)";
+          ctx.shadowBlur = 12;
+          ctx.shadowOffsetY = 6;
+          drawRoundedRect(ctx, examX, 260, 258, 68, 16);
+          ctx.fill();
+          ctx.restore();
+
+          ctx.strokeStyle = exam.border;
+          ctx.lineWidth = 2.5;
+          drawRoundedRect(ctx, examX, 260, 258, 68, 16);
+          ctx.stroke();
+
+          ctx.font = "900 21px 'Plus Jakarta Sans', sans-serif";
+          ctx.fillStyle = exam.text;
+          ctx.textAlign = "center";
+          ctx.fillText(exam.name, examX + 129, 302);
+          ctx.textAlign = "left";
+
+          examX += 274;
+        });
+
+        // 8. 3 Feature Highlights (Hindi Subtexts)
+        const features = [
+          {
+            icon: "⚡",
+            title: "Daily Live Quiz",
+            sub: "रोज़ नए सवाल & स्पीड टेस्ट",
+          },
+          {
+            icon: "🖥️",
+            title: "Real CBT Mode",
+            sub: "100% NTA/TCS जैसा पैटर्न",
+          },
+          {
+            icon: "📊",
+            title: "All India Rank",
+            sub: "अपनी रैंकिंग & स्कोर जानें",
+          },
+        ];
+
+        let featX = 60;
+        features.forEach((item) => {
+          ctx.save();
+          ctx.fillStyle = "#f8fafc";
+          ctx.shadowColor = "rgba(15, 23, 42, 0.06)";
+          ctx.shadowBlur = 12;
+          ctx.shadowOffsetY = 4;
+          drawRoundedRect(ctx, featX, 356, 344, 82, 16);
+          ctx.fill();
+          ctx.restore();
+
+          ctx.strokeStyle = "#e2e8f0";
+          ctx.lineWidth = 2;
+          drawRoundedRect(ctx, featX, 356, 344, 82, 16);
+          ctx.stroke();
+
+          ctx.font = "30px sans-serif";
+          ctx.fillText(item.icon, featX + 16, 408);
+
+          ctx.font =
+            "900 19px 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif";
+          ctx.fillStyle = "#0f172a";
+          ctx.fillText(item.title, featX + 66, 390);
+
+          ctx.font =
+            "700 14px 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif";
+          ctx.fillStyle = "#64748b";
+          ctx.fillText(item.sub, featX + 66, 416);
+
+          featX += 368;
+        });
+
+        // 9. Extra Exams Row
+        ctx.font =
+          "800 15px 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif";
+        ctx.fillStyle = "#475569";
+        ctx.fillText(
+          "+ State PSC (BPSC, UPPSC, MPPSC) | Defence (CDS, NDA) | Teaching Exams",
+          62,
+          478,
+        );
+
+        // 10. Big Action Button
+        const btnGrad = ctx.createLinearGradient(60, 524, 450, 588);
+        btnGrad.addColorStop(0, "#4f46e5");
+        btnGrad.addColorStop(1, "#06b6d4");
+
+        ctx.save();
+        ctx.shadowColor = "rgba(79, 70, 229, 0.45)";
+        ctx.shadowBlur = 24;
+        ctx.shadowOffsetY = 8;
+        ctx.fillStyle = btnGrad;
+        drawRoundedRect(ctx, 60, 520, 380, 64, 18);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.font =
+          "900 22px 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif";
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText("अभी Test देना शुरू करें ➔", 98, 560);
+
+        // 11. Domain Badge (Bottom Right)
+        ctx.save();
+        ctx.fillStyle = "#ffffff";
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.lineWidth = 2;
+        drawRoundedRect(ctx, 905, 524, 235, 56, 16);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.fillStyle = "#0891b2";
+        ctx.beginPath();
+        ctx.arc(930, 552, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.font = "900 20px 'Plus Jakarta Sans', sans-serif";
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText("exammokk.cloud", 946, 558);
+      }
+
+      // Draw immediately
+      drawBanner();
+
+      // Redraw once fonts are loaded
+      if (document.fonts) {
+        document.fonts.ready.then(() => {
+          drawBanner();
+        });
+      }
+
+      // Download Action
+      document.getElementById("downloadBtn").onclick = () => {
+        const link = document.createElement("a");
+        link.download = "og-banner.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
       };
     </script>
   </body>
