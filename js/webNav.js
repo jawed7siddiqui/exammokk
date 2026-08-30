@@ -162,6 +162,7 @@ function initWebNav() {
             <span>My Profile</span>
           </a>
 
+          <!-- BILLING SECTION (COMMENTED)
           <a
             href="billing.html"
             class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 no-underline ${
@@ -173,6 +174,7 @@ function initWebNav() {
             <i data-lucide="credit-card" class="w-4 h-4"></i>
             <span>Billing &amp; Pass</span>
           </a>
+          -->
         </div>
       </div>
     </header>
