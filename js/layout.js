@@ -136,7 +136,7 @@ function renderHeader() {
               <span>Daily GK</span>
             </a>
 
-            <a href="/pricing.html" class="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition no-underline">Pricing</a>
+            <a href="/pricing" class="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-indigo-600 transition no-underline">Pricing</a>
 
             <!-- START FREE TEST CTA -->
             <a href="/#exam-grid-section" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs border border-indigo-200 transition active:scale-95 cursor-pointer no-underline">
