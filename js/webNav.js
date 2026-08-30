@@ -1,12 +1,13 @@
 /**
  * ExamMokk Common Web Navigation Engine
- * Handles shared Navbar, Active Route Detection, Search Modal, and Logout Modal
+ * Handles shared Navbar, Active Route Detection, Search Modal, and Unified Logout
  */
 
 const STORAGE_KEYS = {
-  TOKEN: "exammokk_token",
-  USER: "exammokk_user",
-  SESSION: "exammokk_session",
+  // Legacy / Active Storage Keys
+  TOKEN_KEYS: ["token", "examIndiaToken", "exammokk_token", "auth_token"],
+  USER_KEYS: ["examIndiaUser", "exammokk_user", "user", "authUser"],
+  SESSION_KEYS: ["examIndiaSession", "exammokk_session"],
 };
 
 const searchableExams = [
@@ -22,24 +23,46 @@ const searchableExams = [
   { name: "CUET, Law & Management", type: "ENTRANCE" },
 ];
 
+// Helper: Get token across all possible key variants
+function getActiveAuthToken() {
+  for (const key of STORAGE_KEYS.TOKEN_KEYS) {
+    const val = localStorage.getItem(key);
+    if (val) return val;
+  }
+  return null;
+}
+
+// Helper: Get candidate user object across all possible key variants
+function getActiveUserData() {
+  for (const key of STORAGE_KEYS.USER_KEYS) {
+    const val = localStorage.getItem(key);
+    if (val) {
+      try {
+        return JSON.parse(val);
+      } catch (e) {
+        console.error("User JSON parse error:", e);
+      }
+    }
+  }
+  return null;
+}
+
 function initWebNav() {
-  const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-  const userDataStr = localStorage.getItem(STORAGE_KEYS.USER);
+  const token = getActiveAuthToken();
+  const user = getActiveUserData();
 
   // Auth Guard
-  if (!token && !userDataStr) {
+  if (!token && !user) {
     window.location.href = "login.html";
     return;
   }
 
-  let candidateName = "Candidate";
-  try {
-    const user = JSON.parse(userDataStr || "{}");
-    candidateName =
-      user.candidateName || user.studentName || user.name || "Candidate";
-  } catch (e) {
-    console.error("User parse error", e);
-  }
+  const candidateName =
+    user?.candidateName ||
+    user?.studentName ||
+    user?.name ||
+    user?.mobileNumber ||
+    "Candidate";
 
   const currentPath =
     window.location.pathname.split("/").pop() || "frontend_dashboard.html";
@@ -185,7 +208,7 @@ function initWebNav() {
       </div>
     </div>
 
-    <!-- LOGOUT MODAL -->
+    <!-- LOGOUT CONFIRMATION MODAL -->
     <div
       id="logout-modal"
       class="fixed inset-0 bg-slate-950/75 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden"
@@ -194,9 +217,9 @@ function initWebNav() {
         <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mb-3 border border-rose-100">
           <i data-lucide="log-out" class="w-6 h-6 stroke-[2.2]"></i>
         </div>
-        <h3 class="text-sm font-black text-slate-900 leading-tight">Logout?</h3>
+        <h3 class="text-sm font-black text-slate-900 leading-tight">Sign Out Candidate?</h3>
         <p class="text-xs text-slate-500 font-semibold mt-1 px-2">
-          Are you sure you want to end your active session?
+          Are you sure you want to end your active testing workspace?
         </p>
 
         <div class="grid grid-cols-2 gap-2.5 w-full mt-5">
@@ -304,38 +327,40 @@ function closeLogoutModal() {
 }
 
 function confirmLogoutAction() {
-  // 1. Clear All Core & Legacy Keys from localStorage
-  const keysToRemove = [
-    // Current Storage Keys
+  // 1. All Active, Legacy & Custom keys removal
+  const allKnownAuthKeys = [
+    // Primary User Keys in your Storage
+    "token",
+    "examIndiaToken",
+    "examIndiaUser",
+    "examIndiaSession",
+    "preferred_exam_lang",
+
+    // Future / Module Keys
     "exammokk_token",
     "exammokk_user",
     "exammokk_session",
     "exammokk_active_plan",
     "exammokk_sub_plans",
     "user_fcm_token",
+    "last_status_check",
 
-    // Legacy / Cross-Portal Keys
-    "examIndiaToken",
-    "examIndiaUser",
+    // Legacy fallback keys
     "kidsPaintToken",
     "kidsPaintUser",
     "auth_token",
-    "token",
     "access_token",
     "user",
     "authUser",
     "user_info",
   ];
 
-  keysToRemove.forEach((key) => localStorage.removeItem(key));
+  allKnownAuthKeys.forEach((k) => localStorage.removeItem(k));
 
-  // 2. Clear SessionStorage (Checkout context, pending plans, promo codes, redirect paths)
+  // 2. Clear SessionStorage (e.g., cached session timers, test attempt logs)
   sessionStorage.clear();
 
-  // 3. Optional: Agar aap completely sab kuch reset karna chahte hain localStorage se:
-  // localStorage.clear();
-
-  // 4. Redirect to login page
+  // 3. Redirect back to login page
   window.location.href = "login.html";
 }
 
