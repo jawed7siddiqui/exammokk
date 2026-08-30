@@ -1,0 +1,1378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily GK &amp; Current Affairs | ExamMokk</title>
+
+    <!-- Tailwind CSS Engine (Desktop & Mobile Compatible) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
+              mono: ["Space Grotesk", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Master Data Script -->
+    <script src="/js/AllSubject.js"></script>
+
+    <style>
+      body {
+        font-family:
+          "Plus Jakarta Sans",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
+      }
+      .font-mono-tag {
+        font-family: "Space Grotesk", monospace;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .pro-card {
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .pro-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px -8px rgba(79, 70, 229, 0.12);
+      }
+      @keyframes modalSlideUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      .animate-modal {
+        animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes smoothFadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade {
+        animation: smoothFadeIn 0.2s ease-out forwards;
+      }
+      @keyframes nativeToastDrop {
+        0% {
+          opacity: 0;
+          transform: translateY(-12px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-native-toast {
+        animation: nativeToastDrop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+    </style>
+  </head>
+  <body
+    class="flex flex-col min-h-screen bg-slate-50 text-slate-900 selection:bg-indigo-600 selection:text-white antialiased"
+  >
+    <!-- GLOBAL TOAST CONTAINER -->
+    <div
+      id="custom-toast-container"
+      class="fixed top-4 right-4 sm:top-5 sm:right-5 z-[9999] flex flex-col gap-2 max-w-sm w-full pointer-events-none px-3 sm:px-0"
+    ></div>
+
+    <!-- 1. FULL WIDTH DESKTOP & MOBILE HEADER -->
+    <header
+      class="w-full bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm backdrop-blur-md"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4"
+      >
+        <!-- LEFT: BACK BUTTON & LOGO/TITLE -->
+        <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+          <button
+            onclick="window.location.href = 'home.html'"
+            class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 flex items-center justify-center transition cursor-pointer shrink-0"
+            title="Back to Home"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+          </button>
+          <div class="min-w-0">
+            <h1
+              class="text-sm sm:text-lg lg:text-xl font-black text-slate-900 tracking-tight flex items-center gap-2 truncate"
+            >
+              <span>Daily GK &amp; Current Affairs</span>
+              <span class="text-base sm:text-lg">🌍</span>
+            </h1>
+            <p
+              class="text-[11px] sm:text-xs font-bold text-indigo-600 mt-0.5 truncate"
+            >
+              All India Daily Speed Quizzes &amp; Current Topics
+            </p>
+          </div>
+        </div>
+
+        <!-- RIGHT: AUTH BUTTON / LOGOUT -->
+        <div
+          id="header-auth-action"
+          class="flex items-center gap-3 shrink-0"
+        ></div>
+      </div>
+    </header>
+
+    <!-- 2. MAIN WIDESCREEN CONTAINER -->
+    <main
+      class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 space-y-6 sm:space-y-8"
+    >
+      <!-- LIVE CHALLENGE HERO BANNER -->
+      <div
+        class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl sm:rounded-3xl p-5 sm:p-7 lg:p-9 text-white shadow-xl border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-5"
+      >
+        <div class="space-y-2 min-w-0 flex-1">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+            >
+              Live Mock Test
+            </span>
+            <span
+              class="text-xs sm:text-sm font-bold text-indigo-200 truncate"
+              id="daily-challenge-subject"
+            >
+              Today's Current Affairs
+            </span>
+          </div>
+          <h2
+            id="daily-challenge-title"
+            class="text-base sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-snug"
+          >
+            Daily GK &amp; Current Affairs Speed Test
+          </h2>
+          <div
+            class="flex items-center gap-3 text-xs sm:text-sm text-slate-300 pt-1 flex-wrap"
+          >
+            <span class="flex items-center gap-1.5 font-medium"
+              >📝 <span id="daily-challenge-qs">15 Qs</span></span
+            >
+            <span>•</span>
+            <span class="flex items-center gap-1.5 font-medium"
+              >⏱️ <span id="daily-challenge-time">10 Mins</span></span
+            >
+            <span>•</span>
+            <span class="text-emerald-400 font-bold">100% Free Live Test</span>
+          </div>
+        </div>
+
+        <button
+          id="btn-start-daily"
+          onclick="startDailyLiveTest()"
+          class="w-full md:w-auto px-7 py-3 sm:py-3.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white rounded-xl font-bold text-xs sm:text-sm lg:text-base transition flex items-center justify-center gap-2.5 cursor-pointer shadow-lg shrink-0"
+        >
+          <span>Start Live Test</span>
+          <i data-lucide="play" class="w-4 h-4 sm:w-5 sm:h-5 fill-current"></i>
+        </button>
+      </div>
+
+      <!-- DAILY GK MODULES LIST -->
+      <section class="space-y-4">
+        <div class="flex items-center justify-between px-1">
+          <h3
+            class="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-500 flex items-center gap-2"
+          >
+            <i
+              data-lucide="layers"
+              class="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600"
+            ></i>
+            <span>GK Modules &amp; Topics</span>
+          </h3>
+          <span
+            id="total-categories-count"
+            class="text-xs sm:text-sm font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100"
+          >
+            0 Topics
+          </span>
+        </div>
+
+        <!-- ACCORDION CONTAINER -->
+        <div id="gk-accordion-container" class="space-y-3.5"></div>
+      </section>
+    </main>
+
+    <!-- IN-PAGE AUTH MODAL (RESPONSIVE POPUP) -->
+    <div
+      id="auth-modal"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-[1000] flex items-end sm:items-center justify-center p-0 sm:p-4 hidden transition-opacity"
+    >
+      <div
+        class="w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-2xl flex flex-col shadow-2xl border border-slate-100 relative overflow-hidden animate-modal max-h-[90vh]"
+      >
+        <!-- Modal Inline Toast -->
+        <div
+          id="app-toast"
+          aria-live="polite"
+          class="absolute top-2.5 inset-x-3 z-50 hidden rounded-xl p-2.5 shadow-lg border backdrop-blur-md animate-native-toast flex items-center gap-2 text-xs"
+        >
+          <div
+            id="toast-icon-wrapper"
+            class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 text-white"
+          >
+            <i
+              id="toast-icon"
+              data-lucide="alert-circle"
+              class="w-3.5 h-3.5"
+            ></i>
+          </div>
+          <p
+            id="toast-message"
+            class="text-[11.5px] font-bold flex-1 leading-snug"
+          ></p>
+          <button
+            onclick="hideNativeToast()"
+            class="p-1 opacity-60 hover:opacity-100 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-3 h-3"></i>
+          </button>
+        </div>
+
+        <!-- Header -->
+        <div
+          class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-white shrink-0"
+        >
+          <div class="flex items-center gap-2.5">
+            <button
+              id="app-back-btn"
+              onclick="handleAppBackNavigation()"
+              class="invisible w-8 h-8 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center transition cursor-pointer"
+            >
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </button>
+            <div class="flex items-center gap-2">
+              <div
+                class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-xs"
+              >
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+              </div>
+              <span
+                class="text-xs sm:text-sm font-black tracking-tight text-slate-900 uppercase"
+              >
+                Candidate <span class="text-indigo-600">Login</span>
+              </span>
+            </div>
+          </div>
+
+          <button
+            onclick="closeAuthModal()"
+            class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center cursor-pointer transition"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Form Scroll Area -->
+        <div class="p-5 sm:p-6 overflow-y-auto no-scrollbar space-y-4">
+          <div class="text-center">
+            <h3 class="text-sm sm:text-base font-extrabold text-slate-900">
+              Candidate Verification
+            </h3>
+            <p class="text-xs text-slate-500 mt-1">
+              Please sign in to start your practice test.
+            </p>
+          </div>
+
+          <!-- STEP 1: MOBILE ENTRY -->
+          <section
+            id="step-common-login"
+            class="auth-step-container animate-fade space-y-3.5"
+          >
+            <form
+              onsubmit="handleCommonLoginSubmit(event)"
+              class="space-y-3.5"
+              novalidate
+            >
+              <div>
+                <label class="text-xs font-bold text-slate-700 block mb-1">
+                  Mobile Number <span class="text-rose-500">*</span>
+                </label>
+                <div
+                  id="mobile-input-container"
+                  class="flex items-center w-full bg-slate-50 border border-slate-200 rounded-xl overflow-hidden focus-within:border-indigo-600 focus-within:bg-white focus-within:ring-2 focus-within:ring-indigo-100 transition"
+                >
+                  <div
+                    class="flex items-center gap-1 px-3.5 py-2.5 bg-slate-100 border-r border-slate-200 text-slate-700 font-bold text-xs shrink-0 select-none font-mono-tag"
+                  >
+                    <span>🇮🇳</span>
+                    <span>+91</span>
+                  </div>
+                  <input
+                    type="tel"
+                    id="user-mobile"
+                    required
+                    maxlength="10"
+                    oninput="
+                      this.value = this.value.replace(/[^0-9]/g, '');
+                      resetInputHighlight(
+                        'user-mobile',
+                        'mobile-input-container',
+                      );
+                    "
+                    placeholder="Enter 10-digit mobile number"
+                    class="w-full px-3.5 py-2.5 font-semibold text-slate-900 outline-none bg-transparent text-xs sm:text-sm tracking-wider placeholder:text-slate-400"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                id="btn-mobile-submit"
+                class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-xl text-xs sm:text-sm uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+              >
+                <span>Continue</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </form>
+          </section>
+
+          <!-- STEP 2A: PASSWORD ENTRY -->
+          <section
+            id="step-enter-password"
+            class="auth-step-container hidden animate-fade space-y-3.5"
+          >
+            <form
+              onsubmit="handlePasswordSubmit(event)"
+              class="space-y-3.5"
+              novalidate
+            >
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label class="text-xs font-bold text-slate-700"
+                    >Account Password
+                    <span class="text-rose-500">*</span></label
+                  >
+                  <span class="text-[10px] text-slate-400 font-medium"
+                    >Default: 123456</span
+                  >
+                </div>
+                <input
+                  type="password"
+                  id="user-password-input"
+                  required
+                  minlength="4"
+                  oninput="resetInputHighlight('user-password-input')"
+                  placeholder="Enter your password"
+                  class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-mono-tag font-semibold text-slate-900 outline-none focus:border-indigo-600 focus:bg-white bg-slate-50 text-xs sm:text-sm transition"
+                />
+              </div>
+
+              <button
+                type="submit"
+                id="btn-password-submit"
+                class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-xl text-xs sm:text-sm uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+              >
+                <span>Sign In &amp; Continue</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </form>
+          </section>
+
+          <!-- STEP 2B: REGISTRATION -->
+          <section
+            id="step-registration"
+            class="auth-step-container hidden animate-fade space-y-3"
+          >
+            <form
+              onsubmit="handleRegistrationSubmit(event)"
+              class="space-y-3"
+              novalidate
+            >
+              <div>
+                <label class="text-xs font-bold text-slate-700 block mb-1"
+                  >Full Name <span class="text-rose-500">*</span></label
+                >
+                <input
+                  type="text"
+                  id="reg-candidate-name"
+                  required
+                  oninput="resetInputHighlight('reg-candidate-name')"
+                  placeholder="Enter candidate full name"
+                  class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-900 text-xs sm:text-sm outline-none focus:border-indigo-600 focus:bg-white transition"
+                />
+              </div>
+
+              <div>
+                <label class="text-xs font-bold text-slate-700 block mb-1"
+                  >Gender <span class="text-rose-500">*</span></label
+                >
+                <div id="gender-options-wrapper" class="grid grid-cols-3 gap-2">
+                  <label
+                    class="gender-option-label flex items-center justify-center py-2 px-1 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer text-xs font-semibold text-slate-700 hover:border-indigo-500 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-600 transition"
+                  >
+                    <input
+                      type="radio"
+                      name="candidate-gender"
+                      value="Male"
+                      onchange="clearGenderValidation()"
+                      class="hidden"
+                    />
+                    <span>Male</span>
+                  </label>
+                  <label
+                    class="gender-option-label flex items-center justify-center py-2 px-1 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer text-xs font-semibold text-slate-700 hover:border-indigo-500 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-600 transition"
+                  >
+                    <input
+                      type="radio"
+                      name="candidate-gender"
+                      value="Female"
+                      onchange="clearGenderValidation()"
+                      class="hidden"
+                    />
+                    <span>Female</span>
+                  </label>
+                  <label
+                    class="gender-option-label flex items-center justify-center py-2 px-1 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer text-xs font-semibold text-slate-700 hover:border-indigo-500 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-600 transition"
+                  >
+                    <input
+                      type="radio"
+                      name="candidate-gender"
+                      value="Other"
+                      onchange="clearGenderValidation()"
+                      class="hidden"
+                    />
+                    <span>Other</span>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-xs font-bold text-slate-700 block mb-1"
+                  >Create Password <span class="text-rose-500">*</span></label
+                >
+                <input
+                  type="password"
+                  id="reg-password"
+                  required
+                  minlength="4"
+                  oninput="resetInputHighlight('reg-password')"
+                  placeholder="Min 4 characters"
+                  class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-900 text-xs sm:text-sm outline-none focus:border-indigo-600 focus:bg-white transition"
+                />
+              </div>
+
+              <label
+                class="flex items-start gap-2 pt-1 cursor-pointer select-none"
+              >
+                <input
+                  type="checkbox"
+                  id="terms-checkbox"
+                  class="accent-indigo-600 w-4 h-4 rounded border-slate-300 mt-0.5 shrink-0"
+                />
+                <span class="text-xs text-slate-500 leading-tight">
+                  I agree to the
+                  <a
+                    href="terms.html"
+                    target="_blank"
+                    class="text-indigo-600 font-bold hover:underline"
+                    >Terms</a
+                  >
+                  &amp;
+                  <a
+                    href="privacy-policy.html"
+                    target="_blank"
+                    class="text-indigo-600 font-bold hover:underline"
+                    >Privacy Policy</a
+                  >.
+                </span>
+              </label>
+
+              <button
+                type="submit"
+                id="btn-reg-submit"
+                class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-xl text-xs sm:text-sm uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-sm cursor-pointer mt-1"
+              >
+                <span>Register &amp; Continue</span>
+                <i data-lucide="user-plus" class="w-4 h-4"></i>
+              </button>
+            </form>
+          </section>
+
+          <!-- STEP 3: SUCCESS -->
+          <section
+            id="step-reg-success"
+            class="auth-step-container hidden text-center space-y-3 animate-fade py-3"
+          >
+            <div
+              class="w-14 h-14 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-full mx-auto flex items-center justify-center text-xl shadow-sm"
+            >
+              <i data-lucide="check" class="w-7 h-7 stroke-[2.5]"></i>
+            </div>
+            <div>
+              <h4 class="text-base font-bold text-slate-900">
+                Profile Activated
+              </h4>
+              <p class="text-xs text-slate-500 mt-0.5">
+                Your test session is ready.
+              </p>
+            </div>
+            <button
+              onclick="finishAuthAndLaunch()"
+              class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold rounded-xl text-xs sm:text-sm uppercase tracking-wider cursor-pointer shadow-sm transition"
+            >
+              Start Test Now →
+            </button>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIALOG MODAL -->
+    <div
+      id="app-modal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4 hidden"
+    >
+      <div
+        class="w-full max-w-sm bg-white rounded-3xl p-6 shadow-2xl border border-slate-100 text-center animate-fadeIn"
+      >
+        <div
+          id="modal-icon-container"
+          class="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3.5 text-xl bg-indigo-50 text-indigo-600"
+        >
+          <span id="modal-icon">ℹ️</span>
+        </div>
+        <h4
+          id="modal-title"
+          class="text-base font-extrabold text-slate-900 tracking-tight"
+        >
+          Notification
+        </h4>
+        <p
+          id="modal-message"
+          class="text-xs sm:text-sm text-slate-500 font-medium mt-1.5 leading-relaxed"
+        >
+          Message details will appear here.
+        </p>
+        <div id="modal-actions" class="mt-6 flex items-center gap-3">
+          <button
+            id="modal-btn-cancel"
+            class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer hidden"
+          >
+            Cancel
+          </button>
+          <button
+            id="modal-btn-confirm"
+            class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer shadow-sm"
+          >
+            Okay
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT ENGINE -->
+    <script>
+      const AUTH_API_BASE_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint";
+      const API_CATEGORY_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/category";
+
+      let openCategoryId = null;
+      let dailyGkConfig = null;
+      let allCategoryTests = [];
+      let isCategoryLoading = false;
+      let activeDailyTest = null;
+      let modalConfirmCallback = null;
+      let pendingLaunchParams = null;
+
+      // ==========================================
+      // AUTH STATE & IN-PAGE MODAL CONTROLLER
+      // ==========================================
+      let activeStepHistory = ["step-common-login"];
+      let mobileNumber = "";
+      let authToastTimer = null;
+
+      function isUserLoggedIn() {
+        const token =
+          localStorage.getItem("token") ||
+          localStorage.getItem("examIndiaToken");
+        return Boolean(token);
+      }
+
+      function updateHeaderAuthUI() {
+        const wrapper = document.getElementById("header-auth-action");
+        if (!wrapper) return;
+
+        if (isUserLoggedIn()) {
+          wrapper.innerHTML = `
+            <button
+              onclick="handleUserLogout()"
+              class="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 active:bg-rose-500 active:text-white text-rose-600 border border-rose-200 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer flex items-center gap-2 shadow-sm"
+            >
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+              <span class="hidden sm:inline">Logout</span>
+            </button>
+          `;
+        } else {
+          wrapper.innerHTML = `
+            <button
+              onclick="openAuthModal()"
+              class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer flex items-center gap-2 shadow-sm"
+            >
+              <i data-lucide="log-in" class="w-4 h-4"></i>
+              <span>Login</span>
+            </button>
+          `;
+        }
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      }
+
+      function openAuthModal(pendingTest = null) {
+        pendingLaunchParams = pendingTest;
+        document.getElementById("auth-modal").classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        switchStep("step-common-login");
+      }
+
+      function closeAuthModal() {
+        document.getElementById("auth-modal").classList.add("hidden");
+        document.body.style.overflow = "";
+        pendingLaunchParams = null;
+      }
+
+      function switchStep(stepId, pushHistory = true) {
+        hideNativeToast();
+        if (
+          pushHistory &&
+          activeStepHistory[activeStepHistory.length - 1] !== stepId
+        ) {
+          activeStepHistory.push(stepId);
+        }
+
+        const backBtn = document.getElementById("app-back-btn");
+        if (activeStepHistory.length > 1 && stepId !== "step-common-login") {
+          backBtn.classList.remove("invisible");
+        } else {
+          backBtn.classList.add("invisible");
+        }
+
+        document
+          .querySelectorAll(".auth-step-container")
+          .forEach((el) => el.classList.add("hidden"));
+        const target = document.getElementById(stepId);
+        if (target) target.classList.remove("hidden");
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      }
+
+      function handleAppBackNavigation() {
+        if (activeStepHistory.length > 1) {
+          activeStepHistory.pop();
+          const prev = activeStepHistory[activeStepHistory.length - 1];
+          switchStep(prev, false);
+        }
+      }
+
+      function showNativeToast(msg, type = "error") {
+        const toast = document.getElementById("app-toast");
+        const msgEl = document.getElementById("toast-message");
+        const iconWrapper = document.getElementById("toast-icon-wrapper");
+        const icon = document.getElementById("toast-icon");
+
+        if (!toast || !msgEl) return;
+        if (authToastTimer) clearTimeout(authToastTimer);
+
+        msgEl.innerText = msg;
+
+        if (type === "success") {
+          toast.className =
+            "absolute top-2.5 inset-x-3 z-50 rounded-xl p-2.5 shadow-lg border backdrop-blur-md animate-native-toast flex items-center gap-2 text-xs bg-emerald-50 border-emerald-200 text-emerald-950";
+          iconWrapper.className =
+            "w-6 h-6 rounded-lg bg-emerald-500 flex items-center justify-center shrink-0 text-white";
+          icon.setAttribute("data-lucide", "check-circle");
+        } else if (type === "info") {
+          toast.className =
+            "absolute top-2.5 inset-x-3 z-50 rounded-xl p-2.5 shadow-lg border backdrop-blur-md animate-native-toast flex items-center gap-2 text-xs bg-indigo-50 border-indigo-200 text-indigo-950";
+          iconWrapper.className =
+            "w-6 h-6 rounded-lg bg-indigo-600 flex items-center justify-center shrink-0 text-white";
+          icon.setAttribute("data-lucide", "info");
+        } else {
+          toast.className =
+            "absolute top-2.5 inset-x-3 z-50 rounded-xl p-2.5 shadow-lg border backdrop-blur-md animate-native-toast flex items-center gap-2 text-xs bg-rose-50 border-rose-200 text-rose-950";
+          iconWrapper.className =
+            "w-6 h-6 rounded-lg bg-rose-500 flex items-center justify-center shrink-0 text-white";
+          icon.setAttribute("data-lucide", "alert-circle");
+        }
+
+        toast.classList.remove("hidden");
+        if (typeof lucide !== "undefined") lucide.createIcons();
+        authToastTimer = setTimeout(() => hideNativeToast(), 3500);
+      }
+
+      function hideNativeToast() {
+        const toast = document.getElementById("app-toast");
+        if (toast) toast.classList.add("hidden");
+      }
+
+      function markInputError(inputId, customContainerId = null) {
+        const inputEl = document.getElementById(inputId);
+        const container = customContainerId
+          ? document.getElementById(customContainerId)
+          : inputEl;
+        if (container) {
+          container.classList.add(
+            "border-rose-400",
+            "bg-rose-50",
+            "ring-2",
+            "ring-rose-100",
+          );
+          container.classList.remove("border-slate-200");
+        }
+      }
+
+      function resetInputHighlight(inputId, customContainerId = null) {
+        const inputEl = document.getElementById(inputId);
+        const container = customContainerId
+          ? document.getElementById(customContainerId)
+          : inputEl;
+        if (container) {
+          container.classList.remove(
+            "border-rose-400",
+            "bg-rose-50",
+            "ring-2",
+            "ring-rose-100",
+          );
+          container.classList.add("border-slate-200");
+        }
+      }
+
+      function clearGenderValidation() {
+        document.querySelectorAll(".gender-option-label").forEach((el) => {
+          el.classList.remove("border-rose-400", "bg-rose-50");
+          el.classList.add("border-slate-200");
+        });
+      }
+
+      function getDeviceContext() {
+        const ua = navigator.userAgent.toLowerCase();
+        let platform = "web";
+        if (/android/i.test(ua)) platform = "android";
+        else if (
+          /iphone|ipad|ipod/i.test(ua) ||
+          (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+        )
+          platform = "ios";
+
+        let deviceType = "desktop";
+        if (/tablet|ipad/i.test(ua)) deviceType = "tablet";
+        else if (/mobile|iphone|ipod|android/i.test(ua)) deviceType = "mobile";
+
+        return {
+          pushToken: localStorage.getItem("user_fcm_token") || null,
+          platform: platform,
+          deviceType: deviceType,
+        };
+      }
+
+      async function handleCommonLoginSubmit(e) {
+        e.preventDefault();
+        mobileNumber = document.getElementById("user-mobile").value.trim();
+
+        if (!mobileNumber || mobileNumber.length !== 10) {
+          markInputError("user-mobile", "mobile-input-container");
+          showNativeToast(
+            "Please enter a valid 10-digit mobile number.",
+            "error",
+          );
+          document.getElementById("user-mobile").focus();
+          return;
+        }
+
+        const btn = document.getElementById("btn-mobile-submit");
+        btn.disabled = true;
+        btn.innerText = "Checking...";
+
+        try {
+          const res = await fetch(`${AUTH_API_BASE_URL}/check-mobile`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mobileNumber }),
+          });
+          const data = await res.json();
+
+          if (data.exists) {
+            const accountStatus = (data.status || "active").toLowerCase();
+            if (accountStatus === "blocked" || accountStatus === "inactive") {
+              markInputError("user-mobile", "mobile-input-container");
+              showNativeToast(
+                "Account is blocked or inactive. Contact support.",
+                "error",
+              );
+              return;
+            }
+            showNativeToast("Account found! Please enter password.", "info");
+            switchStep("step-enter-password");
+          } else {
+            showNativeToast(
+              "New candidate! Please complete registration.",
+              "info",
+            );
+            switchStep("step-registration");
+          }
+        } catch (err) {
+          showNativeToast(
+            "Unable to verify mobile number. Check network.",
+            "error",
+          );
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = `<span>Continue</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+          if (typeof lucide !== "undefined") lucide.createIcons();
+        }
+      }
+
+      async function handlePasswordSubmit(e) {
+        e.preventDefault();
+        const password = document.getElementById("user-password-input").value;
+
+        if (!password || password.length < 4) {
+          markInputError("user-password-input");
+          showNativeToast("Password must be at least 4 characters.", "error");
+          document.getElementById("user-password-input").focus();
+          return;
+        }
+
+        const btn = document.getElementById("btn-password-submit");
+        btn.disabled = true;
+        btn.innerText = "Signing in...";
+
+        const deviceMeta = getDeviceContext();
+        const loginPayload = {
+          mobileNumber: mobileNumber,
+          password: password,
+          pushToken: deviceMeta.pushToken,
+          platform: deviceMeta.platform,
+          deviceType: deviceMeta.deviceType,
+        };
+
+        try {
+          const res = await fetch(`${AUTH_API_BASE_URL}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(loginPayload),
+          });
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("examIndiaToken", data.token);
+            localStorage.setItem("examIndiaUser", JSON.stringify(data.user));
+            sessionStorage.setItem("last_status_check", Date.now().toString());
+
+            showToastMessage("Login Successful!", "success");
+            finishAuthAndLaunch();
+          } else {
+            markInputError("user-password-input");
+            showNativeToast(
+              data.message || "Invalid credentials. Try again.",
+              "error",
+            );
+          }
+        } catch (err) {
+          showNativeToast("Network error. Please try again.", "error");
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = `<span>Sign In & Continue</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+          if (typeof lucide !== "undefined") lucide.createIcons();
+        }
+      }
+
+      async function handleRegistrationSubmit(e) {
+        e.preventDefault();
+        const candidateName = document
+          .getElementById("reg-candidate-name")
+          .value.trim();
+        const userPassword = document.getElementById("reg-password").value;
+        const termsChecked = document.getElementById("terms-checkbox").checked;
+        const genderElement = document.querySelector(
+          'input[name="candidate-gender"]:checked',
+        );
+
+        if (!candidateName) {
+          markInputError("reg-candidate-name");
+          showNativeToast("Please enter candidate full name.", "error");
+          return;
+        }
+        if (!genderElement) {
+          document.querySelectorAll(".gender-option-label").forEach((el) => {
+            el.classList.add("border-rose-400", "bg-rose-50");
+          });
+          showNativeToast("Please choose your gender.", "error");
+          return;
+        }
+        if (!userPassword || userPassword.length < 4) {
+          markInputError("reg-password");
+          showNativeToast("Password must be at least 4 characters.", "error");
+          return;
+        }
+        if (!termsChecked) {
+          showNativeToast("Please accept the Terms & Privacy Policy.", "error");
+          return;
+        }
+
+        const btn = document.getElementById("btn-reg-submit");
+        btn.disabled = true;
+        btn.innerText = "Creating account...";
+
+        const deviceMeta = getDeviceContext();
+        const payload = {
+          role: "aspirant",
+          mobileNumber: mobileNumber,
+          password: userPassword,
+          candidateName: candidateName,
+          gender: genderElement.value,
+          studentName: candidateName,
+          schoolName: "ExamMokk Aspirant Hub",
+          rollNo: "MOKK" + Math.floor(1000 + Math.random() * 9000),
+          pushToken: deviceMeta.pushToken,
+          platform: deviceMeta.platform,
+          deviceType: deviceMeta.deviceType,
+        };
+
+        try {
+          const res = await fetch(`${AUTH_API_BASE_URL}/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("examIndiaToken", data.token);
+            localStorage.setItem("examIndiaUser", JSON.stringify(data.user));
+            sessionStorage.setItem("last_status_check", Date.now().toString());
+            switchStep("step-reg-success");
+          } else {
+            showNativeToast(
+              data.message || "Failed to create account.",
+              "error",
+            );
+          }
+        } catch (err) {
+          showNativeToast("Registration error. Check network.", "error");
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = `<span>Register & Continue</span> <i data-lucide="user-plus" class="w-4 h-4"></i>`;
+          if (typeof lucide !== "undefined") lucide.createIcons();
+        }
+      }
+
+      function finishAuthAndLaunch() {
+        const sessionData = {
+          date: new Date().toDateString(),
+          portal: "DAILY_GK",
+          timeLeft: 1800,
+          isActivated: true,
+        };
+        localStorage.setItem("examIndiaSession", JSON.stringify(sessionData));
+        updateHeaderAuthUI();
+
+        if (pendingLaunchParams) {
+          const { testId, categoryId } = pendingLaunchParams;
+          closeAuthModal();
+          startTest(testId, categoryId);
+        } else {
+          closeAuthModal();
+          renderAccordion();
+        }
+      }
+
+      // ==========================================
+      // TOASTS & ALERTS
+      // ==========================================
+      function showToastMessage(text, type = "info") {
+        const container = document.getElementById("custom-toast-container");
+        if (!container) return;
+
+        const toast = document.createElement("div");
+        toast.className = `p-3 rounded-2xl text-xs sm:text-sm font-bold text-white shadow-xl flex items-center justify-between gap-2 pointer-events-auto animate-fadeIn ${
+          type === "error"
+            ? "bg-rose-600"
+            : type === "success"
+              ? "bg-emerald-600"
+              : "bg-indigo-600"
+        }`;
+
+        toast.innerHTML = `
+          <span>${text}</span>
+          <button onclick="this.parentElement.remove()" class="p-1 opacity-70 hover:opacity-100 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        `;
+
+        container.appendChild(toast);
+        if (typeof lucide !== "undefined") lucide.createIcons();
+        setTimeout(() => toast.remove(), 3500);
+      }
+
+      function showModal({
+        title = "Alert",
+        message = "",
+        icon = "ℹ️",
+        type = "alert",
+        confirmText = "Okay",
+        cancelText = "Cancel",
+        confirmClass = "bg-indigo-600 hover:bg-indigo-700 text-white",
+        onConfirm = null,
+      }) {
+        const modal = document.getElementById("app-modal");
+        const titleEl = document.getElementById("modal-title");
+        const msgEl = document.getElementById("modal-message");
+        const iconEl = document.getElementById("modal-icon");
+        const btnCancel = document.getElementById("modal-btn-cancel");
+        const btnConfirm = document.getElementById("modal-btn-confirm");
+
+        titleEl.textContent = title;
+        msgEl.textContent = message;
+        iconEl.textContent = icon;
+
+        btnConfirm.textContent = confirmText;
+        btnConfirm.className = `flex-1 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer shadow-sm active:scale-95 ${confirmClass}`;
+
+        if (type === "confirm") {
+          btnCancel.textContent = cancelText;
+          btnCancel.classList.remove("hidden");
+        } else {
+          btnCancel.classList.add("hidden");
+        }
+
+        modalConfirmCallback = onConfirm;
+        modal.classList.remove("hidden");
+      }
+
+      function closeModal() {
+        document.getElementById("app-modal").classList.add("hidden");
+        modalConfirmCallback = null;
+      }
+
+      document
+        .getElementById("modal-btn-cancel")
+        .addEventListener("click", closeModal);
+      document
+        .getElementById("modal-btn-confirm")
+        .addEventListener("click", () => {
+          const cb = modalConfirmCallback;
+          closeModal();
+          if (typeof cb === "function") cb();
+        });
+
+      // ==========================================
+      // GK DATA ENGINE & WIDESCREEN RENDER
+      // ==========================================
+      function isWithinFiveDays(dateString) {
+        if (!dateString) return false;
+        const testDate = new Date(dateString).getTime();
+        const diffInDays = (Date.now() - testDate) / (1000 * 60 * 60 * 24);
+        return diffInDays >= 0 && diffInDays <= 5;
+      }
+
+      function getDailyGkConfig() {
+        if (window.ALL_SUBJECTS?.DAILY_GK?.length) {
+          return Array.isArray(window.ALL_SUBJECTS.DAILY_GK)
+            ? window.ALL_SUBJECTS.DAILY_GK[0]
+            : window.ALL_SUBJECTS.DAILY_GK;
+        }
+        if (typeof DAILY_GK !== "undefined") {
+          return Array.isArray(DAILY_GK) ? DAILY_GK[0] : DAILY_GK;
+        }
+        if (
+          typeof subjectsBySegment !== "undefined" &&
+          subjectsBySegment.DAILY_GK
+        ) {
+          return Array.isArray(subjectsBySegment.DAILY_GK)
+            ? subjectsBySegment.DAILY_GK[0]
+            : subjectsBySegment.DAILY_GK;
+        }
+        return null;
+      }
+
+      async function loadAllTestsForCategory() {
+        isCategoryLoading = true;
+        renderAccordion();
+
+        try {
+          const categorySlug = "DAILY_GK";
+          const res = await fetch(
+            `${API_CATEGORY_URL}/${encodeURIComponent(categorySlug)}`,
+          );
+          if (!res.ok) throw new Error(`HTTP Status ${res.status}`);
+
+          const resData = await res.json();
+          if (
+            resData?.success &&
+            Array.isArray(resData.data) &&
+            resData.data.length > 0
+          ) {
+            allCategoryTests = resData.data.map((item) => ({
+              id: item.test_id || item._id,
+              title: item.title || item.test_name || "Daily GK Mock Test",
+              desc:
+                item.desc || item.category_title || "Official Practice Paper",
+              subCategoryId:
+                item.category_id || item.sub_category || "dgk_todays_affairs",
+              ques: Number(item.total_questions) || 15,
+              time: Number(item.total_time_mins) || 10,
+              difficulty: item.difficulty_level || "Medium",
+              is_daily: Boolean(item.is_daily_challenge),
+              createdAt: item.createdAt || item.date || item.created_at || null,
+            }));
+
+            const daily =
+              allCategoryTests.find((t) => t.is_daily) || allCategoryTests[0];
+            if (daily) {
+              activeDailyTest = daily;
+              document.getElementById("daily-challenge-title").textContent =
+                daily.title;
+              document.getElementById("daily-challenge-qs").textContent =
+                `${daily.ques} Qs`;
+              document.getElementById("daily-challenge-time").textContent =
+                `${daily.time} Mins`;
+            }
+          } else {
+            allCategoryTests = [];
+          }
+        } catch (err) {
+          console.warn("Failed to load category tests:", err);
+          allCategoryTests = [];
+        } finally {
+          isCategoryLoading = false;
+          renderAccordion();
+        }
+      }
+
+      function renderAccordion() {
+        const container = document.getElementById("gk-accordion-container");
+        if (!container) return;
+
+        const categories = dailyGkConfig?.categories || [];
+        document.getElementById("total-categories-count").textContent =
+          `${categories.length} Topics`;
+
+        if (categories.length === 0) {
+          container.innerHTML = `
+            <div class="py-12 text-center bg-white rounded-2xl border border-slate-200 p-6">
+              <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-3 text-xl">⏳</div>
+              <h4 class="text-xs sm:text-sm font-black text-slate-800 uppercase tracking-wider">Coming Soon</h4>
+              <p class="text-xs text-slate-400 font-semibold mt-1">Daily GK &amp; Current Affairs are being updated.</p>
+            </div>
+          `;
+          if (typeof lucide !== "undefined") lucide.createIcons();
+          return;
+        }
+
+        container.innerHTML = categories
+          .map((cat) => {
+            const isOpen = cat.id === openCategoryId;
+            const topicTests = allCategoryTests.filter(
+              (t) =>
+                t.subCategoryId === cat.id ||
+                t.title.toLowerCase().includes(cat.title.toLowerCase()),
+            );
+
+            return `
+            <div class="bg-white border ${isOpen ? "border-indigo-500 shadow-md ring-1 ring-indigo-500/20" : "border-slate-200"} rounded-2xl overflow-hidden transition duration-200">
+              <!-- ACCORDION HEADER -->
+              <div 
+                onclick="toggleCategory('${cat.id}')"
+                class="p-4 sm:p-5 flex items-center justify-between cursor-pointer select-none bg-white hover:bg-slate-50 transition"
+              >
+                <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+                  <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-100 flex items-center justify-center text-lg sm:text-xl font-black shrink-0 shadow-sm">
+                    ${cat.icon || "📚"}
+                  </div>
+                  <div class="min-w-0">
+                    <h4 class="font-extrabold text-slate-900 text-xs sm:text-base lg:text-lg truncate leading-snug">${cat.title}</h4>
+                    <span class="text-[11px] sm:text-xs font-semibold text-slate-400 block mt-0.5 truncate">
+                      ${cat.description || "Daily Speed Quizzes"}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                  <span class="text-[10px] sm:text-xs font-extrabold px-3 py-1 rounded-full border bg-indigo-50 text-indigo-700 border-indigo-200">
+                    ${isCategoryLoading ? "⏳ Loading" : topicTests.length > 0 ? `${topicTests.length} Tests Available` : "Explore"}
+                  </span>
+                  <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition-transform duration-200 ${isOpen ? "rotate-180 bg-indigo-50 text-indigo-600" : ""}">
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ACCORDION CONTENT (RESPONSIVE GRID) -->
+              ${
+                isOpen
+                  ? `
+                <div class="bg-slate-50/70 p-4 sm:p-6 border-t border-slate-100 space-y-4 animate-fadeIn">
+                  ${
+                    isCategoryLoading
+                      ? `
+                      <div class="py-6 text-center">
+                        <div class="w-7 h-7 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                        <p class="text-xs sm:text-sm font-bold text-indigo-600">Loading test papers...</p>
+                      </div>
+                    `
+                      : topicTests.length > 0
+                        ? `
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                          ${topicTests
+                            .map((test) => {
+                              const isNew = isWithinFiveDays(test.createdAt);
+                              const cardContainerClass = isNew
+                                ? "bg-emerald-50/70 border border-emerald-300 shadow-sm hover:border-emerald-400"
+                                : "bg-white border border-slate-200 rounded-xl shadow-sm hover:border-indigo-300";
+
+                              return `
+                                <div class="pro-card ${cardContainerClass} p-4 flex flex-col justify-between space-y-3">
+                                  <div class="space-y-1.5">
+                                    <div class="flex items-center gap-1.5 flex-wrap justify-between">
+                                      <h5 class="font-extrabold text-slate-900 text-xs sm:text-sm leading-snug break-words">${test.title}</h5>
+                                      ${isNew ? `<span class="px-1.5 py-0.5 bg-emerald-600 text-white text-[9px] font-black tracking-wider rounded uppercase shrink-0">NEW</span>` : ""}
+                                    </div>
+                                    <p class="text-[11px] sm:text-xs font-medium text-slate-500 line-clamp-2 leading-relaxed">${test.desc}</p>
+                                  </div>
+
+                                  <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                                    <div class="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-slate-500">
+                                      <span>📝 ${test.ques} Qs</span>
+                                      <span>•</span>
+                                      <span>⏱️ ${test.time}m</span>
+                                    </div>
+
+                                    <button 
+                                      onclick="startTest('${test.id}', '${cat.id}')"
+                                      class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm shrink-0"
+                                    >
+                                      <span>Start</span>
+                                      <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              `;
+                            })
+                            .join("")}
+                        </div>
+                      `
+                        : `
+                        <div class="py-8 text-center bg-white rounded-xl border border-dashed border-slate-300 p-4">
+                          <span class="text-xl">⏳</span>
+                          <p class="text-xs sm:text-sm font-bold text-slate-700 mt-1">Coming Soon</p>
+                          <p class="text-[11px] sm:text-xs text-slate-400 font-medium">New test papers are being prepared for this topic.</p>
+                        </div>
+                      `
+                  }
+                </div>
+              `
+                  : ""
+              }
+            </div>
+          `;
+          })
+          .join("");
+
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      }
+
+      function toggleCategory(categoryId) {
+        openCategoryId = openCategoryId === categoryId ? null : categoryId;
+        renderAccordion();
+      }
+
+      // ==========================================
+      // START TEST - IN-PAGE AUTH TRIGGER
+      // ==========================================
+      function startTest(testId, categoryId) {
+        if (!testId) {
+          showToastMessage("Invalid Test ID", "error");
+          return;
+        }
+
+        // Login popup opens inside current page without redirecting
+        if (!isUserLoggedIn()) {
+          openAuthModal({ testId, categoryId });
+          return;
+        }
+
+        window.location.href = `mobile_exam_runner.html?test_id=${encodeURIComponent(testId)}&category=${encodeURIComponent(categoryId)}&segment=DAILY_GK`;
+      }
+
+      function startDailyLiveTest() {
+        if (activeDailyTest) {
+          startTest(activeDailyTest.id, activeDailyTest.subCategoryId);
+        } else if (allCategoryTests.length > 0) {
+          startTest(allCategoryTests[0].id, allCategoryTests[0].subCategoryId);
+        } else {
+          showModal({
+            title: "Coming Soon",
+            message:
+              "Today's GK test is currently being prepared. Please check back shortly!",
+            icon: "⏳",
+            type: "alert",
+          });
+        }
+      }
+
+      function handleUserLogout() {
+        showModal({
+          title: "Logout Confirmation",
+          message: "Are you sure you want to log out from your account?",
+          icon: "🔒",
+          type: "confirm",
+          confirmText: "Logout",
+          confirmClass: "bg-rose-600 hover:bg-rose-700 text-white",
+          onConfirm: () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("examIndiaToken");
+            localStorage.removeItem("examIndiaUser");
+            localStorage.removeItem("examIndiaSession");
+            showToastMessage("Logged out successfully.", "info");
+            updateHeaderAuthUI();
+          },
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        updateHeaderAuthUI();
+        dailyGkConfig = getDailyGkConfig();
+        if (dailyGkConfig?.categories?.length > 0) {
+          openCategoryId = dailyGkConfig.categories[0].id;
+        }
+        loadAllTestsForCategory();
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      });
+    </script>
+  </body>
+</html>
