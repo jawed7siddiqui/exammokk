@@ -1039,6 +1039,19 @@
       }
 
       async function initRunner() {
+        // Hydrate Candidate Display Name from LocalStorage
+        try {
+          const userStr =
+            localStorage.getItem("examIndiaUser") ||
+            localStorage.getItem("user") ||
+            "{}";
+          const parsedUser = JSON.parse(userStr);
+          const nameEl = document.getElementById("user-display-name");
+          if (nameEl && (parsedUser.studentName || parsedUser.name)) {
+            nameEl.innerText = parsedUser.studentName || parsedUser.name;
+          }
+        } catch (e) {}
+
         try {
           const cleanTestId = TARGET_TEST_ID.trim();
           let endpoint = `${QUESTION_API_URL}/test/${encodeURIComponent(cleanTestId)}`;
@@ -1441,6 +1454,7 @@
           submitTestFinal();
         }
       }
+
       async function submitTestFinal() {
         clearInterval(mainTimerInterval);
         clearInterval(qTimerInterval);
@@ -1536,26 +1550,47 @@
         const shouldCelebrate =
           scorePercentage > CELEBRATION_PERCENTAGE_THRESHOLD && netScore > 0;
 
-        // User info retrieval
+        // User profile & Auth Token retrieval from LocalStorage
         let studentName = "Guest User";
+        let userId = null;
+        let userMobile = "";
+        let rollNo = "";
+        const authToken =
+          localStorage.getItem("token") ||
+          localStorage.getItem("examIndiaToken") ||
+          null;
+
         try {
-          const localUser = JSON.parse(
-            localStorage.getItem("examIndiaUser") || "{}",
-          );
-          if (localUser.name || localUser.userName) {
-            studentName = localUser.name || localUser.userName;
-          }
+          const userStr =
+            localStorage.getItem("examIndiaUser") ||
+            localStorage.getItem("user") ||
+            "{}";
+          const localUser = JSON.parse(userStr);
+          userId = localUser._id || localUser.id || localUser.userId || null;
+          studentName =
+            localUser.studentName ||
+            localUser.name ||
+            localUser.userName ||
+            studentName;
+          userMobile = localUser.mobileNumber || localUser.mobile || "";
+          rollNo = localUser.rollNo || "";
         } catch (e) {}
 
-        // 🚀 PREPARE API PAYLOAD
+        // PREPARE COMPLETE API PAYLOAD WITH USER METADATA
         const payload = {
           test_id: TARGET_TEST_ID,
           platform: "web",
+          user_id: userId,
+          student_id: userId,
+          userId: userId,
+          student_name: studentName,
+          candidate_name: studentName,
+          mobile_number: userMobile,
+          roll_no: rollNo,
           exam_category: activePreset.id,
           class_or_exam_name: testMeta.title,
           subject: testMeta.subject,
           subject_id: testMeta.subject_id,
-          student_name: studentName,
           applied_exam_profile: activePreset.id,
           marking_scheme_applied: {
             marks_per_question: activePreset.marks,
@@ -1564,6 +1599,8 @@
           max_score: maxScore,
           positive_marks_gained: positiveGained,
           negative_marks_deducted: negativeDeducted,
+          net_score: netScore,
+          score_obtained: netScore,
           total_correct: correctCount,
           total_wrong: wrongCount,
           total_unattempted: unattemptedCount,
@@ -1573,14 +1610,20 @@
           question_breakdown: breakdown,
         };
 
-        // 📡 HIT POST API IN BACKGROUND
+        // PREPARE API HEADERS WITH AUTH TOKEN
+        const apiHeaders = {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        };
+        if (authToken) {
+          apiHeaders["Authorization"] = `Bearer ${authToken}`;
+        }
+
+        // HIT POST API
         try {
           fetch(SUBMIT_RESULT_API_URL, {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
+            headers: apiHeaders,
             body: JSON.stringify(payload),
           })
             .then(async (response) => {
