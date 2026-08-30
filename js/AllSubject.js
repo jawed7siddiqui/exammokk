@@ -191,7 +191,7 @@ const subjectsBySegment = {
     {
       id: "bpsc_core_general_science",
       apiSubject: "General Science",
-      name: "BPSC General Science Core",
+      name: "BPSC",
       icon: "🧪",
       color: "bg-blue-600",
       badgeColor: "badge bg-blue-50 text-blue-700 border border-blue-200",

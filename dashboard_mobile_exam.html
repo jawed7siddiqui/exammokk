@@ -364,7 +364,9 @@
 
     <!-- JAVASCRIPT ENGINE -->
     <script>
-      const BASE_API_URL =
+      const BASE_CATEGORY_API_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/category";
+      const BASE_SUBJECT_API_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/subject";
       const SCOREBOARD_API_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/test/questions/scoreboard";
@@ -419,8 +421,8 @@
       let selectedTestForPurchase = null;
       let activeDailyTest = null;
       let expandedSubjectsMap = {};
+      let allLoadedCategoryTests = [];
 
-      // Extracts correct user details & id from examIndiaUser in localStorage
       function getActiveLocalUser() {
         const possibleKeys = [
           "examIndiaUser",
@@ -577,133 +579,176 @@
         }
       }
 
-      // 5. FETCH & SMART LEVEL SORTING ENGINE
-      async function fetchSubjectTests(subjObj) {
-        if (!subjObj) return;
-
-        subjObj.loading = true;
-        subjObj.hasError = false;
-        renderAccordion();
+      // LOAD ALL TESTS FOR CURRENT STREAM (CATEGORY-BASED)
+      async function loadAllStreamTests() {
+        const container = document.getElementById(
+          "subjects-accordion-container",
+        );
+        container.innerHTML = `
+          <div class="py-8 text-center bg-white rounded-2xl border border-slate-200/80 p-4">
+            <div class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+            <p class="text-xs font-bold text-indigo-600">Loading ${currentSegment} mock tests...</p>
+          </div>
+        `;
 
         try {
-          const activeUser = getActiveLocalUser();
-          const apiQuery = subjObj.apiSubject || subjObj.name;
-          const res = await fetch(
-            `${BASE_API_URL}/${encodeURIComponent(apiQuery)}?student_id=${encodeURIComponent(activeUser.id)}`,
+          let res = await fetch(
+            `${BASE_CATEGORY_API_URL}/${encodeURIComponent(currentSegment)}`,
           );
 
           if (!res.ok) {
-            throw new Error(`HTTP ${res.status}`);
+            res = await fetch(
+              `${BASE_SUBJECT_API_URL}/${encodeURIComponent(currentSegment)}`,
+            );
           }
 
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const resData = await res.json();
 
-          if (
-            resData?.success &&
-            Array.isArray(resData.data) &&
-            resData.data.length > 0
-          ) {
-            const rawItems = resData.data.map((item) => ({
-              id: item.test_id || item._id,
+          if (resData?.success && Array.isArray(resData.data)) {
+            allLoadedCategoryTests = resData.data;
+          } else if (Array.isArray(resData)) {
+            allLoadedCategoryTests = resData;
+          } else {
+            allLoadedCategoryTests = [];
+          }
+
+          processAndDistributeTests();
+        } catch (err) {
+          console.warn("Category fetch failed, trying per-subject:", err);
+          await loadTestsPerSubjectFallback();
+        }
+      }
+
+      async function loadTestsPerSubjectFallback() {
+        const activeList = getCurrentSubjectList();
+        allLoadedCategoryTests = [];
+
+        for (const subj of activeList) {
+          try {
+            const apiQuery = subj.apiSubject || subj.name;
+            const res = await fetch(
+              `${BASE_SUBJECT_API_URL}/${encodeURIComponent(apiQuery)}`,
+            );
+            if (res.ok) {
+              const d = await res.json();
+              if (d?.success && Array.isArray(d.data)) {
+                allLoadedCategoryTests.push(...d.data);
+              }
+            }
+          } catch (e) {}
+        }
+        processAndDistributeTests();
+      }
+
+      function processAndDistributeTests() {
+        const activeList = getCurrentSubjectList();
+
+        activeList.forEach((subj) => {
+          const matchedTests = allLoadedCategoryTests.filter((item) => {
+            const matchSubjectId =
+              item.subject_id &&
+              subj.id &&
+              item.subject_id.toLowerCase() === subj.id.toLowerCase();
+
+            const matchSubjectName =
+              item.subject &&
+              subj.name &&
+              item.subject.toLowerCase() === subj.name.toLowerCase();
+
+            const matchApiSubject =
+              item.subject &&
+              subj.apiSubject &&
+              item.subject.toLowerCase() === subj.apiSubject.toLowerCase();
+
+            return matchSubjectId || matchSubjectName || matchApiSubject;
+          });
+
+          const candidateTests =
+            matchedTests.length > 0
+              ? matchedTests
+              : activeList.length === 1
+                ? allLoadedCategoryTests
+                : [];
+
+          const rawItems = candidateTests.map((item) => {
+            const cfg = item.config || {};
+            const finalTestId = item.test_id || item._id || item.id;
+
+            return {
+              id: finalTestId,
               title:
-                item.title || item.test_name || `${subjObj.name} Mock Test`,
+                item.title ||
+                item.test_name ||
+                item.category_title ||
+                `${subj.name} Mock Test`,
               rawLevel: item.level ? Number(item.level) : null,
               desc:
                 item.desc || item.category_title || "Official Practice Paper",
               ques: Number(item.total_questions) || 15,
               time: Number(item.total_time_mins) || 15,
-              access_type: item.access_type || "free",
-              price: item.price || 0,
-              discounted_price: item.discounted_price || 0,
-              difficulty: item.difficulty_level || "Medium",
-              is_daily: Boolean(item.is_daily_challenge),
-              included_in_pass: item.included_in_pass !== false,
+              access_type: cfg.access_type || item.access_type || "free",
+              price: cfg.price ?? item.price ?? 0,
+              discounted_price:
+                cfg.discounted_price ?? item.discounted_price ?? 0,
+              difficulty:
+                cfg.difficulty_level || item.difficulty_level || "Medium",
+              is_daily: Boolean(
+                cfg.is_daily_challenge ?? item.is_daily_challenge,
+              ),
+              included_in_pass:
+                (cfg.included_in_pass ?? item.included_in_pass) !== false,
               exam_category: item.exam_category || currentSegment,
               createdAt: item.createdAt || item.date || null,
-            }));
+            };
+          });
 
-            // Separate tests with explicit level vs missing level
-            const explicitLevelTests = rawItems
-              .filter((item) => item.rawLevel !== null && item.rawLevel > 0)
-              .sort((a, b) => a.rawLevel - b.rawLevel);
+          const explicitLevelTests = rawItems
+            .filter((item) => item.rawLevel !== null && item.rawLevel > 0)
+            .sort((a, b) => a.rawLevel - b.rawLevel);
 
-            const missingLevelTests = rawItems.filter(
-              (item) => item.rawLevel === null || item.rawLevel <= 0,
-            );
+          const missingLevelTests = rawItems.filter(
+            (item) => item.rawLevel === null || item.rawLevel <= 0,
+          );
 
-            let nextAutoLevel =
-              explicitLevelTests.length > 0
-                ? explicitLevelTests[explicitLevelTests.length - 1].rawLevel + 1
-                : 1;
+          let nextAutoLevel =
+            explicitLevelTests.length > 0
+              ? explicitLevelTests[explicitLevelTests.length - 1].rawLevel + 1
+              : 1;
 
-            const incrementedMissingTests = missingLevelTests.map((item) => {
-              const assigned = nextAutoLevel;
-              nextAutoLevel++;
-              return {
-                ...item,
-                level: assigned,
-              };
-            });
+          const incrementedMissingTests = missingLevelTests.map((item) => ({
+            ...item,
+            level: nextAutoLevel++,
+          }));
 
-            subjObj.categories = [
-              ...explicitLevelTests.map((t) => ({ ...t, level: t.rawLevel })),
-              ...incrementedMissingTests,
-            ];
-          } else {
-            if (Array.isArray(subjObj.categories)) {
-              subjObj.categories = subjObj.categories.map((c, idx) => ({
-                id: c.id,
-                title: c.title,
-                level: idx + 1,
-                desc: c.description || `${subjObj.name} Practice Chapter`,
-                ques: 15,
-                time: 15,
-                access_type: "free",
-                price: 0,
-                discounted_price: 0,
-                difficulty: "Medium",
-                is_daily: false,
-                included_in_pass: true,
-                exam_category: currentSegment,
-                createdAt: null,
-              }));
-            }
-          }
+          subj.categories = [
+            ...explicitLevelTests.map((t) => ({ ...t, level: t.rawLevel })),
+            ...incrementedMissingTests,
+          ];
+          subj.loaded = true;
+          subj.loading = false;
+        });
 
-          let dailyItem =
-            subjObj.categories.find((c) => c.is_daily) || subjObj.categories[0];
-
-          if (dailyItem) {
-            activeDailyTest = dailyItem;
-            document.getElementById("daily-challenge-subject").textContent =
-              subjObj.name;
-            document.getElementById("daily-challenge-title").textContent =
-              dailyItem.title;
-            document.getElementById("daily-challenge-qs").textContent =
-              `${dailyItem.ques} Qs`;
-            document.getElementById("daily-challenge-time").textContent =
-              `${dailyItem.time} Mins`;
-          }
-
-          subjObj.loaded = true;
-        } catch (error) {
-          console.error("Fetch subject tests failed:", error);
-          subjObj.hasError = true;
-          subjObj.errorMessage = "Failed to load test sets.";
-        } finally {
-          subjObj.loading = false;
-          renderAccordion();
+        // Set Daily Challenge Banner
+        const allTests = activeList.flatMap((s) => s.categories || []);
+        const dailyItem = allTests.find((c) => c.is_daily) || allTests[0];
+        if (dailyItem) {
+          activeDailyTest = dailyItem;
+          document.getElementById("daily-challenge-subject").textContent =
+            dailyItem.exam_category || currentSegment;
+          document.getElementById("daily-challenge-title").textContent =
+            dailyItem.title;
+          document.getElementById("daily-challenge-qs").textContent =
+            `${dailyItem.ques} Qs`;
+          document.getElementById("daily-challenge-time").textContent =
+            `${dailyItem.time} M`;
         }
-      }
 
-      function openFirstSubject() {
-        const activeList = getCurrentSubjectList();
-        if (activeList.length > 0) {
+        if (activeList.length > 0 && !openSubjectId) {
           openSubjectId = activeList[0].id;
-          fetchSubjectTests(activeList[0]);
-        } else {
-          renderAccordion();
         }
+
+        renderAccordion();
       }
 
       function toggleSubjectMore(subId) {
@@ -719,7 +764,7 @@
         const isUserPremium = getUserPremiumStatus();
 
         document.getElementById("total-subjects-count").textContent =
-          `${activeList.length} Subjects`;
+          `${activeList.length} Sets`;
 
         if (activeList.length === 0) {
           container.innerHTML = `
@@ -765,31 +810,17 @@
                   <div class="min-w-0">
                     <h4 class="font-extrabold text-slate-800 text-xs truncate leading-snug">${subj.name}</h4>
                     <span class="text-[10px] font-semibold text-slate-400 block mt-0.5">
-                      ${
-                        subj.loading
-                          ? "Loading test papers..."
-                          : subj.hasError
-                            ? "Error loading papers"
-                            : `${categoryCount} Mock Tests / Sets`
-                      }
+                      ${categoryCount} Mock Tests / Sets
                     </span>
                   </div>
                 </div>
 
                 <div class="flex items-center gap-2 shrink-0">
                   <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${
-                    subj.hasError
-                      ? "bg-rose-50 text-rose-600 border-rose-200"
-                      : subj.badgeColor ||
-                        "bg-indigo-50 text-indigo-700 border-indigo-200"
+                    subj.badgeColor ||
+                    "bg-indigo-50 text-indigo-700 border-indigo-200"
                   }">
-                    ${
-                      subj.loading
-                        ? "⏳ Loading"
-                        : subj.hasError
-                          ? "⚠️ Error"
-                          : `${categoryCount} Tests`
-                    }
+                    ${categoryCount} Tests
                   </span>
                   <div class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition-transform duration-200 ${
                     isOpen ? "rotate-180 bg-indigo-50 text-indigo-600" : ""
@@ -805,24 +836,8 @@
                   ? `
                 <div class="bg-slate-50/80 p-3 border-t border-slate-100 space-y-2 animate-fadeIn">
                   ${
-                    subj.loading
+                    categoryCount > 0
                       ? `
-                      <div class="py-5 text-center">
-                        <div class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-                        <p class="text-xs font-bold text-indigo-600">Loading ${subj.name} Papers...</p>
-                      </div>
-                    `
-                      : subj.hasError
-                        ? `
-                      <div class="py-4 text-center">
-                        <p class="text-xs font-bold text-rose-500 mb-2">${subj.errorMessage || "Failed to load tests."}</p>
-                        <button onclick="event.stopPropagation(); fetchSubjectTests(window.getSubjectById ? window.getSubjectById('${subj.id}') : { id: '${subj.id}', name: '${subj.name}', apiSubject: '${subj.apiSubject || subj.name}' })" class="px-3.5 py-1.5 bg-rose-50 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold cursor-pointer">
-                          Retry
-                        </button>
-                      </div>
-                    `
-                        : categoryCount > 0
-                          ? `
                       <div class="space-y-2">
                         ${visibleCategories
                           .map((cat) => {
@@ -943,7 +958,7 @@
                         }
                       </div>
                     `
-                          : `<div class="py-4 text-center text-slate-400 font-bold text-xs">📂 No tests found in this category.</div>`
+                      : `<div class="py-4 text-center text-slate-400 font-bold text-xs">📂 No tests found in this category.</div>`
                   }
                 </div>
               `
@@ -958,26 +973,25 @@
       }
 
       function toggleSubject(id) {
-        if (openSubjectId === id) {
-          openSubjectId = null;
-        } else {
-          openSubjectId = id;
-          const subj = getCurrentSubjectList().find((s) => s.id === id);
-          if (subj && !subj.loaded && !subj.loading) {
-            fetchSubjectTests(subj);
-            return;
-          }
-        }
+        openSubjectId = openSubjectId === id ? null : id;
         renderAccordion();
       }
 
+      // WEB VIEW JAISE SAME RUNNER URL REDIRECTION
       function startTest(testId, examCategory, level = 1) {
-        const activeUser = getActiveLocalUser();
-        window.location.href = `mobile_exam_runner.html?test_id=${encodeURIComponent(testId)}&level=${level}&segment=${encodeURIComponent(examCategory || currentSegment)}&student_id=${encodeURIComponent(activeUser.id)}`;
+        if (!testId) {
+          showToastMessage("Invalid Test ID", "error");
+          return;
+        }
+
+        const targetSegment = examCategory || currentSegment || "SSC";
+        const targetLevel = level || 1;
+
+        window.location.href = `/mobile_exam_runner.html?test_id=${encodeURIComponent(testId)}&level=${encodeURIComponent(targetLevel)}&segment=${encodeURIComponent(targetSegment)}`;
       }
 
       function startDailyTest() {
-        if (activeDailyTest) {
+        if (activeDailyTest && activeDailyTest.id) {
           startTest(
             activeDailyTest.id,
             activeDailyTest.exam_category,
@@ -986,8 +1000,10 @@
         } else {
           const list = getCurrentSubjectList();
           const firstCat = list[0]?.categories?.[0];
-          if (firstCat) {
+          if (firstCat && firstCat.id) {
             startTest(firstCat.id, firstCat.exam_category, firstCat.level || 1);
+          } else {
+            showToastMessage("No active tests found!", "error");
           }
         }
       }
@@ -1049,7 +1065,7 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         syncHeaderUI();
-        openFirstSubject();
+        loadAllStreamTests();
         fetchRecentUserScore();
         if (typeof lucide !== "undefined") lucide.createIcons();
       });

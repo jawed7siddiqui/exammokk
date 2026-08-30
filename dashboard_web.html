@@ -78,7 +78,7 @@
     <main
       class="flex-grow py-4 sm:py-8 px-3.5 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-5"
     >
-      <!-- STREAM TITLE + LIVE CHALLENGE HERO BANNER (SLIM PRO BANNER) -->
+      <!-- STREAM TITLE + LIVE CHALLENGE HERO BANNER -->
       <div
         class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-white shadow-xl shadow-slate-950/10 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
       >
@@ -222,7 +222,9 @@
     <script src="/js/layout.js"></script>
 
     <script>
-      const BASE_API_URL =
+      const BASE_CATEGORY_API_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/category";
+      const BASE_SUBJECT_API_URL =
         "https://exam-api.jawedsiddiqui.cloud/api/kidspaint/subject";
 
       const urlParams = new URLSearchParams(window.location.search);
@@ -252,6 +254,7 @@
       let openSubjectId = null;
       let activeDailyTest = null;
       let expandedSubjectsMap = {};
+      let allLoadedCategoryTests = [];
 
       function showToastMessage(text, type = "info") {
         const container = document.getElementById("custom-toast-container");
@@ -337,120 +340,187 @@
         document.getElementById("page-header-title").innerText = meta.title;
       }
 
-      async function fetchSubjectTests(subjObj) {
-        if (!subjObj) return;
-        subjObj.loading = true;
-        subjObj.hasError = false;
-        renderAccordion();
+      // LOAD ALL TESTS FOR THIS STREAM (EXAM_CATEGORY)
+      async function loadAllStreamTests() {
+        const container = document.getElementById(
+          "subjects-accordion-container",
+        );
+        container.innerHTML = `
+          <div class="py-10 text-center bg-white rounded-2xl border border-slate-200 p-4">
+            <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600 mb-2"></div>
+            <p class="text-xs font-bold text-indigo-600">Loading tests for ${currentSegment}...</p>
+          </div>
+        `;
 
         try {
-          const apiQuery = subjObj.apiSubject || subjObj.name;
-          const res = await fetch(
-            `${BASE_API_URL}/${encodeURIComponent(apiQuery)}`,
+          // 1. Try Category route first
+          let res = await fetch(
+            `${BASE_CATEGORY_API_URL}/${encodeURIComponent(currentSegment)}`,
           );
+
+          // 2. Fallback to Subject query if category endpoint is empty/different
+          if (!res.ok) {
+            res = await fetch(
+              `${BASE_SUBJECT_API_URL}/${encodeURIComponent(currentSegment)}`,
+            );
+          }
+
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const resData = await res.json();
 
-          if (
-            resData?.success &&
-            Array.isArray(resData.data) &&
-            resData.data.length > 0
-          ) {
-            const rawItems = resData.data.map((item) => ({
-              id: item.test_id || item._id,
+          if (resData?.success && Array.isArray(resData.data)) {
+            allLoadedCategoryTests = resData.data;
+          } else if (Array.isArray(resData)) {
+            allLoadedCategoryTests = resData;
+          } else {
+            allLoadedCategoryTests = [];
+          }
+
+          processAndDistributeTests();
+        } catch (err) {
+          console.warn(
+            "Primary category fetch failed, trying per-subject:",
+            err,
+          );
+          await loadTestsPerSubjectFallback();
+        }
+      }
+
+      // Fallback: If Category route fails, fetch per-subject
+      async function loadTestsPerSubjectFallback() {
+        const activeList = getCurrentSubjectList();
+        allLoadedCategoryTests = [];
+
+        for (const subj of activeList) {
+          try {
+            const apiQuery = subj.apiSubject || subj.name;
+            const res = await fetch(
+              `${BASE_SUBJECT_API_URL}/${encodeURIComponent(apiQuery)}`,
+            );
+            if (res.ok) {
+              const d = await res.json();
+              if (d?.success && Array.isArray(d.data)) {
+                allLoadedCategoryTests.push(...d.data);
+              }
+            }
+          } catch (e) {}
+        }
+        processAndDistributeTests();
+      }
+
+      // MAP DB TESTS TO ACCORDION SUBJECTS (MATCHED WITH ADMIN SAVED SCHEMA)
+      function processAndDistributeTests() {
+        const activeList = getCurrentSubjectList();
+
+        activeList.forEach((subj) => {
+          // 1. Filter tests belonging to this subject
+          const matchedTests = allLoadedCategoryTests.filter((item) => {
+            const matchSubjectId =
+              item.subject_id &&
+              subj.id &&
+              item.subject_id.toLowerCase() === subj.id.toLowerCase();
+
+            const matchSubjectName =
+              item.subject &&
+              subj.name &&
+              item.subject.toLowerCase() === subj.name.toLowerCase();
+
+            const matchApiSubject =
+              item.subject &&
+              subj.apiSubject &&
+              item.subject.toLowerCase() === subj.apiSubject.toLowerCase();
+
+            return matchSubjectId || matchSubjectName || matchApiSubject;
+          });
+
+          // If no specific match and there's only 1 subject, map all
+          const candidateTests =
+            matchedTests.length > 0
+              ? matchedTests
+              : activeList.length === 1
+                ? allLoadedCategoryTests
+                : [];
+
+          const rawItems = candidateTests.map((item) => {
+            const cfg = item.config || {};
+
+            // Exact test_id saved by backend
+            const finalTestId = item.test_id || item._id || item.id;
+
+            return {
+              id: finalTestId,
               title:
-                item.title || item.test_name || `${subjObj.name} Mock Test`,
+                item.title ||
+                item.test_name ||
+                item.category_title ||
+                `${subj.name} Mock Test`,
               rawLevel: item.level ? Number(item.level) : null,
               desc:
                 item.desc || item.category_title || "Official Practice Paper",
               ques: Number(item.total_questions) || 15,
               time: Number(item.total_time_mins) || 15,
-              access_type: item.access_type || "free",
-              price: item.price || 0,
-              discounted_price: item.discounted_price || 0,
-              difficulty: item.difficulty_level || "Medium",
-              is_daily: Boolean(item.is_daily_challenge),
-              included_in_pass: item.included_in_pass !== false,
+              access_type: cfg.access_type || item.access_type || "free",
+              price: cfg.price ?? item.price ?? 0,
+              discounted_price:
+                cfg.discounted_price ?? item.discounted_price ?? 0,
+              difficulty:
+                cfg.difficulty_level || item.difficulty_level || "Medium",
+              is_daily: Boolean(
+                cfg.is_daily_challenge ?? item.is_daily_challenge,
+              ),
+              included_in_pass:
+                (cfg.included_in_pass ?? item.included_in_pass) !== false,
               exam_category: item.exam_category || currentSegment,
               createdAt: item.createdAt || item.date || null,
-            }));
+            };
+          });
 
-            // Separate tests with explicit level vs missing level
-            const explicitLevelTests = rawItems
-              .filter((item) => item.rawLevel !== null && item.rawLevel > 0)
-              .sort((a, b) => a.rawLevel - b.rawLevel);
+          // Sort by Level
+          const explicitLevelTests = rawItems
+            .filter((item) => item.rawLevel !== null && item.rawLevel > 0)
+            .sort((a, b) => a.rawLevel - b.rawLevel);
 
-            const missingLevelTests = rawItems.filter(
-              (item) => item.rawLevel === null || item.rawLevel <= 0,
-            );
+          const missingLevelTests = rawItems.filter(
+            (item) => item.rawLevel === null || item.rawLevel <= 0,
+          );
 
-            let nextAutoLevel =
-              explicitLevelTests.length > 0
-                ? explicitLevelTests[explicitLevelTests.length - 1].rawLevel + 1
-                : 1;
+          let nextAutoLevel =
+            explicitLevelTests.length > 0
+              ? explicitLevelTests[explicitLevelTests.length - 1].rawLevel + 1
+              : 1;
 
-            const incrementedMissingTests = missingLevelTests.map((item) => {
-              const assigned = nextAutoLevel;
-              nextAutoLevel++;
-              return {
-                ...item,
-                level: assigned,
-              };
-            });
+          const incrementedMissingTests = missingLevelTests.map((item) => ({
+            ...item,
+            level: nextAutoLevel++,
+          }));
 
-            // Level 1, 2 upar, incremented tests unke baad
-            subjObj.categories = [
-              ...explicitLevelTests.map((t) => ({ ...t, level: t.rawLevel })),
-              ...incrementedMissingTests,
-            ];
-          } else if (Array.isArray(subjObj.categories)) {
-            subjObj.categories = subjObj.categories.map((c, idx) => ({
-              id: c.id,
-              title: `${c.title}`,
-              level: idx + 1,
-              desc: c.description || `${subjObj.name} Practice Chapter`,
-              ques: 15,
-              time: 15,
-              access_type: "free",
-              price: 0,
-              discounted_price: 0,
-              difficulty: "Medium",
-              is_daily: false,
-              included_in_pass: true,
-              exam_category: currentSegment,
-              createdAt: null,
-            }));
-          }
+          subj.categories = [
+            ...explicitLevelTests.map((t) => ({ ...t, level: t.rawLevel })),
+            ...incrementedMissingTests,
+          ];
+          subj.loaded = true;
+          subj.loading = false;
+        });
 
-          let dailyItem =
-            subjObj.categories.find((c) => c.is_daily) || subjObj.categories[0];
-          if (dailyItem) {
-            activeDailyTest = dailyItem;
-            document.getElementById("daily-challenge-title").innerText =
-              dailyItem.title;
-            document.getElementById("daily-challenge-qs").innerText =
-              `📝 ${dailyItem.ques} Qs`;
-            document.getElementById("daily-challenge-time").innerText =
-              `⏱️ ${dailyItem.time} Mins`;
-          }
-
-          subjObj.loaded = true;
-        } catch (error) {
-          subjObj.hasError = true;
-        } finally {
-          subjObj.loading = false;
-          renderAccordion();
+        // Set Daily Challenge from loaded tests
+        const allTests = activeList.flatMap((s) => s.categories || []);
+        const dailyItem = allTests.find((c) => c.is_daily) || allTests[0];
+        if (dailyItem) {
+          activeDailyTest = dailyItem;
+          document.getElementById("daily-challenge-title").innerText =
+            dailyItem.title;
+          document.getElementById("daily-challenge-qs").innerText =
+            `📝 ${dailyItem.ques} Qs`;
+          document.getElementById("daily-challenge-time").innerText =
+            `⏱️ ${dailyItem.time} Mins`;
         }
-      }
 
-      function openFirstSubject() {
-        const activeList = getCurrentSubjectList();
-        if (activeList.length > 0) {
+        // Open first subject by default
+        if (activeList.length > 0 && !openSubjectId) {
           openSubjectId = activeList[0].id;
-          fetchSubjectTests(activeList[0]);
-        } else {
-          renderAccordion();
         }
+
+        renderAccordion();
       }
 
       function toggleSubjectMore(subId) {
@@ -485,7 +555,6 @@
             const categoryCount = allCategories.length;
             const isExpanded = Boolean(expandedSubjectsMap[subj.id]);
 
-            // Web view: show max 3 initial cards, click to expand rest
             const visibleCategories = isExpanded
               ? allCategories
               : allCategories.slice(0, 3);
@@ -522,10 +591,8 @@
                   ? `
                 <div class="bg-slate-50/60 p-3 sm:p-4 border-t border-slate-100 space-y-3 animate-fadeIn">
                   ${
-                    subj.loading
-                      ? `<div class="py-6 text-center text-xs font-bold text-indigo-600">Loading tests...</div>`
-                      : categoryCount > 0
-                        ? `
+                    categoryCount > 0
+                      ? `
                         <div class="space-y-3">
                           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                             ${visibleCategories
@@ -596,7 +663,7 @@
                                             ? `
                                           <button 
                                             onclick="startTest('${cat.id}', '${cat.exam_category}', ${cat.level || 1})"
-                                            class="px-3.5 py-1.5 ${isNew ? "bg-emerald-600 hover:bg-emerald-700" : "bg-indigo-600 hover:bg-indigo-700"} active:scale-95 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
+                                            class="px-3.5 py-1.5 ${isNew ? "bg-emerald-600 hover:bg-emerald-700" : "bg-indigo-600 hover:bg-indigo-700"} active:scale-95 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs"
                                           >
                                             <span>Start</span>
                                             <i data-lucide="play" class="w-3 h-3 fill-current"></i>
@@ -605,7 +672,7 @@
                                             : `
                                           <button 
                                             onclick='openPaywall(${catJsonEscaped})'
-                                            class="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
+                                            class="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs"
                                           >
                                             <i data-lucide="lock" class="w-3 h-3"></i>
                                             <span>Unlock</span>
@@ -620,7 +687,7 @@
                               .join("")}
                           </div>
 
-                          <!-- MINIMAL TOGGLE ARROW BUTTON FOR WEB (IF > 3 TESTS) -->
+                          <!-- TOGGLE BUTTON IF > 3 TESTS -->
                           ${
                             categoryCount > 3
                               ? `
@@ -641,7 +708,7 @@
                           }
                         </div>
                       `
-                        : `<div class="py-4 text-center text-slate-400 font-bold text-xs">No tests available.</div>`
+                      : `<div class="py-4 text-center text-slate-400 font-bold text-xs">No tests available for this module.</div>`
                   }
                 </div>
               `
@@ -656,21 +723,23 @@
       }
 
       function toggleSubject(id) {
-        if (openSubjectId === id) {
-          openSubjectId = null;
-        } else {
-          openSubjectId = id;
-          const subj = getCurrentSubjectList().find((s) => s.id === id);
-          if (subj && !subj.loaded && !subj.loading) {
-            fetchSubjectTests(subj);
-            return;
-          }
-        }
+        openSubjectId = openSubjectId === id ? null : id;
         renderAccordion();
       }
 
       function startTest(testId, examCategory, level = 1) {
-        window.location.href = `/test/runner?test_id=${encodeURIComponent(testId)}&level=${level}&segment=${encodeURIComponent(examCategory || currentSegment)}`;
+        if (!testId) {
+          showToastMessage("Invalid Test ID", "error");
+          return;
+        }
+
+        const targetSegment = examCategory || currentSegment || "SSC";
+        const targetLevel = level || 1;
+
+        // Exact Web View Redirection URL
+        const runnerUrl = `/test/runner?test_id=${encodeURIComponent(testId)}&level=${encodeURIComponent(targetLevel)}&segment=${encodeURIComponent(targetSegment)}`;
+
+        window.location.href = runnerUrl;
       }
 
       function startDailyTest() {
@@ -727,7 +796,7 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         syncHeaderUI();
-        openFirstSubject();
+        loadAllStreamTests();
         if (typeof lucide !== "undefined") lucide.createIcons();
       });
     </script>
