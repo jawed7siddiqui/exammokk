@@ -1,0 +1,1315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kidspaint AI — Official Executive Pitch Deck</title>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- jsPDF for direct PDF download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 24px 16px;
+        background: #0f172a;
+        font-family:
+          "Plus Jakarta Sans",
+          -apple-system,
+          sans-serif;
+        color: #0f172a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .top-nav {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .btn-download {
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        padding: 12px 24px;
+        font-size: 14.5px;
+        font-weight: 700;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: background 0.2s;
+      }
+      .btn-download:hover {
+        background: #1d4ed8;
+      }
+      .btn-secondary {
+        background: #1e293b;
+        color: #f1f5f9;
+        border: 1px solid #334155;
+        padding: 12px 20px;
+        font-size: 14.5px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .btn-secondary:hover {
+        background: #334155;
+      }
+      #deckCanvas {
+        width: 100%;
+        max-width: 1200px;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+        background: #ffffff;
+      }
+      .bottom-nav {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 16px;
+        padding: 10px 16px;
+        background: #1e293b;
+        border-radius: 8px;
+      }
+      .nav-btn {
+        background: #334155;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        font-weight: 700;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .nav-btn:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Action Bar -->
+    <div class="top-nav">
+      <div>
+        <h2
+          style="margin: 0; color: #f8fafc; font-size: 20px; font-weight: 800"
+        >
+          Kidspaint AI — Investor & School Presentation
+        </h2>
+        <span style="color: #94a3b8; font-size: 13px; font-weight: 500">
+          Clean & Pro Standard (1200 × 675 px) • 13 Master Slides
+        </span>
+      </div>
+
+      <div style="display: flex; gap: 10px">
+        <button id="downloadPdfBtn" class="btn-download">
+          📄 Download Full 13-Page PDF
+        </button>
+        <button id="exportPngBtn" class="btn-secondary">
+          🖼️ Export Current Slide (PNG)
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Canvas -->
+    <canvas id="deckCanvas" width="1200" height="675"></canvas>
+
+    <!-- Bottom Controls -->
+    <div class="bottom-nav">
+      <button id="prevBtn" class="nav-btn">◀ Previous</button>
+      <div
+        id="slideCounter"
+        style="color: #38bdf8; font-weight: 700; font-size: 14px"
+      >
+        Slide 1 of 13
+      </div>
+      <div id="pills" style="display: flex; gap: 6px"></div>
+      <button id="nextBtn" class="nav-btn">Next ▶</button>
+    </div>
+
+    <!-- Offscreen canvas for PDF loop -->
+    <canvas
+      id="offCanvas"
+      width="1200"
+      height="675"
+      style="display: none"
+    ></canvas>
+
+    <script>
+      const canvas = document.getElementById("deckCanvas");
+      const ctx = canvas.getContext("2d");
+      let currentSlide = 0;
+      const totalSlides = 13;
+
+      // Clean rounded card helper
+      function roundRect(c, x, y, w, h, r) {
+        c.beginPath();
+        c.moveTo(x + r, y);
+        c.lineTo(x + w - r, y);
+        c.quadraticCurveTo(x + w, y, x + w, y + r);
+        c.lineTo(x + w, y + h - r);
+        c.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        c.lineTo(x + r, y + h);
+        c.quadraticCurveTo(x, y + h, x, y + h - r);
+        c.lineTo(x, y + r);
+        c.quadraticCurveTo(x, y, x + r, y);
+        c.closePath();
+      }
+
+      // Base Master Slide (Clean, Simple, Professional Slate/White theme)
+      function drawCleanBase(c, idx, sectionTag) {
+        c.clearRect(0, 0, 1200, 675);
+
+        // 1. Off-white clean background
+        c.fillStyle = "#ffffff";
+        c.fillRect(0, 0, 1200, 675);
+
+        // 2. Very light minimal grid
+        c.fillStyle = "#f1f5f9";
+        for (let x = 30; x < 1200; x += 36) {
+          for (let y = 30; y < 675; y += 36) {
+            c.beginPath();
+            c.arc(x, y, 1.2, 0, Math.PI * 2);
+            c.fill();
+          }
+        }
+
+        // 3. Subtle Clean Border
+        c.strokeStyle = "#e2e8f0";
+        c.lineWidth = 2;
+        c.strokeRect(1, 1, 1198, 673);
+
+        // 4. Clean Header: Brand
+        c.fillStyle = "#0f172a";
+        c.font = "900 24px 'Plus Jakarta Sans', sans-serif";
+        c.fillText("KIDS PAINT", 55, 62);
+
+        c.fillStyle = "#2563eb";
+        c.font = "900 24px 'Plus Jakarta Sans', sans-serif";
+        c.fillText("AI", 200, 62);
+
+        // 5. Section Pill (Top Right)
+        c.fillStyle = "#f8fafc";
+        roundRect(c, 840, 36, 305, 40, 20);
+        c.fill();
+        c.strokeStyle = "#e2e8f0";
+        c.lineWidth = 1;
+        roundRect(c, 840, 36, 305, 40, 20);
+        c.stroke();
+
+        c.fillStyle = "#0284c7";
+        c.beginPath();
+        c.arc(860, 56, 4, 0, Math.PI * 2);
+        c.fill();
+
+        c.fillStyle = "#475569";
+        c.font = "700 12px 'Plus Jakarta Sans', sans-serif";
+        c.fillText(sectionTag.toUpperCase(), 874, 60);
+
+        c.fillStyle = "#94a3b8";
+        c.textAlign = "right";
+        c.fillText(`${String(idx + 1).padStart(2, "0")} / 13`, 1125, 60);
+        c.textAlign = "left";
+
+        // Thin Header separator line
+        c.strokeStyle = "#f1f5f9";
+        c.lineWidth = 1.5;
+        c.beginPath();
+        c.moveTo(55, 90);
+        c.lineTo(1145, 90);
+        c.stroke();
+
+        // Clean Footer
+        c.fillStyle = "#94a3b8";
+        c.font = "600 12px 'Plus Jakarta Sans', sans-serif";
+        c.fillText(
+          "kidspaint.cloud  •  Android App  •  Arabic Portal",
+          55,
+          642,
+        );
+
+        c.textAlign = "right";
+        c.fillText(
+          "Confidential — Kidspaint Leadership & Strategy Deck",
+          1145,
+          642,
+        );
+        c.textAlign = "left";
+      }
+
+      function renderSlide(c, i) {
+        switch (i) {
+          // SLIDE 1: COVER
+          case 0:
+            drawCleanBase(c, i, "Executive Summary");
+            c.fillStyle = "#2563eb";
+            c.font = "800 14px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("EARLY DIGITAL & CREATIVE LITERACY", 55, 175);
+
+            c.fillStyle = "#0f172a";
+            c.font = "900 46px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Kids Paint AI Platform", 55, 235);
+
+            c.fillStyle = "#475569";
+            c.font = "500 19px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "A lightweight, zero-barrier creative sandbox and curriculum-aligned learning",
+              55,
+              280,
+            );
+            c.fillText(
+              "ecosystem for primary school children worldwide.",
+              55,
+              310,
+            );
+
+            // 3 Clean Cards
+            const cInfo = [
+              {
+                h: "Pedagogy Origin",
+                p: "Teacher-conceived based on real CBSE computer lab shortages.",
+              },
+              {
+                h: "Zero-Barrier Access",
+                p: "Instant browser web tool + Dedicated Classes 1-5 Android APK.",
+              },
+              {
+                h: "Global Scalability",
+                p: "English, Hindi, and active Arabic MENA localized editions.",
+              },
+            ];
+            let cx = 55;
+            cInfo.forEach((card) => {
+              c.fillStyle = "#f8fafc";
+              roundRect(c, cx, 360, 345, 160, 10);
+              c.fill();
+              c.strokeStyle = "#e2e8f0";
+              c.lineWidth = 1.2;
+              roundRect(c, cx, 360, 345, 160, 10);
+              c.stroke();
+
+              c.fillStyle = "#0f172a";
+              c.font = "800 17px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(card.h, cx + 22, 405);
+
+              c.fillStyle = "#64748b";
+              c.font = "500 14px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(card.p, cx + 22, 442, 300);
+              cx += 372;
+            });
+
+            c.fillStyle = "#0f172a";
+            c.font = "700 14px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "🌐 Live Platforms: kidspaint.cloud  |  kidspaint.cloud/ar.html",
+              55,
+              575,
+            );
+            break;
+
+          // SLIDE 2: THE ORIGIN STORY
+          case 1:
+            drawCleanBase(c, i, "Founder & Origin");
+            c.fillStyle = "#0f172a";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Born from a Real Classroom Need", 55, 150);
+
+            c.fillStyle = "#64748b";
+            c.font = "500 17px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "First-hand experience of a CBSE school teacher seeing students struggle with computer practice.",
+              55,
+              185,
+            );
+
+            // Left Box: Observation
+            c.fillStyle = "#fef2f2";
+            roundRect(c, 55, 230, 520, 340, 10);
+            c.fill();
+            c.strokeStyle = "#fecaca";
+            c.lineWidth = 1;
+            roundRect(c, 55, 230, 520, 340, 10);
+            c.stroke();
+
+            c.fillStyle = "#991b1b";
+            c.font = "800 18px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("The Classroom Gap Observed", 85, 275);
+
+            const oLines = [
+              "• 40+ students sharing 10-15 working computers in school labs.",
+              "• Weekly 40-minute period gave less than 8 mins mouse time per kid.",
+              "• Children memorized parts of a computer theoretically on paper.",
+              "• Lack of muscle memory, digital dexterity, and mouse control.",
+              "• Heavy desktop suites failed on low-spec school systems.",
+            ];
+            c.fillStyle = "#7f1d1d";
+            c.font = "500 14.5px 'Plus Jakarta Sans', sans-serif";
+            let oy = 320;
+            oLines.forEach((l) => {
+              c.fillText(l, 85, oy);
+              oy += 38;
+            });
+
+            // Right Box: Innovation
+            c.fillStyle = "#f0fdf4";
+            roundRect(c, 615, 230, 530, 340, 10);
+            c.fill();
+            c.strokeStyle = "#bbf7d0";
+            c.lineWidth = 1;
+            roundRect(c, 615, 230, 530, 340, 10);
+            c.stroke();
+
+            c.fillStyle = "#166534";
+            c.font = "800 18px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("The Kidspaint Insight", 645, 275);
+
+            const iLines = [
+              "• Children love painting and drawing instinctively.",
+              "• Combining art with fundamental Maths, English & Logic removed fear.",
+              "• Zero installation means continuity from classroom to home phones.",
+              "• Ultra-light architecture that loads in seconds on any device.",
+              "• Direct alignment with CBSE and foundational cognitive skills.",
+            ];
+            c.fillStyle = "#14532d";
+            c.font = "500 14.5px 'Plus Jakarta Sans', sans-serif";
+            let iy = 320;
+            iLines.forEach((l) => {
+              c.fillText(l, 645, iy);
+              iy += 38;
+            });
+            break;
+
+          // SLIDE 3: PROBLEM STATEMENT
+          case 2:
+            drawCleanBase(c, i, "The Problem");
+            c.fillStyle = "#0f172a";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Key Bottlenecks in Early Digital Education", 55, 150);
+
+            c.fillStyle = "#64748b";
+            c.font = "500 17px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "Three structural barriers prevent young students from mastering practical digital literacy.",
+              55,
+              185,
+            );
+
+            const pCards = [
+              {
+                t: "1. Lab Hardware Shortage",
+                d: "School labs are overcrowded. High capital expenditure prevents schools from providing 1:1 computer access.",
+              },
+              {
+                t: "2. Passive Blackboard Learning",
+                d: "Digital literacy is taught as dry theory rather than hands-on creation, building zero digital confidence.",
+              },
+              {
+                t: "3. Heavy Software Complexity",
+                d: "Commercial educational suites demand expensive PCs, high bandwidth, and complex student credentials.",
+              },
+            ];
+            let py = 240;
+            pCards.forEach((pc) => {
+              c.fillStyle = "#f8fafc";
+              roundRect(c, 55, py, 1090, 95, 8);
+              c.fill();
+              c.strokeStyle = "#e2e8f0";
+              c.lineWidth = 1;
+              roundRect(c, 55, py, 1090, 95, 8);
+              c.stroke();
+
+              c.fillStyle = "#0f172a";
+              c.font = "800 18px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(pc.t, 85, py + 38);
+
+              c.fillStyle = "#64748b";
+              c.font = "500 14.5px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(pc.d, 85, py + 68);
+              py += 115;
+            });
+            break;
+
+          // SLIDE 4: THE SOLUTION
+          case 3:
+            drawCleanBase(c, i, "The Solution");
+            c.fillStyle = "#0f172a";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Kidspaint: Universal & Lightweight Sandbox", 55, 150);
+
+            c.fillStyle = "#64748b";
+            c.font = "500 17px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "A single platform blending intuitive MS Paint mechanics with foundational academics.",
+              55,
+              185,
+            );
+
+            const sCards = [
+              {
+                n: "01",
+                h: "Frictionless Web Access",
+                d: "Runs instantly in any browser. No installs, logins, or high RAM requirements.",
+              },
+              {
+                n: "02",
+                h: "Gamified Academic Integration",
+                d: "Combines drawing with visual Maths, English, Hindi phonetics, and logic.",
+              },
+              {
+                n: "03",
+                h: "Independent Practice",
+                d: "Designed specifically for students who need extra practice at home or school.",
+              },
+              {
+                n: "04",
+                h: "Cognitive Skill Building",
+                d: "Enhances fine motor dexterity, spatial understanding, and problem solving.",
+              },
+            ];
+            let sx = 55;
+            sCards.forEach((sc) => {
+              c.fillStyle = "#f8fafc";
+              roundRect(c, sx, 240, 258, 320, 10);
+              c.fill();
+              c.strokeStyle = "#e2e8f0";
+              c.lineWidth = 1.2;
+              roundRect(c, sx, 240, 258, 320, 10);
+              c.stroke();
+
+              c.fillStyle = "#2563eb";
+              c.font = "800 24px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(sc.n, sx + 22, 285);
+
+              c.fillStyle = "#0f172a";
+              c.font = "800 17px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(sc.h, sx + 22, 335);
+
+              c.fillStyle = "#64748b";
+              c.font = "500 14px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(sc.d, sx + 22, 380, 215);
+
+              sx += 277;
+            });
+            break;
+
+          // SLIDE 5: WEB PLATFORM
+          case 4:
+            drawCleanBase(c, i, "Product: Web Engine");
+            c.fillStyle = "#0f172a";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Web Platform — Free Worldwide", 55, 150);
+
+            c.fillStyle = "#2563eb";
+            c.font = "700 16px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Live URL: https://kidspaint.cloud/", 55, 185);
+
+            // Left Preview Box
+            c.fillStyle = "#f8fafc";
+            roundRect(c, 55, 220, 520, 350, 10);
+            c.fill();
+            c.strokeStyle = "#e2e8f0";
+            c.lineWidth = 1;
+            roundRect(c, 55, 220, 520, 350, 10);
+            c.stroke();
+
+            // Mockup Canvas UI
+            c.fillStyle = "#ffffff";
+            roundRect(c, 75, 240, 480, 50, 6);
+            c.fill();
+            c.fillStyle = "#475569";
+            c.font = "600 14px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "Toolbox: Brush • Shapes • Fill • Eraser • Math Quiz • Letter Tracing",
+              90,
+              270,
+            );
+
+            c.fillStyle = "#ffffff";
+            roundRect(c, 75, 305, 480, 240, 6);
+            c.fill();
+            c.fillStyle = "#0f172a";
+            c.font = "800 20px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Draw, Color & Solve", 210, 415);
+            c.fillStyle = "#94a3b8";
+            c.font = "500 14px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Real-time interactive canvas engine", 200, 445);
+
+            // Right Features List
+            const wPoints = [
+              {
+                h: "MS Paint-Like Simplicity",
+                p: "Zero onboarding barrier. Intuitive for any 5-year-old child.",
+              },
+              {
+                h: "Integrated Core Practice",
+                p: "Drawings connect directly to visual counting and English spelling.",
+              },
+              {
+                h: "Universal Browser Access",
+                p: "Works seamlessly on Chromebooks, Windows, Android, and tablets.",
+              },
+              {
+                h: "High Performance",
+                p: "Loads cleanly on low-bandwidth school connections under 2 seconds.",
+              },
+            ];
+            let wy = 230;
+            wPoints.forEach((wp) => {
+              c.fillStyle = "#0f172a";
+              c.font = "800 16px 'Plus Jakarta Sans', sans-serif";
+              c.fillText("• " + wp.h, 620, wy);
+              c.fillStyle = "#64748b";
+              c.font = "500 14px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(wp.p, 635, wy + 26);
+              wy += 85;
+            });
+            break;
+
+          // SLIDE 6: ANDROID APP
+          case 5:
+            drawCleanBase(c, i, "Product: Android Mobile");
+            c.fillStyle = "#0f172a";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Android App — Dedicated Learning Experience", 55, 150);
+
+            c.fillStyle = "#64748b";
+            c.font = "500 17px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "Structured pedagogy mapped specifically for Classes 1 to 5.",
+              55,
+              185,
+            );
+
+            const aModules = [
+              {
+                t: "Drawing & Art",
+                d: "Creative tools, coloring pages, digital muscle control.",
+              },
+              {
+                t: "Primary Maths",
+                d: "Addition, subtraction, pattern matching, shapes.",
+              },
+              {
+                t: "English & Hindi",
+                d: "Spelling, alphabet tracing, Hindi Varnamala.",
+              },
+              {
+                t: "EVS (Environmental)",
+                d: "Nature science, hygiene, and daily awareness.",
+              },
+              {
+                t: "General Knowledge",
+                d: "Interactive visual quizzes and world awareness.",
+              },
+              {
+                t: "Brain & Logic",
+                d: "Puzzles, memory games, and cognitive development.",
+              },
+            ];
+
+            let ax = 55,
+              ay = 230;
+            aModules.forEach((am, aidx) => {
+              c.fillStyle = "#f8fafc";
+              roundRect(c, ax, ay, 345, 150, 8);
+              c.fill();
+              c.strokeStyle = "#e2e8f0";
+              c.lineWidth = 1;
+              roundRect(c, ax, ay, 345, 150, 8);
+              c.stroke();
+
+              c.fillStyle = "#2563eb";
+              c.font = "800 17px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(am.t, ax + 20, ay + 42);
+
+              c.fillStyle = "#475569";
+              c.font = "500 14px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(am.d, ax + 20, ay + 78, 305);
+
+              if (aidx === 2) {
+                ax = 55;
+                ay += 175;
+              } else {
+                ax += 372;
+              }
+            });
+            break;
+
+          // SLIDE 7: ARABIC EXPANSION
+          case 6:
+            drawCleanBase(c, i, "Global Expansion");
+            c.fillStyle = "#0f172a";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Arabic Version & MENA Opportunity", 55, 150);
+
+            c.fillStyle = "#2563eb";
+            c.font = "700 16px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "Live Progress: https://kidspaint.cloud/ar.html",
+              55,
+              185,
+            );
+
+            // Left Box
+            c.fillStyle = "#f8fafc";
+            roundRect(c, 55, 230, 520, 340, 10);
+            c.fill();
+            c.strokeStyle = "#e2e8f0";
+            c.lineWidth = 1;
+            roundRect(c, 55, 230, 520, 340, 10);
+            c.stroke();
+
+            c.fillStyle = "#0f172a";
+            c.font = "800 20px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Product Localization", 85, 280);
+
+            const arList = [
+              "• Native Right-to-Left (RTL) canvas navigation and toolsets.",
+              "• Localized Arabic alphabet tracing and phonetic modules.",
+              "• Demonstrates international adaptability of the codebase.",
+              "• Fully functional web build accessible globally today.",
+            ];
+            c.fillStyle = "#475569";
+            c.font = "500 15px 'Plus Jakarta Sans', sans-serif";
+            let ary = 330;
+            arList.forEach((l) => {
+              c.fillText(l, 85, ary);
+              ary += 38;
+            });
+
+            // Right Box
+            c.fillStyle = "#f8fafc";
+            roundRect(c, 615, 230, 530, 340, 10);
+            c.fill();
+            c.strokeStyle = "#e2e8f0";
+            c.lineWidth = 1;
+            roundRect(c, 615, 230, 530, 340, 10);
+            c.stroke();
+
+            c.fillStyle = "#0f172a";
+            c.font = "800 20px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Strategic Value", 645, 280);
+
+            const arStrat = [
+              "• High ARPU: Gulf/GCC private schools invest heavily in early EdTech.",
+              "• Government Alignment: Directly supports UAE & Saudi smart-learning visions.",
+              "• Commercial Licensing: Ready for regional education publishers and distribution.",
+            ];
+            c.fillStyle = "#475569";
+            c.font = "500 15px 'Plus Jakarta Sans', sans-serif";
+            let asy = 330;
+            arStrat.forEach((l) => {
+              c.fillText(l, 645, asy, 470);
+              asy += 48;
+            });
+            break;
+
+          // SLIDE 8: CURRICULUM FRAMEWORK
+          case 7:
+            drawCleanBase(c, i, "Curriculum Mapping");
+            c.fillStyle = "#0f172a";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Holistic Cognitive Development Framework", 55, 150);
+
+            c.fillStyle = "#64748b";
+            c.font = "500 17px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "Supporting students who need additional practice with playful repetition.",
+              55,
+              185,
+            );
+
+            const cTiers = [
+              {
+                stage: "Tier 1: Pre-Primary (Ages 4–5)",
+                skills: "Motor Dexterity & Spatial Sense",
+                outcomes:
+                  "Mouse stability, color boundaries, finger touch precision, basic geometry.",
+              },
+              {
+                stage: "Tier 2: Primary (Classes 1–3)",
+                skills: "Foundational Numeracy & Literacy",
+                outcomes:
+                  "Word forming, English/Hindi phonetics, visual counting, single-digit arithmetic.",
+              },
+              {
+                stage: "Tier 3: Upper Primary (Classes 4–5)",
+                skills: "Logical Thinking & Problem Solving",
+                outcomes:
+                  "Memory games, EVS environmental reasoning, multi-step puzzle solutions.",
+              },
+            ];
+
+            let cty = 240;
+            cTiers.forEach((ct) => {
+              c.fillStyle = "#f8fafc";
+              roundRect(c, 55, cty, 1090, 95, 8);
+              c.fill();
+              c.strokeStyle = "#e2e8f0";
+              c.lineWidth = 1;
+              roundRect(c, 55, cty, 1090, 95, 8);
+              c.stroke();
+
+              c.fillStyle = "#2563eb";
+              c.font = "800 17px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(ct.stage, 85, cty + 36);
+
+              c.fillStyle = "#0f172a";
+              c.font = "700 15px 'Plus Jakarta Sans', sans-serif";
+              c.fillText("Skill Focus: " + ct.skills, 420, cty + 36);
+
+              c.fillStyle = "#64748b";
+              c.font = "500 14px 'Plus Jakarta Sans', sans-serif";
+              c.fillText("Learning Outcomes: " + ct.outcomes, 85, cty + 68);
+              cty += 115;
+            });
+            break;
+
+          // SLIDE 9: COMPETITIVE MATRIX
+          case 8:
+            drawCleanBase(c, i, "Competitive Landscape");
+            c.fillStyle = "#0f172a";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Why Kidspaint Stands Apart", 55, 150);
+
+            c.fillStyle = "#64748b";
+            c.font = "500 17px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "Combining creative freedom with curriculum rigor without technical overhead.",
+              55,
+              185,
+            );
+
+            // Table Header
+            c.fillStyle = "#f1f5f9";
+            roundRect(c, 55, 230, 1090, 48, 6);
+            c.fill();
+
+            c.fillStyle = "#0f172a";
+            c.font = "800 14px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("PARAMETER", 75, 260);
+            c.fillStyle = "#2563eb";
+            c.fillText("KIDSPAINT AI", 350, 260);
+            c.fillStyle = "#64748b";
+            c.fillText("LEGACY MS PAINT", 660, 260);
+            c.fillText("COMMERCIAL EDTECH APPS", 890, 260);
+
+            const matrixRows = [
+              [
+                "Installation Barrier",
+                "Zero (Instant Web + APK)",
+                "Requires Windows PC",
+                "Heavy App Store downloads",
+              ],
+              [
+                "Curriculum Integration",
+                "Maths, Eng, Hindi, EVS & Logic",
+                "None (Blank Canvas only)",
+                "Often video/passive watching",
+              ],
+              [
+                "Hardware Specs",
+                "Runs on budget/low-spec devices",
+                "Desktop PC dependent",
+                "Requires high RAM & 4G/5G",
+              ],
+              [
+                "School Lab Flow",
+                "Zero setup, immediate start",
+                "No cloud or classroom tools",
+                "Complex student logins/OTPs",
+              ],
+              [
+                "Multilingual Reach",
+                "English, Hindi + Active Arabic",
+                "OS default only",
+                "Limited / Paid addons",
+              ],
+            ];
+
+            let mry = 290;
+            matrixRows.forEach((mr, mridx) => {
+              c.fillStyle = mridx % 2 === 0 ? "#f8fafc" : "#ffffff";
+              roundRect(c, 55, mry, 1090, 52, 6);
+              c.fill();
+              c.strokeStyle = "#e2e8f0";
+              c.lineWidth = 1;
+              roundRect(c, 55, mry, 1090, 52, 6);
+              c.stroke();
+
+              c.fillStyle = "#0f172a";
+              c.font = "700 14px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(mr[0], 75, mry + 32);
+
+              c.fillStyle = "#0284c7";
+              c.font = "800 14px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(mr[1], 350, mry + 32);
+
+              c.fillStyle = "#64748b";
+              c.font = "500 14px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(mr[2], 660, mry + 32);
+              c.fillText(mr[3], 890, mry + 32);
+
+              mry += 56;
+            });
+            break;
+
+          // SLIDE 10: BUSINESS & MONETIZATION
+          case 9:
+            drawCleanBase(c, i, "Monetization Model");
+            c.fillStyle = "#0f172a";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Multiple Clear Revenue Pathways", 55, 150);
+
+            c.fillStyle = "#64748b";
+            c.font = "500 17px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "Sustainable commercial model built on institutional subscriptions and distribution partnerships.",
+              55,
+              185,
+            );
+
+            const bModels = [
+              {
+                t: "1. B2B School SaaS",
+                sub: "Annual Institutional Licensing",
+                pts: [
+                  "Per-student annual subscription for CBSE/ICSE schools.",
+                  "Teacher dashboard & progress reporting.",
+                  "Turnkey solution for low-spec computer labs.",
+                ],
+              },
+              {
+                t: "2. GCC & MENA Expansion",
+                sub: "High ARPU Regional Licensing",
+                pts: [
+                  "Arabic edition licensed to preschool networks in UAE & KSA.",
+                  "Partnership with Gulf educational publishers.",
+                  "Custom curriculum adaptations.",
+                ],
+              },
+              {
+                t: "3. Hardware OEM Bundling",
+                sub: "Pre-installed App Ecosystem",
+                pts: [
+                  "Pre-loaded on affordable student tablets (Lenovo, Lava, etc.).",
+                  "White-label creative suite for device vendors.",
+                  "Zero friction out-of-the-box user acquisition.",
+                ],
+              },
+            ];
+
+            let bx = 55;
+            bModels.forEach((bm) => {
+              c.fillStyle = "#f8fafc";
+              roundRect(c, bx, 240, 345, 330, 10);
+              c.fill();
+              c.strokeStyle = "#e2e8f0";
+              c.lineWidth = 1;
+              roundRect(c, bx, 240, 345, 330, 10);
+              c.stroke();
+
+              c.fillStyle = "#0f172a";
+              c.font = "800 18px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(bm.t, bx + 22, 280);
+
+              c.fillStyle = "#2563eb";
+              c.font = "700 13px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(bm.sub, bx + 22, 310);
+
+              let bpy = 350;
+              c.fillStyle = "#475569";
+              c.font = "500 14px 'Plus Jakarta Sans', sans-serif";
+              bm.pts.forEach((pt) => {
+                c.fillText("• " + pt, bx + 22, bpy, 300);
+                bpy += 45;
+              });
+
+              bx += 372;
+            });
+            break;
+
+          // SLIDE 11: CORE TEAM (EXACT AS SCREENSHOT)
+          case 10:
+            drawCleanBase(c, i, "Builders");
+            c.fillStyle = "#0f172a";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Core Team: ", 55, 150);
+
+            c.fillStyle = "#0284c7";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Technical & Product Leadership", 250, 150);
+
+            c.fillStyle = "#64748b";
+            c.font = "500 17px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "Proven expertise across engineering, product strategy, intelligent learning, and business analysis.",
+              55,
+              185,
+            );
+
+            // 4 Team Members Grid (Clean cards matching screenshot)
+            const team = [
+              {
+                name: "Mohammad Jawed",
+                role: "Founder & CTO",
+                deg: "B.Tech",
+                desc: "Technology, AI, SaaS & Product Architecture.",
+                icon: "</>",
+                iconBg: "#2563eb",
+              },
+              {
+                name: "Farha Naz",
+                role: "Product Lead",
+                deg: "B.Tech",
+                desc: "Product Strategy, Learning Experience & Product Development.",
+                icon: "A",
+                iconBg: "#c026d3",
+              },
+              {
+                name: "Amir Siddiqui",
+                role: "AI Engineer",
+                deg: "B.Tech",
+                desc: "AI/ML, Intelligent Learning & AI Feature Development.",
+                icon: "🧠",
+                iconBg: "#0284c7",
+              },
+              {
+                name: "Mithilesh Kumar",
+                role: "Business Analyst",
+                deg: "B.Tech",
+                desc: "Business Analysis, Market Research & Product Requirements.",
+                icon: "📊",
+                iconBg: "#059669",
+              },
+            ];
+
+            let tx = 55,
+              ty = 240;
+            team.forEach((tm, tidx) => {
+              c.fillStyle = "#ffffff";
+              roundRect(c, tx, ty, 530, 145, 12);
+              c.fill();
+              c.strokeStyle = "#e2e8f0";
+              c.lineWidth = 1.2;
+              roundRect(c, tx, ty, 530, 145, 12);
+              c.stroke();
+
+              // Icon Box
+              c.fillStyle = tm.iconBg;
+              roundRect(c, tx + 20, ty + 25, 60, 60, 12);
+              c.fill();
+
+              c.fillStyle = "#ffffff";
+              c.font = "800 20px 'Plus Jakarta Sans', sans-serif";
+              c.textAlign = "center";
+              c.fillText(tm.icon, tx + 50, ty + 62);
+              c.textAlign = "left";
+
+              // Details
+              c.fillStyle = "#0f172a";
+              c.font = "800 18px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(tm.name, tx + 95, ty + 46);
+
+              c.fillStyle = "#2563eb";
+              c.font = "700 14px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(tm.role, tx + 95, ty + 70);
+
+              // Degree Tag
+              c.fillStyle = "#f1f5f9";
+              roundRect(
+                c,
+                tx + 95 + c.measureText(tm.role).width + 10,
+                ty + 56,
+                55,
+                20,
+                6,
+              );
+              c.fill();
+              c.fillStyle = "#475569";
+              c.font = "700 11px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(
+                tm.deg,
+                tx + 95 + c.measureText(tm.role).width + 18,
+                ty + 70,
+              );
+
+              c.fillStyle = "#64748b";
+              c.font = "500 13.5px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(tm.desc, tx + 95, ty + 102, 410);
+
+              if (tidx === 1) {
+                tx = 55;
+                ty += 170;
+              } else {
+                tx += 560;
+              }
+            });
+            break;
+
+          // SLIDE 12: PRODUCT READINESS & ROADMAP
+          case 11:
+            drawCleanBase(c, i, "Current Status");
+            c.fillStyle = "#0f172a";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Product Status: Built & Operational", 55, 150);
+
+            c.fillStyle = "#64748b";
+            c.font = "500 17px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "Not just a concept — operational assets ready for pilots and institutional scale.",
+              55,
+              185,
+            );
+
+            const rBoxes = [
+              {
+                h: "Web Platform (Production Live)",
+                p: "Fully functional HTML5 canvas engine live at kidspaint.cloud.",
+                s: "Live & Free Worldwide",
+              },
+              {
+                h: "Android App (Classes 1–5)",
+                p: "Structured primary school APK built and ready for classroom pilots.",
+                s: "APK Available for Testing",
+              },
+              {
+                h: "Arabic Expansion (In Progress)",
+                p: "RTL MENA localization operational at kidspaint.cloud/ar.html.",
+                s: "Active Development",
+              },
+              {
+                h: "AI Learning Integration",
+                p: "Intelligent pattern assessment and personalized learning practice.",
+                s: "Roadmap Q3-Q4",
+              },
+            ];
+
+            let ry = 235;
+            rBoxes.forEach((rb) => {
+              c.fillStyle = "#f8fafc";
+              roundRect(c, 55, ry, 1090, 75, 8);
+              c.fill();
+              c.strokeStyle = "#e2e8f0";
+              c.lineWidth = 1;
+              roundRect(c, 55, ry, 1090, 75, 8);
+              c.stroke();
+
+              c.fillStyle = "#0f172a";
+              c.font = "800 16px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(rb.h, 85, ry + 32);
+
+              c.fillStyle = "#64748b";
+              c.font = "500 13.5px 'Plus Jakarta Sans', sans-serif";
+              c.fillText(rb.p, 85, ry + 56);
+
+              c.fillStyle = "#0284c7";
+              c.font = "700 13px 'Plus Jakarta Sans', sans-serif";
+              c.textAlign = "right";
+              c.fillText(rb.s, 1120, ry + 44);
+              c.textAlign = "left";
+
+              ry += 88;
+            });
+            break;
+
+          // SLIDE 13: STRATEGIC COLLABORATION / NEXT STEPS
+          case 12:
+            drawCleanBase(c, i, "Next Steps");
+            c.fillStyle = "#0f172a";
+            c.font = "900 34px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Strategic Collaboration & Partnership", 55, 150);
+
+            c.fillStyle = "#64748b";
+            c.font = "500 17px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "Open to discussions around school pilots, strategic investment, partnership, or acquisition.",
+              55,
+              185,
+            );
+
+            // Left Box
+            c.fillStyle = "#0f172a";
+            roundRect(c, 55, 230, 520, 340, 10);
+            c.fill();
+
+            c.fillStyle = "#ffffff";
+            c.font = "800 20px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Discussion Opportunities", 85, 280);
+
+            const dPoints = [
+              "• School chain pilots and customized curriculum adoption.",
+              "• Strategic capital for school distribution and scaling.",
+              "• Regional publishing and GCC licensing partnerships.",
+              "• Full asset acquisition by global EdTech or device OEMs.",
+            ];
+            c.fillStyle = "#cbd5e1";
+            c.font = "500 15px 'Plus Jakarta Sans', sans-serif";
+            let dy = 330;
+            dPoints.forEach((dp) => {
+              c.fillText(dp, 85, dy, 460);
+              dy += 45;
+            });
+
+            // Right Box: Connect
+            c.fillStyle = "#f8fafc";
+            roundRect(c, 615, 230, 530, 340, 10);
+            c.fill();
+            c.strokeStyle = "#e2e8f0";
+            c.lineWidth = 1;
+            roundRect(c, 615, 230, 530, 340, 10);
+            c.stroke();
+
+            c.fillStyle = "#0f172a";
+            c.font = "800 20px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Schedule a Live Walkthrough", 645, 280);
+
+            c.fillStyle = "#475569";
+            c.font = "500 15px 'Plus Jakarta Sans', sans-serif";
+            c.fillText(
+              "We would be delighted to demonstrate both the web platform",
+              645,
+              325,
+            );
+            c.fillText(
+              "and Android APK, and explore potential synergies.",
+              645,
+              350,
+            );
+
+            c.fillStyle = "#2563eb";
+            roundRect(c, 645, 395, 470, 50, 8);
+            c.fill();
+            c.fillStyle = "#ffffff";
+            c.font = "800 16px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Explore Web Demo: kidspaint.cloud", 750, 426);
+
+            c.fillStyle = "#64748b";
+            c.font = "600 14px 'Plus Jakarta Sans', sans-serif";
+            c.fillText("Arabic Version: kidspaint.cloud/ar.html", 645, 480);
+            c.fillText(
+              "Android APK: Classes 1–5 Available on Request",
+              645,
+              510,
+            );
+            break;
+        }
+      }
+
+      function updateSlide() {
+        renderSlide(ctx, currentSlide);
+        document.getElementById("slideCounter").innerText =
+          `Slide ${currentSlide + 1} of ${totalSlides}`;
+        document.getElementById("prevBtn").disabled = currentSlide === 0;
+        document.getElementById("nextBtn").disabled =
+          currentSlide === totalSlides - 1;
+
+        const pills = document.getElementById("pills").children;
+        for (let j = 0; j < pills.length; j++) {
+          pills[j].style.background =
+            j === currentSlide ? "#38bdf8" : "#475569";
+        }
+      }
+
+      // Initialize slide pills
+      const pBox = document.getElementById("pills");
+      for (let j = 0; j < totalSlides; j++) {
+        const p = document.createElement("div");
+        p.style.width = "8px";
+        p.style.height = "8px";
+        p.style.borderRadius = "50%";
+        p.style.cursor = "pointer";
+        p.onclick = () => {
+          currentSlide = j;
+          updateSlide();
+        };
+        pBox.appendChild(p);
+      }
+
+      document.getElementById("prevBtn").onclick = () => {
+        if (currentSlide > 0) {
+          currentSlide--;
+          updateSlide();
+        }
+      };
+
+      document.getElementById("nextBtn").onclick = () => {
+        if (currentSlide < totalSlides - 1) {
+          currentSlide++;
+          updateSlide();
+        }
+      };
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" && currentSlide < totalSlides - 1) {
+          currentSlide++;
+          updateSlide();
+        } else if (e.key === "ArrowLeft" && currentSlide > 0) {
+          currentSlide--;
+          updateSlide();
+        }
+      });
+
+      // Export Current Slide as PNG
+      document.getElementById("exportPngBtn").onclick = () => {
+        const a = document.createElement("a");
+        a.download = `Kidspaint_Slide_${currentSlide + 1}.png`;
+        a.href = canvas.toDataURL("image/png");
+        a.click();
+      };
+
+      // Download Complete 13-Page PDF
+      document.getElementById("downloadPdfBtn").onclick = () => {
+        const btn = document.getElementById("downloadPdfBtn");
+        btn.innerText = "⏳ Generating 13-Page PDF...";
+        btn.disabled = true;
+
+        setTimeout(() => {
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF({
+            orientation: "landscape",
+            unit: "px",
+            format: [1200, 675],
+          });
+
+          const off = document.getElementById("offCanvas");
+          const offCtx = off.getContext("2d");
+
+          for (let s = 0; s < totalSlides; s++) {
+            renderSlide(offCtx, s);
+            const imgData = off.toDataURL("image/jpeg", 0.95);
+            if (s > 0) pdf.addPage([1200, 675], "landscape");
+            pdf.addImage(imgData, "JPEG", 0, 0, 1200, 675);
+          }
+
+          pdf.save("Kidspaint_Executive_Pitch_Deck_13Slides.pdf");
+          btn.innerText = "📄 Download Full 13-Page PDF";
+          btn.disabled = false;
+        }, 150);
+      };
+
+      // Initial Render
+      updateSlide();
+      if (document.fonts) {
+        document.fonts.ready.then(() => updateSlide());
+      }
+    </script>
+  </body>
+</html>

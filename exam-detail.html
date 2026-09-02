@@ -162,7 +162,6 @@
         <section
           class="relative bg-gradient-to-br from-indigo-900 via-slate-900 to-indigo-950 border border-slate-800 rounded-3xl p-5 sm:p-8 md:p-10 shadow-xl overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
         >
-          <!-- Ambient Glow Backgrounds -->
           <div
             class="absolute -right-16 -top-16 w-60 h-60 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"
           ></div>
@@ -243,7 +242,6 @@
 
         <!-- 3. SYLLABUS & FEATURES GRID -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
-          <!-- Left 2 Columns: Subjects & Chapters -->
           <section class="lg:col-span-2 space-y-3 sm:space-y-4">
             <div class="flex items-center justify-between px-0.5">
               <h2
@@ -265,7 +263,6 @@
             ></div>
           </section>
 
-          <!-- Right 1 Column: Platform Highlights -->
           <section class="space-y-3 sm:space-y-4">
             <h2
               class="text-sm sm:text-base font-black text-slate-900 flex items-center gap-2 px-0.5"
@@ -328,27 +325,54 @@
         purple: "bg-purple-50 text-purple-700 border-purple-200",
       };
 
-      async function initializeExamSEOPage() {
+      /**
+       * Bulletproof Slug Resolver:
+       * Works seamlessly with:
+       * 1. Query param: ?exam=ssc
+       * 2. Amplify Clean URL: /ssc or /ssc/
+       * 3. Subfolder / Localhost testing
+       */
+      function resolveExamSlug() {
         const urlParams = new URLSearchParams(window.location.search);
-        let slug = urlParams.get("exam");
+        let slug = urlParams.get("exam") || urlParams.get("slug");
+        if (slug) return slug.trim().toLowerCase();
 
-        if (!slug) {
-          const pathParts = window.location.pathname.split("/").filter(Boolean);
-          slug = pathParts[pathParts.length - 1];
+        // Pathname parsing (Filters out empty strings and .html files)
+        const parts = window.location.pathname
+          .split("/")
+          .filter(Boolean)
+          .map((p) => decodeURIComponent(p.trim().toLowerCase()))
+          .filter((p) => !p.endsWith(".html") && !p.endsWith(".htm"));
+
+        if (parts.length > 0) {
+          return parts[parts.length - 1];
         }
 
-        if (!slug) slug = "ssc";
+        return "ssc"; // Fallback default
+      }
+
+      async function initializeExamSEOPage() {
+        const slug = resolveExamSlug();
 
         try {
           const res = await fetch("/data/exams.json");
+          if (!res.ok) {
+            throw new Error(`HTTP Error: ${res.status}`);
+          }
+
           const allExams = await res.json();
-          const exam = allExams[slug.toLowerCase()];
+
+          // Case-insensitive key lookup (handles 'ssc', 'SSC', 'jee-neet', etc.)
+          const examKey = Object.keys(allExams).find(
+            (k) => k.toLowerCase() === slug.toLowerCase(),
+          );
+          const exam = examKey ? allExams[examKey] : null;
 
           if (!exam) {
             document.getElementById("loading-state").innerHTML = `
               <div class="py-10 space-y-3 text-center">
                 <h2 class="text-base font-bold text-slate-800">Examination Stream Not Found</h2>
-                <p class="text-xs text-slate-500 font-medium">The requested examination module is not available.</p>
+                <p class="text-xs text-slate-500 font-medium">The requested stream "${slug}" is not available or registered.</p>
                 <a href="/" class="inline-block px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold no-underline">Explore Exams</a>
               </div>
             `;
@@ -356,13 +380,13 @@
           }
 
           // 1. Dynamic SEO & Metadata
-          const canonicalUrl = `https://exammokk.cloud/${exam.slug}`;
+          const canonicalUrl = `https://exammokk.cloud/${exam.slug || slug}`;
           document.title = exam.metaTitle || exam.title;
           document.getElementById("meta-title").innerText =
             exam.metaTitle || exam.title;
           document
             .getElementById("meta-description")
-            .setAttribute("content", exam.metaDesc || exam.overview);
+            .setAttribute("content", exam.metaDesc || exam.overview || "");
           document
             .getElementById("meta-keywords")
             .setAttribute(
@@ -378,16 +402,17 @@
             .setAttribute("content", exam.metaTitle || exam.title);
           document
             .getElementById("og-description")
-            .setAttribute("content", exam.metaDesc || exam.overview);
+            .setAttribute("content", exam.metaDesc || exam.overview || "");
           document.getElementById("og-url").setAttribute("href", canonicalUrl);
           document
             .getElementById("twitter-title")
             .setAttribute("content", exam.metaTitle || exam.title);
           document
             .getElementById("twitter-description")
-            .setAttribute("content", exam.metaDesc || exam.overview);
+            .setAttribute("content", exam.metaDesc || exam.overview || "");
 
-          document.getElementById("breadcrumb-current").innerText = exam.badge;
+          document.getElementById("breadcrumb-current").innerText =
+            exam.badge || exam.title;
 
           // 2. Schema Injection
           const schemaData = {
@@ -397,7 +422,7 @@
                 "@type": "Course",
                 "@id": `${canonicalUrl}#course`,
                 name: exam.title,
-                description: exam.metaDesc,
+                description: exam.metaDesc || exam.overview,
                 url: canonicalUrl,
                 provider: {
                   "@type": "Organization",
@@ -430,7 +455,7 @@
                   {
                     "@type": "ListItem",
                     position: 3,
-                    name: exam.badge,
+                    name: exam.badge || exam.title,
                     item: canonicalUrl,
                   },
                 ],
@@ -452,17 +477,18 @@
           // 3. Render Visual Content
           document.getElementById("exam-emoji").innerText = exam.emoji || "⚡";
           document.getElementById("exam-title").innerText = exam.title;
-          document.getElementById("exam-tagline").innerText = exam.tagline;
+          document.getElementById("exam-tagline").innerText =
+            exam.tagline || "";
           document.getElementById("exam-overview").innerText =
-            exam.overview || exam.metaDesc;
+            exam.overview || exam.metaDesc || "";
 
           const badgeEl = document.getElementById("exam-badge");
-          badgeEl.innerText = exam.badge;
+          badgeEl.innerText = exam.badge || exam.title;
           badgeEl.className = `text-[10px] font-black px-3 py-1 rounded-full uppercase border tracking-wider ${BADGE_THEMES[exam.badgeColor] || BADGE_THEMES.indigo}`;
 
-          // Universal Direct Launch Action
+          // Direct Launch Action
           document.getElementById("launch-test-btn").onclick = () => {
-            window.location.href = `/dashboard/web?type=${encodeURIComponent(exam.id)}`;
+            window.location.href = `/dashboard/web?type=${encodeURIComponent(exam.id || slug)}`;
           };
 
           // Render Subjects Grid
@@ -520,7 +546,7 @@
               .join("");
           }
 
-          // Show Content
+          // Reveal Content
           document.getElementById("loading-state").classList.add("hidden");
           document.getElementById("exam-content").classList.remove("hidden");
 
@@ -528,7 +554,7 @@
         } catch (err) {
           console.error("Failed to initialize exam detail page:", err);
           document.getElementById("loading-state").innerHTML = `
-            <p class="text-xs text-rose-500 font-bold">Failed to load examination details. Please check your connection.</p>
+            <p class="text-xs text-rose-500 font-bold">Failed to load examination details. Please check your connection or JSON file.</p>
           `;
         }
       }

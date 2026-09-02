@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExamMokk - Outreach Dashboard with LocalStorage Tracking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Noto+Sans+Devanagari:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Plus Jakarta Sans", "Noto Sans Devanagari", sans-serif;
+      }
+      body {
+        background: #0b0f19;
+        color: #f8fafc;
+        padding: 32px 16px;
+        display: flex;
+        justify-content: center;
+      }
+      .container {
+        max-width: 1200px;
+        width: 100%;
+        background: #111827;
+        border: 1px solid #1f2937;
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      }
+      .header {
+        border-bottom: 1px solid #1f2937;
+        padding-bottom: 20px;
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .badge {
+        background: linear-gradient(135deg, #4f46e5, #06b6d4);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        font-size: 13px;
+        font-weight: 700;
+        display: inline-block;
+        margin-bottom: 6px;
+      }
+      h1 {
+        font-size: 24px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+      .filters-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      select {
+        background: #1e293b;
+        color: #38bdf8;
+        border: 1px solid #334155;
+        padding: 9px 14px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        outline: none;
+      }
+      select:focus {
+        border-color: #06b6d4;
+      }
+      .btn-reset {
+        background: #374151;
+        color: #fca5a5;
+        border: 1px solid #4b5563;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .btn-reset:hover {
+        background: #991b1b;
+        color: white;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 24px;
+      }
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .panel {
+        background: #161f30;
+        border: 1px solid #233044;
+        border-radius: 16px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+      .panel-title {
+        font-size: 16px;
+        font-weight: 800;
+        color: #38bdf8;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .hint {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-bottom: 10px;
+      }
+      textarea {
+        width: 100%;
+        height: 380px;
+        background: #0b0f19;
+        border: 1px solid #334155;
+        color: #e2e8f0;
+        padding: 14px;
+        border-radius: 10px;
+        font-size: 13.5px;
+        line-height: 1.6;
+        resize: vertical;
+      }
+      textarea:focus {
+        outline: none;
+        border-color: #06b6d4;
+      }
+      .action-row {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .btn-bulk {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: white;
+        font-weight: 800;
+        padding: 14px 20px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 15px;
+        box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
+        transition: all 0.2s ease;
+        width: 100%;
+      }
+      .btn-bulk:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(34, 197, 94, 0.4);
+      }
+      .delay-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #94a3b8;
+        padding: 4px 2px;
+      }
+      .list-wrapper {
+        max-height: 520px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding-right: 4px;
+      }
+      .institute-card {
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        border-radius: 12px;
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s ease;
+      }
+      .institute-card.sent-card {
+        border-color: rgba(34, 197, 94, 0.4);
+        background: #0d1b24;
+      }
+      .inst-name {
+        font-weight: 700;
+        font-size: 14px;
+        color: #f1f5f9;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .inst-meta {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-top: 4px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .tag-area {
+        background: #1e293b;
+        color: #cbd5e1;
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-size: 11px;
+      }
+      .btn-send-single {
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 8px 14px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+        white-space: nowrap;
+      }
+      .btn-send-single:hover {
+        background: #1d4ed8;
+      }
+      .btn-send-single.btn-resend {
+        background: #475569;
+      }
+      .status-badge {
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-weight: 600;
+        background: rgba(34, 197, 94, 0.15);
+        color: #4ade80;
+        border: 1px solid #22c55e;
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+      }
+      .empty-state {
+        text-align: center;
+        color: #64748b;
+        padding: 40px 10px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div>
+          <span class="badge">ExamMokk Outreach</span>
+          <h1>WhatsApp Outreach Dashboard</h1>
+        </div>
+
+        <!-- Dynamic Filters & History Controls -->
+        <div class="filters-row">
+          <select id="stateSelect" onchange="onStateChange()"></select>
+          <select id="citySelect" onchange="onCityChange()"></select>
+          <button class="btn-reset" onclick="clearSentHistory()">
+            🗑️ Clear Sent History
+          </button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- Left Panel: Message Template -->
+        <div class="panel">
+          <div class="panel-title">
+            <span>📝 Message Template (Hindi)</span>
+            <select id="linkMode" style="padding: 3px 8px; font-size: 11px">
+              <option value="web">WhatsApp Web</option>
+              <option value="api">WhatsApp Universal API</option>
+            </select>
+          </div>
+          <p class="hint">
+            <code>{Institute}</code> coaching name se dynamically replace hoga.
+          </p>
+          <textarea id="messageBox">
+नमस्ते Team {Institute},
+
+हमने competitive exam aspirants के लिए ExamMokk – CBT Mock Test & Practice Platform बनाया है, जो Web + Mobile App पर Live है।
+
+✅ Real CBT-style Mock Tests
+✅ Daily GK & Speed Quiz
+✅ Instant Results & Performance Analytics
+✅ SSC, Banking, Railway, BPSC, State PSC, Defence, Teaching एवं अन्य प्रतियोगी परीक्षाएँ
+✅ छात्रों के लिए सिर्फ ₹99/year
+
+🤝 Institute Partnership Offer
+अगर आपके institute के students ExamMokk का ₹99/year package लेते हैं, तो हर student पर ₹30 आपके institute को Partner Earning के रूप में मिलेगा।
+
+उदाहरण:
+100 Students × ₹30 = ₹3,000 की Earning
+
+आपको अपना अलग Online Test Platform develop या maintain करने की जरूरत नहीं होगी। हम आपको complete mock test & practice technology platform provide करेंगे।
+
+अगर आप interested हैं, तो हम आपको 2-minute Demo + Partnership Details WhatsApp पर share कर सकते हैं।
+
+🌐 https://exammokk.cloud
+
+धन्यवाद,
+Team ExamMokk</textarea
+          >
+
+          <div class="action-row">
+            <button class="btn-bulk" onclick="sendAllSequentially()">
+              🚀 Open All Pending in WhatsApp (Auto-Queue)
+            </button>
+            <div class="delay-row">
+              <span>Interval Gap:</span>
+              <select id="queueDelay" style="padding: 2px 8px; font-size: 11px">
+                <option value="2500">2.5s</option>
+                <option value="3500" selected>3.5s (Safe)</option>
+                <option value="5000">5.0s</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Panel: Coaching Contacts List -->
+        <div class="panel">
+          <div class="panel-title">
+            <span>📋 Coaching Contacts (<span id="totalCount">0</span>)</span>
+            <span style="font-size: 12px; color: #4ade80" id="sentStats"
+              >Sent: 0</span
+            >
+          </div>
+          <div class="list-wrapper" id="contactsList"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let globalOutreachData = { states: [] };
+      let activeCoachingList = [];
+      const STORAGE_KEY = "exammokk_sent_history";
+
+      // Get History from LocalStorage
+      function getSentHistory() {
+        const data = localStorage.getItem(STORAGE_KEY);
+        return data ? JSON.parse(data) : {};
+      }
+
+      // Save To LocalStorage
+      function markAsSent(phone, name) {
+        const history = getSentHistory();
+        const now = new Date();
+
+        const formattedTime =
+          now.toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+          }) +
+          ", " +
+          now.toLocaleTimeString("en-IN", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          });
+
+        history[phone] = {
+          name: name,
+          timestamp: formattedTime,
+        };
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+        renderList();
+      }
+
+      function clearSentHistory() {
+        if (confirm("Kya aap saare sent logs clear karna chahte hain?")) {
+          localStorage.removeItem(STORAGE_KEY);
+          renderList();
+        }
+      }
+
+      // Fetch JSON from /js/coachingData.json
+      async function loadCoachingData() {
+        try {
+          const response = await fetch("/js/coachingData.json");
+          if (!response.ok) throw new Error("File not found");
+          globalOutreachData = await response.json();
+          initFilters();
+        } catch (error) {
+          console.error("JSON Error:", error);
+          document.getElementById("contactsList").innerHTML = `
+          <div class="empty-state" style="color: #ef4444;">
+            ⚠️ <b>/js/coachingData.json</b> load nahi ho saka. Path check karein.
+          </div>`;
+        }
+      }
+
+      function initFilters() {
+        if (
+          !globalOutreachData.states ||
+          globalOutreachData.states.length === 0
+        )
+          return;
+
+        const stateSelect = document.getElementById("stateSelect");
+        stateSelect.innerHTML = "";
+
+        globalOutreachData.states.forEach((stateObj) => {
+          const opt = document.createElement("option");
+          opt.value = stateObj.stateName;
+          opt.innerText = `State: ${stateObj.stateName}`;
+          stateSelect.appendChild(opt);
+        });
+
+        onStateChange();
+      }
+
+      function onStateChange() {
+        const selectedState = document.getElementById("stateSelect").value;
+        const stateObj = globalOutreachData.states.find(
+          (s) => s.stateName === selectedState,
+        );
+        const citySelect = document.getElementById("citySelect");
+        citySelect.innerHTML = "";
+
+        if (stateObj && stateObj.cities) {
+          stateObj.cities.forEach((c) => {
+            const opt = document.createElement("option");
+            opt.value = c.cityName;
+            opt.innerText = `City: ${c.cityName}`;
+            citySelect.appendChild(opt);
+          });
+        }
+
+        onCityChange();
+      }
+
+      function onCityChange() {
+        const selectedState = document.getElementById("stateSelect").value;
+        const selectedCity = document.getElementById("citySelect").value;
+
+        const stateObj = globalOutreachData.states.find(
+          (s) => s.stateName === selectedState,
+        );
+        const cityObj = stateObj
+          ? stateObj.cities.find((c) => c.cityName === selectedCity)
+          : null;
+
+        activeCoachingList =
+          cityObj && cityObj.coaching ? cityObj.coaching : [];
+        renderList();
+      }
+
+      function renderList() {
+        const container = document.getElementById("contactsList");
+        const history = getSentHistory();
+
+        document.getElementById("totalCount").innerText =
+          activeCoachingList.length;
+
+        let sentCount = 0;
+        container.innerHTML = "";
+
+        if (activeCoachingList.length === 0) {
+          container.innerHTML = `<div class="empty-state">Is city ke liye koi coaching contacts nahi mile.</div>`;
+          document.getElementById("sentStats").innerText = `Sent: 0`;
+          return;
+        }
+
+        activeCoachingList.forEach((inst, index) => {
+          const isSent = !!history[inst.phone];
+          if (isSent) sentCount++;
+
+          const card = document.createElement("div");
+          card.className = `institute-card ${isSent ? "sent-card" : ""}`;
+
+          const badgeHTML = isSent
+            ? `<span class="status-badge">✅ Sent: ${history[inst.phone].timestamp}</span>`
+            : `<span class="tag-area">${inst.area || "City Center"}</span>`;
+
+          const buttonText = isSent ? `🔄 Re-send` : `💬 Send`;
+          const buttonClass = isSent
+            ? `btn-send-single btn-resend`
+            : `btn-send-single`;
+
+          card.innerHTML = `
+          <div>
+            <div class="inst-name">
+              ${isSent ? "<span>✅</span>" : ""}
+              <span>${inst.name}</span>
+            </div>
+            <div class="inst-meta">
+              <span>+${inst.phone}</span>
+              ${badgeHTML}
+            </div>
+          </div>
+          <button class="${buttonClass}" onclick="sendSingle(${index})">
+            ${buttonText}
+          </button>
+        `;
+          container.appendChild(card);
+        });
+
+        document.getElementById("sentStats").innerText =
+          `Sent: ${sentCount}/${activeCoachingList.length}`;
+      }
+
+      function getFormattedUrl(inst) {
+        const mode = document.getElementById("linkMode").value;
+        const rawTemplate = document.getElementById("messageBox").value;
+        const personalizedMsg = rawTemplate.replace(/{Institute}/g, inst.name);
+        const encodedMsg = encodeURIComponent(personalizedMsg);
+
+        if (mode === "api") {
+          return `https://api.whatsapp.com/send?phone=${inst.phone}&text=${encodedMsg}`;
+        } else {
+          return `https://web.whatsapp.com/send?phone=${inst.phone}&text=${encodedMsg}`;
+        }
+      }
+
+      function sendSingle(index) {
+        const inst = activeCoachingList[index];
+        const url = getFormattedUrl(inst);
+        window.open(url, "_blank");
+        markAsSent(inst.phone, inst.name);
+      }
+
+      function sendAllSequentially() {
+        if (activeCoachingList.length === 0) return;
+
+        const delay =
+          parseInt(document.getElementById("queueDelay").value, 10) || 3500;
+
+        activeCoachingList.forEach((inst, index) => {
+          setTimeout(() => {
+            const url = getFormattedUrl(inst);
+            const win = window.open(url, "_blank");
+
+            if (!win || win.closed || typeof win.closed === "undefined") {
+              alert(
+                "⚠️ Pop-up Blocked! Browser URL bar ke right corner me jaakar 'Always allow pop-ups' enable karein.",
+              );
+            }
+
+            markAsSent(inst.phone, inst.name);
+          }, index * delay);
+        });
+      }
+
+      window.addEventListener("DOMContentLoaded", loadCoachingData);
+    </script>
+  </body>
+</html>

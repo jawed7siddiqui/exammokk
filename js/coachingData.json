@@ -1,0 +1,181 @@
+{
+  "states": [
+    {
+      "stateName": "Jharkhand",
+      "cities": [
+        {
+          "cityName": "Dhanbad",
+          "coaching": [
+            {
+              "id": 1,
+              "name": "Srivastava Classes Bank More",
+              "phone": "919472765950",
+              "area": "Bank More",
+              "city": "Dhanbad",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 2,
+              "name": "TNT Academy",
+              "phone": "917209852450",
+              "area": "Dhanbad Main",
+              "city": "Dhanbad",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 3,
+              "name": "Competition Circle Dhanbad",
+              "phone": "919534592915",
+              "area": "Dhanbad Main",
+              "city": "Dhanbad",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 4,
+              "name": "Shiksha Career Institute",
+              "phone": "919262308113",
+              "area": "Dhanbad Main",
+              "city": "Dhanbad",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 5,
+              "name": "HR Academy",
+              "phone": "919204035121",
+              "area": "Dhanbad Main",
+              "city": "Dhanbad",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 6,
+              "name": "Roy competitive classes",
+              "phone": "919661149482",
+              "area": "Dhanbad Main",
+              "city": "Dhanbad",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 7,
+              "name": "The Success Mantra",
+              "phone": "917677208490",
+              "area": "Dhanbad Main",
+              "city": "Dhanbad",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 8,
+              "name": "Competition Guru",
+              "phone": "919546233012",
+              "area": "Dhanbad Main",
+              "city": "Dhanbad",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 9,
+              "name": "Career Dot Com",
+              "phone": "919308098041",
+              "area": "Dhanbad Main",
+              "city": "Dhanbad",
+              "state": "Jharkhand"
+            }
+          ]
+        },
+        {
+          "cityName": "Ranchi",
+          "coaching": [
+            {
+              "id": 101,
+              "name": "Pratigya Career Institute",
+              "phone": "918709562483",
+              "area": "Ratu Road",
+              "city": "Ranchi",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 102,
+              "name": "Target Competition Classes",
+              "phone": "917004523190",
+              "area": "Doranda",
+              "city": "Ranchi",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 103,
+              "name": "Success Point Academy",
+              "phone": "919334717144",
+              "area": "Lalpur Chowk",
+              "city": "Ranchi",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 104,
+              "name": "Lakshya Career Academy",
+              "phone": "919431105432",
+              "area": "Harmu Road",
+              "city": "Ranchi",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 105,
+              "name": "Sankalp Competition Classes",
+              "phone": "919835174092",
+              "area": "Tharpakhna, Lalpur",
+              "city": "Ranchi",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 106,
+              "name": "Shubham Career Point",
+              "phone": "919470982311",
+              "area": "Kokar",
+              "city": "Ranchi",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 107,
+              "name": "Achievers Academy Ranchi",
+              "phone": "919386542109",
+              "area": "Kantatoli",
+              "city": "Ranchi",
+              "state": "Jharkhand"
+            },
+            {
+              "id": 108,
+              "name": "Pinnacle Competition Classes",
+              "phone": "918210349876",
+              "area": "Hinoo",
+              "city": "Ranchi",
+              "state": "Jharkhand"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stateName": "Bihar",
+      "cities": [
+        {
+          "cityName": "Patna",
+          "coaching": []
+        },
+        {
+          "cityName": "Gaya",
+          "coaching": []
+        }
+      ]
+    },
+    {
+      "stateName": "Uttar Pradesh",
+      "cities": [
+        {
+          "cityName": "Prayagraj",
+          "coaching": []
+        },
+        {
+          "cityName": "Varanasi",
+          "coaching": []
+        }
+      ]
+    }
+  ]
+}
