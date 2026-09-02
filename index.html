@@ -125,11 +125,63 @@
       .font-mono-tag {
         font-family: "Space Grotesk", monospace;
       }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      @keyframes modalSlideUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      .animate-modal {
+        animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes smoothFadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade {
+        animation: smoothFadeIn 0.2s ease-out forwards;
+      }
+      @keyframes nativeToastDrop {
+        0% {
+          opacity: 0;
+          transform: translateY(-12px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-native-toast {
+        animation: nativeToastDrop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
     </style>
   </head>
   <body
-    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white antialiased"
+    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white antialiased relative"
   >
+    <!-- GLOBAL TOAST CONTAINER -->
+    <div
+      id="custom-toast-container"
+      class="fixed top-4 right-4 sm:top-5 sm:right-5 z-[9999] flex flex-col gap-2 max-w-sm w-full pointer-events-none px-3 sm:px-0"
+    ></div>
+
     <!-- REUSABLE HEADER -->
     <div id="global-header"></div>
 
@@ -676,15 +728,747 @@
       </section>
     </main>
 
+    <!-- MOBILE-RESPONSIVE CLEAN AUTH MODAL (LOGIN & SIGNUP VERIFICATION) -->
+    <div
+      id="auth-modal"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-[1000] flex items-end sm:items-center justify-center p-0 sm:p-4 hidden transition-opacity"
+    >
+      <div
+        class="w-full sm:max-w-[390px] bg-white rounded-t-3xl sm:rounded-2xl flex flex-col shadow-2xl border border-slate-100 relative overflow-hidden animate-modal max-h-[92vh]"
+      >
+        <!-- Modal Inline Toast -->
+        <div
+          id="app-toast"
+          aria-live="polite"
+          class="absolute top-2.5 inset-x-3 z-50 hidden rounded-xl p-2.5 shadow-lg border backdrop-blur-md animate-native-toast flex items-center gap-2 text-xs"
+        >
+          <div
+            id="toast-icon-wrapper"
+            class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 text-white"
+          >
+            <i
+              id="toast-icon"
+              data-lucide="alert-circle"
+              class="w-3.5 h-3.5"
+            ></i>
+          </div>
+          <p
+            id="toast-message"
+            class="text-[11.5px] font-bold flex-1 leading-snug"
+          ></p>
+          <button
+            onclick="hideNativeToast()"
+            class="p-1 opacity-60 hover:opacity-100 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-3 h-3"></i>
+          </button>
+        </div>
+
+        <!-- Header -->
+        <div
+          class="px-4 py-3.5 border-b border-slate-100 flex items-center justify-between bg-white shrink-0"
+        >
+          <div class="flex items-center gap-2">
+            <button
+              id="app-back-btn"
+              onclick="handleAppBackNavigation()"
+              class="invisible w-7 h-7 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center transition cursor-pointer"
+            >
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            </button>
+            <div class="flex items-center gap-1.5">
+              <div
+                class="w-6 h-6 rounded-md bg-indigo-600 flex items-center justify-center text-white text-xs"
+              >
+                <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i>
+              </div>
+              <span
+                class="text-xs font-black tracking-tight text-slate-900 uppercase"
+              >
+                Candidate <span class="text-indigo-600">Portal</span>
+              </span>
+            </div>
+          </div>
+
+          <button
+            onclick="closeAuthModal()"
+            class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center cursor-pointer transition"
+          >
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- Scrollable Form Container -->
+        <div class="p-4 sm:p-5 overflow-y-auto no-scrollbar space-y-4">
+          <div class="text-center">
+            <h3 class="text-sm sm:text-base font-extrabold text-slate-900">
+              Login or Sign Up
+            </h3>
+            <p class="text-[11.5px] text-slate-500 mt-0.5">
+              Enter mobile number to sign in or create a new account.
+            </p>
+          </div>
+
+          <!-- STEP 1: MOBILE ENTRY -->
+          <section
+            id="step-common-login"
+            class="auth-step-container animate-fade space-y-3"
+          >
+            <form
+              onsubmit="handleCommonLoginSubmit(event)"
+              class="space-y-3"
+              novalidate
+            >
+              <div>
+                <label class="text-[11px] font-bold text-slate-700 block mb-1">
+                  Enter Mobile Number <span class="text-rose-500">*</span>
+                </label>
+                <!-- Fixed Country Code Input Box -->
+                <div
+                  id="mobile-input-container"
+                  class="flex items-center w-full bg-slate-50 border border-slate-200 rounded-xl overflow-hidden focus-within:border-indigo-600 focus-within:bg-white focus-within:ring-2 focus-within:ring-indigo-100 transition"
+                >
+                  <div
+                    class="flex items-center gap-1 px-3 py-2.5 bg-slate-100/80 border-r border-slate-200 text-slate-700 font-bold text-xs shrink-0 whitespace-nowrap select-none font-mono-tag"
+                  >
+                    <span class="text-sm leading-none">🇮🇳</span>
+                    <span>+91</span>
+                  </div>
+                  <input
+                    type="tel"
+                    id="user-mobile"
+                    required
+                    maxlength="10"
+                    oninput="
+                      this.value = this.value.replace(/[^0-9]/g, '');
+                      resetInputHighlight(
+                        'user-mobile',
+                        'mobile-input-container',
+                      );
+                    "
+                    placeholder="Enter 10-digit mobile number"
+                    class="w-full px-3 py-2.5 font-semibold text-slate-900 outline-none bg-transparent text-xs tracking-wider placeholder:text-slate-400"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                id="btn-mobile-submit"
+                class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
+              >
+                <span>Continue</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </button>
+            </form>
+          </section>
+
+          <!-- STEP 2A: PASSWORD ENTRY -->
+          <section
+            id="step-enter-password"
+            class="auth-step-container hidden animate-fade space-y-3"
+          >
+            <form
+              onsubmit="handlePasswordSubmit(event)"
+              class="space-y-3"
+              novalidate
+            >
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label class="text-[11px] font-bold text-slate-700"
+                    >Account Password
+                    <span class="text-rose-500">*</span></label
+                  >
+                  <span class="text-[10px] text-slate-400 font-medium"
+                    >Default: 123456</span
+                  >
+                </div>
+                <input
+                  type="password"
+                  id="user-password-input"
+                  required
+                  minlength="4"
+                  oninput="resetInputHighlight('user-password-input')"
+                  placeholder="Enter your password"
+                  class="w-full px-3 py-2.5 border border-slate-200 rounded-xl font-mono-tag font-semibold text-slate-900 outline-none focus:border-indigo-600 focus:bg-white bg-slate-50 text-xs transition"
+                />
+              </div>
+
+              <button
+                type="submit"
+                id="btn-password-submit"
+                class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
+              >
+                <span>Sign In & Continue</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </button>
+            </form>
+          </section>
+
+          <!-- STEP 2B: REGISTRATION -->
+          <section
+            id="step-registration"
+            class="auth-step-container hidden animate-fade space-y-3"
+          >
+            <form
+              onsubmit="handleRegistrationSubmit(event)"
+              class="space-y-2.5"
+              novalidate
+            >
+              <div>
+                <label class="text-[11px] font-bold text-slate-700 block mb-1"
+                  >Full Name <span class="text-rose-500">*</span></label
+                >
+                <input
+                  type="text"
+                  id="reg-candidate-name"
+                  required
+                  oninput="resetInputHighlight('reg-candidate-name')"
+                  placeholder="Enter candidate full name"
+                  class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-900 text-xs outline-none focus:border-indigo-600 focus:bg-white transition"
+                />
+              </div>
+
+              <div>
+                <label class="text-[11px] font-bold text-slate-700 block mb-1"
+                  >Gender <span class="text-rose-500">*</span></label
+                >
+                <div
+                  id="gender-options-wrapper"
+                  class="grid grid-cols-3 gap-1.5"
+                >
+                  <label
+                    class="gender-option-label flex items-center justify-center py-2 px-1 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer text-xs font-semibold text-slate-700 hover:border-indigo-500 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/60 has-[:checked]:text-indigo-600 transition"
+                  >
+                    <input
+                      type="radio"
+                      name="candidate-gender"
+                      value="Male"
+                      onchange="clearGenderValidation()"
+                      class="hidden"
+                    />
+                    <span>Male</span>
+                  </label>
+                  <label
+                    class="gender-option-label flex items-center justify-center py-2 px-1 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer text-xs font-semibold text-slate-700 hover:border-indigo-500 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/60 has-[:checked]:text-indigo-600 transition"
+                  >
+                    <input
+                      type="radio"
+                      name="candidate-gender"
+                      value="Female"
+                      onchange="clearGenderValidation()"
+                      class="hidden"
+                    />
+                    <span>Female</span>
+                  </label>
+                  <label
+                    class="gender-option-label flex items-center justify-center py-2 px-1 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer text-xs font-semibold text-slate-700 hover:border-indigo-500 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/60 has-[:checked]:text-indigo-600 transition"
+                  >
+                    <input
+                      type="radio"
+                      name="candidate-gender"
+                      value="Other"
+                      onchange="clearGenderValidation()"
+                      class="hidden"
+                    />
+                    <span>Other</span>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-[11px] font-bold text-slate-700 block mb-1"
+                  >Create Password <span class="text-rose-500">*</span></label
+                >
+                <input
+                  type="password"
+                  id="reg-password"
+                  required
+                  minlength="4"
+                  oninput="resetInputHighlight('reg-password')"
+                  placeholder="Min 4 characters"
+                  class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-900 text-xs outline-none focus:border-indigo-600 focus:bg-white transition"
+                />
+              </div>
+
+              <!-- Single Integrated Label for Checkbox & Terms -->
+              <label
+                class="flex items-start gap-2 pt-1 cursor-pointer select-none"
+              >
+                <input
+                  type="checkbox"
+                  id="terms-checkbox"
+                  class="accent-indigo-600 w-3.5 h-3.5 rounded border-slate-300 mt-0.5 shrink-0"
+                />
+                <span class="text-[11px] text-slate-500 leading-tight">
+                  I agree to the
+                  <a
+                    href="terms.html"
+                    target="_blank"
+                    class="text-indigo-600 font-bold hover:underline"
+                    >Terms</a
+                  >
+                  &amp;
+                  <a
+                    href="privacy-policy.html"
+                    target="_blank"
+                    class="text-indigo-600 font-bold hover:underline"
+                    >Privacy Policy</a
+                  >.
+                </span>
+              </label>
+
+              <button
+                type="submit"
+                id="btn-reg-submit"
+                class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer mt-1"
+              >
+                <span>Register & Continue</span>
+                <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+              </button>
+            </form>
+          </section>
+
+          <!-- STEP 3: SUCCESS -->
+          <section
+            id="step-reg-success"
+            class="auth-step-container hidden text-center space-y-3 animate-fade py-2"
+          >
+            <div
+              class="w-12 h-12 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-full mx-auto flex items-center justify-center text-lg shadow-xs"
+            >
+              <i data-lucide="check" class="w-6 h-6 stroke-[2.5]"></i>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-slate-900">
+                Profile Activated
+              </h4>
+              <p class="text-[11.5px] text-slate-500 mt-0.5">
+                Your test session is ready.
+              </p>
+            </div>
+            <button
+              onclick="finishAuthAndLaunch()"
+              class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-xs transition"
+            >
+              Start Quiz Now →
+            </button>
+          </section>
+        </div>
+      </div>
+    </div>
+
     <!-- REUSABLE FOOTER -->
     <div id="global-footer"></div>
 
     <!-- LAYOUT ENGINE SCRIPT -->
     <script src="/js/layout.js"></script>
 
-    <!-- RUNNER & ICONS INITIALIZATION SCRIPT -->
+    <!-- AUTH & RUNNER CONTROLLER SCRIPT -->
     <script>
+      const AUTH_API_BASE_URL =
+        "https://exam-api.jawedsiddiqui.cloud/api/kidspaint";
       let deferredPrompt = null;
+
+      // AUTH STATE CONTROL
+      let activeStepHistory = ["step-common-login"];
+      let mobileNumber = "";
+      let authToastTimer = null;
+      let pendingLaunchAfterAuth = false;
+
+      function isUserLoggedIn() {
+        const token =
+          localStorage.getItem("token") ||
+          localStorage.getItem("examIndiaToken");
+        return Boolean(token);
+      }
+
+      function openAuthModal() {
+        pendingLaunchAfterAuth = true;
+        document.getElementById("auth-modal").classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        switchStep("step-common-login");
+      }
+
+      function closeAuthModal() {
+        document.getElementById("auth-modal").classList.add("hidden");
+        document.body.style.overflow = "";
+        pendingLaunchAfterAuth = false;
+      }
+
+      function switchStep(stepId, pushHistory = true) {
+        hideNativeToast();
+        if (
+          pushHistory &&
+          activeStepHistory[activeStepHistory.length - 1] !== stepId
+        ) {
+          activeStepHistory.push(stepId);
+        }
+
+        const backBtn = document.getElementById("app-back-btn");
+        if (activeStepHistory.length > 1 && stepId !== "step-common-login") {
+          backBtn.classList.remove("invisible");
+        } else {
+          backBtn.classList.add("invisible");
+        }
+
+        document
+          .querySelectorAll(".auth-step-container")
+          .forEach((el) => el.classList.add("hidden"));
+        const target = document.getElementById(stepId);
+        if (target) target.classList.remove("hidden");
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      }
+
+      function handleAppBackNavigation() {
+        if (activeStepHistory.length > 1) {
+          activeStepHistory.pop();
+          const prev = activeStepHistory[activeStepHistory.length - 1];
+          switchStep(prev, false);
+        }
+      }
+
+      function showToastMessage(text, type = "info") {
+        const container = document.getElementById("custom-toast-container");
+        if (!container) return;
+
+        const toast = document.createElement("div");
+        toast.className = `p-3 rounded-2xl text-xs font-bold text-white shadow-xl flex items-center justify-between gap-2 pointer-events-auto transition-all ${
+          type === "error"
+            ? "bg-rose-600"
+            : type === "success"
+              ? "bg-emerald-600"
+              : "bg-indigo-600"
+        }`;
+
+        toast.innerHTML = `
+          <span>${text}</span>
+          <button onclick="this.parentElement.remove()" class="p-1 opacity-70 hover:opacity-100 cursor-pointer">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        `;
+
+        container.appendChild(toast);
+        if (typeof lucide !== "undefined") lucide.createIcons();
+        setTimeout(() => toast.remove(), 3500);
+      }
+
+      function showNativeToast(msg, type = "error") {
+        const toast = document.getElementById("app-toast");
+        const msgEl = document.getElementById("toast-message");
+        const iconWrapper = document.getElementById("toast-icon-wrapper");
+        const icon = document.getElementById("toast-icon");
+
+        if (!toast || !msgEl) return;
+        if (authToastTimer) clearTimeout(authToastTimer);
+
+        msgEl.innerText = msg;
+
+        if (type === "success") {
+          toast.className =
+            "absolute top-2.5 inset-x-3 z-50 rounded-xl p-2.5 shadow-lg border backdrop-blur-md animate-native-toast flex items-center gap-2 text-xs bg-emerald-50 border-emerald-200 text-emerald-950";
+          iconWrapper.className =
+            "w-6 h-6 rounded-lg bg-emerald-500 flex items-center justify-center shrink-0 text-white";
+          icon.setAttribute("data-lucide", "check-circle");
+        } else if (type === "info") {
+          toast.className =
+            "absolute top-2.5 inset-x-3 z-50 rounded-xl p-2.5 shadow-lg border backdrop-blur-md animate-native-toast flex items-center gap-2 text-xs bg-indigo-50 border-indigo-200 text-indigo-950";
+          iconWrapper.className =
+            "w-6 h-6 rounded-lg bg-indigo-600 flex items-center justify-center shrink-0 text-white";
+          icon.setAttribute("data-lucide", "info");
+        } else {
+          toast.className =
+            "absolute top-2.5 inset-x-3 z-50 rounded-xl p-2.5 shadow-lg border backdrop-blur-md animate-native-toast flex items-center gap-2 text-xs bg-rose-50 border-rose-200 text-rose-950";
+          iconWrapper.className =
+            "w-6 h-6 rounded-lg bg-rose-500 flex items-center justify-center shrink-0 text-white";
+          icon.setAttribute("data-lucide", "alert-circle");
+        }
+
+        toast.classList.remove("hidden");
+        if (typeof lucide !== "undefined") lucide.createIcons();
+        authToastTimer = setTimeout(() => hideNativeToast(), 3500);
+      }
+
+      function hideNativeToast() {
+        const toast = document.getElementById("app-toast");
+        if (toast) toast.classList.add("hidden");
+      }
+
+      function markInputError(inputId, customContainerId = null) {
+        const inputEl = document.getElementById(inputId);
+        const container = customContainerId
+          ? document.getElementById(customContainerId)
+          : inputEl;
+        if (container) {
+          container.classList.add(
+            "border-rose-400",
+            "bg-rose-50/30",
+            "ring-2",
+            "ring-rose-100",
+          );
+          container.classList.remove("border-slate-200");
+        }
+      }
+
+      function resetInputHighlight(inputId, customContainerId = null) {
+        const inputEl = document.getElementById(inputId);
+        const container = customContainerId
+          ? document.getElementById(customContainerId)
+          : inputEl;
+        if (container) {
+          container.classList.remove(
+            "border-rose-400",
+            "bg-rose-50/30",
+            "ring-2",
+            "ring-rose-100",
+          );
+          container.classList.add("border-slate-200");
+        }
+      }
+
+      function clearGenderValidation() {
+        document.querySelectorAll(".gender-option-label").forEach((el) => {
+          el.classList.remove("border-rose-400", "bg-rose-50/30");
+          el.classList.add("border-slate-200");
+        });
+      }
+
+      function getDeviceContext() {
+        const ua = navigator.userAgent.toLowerCase();
+        let platform = "web";
+        if (/android/i.test(ua)) platform = "android";
+        else if (
+          /iphone|ipad|ipod/i.test(ua) ||
+          (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+        )
+          platform = "ios";
+
+        let deviceType = "desktop";
+        if (/tablet|ipad/i.test(ua)) deviceType = "tablet";
+        else if (/mobile|iphone|ipod|android/i.test(ua)) deviceType = "mobile";
+
+        return {
+          pushToken: localStorage.getItem("user_fcm_token") || null,
+          platform: platform,
+          deviceType: deviceType,
+        };
+      }
+
+      // Step 1: Check Mobile
+      async function handleCommonLoginSubmit(e) {
+        e.preventDefault();
+        mobileNumber = document.getElementById("user-mobile").value.trim();
+
+        if (!mobileNumber || mobileNumber.length !== 10) {
+          markInputError("user-mobile", "mobile-input-container");
+          showNativeToast(
+            "Please enter a valid 10-digit mobile number.",
+            "error",
+          );
+          document.getElementById("user-mobile").focus();
+          return;
+        }
+
+        const btn = document.getElementById("btn-mobile-submit");
+        btn.disabled = true;
+        btn.innerText = "Checking...";
+
+        try {
+          const res = await fetch(`${AUTH_API_BASE_URL}/check-mobile`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mobileNumber }),
+          });
+          const data = await res.json();
+
+          if (data.exists) {
+            const accountStatus = (data.status || "active").toLowerCase();
+            if (accountStatus === "blocked" || accountStatus === "inactive") {
+              markInputError("user-mobile", "mobile-input-container");
+              showNativeToast(
+                "Account is blocked or inactive. Contact support.",
+                "error",
+              );
+              return;
+            }
+            showNativeToast("Account found! Please enter password.", "info");
+            switchStep("step-enter-password");
+          } else {
+            showNativeToast(
+              "New candidate! Please complete registration.",
+              "info",
+            );
+            switchStep("step-registration");
+          }
+        } catch (err) {
+          showNativeToast(
+            "Unable to verify mobile number. Check network.",
+            "error",
+          );
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = `<span>Continue</span> <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>`;
+          if (typeof lucide !== "undefined") lucide.createIcons();
+        }
+      }
+
+      // Step 2A: Password Submit
+      async function handlePasswordSubmit(e) {
+        e.preventDefault();
+        const password = document.getElementById("user-password-input").value;
+
+        if (!password || password.length < 4) {
+          markInputError("user-password-input");
+          showNativeToast("Password must be at least 4 characters.", "error");
+          document.getElementById("user-password-input").focus();
+          return;
+        }
+
+        const btn = document.getElementById("btn-password-submit");
+        btn.disabled = true;
+        btn.innerText = "Signing in...";
+
+        const deviceMeta = getDeviceContext();
+        const loginPayload = {
+          mobileNumber: mobileNumber,
+          password: password,
+          pushToken: deviceMeta.pushToken,
+          platform: deviceMeta.platform,
+          deviceType: deviceMeta.deviceType,
+        };
+
+        try {
+          const res = await fetch(`${AUTH_API_BASE_URL}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(loginPayload),
+          });
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("examIndiaToken", data.token);
+            localStorage.setItem("examIndiaUser", JSON.stringify(data.user));
+            sessionStorage.setItem("last_status_check", Date.now().toString());
+
+            showToastMessage("Login Successful!", "success");
+            finishAuthAndLaunch();
+          } else {
+            markInputError("user-password-input");
+            showNativeToast(
+              data.message || "Invalid credentials. Try again.",
+              "error",
+            );
+          }
+        } catch (err) {
+          showNativeToast("Network error. Please try again.", "error");
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = `<span>Sign In & Continue</span> <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>`;
+          if (typeof lucide !== "undefined") lucide.createIcons();
+        }
+      }
+
+      // Step 2B: Register Submit
+      async function handleRegistrationSubmit(e) {
+        e.preventDefault();
+        const candidateName = document
+          .getElementById("reg-candidate-name")
+          .value.trim();
+        const userPassword = document.getElementById("reg-password").value;
+        const termsChecked = document.getElementById("terms-checkbox").checked;
+        const genderElement = document.querySelector(
+          'input[name="candidate-gender"]:checked',
+        );
+
+        if (!candidateName) {
+          markInputError("reg-candidate-name");
+          showNativeToast("Please enter candidate full name.", "error");
+          return;
+        }
+        if (!genderElement) {
+          document.querySelectorAll(".gender-option-label").forEach((el) => {
+            el.classList.add("border-rose-400", "bg-rose-50/30");
+          });
+          showNativeToast("Please choose your gender.", "error");
+          return;
+        }
+        if (!userPassword || userPassword.length < 4) {
+          markInputError("reg-password");
+          showNativeToast("Password must be at least 4 characters.", "error");
+          return;
+        }
+        if (!termsChecked) {
+          showNativeToast("Please accept the Terms & Privacy Policy.", "error");
+          return;
+        }
+
+        const btn = document.getElementById("btn-reg-submit");
+        btn.disabled = true;
+        btn.innerText = "Creating account...";
+
+        const deviceMeta = getDeviceContext();
+        const payload = {
+          role: "aspirant",
+          mobileNumber: mobileNumber,
+          password: userPassword,
+          candidateName: candidateName,
+          gender: genderElement.value,
+          studentName: candidateName,
+          schoolName: "ExamMokk Aspirant Hub",
+          rollNo: "MOKK" + Math.floor(1000 + Math.random() * 9000),
+          pushToken: deviceMeta.pushToken,
+          platform: deviceMeta.platform,
+          deviceType: deviceMeta.deviceType,
+        };
+
+        try {
+          const res = await fetch(`${AUTH_API_BASE_URL}/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("examIndiaToken", data.token);
+            localStorage.setItem("examIndiaUser", JSON.stringify(data.user));
+            sessionStorage.setItem("last_status_check", Date.now().toString());
+            switchStep("step-reg-success");
+          } else {
+            showNativeToast(
+              data.message || "Failed to create account.",
+              "error",
+            );
+          }
+        } catch (err) {
+          showNativeToast("Registration error. Check network.", "error");
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = `<span>Register & Continue</span> <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>`;
+          if (typeof lucide !== "undefined") lucide.createIcons();
+        }
+      }
+
+      function finishAuthAndLaunch() {
+        const sessionData = {
+          date: new Date().toDateString(),
+          portal: "ALL_EXAMS",
+          timeLeft: 1800,
+          isActivated: true,
+        };
+        localStorage.setItem("examIndiaSession", JSON.stringify(sessionData));
+
+        closeAuthModal();
+        // Redirect directly to Daily GK quiz after successful login/signup
+        proceedToDailyGKQuiz();
+      }
+
+      function proceedToDailyGKQuiz() {
+        const runnerFile = isMobileDevice() ? "test/runner" : "test/runner";
+        window.location.href = `/${runnerFile}?test_id=dgk_todays_affairs&segment=DAILY_GK`;
+      }
 
       function isMobileDevice() {
         return (
@@ -694,9 +1478,13 @@
         );
       }
 
+      // ONLY DAILY GK TRIGGERS LOGIN CHECK
       function launchDailyGKRunner() {
-        const runnerFile = isMobileDevice() ? "test/runner" : "test/runner";
-        window.location.href = `/${runnerFile}?test_id=dgk_todays_affairs&segment=DAILY_GK`;
+        if (!isUserLoggedIn()) {
+          openAuthModal();
+          return;
+        }
+        proceedToDailyGKQuiz();
       }
 
       window.addEventListener("beforeinstallprompt", (e) => {
