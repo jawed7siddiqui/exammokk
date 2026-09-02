@@ -226,7 +226,7 @@
       </section>
     </main>
 
-    <!-- IN-PAGE AUTH MODAL (RESPONSIVE POPUP) -->
+    <!-- IN-PAGE AUTH MODAL (LOGIN & SIGNUP VERIFICATION) -->
     <div
       id="auth-modal"
       class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-[1000] flex items-end sm:items-center justify-center p-0 sm:p-4 hidden transition-opacity"
@@ -283,7 +283,7 @@
               <span
                 class="text-xs sm:text-sm font-black tracking-tight text-slate-900 uppercase"
               >
-                Candidate <span class="text-indigo-600">Login</span>
+                Candidate <span class="text-indigo-600">Portal</span>
               </span>
             </div>
           </div>
@@ -300,10 +300,10 @@
         <div class="p-5 sm:p-6 overflow-y-auto no-scrollbar space-y-4">
           <div class="text-center">
             <h3 class="text-sm sm:text-base font-extrabold text-slate-900">
-              Candidate Verification
+              Login or Sign Up
             </h3>
             <p class="text-xs text-slate-500 mt-1">
-              Please sign in to start your practice test.
+              Enter mobile number to sign in or create a new account.
             </p>
           </div>
 
@@ -319,7 +319,7 @@
             >
               <div>
                 <label class="text-xs font-bold text-slate-700 block mb-1">
-                  Mobile Number <span class="text-rose-500">*</span>
+                  Enter Mobile Number <span class="text-rose-500">*</span>
                 </label>
                 <div
                   id="mobile-input-container"
@@ -608,6 +608,32 @@
       let activeDailyTest = null;
       let modalConfirmCallback = null;
       let pendingLaunchParams = null;
+      let expandedCategoriesMap = {}; // Tracks Show More / Show Less state
+
+      // ==========================================
+      // ATTEMPTED TESTS LOCALSTORAGE ENGINE
+      // ==========================================
+      function getAttemptedTestIds() {
+        try {
+          const ids = JSON.parse(
+            localStorage.getItem("gk_completed_tests") || "[]",
+          );
+          return Array.isArray(ids) ? ids : [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function markTestAsAttempted(testId) {
+        if (!testId) return;
+        try {
+          const ids = getAttemptedTestIds();
+          if (!ids.includes(testId)) {
+            ids.push(testId);
+            localStorage.setItem("gk_completed_tests", JSON.stringify(ids));
+          }
+        } catch (e) {}
+      }
 
       // ==========================================
       // AUTH STATE & IN-PAGE MODAL CONTROLLER
@@ -644,7 +670,7 @@
               class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer flex items-center gap-2 shadow-sm"
             >
               <i data-lucide="log-in" class="w-4 h-4"></i>
-              <span>Login</span>
+              <span>Login / Sign Up</span>
             </button>
           `;
         }
@@ -1174,11 +1200,18 @@
         }
       }
 
+      function toggleCategoryShowMore(catId) {
+        expandedCategoriesMap[catId] = !expandedCategoriesMap[catId];
+        renderAccordion();
+      }
+
       function renderAccordion() {
         const container = document.getElementById("gk-accordion-container");
         if (!container) return;
 
         const categories = dailyGkConfig?.categories || [];
+        const attemptedIds = getAttemptedTestIds();
+
         document.getElementById("total-categories-count").textContent =
           `${categories.length} Topics`;
 
@@ -1197,11 +1230,36 @@
         container.innerHTML = categories
           .map((cat) => {
             const isOpen = cat.id === openCategoryId;
-            const topicTests = allCategoryTests.filter(
+            const isExpanded = Boolean(expandedCategoriesMap[cat.id]);
+
+            // All tests for this topic
+            let topicTests = allCategoryTests.filter(
               (t) =>
                 t.subCategoryId === cat.id ||
                 t.title.toLowerCase().includes(cat.title.toLowerCase()),
             );
+
+            // Separate tests into unattempted (first) and attempted (bottom)
+            const unattemptedTests = [];
+            const completedTests = [];
+
+            topicTests.forEach((test) => {
+              if (attemptedIds.includes(test.id)) {
+                completedTests.push(test);
+              } else {
+                unattemptedTests.push(test);
+              }
+            });
+
+            // Sorted: Unattempted on top, Attempted at the bottom
+            const sortedTests = [...unattemptedTests, ...completedTests];
+            const totalCount = sortedTests.length;
+
+            // Show max 2 tests unless expanded
+            const visibleTests = isExpanded
+              ? sortedTests
+              : sortedTests.slice(0, 2);
+            const hiddenCount = Math.max(0, totalCount - 2);
 
             return `
             <div class="bg-white border ${isOpen ? "border-indigo-500 shadow-md ring-1 ring-indigo-500/20" : "border-slate-200"} rounded-2xl overflow-hidden transition duration-200">
@@ -1224,7 +1282,7 @@
 
                 <div class="flex items-center gap-2 sm:gap-3 shrink-0">
                   <span class="text-[10px] sm:text-xs font-extrabold px-3 py-1 rounded-full border bg-indigo-50 text-indigo-700 border-indigo-200">
-                    ${isCategoryLoading ? "⏳ Loading" : topicTests.length > 0 ? `${topicTests.length} Tests Available` : "Explore"}
+                    ${isCategoryLoading ? "⏳ Loading" : totalCount > 0 ? `${totalCount} Tests Available` : "Explore"}
                   </span>
                   <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 transition-transform duration-200 ${isOpen ? "rotate-180 bg-indigo-50 text-indigo-600" : ""}">
                     <i data-lucide="chevron-down" class="w-4 h-4"></i>
@@ -1232,7 +1290,7 @@
                 </div>
               </div>
 
-              <!-- ACCORDION CONTENT (RESPONSIVE GRID) -->
+              <!-- ACCORDION CONTENT (RESPONSIVE GRID WITH MAX 2 + SHOW MORE) -->
               ${
                 isOpen
                   ? `
@@ -1245,45 +1303,83 @@
                         <p class="text-xs sm:text-sm font-bold text-indigo-600">Loading test papers...</p>
                       </div>
                     `
-                      : topicTests.length > 0
+                      : totalCount > 0
                         ? `
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                          ${topicTests
-                            .map((test) => {
-                              const isNew = isWithinFiveDays(test.createdAt);
-                              const cardContainerClass = isNew
-                                ? "bg-emerald-50/70 border border-emerald-300 shadow-sm hover:border-emerald-400"
-                                : "bg-white border border-slate-200 rounded-xl shadow-sm hover:border-indigo-300";
+                        <div class="space-y-4">
+                          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                            ${visibleTests
+                              .map((test) => {
+                                const isAttempted = attemptedIds.includes(
+                                  test.id,
+                                );
+                                const isNew =
+                                  !isAttempted &&
+                                  isWithinFiveDays(test.createdAt);
 
-                              return `
-                                <div class="pro-card ${cardContainerClass} p-4 flex flex-col justify-between space-y-3">
-                                  <div class="space-y-1.5">
-                                    <div class="flex items-center gap-1.5 flex-wrap justify-between">
-                                      <h5 class="font-extrabold text-slate-900 text-xs sm:text-sm leading-snug break-words">${test.title}</h5>
-                                      ${isNew ? `<span class="px-1.5 py-0.5 bg-emerald-600 text-white text-[9px] font-black tracking-wider rounded uppercase shrink-0">NEW</span>` : ""}
+                                const cardContainerClass = isAttempted
+                                  ? "bg-slate-100/80 border border-slate-200 opacity-90"
+                                  : isNew
+                                    ? "bg-emerald-50/70 border border-emerald-300 shadow-sm hover:border-emerald-400"
+                                    : "bg-white border border-slate-200 rounded-xl shadow-sm hover:border-indigo-300";
+
+                                return `
+                                  <div class="pro-card ${cardContainerClass} p-4 flex flex-col justify-between space-y-3 rounded-2xl">
+                                    <div class="space-y-1.5">
+                                      <div class="flex items-center gap-1.5 flex-wrap justify-between">
+                                        <h5 class="font-extrabold ${isAttempted ? "text-slate-700" : "text-slate-900"} text-xs sm:text-sm leading-snug break-words">${test.title}</h5>
+                                        ${
+                                          isAttempted
+                                            ? `<span class="px-2 py-0.5 bg-slate-200 text-slate-700 border border-slate-300 text-[9px] font-black tracking-wider rounded-md uppercase shrink-0 flex items-center gap-1">✓ ATTEMPTED</span>`
+                                            : isNew
+                                              ? `<span class="px-1.5 py-0.5 bg-emerald-600 text-white text-[9px] font-black tracking-wider rounded uppercase shrink-0">NEW</span>`
+                                              : ""
+                                        }
+                                      </div>
+                                      <p class="text-[11px] sm:text-xs font-medium text-slate-500 line-clamp-2 leading-relaxed">${test.desc}</p>
                                     </div>
-                                    <p class="text-[11px] sm:text-xs font-medium text-slate-500 line-clamp-2 leading-relaxed">${test.desc}</p>
-                                  </div>
 
-                                  <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-                                    <div class="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-slate-500">
-                                      <span>📝 ${test.ques} Qs</span>
-                                      <span>•</span>
-                                      <span>⏱️ ${test.time}m</span>
+                                    <div class="pt-3 border-t ${isAttempted ? "border-slate-200" : "border-slate-100"} flex items-center justify-between gap-2">
+                                      <div class="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-slate-500">
+                                        <span>📝 ${test.ques} Qs</span>
+                                        <span>•</span>
+                                        <span>⏱️ ${test.time}m</span>
+                                      </div>
+
+                                      <button 
+                                        onclick="startTest('${test.id}', '${cat.id}')"
+                                        class="px-4 py-2 ${
+                                          isAttempted
+                                            ? "bg-slate-700 hover:bg-slate-800 text-white"
+                                            : isNew
+                                              ? "bg-emerald-600 hover:bg-emerald-700 text-white"
+                                              : "bg-indigo-600 hover:bg-indigo-700 text-white"
+                                        } active:scale-95 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm shrink-0"
+                                      >
+                                        <span>${isAttempted ? "Re-attempt" : "Start"}</span>
+                                        <i data-lucide="${isAttempted ? "rotate-ccw" : "play"}" class="w-3.5 h-3.5 fill-current"></i>
+                                      </button>
                                     </div>
-
-                                    <button 
-                                      onclick="startTest('${test.id}', '${cat.id}')"
-                                      class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm shrink-0"
-                                    >
-                                      <span>Start</span>
-                                      <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
-                                    </button>
                                   </div>
-                                </div>
-                              `;
-                            })
-                            .join("")}
+                                `;
+                              })
+                              .join("")}
+                          </div>
+
+                          ${
+                            totalCount > 2
+                              ? `
+                            <div class="pt-2 flex justify-center">
+                              <button
+                                onclick="toggleCategoryShowMore('${cat.id}')"
+                                class="px-5 py-2.5 bg-white hover:bg-slate-100 border border-slate-200 rounded-full text-slate-700 font-extrabold text-xs transition-all cursor-pointer flex items-center gap-2 shadow-xs active:scale-95 group"
+                              >
+                                <span>${isExpanded ? "Show Less" : `+${hiddenCount} More Tests`}</span>
+                                <i data-lucide="${isExpanded ? "chevron-up" : "chevron-down"}" class="w-3.5 h-3.5 text-indigo-600 transition-transform duration-200 group-hover:translate-y-0.5"></i>
+                              </button>
+                            </div>
+                          `
+                              : ""
+                          }
                         </div>
                       `
                         : `
@@ -1312,7 +1408,7 @@
       }
 
       // ==========================================
-      // START TEST - IN-PAGE AUTH TRIGGER
+      // START TEST - IN-PAGE AUTH TRIGGER & MARK ATTEMPTED
       // ==========================================
       function startTest(testId, categoryId) {
         if (!testId) {
@@ -1325,6 +1421,9 @@
           openAuthModal({ testId, categoryId });
           return;
         }
+
+        // Store test as attempted in localStorage
+        markTestAsAttempted(testId);
 
         window.location.href = `/test/runner?test_id=${encodeURIComponent(testId)}&category=${encodeURIComponent(categoryId)}&segment=DAILY_GK`;
       }
