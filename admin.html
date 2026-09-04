@@ -660,9 +660,9 @@
                 id="m_difficulty"
                 class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-50 text-slate-800 outline-none focus:border-indigo-600"
               >
-                <option value="easy">🟢 Easy</option>
-                <option value="medium" selected>🟡 Medium</option>
-                <option value="hard">🔴 Hard</option>
+                <option value="Easy">🟢 Easy</option>
+                <option value="Medium" selected>🟡 Medium</option>
+                <option value="Hard">🔴 Hard</option>
               </select>
             </div>
             <div>
@@ -915,7 +915,7 @@
       </div>
     </div>
 
-    <!-- MODAL 4: SEND PUSH NOTIFICATION (NEW) -->
+    <!-- MODAL 4: SEND PUSH NOTIFICATION -->
     <div
       id="modal-push"
       class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden overflow-y-auto"
@@ -1160,7 +1160,6 @@
       function openPushModal(testId) {
         closeAllDropdowns();
 
-        // Direct memory array se test find karein bina kisi JSON escape issue ke
         const test = allTestPapers.find((t) => t.test_id === testId);
 
         if (!test) {
@@ -1181,6 +1180,7 @@
         document.getElementById("modal-push").classList.remove("hidden");
         if (window.lucide) lucide.createIcons();
       }
+
       function closePushModal() {
         document.getElementById("modal-push").classList.add("hidden");
       }
@@ -1655,8 +1655,14 @@
           }
           document.getElementById("m_make_paid_after_expiry").checked =
             testData.make_paid_after_expiry !== false;
-          document.getElementById("m_difficulty").value =
-            testData.difficulty_level || "medium";
+
+          // Normalize Difficulty Value
+          const diffRaw = String(
+            testData.difficulty_level || "Medium",
+          ).toLowerCase();
+          const capDiff = diffRaw.charAt(0).toUpperCase() + diffRaw.slice(1);
+          document.getElementById("m_difficulty").value = capDiff;
+
           document.getElementById("m_tags").value = Array.isArray(
             testData.target_tags,
           )
@@ -1676,7 +1682,7 @@
             .toISOString()
             .split("T")[0];
           document.getElementById("m_make_paid_after_expiry").checked = true;
-          document.getElementById("m_difficulty").value = "medium";
+          document.getElementById("m_difficulty").value = "Medium";
           document.getElementById("m_tags").value = "";
         }
 
@@ -1843,10 +1849,6 @@
             const qCount =
               (test.questions?.length || 0) +
               (test.correctAnswers?.length || 0);
-            const testJsonEscaped = JSON.stringify(test).replace(
-              /'/g,
-              "&apos;",
-            );
             const formattedCreated = formatDate(
               test.createdAt || test.created_at,
             );
@@ -1878,8 +1880,8 @@
             <tr class="hover:bg-slate-50/80 transition-colors border-b border-slate-100">
               <td class="p-3.5 md:p-4 font-mono font-bold text-indigo-600">${test.test_id}</td>
               <td class="p-3.5 md:p-4 font-bold text-slate-800">
-                <div class="flex items-center">${test.title} ${dailyBadge}</div>
-                <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">${test.difficulty_level || "medium"}</span>
+                <div class="flex items-center">${test.title || test.test_name || "-"} ${dailyBadge}</div>
+                <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">${test.difficulty_level || "Medium"}</span>
               </td>
               <td class="p-3.5 md:p-4">${statusBadges[statusVal] || statusBadges.published}</td>
               <td class="p-3.5 md:p-4">${pricingBadge}</td>
@@ -1896,19 +1898,19 @@
                 </button>
                 <div id="${dropdownId}" class="action-dropdown-menu hidden absolute right-4 top-12 z-50 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl py-1.5 text-left text-xs font-bold divide-y divide-slate-100">
                   <div class="py-1">
-                   <button 
-  type="button" 
-  onclick="openPushModal('${test.test_id}')" 
-  class="w-full px-3.5 py-2 text-indigo-600 hover:bg-indigo-50 flex items-center gap-2.5 transition-colors cursor-pointer font-extrabold"
->
-  <i data-lucide="bell-ring" class="w-4 h-4 text-indigo-600"></i>
-  <span>Send Push Notification</span>
-</button>
+                    <button 
+                      type="button" 
+                      onclick="openPushModal('${test.test_id}')" 
+                      class="w-full px-3.5 py-2 text-indigo-600 hover:bg-indigo-50 flex items-center gap-2.5 transition-colors cursor-pointer font-extrabold"
+                    >
+                      <i data-lucide="bell-ring" class="w-4 h-4 text-indigo-600"></i>
+                      <span>Send Push Notification</span>
+                    </button>
                     <button onclick="manageTestQuestions('${test.test_id}')" class="w-full px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-indigo-600 flex items-center gap-2.5 transition-colors cursor-pointer">
                       <i data-lucide="help-circle" class="w-4 h-4 text-indigo-500"></i>
                       <span>Manage Questions</span>
                     </button>
-                    <button onclick='openTestModal(true, ${testJsonEscaped})' class="w-full px-3.5 py-2 text-slate-700 hover:bg-amber-50 hover:text-amber-700 flex items-center gap-2.5 transition-colors cursor-pointer">
+                    <button onclick="editTestPaperDirectly('${test.test_id}')" class="w-full px-3.5 py-2 text-slate-700 hover:bg-amber-50 hover:text-amber-700 flex items-center gap-2.5 transition-colors cursor-pointer">
                       <i data-lucide="edit-3" class="w-4 h-4 text-amber-500"></i>
                       <span>Edit Test Paper</span>
                     </button>
@@ -1955,6 +1957,12 @@
         lucide.createIcons();
       }
 
+      function editTestPaperDirectly(testId) {
+        closeAllDropdowns();
+        const test = allTestPapers.find((t) => t.test_id === testId);
+        if (test) openTestModal(true, test);
+      }
+
       async function populateTestDropdown(data = null) {
         const select = document.getElementById("q_target_test_id");
         try {
@@ -1972,7 +1980,7 @@
               testList
                 .map(
                   (t) =>
-                    `<option value="${t.test_id}">${t.test_id} - ${t.title} (${t.subject || ""}) [${extractTestStatus(t).toUpperCase()}]</option>`,
+                    `<option value="${t.test_id}">${t.test_id} - ${t.title || t.test_name} (${t.subject || ""}) [${extractTestStatus(t).toUpperCase()}]</option>`,
                 )
                 .join("");
             if (selectedVal) select.value = selectedVal;
@@ -2099,7 +2107,6 @@
               (q.matching_pairs
                 ? `Matching Pairs (${q.matching_pairs.length})`
                 : "Question Item");
-            const qJsonEscaped = JSON.stringify(q).replace(/'/g, "&apos;");
             const qMongoId = q._id || q.id;
             const qDisplayId = q.question_id || qMongoId || `Q_${idx + 1}`;
             const formattedCreated = formatDate(q.createdAt || q.created_at);
@@ -2128,7 +2135,7 @@
                       <i data-lucide="eye" class="w-4 h-4 text-indigo-500"></i>
                       <span>View Payload</span>
                     </button>
-                    <button onclick='openQuestionModal(true, ${qJsonEscaped}); closeAllDropdowns();' class="w-full px-3.5 py-2 text-slate-700 hover:bg-amber-50 hover:text-amber-700 flex items-center gap-2.5 transition-colors cursor-pointer">
+                    <button onclick="editQuestionDirectly(${idx}); closeAllDropdowns();" class="w-full px-3.5 py-2 text-slate-700 hover:bg-amber-50 hover:text-amber-700 flex items-center gap-2.5 transition-colors cursor-pointer">
                       <i data-lucide="edit-3" class="w-4 h-4 text-amber-500"></i>
                       <span>Edit Question</span>
                     </button>
@@ -2148,6 +2155,11 @@
 
         updateBulkDeleteVisibility();
         lucide.createIcons();
+      }
+
+      function editQuestionDirectly(idx) {
+        const question = currentTestQuestions[idx];
+        if (question) openQuestionModal(true, question);
       }
 
       function toggleSelectAllQuestions(masterCheckbox) {
@@ -2247,6 +2259,9 @@
         }
       }
 
+      // ==========================================
+      // CREATE & UPDATE TEST PAPER HANDLER
+      // ==========================================
       document
         .getElementById("testPaperForm")
         .addEventListener("submit", async (e) => {
@@ -2272,21 +2287,19 @@
             .trim();
           const stream = getCategory();
 
-          let examCatEnum = stream;
-          if (
-            [
-              "SSC",
-              "RAILWAYS",
-              "BANKING",
-              "JEE_NEET",
-              "DEFENCE",
-              "TEACHING",
-              "ENTRANCE",
-              "DAILY_GK",
-            ].includes(stream)
-          ) {
-            examCatEnum = "OTHER";
-          }
+          // Retain exact Exam Category Stream (SSC, BANKING, etc.)
+          const examCatEnum = String(stream).trim().toUpperCase();
+
+          // Difficulty Case Normalization
+          const rawDiff =
+            document.getElementById("m_difficulty").value || "Medium";
+          const cleanDifficulty =
+            rawDiff.charAt(0).toUpperCase() + rawDiff.slice(1).toLowerCase();
+
+          const durationNum =
+            Number(document.getElementById("m_duration").value) || 20;
+          const questionsCount =
+            Number(document.getElementById("m_questions").value) || 10;
 
           const payload = {
             exam_category: examCatEnum,
@@ -2298,13 +2311,17 @@
             subject: sname,
             category_id: cid,
             category_title: cname,
+            category: cname, // Backend alias compatibility
             title: document.getElementById("m_title").value.trim(),
+            test_name: document.getElementById("m_title").value.trim(),
             config_mode: document.getElementById("m_mode").value,
-            duration: Number(document.getElementById("m_duration").value),
-            total_questions: Number(
-              document.getElementById("m_questions").value,
-            ),
-            total_marks: Number(document.getElementById("m_questions").value),
+            duration: durationNum,
+            total_time_mins: durationNum,
+            total_questions: questionsCount,
+            total_marks: questionsCount,
+            marks: 1,
+            marks_per_correct: 1,
+            negative_marks: 0,
             access_type: document.getElementById("m_access_type").value,
             price: Number(document.getElementById("m_price").value) || 0,
             discounted_price:
@@ -2316,7 +2333,7 @@
             make_paid_after_expiry: document.getElementById(
               "m_make_paid_after_expiry",
             ).checked,
-            difficulty_level: document.getElementById("m_difficulty").value,
+            difficulty_level: cleanDifficulty,
             target_tags: document.getElementById("m_tags").value.trim(),
           };
 
@@ -2337,13 +2354,16 @@
               showToast(
                 editingTestId
                   ? "Test paper updated successfully!"
-                  : `Test created! ID: ${result.test_id}`,
+                  : `Test created! ID: ${result.test_id || result.data?.test_id}`,
                 "success",
               );
               closeTestModal();
               loadTestPapers();
             } else {
-              showToast(result.message || "Failed to save test paper", "error");
+              showToast(
+                result.message || result.error || "Failed to save test paper",
+                "error",
+              );
             }
           } catch (err) {
             showToast("Network error! Could not connect to API", "error");
