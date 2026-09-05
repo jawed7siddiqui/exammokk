@@ -2,10 +2,10 @@
   "ssc": {
     "id": "SSC",
     "slug": "ssc",
-    "title": "SSC CGL, CHSL, MTS & GD 2026 Free Govt Prep App & Mock Test Series",
-    "metaTitle": "SSC CGL Free Mock Test App 2026 | SSC CHSL & MTS TCS Pattern Tests",
+    "title": "SSC CGL, CHSL, MTS & GD Free Govt Prep App & Mock Test Series",
+    "metaTitle": "SSC CGL Free Mock Test App | SSC CHSL & MTS TCS Pattern Tests",
     "metaDesc": "Free SSC Govt Exam Prep App & online test series based on authentic TCS iON pattern. Practice SSC CGL Tier 1 & 2 Quantitative Aptitude, Reasoning, English, and GK with All-India Rank.",
-    "metaKeywords": "ssc govt prep app, ssc cgl mock test 2026, ssc cgl free test series, ssc chsl online mock test, ssc mts practice app, tcs ion ssc pattern mock test, ssc reasoning practice app",
+    "metaKeywords": "ssc govt prep app, ssc cgl mock test , ssc cgl free test series, ssc chsl online mock test, ssc mts practice app, tcs ion ssc pattern mock test, ssc reasoning practice app",
     "badge": "Staff Selection Commission",
     "badgeColor": "amber",
     "emoji": "⚡",
@@ -37,8 +37,8 @@
     ],
     "faqs": [
       {
-        "q": "Is the SSC CGL mock test based on the latest 2026 syllabus?",
-        "a": "Yes, every test adheres to the updated SSC Tier-1 and Tier-2 syllabus covering Quantitative Aptitude, Reasoning, English, and General Awareness."
+        "q": "Is the SSC CGL mock test based on the syllabus?",
+        "a": "Yes, every test adheres to the SSC Tier-1 and Tier-2 syllabus covering Quantitative Aptitude, Reasoning, English, and General Awareness."
       },
       {
         "q": "What is the negative marking scheme applied in SSC tests?",
@@ -53,15 +53,15 @@
   "bpsc": {
     "id": "BPSC",
     "slug": "bpsc",
-    "title": "BPSC Combined Competitive Exam (CCE) & Bihar SI 2026 Free Mock Test App",
-    "metaTitle": "BPSC Prelims Mock Test App 2026 | Free Bihar Special GK & GS Test Series",
+    "title": "BPSC Combined Competitive Exam (CCE) & Bihar SI Free Mock Test App",
+    "metaTitle": "BPSC Prelims Mock Test App | Free Bihar Special GK & GS Test Series",
     "metaDesc": "Practice BPSC CCE Prelims & Bihar Daroga online mock tests on ExamMokk. Complete Bihar Special History, Geography, Economy, and General Science with 1/3rd negative marking.",
-    "metaKeywords": "bpsc prep app, bpsc mock test 2026, bpsc prelims test series free, bihar special gk test, bihar daroga mock test app, bpsc cce online test series, bihar psc practice app",
+    "metaKeywords": "bpsc prep app, bpsc mock test , bpsc prelims test series free, bihar special gk test, bihar daroga mock test app, bpsc cce online test series, bihar psc practice app",
     "badge": "Bihar Public Service Commission",
     "badgeColor": "rose",
     "emoji": "🏛️",
     "tagline": "Standard 150-Question BPSC Prelims Simulator with Bihar Special & High-Yield Science",
-    "overview": "Comprehensive BPSC Prelims (150 Questions, 150 Marks, 120 Minutes) preparation platform featuring updated 1/3rd (-0.33) negative marking evaluation, in-depth Bihar Special GK, and detailed bilingual solutions.",
+    "overview": "Comprehensive BPSC Prelims (150 Questions, 150 Marks, 120 Minutes) preparation platform featuring 1/3rd (-0.33) negative marking evaluation, in-depth Bihar Special GK, and detailed bilingual solutions.",
     "subjects": [
       {
         "name": "Bihar Special GK & History",
@@ -97,17 +97,17 @@
       },
       {
         "q": "Are Bihar Special Current Affairs and Budget questions updated?",
-        "a": "Yes, latest Bihar Economic Survey, Union/State Budget, and current affairs are thoroughly covered."
+        "a": "Yes, Bihar Economic Survey, Union/State Budget, and current affairs are thoroughly covered."
       }
     ]
   },
   "jpsc": {
     "id": "JPSC",
     "slug": "jpsc",
-    "title": "JPSC Combined Civil Services & JSSC CGL 2026 Free Exam Prep App",
-    "metaTitle": "JPSC Prelims Free Mock Test App 2026 | Jharkhand Special Paper 1 & 2 Tests",
+    "title": "JPSC Combined Civil Services & JSSC CGL Free Exam Prep App",
+    "metaTitle": "JPSC Prelims Free Mock Test App | Jharkhand Special Paper 1 & 2 Tests",
     "metaDesc": "Attempt free JPSC Civil Services Prelims Paper 1 & Paper 2 (Jharkhand Special) online mock tests. CNT Act, SPT Act, Tribal Culture, and History with Zero Negative Marking.",
-    "metaKeywords": "jpsc prep app, jpsc prelims mock test 2026, jpsc paper 2 test series free, cnt act spt act mcq, jharkhand gk practice app, jssc cgl online mock test",
+    "metaKeywords": "jpsc prep app, jpsc prelims mock test , jpsc paper 2 test series free, cnt act spt act mcq, jharkhand gk practice app, jssc cgl online mock test",
     "badge": "Jharkhand Public Service Commission",
     "badgeColor": "emerald",
     "emoji": "🏹",
@@ -155,10 +155,10 @@
   "upsc": {
     "id": "GOVT_PSC",
     "slug": "upsc",
-    "title": "UPSC Civil Services (IAS) & State PSC 2026 Free Prep App & Test Series",
-    "metaTitle": "UPSC Prelims Mock Test App 2026 | Free IAS GS Paper 1 & CSAT Test Series",
+    "title": "UPSC Civil Services (IAS) & State PSC Free Prep App & Test Series",
+    "metaTitle": "UPSC Prelims Mock Test App | Free IAS GS Paper 1 & CSAT Test Series",
     "metaDesc": "Practice UPSC CSE Prelims GS-1 & CSAT Paper-2 online mock tests on India's top free govt prep app. NCERT Polity, History, Economy with 1/3rd negative marking & AIR leaderboard.",
-    "metaKeywords": "upsc prep app, upsc prelims mock test 2026, ias gs paper 1 test series, free upsc csat mock test, bpsc mock test app, uppsc prelims practice test, state psc prep app",
+    "metaKeywords": "upsc prep app, upsc prelims mock test , ias gs paper 1 test series, free upsc csat mock test, bpsc mock test app, uppsc prelims practice test, state psc prep app",
     "badge": "Civil Services Exam",
     "badgeColor": "indigo",
     "emoji": "⚖️",
@@ -199,17 +199,17 @@
       },
       {
         "q": "Are Previous Year Questions (PYQs) included?",
-        "a": "Yes, high-yield PYQ concept patterns from 2015 to 2025 are integrated into the question bank."
+        "a": "Yes, high-yield PYQ concept patterns from to are integrated into the question bank."
       }
     ]
   },
   "banking": {
     "id": "BANKING",
     "slug": "banking",
-    "title": "Bank PO & Clerk 2026 Free Prep App | IBPS, SBI, RRB & RBI Mock Tests",
-    "metaTitle": "Bank PO & Clerk Free Mock Tests App 2026 | SBI PO, IBPS Clerk Test Series",
+    "title": "Bank PO & Clerk Free Prep App | IBPS, SBI, RRB & RBI Mock Tests",
+    "metaTitle": "Bank PO & Clerk Free Mock Tests App | SBI PO, IBPS Clerk Test Series",
     "metaDesc": "Free Bank Exam Prep App for SBI PO, IBPS PO, RRB & Clerk Prelims mock tests. Practice high-level seating arrangement puzzles and Data Interpretation with 20-min sectional timers.",
-    "metaKeywords": "bank prep app, bank po mock test free, sbi po prelims test series 2026, ibps clerk mock test app, banking reasoning puzzles, data interpretation mock test bank",
+    "metaKeywords": "bank prep app, bank po mock test free, sbi po prelims test series , ibps clerk mock test app, banking reasoning puzzles, data interpretation mock test bank",
     "badge": "Banking & Insurance",
     "badgeColor": "emerald",
     "emoji": "🏦",
@@ -248,10 +248,10 @@
   "railways": {
     "id": "RAILWAYS",
     "slug": "railways",
-    "title": "RRB NTPC, Group D, ALP & Technician 2026 Free Railway Exam Prep App",
-    "metaTitle": "RRB NTPC & Group D Free Mock Test App 2026 | Railway Online Exam",
+    "title": "RRB NTPC, Group D, ALP & Technician Free Railway Exam Prep App",
+    "metaTitle": "RRB NTPC & Group D Free Mock Test App | Railway Online Exam",
     "metaDesc": "Attempt free RRB NTPC Stage 1 & 2 mock tests. High-scoring General Science (NCERT 9th & 10th), Mathematics, and Reasoning sets in Hindi & English.",
-    "metaKeywords": "railway prep app, rrb ntpc mock test free, rrb group d online test app 2026, railway alp mock test, general science mcq railway ntpc",
+    "metaKeywords": "railway prep app, rrb ntpc mock test free, rrb group d online test app , railway alp mock test, general science mcq railway ntpc",
     "badge": "Railway Recruitment",
     "badgeColor": "rose",
     "emoji": "🚆",
@@ -286,10 +286,10 @@
   "jee-neet": {
     "id": "JEE_NEET",
     "slug": "jee-neet",
-    "title": "NTA JEE Main & NEET UG 2026 Free Chapter-wise CBT Mock Test App",
-    "metaTitle": "JEE Main & NEET UG Free Online Mock Tests App 2026 | NTA CBT Simulator",
+    "title": "NTA JEE Main & NEET UG Free Chapter-wise CBT Mock Test App",
+    "metaTitle": "JEE Main & NEET UG Free Online Mock Tests App | NTA CBT Simulator",
     "metaDesc": "Attempt NTA pattern JEE Main & NEET mock tests. Detailed step-by-step numerical solutions for Physics, Chemistry, Biology, and Mathematics with +4/-1 scoring.",
-    "metaKeywords": "jee neet prep app, jee main mock test 2026, neet ug free mock test app, nta cbt simulator, physics chemistry biology mcq practice",
+    "metaKeywords": "jee neet prep app, jee main mock test , neet ug free mock test app, nta cbt simulator, physics chemistry biology mcq practice",
     "badge": "Engineering & Medical",
     "badgeColor": "blue",
     "emoji": "🧬",
@@ -324,10 +324,10 @@
   "defence": {
     "id": "DEFENCE",
     "slug": "defence",
-    "title": "NDA, CDS, Police SI & Defence Exams 2026 Free Prep App",
-    "metaTitle": "NDA, CDS & State Police SI Free Mock Tests App 2026 | ExamMokk",
+    "title": "NDA, CDS, Police SI & Defence Exams Free Prep App",
+    "metaTitle": "NDA, CDS & State Police SI Free Mock Tests App | ExamMokk",
     "metaDesc": "Prepare for NDA GAT & Maths, CDS, UP Police SI, Bihar Police, and Agniveer exams with dedicated time-bound test series and legal constitutional modules.",
-    "metaKeywords": "defence exam prep app, nda mock test 2026, cds online test series, up police si mock test app, mool vidhi online practice, agniveer test app",
+    "metaKeywords": "defence exam prep app, nda mock test , cds online test series, up police si mock test app, mool vidhi online practice, agniveer test app",
     "badge": "Defence & Police",
     "badgeColor": "slate",
     "emoji": "🎖️",
@@ -355,26 +355,26 @@
     "faqs": [
       {
         "q": "Are UP Police Mool Vidhi questions updated?",
-        "a": "Yes, updated legal provisions and constitutional articles are covered in the state police module."
+        "a": "Yes, legal provisions and constitutional articles are covered in the state police module."
       }
     ]
   },
   "teaching": {
     "id": "TEACHING",
     "slug": "teaching",
-    "title": "CTET, State TET & KVS 2026 Free Teaching Exam Prep App",
-    "metaTitle": "CTET & State TET Free Mock Test Series App 2026 | Paper 1 & 2 CDP Tests",
+    "title": "CTET, State TET & KVS Free Teaching Exam Prep App",
+    "metaTitle": "CTET & State TET Free Mock Test Series App | Paper 1 & 2 CDP Tests",
     "metaDesc": "Attempt free CTET Paper 1 and Paper 2 online mock tests. Master Child Development & Pedagogy (CDP), EVS, Mathematics, and Language Pedagogy.",
-    "metaKeywords": "teaching exam prep app, ctet mock test 2026, ctet paper 1 online test, cdp questions for ctet, kvs prt practice app, state tet mock test",
+    "metaKeywords": "teaching exam prep app, ctet mock test , ctet paper 1 online test, cdp questions for ctet, kvs prt practice app, state tet mock test",
     "badge": "Teaching & TET",
     "badgeColor": "cyan",
     "emoji": "👨‍🏫",
-    "tagline": "NEP 2020 Aligned Child Pedagogy & Domain Practice Sets with Zero Negative Marking",
+    "tagline": "NEP Aligned Child Pedagogy & Domain Practice Sets with Zero Negative Marking",
     "overview": "Practice portal for Teacher Eligibility Tests (CTET, UPTET, REET, BTET) and KVS/DSSSB recruitment exams designed to strengthen pedagogical reasoning.",
     "subjects": [
       {
         "name": "Child Development & Pedagogy (CDP)",
-        "topics": "Piaget, Vygotsky, Kohlberg Theories, Inclusive Education & NEP 2020"
+        "topics": "Piaget, Vygotsky, Kohlberg Theories, Inclusive Education & NEP"
       },
       {
         "name": "Language I & II (Hindi / English)",
@@ -400,10 +400,10 @@
   "entrance": {
     "id": "ENTRANCE",
     "slug": "entrance",
-    "title": "CUET UG/PG, CLAT & Law Entrances 2026 Online Mock Test App",
-    "metaTitle": "CUET UG & CLAT Free Online Mock Tests App 2026 | NTA Standard Tests",
+    "title": "CUET UG/PG, CLAT & Law Entrances Online Mock Test App",
+    "metaTitle": "CUET UG & CLAT Free Online Mock Tests App | NTA Standard Tests",
     "metaDesc": "Prepare for CUET General Test, Domain Subjects, and CLAT Legal Reasoning with authentic NTA-standard online mock tests. Instant percentile rank.",
-    "metaKeywords": "cuet prep app, cuet mock test 2026, clat online test series, cuet general test practice app, cuet domain subjects mock test",
+    "metaKeywords": "cuet prep app, cuet mock test , clat online test series, cuet general test practice app, cuet domain subjects mock test",
     "badge": "University Entrance",
     "badgeColor": "purple",
     "emoji": "🎓",
