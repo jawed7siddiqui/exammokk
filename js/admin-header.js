@@ -208,7 +208,12 @@ function renderAdminHeader(pageTitle = "DualEngine Pro", activeNav = "tests") {
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-600"></i>
           <span>Generate</span>
         </a>
-
+<a 
+  href="/blogPost.html" 
+  class="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-xs rounded-xl flex items-center gap-2 cursor-pointer transition-all active:scale-95 shadow-2xs no-underline">
+  <i data-lucide="book-open" class="w-3.5 h-3.5 text-indigo-600"></i>
+  <span>Blogs</span>
+</a>
         <a href="subscription.html" class="px-3.5 py-2 ${activeNav === "subscription" ? "bg-indigo-600 text-white" : "bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200"} font-bold text-xs rounded-xl flex items-center gap-2 cursor-pointer transition-all active:scale-95 shadow-2xs">
           <i data-lucide="crown" class="w-3.5 h-3.5 ${activeNav === "subscription" ? "text-white" : "text-indigo-600"}"></i>
           <span>Plans</span>

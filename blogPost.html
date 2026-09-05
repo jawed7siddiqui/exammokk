@@ -4,33 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ExamMokk - Admin Content Console</title>
-    <!-- Standalone Compiled Tailwind CSS -->
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
     <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
       rel="stylesheet"
-      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
     />
-    <!-- FontAwesome Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+
+    <!-- COMMON HEADER LOADER SCRIPT -->
+    <script src="/js/admin-header.js"></script>
 
     <style>
       body {
-        font-family:
-          ui-sans-serif,
-          system-ui,
-          -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          Roboto,
-          Arial,
-          sans-serif;
+        font-family: "Plus Jakarta Sans", sans-serif;
       }
-      .nav-active {
-        background-color: #1e1b4b;
-        color: #ffffff;
-        border-right: 3px solid #6366f1;
+      code,
+      pre,
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
       }
       .form-label {
         font-size: 11px;
@@ -45,7 +39,7 @@
         width: 100%;
         padding: 8px 12px;
         font-size: 13px;
-        border-radius: 6px;
+        border-radius: 12px;
         border: 1px solid #e2e8f0;
         background-color: #f8fafc;
         color: #0f172a;
@@ -54,8 +48,8 @@
       .form-input:focus {
         outline: none;
         background-color: #ffffff;
-        border-color: #6366f1;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
       }
       .tab-btn-active {
         background-color: #ffffff;
@@ -64,26 +58,28 @@
       }
     </style>
   </head>
-  <body class="bg-gray-100 text-gray-800 antialiased">
+  <body
+    class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-indigo-600 selection:text-white"
+  >
     <!-- PASSWORD AUTH MODAL -->
     <div
       id="authModal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-80 backdrop-blur-md"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4"
     >
       <div
-        class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full border border-gray-100"
+        class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full border border-slate-200"
       >
         <div class="text-center mb-6">
           <div
-            class="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center mx-auto mb-3"
+            class="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center mx-auto mb-3"
           >
-            <i class="fa-solid fa-graduation-cap text-xl"></i>
+            <i data-lucide="graduation-cap" class="w-6 h-6"></i>
           </div>
-          <h2 class="text-xl font-bold text-gray-900 tracking-tight">
+          <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">
             ExamMokk Console
           </h2>
-          <p class="text-xs text-gray-500 mt-1">
-            Authenticate to manage mock & study articles
+          <p class="text-xs text-slate-400 font-medium mt-1">
+            Authenticate to manage mock &amp; study articles
           </p>
         </div>
         <form id="authForm">
@@ -93,20 +89,21 @@
               type="password"
               id="authPassword"
               value="123456"
-              class="form-input text-center text-lg tracking-widest"
+              class="form-input text-center text-lg tracking-widest font-mono font-bold"
               placeholder="••••••"
               required
             />
           </div>
           <p
             id="authError"
-            class="text-red-500 text-xs mb-3 text-center hidden"
+            class="text-rose-600 text-xs mb-3 text-center font-bold hidden flex items-center justify-center gap-1"
           >
-            <i class="fa-solid fa-circle-exclamation mr-1"></i> Invalid Key!
+            <i data-lucide="alert-circle" class="w-4 h-4 inline"></i> Invalid
+            Key!
           </p>
           <button
             type="submit"
-            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg text-xs tracking-wide transition shadow-md"
+            class="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-sm cursor-pointer"
           >
             UNLOCK DASHBOARD
           </button>
@@ -114,401 +111,371 @@
       </div>
     </div>
 
-    <!-- MAIN APP STRUCTURE -->
-    <div id="mainContent" class="flex h-screen overflow-hidden hidden">
-      <!-- SIDEBAR -->
-      <aside
-        class="w-60 bg-gray-950 text-gray-400 flex flex-col flex-shrink-0 border-r border-gray-800"
-      >
-        <div class="px-5 py-5 border-b border-gray-800 flex items-center gap-3">
-          <div
-            class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-xs shadow-md"
-          >
-            EM
-          </div>
-          <div>
-            <h1 class="text-white font-semibold text-xs tracking-wide">
-              ExamMokk Admin
-            </h1>
-            <span
-              class="text-xs text-indigo-400 font-mono uppercase tracking-wider"
-              >AI Prep Portal</span
-            >
-          </div>
-        </div>
+    <!-- COMMON TOP & MOBILE HEADER ONLY (NO SIDEBAR CONTAINER) -->
+    <div id="common-mobile-header" class="contents"></div>
 
-        <nav class="flex-1 py-4 space-y-1">
-          <a
-            href="#"
-            onclick="switchTab('blogs-list')"
-            id="nav-blogs-list"
-            class="nav-active flex items-center gap-3 px-5 py-2.5 text-xs font-medium transition"
-          >
-            <i class="fa-solid fa-book-open w-4 text-indigo-400"></i>
-            All Articles
-          </a>
-          <a
-            href="#"
-            onclick="openCreateTab()"
-            id="nav-create-blog"
-            class="flex items-center gap-3 px-5 py-2.5 text-xs font-medium hover:text-gray-200 hover:bg-gray-800 transition"
-          >
-            <i class="fa-solid fa-circle-plus w-4 text-gray-500"></i>
-            New Article
-          </a>
-        </nav>
-
-        <div class="p-4 border-t border-gray-800 text-xs text-gray-500">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-green-500"></span>
-            <span class="font-mono text-gray-400 text-[11px]"
-              >exam-api.jawedsiddiqui.cloud</span
-            >
-          </div>
-        </div>
-      </aside>
+    <!-- MAIN APP STRUCTURE (FULL WIDTH) -->
+    <div
+      id="mainContent"
+      class="flex-1 flex flex-col min-h-screen w-full bg-slate-50 overflow-x-hidden hidden"
+    >
+      <div id="common-top-header" class="contents"></div>
 
       <!-- MAIN CONTENT AREA -->
-      <main class="flex-1 bg-gray-50 overflow-y-auto p-8">
-        <div class="max-w-6xl mx-auto">
-          <!-- ALERT BANNER -->
-          <div
-            id="alertBox"
-            class="hidden mb-6 p-3.5 rounded-xl text-xs font-medium flex items-center justify-between border transition-all"
+      <main class="p-4 md:p-8 flex-1 space-y-6 max-w-7xl w-full mx-auto">
+        <!-- ALERT BANNER -->
+        <div
+          id="alertBox"
+          class="hidden p-3.5 rounded-2xl text-xs font-bold flex items-center justify-between border transition-all shadow-xs"
+        >
+          <span id="alertMessage"></span>
+          <button
+            onclick="hideAlert()"
+            class="opacity-60 hover:opacity-100 p-1 cursor-pointer"
           >
-            <span id="alertMessage"></span>
-            <button onclick="hideAlert()" class="opacity-60 hover:opacity-100">
-              <i class="fa-solid fa-xmark"></i>
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- VIEW 1: BLOGS LIST -->
+        <section id="view-blogs-list" class="space-y-4">
+          <div
+            class="bg-white border border-slate-200 p-3.5 md:p-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs"
+          >
+            <div>
+              <h2
+                class="text-base font-extrabold text-slate-800 tracking-tight"
+              >
+                ExamMokk Articles
+              </h2>
+              <p class="text-xs text-slate-400 font-medium">
+                Manage syllabus guides, notifications, and GK drill articles.
+              </p>
+            </div>
+            <button
+              onclick="openCreateTab()"
+              class="w-full sm:w-auto px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm shadow-indigo-600/20 cursor-pointer transition-all shrink-0"
+            >
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>+ New Article</span>
             </button>
           </div>
 
-          <!-- VIEW 1: BLOGS LIST -->
-          <section id="view-blogs-list">
-            <div class="flex items-center justify-between mb-6">
-              <div>
-                <h2 class="text-xl font-bold text-gray-900 tracking-tight">
-                  ExamMokk Articles
-                </h2>
-                <p class="text-xs text-gray-500">
-                  Manage syllabus guides, notifications, and GK drill articles.
-                </p>
-              </div>
-              <button
-                onclick="openCreateTab()"
-                class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-3.5 py-2 rounded-lg flex items-center gap-2 transition shadow-sm"
-              >
-                <i class="fa-solid fa-plus text-xs"></i> New Post
-              </button>
-            </div>
-
-            <div
-              class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
-            >
-              <table class="w-full text-left border-collapse">
-                <thead>
-                  <tr
-                    class="bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-500 uppercase tracking-wider"
-                  >
-                    <th class="py-3 px-5">Title</th>
-                    <th class="py-3 px-4">Domain</th>
-                    <th class="py-3 px-4">Exam Stream / Category</th>
-                    <th class="py-3 px-4">Status</th>
-                    <th class="py-3 px-5 text-right">Actions</th>
+          <div
+            class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden"
+          >
+            <div class="overflow-x-auto min-h-[340px]">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead
+                  class="bg-slate-50/80 text-slate-500 uppercase font-extrabold text-[10px] tracking-wider border-b border-slate-200"
+                >
+                  <tr>
+                    <th class="p-3.5 md:p-4">Title</th>
+                    <th class="p-3.5 md:p-4">Domain</th>
+                    <th class="p-3.5 md:p-4">Exam Stream / Category</th>
+                    <th class="p-3.5 md:p-4">Status</th>
+                    <th class="p-3.5 md:p-4 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody
                   id="blogsTableBody"
-                  class="divide-y divide-gray-100 text-xs"
+                  class="divide-y divide-slate-100 font-semibold text-slate-700"
                 >
                   <tr>
-                    <td colspan="5" class="text-center py-8 text-gray-400">
+                    <td colspan="5" class="p-8 text-center text-slate-400">
                       Loading articles...
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <!-- VIEW 2: CREATE / EDIT FORM -->
-          <section id="view-create-blog" class="hidden">
-            <div class="flex items-center justify-between mb-6">
+        <!-- VIEW 2: CREATE / EDIT FORM -->
+        <section id="view-create-blog" class="hidden space-y-4">
+          <div
+            class="bg-white border border-slate-200 p-3.5 md:p-4 rounded-2xl flex items-center justify-between gap-3 shadow-xs"
+          >
+            <div>
+              <h2
+                id="formTitle"
+                class="text-base font-extrabold text-slate-800 tracking-tight"
+              >
+                Create Article
+              </h2>
+              <p class="text-xs text-slate-400 font-medium">
+                Fill in details below or switch to Raw JSON Mode.
+              </p>
+            </div>
+            <button
+              onclick="switchTab('blogs-list')"
+              class="px-3.5 py-2 rounded-xl border border-slate-200 bg-white font-bold text-slate-600 hover:bg-slate-100 cursor-pointer transition-all flex items-center gap-1.5 text-xs"
+            >
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to List
+            </button>
+          </div>
+
+          <!-- MODE SWITCHER -->
+          <div class="flex items-center bg-slate-200/70 p-1 rounded-xl w-max">
+            <button
+              type="button"
+              id="btn-mode-form"
+              onclick="toggleInputMode('form')"
+              class="tab-btn-active px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
+            >
+              <i data-lucide="file-pen" class="w-3.5 h-3.5"></i> Form Mode
+            </button>
+            <button
+              type="button"
+              id="btn-mode-json"
+              onclick="toggleInputMode('json')"
+              class="text-slate-600 px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
+            >
+              <i data-lucide="code" class="w-3.5 h-3.5"></i> Raw JSON Mode
+            </button>
+          </div>
+
+          <!-- MODE 1: INTERACTIVE FORM -->
+          <form
+            id="blogForm"
+            onsubmit="handleFormSubmit(event)"
+            class="bg-white rounded-2xl border border-slate-200 p-5 md:p-7 space-y-5 shadow-xs"
+          >
+            <input type="hidden" id="blogId" />
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="md:col-span-3">
+                <label class="form-label"
+                  >Title <span class="text-rose-500">*</span></label
+                >
+                <input
+                  type="text"
+                  id="title"
+                  required
+                  class="form-input text-xs font-bold"
+                  placeholder="e.g. UPSC Prelims 2026-27 Master Strategy"
+                />
+              </div>
+
               <div>
-                <h2
-                  id="formTitle"
-                  class="text-xl font-bold text-gray-900 tracking-tight"
+                <label class="form-label">Target Domain</label>
+                <select
+                  id="domain"
+                  class="form-input font-semibold cursor-pointer"
                 >
-                  Create Article
-                </h2>
-                <p class="text-xs text-gray-500">
-                  Fill in details below or switch to Raw JSON Mode.
-                </p>
+                  <option value="exammokk.cloud" selected>
+                    exammokk.cloud
+                  </option>
+                  <option value="jawedsiddiqui.cloud">
+                    jawedsiddiqui.cloud
+                  </option>
+                  <option value="kidspaint.cloud">kidspaint.cloud</option>
+                </select>
               </div>
-              <button
-                onclick="switchTab('blogs-list')"
-                class="text-xs text-gray-500 hover:text-gray-800 flex items-center gap-1 font-medium"
-              >
-                <i class="fa-solid fa-arrow-left text-xs"></i> Back to List
-              </button>
-            </div>
 
-            <!-- MODE SWITCHER -->
-            <div
-              class="flex items-center justify-between bg-gray-200 p-1 rounded-lg w-max mb-4"
-            >
-              <button
-                type="button"
-                id="btn-mode-form"
-                onclick="toggleInputMode('form')"
-                class="tab-btn-active px-4 py-1.5 rounded-md text-xs font-bold transition"
-              >
-                <i class="fa-solid fa-pen-to-square mr-1.5"></i> Form Mode
-              </button>
-              <button
-                type="button"
-                id="btn-mode-json"
-                onclick="toggleInputMode('json')"
-                class="text-gray-600 px-4 py-1.5 rounded-md text-xs font-bold transition"
-              >
-                <i class="fa-solid fa-code mr-1.5"></i> Raw JSON Mode
-              </button>
-            </div>
+              <div>
+                <label class="form-label">Exam Stream / Category</label>
+                <input
+                  type="text"
+                  id="category"
+                  placeholder="UPSC Civil Services"
+                  class="form-input font-semibold"
+                />
+              </div>
 
-            <!-- MODE 1: INTERACTIVE FORM -->
-            <form
-              id="blogForm"
-              onsubmit="handleFormSubmit(event)"
-              class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-5"
-            >
-              <input type="hidden" id="blogId" />
+              <div>
+                <label class="form-label">Author</label>
+                <input
+                  type="text"
+                  id="author"
+                  placeholder="ExamMokk Civil Services Team"
+                  class="form-input font-semibold"
+                />
+              </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="md:col-span-3">
-                  <label class="form-label"
-                    >Title <span class="text-red-500">*</span></label
+              <div class="md:col-span-2">
+                <label class="form-label">Featured Image URL</label>
+                <input
+                  type="url"
+                  id="featuredImage"
+                  class="form-input font-semibold"
+                  placeholder="https://images.unsplash.com/..."
+                />
+              </div>
+
+              <div>
+                <label class="form-label">Status</label>
+                <select
+                  id="status"
+                  class="form-input font-semibold cursor-pointer"
+                >
+                  <option value="published" selected>🟢 Published</option>
+                  <option value="draft">🟡 Draft</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="form-label">Reading Time (Min)</label>
+                <input
+                  type="number"
+                  id="readingTime"
+                  placeholder="10"
+                  class="form-input font-semibold"
+                />
+              </div>
+
+              <div>
+                <label class="form-label">Pillar Article</label>
+                <select
+                  id="isPillar"
+                  class="form-input font-semibold cursor-pointer"
+                >
+                  <option value="false">No</option>
+                  <option value="true" selected>Yes</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-3">
+                <label class="form-label">Short Excerpt</label>
+                <textarea
+                  id="excerpt"
+                  rows="2"
+                  class="form-input font-semibold"
+                  placeholder="Quick summary for cards and search listings..."
+                ></textarea>
+              </div>
+
+              <div class="md:col-span-3">
+                <label class="form-label">Content (Markdown / HTML)</label>
+                <textarea
+                  id="content"
+                  rows="10"
+                  class="form-input font-mono text-xs"
+                  placeholder="Write detailed notes with buttons and tables..."
+                ></textarea>
+              </div>
+
+              <!-- SEO & STRUCTURAL METADATA -->
+              <div class="md:col-span-3 border-t border-slate-100 pt-4">
+                <div class="flex items-center gap-2 mb-3">
+                  <i data-lucide="search" class="w-4 h-4 text-indigo-600"></i>
+                  <span
+                    class="text-xs font-extrabold text-slate-700 uppercase tracking-wide"
+                    >SEO &amp; Structured Data</span
                   >
-                  <input
-                    type="text"
-                    id="title"
-                    required
-                    class="form-input text-sm font-medium"
-                    placeholder="e.g. UPSC Prelims 2026-27 Master Strategy"
-                  />
                 </div>
-
-                <div>
-                  <label class="form-label">Target Domain</label>
-                  <select id="domain" class="form-input">
-                    <option value="exammokk.cloud" selected>
-                      exammokk.cloud
-                    </option>
-                    <option value="jawedsiddiqui.cloud">
-                      jawedsiddiqui.cloud
-                    </option>
-                    <option value="kidspaint.cloud">kidspaint.cloud</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label class="form-label">Exam Stream / Category</label>
-                  <input
-                    type="text"
-                    id="category"
-                    placeholder="UPSC Civil Services"
-                    class="form-input"
-                  />
-                </div>
-
-                <div>
-                  <label class="form-label">Author</label>
-                  <input
-                    type="text"
-                    id="author"
-                    placeholder="ExamMokk Civil Services Team"
-                    class="form-input"
-                  />
-                </div>
-
-                <div class="md:col-span-2">
-                  <label class="form-label">Featured Image URL</label>
-                  <input
-                    type="url"
-                    id="featuredImage"
-                    class="form-input"
-                    placeholder="https://images.unsplash.com/..."
-                  />
-                </div>
-
-                <div>
-                  <label class="form-label">Status</label>
-                  <select id="status" class="form-input">
-                    <option value="published" selected>Published</option>
-                    <option value="draft">Draft</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label class="form-label">Reading Time (Min)</label>
-                  <input
-                    type="number"
-                    id="readingTime"
-                    placeholder="10"
-                    class="form-input"
-                  />
-                </div>
-
-                <div>
-                  <label class="form-label">Pillar Article</label>
-                  <select id="isPillar" class="form-input">
-                    <option value="false">No</option>
-                    <option value="true" selected>Yes</option>
-                  </select>
-                </div>
-
-                <div class="md:col-span-3">
-                  <label class="form-label">Short Excerpt</label>
-                  <textarea
-                    id="excerpt"
-                    rows="2"
-                    class="form-input"
-                    placeholder="Quick summary for cards and search listings..."
-                  ></textarea>
-                </div>
-
-                <div class="md:col-span-3">
-                  <label class="form-label">Content (Markdown / HTML)</label>
-                  <textarea
-                    id="content"
-                    rows="10"
-                    class="form-input font-mono text-xs"
-                    placeholder="Write detailed notes with buttons and tables..."
-                  ></textarea>
-                </div>
-
-                <!-- SEO & STRUCTURAL METADATA -->
-                <div class="md:col-span-3 border-t border-gray-100 pt-4">
-                  <div class="flex items-center gap-2 mb-3">
-                    <i
-                      class="fa-solid fa-magnifying-glass text-indigo-500 text-xs"
-                    ></i>
-                    <span class="text-xs font-bold text-gray-700"
-                      >SEO & Structured Data</span
+                <div
+                  class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50/80 p-4 rounded-2xl border border-slate-200"
+                >
+                  <div>
+                    <label class="form-label">Meta Title</label>
+                    <input
+                      type="text"
+                      id="metaTitle"
+                      placeholder="SEO Title for Google SERP"
+                      class="form-input bg-white font-semibold"
+                    />
+                  </div>
+                  <div>
+                    <label class="form-label">Keywords (Comma separated)</label>
+                    <input
+                      type="text"
+                      id="keywords"
+                      placeholder="upsc prelims 2026, upsc prelims 2027"
+                      class="form-input bg-white font-semibold"
+                    />
+                  </div>
+                  <div class="md:col-span-2">
+                    <label class="form-label">Meta Description</label>
+                    <textarea
+                      id="metaDescription"
+                      rows="2"
+                      placeholder="Snippet appearing on Google and WhatsApp preview cards..."
+                      class="form-input bg-white font-semibold"
+                    ></textarea>
+                  </div>
+                  <div class="md:col-span-2">
+                    <label class="form-label"
+                      >JSON-LD Schema Object (Optional)</label
                     >
-                  </div>
-                  <div
-                    class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg border border-gray-100"
-                  >
-                    <div>
-                      <label class="form-label">Meta Title</label>
-                      <input
-                        type="text"
-                        id="metaTitle"
-                        placeholder="SEO Title for Google SERP"
-                        class="form-input bg-white"
-                      />
-                    </div>
-                    <div>
-                      <label class="form-label"
-                        >Keywords (Comma separated)</label
-                      >
-                      <input
-                        type="text"
-                        id="keywords"
-                        placeholder="upsc prelims 2026, upsc prelims 2027"
-                        class="form-input bg-white"
-                      />
-                    </div>
-                    <div class="md:col-span-2">
-                      <label class="form-label">Meta Description</label>
-                      <textarea
-                        id="metaDescription"
-                        rows="2"
-                        placeholder="Snippet appearing on Google and WhatsApp preview cards..."
-                        class="form-input bg-white"
-                      ></textarea>
-                    </div>
-                    <div class="md:col-span-2">
-                      <label class="form-label"
-                        >JSON-LD Schema Object (Optional)</label
-                      >
-                      <textarea
-                        id="jsonLd"
-                        rows="4"
-                        placeholder='{"@context": "https://schema.org", "@type": "Article"}'
-                        class="form-input bg-white font-mono text-xs"
-                      ></textarea>
-                    </div>
+                    <textarea
+                      id="jsonLd"
+                      rows="4"
+                      placeholder='{"@context": "https://schema.org", "@type": "Article"}'
+                      class="form-input bg-white font-mono text-xs"
+                    ></textarea>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div
-                class="flex items-center justify-end gap-2 pt-3 border-t border-gray-100"
-              >
-                <button
-                  type="button"
-                  onclick="switchTab('blogs-list')"
-                  class="px-4 py-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium text-xs transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  id="submitBtn"
-                  class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2 rounded-lg text-xs transition shadow-sm"
-                >
-                  Save Article
-                </button>
-              </div>
-            </form>
-
-            <!-- MODE 2: RAW JSON PAYLOAD -->
-            <form
-              id="jsonForm"
-              onsubmit="handleJsonSubmit(event)"
-              class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4 hidden"
+            <div
+              class="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100"
             >
-              <div class="flex items-center justify-between">
-                <label class="form-label mb-0"
-                  >Raw JSON Payload (Supports Auto-Sync with Form & ID)</label
-                >
-                <button
-                  type="button"
-                  onclick="loadSampleJson()"
-                  class="text-xs font-bold text-indigo-600 hover:underline flex items-center gap-1"
-                >
-                  <i class="fa-solid fa-rotate-left text-xs"></i> Reset to
-                  Default Template
-                </button>
-              </div>
-              <textarea
-                id="rawJsonInput"
-                rows="18"
-                required
-                class="form-input font-mono text-xs bg-gray-900 text-green-400 focus:bg-gray-900 border-gray-800 tracking-wide leading-relaxed"
-              ></textarea>
-
-              <div
-                class="flex items-center justify-end gap-2 pt-3 border-t border-gray-100"
+              <button
+                type="button"
+                onclick="switchTab('blogs-list')"
+                class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 font-bold text-xs transition cursor-pointer active:scale-95"
               >
-                <button
-                  type="button"
-                  onclick="switchTab('blogs-list')"
-                  class="px-4 py-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium text-xs transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  id="submitJsonBtn"
-                  class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2 rounded-lg text-xs transition shadow-sm"
-                >
-                  Submit Raw JSON
-                </button>
-              </div>
-            </form>
-          </section>
-        </div>
+                Cancel
+              </button>
+              <button
+                type="submit"
+                id="submitBtn"
+                class="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-sm cursor-pointer"
+              >
+                Save Article
+              </button>
+            </div>
+          </form>
+
+          <!-- MODE 2: RAW JSON PAYLOAD -->
+          <form
+            id="jsonForm"
+            onsubmit="handleJsonSubmit(event)"
+            class="bg-white rounded-2xl border border-slate-200 p-5 md:p-7 space-y-4 shadow-xs hidden"
+          >
+            <div class="flex items-center justify-between">
+              <label class="form-label mb-0"
+                >Raw JSON Payload (Supports Auto-Sync with Form &amp; ID)</label
+              >
+              <button
+                type="button"
+                onclick="loadSampleJson()"
+                class="text-xs font-extrabold text-indigo-600 hover:underline flex items-center gap-1 cursor-pointer"
+              >
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                Reset to Default Template
+              </button>
+            </div>
+            <textarea
+              id="rawJsonInput"
+              rows="18"
+              required
+              class="form-input font-mono text-xs bg-slate-900 text-emerald-400 focus:bg-slate-900 border-slate-800 tracking-wide leading-relaxed rounded-2xl shadow-inner"
+            ></textarea>
+
+            <div
+              class="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100"
+            >
+              <button
+                type="button"
+                onclick="switchTab('blogs-list')"
+                class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 font-bold text-xs transition cursor-pointer active:scale-95"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                id="submitJsonBtn"
+                class="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-sm cursor-pointer"
+              >
+                Submit Raw JSON
+              </button>
+            </div>
+          </form>
+        </section>
       </main>
     </div>
 
@@ -518,7 +485,6 @@
       const TARGET_DOMAIN = "exammokk.cloud";
       let blogsData = [];
 
-      // DEFAULT TEMPLATE: UPSC PRELIMS 2026-27 (HTML + Redirect Buttons)
       const DEFAULT_JSON_TEMPLATE = {
         title:
           "UPSC Prelims 2026-27 Master Strategy: High-Yield Topics, CSAT Blueprint & Mock Plan",
@@ -639,10 +605,15 @@
       };
 
       document.addEventListener("DOMContentLoaded", () => {
+        if (typeof renderAdminHeader === "function") {
+          renderAdminHeader("Article & Blog Console", "blogs");
+        }
+
         const authForm = document.getElementById("authForm");
         if (authForm) {
           authForm.addEventListener("submit", verifyPassword);
         }
+        if (window.lucide) lucide.createIcons();
       });
 
       function verifyPassword(e) {
@@ -656,6 +627,7 @@
           fetchBlogs();
         } else {
           document.getElementById("authError").classList.remove("hidden");
+          if (window.lucide) lucide.createIcons();
         }
       }
 
@@ -681,7 +653,7 @@
       function renderBlogsTable(blogs) {
         const tbody = document.getElementById("blogsTableBody");
         if (!blogs || blogs.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-gray-400">No articles found for exammokk.cloud.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400">No articles found for exammokk.cloud.</td></tr>`;
           return;
         }
 
@@ -689,38 +661,41 @@
           .map((blog) => {
             const blogStatus = blog.status || "published";
             return `
-              <tr class="hover:bg-gray-50 transition">
-                <td class="py-3 px-5">
-                  <div class="font-semibold text-gray-900">${blog.title || "Untitled"}</div>
-                  <div class="text-xs text-gray-400 font-mono">/${blog.slug || ""}</div>
+              <tr class="hover:bg-slate-50/80 transition-colors border-b border-slate-100">
+                <td class="p-3.5 md:p-4">
+                  <div class="font-bold text-slate-800">${blog.title || "Untitled"}</div>
+                  <div class="text-[11px] text-slate-400 font-mono">/${blog.slug || ""}</div>
                 </td>
-                <td class="py-3 px-4">
-                  <span class="text-xs px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-mono border border-indigo-200">
+                <td class="p-3.5 md:p-4">
+                  <span class="text-[11px] px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 font-mono font-bold border border-indigo-200">
                     ${blog.domain || "exammokk.cloud"}
                   </span>
                 </td>
-                <td class="py-3 px-4 text-gray-600 text-xs font-medium">${blog.category || "Preparation"}</td>
-                <td class="py-3 px-4">
-                  <span class="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full font-medium ${
+                <td class="p-3.5 md:p-4 text-slate-600 font-semibold">${blog.category || "Preparation"}</td>
+                <td class="p-3.5 md:p-4">
+                  <span class="inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 rounded-md font-extrabold uppercase ${
                     blogStatus === "published"
-                      ? "bg-green-50 text-green-700 border border-green-200"
-                      : "bg-yellow-50 text-yellow-700 border border-yellow-200"
+                      ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                      : "bg-amber-50 text-amber-700 border border-amber-200"
                   }">
+                    <span class="w-1.5 h-1.5 rounded-full ${blogStatus === "published" ? "bg-emerald-500" : "bg-amber-500"}"></span>
                     ${blogStatus}
                   </span>
                 </td>
-                <td class="py-3 px-5 text-right space-x-1">
-                  <button onclick="editBlog('${blog._id}')" class="text-gray-400 hover:text-indigo-600 p-1.5 rounded hover:bg-gray-100 transition" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
+                <td class="p-3.5 md:p-4 text-right space-x-1">
+                  <button onclick="editBlog('${blog._id}')" class="p-2 rounded-xl text-slate-500 hover:text-indigo-600 hover:bg-slate-100 transition-all cursor-pointer inline-flex items-center justify-center active:scale-95" title="Edit">
+                    <i data-lucide="edit-3" class="w-4 h-4 text-amber-500"></i>
                   </button>
-                  <button onclick="deleteBlog('${blog._id}')" class="text-gray-400 hover:text-red-600 p-1.5 rounded hover:bg-gray-100 transition" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
+                  <button onclick="deleteBlog('${blog._id}')" class="p-2 rounded-xl text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition-all cursor-pointer inline-flex items-center justify-center active:scale-95" title="Delete">
+                    <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
                   </button>
                 </td>
               </tr>
             `;
           })
           .join("");
+
+        if (window.lucide) lucide.createIcons();
       }
 
       function getFormDataAsObject() {
@@ -769,7 +744,6 @@
         const btnJson = document.getElementById("btn-mode-json");
 
         if (mode === "json") {
-          // Sync current form state directly into Raw JSON Editor
           const currentFormObj = getFormDataAsObject();
           document.getElementById("rawJsonInput").value = JSON.stringify(
             currentFormObj,
@@ -780,11 +754,10 @@
           formEl.classList.add("hidden");
           jsonEl.classList.remove("hidden");
           btnJson.className =
-            "tab-btn-active px-4 py-1.5 rounded-md text-xs font-bold transition";
+            "tab-btn-active px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer";
           btnForm.className =
-            "text-gray-600 px-4 py-1.5 rounded-md text-xs font-bold transition";
+            "text-slate-600 px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer";
         } else {
-          // If returning from JSON mode, sync back to Form fields
           try {
             const rawVal = document.getElementById("rawJsonInput").value;
             if (rawVal.trim()) {
@@ -798,10 +771,11 @@
           jsonEl.classList.add("hidden");
           formEl.classList.remove("hidden");
           btnForm.className =
-            "tab-btn-active px-4 py-1.5 rounded-md text-xs font-bold transition";
+            "tab-btn-active px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer";
           btnJson.className =
-            "text-gray-600 px-4 py-1.5 rounded-md text-xs font-bold transition";
+            "text-slate-600 px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer";
         }
+        if (window.lucide) lucide.createIcons();
       }
 
       function populateFormFields(data) {
@@ -940,10 +914,7 @@
       }
 
       function openCreateTab() {
-        // Clear blog ID for fresh creation
         document.getElementById("blogId").value = "";
-
-        // Populate default UPSC 2026-27 format
         populateFormFields(DEFAULT_JSON_TEMPLATE);
         document.getElementById("rawJsonInput").value = JSON.stringify(
           DEFAULT_JSON_TEMPLATE,
@@ -972,7 +943,6 @@
         delete copyBlog.createdAt;
         delete copyBlog.updatedAt;
 
-        // Raw JSON mode me bhi accurate clean payload set kar diya
         document.getElementById("rawJsonInput").value = JSON.stringify(
           copyBlog,
           null,
@@ -1018,15 +988,7 @@
           .getElementById("view-create-blog")
           .classList.toggle("hidden", tabName !== "create-blog");
 
-        document.getElementById("nav-blogs-list").className =
-          tabName === "blogs-list"
-            ? "nav-active flex items-center gap-3 px-5 py-2.5 text-xs font-medium transition"
-            : "flex items-center gap-3 px-5 py-2.5 text-xs font-medium hover:text-gray-200 hover:bg-gray-800 transition";
-
-        document.getElementById("nav-create-blog").className =
-          tabName === "create-blog"
-            ? "nav-active flex items-center gap-3 px-5 py-2.5 text-xs font-medium transition"
-            : "flex items-center gap-3 px-5 py-2.5 text-xs font-medium hover:text-gray-200 hover:bg-gray-800 transition";
+        if (window.lucide) lucide.createIcons();
       }
 
       function showAlert(msg, type) {
@@ -1034,12 +996,13 @@
         const message = document.getElementById("alertMessage");
         message.innerText = msg;
 
-        box.className = `mb-6 p-3.5 rounded-xl text-xs font-medium flex items-center justify-between border transition-all ${
+        box.className = `p-3.5 rounded-2xl text-xs font-bold flex items-center justify-between border transition-all shadow-xs ${
           type === "success"
-            ? "bg-green-50 text-green-800 border-green-200"
-            : "bg-red-50 text-red-800 border-red-200"
+            ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+            : "bg-rose-50 text-rose-800 border-rose-200"
         }`;
         box.classList.remove("hidden");
+        if (window.lucide) lucide.createIcons();
 
         setTimeout(() => hideAlert(), 4000);
       }
