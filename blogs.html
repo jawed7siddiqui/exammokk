@@ -11,19 +11,19 @@
     <title>Exam Preparation Blogs & Strategy Guides – AI ExamMokk</title>
     <meta
       name="description"
-      content="Read expert preparation strategies, syllabus analysis, daily current affairs rundowns, and smart CBT techniques on AI ExamMokk."
+      content="Access expert preparation strategies, high-yield subject weightage breakdowns, UPSC & SSC cut-off analyses, and free CBT simulator mock drills on ExamMokk."
     />
     <meta
       name="keywords"
-      content="exam blogs, competitive exam strategy, ssc cgl tips, bank po strategy, current affairs notes, exammokk blogs"
+      content="exam blogs, upsc prelims strategy, ssc cgl 2026, competitive exams, cbt mock test, exammokk articles"
     />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://exammokk.cloud/blogs" />
 
     <!-- MOBILE CAPABILITY & THEME -->
-    <meta name="theme-color" content="#4f46e5" />
+    <meta name="theme-color" content="#0f172a" />
 
-    <!-- TAILWIND CSS, LUCIDE ICONS & FONTS -->
+    <!-- TAILWIND CSS & ICONS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -45,259 +45,413 @@
       }
       .card-hover {
         transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease,
+          transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
           border-color 0.2s ease;
       }
       .card-hover:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+        transform: translateY(-4px);
+        box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.1);
+      }
+      .skeleton-pulse {
+        background: linear-gradient(
+          90deg,
+          #f1f5f9 25%,
+          #e2e8f0 50%,
+          #f1f5f9 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
       }
     </style>
   </head>
   <body
-    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white antialiased relative"
+    class="flex flex-col min-h-screen selection:bg-indigo-600 selection:text-white antialiased"
   >
-    <!-- REUSABLE HEADER (layout.js will render here) -->
+    <!-- REUSABLE HEADER -->
     <div id="global-header"></div>
 
     <main
-      class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6"
+      class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8"
     >
       <!-- 1. HERO SECTION -->
       <section
-        class="bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 border border-amber-500/30 rounded-3xl p-6 sm:p-8 text-white overflow-hidden shadow-xl shadow-slate-950/20 relative"
+        class="relative rounded-3xl bg-slate-950 border border-slate-800 p-6 sm:p-10 text-white overflow-hidden shadow-2xl"
       >
         <div
-          class="absolute -right-12 -top-12 w-64 h-64 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"
+          class="absolute -right-16 -top-16 w-80 h-80 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"
         ></div>
         <div
-          class="absolute -left-12 -bottom-12 w-52 h-52 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"
+          class="absolute -left-16 -bottom-16 w-72 h-72 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"
         ></div>
 
-        <div class="relative z-10 max-w-3xl space-y-3">
+        <div class="relative z-10 max-w-3xl space-y-4">
           <div
-            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-300/30 text-[10px] sm:text-[11px] font-mono-tag font-black text-amber-300 shadow-xs"
+            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-700 text-[11px] font-mono-tag font-bold text-amber-400"
           >
-            <span>📚</span>
-            <span>STRATEGY, NOTIFICATIONS &amp; CURRENT AFFAIRS</span>
+            <span
+              class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-ping"
+            ></span>
+            <span>EXAM STRATEGY & SYLLABUS INTELLIGENCE</span>
           </div>
 
           <h1
-            class="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-white leading-tight"
+            class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight"
           >
-            Exam Insights &amp;
+            Academic Insights & <br class="hidden sm:inline" />
             <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-200"
+              class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-200"
             >
-              Preparation Articles
+              Exam Blueprints
             </span>
           </h1>
 
           <p
-            class="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium"
+            class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl"
           >
-            Subject-wise revision tips, high-yield current affairs digests, exam
-            pattern breakdowns, and data-backed score improvement strategies.
+            Sectional breakdowns, previous-year score trends, high-yield topics,
+            and structured revision templates designed by top rankers.
           </p>
         </div>
       </section>
 
-      <!-- 2. BLOG LIST SECTION -->
+      <!-- 2. FILTER & SEARCH CONTROL BAR -->
       <section class="space-y-4">
+        <div
+          class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-3 sm:p-4 rounded-2xl border border-slate-200/80 shadow-xs"
+        >
+          <!-- Category Chips -->
+          <div
+            class="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 no-scrollbar text-xs font-bold"
+            id="category-filter-list"
+          >
+            <button
+              onclick="setCategory('All', this)"
+              class="cat-pill active px-4 py-2 rounded-xl bg-slate-900 text-white border border-slate-900 transition-all cursor-pointer whitespace-nowrap"
+            >
+              All Exams
+            </button>
+            <button
+              onclick="setCategory('UPSC Civil Services', this)"
+              class="cat-pill px-4 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200 transition-all cursor-pointer whitespace-nowrap"
+            >
+              UPSC CSE
+            </button>
+            <button
+              onclick="setCategory('SSC Exams', this)"
+              class="cat-pill px-4 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200 transition-all cursor-pointer whitespace-nowrap"
+            >
+              SSC CGL
+            </button>
+            <button
+              onclick="setCategory('Banking', this)"
+              class="cat-pill px-4 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200 transition-all cursor-pointer whitespace-nowrap"
+            >
+              Banking & Insurance
+            </button>
+          </div>
+
+          <!-- Real-Time Search Bar -->
+          <div class="relative min-w-[240px]">
+            <i
+              data-lucide="search"
+              class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"
+            ></i>
+            <input
+              type="text"
+              id="search-input"
+              oninput="handleSearch(this.value)"
+              placeholder="Search guides, exams..."
+              class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl pl-9 pr-4 py-2 font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-600 focus:bg-white transition-all"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. ARTICLE GRID -->
+      <section class="space-y-6">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <i data-lucide="book-open" class="w-5 h-5 text-indigo-600"></i>
+            <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
             <h2 class="text-base sm:text-lg font-black text-slate-900">
-              Latest Articles
+              Articles & Analysis
             </h2>
           </div>
           <span
-            class="text-xs font-bold bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full border border-indigo-200 font-mono-tag"
+            id="article-count"
+            class="text-xs font-mono-tag font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200"
           >
-            FREE ACCESS
+            Showing Articles
           </span>
         </div>
 
-        <!-- Dynamic Blog Grid -->
+        <!-- Skeleton Placeholders -->
         <div
-          id="blog-list-container"
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
+          id="shimmer-container"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         >
-          <!-- Cards populated via JS -->
+          <div
+            class="bg-white border border-slate-200/70 rounded-2xl p-4 space-y-4 shadow-xs"
+          >
+            <div class="aspect-video rounded-xl skeleton-pulse"></div>
+            <div class="h-4 w-1/3 rounded skeleton-pulse"></div>
+            <div class="h-6 w-5/6 rounded skeleton-pulse"></div>
+            <div class="h-4 w-full rounded skeleton-pulse"></div>
+          </div>
+          <div
+            class="bg-white border border-slate-200/70 rounded-2xl p-4 space-y-4 shadow-xs"
+          >
+            <div class="aspect-video rounded-xl skeleton-pulse"></div>
+            <div class="h-4 w-1/3 rounded skeleton-pulse"></div>
+            <div class="h-6 w-5/6 rounded skeleton-pulse"></div>
+            <div class="h-4 w-full rounded skeleton-pulse"></div>
+          </div>
+          <div
+            class="bg-white border border-slate-200/70 rounded-2xl p-4 space-y-4 shadow-xs"
+          >
+            <div class="aspect-video rounded-xl skeleton-pulse"></div>
+            <div class="h-4 w-1/3 rounded skeleton-pulse"></div>
+            <div class="h-6 w-5/6 rounded skeleton-pulse"></div>
+            <div class="h-4 w-full rounded skeleton-pulse"></div>
+          </div>
         </div>
 
-        <!-- Skeleton / Loader -->
-        <div id="main-loader" class="text-center py-12 hidden">
-          <div
-            class="inline-block animate-spin rounded-full h-8 w-8 border-3 border-indigo-600 border-t-transparent"
-          ></div>
-          <p
-            class="text-slate-500 font-semibold mt-3 text-xs tracking-wider uppercase"
-          >
-            Loading Articles...
+        <!-- Dynamic Container -->
+        <div
+          id="blog-list-container"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+        ></div>
+
+        <!-- Empty Results -->
+        <div
+          id="empty-state"
+          class="hidden text-center py-16 bg-white border border-dashed border-slate-300 rounded-3xl p-8"
+        >
+          <i
+            data-lucide="file-question"
+            class="w-12 h-12 text-slate-300 mx-auto mb-3"
+          ></i>
+          <h3 class="text-base font-bold text-slate-800">
+            No matching guides found
+          </h3>
+          <p class="text-xs text-slate-400 max-w-sm mx-auto mt-1">
+            Try tweaking your search term or switch to another exam category.
           </p>
         </div>
 
-        <!-- Load More Button -->
+        <!-- Pagination / Load More -->
         <div
           id="pagination-wrapper"
-          class="text-center pt-4 flex justify-center"
+          class="text-center pt-2 flex justify-center"
         >
           <button
             id="load-more-btn"
             onclick="loadMore()"
-            class="hidden px-5 py-2.5 bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 font-bold text-xs rounded-xl shadow-xs transition-all active:scale-95 cursor-pointer"
+            class="hidden px-6 py-3 bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 font-extrabold text-xs rounded-xl shadow-xs transition-all active:scale-95 cursor-pointer items-center gap-2"
           >
-            Load More Articles 🚀
+            <span>LOAD MORE ARTICLES</span>
+            <i data-lucide="arrow-down" class="w-3.5 h-3.5 text-indigo-600"></i>
           </button>
         </div>
       </section>
     </main>
 
-    <!-- REUSABLE FOOTER (layout.js will render here) -->
+    <!-- REUSABLE FOOTER -->
     <div id="global-footer"></div>
 
-    <!-- LAYOUT ENGINE SCRIPT -->
     <script src="/js/layout.js"></script>
 
-    <!-- BLOG LOGIC SCRIPT -->
     <script>
       let currentPage = 1;
       const limit = 6;
-      const selectedCategory = "All";
+      let activeCategory = "All";
+      let allLoadedBlogs = [];
+      let searchQuery = "";
 
-      const getCurrentDomain = () => {
-        const host = window.location.hostname;
-        if (host.includes("exammokk.cloud")) {
-          return "exammokk.cloud";
-        }
-        return "exammokk.cloud";
-      };
+      const API_BASE = "https://exam-api.jawedsiddiqui.cloud/api/blogs";
+      const TARGET_DOMAIN = "exammokk.cloud";
 
-      async function fetchBlogs(page = 1, category = "All") {
-        const loader = document.getElementById("main-loader");
+      async function fetchBlogs(page = 1, isAppend = false) {
+        const shimmer = document.getElementById("shimmer-container");
         const btn = document.getElementById("load-more-btn");
-        const paginationWrapper = document.getElementById("pagination-wrapper");
-        const currentDomain = getCurrentDomain();
+        const emptyState = document.getElementById("empty-state");
 
-        loader.classList.remove("hidden");
+        if (!isAppend) shimmer.classList.remove("hidden");
         btn.classList.add("hidden");
+        emptyState.classList.add("hidden");
 
         try {
-          const catQuery =
-            category !== "All"
-              ? `&category=${encodeURIComponent(category)}`
+          const categoryParam =
+            activeCategory !== "All"
+              ? `&category=${encodeURIComponent(activeCategory)}`
               : "";
-          const apiUrl = `https://exam-api.jawedsiddiqui.cloud/api/blogs?page=${page}&limit=${limit}&domain=${currentDomain}${catQuery}`;
-
-          const response = await fetch(apiUrl);
+          const response = await fetch(
+            `${API_BASE}?page=${page}&limit=${limit}&domain=${TARGET_DOMAIN}${categoryParam}`,
+          );
           const { data, success, totalPages } = await response.json();
 
           if (success) {
-            renderBlogs(data, page === 1);
+            if (isAppend) {
+              allLoadedBlogs = [...allLoadedBlogs, ...(data || [])];
+            } else {
+              allLoadedBlogs = data || [];
+            }
+
+            renderFilteredBlogs();
 
             if (totalPages > 1 && page < totalPages) {
               btn.classList.remove("hidden");
-            } else if (data && data.length > 0) {
-              paginationWrapper.innerHTML =
-                '<p class="text-slate-400 font-bold text-xs uppercase tracking-wider">All articles loaded.</p>';
-            } else if (page === 1) {
-              paginationWrapper.innerHTML =
-                '<p class="text-slate-500 font-semibold text-xs">No articles published yet.</p>';
+              btn.classList.add("inline-flex");
             }
           }
         } catch (error) {
-          console.error("API Error:", error);
-          document.getElementById("blog-list-container").innerHTML =
-            '<div class="col-span-full text-center text-rose-600 font-bold text-xs py-8">Unable to load blogs right now. Please refresh.</div>';
+          console.error("Fetch Error:", error);
+          document.getElementById("blog-list-container").innerHTML = `
+            <div class="col-span-full text-center text-rose-500 font-bold text-xs py-8">
+              Failed to load articles. Please check connection.
+            </div>`;
         } finally {
-          loader.classList.add("hidden");
+          shimmer.classList.add("hidden");
         }
       }
 
-      function renderBlogs(blogs, isFirstPage) {
+      function renderFilteredBlogs() {
         const container = document.getElementById("blog-list-container");
-        if (isFirstPage) container.innerHTML = "";
+        const emptyState = document.getElementById("empty-state");
+        const countBadge = document.getElementById("article-count");
 
-        if (!blogs || blogs.length === 0) {
-          if (isFirstPage) {
-            container.innerHTML =
-              '<div class="col-span-full text-center py-10 font-bold text-xs text-slate-400">No blog posts found.</div>';
-          }
+        let displayList = allLoadedBlogs;
+        if (searchQuery.trim() !== "") {
+          const query = searchQuery.toLowerCase();
+          displayList = displayList.filter(
+            (b) =>
+              (b.title && b.title.toLowerCase().includes(query)) ||
+              (b.excerpt && b.excerpt.toLowerCase().includes(query)) ||
+              (b.category && b.category.toLowerCase().includes(query)),
+          );
+        }
+
+        countBadge.innerText = `${displayList.length} Articles`;
+
+        if (displayList.length === 0) {
+          container.innerHTML = "";
+          emptyState.classList.remove("hidden");
+          if (window.lucide) lucide.createIcons();
           return;
         }
 
-        blogs.forEach((blog) => {
-          const blogSlug = blog.slug || "#";
-          const blogLink = `/blogs/${blogSlug}`;
-          const imageSrc =
-            blog.featuredImage ||
-            "https://via.placeholder.com/600x340/0f172a/ffffff?text=ExamMokk+Prep";
-          const publishDate = new Date(
-            blog.createdAt || Date.now(),
-          ).toLocaleDateString("en-IN", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          });
+        emptyState.classList.add("hidden");
 
-          const cardHTML = `
-            <article class="group bg-white border border-slate-200/90 hover:border-indigo-600 rounded-2xl p-4 shadow-2xs card-hover flex flex-col justify-between overflow-hidden">
-              <div class="space-y-3">
-                <a href="${blogLink}" class="block overflow-hidden rounded-xl bg-slate-100 aspect-video">
+        container.innerHTML = displayList
+          .map((blog) => {
+            const blogSlug = blog.slug || "#";
+            const blogLink = `/blogs/${blogSlug}`;
+            const imageSrc =
+              blog.featuredImage ||
+              "https://images.unsplash.com/photo-1516979187457-637abb4f9353";
+            const publishDate = new Date(
+              blog.createdAt || Date.now(),
+            ).toLocaleDateString("en-IN", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            });
+            const readTime = blog.readingTime
+              ? `${blog.readingTime} min read`
+              : "6 min read";
+
+            return `
+            <article class="group bg-white border border-slate-200/80 hover:border-indigo-500/50 rounded-2xl p-4 shadow-xs card-hover flex flex-col justify-between overflow-hidden">
+              <div class="space-y-3.5">
+                
+                <!-- Image Wrapper with Read-Time Badge -->
+                <a href="${blogLink}" class="relative block overflow-hidden rounded-xl bg-slate-100 aspect-video">
                   <img
                     src="${imageSrc}"
                     alt="${blog.title}"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-                    onerror="this.src='https://via.placeholder.com/600x340/0f172a/ffffff?text=ExamMokk+Prep'"
+                    loading="lazy"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onerror="this.src='https://images.unsplash.com/photo-1434030216411-0b793f4b4173'"
                   />
+                  <span class="absolute bottom-2.5 right-2.5 bg-slate-950/80 backdrop-blur-md text-[10px] text-white font-mono-tag px-2 py-0.5 rounded-md font-bold">
+                    ${readTime}
+                  </span>
                 </a>
 
+                <!-- Meta Information -->
                 <div>
-                  <div class="flex items-center justify-between text-[11px] font-mono-tag font-bold text-slate-400 mb-1.5">
-                    <span class="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md uppercase">
+                  <div class="flex items-center justify-between text-[11px] font-mono-tag font-bold mb-2">
+                    <span class="bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-md uppercase border border-indigo-100">
                       ${blog.category || "Preparation"}
                     </span>
-                    <span>${publishDate}</span>
+                    <span class="text-slate-400 font-medium">${publishDate}</span>
                   </div>
 
-                  <a href="${blogLink}" class="no-underline">
+                  <a href="${blogLink}" class="block no-underline">
                     <h3 class="text-sm font-black text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2 leading-snug">
                       ${blog.title}
                     </h3>
                   </a>
 
-                  <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1 font-medium">
-                    ${blog.excerpt || "Read full analysis, tips, and study breakdown inside."}
+                  <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1.5 font-medium">
+                    ${blog.excerpt || "Read our strategic breakdown, high-scoring topics, and live practice simulations inside."}
                   </p>
                 </div>
               </div>
 
-              <div class="mt-4 pt-3 border-t border-slate-100">
+              <!-- Action Link -->
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-mono-tag">ExamMokk Guides</span>
                 <a
                   href="${blogLink}"
-                  class="w-full py-1.5 px-3 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-[11px] rounded-xl shadow-xs transition-all flex items-center justify-center gap-1 no-underline tracking-wide"
+                  class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-700 no-underline group-hover:translate-x-0.5 transition-transform"
                 >
-                  <span>READ ARTICLE</span>
-                  <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                  <span>Read Guide</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                 </a>
               </div>
             </article>
           `;
-          container.insertAdjacentHTML("beforeend", cardHTML);
-        });
+          })
+          .join("");
 
         if (window.lucide) lucide.createIcons();
       }
 
+      function setCategory(category, buttonEl) {
+        activeCategory = category;
+        currentPage = 1;
+
+        document.querySelectorAll(".cat-pill").forEach((el) => {
+          el.className =
+            "cat-pill px-4 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200 transition-all cursor-pointer whitespace-nowrap";
+        });
+        buttonEl.className =
+          "cat-pill active px-4 py-2 rounded-xl bg-slate-900 text-white border border-slate-900 transition-all cursor-pointer whitespace-nowrap";
+
+        fetchBlogs(1, false);
+      }
+
+      function handleSearch(val) {
+        searchQuery = val;
+        renderFilteredBlogs();
+      }
+
       function loadMore() {
         currentPage++;
-        fetchBlogs(currentPage, selectedCategory);
+        fetchBlogs(currentPage, true);
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        fetchBlogs(1, selectedCategory);
+        fetchBlogs(1, false);
         if (window.lucide) lucide.createIcons();
       });
     </script>
