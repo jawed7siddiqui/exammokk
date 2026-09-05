@@ -1,114 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <!-- 1. HOMEPAGE -->
+  <!--  1. HOMEPAGE  -->
   <url>
     <loc>https://exammokk.cloud/</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- 2. DAILY GK & CURRENT AFFAIRS SPEED DRILL -->
+  <!--  2. DAILY GK & CURRENT AFFAIRS SPEED DRILL  -->
   <url>
     <loc>https://exammokk.cloud/daily-gk</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- 3. COMPETITIVE EXAM STREAM DETAIL PAGES -->
-  <!-- SSC CGL, CHSL, MTS & GD -->
+  <!--  3. BLOGS LISTING SECTION  -->
+  <url>
+    <loc>https://exammokk.cloud/blogs</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!--  4. COMPETITIVE EXAM STREAM DETAIL PAGES  -->
+  <!--  SSC CGL, CHSL, MTS & GD  -->
   <url>
     <loc>https://exammokk.cloud/ssc</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
-
-  <!-- UPSC Civil Services & State PSC -->
+  <!--  UPSC Civil Services & State PSC  -->
   <url>
     <loc>https://exammokk.cloud/upsc</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
-
-  <!-- Banking PO & Clerk (SBI / IBPS) -->
+  <!--  Banking PO & Clerk (SBI / IBPS)  -->
   <url>
     <loc>https://exammokk.cloud/banking</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
-
-  <!-- Railway RRB NTPC & Group D -->
+  <!--  Railway RRB NTPC & Group D  -->
   <url>
     <loc>https://exammokk.cloud/railways</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
-
-  <!-- JEE Main & NEET UG -->
+  <!--  JEE Main & NEET UG  -->
   <url>
     <loc>https://exammokk.cloud/jee-neet</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- Defence (NDA / CDS / Police SI) -->
+  <!--  Defence (NDA / CDS / Police SI)  -->
   <url>
     <loc>https://exammokk.cloud/defence</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- Teaching (CTET / State TET) -->
+  <!--  Teaching (CTET / State TET)  -->
   <url>
     <loc>https://exammokk.cloud/teaching</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- CUET & Law Entrances -->
+  <!--  CUET & Law Entrances  -->
   <url>
     <loc>https://exammokk.cloud/entrance</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 4. INSTITUTIONAL & TRUST PAGES -->
+  <!--  5. INSTITUTIONAL & TRUST PAGES  -->
   <url>
     <loc>https://exammokk.cloud/about-us</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
     <loc>https://exammokk.cloud/contact-us</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
-
   <url>
     <loc>https://exammokk.cloud/privacy-policy</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
-
   <url>
     <loc>https://exammokk.cloud/terms</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
-
 </urlset>

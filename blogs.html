@@ -189,7 +189,7 @@
             category !== "All"
               ? `&category=${encodeURIComponent(category)}`
               : "";
-          const apiUrl = `https://api.jawedsiddiqui.cloud/api/blogs?page=${page}&limit=${limit}&domain=${currentDomain}${catQuery}`;
+          const apiUrl = `https://exam-api.jawedsiddiqui.cloud/api/blogs?page=${page}&limit=${limit}&domain=${currentDomain}${catQuery}`;
 
           const response = await fetch(apiUrl);
           const { data, success, totalPages } = await response.json();
