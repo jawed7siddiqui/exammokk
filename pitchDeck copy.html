@@ -1,0 +1,3582 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExamMokk – PitchDeck</title>
+
+    <!-- Typography: Inter (body), Outfit (headings/metrics/logo), JetBrains Mono (data/code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      :root {
+        --navy-950: #060d17;
+        --navy-900: #0a1628;
+        --navy-800: #10223d;
+        --navy-700: #1a365d;
+        --text-main: #0f172a;
+        --text-muted: #334155;
+        --text-soft: #64748b;
+        --cyan-bright: #00bcd4;
+        --cyan-deep: #0891b2;
+        --cyan-bg: #ecfeff;
+        --cyan-border: #a5f3fc;
+        --border-gray: #e2e8f0;
+        --border-card: #cbd5e1;
+        --surface-light: #f8fafc;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: #cbd5e1;
+        font-family: "Inter", sans-serif;
+        color: var(--text-main);
+        font-size: 14px;
+        line-height: 1.38;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .action-bar {
+        position: fixed;
+        top: 14px;
+        right: 24px;
+        z-index: 99999;
+        display: flex;
+        gap: 10px;
+        background: #ffffff;
+        padding: 8px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--border-card);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        padding: 9px 18px;
+        font-size: 13px;
+        font-weight: 700;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: "Outfit", sans-serif;
+        transition: all 0.15s ease;
+      }
+
+      .btn-cyan {
+        background: var(--cyan-bright);
+        color: #042f2e;
+        box-shadow: 0 2px 8px rgba(0, 188, 212, 0.35);
+      }
+
+      .btn-cyan:hover {
+        background: #00acc1;
+      }
+
+      #document-container {
+        margin: 0 auto;
+        padding: 24px 0 40px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .page {
+        width: 210mm;
+        height: 297mm;
+        max-height: 297mm;
+        min-height: 297mm;
+        box-sizing: border-box;
+        background: #ffffff;
+        padding: 20mm 20mm 15mm 20mm;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        page-break-after: always;
+        break-after: page;
+      }
+
+      .page:last-of-type {
+        page-break-after: auto;
+        break-after: auto;
+      }
+
+      .page::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(
+          90deg,
+          #0a1628 0%,
+          #00bcd4 60%,
+          #38bdf8 100%
+        );
+      }
+
+      .header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-bottom: 12px;
+        border-bottom: 1.5px solid var(--border-gray);
+        margin-bottom: 24px;
+        flex-shrink: 0;
+      }
+
+      .brand-logo {
+        font-family: "Outfit", sans-serif;
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--navy-900);
+        letter-spacing: -0.6px;
+        line-height: 1;
+        margin-bottom: 4px;
+        display: inline-block;
+      }
+
+      .brand-logo .mokk {
+        color: var(--cyan-bright);
+      }
+
+      .page-category-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--cyan-deep);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 2px;
+      }
+
+      .main-page-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--navy-900);
+        letter-spacing: -0.4px;
+        margin: 0;
+        line-height: 1.15;
+      }
+
+      .main-page-subtitle {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-soft);
+        margin-top: 3px;
+      }
+
+      .badge-live {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--cyan-bg);
+        border: 1.5px solid var(--cyan-border);
+        color: var(--cyan-deep);
+        font-size: 11px;
+        font-weight: 800;
+        padding: 6px 12px;
+        border-radius: 6px;
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+        flex-shrink: 0;
+      }
+
+      .pulse-dot {
+        width: 7px;
+        height: 7px;
+        background: var(--cyan-bright);
+        border-radius: 50%;
+        box-shadow: 0 0 5px var(--cyan-bright);
+      }
+
+      .page-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 14px;
+        overflow: hidden;
+      }
+
+      .deck-card {
+        background: #ffffff;
+        border: 1.5px solid var(--border-card);
+        border-radius: 8px;
+        padding: 13px 16px;
+        box-sizing: border-box;
+      }
+
+      .deck-card.subtle {
+        background: var(--surface-light);
+        border-color: var(--border-gray);
+      }
+
+      .card-accent-top {
+        border-top: 3.5px solid var(--cyan-bright);
+      }
+
+      .card-accent-navy {
+        border-top: 3.5px solid var(--navy-900);
+      }
+
+      .card-accent-left {
+        border-left: 4.5px solid var(--cyan-bright);
+      }
+
+      .card-num {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--cyan-deep);
+        background: var(--cyan-bg);
+        border: 1px solid var(--cyan-border);
+        padding: 2px 7px;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 6px;
+      }
+
+      .card-heading {
+        font-family: "Outfit", sans-serif;
+        font-size: 14.5px;
+        font-weight: 800;
+        color: var(--navy-900);
+        margin-bottom: 5px;
+        letter-spacing: -0.2px;
+      }
+
+      .card-body {
+        font-size: 12.5px;
+        color: var(--text-muted);
+        line-height: 1.42;
+        margin: 0;
+      }
+
+      .highlight-strip {
+        background: var(--cyan-bg);
+        border: 1.5px solid var(--cyan-border);
+        border-left: 4.5px solid var(--cyan-bright);
+        padding: 11px 16px;
+        border-radius: 7px;
+        font-size: 13px;
+        line-height: 1.45;
+        color: var(--navy-900);
+        font-weight: 600;
+      }
+
+      .takeaway-bar {
+        background: var(--surface-light);
+        border: 1.5px solid var(--border-gray);
+        border-left: 4.5px solid var(--navy-900);
+        padding: 9px 14px;
+        border-radius: 6px;
+        font-size: 12px;
+        color: var(--text-muted);
+        line-height: 1.35;
+        margin-top: auto;
+      }
+
+      .takeaway-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 11.5px;
+        font-weight: 800;
+        color: var(--navy-900);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        margin-bottom: 2px;
+      }
+
+      .roadmap-matrix {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex-grow: 1;
+      }
+
+      .phase-strip {
+        background: var(--surface-light);
+        border: 1.5px solid var(--border-gray);
+        border-radius: 7px;
+        padding: 8px 12px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .phase-strip.p1 {
+        border-left: 4.5px solid var(--cyan-bright);
+      }
+      .phase-strip.p2 {
+        border-left: 4.5px solid var(--navy-700);
+      }
+      .phase-strip.p3 {
+        border-left: 4.5px solid var(--cyan-deep);
+      }
+      .phase-strip.p4 {
+        border-left: 4.5px solid var(--navy-900);
+      }
+
+      .phase-strip-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+        padding-bottom: 4px;
+        border-bottom: 1px dashed var(--border-card);
+      }
+
+      .phase-strip-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 13.5px;
+        font-weight: 800;
+        color: var(--navy-900);
+        letter-spacing: 0.2px;
+      }
+
+      .phase-target-pill {
+        font-family: "Inter", sans-serif;
+        font-size: 11.5px;
+        font-weight: 700;
+        color: var(--cyan-deep);
+        background: #ffffff;
+        padding: 2px 8px;
+        border-radius: 4px;
+        border: 1px solid var(--cyan-border);
+      }
+
+      .months-triplet {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+      }
+
+      .month-cell {
+        background: #ffffff;
+        border: 1px solid var(--border-gray);
+        border-radius: 6px;
+        padding: 7px 9px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .month-cell-header {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 3px;
+      }
+
+      .m-badge {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10.5px;
+        font-weight: 700;
+        background: var(--navy-900);
+        color: #ffffff;
+        padding: 1px 5px;
+        border-radius: 3px;
+        line-height: 1.2;
+      }
+
+      .m-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 12.5px;
+        font-weight: 800;
+        color: var(--navy-900);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .m-desc {
+        font-size: 11px;
+        line-height: 1.34;
+        color: var(--text-muted);
+        margin: 0;
+        font-weight: 500;
+      }
+
+      .doc-footer {
+        margin-top: auto;
+        padding-top: 8px;
+        border-top: 1.5px solid var(--border-gray);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 10.5px;
+        color: var(--text-soft);
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .footer-brand {
+        color: var(--navy-900);
+        font-weight: 700;
+      }
+
+      .comp-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid var(--border-card);
+      }
+
+      .comp-table th {
+        background: var(--navy-900);
+        color: #ffffff;
+        font-family: "Outfit", sans-serif;
+        font-weight: 700;
+        padding: 9px 11px;
+        text-align: left;
+        font-size: 11.5px;
+        letter-spacing: 0.3px;
+      }
+
+      .comp-table td {
+        padding: 8px 11px;
+        border-bottom: 1px solid var(--border-gray);
+        color: var(--text-main);
+      }
+
+      .comp-table tr:nth-child(even) td {
+        background: #f8fafc;
+      }
+
+      .comp-table tr.highlight-em td {
+        background: #ecfeff;
+        font-weight: 600;
+        border-top: 1.5px solid var(--cyan-border);
+        border-bottom: 1.5px solid var(--cyan-border);
+      }
+
+      @media print {
+        body {
+          background: #ffffff;
+          padding: 0;
+        }
+        .action-bar,
+        .no-print {
+          display: none !important;
+        }
+        #document-container {
+          padding: 0;
+          gap: 0;
+        }
+        .page {
+          margin: 0;
+          box-shadow: none;
+          border: none;
+          page-break-after: always;
+          break-after: page;
+          width: 210mm;
+          height: 297mm;
+          max-height: 297mm;
+          min-height: 297mm;
+          padding: 18mm 20mm 14mm 20mm;
+          overflow: hidden;
+        }
+        .page:last-of-type {
+          page-break-after: auto;
+          break-after: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Screen Action Bar (Hidden in Print) -->
+    <div class="action-bar no-print">
+      <button class="btn btn-cyan" onclick="window.print()">
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path
+            d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"
+          ></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        Download / Print PDF (12 Pages)
+      </button>
+    </div>
+
+    <div id="document-container">
+      <!-- ================================= PAGE 1: COVER ================================= -->
+      <div class="page" id="page-1">
+        <div
+          style="
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 24px 8px 12px 8px;
+          "
+        >
+          <div>
+            <div class="badge-live" style="margin-bottom: 24px">
+              <span class="pulse-dot"></span>
+              <span>LIVE PRODUCT &bull; WEB + ANDROID</span>
+            </div>
+
+            <div
+              style="
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-weight: 800;
+                font-size: 56px;
+                color: var(--navy-900);
+                letter-spacing: -1.2px;
+                line-height: 1;
+              "
+            >
+              Exam<span style="color: var(--cyan-bright)">Mokk</span>
+            </div>
+
+            <div
+              style="
+                width: 65px;
+                height: 5px;
+                background: var(--cyan-bright);
+                margin: 18px 0 22px 0;
+                border-radius: 2px;
+              "
+            ></div>
+
+            <h1
+              style="
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-size: 29px;
+                font-weight: 800;
+                color: var(--navy-800);
+                line-height: 1.25;
+                margin: 0 0 14px 0;
+                max-width: 620px;
+                letter-spacing: -0.4px;
+              "
+            >
+              AI-First Exam Intelligence for Every Indian Competitive Exam
+              Aspirant.
+            </h1>
+
+            <p
+              style="
+                font-size: 15px;
+                color: #64748b;
+                max-width: 580px;
+                line-height: 1.55;
+                margin: 0;
+              "
+            >
+              Transforming test preparation for 50M+ Indian aspirants across 10
+              major exam streams — including UPSC, SSC, Banking, Railways,
+              Defence, and Teaching.
+              <strong
+                style="
+                  display: block;
+                  margin-top: 8px;
+                  color: #0f172a;
+                  font-weight: 700;
+                "
+              >
+                Take a test <span style="color: #94a3b8">→</span> Find weak
+                areas <span style="color: #94a3b8">→</span> Get AI insights
+                <span style="color: #94a3b8">→</span>
+                Practice smarter.
+              </strong>
+            </p>
+          </div>
+
+          <!-- 4 Information Blocks -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 14px;
+              margin: 26px 0;
+            "
+          >
+            <div class="deck-card card-accent-top" style="padding: 16px">
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 11px;
+                  font-weight: 800;
+                  color: var(--cyan-deep);
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                ROUND
+              </div>
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 25px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  margin: 3px 0 2px 0;
+                "
+              >
+                Pre-Seed
+              </div>
+              <div
+                style="
+                  font-size: 12.5px;
+                  color: var(--text-soft);
+                  font-weight: 500;
+                "
+              >
+                Product-Market Validation
+              </div>
+            </div>
+
+            <div class="deck-card card-accent-top" style="padding: 16px">
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 11px;
+                  font-weight: 800;
+                  color: var(--cyan-deep);
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                TARGET CAPITAL
+              </div>
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 25px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  margin: 3px 0 2px 0;
+                "
+              >
+                ₹15 Lakhs
+              </div>
+              <div
+                style="
+                  font-size: 12.5px;
+                  color: var(--text-soft);
+                  font-weight: 500;
+                "
+              >
+                12-Month Runway
+              </div>
+            </div>
+
+            <div class="deck-card card-accent-top" style="padding: 16px">
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 11px;
+                  font-weight: 800;
+                  color: var(--cyan-deep);
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                TARGET MARKET
+              </div>
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 25px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  margin: 3px 0 2px 0;
+                "
+              >
+                50M+ Aspirants
+              </div>
+              <div
+                style="
+                  font-size: 12.5px;
+                  color: var(--text-soft);
+                  font-weight: 500;
+                "
+              >
+                10 Core Exam Streams
+              </div>
+            </div>
+
+            <div class="deck-card card-accent-top" style="padding: 16px">
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 11px;
+                  font-weight: 800;
+                  color: var(--cyan-deep);
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                FOUNDER
+              </div>
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 25px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  margin: 3px 0 2px 0;
+                "
+              >
+                Mohammad Jawed
+              </div>
+              <div
+                style="
+                  font-size: 12.5px;
+                  color: var(--text-soft);
+                  font-weight: 500;
+                "
+              >
+                Founder &amp; CTO
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Meta -->
+          <div
+            style="
+              border-top: 1.5px solid var(--border-gray);
+              padding-top: 16px;
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-end;
+            "
+          >
+            <div>
+              <div
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 14px;
+                  font-weight: 700;
+                  color: var(--cyan-deep);
+                "
+              >
+                exammokk.cloud
+              </div>
+              <div
+                style="
+                  font-size: 12px;
+                  color: var(--text-soft);
+                  margin-top: 2px;
+                "
+              >
+                AI-First Exam Intelligence Platform
+              </div>
+            </div>
+            <div
+              style="
+                text-align: right;
+                font-size: 11.5px;
+                color: var(--text-soft);
+                font-weight: 600;
+              "
+            >
+              Investor Deck
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <div>
+            <span class="footer-brand"
+              >Exam<span style="color: var(--cyan-bright)">Mokk</span></span
+            >
+          </div>
+          <div>Page 1 of 12</div>
+        </div>
+      </div>
+
+      <!-- ================================= PAGE 2: THE PROBLEM ================================= -->
+      <div class="page" id="page-2">
+        <div class="header-bar">
+          <div>
+            <div class="brand-logo">Exam<span class="mokk">Mokk</span></div>
+            <div class="page-category-label">Market Problem</div>
+            <br />
+            <br />
+            <h2 class="main-page-title">The Problem</h2>
+            <div class="main-page-subtitle">
+              Why blind test-taking fails 50M+ competitive exam aspirants
+            </div>
+          </div>
+          <div class="badge-live">Structural Gap</div>
+        </div>
+
+        <div class="page-content">
+          <div class="highlight-strip">
+            “Aspirants solve dozens of mock tests, but their scores plateau
+            because legacy platforms only show a final scorecard—never
+            diagnosing why they lost marks or what to study next.”
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px">
+            <div class="deck-card card-accent-top">
+              <span class="card-num">01</span>
+              <div class="card-heading">BLIND MOCK TEST LOOPS</div>
+              <p class="card-body">
+                Existing platforms tell students:
+                <em>“You scored 45/100.”</em> They offer static PDF keys without
+                identifying micro-topic knowledge leaks or why mistakes happened
+                repeatedly.
+              </p>
+            </div>
+
+            <div class="deck-card card-accent-top">
+              <span class="card-num">02</span>
+              <div class="card-heading">
+                TIME-ACCURACY TRAPS &amp; NEGATIVE MARKS
+              </div>
+              <p class="card-body">
+                Competitive exams are lost on negative marking. Students spend
+                120+ seconds on trap questions and mark them wrong, lacking
+                analytics to build disciplined skipping strategy.
+              </p>
+            </div>
+
+            <div class="deck-card card-accent-top">
+              <span class="card-num">03</span>
+              <div class="card-heading">EXPENSIVE &amp; BLOATED PLATFORMS</div>
+              <p class="card-body">
+                Legacy test series are bundled into costly course packages
+                (₹2,000–₹5,000/yr) filled with heavy video players that buffer
+                and lag on budget smartphones across Tier 2/3 towns.
+              </p>
+            </div>
+
+            <div class="deck-card card-accent-top">
+              <span class="card-num">04</span>
+              <div class="card-heading">LACK OF NEXT-STEP GUIDANCE</div>
+              <p class="card-body">
+                After taking a 2-hour mock, a student is left alone with a
+                massive 100-page solution sheet. There is zero personalized
+                guidance prescribing their immediate study priorities.
+              </p>
+            </div>
+          </div>
+
+          <div class="takeaway-bar">
+            <div class="takeaway-title">The Market Reality</div>
+            <div>
+              Students don't need more question banks; they need diagnostic
+              intelligence that detects concept leaks and engineers measurable
+              score improvements.
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <div>
+            <span class="footer-brand"
+              >Exam<span style="color: var(--cyan-bright)">Mokk</span></span
+            >
+          </div>
+          <div>Page 2 of 12</div>
+        </div>
+      </div>
+
+      <!-- ================================= PAGE 3: THE SOLUTION ================================= -->
+      <div class="page" id="page-3">
+        <div class="header-bar">
+          <div>
+            <div class="brand-logo">Exam<span class="mokk">Mokk</span></div>
+            <div class="page-category-label">Product Vision</div>
+            <br />
+            <br />
+            <h2 class="main-page-title">The Solution</h2>
+            <div class="main-page-subtitle">
+              From passive mock testing to AI-guided exam preparation
+            </div>
+          </div>
+          <div class="badge-live">Built &amp; Operational</div>
+        </div>
+
+        <div class="page-content">
+          <!-- Value Prop Strip (Fixed: No Line-Break) -->
+          <div
+            style="
+              background: linear-gradient(
+                135deg,
+                var(--navy-900) 0%,
+                var(--navy-800) 100%
+              );
+              border-radius: 8px;
+              padding: 12px 16px;
+              color: #ffffff;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: 12px;
+            "
+          >
+            <div style="min-width: 0">
+              <div
+                style="
+                  font-size: 10.5px;
+                  font-weight: 700;
+                  color: var(--cyan-bright);
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                Core Value Proposition
+              </div>
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 14.5px;
+                  font-weight: 800;
+                  letter-spacing: 0.2px;
+                  margin-top: 2px;
+                  white-space: nowrap;
+                "
+              >
+                AFFORDABLE FREEMIUM MODEL &bull; ₹99/YEAR MASS-ADOPTION
+              </div>
+            </div>
+            <div
+              style="
+                font-family: &quot;JetBrains Mono&quot;, monospace;
+                font-size: 11px;
+                font-weight: 700;
+                color: var(--cyan-bright);
+                background: rgba(0, 188, 212, 0.15);
+                padding: 5px 10px;
+                border-radius: 6px;
+                border: 1px solid var(--cyan-deep);
+                white-space: nowrap;
+                flex-shrink: 0;
+              "
+            >
+              AI INTELLIGENCE
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px">
+            <div class="deck-card subtle card-accent-top">
+              <span class="card-num">01</span>
+              <div class="card-heading">REALISTIC CBT SIMULATION</div>
+              <p class="card-body">
+                A realistic computer-based test experience with exam-style
+                navigation, timers, question status, and bilingual support —
+                helping students master the actual exam interface.
+              </p>
+            </div>
+
+            <div class="deck-card subtle card-accent-top">
+              <span class="card-num">02</span>
+              <div class="card-heading">AI WEAK-AREA ANALYSIS</div>
+              <p class="card-body">
+                AI continuously analyzes test performance to identify exact
+                subjects and sub-topics where students are losing marks, turning
+                raw scores into actionable diagnostics.
+              </p>
+            </div>
+
+            <div class="deck-card subtle card-accent-top">
+              <span class="card-num">03</span>
+              <div class="card-heading">PERSONALIZED PRACTICE</div>
+              <p class="card-body">
+                Based on past test attempts, students receive targeted practice
+                recommendations and focused micro-quizzes engineered to
+                eliminate their specific conceptual gaps.
+              </p>
+            </div>
+
+            <div class="deck-card subtle card-accent-top">
+              <span class="card-num">04</span>
+              <div class="card-heading">SPEED &amp; ACCURACY INSIGHTS</div>
+              <p class="card-body">
+                Tracks time spent per question, accuracy transitions, attempts,
+                and negative marking to help aspirants eliminate trap questions
+                and optimize section strategy.
+              </p>
+            </div>
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 10px;
+              margin-top: auto;
+            "
+          >
+            <div
+              class="deck-card"
+              style="
+                padding: 10px 12px;
+                text-align: center;
+                border-top: 3px solid var(--navy-900);
+              "
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 13.5px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                "
+              >
+                FREEMIUM ENTRY
+              </div>
+              <div
+                style="
+                  font-size: 11.5px;
+                  color: var(--text-muted);
+                  margin-top: 2px;
+                "
+              >
+                Free baseline tests scale initial userbase
+              </div>
+            </div>
+
+            <div
+              class="deck-card"
+              style="
+                padding: 10px 12px;
+                text-align: center;
+                border-top: 3px solid var(--cyan-deep);
+              "
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 13.5px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                "
+              >
+                ₹99/YR CONVERSION
+              </div>
+              <div
+                style="
+                  font-size: 11.5px;
+                  color: var(--text-muted);
+                  margin-top: 2px;
+                "
+              >
+                Affordable upgrade for full AI analytics
+              </div>
+            </div>
+
+            <div
+              class="deck-card"
+              style="
+                padding: 10px 12px;
+                text-align: center;
+                border-top: 3px solid var(--cyan-bright);
+              "
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 13.5px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                "
+              >
+                10 EXAM STREAMS
+              </div>
+              <div
+                style="
+                  font-size: 11.5px;
+                  color: var(--text-muted);
+                  margin-top: 2px;
+                "
+              >
+                Cross-category multi-exam practice utility
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <div>
+            <span class="footer-brand"
+              >Exam<span style="color: var(--cyan-bright)">Mokk</span></span
+            >
+          </div>
+          <div>Page 3 of 12</div>
+        </div>
+      </div>
+
+      <!-- ================================= PAGE 4: PRODUCT & EXAM STREAMS ================================= -->
+      <div class="page" id="page-4">
+        <div class="header-bar">
+          <div>
+            <div class="brand-logo">Exam<span class="mokk">Mokk</span></div>
+            <div class="page-category-label">Platform Capabilities</div>
+            <br />
+            <br />
+            <h2 class="main-page-title">Product &amp; AI Engine</h2>
+            <div class="main-page-subtitle">
+              Engineered for realistic simulation, diagnostic precision &amp;
+              score improvement
+            </div>
+          </div>
+          <div class="badge-live">Feature Matrix</div>
+        </div>
+
+        <div class="page-content" style="gap: 16px">
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 12px;
+            "
+          >
+            <div class="deck-card card-accent-top" style="padding: 14px">
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 12.5px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  margin-bottom: 5px;
+                  display: flex;
+                  align-items: center;
+                  gap: 5px;
+                "
+              >
+                <span>⚡</span>
+                <span>REAL CBT SIMULATION</span>
+              </div>
+              <div
+                style="
+                  font-size: 11.8px;
+                  color: var(--text-muted);
+                  line-height: 1.4;
+                "
+              >
+                Sub-second latency, official NTA/TCS layout, sectional timers,
+                and bilingual question toggles.
+              </div>
+            </div>
+
+            <div class="deck-card card-accent-top" style="padding: 14px">
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 12.5px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  margin-bottom: 5px;
+                  display: flex;
+                  align-items: center;
+                  gap: 5px;
+                "
+              >
+                <span>🎯</span>
+                <span>AI DIAGNOSTIC ENGINE</span>
+              </div>
+              <div
+                style="
+                  font-size: 11.8px;
+                  color: var(--text-muted);
+                  line-height: 1.4;
+                "
+              >
+                Micro-topic leakage scans and time-vs-accuracy analysis that
+                detects traps causing negative marking.
+              </div>
+            </div>
+
+            <div class="deck-card card-accent-top" style="padding: 14px">
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 12.5px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  margin-bottom: 5px;
+                  display: flex;
+                  align-items: center;
+                  gap: 5px;
+                "
+              >
+                <span>🔄</span>
+                <span>REMEDIATION LOOPS</span>
+              </div>
+              <div
+                style="
+                  font-size: 11.8px;
+                  color: var(--text-muted);
+                  line-height: 1.4;
+                "
+              >
+                Transforms test mistakes into targeted 5-minute drills and
+                curated revision recommendations.
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 8px;
+              "
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 12.5px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                10 Supported Exam Streams
+              </div>
+              <span
+                style="
+                  font-size: 11px;
+                  font-weight: 700;
+                  color: var(--cyan-deep);
+                  background: #f0fdf4;
+                  border: 1px solid #bbf7d0;
+                  padding: 2px 8px;
+                  border-radius: 9999px;
+                "
+              >
+                Unified AI Engine
+              </span>
+            </div>
+
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 8px;
+              "
+            >
+              <div
+                style="
+                  background: var(--surface-light);
+                  border: 1px solid var(--border-card);
+                  border-radius: 8px;
+                  padding: 9px 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;Outfit&quot;, sans-serif;
+                    font-size: 12.5px;
+                    font-weight: 800;
+                    color: var(--navy-900);
+                  "
+                >
+                  SSC
+                </div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    color: var(--text-soft);
+                    margin-top: 2px;
+                  "
+                >
+                  CGL, CHSL, MTS, GD
+                </div>
+              </div>
+
+              <div
+                style="
+                  background: var(--surface-light);
+                  border: 1px solid var(--border-card);
+                  border-radius: 8px;
+                  padding: 9px 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;Outfit&quot;, sans-serif;
+                    font-size: 12.5px;
+                    font-weight: 800;
+                    color: var(--navy-900);
+                  "
+                >
+                  BANKING
+                </div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    color: var(--text-soft);
+                    margin-top: 2px;
+                  "
+                >
+                  SBI, IBPS PO &amp; Clerk
+                </div>
+              </div>
+
+              <div
+                style="
+                  background: var(--surface-light);
+                  border: 1px solid var(--border-card);
+                  border-radius: 8px;
+                  padding: 9px 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;Outfit&quot;, sans-serif;
+                    font-size: 12.5px;
+                    font-weight: 800;
+                    color: var(--navy-900);
+                  "
+                >
+                  RAILWAYS
+                </div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    color: var(--text-soft);
+                    margin-top: 2px;
+                  "
+                >
+                  RRB NTPC, Group D, ALP
+                </div>
+              </div>
+
+              <div
+                style="
+                  background: var(--surface-light);
+                  border: 1px solid var(--border-card);
+                  border-radius: 8px;
+                  padding: 9px 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;Outfit&quot;, sans-serif;
+                    font-size: 12.5px;
+                    font-weight: 800;
+                    color: var(--navy-900);
+                  "
+                >
+                  STATE PSC
+                </div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    color: var(--text-soft);
+                    margin-top: 2px;
+                  "
+                >
+                  BPSC, UPPSC, JPSC, SI
+                </div>
+              </div>
+
+              <div
+                style="
+                  background: var(--surface-light);
+                  border: 1px solid var(--border-card);
+                  border-radius: 8px;
+                  padding: 9px 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;Outfit&quot;, sans-serif;
+                    font-size: 12.5px;
+                    font-weight: 800;
+                    color: var(--navy-900);
+                  "
+                >
+                  UPSC / IAS
+                </div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    color: var(--text-soft);
+                    margin-top: 2px;
+                  "
+                >
+                  CSE Prelims &amp; CSAT
+                </div>
+              </div>
+
+              <div
+                style="
+                  background: var(--surface-light);
+                  border: 1px solid var(--border-card);
+                  border-radius: 8px;
+                  padding: 9px 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;Outfit&quot;, sans-serif;
+                    font-size: 12.5px;
+                    font-weight: 800;
+                    color: var(--navy-900);
+                  "
+                >
+                  DEFENCE
+                </div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    color: var(--text-soft);
+                    margin-top: 2px;
+                  "
+                >
+                  NDA, CDS, Agniveer
+                </div>
+              </div>
+
+              <div
+                style="
+                  background: var(--surface-light);
+                  border: 1px solid var(--border-card);
+                  border-radius: 8px;
+                  padding: 9px 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;Outfit&quot;, sans-serif;
+                    font-size: 12.5px;
+                    font-weight: 800;
+                    color: var(--navy-900);
+                  "
+                >
+                  TEACHING
+                </div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    color: var(--text-soft);
+                    margin-top: 2px;
+                  "
+                >
+                  CTET, State TET, KVS
+                </div>
+              </div>
+
+              <div
+                style="
+                  background: var(--surface-light);
+                  border: 1px solid var(--border-card);
+                  border-radius: 8px;
+                  padding: 9px 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;Outfit&quot;, sans-serif;
+                    font-size: 12.5px;
+                    font-weight: 800;
+                    color: var(--navy-900);
+                  "
+                >
+                  ENTRANCE
+                </div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    color: var(--text-soft);
+                    margin-top: 2px;
+                  "
+                >
+                  CUET UG/PG, CLAT, Law
+                </div>
+              </div>
+
+              <div
+                style="
+                  background: var(--surface-light);
+                  border: 1px solid var(--border-card);
+                  border-radius: 8px;
+                  padding: 9px 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;Outfit&quot;, sans-serif;
+                    font-size: 12.5px;
+                    font-weight: 800;
+                    color: var(--navy-900);
+                  "
+                >
+                  JEE / NEET
+                </div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    color: var(--text-soft);
+                    margin-top: 2px;
+                  "
+                >
+                  NTA CBT Foundation
+                </div>
+              </div>
+
+              <div
+                style="
+                  background: var(--surface-light);
+                  border: 1px solid var(--border-card);
+                  border-radius: 8px;
+                  padding: 9px 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;Outfit&quot;, sans-serif;
+                    font-size: 12.5px;
+                    font-weight: 800;
+                    color: var(--navy-900);
+                  "
+                >
+                  DAILY GK
+                </div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    color: var(--text-soft);
+                    margin-top: 2px;
+                  "
+                >
+                  Daily Speed Sprints
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="takeaway-bar" style="margin-top: auto">
+            <div class="takeaway-title">PRODUCT PHILOSOPHY</div>
+            <div style="font-size: 12px; color: #1e293b; font-weight: 600">
+              “Don’t just score the student — diagnose why they failed and
+              prescribe exactly what to study next.”
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <div>
+            <span class="footer-brand"
+              >Exam<span style="color: var(--cyan-bright)">Mokk</span></span
+            >
+          </div>
+          <div>Page 4 of 12</div>
+        </div>
+      </div>
+
+      <!-- ================================= PAGE 5: MARKET OPPORTUNITY ================================= -->
+      <div class="page" id="page-5">
+        <div class="header-bar">
+          <div>
+            <div class="brand-logo">Exam<span class="mokk">Mokk</span></div>
+            <div class="page-category-label">Market Dynamics</div>
+            <br />
+            <br />
+            <h2 class="main-page-title">Market Opportunity</h2>
+            <div class="main-page-subtitle">
+              50M+ annual applicants preparing for competitive government and
+              entrance exams
+            </div>
+          </div>
+          <div class="badge-live">Macro Tailwinds</div>
+        </div>
+
+        <div class="page-content">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px">
+            <div class="deck-card card-accent-navy">
+              <div class="card-heading">50M+ ANNUAL ASPIRANTS</div>
+              <p class="card-body">
+                A massive, recurring applicant base across SSC, Railways, State
+                PSCs, Banking, Defence, and Teaching exams, with millions of
+                candidates preparing for multiple exams simultaneously.
+              </p>
+            </div>
+
+            <div class="deck-card card-accent-navy">
+              <div class="card-heading">CBT-FIRST EXAM EXPERIENCE</div>
+              <p class="card-body">
+                Major competitive exams increasingly mandate computer-based
+                testing, making screen familiarity, real-time pace calibration,
+                and interface simulation vital for selection.
+              </p>
+            </div>
+
+            <div class="deck-card card-accent-top">
+              <div class="card-heading">TIER-2 / TIER-3 INDIA</div>
+              <p class="card-body">
+                A vast majority of aspirants prepare outside tier-1 metros and
+                demand affordable, lightweight, low-data mobile testing
+                utilities that run smoothly on budget smartphones.
+              </p>
+            </div>
+
+            <div class="deck-card card-accent-top">
+              <div class="card-heading">SHIFT TOWARDS SELF-ASSESSMENT</div>
+              <p class="card-body">
+                Aspirants access free syllabus lectures on YouTube, but actively
+                require dedicated, distraction-free test environments to track
+                percentiles and pinpoint weak areas.
+              </p>
+            </div>
+          </div>
+
+          <div
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 13.5px;
+              font-weight: 800;
+              color: var(--navy-900);
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              margin-top: 4px;
+            "
+          >
+            Target Learner Segments
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 10px;
+            "
+          >
+            <div
+              class="deck-card subtle"
+              style="padding: 12px; border-left: 3.5px solid var(--cyan-bright)"
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 12.5px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                "
+              >
+                MULTI-EXAM ASPIRANTS
+              </div>
+              <div
+                style="
+                  font-size: 11.5px;
+                  color: var(--text-muted);
+                  margin-top: 3px;
+                  line-height: 1.35;
+                "
+              >
+                Candidates preparing for multiple overlapping exams who want a
+                single, unified platform for all testing needs.
+              </div>
+            </div>
+
+            <div
+              class="deck-card subtle"
+              style="padding: 12px; border-left: 3.5px solid var(--navy-700)"
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 12.5px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                "
+              >
+                TIER-2/3 SELF-STUDENTS
+              </div>
+              <div
+                style="
+                  font-size: 11.5px;
+                  color: var(--text-muted);
+                  margin-top: 3px;
+                  line-height: 1.35;
+                "
+              >
+                Cost-conscious, disciplined learners who prefer
+                ultra-affordable, mobile-first preparation without bloated video
+                courses.
+              </div>
+            </div>
+
+            <div
+              class="deck-card subtle"
+              style="padding: 12px; border-left: 3.5px solid var(--cyan-deep)"
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 12.5px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                "
+              >
+                DAILY PRACTICE LEARNERS
+              </div>
+              <div
+                style="
+                  font-size: 11.5px;
+                  color: var(--text-muted);
+                  margin-top: 3px;
+                  line-height: 1.35;
+                "
+              >
+                Students building long-term retention and daily consistency
+                through rapid current affairs, speed drills, and mock testing.
+              </div>
+            </div>
+          </div>
+
+          <div class="takeaway-bar">
+            <div class="takeaway-title">Market Size Horizon</div>
+            <div>
+              <strong>TAM:</strong> 50M+ annual applicants &bull;
+              <strong>SAM:</strong> 18M+ online test-takers &bull;
+              <strong>SOM:</strong> 500K active learners across 10 core streams.
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <div>
+            <span class="footer-brand"
+              >Exam<span style="color: var(--cyan-bright)">Mokk</span></span
+            >
+          </div>
+          <div>Page 5 of 12</div>
+        </div>
+      </div>
+
+      <!-- ================================= PAGE 6: BUSINESS MODEL ================================= -->
+      <!-- ================================= PAGE 6: BUSINESS MODEL ================================= -->
+      <div class="page" id="page-6">
+        <div class="header-bar">
+          <div>
+            <div class="brand-logo">Exam<span class="mokk">Mokk</span></div>
+            <div class="page-category-label">Monetisation Strategy</div>
+            <br />
+            <br />
+            <h2 class="main-page-title">Business Model</h2>
+            <div class="main-page-subtitle">
+              Freemium acquisition &rarr; ₹99/Year Annual Pass &rarr; B2B
+              Licensing
+            </div>
+          </div>
+          <div class="badge-live">₹99/Year Core Model</div>
+        </div>
+
+        <div class="page-content">
+          <!-- Central Proposition Banner -->
+          <div class="highlight-strip">
+            “A low-cost freemium model designed to build a large student user
+            base and convert engaged learners into affordable annual
+            subscribers.”
+          </div>
+
+          <!-- Primary Pricing Feature Callout -->
+          <div
+            style="
+              background: var(--surface-light);
+              border: 1.5px solid var(--border-card);
+              border-left: 5.5px solid var(--cyan-bright);
+              border-radius: 8px;
+              padding: 14px 20px;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <div style="display: flex; align-items: baseline; gap: 10px">
+              <span
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 52px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  line-height: 1;
+                  letter-spacing: -1px;
+                "
+                >₹99</span
+              >
+              <div>
+                <div
+                  style="
+                    font-family: &quot;Outfit&quot;, sans-serif;
+                    font-size: 16px;
+                    font-weight: 800;
+                    color: var(--cyan-deep);
+                    text-transform: uppercase;
+                  "
+                >
+                  PER YEAR
+                </div>
+                <div
+                  style="
+                    font-size: 11px;
+                    font-weight: 700;
+                    color: var(--text-soft);
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                  "
+                >
+                  ANNUAL EXAM PASS
+                </div>
+              </div>
+            </div>
+            <div
+              style="
+                text-align: right;
+                max-width: 325px;
+                font-size: 12.5px;
+                color: var(--text-muted);
+                line-height: 1.35;
+              "
+            >
+              Free daily quizzes and selected mock tests bring students onto the
+              platform. The ₹99 Annual Pass unlocks full mock-test access,
+              AI-powered performance insights, detailed analytics, and premium
+              practice content.
+            </div>
+          </div>
+
+          <!-- 3 Monetisation Phases Grid -->
+          <div
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 13.5px;
+              font-weight: 800;
+              color: var(--navy-900);
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              margin-top: 2px;
+            "
+          >
+            Monetisation Phases
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 12px;
+            "
+          >
+            <div class="deck-card card-accent-top">
+              <span class="card-num">PHASE 1</span>
+              <div class="card-heading">FREEMIUM USERBASE</div>
+              <p class="card-body">
+                Free Daily GK, quizzes and selected mock tests to drive student
+                acquisition, engagement and organic sharing.
+              </p>
+            </div>
+
+            <div class="deck-card card-accent-top">
+              <span class="card-num">PHASE 2</span>
+              <div class="card-heading">₹99/YEAR ANNUAL PASS</div>
+              <p class="card-body">
+                Affordable full-access subscription for serious aspirants,
+                including unlimited mock tests, CBT practice, AI performance
+                insights and detailed analytics.
+              </p>
+            </div>
+
+            <div class="deck-card card-accent-top">
+              <span class="card-num">PHASE 3</span>
+              <div class="card-heading">B2B COACHING LICENSING</div>
+              <p class="card-body">
+                License ExamMokk's CBT platform, question-bank management and
+                student analytics to regional coaching institutes.
+              </p>
+            </div>
+          </div>
+
+          <!-- Why This Model Works -->
+          <div
+            class="deck-card subtle"
+            style="padding: 12px 16px; margin-top: auto"
+          >
+            <div
+              style="
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-size: 12.5px;
+                font-weight: 800;
+                color: var(--navy-900);
+                text-transform: uppercase;
+                margin-bottom: 6px;
+              "
+            >
+              Why This Model Works
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px 14px;
+                font-size: 12px;
+                color: var(--text-muted);
+                line-height: 1.38;
+              "
+            >
+              <div>
+                &bull; <strong>Low Entry Barrier:</strong> ₹99/year makes
+                premium exam practice accessible to price-sensitive aspirants.
+              </div>
+              <div>
+                &bull; <strong>Freemium &rarr; Paid Funnel:</strong> Free daily
+                content creates regular engagement before introducing the annual
+                pass.
+              </div>
+              <div>
+                &bull; <strong>Multi-Exam Value:</strong> One affordable pass
+                can serve students preparing for multiple exam streams.
+              </div>
+              <div>
+                &bull; <strong>B2B Expansion:</strong> The same technology
+                infrastructure can generate higher-value revenue through
+                coaching-institute partnerships.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <div>
+            <span class="footer-brand"
+              >Exam<span style="color: var(--cyan-bright)">Mokk</span></span
+            >
+          </div>
+          <div>Page 6 of 12</div>
+        </div>
+      </div>
+
+      <!-- ================================= PAGE 7: COMPETITIVE LANDSCAPE ================================= -->
+      <div class="page" id="page-7">
+        <div class="header-bar">
+          <div>
+            <div class="brand-logo">Exam<span class="mokk">Mokk</span></div>
+            <div class="page-category-label">Market Positioning</div>
+            <br />
+            <br />
+            <h2 class="main-page-title">Competitive Landscape</h2>
+            <div class="main-page-subtitle">
+              Focused, affordable CBT utility alongside established incumbents
+            </div>
+          </div>
+          <div class="badge-live">Market Analysis</div>
+        </div>
+
+        <div class="page-content">
+          <table class="comp-table">
+            <thead>
+              <tr>
+                <th style="width: 22%">Dimension</th>
+                <th style="width: 19%">Testbook</th>
+                <th style="width: 19%">Adda247</th>
+                <th style="width: 19%">ixamBee / Oliveboard</th>
+                <th style="width: 21%; background: var(--cyan-deep)">
+                  ExamMokk
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Primary Focus</strong></td>
+                <td>Mock Tests &amp; Courses</td>
+                <td>Live Video Batches</td>
+                <td>Domain Specializations</td>
+                <td style="color: var(--cyan-deep); font-weight: 700">
+                  Lightweight CBT + AI Insights
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Pricing Model</strong></td>
+                <td>₹400–₹800/yr Pass</td>
+                <td>₹1,500–₹3,000 Bundles</td>
+                <td>₹500–₹1,500 per stream</td>
+                <td style="color: var(--cyan-deep); font-weight: 700">
+                  Freemium to ₹99/Yr Pass
+                </td>
+              </tr>
+              <tr>
+                <td><strong>App Footprint</strong></td>
+                <td>Heavy (Video players)</td>
+                <td>Heavy (Live streaming)</td>
+                <td>Moderate</td>
+                <td style="color: var(--cyan-deep); font-weight: 700">
+                  Zero-lag, mobile-first web/PWA
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Daily Practice</strong></td>
+                <td>Periodic quizzes</td>
+                <td>Subject quizzes</td>
+                <td>Select exams</td>
+                <td style="color: var(--cyan-deep); font-weight: 700">
+                  Daily GK sprint habit loop
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Analytics Depth</strong></td>
+                <td>Subject Scorecard</td>
+                <td>Rank &amp; Percentile</td>
+                <td>Sectional Analysis</td>
+                <td style="color: var(--cyan-deep); font-weight: 700">
+                  Micro-topic &amp; time-trap scans
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Multi-Exam Scope</strong></td>
+                <td>Pass Pro upgrade</td>
+                <td>MahaPack tiered</td>
+                <td>Disjointed packs</td>
+                <td style="color: var(--cyan-deep); font-weight: 700">
+                  10 streams in single pass
+                </td>
+              </tr>
+              <tr class="highlight-em">
+                <td><strong>Core Offering</strong></td>
+                <td>Heavy course upsells</td>
+                <td>Video coaching</td>
+                <td>Banking focus</td>
+                <td style="color: var(--cyan-deep); font-weight: 700">
+                  High-speed, affordable test utility
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              gap: 8px;
+              margin-top: 4px;
+            "
+          >
+            <div
+              class="deck-card subtle"
+              style="padding: 8px; text-align: center"
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 10.5px;
+                  font-weight: 800;
+                  color: var(--cyan-deep);
+                "
+              >
+                PRICING
+              </div>
+              <div
+                style="
+                  font-size: 12px;
+                  font-weight: 700;
+                  color: var(--navy-900);
+                  margin-top: 2px;
+                "
+              >
+                ₹99/Yr Pass
+              </div>
+            </div>
+            <div
+              class="deck-card subtle"
+              style="padding: 8px; text-align: center"
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 10.5px;
+                  font-weight: 800;
+                  color: var(--cyan-deep);
+                "
+              >
+                PERFORMANCE
+              </div>
+              <div
+                style="
+                  font-size: 12px;
+                  font-weight: 700;
+                  color: var(--navy-900);
+                  margin-top: 2px;
+                "
+              >
+                Sub-Second UI
+              </div>
+            </div>
+            <div
+              class="deck-card subtle"
+              style="padding: 8px; text-align: center"
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 10.5px;
+                  font-weight: 800;
+                  color: var(--cyan-deep);
+                "
+              >
+                ACCESS
+              </div>
+              <div
+                style="
+                  font-size: 12px;
+                  font-weight: 700;
+                  color: var(--navy-900);
+                  margin-top: 2px;
+                "
+              >
+                Freemium Entry
+              </div>
+            </div>
+            <div
+              class="deck-card subtle"
+              style="padding: 8px; text-align: center"
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 10.5px;
+                  font-weight: 800;
+                  color: var(--cyan-deep);
+                "
+              >
+                RETENTION
+              </div>
+              <div
+                style="
+                  font-size: 12px;
+                  font-weight: 700;
+                  color: var(--navy-900);
+                  margin-top: 2px;
+                "
+              >
+                Daily GK Loop
+              </div>
+            </div>
+          </div>
+
+          <div class="takeaway-bar">
+            <div>
+              “ExamMokk is not trying to be an expensive video-coaching empire.
+              It is built as India's everyday, friction-free test preparation
+              utility.”
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <div>
+            <span class="footer-brand"
+              >Exam<span style="color: var(--cyan-bright)">Mokk</span></span
+            >
+          </div>
+          <div>Page 7 of 12</div>
+        </div>
+      </div>
+
+      <!-- ================================= PAGE 8: STRATEGIC ADVANTAGE / THE MOAT ================================= -->
+      <div class="page" id="page-8">
+        <div class="header-bar">
+          <div>
+            <div class="brand-logo">Exam<span class="mokk">Mokk</span></div>
+            <div class="page-category-label">Strategic Moat</div>
+            <br />
+            <br />
+            <h2 class="main-page-title">Why ExamMokk</h2>
+            <div class="main-page-subtitle">
+              Affordable + Simple + Accessible + AI-Guided
+            </div>
+          </div>
+          <div class="badge-live">Product Moat</div>
+        </div>
+
+        <div class="page-content">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px">
+            <div class="deck-card card-accent-top">
+              <span class="card-num">01</span>
+              <div class="card-heading">MICRO-PRICING CONVERSION</div>
+              <p class="card-body">
+                Free baseline access breaks onboarding resistance. Once students
+                experience the interface, upgrading to the ₹99/yr annual pass is
+                a frictionless micro-transaction.
+              </p>
+            </div>
+
+            <div class="deck-card card-accent-top">
+              <span class="card-num">02</span>
+              <div class="card-heading">ZERO-BLOAT INFRASTRUCTURE</div>
+              <p class="card-body">
+                Focused testing workspace free of unnecessary video-streaming
+                load. Optimized to run fluidly on entry-level smartphones over
+                basic mobile connectivity.
+              </p>
+            </div>
+
+            <div class="deck-card card-accent-top">
+              <span class="card-num">03</span>
+              <div class="card-heading">DAILY HABIT ENGINE</div>
+              <p class="card-body">
+                High-yield Daily GK sprints and rapid quizzes keep candidates
+                engaged daily, transforming casual trial users into highly
+                active recurring learners.
+              </p>
+            </div>
+
+            <div class="deck-card card-accent-top">
+              <span class="card-num">04</span>
+              <div class="card-heading">AI DIAGNOSTIC INTELLIGENCE</div>
+              <p class="card-body">
+                Pinpoints micro-topic knowledge leaks and negative-marking
+                traps, prescribing targeted 5-minute drills instead of generic,
+                unhelpful solution booklets.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="deck-card subtle"
+            style="padding: 12px 16px; margin-top: auto"
+          >
+            <div
+              style="
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-size: 12px;
+                font-weight: 800;
+                color: var(--navy-900);
+                text-transform: uppercase;
+                margin-bottom: 8px;
+              "
+            >
+              The Closed-Loop Practice Architecture
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-align: center;
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-weight: 700;
+                font-size: 11.5px;
+                color: var(--navy-900);
+              "
+            >
+              <div
+                style="
+                  background: #fff;
+                  border: 1px solid var(--border-card);
+                  padding: 6px 12px;
+                  border-radius: 6px;
+                "
+              >
+                1. Test
+              </div>
+              <span style="color: var(--cyan-deep); font-weight: 800">→</span>
+              <div
+                style="
+                  background: #fff;
+                  border: 1px solid var(--border-card);
+                  padding: 6px 12px;
+                  border-radius: 6px;
+                "
+              >
+                2. Analyze
+              </div>
+              <span style="color: var(--cyan-deep); font-weight: 800">→</span>
+              <div
+                style="
+                  background: #ecfeff;
+                  border: 1px solid var(--cyan-border);
+                  padding: 6px 12px;
+                  border-radius: 6px;
+                  color: var(--cyan-deep);
+                "
+              >
+                3. Diagnose Leak
+              </div>
+              <span style="color: var(--cyan-deep); font-weight: 800">→</span>
+              <div
+                style="
+                  background: #fff;
+                  border: 1px solid var(--border-card);
+                  padding: 6px 12px;
+                  border-radius: 6px;
+                "
+              >
+                4. Micro-Remediate
+              </div>
+              <span style="color: var(--cyan-deep); font-weight: 800">→</span>
+              <div
+                style="
+                  background: #fff;
+                  border: 1px solid var(--border-card);
+                  padding: 6px 12px;
+                  border-radius: 6px;
+                "
+              >
+                5. Retest
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="highlight-strip"
+            style="text-align: center; font-size: 13px"
+          >
+            “ExamMokk aims to become the everyday testing utility for
+            price-sensitive competitive-exam aspirants across Bharat.”
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <div>
+            <span class="footer-brand"
+              >Exam<span style="color: var(--cyan-bright)">Mokk</span></span
+            >
+          </div>
+          <div>Page 8 of 12</div>
+        </div>
+      </div>
+
+      <!-- ================================= PAGE 9: CURRENT EXECUTION STATUS ================================= -->
+      <div class="page" id="page-9">
+        <div class="header-bar">
+          <div>
+            <div class="brand-logo">Exam<span class="mokk">Mokk</span></div>
+            <div class="page-category-label">Execution Stage</div>
+            <br />
+            <br />
+            <h2 class="main-page-title">Current Status</h2>
+            <div class="main-page-subtitle">
+              Early-stage &bull; Pre-Traction &bull; Validation Phase
+            </div>
+          </div>
+          <div class="badge-live">Live &amp; Operational</div>
+        </div>
+
+        <div class="page-content">
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 12px;
+            "
+          >
+            <div
+              class="deck-card card-accent-top"
+              style="text-align: center; padding: 16px"
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 11px;
+                  font-weight: 800;
+                  color: var(--cyan-deep);
+                  text-transform: uppercase;
+                "
+              >
+                PRODUCT ENGINE
+              </div>
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 21px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  margin: 4px 0 2px 0;
+                "
+              >
+                Built &amp; Live
+              </div>
+              <div style="font-size: 12px; color: var(--text-soft)">
+                CBT testing workspace live
+              </div>
+            </div>
+
+            <div
+              class="deck-card card-accent-top"
+              style="text-align: center; padding: 16px"
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 11px;
+                  font-weight: 800;
+                  color: var(--cyan-deep);
+                  text-transform: uppercase;
+                "
+              >
+                PLATFORM ACCESS
+              </div>
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 21px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  margin: 4px 0 2px 0;
+                "
+              >
+                Web + Android
+              </div>
+              <div style="font-size: 12px; color: var(--text-soft)">
+                Configured for distribution
+              </div>
+            </div>
+
+            <div
+              class="deck-card card-accent-top"
+              style="text-align: center; padding: 16px"
+            >
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 11px;
+                  font-weight: 800;
+                  color: var(--cyan-deep);
+                  text-transform: uppercase;
+                "
+              >
+                CONTENT COVERAGE
+              </div>
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 21px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  margin: 4px 0 2px 0;
+                "
+              >
+                10 Core Streams
+              </div>
+              <div style="font-size: 12px; color: var(--text-soft)">
+                SSC, Banking, PSC, Railways
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 13.5px;
+              font-weight: 800;
+              color: var(--navy-900);
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              margin-top: 4px;
+            "
+          >
+            What's Ready &amp; Functional
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 10px;
+            "
+          >
+            <div class="deck-card subtle" style="padding: 10px 12px">
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 13px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                "
+              >
+                WEB PLATFORM
+              </div>
+              <div
+                style="
+                  font-size: 11.5px;
+                  color: var(--text-muted);
+                  margin-top: 2px;
+                "
+              >
+                Live CBT simulator running on <code>exammokk.cloud</code>.
+              </div>
+            </div>
+            <div class="deck-card subtle" style="padding: 10px 12px">
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 13px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                "
+              >
+                ANDROID CAPABILITY
+              </div>
+              <div
+                style="
+                  font-size: 11.5px;
+                  color: var(--text-muted);
+                  margin-top: 2px;
+                "
+              >
+                Installable mobile web app ready for Play Store distribution.
+              </div>
+            </div>
+            <div class="deck-card subtle" style="padding: 10px 12px">
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 13px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                "
+              >
+                TEST ENGINE
+              </div>
+              <div
+                style="
+                  font-size: 11.5px;
+                  color: var(--text-muted);
+                  margin-top: 2px;
+                "
+              >
+                Automated timers, bilingual question toggling, and instant
+                scores.
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 13.5px;
+              font-weight: 800;
+              color: var(--navy-900);
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              margin-top: 4px;
+            "
+          >
+            Immediate Execution Priorities
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 8px;
+            "
+          >
+            <div
+              style="
+                background: #ffffff;
+                border: 1px solid var(--border-card);
+                border-radius: 6px;
+                padding: 8px 12px;
+                font-size: 12px;
+              "
+            >
+              <strong style="color: var(--navy-900)"
+                >&bull; Userbase Acquisition:</strong
+              >
+              Drive initial free signups via Telegram &amp; WhatsApp student
+              groups.
+            </div>
+            <div
+              style="
+                background: #ffffff;
+                border: 1px solid var(--border-card);
+                border-radius: 6px;
+                padding: 8px 12px;
+                font-size: 12px;
+              "
+            >
+              <strong style="color: var(--navy-900)"
+                >&bull; Paid Conversion Testing:</strong
+              >
+              Validate ₹99/yr checkout funnel conversion rates among active test
+              takers.
+            </div>
+            <div
+              style="
+                background: #ffffff;
+                border: 1px solid var(--border-card);
+                border-radius: 6px;
+                padding: 8px 12px;
+                font-size: 12px;
+              "
+            >
+              <strong style="color: var(--navy-900)"
+                >&bull; Content Bank Scaling:</strong
+              >
+              Expand bilingual question banks and past-year solved papers.
+            </div>
+            <div
+              style="
+                background: #ffffff;
+                border: 1px solid var(--border-card);
+                border-radius: 6px;
+                padding: 8px 12px;
+                font-size: 12px;
+              "
+            >
+              <strong style="color: var(--navy-900)"
+                >&bull; Habit Streaks:</strong
+              >
+              Activate daily speed quizzes to build daily active usage (DAU).
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <div>
+            <span class="footer-brand"
+              >Exam<span style="color: var(--cyan-bright)">Mokk</span></span
+            >
+          </div>
+          <div>Page 9 of 12</div>
+        </div>
+      </div>
+
+      <!-- ================================= PAGE 10: 12-MONTH EXECUTION ROADMAP ================================= -->
+      <div class="page" id="page-10">
+        <div class="header-bar">
+          <div>
+            <div class="brand-logo">Exam<span class="mokk">Mokk</span></div>
+            <div class="page-category-label">Execution Matrix</div>
+            <br />
+            <br />
+            <h2 class="main-page-title">12-Month Execution Roadmap</h2>
+            <div class="main-page-subtitle">
+              4 Phases &bull; Month-by-Month Action Plan
+            </div>
+          </div>
+          <div class="badge-live">Roadmap</div>
+        </div>
+
+        <div class="page-content" style="gap: 8px">
+          <div class="roadmap-matrix">
+            <!-- Phase 1 -->
+            <div class="phase-strip p1">
+              <div class="phase-strip-header">
+                <div class="phase-strip-title">
+                  Phase 1 &bull; Foundation, Acquisition Testing &amp;
+                  Monetisation
+                </div>
+                <div class="phase-target-pill">Target: 5K–10K Users</div>
+              </div>
+              <div class="months-triplet">
+                <div class="month-cell">
+                  <div class="month-cell-header">
+                    <span class="m-badge">M 01</span>
+                    <span class="m-title">Foundation</span>
+                  </div>
+                  <p class="m-desc">
+                    Analytics, user tracking, test-engine optimization and UX
+                    improvements.
+                  </p>
+                </div>
+                <div class="month-cell">
+                  <div class="month-cell-header">
+                    <span class="m-badge">M 02</span>
+                    <span class="m-title">Acquisition Testing</span>
+                  </div>
+                  <p class="m-desc">
+                    Low-budget ads, creator outreach, speed quizzes, CAC &amp;
+                    conversion tracking.
+                  </p>
+                </div>
+                <div class="month-cell">
+                  <div class="month-cell-header">
+                    <span class="m-badge">M 03</span>
+                    <span class="m-title">Monetisation Check</span>
+                  </div>
+                  <p class="m-desc">
+                    ₹99/year subscription funnel, early paid users, feedback
+                    &amp; conversion optimization.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="phase-strip p2">
+              <div class="phase-strip-header">
+                <div class="phase-strip-title">
+                  Phase 2 &bull; Channel Scaling, Partnerships &amp; Content
+                </div>
+                <div class="phase-target-pill">Target: 25K–30K Users</div>
+              </div>
+              <div class="months-triplet">
+                <div class="month-cell">
+                  <div class="month-cell-header">
+                    <span class="m-badge">M 04</span>
+                    <span class="m-title">Channel Scaling</span>
+                  </div>
+                  <p class="m-desc">
+                    Scale the best-performing acquisition channels and
+                    top-converting creatives.
+                  </p>
+                </div>
+                <div class="month-cell">
+                  <div class="month-cell-header">
+                    <span class="m-badge">M 05</span>
+                    <span class="m-title">Coaching Outreach</span>
+                  </div>
+                  <p class="m-desc">
+                    Coaching institutes, tuition hubs and educator/community
+                    partnerships.
+                  </p>
+                </div>
+                <div class="month-cell">
+                  <div class="month-cell-header">
+                    <span class="m-badge">M 06</span>
+                    <span class="m-title">Content Expansion</span>
+                  </div>
+                  <p class="m-desc">
+                    Bilingual question banks, mock tests, PYQs and detailed
+                    solutions.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="phase-strip p3">
+              <div class="phase-strip-header">
+                <div class="phase-strip-title">
+                  Phase 3 &bull; Distribution, Retention Loops &amp; Growth
+                </div>
+                <div class="phase-target-pill">Target: 60K–70K Users</div>
+              </div>
+              <div class="months-triplet">
+                <div class="month-cell">
+                  <div class="month-cell-header">
+                    <span class="m-badge">M 07</span>
+                    <span class="m-title">Distribution</span>
+                  </div>
+                  <p class="m-desc">
+                    YouTube educators, Telegram communities, affiliates and
+                    micro-influencers.
+                  </p>
+                </div>
+                <div class="month-cell">
+                  <div class="month-cell-header">
+                    <span class="m-badge">M 08</span>
+                    <span class="m-title">Retention &amp; Offers</span>
+                  </div>
+                  <p class="m-desc">
+                    Streaks, rewards, retention loops and subscription offer
+                    bundles.
+                  </p>
+                </div>
+                <div class="month-cell">
+                  <div class="month-cell-header">
+                    <span class="m-badge">M 09</span>
+                    <span class="m-title">Growth Scaling</span>
+                  </div>
+                  <p class="m-desc">
+                    High-ROI ads, student referral campaigns and institutional
+                    partner batches.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 4 -->
+            <div class="phase-strip p4">
+              <div class="phase-strip-header">
+                <div class="phase-strip-title">
+                  Phase 4 &bull; Market Expansion, Revenue &amp; Scale
+                </div>
+                <div class="phase-target-pill">
+                  Target: 1 Lakh Users (10K Paid)
+                </div>
+              </div>
+              <div class="months-triplet">
+                <div class="month-cell">
+                  <div class="month-cell-header">
+                    <span class="m-badge">M 10</span>
+                    <span class="m-title">Market Expansion</span>
+                  </div>
+                  <p class="m-desc">
+                    BPSC, UPPSC, Defence and other regional state exam segments.
+                  </p>
+                </div>
+                <div class="month-cell">
+                  <div class="month-cell-header">
+                    <span class="m-badge">M 11</span>
+                    <span class="m-title">Revenue Growth</span>
+                  </div>
+                  <p class="m-desc">
+                    Paid-user growth, renewals, repeat test usage and unit
+                    economics.
+                  </p>
+                </div>
+                <div class="month-cell">
+                  <div class="month-cell-header">
+                    <span class="m-badge">M 12</span>
+                    <span class="m-title">Scale Readiness</span>
+                  </div>
+                  <p class="m-desc">
+                    Validate 1L-user/10K-paid target, repeatable acquisition
+                    &amp; next round.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="
+              background: var(--surface-light);
+              border: 1px solid var(--border-card);
+              border-radius: 6px;
+              padding: 7px 11px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <div
+              style="font-size: 11px; color: var(--navy-900); font-weight: 600"
+            >
+              <strong>Key Channels:</strong> YouTube Creators &bull; Telegram
+              &amp; WhatsApp Hubs &bull; Coaching Networks &bull; Referral Loops
+              &bull; Regional Ads
+            </div>
+            <div
+              style="
+                font-size: 10px;
+                color: var(--text-soft);
+                font-style: italic;
+              "
+            >
+              * Targets are directional and subject to market execution.
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <div>
+            <span class="footer-brand"
+              >Exam<span style="color: var(--cyan-bright)">Mokk</span></span
+            >
+            &bull; 1-Year Growth Plan
+          </div>
+          <div>Page 10 of 12</div>
+        </div>
+      </div>
+
+      <!-- ================================= PAGE 11: FUNDING ASK ================================= -->
+      <div class="page" id="page-11">
+        <div class="header-bar">
+          <div>
+            <div class="brand-logo">Exam<span class="mokk">Mokk</span></div>
+            <div class="page-category-label">Capital Requirements</div>
+            <br />
+            <br />
+            <h2 class="main-page-title">Funding Ask</h2>
+            <div class="main-page-subtitle">
+              ₹15 Lakh Pre-Seed Capital &bull; 12-Month Runway
+            </div>
+          </div>
+          <div class="badge-live">₹15L Round</div>
+        </div>
+
+        <div class="page-content">
+          <div
+            style="
+              background: var(--surface-light);
+              border: 1.5px solid var(--border-card);
+              border-left: 5.5px solid var(--cyan-bright);
+              border-radius: 8px;
+              padding: 12px 18px;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <div>
+              <div
+                style="
+                  font-family: &quot;Outfit&quot;, sans-serif;
+                  font-size: 40px;
+                  font-weight: 800;
+                  color: var(--navy-900);
+                  line-height: 1;
+                  letter-spacing: -0.5px;
+                "
+              >
+                ₹15,00,000
+              </div>
+              <div
+                style="
+                  font-size: 11px;
+                  font-weight: 800;
+                  color: var(--cyan-deep);
+                  text-transform: uppercase;
+                  margin-top: 3px;
+                "
+              >
+                12-Month Runway Capital
+              </div>
+            </div>
+            <div
+              style="
+                font-size: 12.5px;
+                color: var(--text-muted);
+                max-width: 320px;
+                line-height: 1.35;
+                text-align: right;
+              "
+            >
+              Direct deployment into engineering, content, acquisition, and
+              infrastructure to establish initial paying-user traction.
+            </div>
+          </div>
+
+          <div class="deck-card" style="padding: 12px 16px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 8px;
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-size: 12.5px;
+                font-weight: 800;
+                color: var(--navy-900);
+                text-transform: uppercase;
+              "
+            >
+              <span>Capital Allocation Breakdown</span>
+              <span
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 11px;
+                  background: var(--navy-900);
+                  color: #fff;
+                  padding: 2px 6px;
+                  border-radius: 3px;
+                "
+              >
+                Total: ₹15.00L (100%)
+              </span>
+            </div>
+
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                font-size: 12px;
+              "
+            >
+              <div style="display: flex; align-items: center; gap: 10px">
+                <span
+                  style="width: 175px; font-weight: 600; color: var(--navy-900)"
+                >
+                  Engineering
+                </span>
+                <div
+                  style="
+                    flex: 1;
+                    height: 8px;
+                    background: #edf2f7;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    display: flex;
+                  "
+                >
+                  <div
+                    style="
+                      width: 30%;
+                      height: 100%;
+                      background: linear-gradient(
+                        90deg,
+                        #0a1628,
+                        var(--cyan-bright)
+                      );
+                    "
+                  ></div>
+                </div>
+                <span
+                  style="
+                    width: 105px;
+                    text-align: right;
+                    font-family: &quot;JetBrains Mono&quot;, monospace;
+                    font-weight: 700;
+                  "
+                >
+                  ₹4.50L
+                  <span style="color: var(--cyan-deep); font-size: 11px"
+                    >30.0%</span
+                  >
+                </span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px">
+                <span
+                  style="width: 175px; font-weight: 600; color: var(--navy-900)"
+                >
+                  Marketing &amp; Acquisition
+                </span>
+                <div
+                  style="
+                    flex: 1;
+                    height: 8px;
+                    background: #edf2f7;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    display: flex;
+                  "
+                >
+                  <div
+                    style="
+                      width: 26.7%;
+                      height: 100%;
+                      background: linear-gradient(
+                        90deg,
+                        #0a1628,
+                        var(--cyan-bright)
+                      );
+                    "
+                  ></div>
+                </div>
+                <span
+                  style="
+                    width: 105px;
+                    text-align: right;
+                    font-family: &quot;JetBrains Mono&quot;, monospace;
+                    font-weight: 700;
+                  "
+                >
+                  ₹4.00L
+                  <span style="color: var(--cyan-deep); font-size: 11px"
+                    >26.7%</span
+                  >
+                </span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px">
+                <span
+                  style="width: 175px; font-weight: 600; color: var(--navy-900)"
+                >
+                  Content
+                </span>
+                <div
+                  style="
+                    flex: 1;
+                    height: 8px;
+                    background: #edf2f7;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    display: flex;
+                  "
+                >
+                  <div
+                    style="
+                      width: 16.7%;
+                      height: 100%;
+                      background: linear-gradient(
+                        90deg,
+                        #0a1628,
+                        var(--cyan-bright)
+                      );
+                    "
+                  ></div>
+                </div>
+                <span
+                  style="
+                    width: 105px;
+                    text-align: right;
+                    font-family: &quot;JetBrains Mono&quot;, monospace;
+                    font-weight: 700;
+                  "
+                >
+                  ₹2.50L
+                  <span style="color: var(--cyan-deep); font-size: 11px"
+                    >16.7%</span
+                  >
+                </span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px">
+                <span
+                  style="width: 175px; font-weight: 600; color: var(--navy-900)"
+                >
+                  Cloud / Infrastructure
+                </span>
+                <div
+                  style="
+                    flex: 1;
+                    height: 8px;
+                    background: #edf2f7;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    display: flex;
+                  "
+                >
+                  <div
+                    style="
+                      width: 10%;
+                      height: 100%;
+                      background: linear-gradient(
+                        90deg,
+                        #0a1628,
+                        var(--cyan-bright)
+                      );
+                    "
+                  ></div>
+                </div>
+                <span
+                  style="
+                    width: 105px;
+                    text-align: right;
+                    font-family: &quot;JetBrains Mono&quot;, monospace;
+                    font-weight: 700;
+                  "
+                >
+                  ₹1.50L
+                  <span style="color: var(--cyan-deep); font-size: 11px"
+                    >10.0%</span
+                  >
+                </span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px">
+                <span
+                  style="width: 175px; font-weight: 600; color: var(--navy-900)"
+                >
+                  Reserve
+                </span>
+                <div
+                  style="
+                    flex: 1;
+                    height: 8px;
+                    background: #edf2f7;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    display: flex;
+                  "
+                >
+                  <div
+                    style="
+                      width: 6.7%;
+                      height: 100%;
+                      background: linear-gradient(
+                        90deg,
+                        #0a1628,
+                        var(--cyan-bright)
+                      );
+                    "
+                  ></div>
+                </div>
+                <span
+                  style="
+                    width: 105px;
+                    text-align: right;
+                    font-family: &quot;JetBrains Mono&quot;, monospace;
+                    font-weight: 700;
+                  "
+                >
+                  ₹1.00L
+                  <span style="color: var(--cyan-deep); font-size: 11px"
+                    >6.7%</span
+                  >
+                </span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px">
+                <span
+                  style="width: 175px; font-weight: 600; color: var(--navy-900)"
+                >
+                  Creative / Influencer
+                </span>
+                <div
+                  style="
+                    flex: 1;
+                    height: 8px;
+                    background: #edf2f7;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    display: flex;
+                  "
+                >
+                  <div
+                    style="
+                      width: 6.7%;
+                      height: 100%;
+                      background: linear-gradient(
+                        90deg,
+                        #0a1628,
+                        var(--cyan-bright)
+                      );
+                    "
+                  ></div>
+                </div>
+                <span
+                  style="
+                    width: 105px;
+                    text-align: right;
+                    font-family: &quot;JetBrains Mono&quot;, monospace;
+                    font-weight: 700;
+                  "
+                >
+                  ₹1.00L
+                  <span style="color: var(--cyan-deep); font-size: 11px"
+                    >6.7%</span
+                  >
+                </span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px">
+                <span
+                  style="width: 175px; font-weight: 600; color: var(--navy-900)"
+                >
+                  Legal / Administration
+                </span>
+                <div
+                  style="
+                    flex: 1;
+                    height: 8px;
+                    background: #edf2f7;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    display: flex;
+                  "
+                >
+                  <div
+                    style="
+                      width: 3.3%;
+                      height: 100%;
+                      background: linear-gradient(
+                        90deg,
+                        #0a1628,
+                        var(--cyan-bright)
+                      );
+                    "
+                  ></div>
+                </div>
+                <span
+                  style="
+                    width: 105px;
+                    text-align: right;
+                    font-family: &quot;JetBrains Mono&quot;, monospace;
+                    font-weight: 700;
+                  "
+                >
+                  ₹0.50L
+                  <span style="color: var(--cyan-deep); font-size: 11px"
+                    >3.3%</span
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="takeaway-bar">
+            <div class="takeaway-title">ROUND OBJECTIVE</div>
+            <div>
+              Validate product-market fit &rarr; acquire initial users &rarr;
+              establish paying-user traction &rarr; prepare for seed funding.
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <div>
+            <span class="footer-brand"
+              >Exam<span style="color: var(--cyan-bright)">Mokk</span></span
+            >
+          </div>
+          <div>Page 11 of 12</div>
+        </div>
+      </div>
+
+      <!-- ================================= PAGE 12: FOUNDER, VISION & CONTACT ================================= -->
+      <div class="page" id="page-12">
+        <div class="header-bar">
+          <div>
+            <div class="brand-logo">Exam<span class="mokk">Mokk</span></div>
+            <div class="page-category-label">Leadership &amp; Vision</div>
+            <br />
+            <br />
+            <h2 class="main-page-title">Founder &amp; Vision</h2>
+            <div class="main-page-subtitle">
+              Mission-driven architecture for digital Bharat
+            </div>
+          </div>
+          <div class="badge-live">Contact &amp; Connect</div>
+        </div>
+
+        <div class="page-content">
+          <div
+            class="deck-card card-accent-left"
+            style="background: var(--surface-light); padding: 14px 18px"
+          >
+            <div
+              style="
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-size: 20px;
+                font-weight: 800;
+                color: var(--navy-900);
+              "
+            >
+              Mohammad Jawed
+            </div>
+            <div
+              style="
+                font-size: 13.5px;
+                font-weight: 700;
+                color: var(--cyan-deep);
+                margin-top: 2px;
+              "
+            >
+              Founder &amp; CTO
+            </div>
+            <p
+              style="
+                margin: 6px 0 0 0;
+                font-size: 12.8px;
+                color: var(--text-muted);
+                line-height: 1.4;
+              "
+            >
+              12+ Years in Technology, Software Engineering &amp; Product
+              Architecture, with expertise in AI, Cloud, Enterprise
+              Applications, and full-stack product development. Direct hands-on
+              ownership of ExamMokk’s CBT engine, architecture, database, and
+              mobile platforms.
+            </p>
+          </div>
+
+          <div
+            class="deck-card"
+            style="
+              border-left: 4.5px solid var(--cyan-bright);
+              background: #ffffff;
+              padding: 14px 18px;
+            "
+          >
+            <div
+              style="
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-size: 12px;
+                font-weight: 800;
+                color: var(--cyan-deep);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin-bottom: 4px;
+              "
+            >
+              VISION
+            </div>
+            <div
+              style="
+                font-size: 14.5px;
+                color: var(--navy-900);
+                font-weight: 600;
+                line-height: 1.45;
+                font-style: italic;
+              "
+            >
+              “To make quality competitive exam preparation affordable and
+              accessible to every aspirant.”
+            </div>
+          </div>
+
+          <div
+            style="
+              background: var(--cyan-bg);
+              border: 1.5px solid var(--cyan-border);
+              border-radius: 8px;
+              padding: 12px 18px;
+              text-align: center;
+            "
+          >
+            <div
+              style="
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-size: 15.5px;
+                font-weight: 800;
+                color: var(--navy-900);
+              "
+            >
+              “Making exam preparation more accessible, affordable and
+              AI-powered.”
+            </div>
+          </div>
+
+          <div class="deck-card subtle" style="padding: 12px 16px">
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+                text-align: center;
+              "
+            >
+              <div>
+                <div
+                  style="
+                    font-size: 11px;
+                    font-weight: 700;
+                    color: var(--text-soft);
+                    text-transform: uppercase;
+                  "
+                >
+                  Website
+                </div>
+                <div
+                  style="
+                    font-family: &quot;JetBrains Mono&quot;, monospace;
+                    font-size: 12.5px;
+                    font-weight: 700;
+                    color: var(--cyan-deep);
+                    margin-top: 2px;
+                  "
+                >
+                  exammokk.cloud
+                </div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 11px;
+                    font-weight: 700;
+                    color: var(--text-soft);
+                    text-transform: uppercase;
+                  "
+                >
+                  Round
+                </div>
+                <div
+                  style="
+                    font-size: 12.5px;
+                    font-weight: 700;
+                    color: var(--navy-900);
+                    margin-top: 2px;
+                  "
+                >
+                  Pre-Seed
+                </div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 11px;
+                    font-weight: 700;
+                    color: var(--text-soft);
+                    text-transform: uppercase;
+                  "
+                >
+                  Ask
+                </div>
+                <div
+                  style="
+                    font-size: 12.5px;
+                    font-weight: 700;
+                    color: var(--navy-900);
+                    margin-top: 2px;
+                  "
+                >
+                  ₹15 Lakh
+                </div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 11px;
+                    font-weight: 700;
+                    color: var(--text-soft);
+                    text-transform: uppercase;
+                  "
+                >
+                  Location
+                </div>
+                <div
+                  style="
+                    font-size: 12.5px;
+                    font-weight: 700;
+                    color: var(--navy-900);
+                    margin-top: 2px;
+                  "
+                >
+                  India
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="
+              background: var(--navy-900);
+              border-radius: 7px;
+              padding: 10px 16px;
+              text-align: center;
+              color: #ffffff;
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 13.5px;
+              font-weight: 800;
+              letter-spacing: 0.5px;
+              margin-top: auto;
+            "
+          >
+            LET'S BUILD THE EVERYDAY TESTING PLATFORM FOR DIGITAL BHARAT.
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <div>
+            <span class="footer-brand"
+              >Exam<span style="color: var(--cyan-bright)">Mokk</span></span
+            >
+          </div>
+          <div>Mohammad Jawed &bull; exammokk.cloud</div>
+          <div>Page 12 of 12</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
